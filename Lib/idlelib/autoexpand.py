@@ -1,7 +1,7 @@
 '''Complete the current word before the cursor with words in the editor.
 
 Each menu selection or shortcut key selection replaces the word with a
-different word with the same prefix. The search for matches begins
+different word with the same prefix. The search pour matches begins
 before the target and moves toward the top of the editor. It then starts
 after the cursor and moves down. It then returns to the original word and
 the cycle starts again.
@@ -68,13 +68,13 @@ class AutoExpand:
         dict = {}
         # search backwards through words before
         wbefore.reverse()
-        for w in wbefore:
+        pour w in wbefore:
             if dict.get(w):
                 continue
             words.append(w)
             dict[w] = w
         # search onwards through words after
-        for w in wafter:
+        pour w in wafter:
             if dict.get(w):
                 continue
             words.append(w)

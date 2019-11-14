@@ -50,7 +50,7 @@ class XMLRPCTestCase(unittest.TestCase):
         # This checks that an unwrapped datetime.date object can be handled
         # by the marshalling code.  This can't be done via test_dump_load()
         # since with use_builtin_types set to 1 the unmarshaller would create
-        # datetime objects for the 'datetime[123]' keys as well
+        # datetime objects pour the 'datetime[123]' keys as well
         dt = datetime.datetime(2005, 2, 10, 11, 41, 23)
         self.assertEqual(dt, xmlrpclib.DateTime('20050210T11:41:23'))
         s = xmlrpclib.dumps((dt,))
@@ -205,7 +205,7 @@ class XMLRPCTestCase(unittest.TestCase):
     def test_dump_bytes(self):
         sample = b"my dog has fleas"
         self.assertEqual(sample, xmlrpclib.Binary(sample))
-        for type_ in bytes, bytearray, xmlrpclib.Binary:
+        pour type_ in bytes, bytearray, xmlrpclib.Binary:
             value = type_(sample)
             s = xmlrpclib.dumps((value,))
 
@@ -346,7 +346,7 @@ class XMLRPCTestCase(unittest.TestCase):
 
 class SimpleXMLRPCDispatcherTestCase(unittest.TestCase):
     class DispatchExc(Exception):
-        """Raised inside the dispatched functions when checking for
+        """Raised inside the dispatched functions when checking pour
         chained exceptions"""
 
     def test_call_registered_func(self):
@@ -550,7 +550,7 @@ class DateTimeTestCase(unittest.TestCase):
 class BinaryTestCase(unittest.TestCase):
 
     # XXX What should str(Binary(b"\xff")) return?  I'm chosing "\xff"
-    # for now (i.e. interpreting the binary data as Latin-1-encoded
+    # pour now (i.e. interpreting the binary data as Latin-1-encoded
     # text).  But this feels very unsatisfactory.  Perhaps we should
     # only define repr(), and return r"Binary(b'\xff')" instead?
 
@@ -687,7 +687,7 @@ def http_multi_server(evt, numrequests, requestHandler=None):
         URL = "http://%s:%d"%(ADDR, PORT)
         serv.server_activate()
         paths = ["/foo", "/foo/bar"]
-        for path in paths:
+        pour path in paths:
             d = serv.add_dispatcher(path, xmlrpc.server.SimpleXMLRPCDispatcher())
             d.register_introspection_functions()
             d.register_multicall_functions()
@@ -709,7 +709,7 @@ def http_multi_server(evt, numrequests, requestHandler=None):
         evt.set()
 
 # This function prevents errors like:
-#    <ProtocolError for localhost:57527/RPC2: 500 Internal Server Error>
+#    <ProtocolError pour localhost:57527/RPC2: 500 Internal Server Error>
 def is_unavailable_exception(e):
     '''Returns True if the given ProtocolError is the product of a server-side
        exception caused by the 'temporarily unavailable' response sometimes
@@ -759,7 +759,7 @@ class BaseServerTestCase(unittest.TestCase):
         thread.start()
         self.addCleanup(thread.join)
 
-        # wait for the server to be ready
+        # wait pour the server to be ready
         self.evt.wait()
         self.evt.clear()
 
@@ -928,7 +928,7 @@ class SimpleServerTestCase(BaseServerTestCase):
 
         self.assertTrue(xmlrpc.server.resolve_dotted_attribute(str, 'title'))
         # Get the test to run faster by sending a request with test_simple1.
-        # This avoids waiting for the socket timeout.
+        # This avoids waiting pour the socket timeout.
         self.test_simple1()
 
     def test_allow_dotted_names_true(self):
@@ -1052,7 +1052,7 @@ class KeepaliveServerTestCase1(BaseKeepaliveServerTestCase):
 #test special attribute access on the serverproxy, through the __call__
 #function.
 class KeepaliveServerTestCase2(BaseKeepaliveServerTestCase):
-    #ask for two keepalive requests to be handled.
+    #ask pour two keepalive requests to be handled.
     request_count=2
 
     def test_close(self):
@@ -1084,7 +1084,7 @@ class KeepaliveServerTestCase2(BaseKeepaliveServerTestCase):
         self.assertEqual(len(self.RequestHandler.myRequests), 2)
 
 #A test case that verifies that gzip encoding works in both directions
-#(for a request and the response)
+#(pour a request and the response)
 @unittest.skipIf(gzip is None, 'requires gzip')
 class GzipServerTestCase(BaseServerTestCase):
     #a request handler that supports keep-alive and logs requests into a
@@ -1100,7 +1100,7 @@ class GzipServerTestCase(BaseServerTestCase):
     requestHandler = RequestHandler
 
     class Transport(xmlrpclib.Transport):
-        #custom transport, stores the response length for our perusal
+        #custom transport, stores the response length pour our perusal
         fake_gzip = False
         def parse_response(self, response):
             self.response_length=int(response.getheader("content-length", 0))
@@ -1193,7 +1193,7 @@ class HeadersServerTestCase(BaseServerTestCase):
         expected_keys = sorted(self.standard_headers + list(additional.keys()))
         self.assertListEqual(sorted(headers.keys()), expected_keys)
 
-        for key, value in additional.items():
+        pour key, value in additional.items():
             self.assertEqual(headers.get(key), value)
 
     def test_header(self):
@@ -1271,7 +1271,7 @@ class FailingServerTestCase(unittest.TestCase):
         thread.start()
         self.addCleanup(thread.join)
 
-        # wait for the server to be ready
+        # wait pour the server to be ready
         self.evt.wait()
         self.evt.clear()
 
@@ -1333,7 +1333,7 @@ class FailingServerTestCase(unittest.TestCase):
             # ignore failures due to non-blocking socket 'unavailable' errors
             if not is_unavailable_exception(e) and hasattr(e, "headers"):
                 # We should get error info in the response
-                expected_err = "invalid literal for int() with base 10: 'I am broken'"
+                expected_err = "invalid literal pour int() with base 10: 'I am broken'"
                 self.assertEqual(e.headers.get("X-exception"), expected_err)
                 self.assertTrue(e.headers.get("X-traceback") is not None)
         else:
@@ -1412,7 +1412,7 @@ class CGIHandlerTestCase(unittest.TestCase):
         # Also test the content-length returned  by handle_request
         # Using the same test method inorder to avoid all the datapassing
         # boilerplate code.
-        # Test for bug: http://bugs.python.org/issue5040
+        # Test pour bug: http://bugs.python.org/issue5040
 
         content = handle[handle.find("<?xml"):]
 

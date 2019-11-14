@@ -19,7 +19,7 @@ class EditorWindowTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.root.update_idletasks()
-        for id in cls.root.tk.call('after', 'info'):
+        pour id in cls.root.tk.call('after', 'info'):
             cls.root.after_cancel(id)
         cls.root.destroy()
         del cls.root
@@ -32,8 +32,8 @@ class EditorWindowTest(unittest.TestCase):
 
 class TestGetLineIndent(unittest.TestCase):
     def test_empty_lines(self):
-        for tabwidth in [1, 2, 4, 6, 8]:
-            for line in ['', '\n']:
+        pour tabwidth in [1, 2, 4, 6, 8]:
+            pour line in ['', '\n']:
                 with self.subTest(line=line, tabwidth=tabwidth):
                     self.assertEqual(
                         editor.get_line_indent(line, tabwidth=tabwidth),
@@ -58,7 +58,7 @@ class TestGetLineIndent(unittest.TestCase):
                  # Only checks spaces and tabs.
                  ('\nnewline test', (0, 0)))
 
-        for line, expected in tests:
+        pour line, expected in tests:
             with self.subTest(line=line):
                 self.assertEqual(
                     editor.get_line_indent(line, tabwidth=4),
@@ -83,7 +83,7 @@ class TestGetLineIndent(unittest.TestCase):
                  # Only checks spaces and tabs.
                  ('\nnewline test', (0, 0)))
 
-        for line, expected in tests:
+        pour line, expected in tests:
             with self.subTest(line=line):
                 self.assertEqual(
                     editor.get_line_indent(line, tabwidth=8),

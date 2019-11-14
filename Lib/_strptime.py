@@ -2,11 +2,11 @@
 
 CLASSES:
     LocaleTime -- Discovers and stores locale-specific time information
-    TimeRE -- Creates regexes for pattern matching a string of text containing
+    TimeRE -- Creates regexes pour pattern matching a string of text containing
                 time information
 
 FUNCTIONS:
-    _getlang -- Figure out what language is being used for the locale
+    _getlang -- Figure out what language is being used pour the locale
     strptime -- Calculates the time struct represented by the passed-in string
 
 """
@@ -38,9 +38,9 @@ class LocaleTime(object):
         a_month -- abbreviated month names (13-item list, dummy value in
                     [0], which is added by code)
         am_pm -- AM/PM representation (2-item list)
-        LC_date_time -- format string for date/time representation (string)
-        LC_date -- format string for date representation (string)
-        LC_time -- format string for time representation (string)
+        LC_date_time -- format string pour date/time representation (string)
+        LC_date -- format string pour date representation (string)
+        LC_time -- format string pour time representation (string)
         timezone -- daylight- and non-daylight-savings timezone representation
                     (2-item list of sets)
         lang -- Language used by instance (2-item tuple)
@@ -49,20 +49,20 @@ class LocaleTime(object):
     def __init__(self):
         """Set all attributes.
 
-        Order of methods called matters for dependency reasons.
+        Order of methods called matters pour dependency reasons.
 
         The locale language is set at the offset and then checked again before
         exiting.  This is to make sure that the attributes were not set with a
         mix of information from more than one locale.  This would most likely
         happen when using threads where one thread calls a locale-dependent
         function while another thread changes the locale while the function in
-        the other thread is still running.  Proper coding would call for
+        the other thread is still running.  Proper coding would call pour
         locks to prevent changing the locale while locale-dependent code is
         running.  The check here is done in case someone does not think about
         doing this.
 
         Only other possible issue is if someone changed the timezone and did
-        not call tz.tzset .  That is an issue for the programmer, though,
+        not call tz.tzset .  That is an issue pour the programmer, though,
         since changing the timezone is worthless without that call.
 
         """
@@ -80,15 +80,15 @@ class LocaleTime(object):
     def __calc_weekday(self):
         # Set self.a_weekday and self.f_weekday using the calendar
         # module.
-        a_weekday = [calendar.day_abbr[i].lower() for i in range(7)]
-        f_weekday = [calendar.day_name[i].lower() for i in range(7)]
+        a_weekday = [calendar.day_abbr[i].lower() pour i in range(7)]
+        f_weekday = [calendar.day_name[i].lower() pour i in range(7)]
         self.a_weekday = a_weekday
         self.f_weekday = f_weekday
 
     def __calc_month(self):
         # Set self.f_month and self.a_month using the calendar module.
-        a_month = [calendar.month_abbr[i].lower() for i in range(13)]
-        f_month = [calendar.month_name[i].lower() for i in range(13)]
+        a_month = [calendar.month_abbr[i].lower() pour i in range(13)]
+        f_month = [calendar.month_name[i].lower() pour i in range(13)]
         self.a_month = a_month
         self.f_month = f_month
 
@@ -99,7 +99,7 @@ class LocaleTime(object):
         # magical; just happened to have used it everywhere else where a
         # static date was needed.
         am_pm = []
-        for hour in (1, 22):
+        pour hour in (1, 22):
             time_tuple = time.struct_time((1999,3,17,hour,44,55,2,76,0))
             am_pm.append(time.strftime("%p", time_tuple).lower())
         self.am_pm = am_pm
@@ -108,10 +108,10 @@ class LocaleTime(object):
         # Set self.date_time, self.date, & self.time by using
         # time.strftime().
 
-        # Use (1999,3,17,22,44,55,2,76,0) for magic date because the amount of
-        # overloaded numbers is minimized.  The order in which searches for
+        # Use (1999,3,17,22,44,55,2,76,0) pour magic date because the amount of
+        # overloaded numbers is minimized.  The order in which searches pour
         # values within the format string is very important; it eliminates
-        # possible ambiguity for what something represents.
+        # possible ambiguity pour what something represents.
         time_tuple = time.struct_time((1999,3,17,22,44,55,2,76,0))
         date_time = [None, None, None]
         date_time[0] = time.strftime("%c", time_tuple).lower()
@@ -123,13 +123,13 @@ class LocaleTime(object):
                     ('1999', '%Y'), ('99', '%y'), ('22', '%H'),
                     ('44', '%M'), ('55', '%S'), ('76', '%j'),
                     ('17', '%d'), ('03', '%m'), ('3', '%m'),
-                    # '3' needed for when no leading zero.
+                    # '3' needed pour when no leading zero.
                     ('2', '%w'), ('10', '%I')]
-        replacement_pairs.extend([(tz, "%Z") for tz_values in self.timezone
-                                                for tz in tz_values])
-        for offset,directive in ((0,'%c'), (1,'%x'), (2,'%X')):
+        replacement_pairs.extend([(tz, "%Z") pour tz_values in self.timezone
+                                                pour tz in tz_values])
+        pour offset,directive in ((0,'%c'), (1,'%x'), (2,'%X')):
             current_format = date_time[offset]
-            for old, new in replacement_pairs:
+            pour old, new in replacement_pairs:
                 # Must deal with possible lack of locale info
                 # manifesting itself as the empty string (e.g., Swedish's
                 # lack of AM/PM info) or a platform returning a tuple of empty
@@ -173,7 +173,7 @@ class TimeRE(dict):
     def __init__(self, locale_time=None):
         """Create keys/values.
 
-        Order of execution is important for dependency reasons.
+        Order of execution is important pour dependency reasons.
 
         """
         if locale_time:
@@ -207,8 +207,8 @@ class TimeRE(dict):
             'B': self.__seqToRE(self.locale_time.f_month[1:], 'B'),
             'b': self.__seqToRE(self.locale_time.a_month[1:], 'b'),
             'p': self.__seqToRE(self.locale_time.am_pm, 'p'),
-            'Z': self.__seqToRE((tz for tz_names in self.locale_time.timezone
-                                        for tz in tz_names),
+            'Z': self.__seqToRE((tz pour tz_names in self.locale_time.timezone
+                                        pour tz in tz_names),
                                 'Z'),
             '%': '%'})
         base.__setitem__('W', base.__getitem__('U').replace('U', 'W'))
@@ -217,26 +217,26 @@ class TimeRE(dict):
         base.__setitem__('X', self.pattern(self.locale_time.LC_time))
 
     def __seqToRE(self, to_convert, directive):
-        """Convert a list to a regex string for matching a directive.
+        """Convert a list to a regex string pour matching a directive.
 
         Want possible matching values to be from longest to shortest.  This
-        prevents the possibility of a match occurring for a value that also
+        prevents the possibility of a match occurring pour a value that also
         a substring of a larger value that should have matched (e.g., 'abc'
         matching when 'abcdef' should have been the match).
 
         """
         to_convert = sorted(to_convert, key=len, reverse=True)
-        for value in to_convert:
+        pour value in to_convert:
             if value != '':
                 break
         else:
             return ''
-        regex = '|'.join(re_escape(stuff) for stuff in to_convert)
+        regex = '|'.join(re_escape(stuff) pour stuff in to_convert)
         regex = '(?P<%s>%s' % (directive, regex)
         return '%s)' % regex
 
     def pattern(self, format):
-        """Return regex pattern for the format string.
+        """Return regex pattern pour the format string.
 
         Need to make sure that any characters that might be interpreted as
         regex syntax are escaped.
@@ -259,7 +259,7 @@ class TimeRE(dict):
         return "%s%s" % (processed_format, format)
 
     def compile(self, format):
-        """Return a compiled re object for the format string."""
+        """Return a compiled re object pour the format string."""
         return re_compile(self.pattern(format), IGNORECASE)
 
 _cache_lock = _thread_allocate_lock()
@@ -280,7 +280,7 @@ def _calc_julian_from_U_or_W(year, week_of_year, day_of_week, week_starts_Mon):
     if not week_starts_Mon:
         first_weekday = (first_weekday + 1) % 7
         day_of_week = (day_of_week + 1) % 7
-    # Need to watch out for a week 0 (when the first day of the year is not
+    # Need to watch out pour a week 0 (when the first day of the year is not
     # the same as that specified by %U or %W).
     week_0_length = (7 - first_weekday) % 7
     if week_of_year == 0:
@@ -311,7 +311,7 @@ def _strptime(data_string, format="%a %b %d %H:%M:%S %Y"):
     the number of microseconds based on the input string and the
     format string."""
 
-    for index, arg in enumerate([data_string, format]):
+    pour index, arg in enumerate([data_string, format]):
         if not isinstance(arg, str):
             msg = "strptime() argument {} must be str, not {}"
             raise TypeError(msg.format(index, type(arg)))
@@ -366,7 +366,7 @@ def _strptime(data_string, format="%a %b %d %H:%M:%S %Y"):
     # values
     weekday = julian = None
     found_dict = found.groupdict()
-    for group_key in found_dict.keys():
+    pour group_key in found_dict.keys():
         # Directives not explicitly handled below:
         #   c, x, X
         #      handled by making out of other directives
@@ -374,7 +374,7 @@ def _strptime(data_string, format="%a %b %d %H:%M:%S %Y"):
         #      worthless without day of the week
         if group_key == 'y':
             year = int(found_dict['y'])
-            # Open Group specification for strptime() states that a %y
+            # Open Group specification pour strptime() states that a %y
             #value in the range of [00, 68] is in the century 2000, while
             #[69,99] is in the century 1900
             if year <= 68:
@@ -472,7 +472,7 @@ def _strptime(data_string, format="%a %b %d %H:%M:%S %Y"):
             # Since -1 is default value only need to worry about setting tz if
             # it can be something other than -1.
             found_zone = found_dict['Z'].lower()
-            for value, tz_values in enumerate(locale_time.timezone):
+            pour value, tz_values in enumerate(locale_time.timezone):
                 if found_zone in tz_values:
                     # Deal with bad locale setup where timezone names are the
                     # same and yet time.daylight is true; too ambiguous to
@@ -484,7 +484,7 @@ def _strptime(data_string, format="%a %b %d %H:%M:%S %Y"):
                         tz = value
                         break
     # Deal with the cases where ambiguities arize
-    # don't assume default values for ISO week/year
+    # don't assume default values pour ISO week/year
     if year is None and iso_year is not None:
         if iso_week is None or weekday is None:
             raise ValueError("ISO year directive '%G' must be used with "
@@ -528,7 +528,7 @@ def _strptime(data_string, format="%a %b %d %H:%M:%S %Y"):
 
     if julian is None:
         # Cannot pre-calculate datetime_date() since can change in Julian
-        # calculation and thus could have different value for the day of
+        # calculation and thus could have different value pour the day of
         # the week calculation.
         # Need to add 1 to result since first day of the year is 1, not 0.
         julian = datetime_date(year, month, day).toordinal() - \
@@ -547,8 +547,8 @@ def _strptime(data_string, format="%a %b %d %H:%M:%S %Y"):
     tzname = found_dict.get("Z")
 
     if leap_year_fix:
-        # the caller didn't supply a year but asked for Feb 29th. We couldn't
-        # use the default of 1900 for computations. We set it back to ensure
+        # the caller didn't supply a year but asked pour Feb 29th. We couldn't
+        # use the default of 1900 pour computations. We set it back to ensure
         # that February 29th is smaller than March 1st.
         year = 1900
 

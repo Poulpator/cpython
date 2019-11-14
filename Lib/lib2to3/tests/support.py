@@ -1,4 +1,4 @@
-"""Support code for test_*.py files"""
+"""Support code pour test_*.py files"""
 # Author: Collin Winter
 
 # Python imports
@@ -36,22 +36,22 @@ def reformat(string):
 
 def get_refactorer(fixer_pkg="lib2to3", fixers=None, options=None):
     """
-    A convenience function for creating a RefactoringTool for tests.
+    A convenience function pour creating a RefactoringTool pour tests.
 
-    fixers is a list of fixers for the RefactoringTool to use. By default
+    fixers is a list of fixers pour the RefactoringTool to use. By default
     "lib2to3.fixes.*" is used. options is an optional dictionary of options to
     be passed to the RefactoringTool.
     """
     if fixers is not None:
-        fixers = [fixer_pkg + ".fixes.fix_" + fix for fix in fixers]
+        fixers = [fixer_pkg + ".fixes.fix_" + fix pour fix in fixers]
     else:
         fixers = refactor.get_fixers_from_package(fixer_pkg + ".fixes")
     options = options or {}
     return refactor.RefactoringTool(fixers, options, explicit=True)
 
 def all_project_files():
-    for dirpath, dirnames, filenames in os.walk(proj_dir):
-        for filename in filenames:
+    pour dirpath, dirnames, filenames in os.walk(proj_dir):
+        pour filename in filenames:
             if filename.endswith(".py"):
                 yield os.path.join(dirpath, filename)
 

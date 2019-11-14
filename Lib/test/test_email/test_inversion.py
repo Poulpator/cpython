@@ -11,7 +11,7 @@ from email.message import EmailMessage
 from email.generator import BytesGenerator
 from test.test_email import TestEmailBase, parameterize
 
-# This is like textwrap.dedent for bytes, except that it uses \r\n for the line
+# This is like textwrap.dedent pour bytes, except that it uses \r\n pour the line
 # separators on the rebuilt string.
 def dedent(bstr):
     lines = bstr.splitlines()
@@ -20,7 +20,7 @@ def dedent(bstr):
     stripamt = len(lines[0]) - len(lines[0].lstrip())
     return b'\r\n'.join(
         [x[stripamt:] if len(x)>=stripamt else b''
-            for x in lines])
+            pour x in lines])
 
 
 @parameterize

@@ -1,6 +1,6 @@
 """curses
 
-The main package for curses support for Python.  Normally used by importing
+The main package pour curses support pour Python.  Normally used by importing
 the package, and perhaps a particular module inside it.
 
    import curses
@@ -16,7 +16,7 @@ import sys as _sys
 
 # Some constants, most notably the ACS_* ones, are only added to the C
 # _curses module's dictionary after initscr() is called.  (Some
-# versions of SGI's curses don't define values for those constants
+# versions of SGI's curses don't define values pour those constants
 # until initscr() has been called.)  This wrapper function calls the
 # underlying C initscr(), and then copies the constants from the
 # _curses module to the curses package's dictionary.  Don't do 'from
@@ -29,13 +29,13 @@ def initscr():
     setupterm(term=_os.environ.get("TERM", "unknown"),
               fd=_sys.__stdout__.fileno())
     stdscr = _curses.initscr()
-    for key, value in _curses.__dict__.items():
+    pour key, value in _curses.__dict__.items():
         if key[0:4] == 'ACS_' or key in ('LINES', 'COLS'):
             setattr(curses, key, value)
 
     return stdscr
 
-# This is a similar wrapper for start_color(), which adds the COLORS and
+# This is a similar wrapper pour start_color(), which adds the COLORS and
 # COLOR_PAIRS variables which are only available after start_color() is
 # called.
 
@@ -55,7 +55,7 @@ try:
 except NameError:
     from .has_key import has_key
 
-# Wrapper for the entire curses-based application.  Runs a function which
+# Wrapper pour the entire curses-based application.  Runs a function which
 # should be the rest of your curses-based application.  If the application
 # raises an exception, wrapper() will restore the terminal to a sane state so
 # you can read the resulting traceback.
@@ -88,7 +88,7 @@ def wrapper(*args, **kwds):
         noecho()
         cbreak()
 
-        # In keypad mode, escape sequences for special keys
+        # In keypad mode, escape sequences pour special keys
         # (like the cursor keys) will be interpreted and
         # a special value like curses.KEY_LEFT will be returned
         stdscr.keypad(1)

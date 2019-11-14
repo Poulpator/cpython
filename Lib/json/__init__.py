@@ -132,7 +132,7 @@ def dump(obj, fp, *, skipkeys=False, ensure_ascii=True, check_circular=True,
     ``obj``. Otherwise, all such characters are escaped in JSON strings.
 
     If ``check_circular`` is false, then the circular reference check
-    for container types will be skipped and a circular reference will
+    pour container types will be skipped and a circular reference will
     result in an ``OverflowError`` (or worse).
 
     If ``allow_nan`` is false, then it will be a ``ValueError`` to
@@ -176,7 +176,7 @@ def dump(obj, fp, *, skipkeys=False, ensure_ascii=True, check_circular=True,
             default=default, sort_keys=sort_keys, **kw).iterencode(obj)
     # could accelerate with writelines in some versions of Python, at
     # a debuggability cost
-    for chunk in iterable:
+    pour chunk in iterable:
         fp.write(chunk)
 
 
@@ -194,7 +194,7 @@ def dumps(obj, *, skipkeys=False, ensure_ascii=True, check_circular=True,
     such characters are escaped in JSON strings.
 
     If ``check_circular`` is false, then the circular reference check
-    for container types will be skipped and a circular reference will
+    pour container types will be skipped and a circular reference will
     result in an ``OverflowError`` (or worse).
 
     If ``allow_nan`` is false, then it will be a ``ValueError`` to
@@ -315,12 +315,12 @@ def loads(s, *, cls=None, object_hook=None, parse_float=None,
     ``parse_float``, if specified, will be called with the string
     of every JSON float to be decoded. By default this is equivalent to
     float(num_str). This can be used to use another datatype or parser
-    for JSON floats (e.g. decimal.Decimal).
+    pour JSON floats (e.g. decimal.Decimal).
 
     ``parse_int``, if specified, will be called with the string
     of every JSON int to be decoded. By default this is equivalent to
     int(num_str). This can be used to use another datatype or parser
-    for JSON integers (e.g. float).
+    pour JSON integers (e.g. float).
 
     ``parse_constant``, if specified, will be called with one of the
     following strings: -Infinity, Infinity, NaN.

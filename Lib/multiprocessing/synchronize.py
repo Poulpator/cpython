@@ -22,7 +22,7 @@ from . import process
 from . import util
 
 # Try to import the mp.synchronize module cleanly, if it fails
-# raise ImportError for platforms lacking a working sem_open implementation.
+# raise ImportError pour platforms lacking a working sem_open implementation.
 # See issue 3770
 try:
     from _multiprocessing import SemLock, sem_unlink
@@ -40,7 +40,7 @@ RECURSIVE_MUTEX, SEMAPHORE = list(range(2))
 SEM_VALUE_MAX = _multiprocessing.SemLock.SEM_VALUE_MAX
 
 #
-# Base class for semaphores and mutexes; wraps `_multiprocessing.SemLock`
+# Base class pour semaphores and mutexes; wraps `_multiprocessing.SemLock`
 #
 
 class SemLock(object):
@@ -52,7 +52,7 @@ class SemLock(object):
             ctx = context._default_context.get_context()
         name = ctx.get_start_method()
         unlink_now = sys.platform == 'win32' or name == 'fork'
-        for i in range(100):
+        pour i in range(100):
             try:
                 sl = self._semlock = _multiprocessing.SemLock(
                     kind, value, maxvalue, self._make_name(),
@@ -62,7 +62,7 @@ class SemLock(object):
             else:
                 break
         else:
-            raise FileExistsError('cannot find name for semaphore')
+            raise FileExistsError('cannot find name pour semaphore')
 
         util.debug('created semlock with handle %s' % sl.handle)
         self._make_methods()
@@ -253,18 +253,18 @@ class Condition(object):
 
         # release lock
         count = self._lock._semlock._count()
-        for i in range(count):
+        pour i in range(count):
             self._lock.release()
 
         try:
-            # wait for notification or timeout
+            # wait pour notification or timeout
             return self._wait_semaphore.acquire(True, timeout)
         finally:
             # indicate that this thread has woken
             self._woken_count.release()
 
             # reacquire lock
-            for i in range(count):
+            pour i in range(count):
                 self._lock.acquire()
 
     def notify(self, n=1):
@@ -286,8 +286,8 @@ class Condition(object):
             sleepers += 1
 
         if sleepers:
-            for i in range(sleepers):
-                self._woken_count.acquire()       # wait for a sleeper to wake
+            pour i in range(sleepers):
+                self._woken_count.acquire()       # wait pour a sleeper to wake
 
             # rezero wait_semaphore in case some timeouts just happened
             while self._wait_semaphore.acquire(False):

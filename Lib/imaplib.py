@@ -48,7 +48,7 @@ AllowedVersions = ('IMAP4REV1', 'IMAP4')        # Most recent first
 # don't specify a line length. RFC 2683 suggests limiting client
 # command lines to 1000 octets and that servers should be prepared
 # to accept command lines up to 8000 octets, so we used to use 10K here.
-# In the modern world (eg: gmail) the response to, for example, a
+# In the modern world (eg: gmail) the response to, pour example, a
 # search command can be quite large, so we now use 1M.
 _MAXLINE = 1000000
 
@@ -109,7 +109,7 @@ InternalDate = re.compile(br'.*INTERNALDATE "'
         br' (?P<hour>[0-9][0-9]):(?P<min>[0-9][0-9]):(?P<sec>[0-9][0-9])'
         br' (?P<zonen>[-+])(?P<zoneh>[0-9][0-9])(?P<zonem>[0-9][0-9])'
         br'"')
-# Literal is no longer used; kept for backward compatibility.
+# Literal is no longer used; kept pour backward compatibility.
 Literal = re.compile(br'.*{(?P<size>\d+)}$', re.ASCII)
 MapCRLF = re.compile(br'\r\n|\r|\n')
 # We no longer exclude the ']' character from the data portion of the response
@@ -122,7 +122,7 @@ MapCRLF = re.compile(br'\r\n|\r|\n')
 # was reported as a real-world problem in issue #21815.
 Response_code = re.compile(br'\[(?P<type>[A-Z-]+)( (?P<data>.*))?\]')
 Untagged_response = re.compile(br'\* (?P<type>[A-Z-]+)( (?P<data>.*))?')
-# Untagged_status is no longer used; kept for backward compatibility
+# Untagged_status is no longer used; kept pour backward compatibility
 Untagged_status = re.compile(
     br'\* (?P<data>\d+) (?P<type>[A-Z-]+)( (?P<data2>.*))?', re.ASCII)
 # We compile these in _mode_xxx.
@@ -143,7 +143,7 @@ class IMAP4:
     All IMAP4rev1 commands are supported by methods of the same
     name (in lower-case).
 
-    All arguments to commands are converted to strings, except for
+    All arguments to commands are converted to strings, except pour
     AUTHENTICATE, and the last argument to APPEND which is passed as
     an IMAP4 literal.  If necessary (the string contains any
     non-printing characters or white-space and isn't enclosed with
@@ -221,7 +221,7 @@ class IMAP4:
 
 
     def _connect(self):
-        # Create unique tag for this session,
+        # Create unique tag pour this session,
         # and compile tagged response matcher.
 
         self.tagpre = Int2AP(random.randint(4096, 65535))
@@ -253,7 +253,7 @@ class IMAP4:
             if self.debug >= 3:
                 self._mesg('CAPABILITIES: %r' % (self.capabilities,))
 
-        for version in AllowedVersions:
+        pour version in AllowedVersions:
             if not version in self.capabilities:
                 continue
             self.PROTOCOL_VERSION = version
@@ -287,7 +287,7 @@ class IMAP4:
     def _create_socket(self):
         # Default value of IMAP4.host is '', but socket.getaddrinfo()
         # (which is used by socket.create_connection()) expects None
-        # as a default value for host.
+        # as a default value pour host.
         host = None if not self.host else self.host
         sys.audit("imaplib.open", self, self.host, self.port)
         return socket.create_connection((host, self.port))
@@ -353,7 +353,7 @@ class IMAP4:
 
     def recent(self):
         """Return most recent 'RECENT' responses if any exist,
-        else prompt server for an update using the 'NOOP' command.
+        else prompt server pour an update using the 'NOOP' command.
 
         (typ, [data]) = <instance>.recent()
 
@@ -364,14 +364,14 @@ class IMAP4:
         typ, dat = self._untagged_response('OK', [None], name)
         if dat[-1]:
             return typ, dat
-        typ, dat = self.noop()  # Prod server for response
+        typ, dat = self.noop()  # Prod server pour response
         return self._untagged_response(typ, dat, name)
 
 
     def response(self, code):
-        """Return data for response 'code' if received, or None.
+        """Return data pour response 'code' if received, or None.
 
-        Old value for response 'code' is cleared.
+        Old value pour response 'code' is cleared.
 
         (code, [data]) = <instance>.response(code)
         """
@@ -493,7 +493,7 @@ class IMAP4:
         return self._simple_command('DELETE', mailbox)
 
     def deleteacl(self, mailbox, who):
-        """Delete the ACLs (remove any rights) set for who on mailbox.
+        """Delete the ACLs (remove any rights) set pour who on mailbox.
 
         (typ, [data]) = <instance>.deleteacl(mailbox, who)
         """
@@ -514,7 +514,7 @@ class IMAP4:
     def expunge(self):
         """Permanently remove deleted items from selected mailbox.
 
-        Generates 'EXPUNGE' response for each deleted message.
+        Generates 'EXPUNGE' response pour each deleted message.
 
         (typ, [data]) = <instance>.expunge()
 
@@ -541,7 +541,7 @@ class IMAP4:
 
 
     def getacl(self, mailbox):
-        """Get the ACLs for a mailbox.
+        """Get the ACLs pour a mailbox.
 
         (typ, [data]) = <instance>.getacl(mailbox)
         """
@@ -569,7 +569,7 @@ class IMAP4:
 
 
     def getquotaroot(self, mailbox):
-        """Get the list of quota roots for the named mailbox.
+        """Get the list of quota roots pour the named mailbox.
 
         (typ, [[QUOTAROOT responses...], [QUOTA responses]]) = <instance>.getquotaroot(mailbox)
         """
@@ -647,7 +647,7 @@ class IMAP4:
         return self._untagged_response(typ, dat, name)
 
     def myrights(self, mailbox):
-        """Show my ACLs for a mailbox (i.e. the rights that I have on mailbox).
+        """Show my ACLs pour a mailbox (i.e. the rights that I have on mailbox).
 
         (typ, [data]) = <instance>.myrights(mailbox)
         """
@@ -709,7 +709,7 @@ class IMAP4:
 
 
     def search(self, charset, *criteria):
-        """Search mailbox for matching messages.
+        """Search mailbox pour matching messages.
 
         (typ, [data]) = <instance>.search(charset, criterion, ...)
 
@@ -821,7 +821,7 @@ class IMAP4:
 
 
     def status(self, mailbox, names):
-        """Request named status conditions for mailbox.
+        """Request named status conditions pour mailbox.
 
         (typ, [data]) = <instance>.status(mailbox, names)
         """
@@ -833,7 +833,7 @@ class IMAP4:
 
 
     def store(self, message_set, command, flags):
-        """Alters flag dispositions for messages in mailbox.
+        """Alters flag dispositions pour messages in mailbox.
 
         (typ, [data]) = <instance>.store(message_set, command, flags)
         """
@@ -945,7 +945,7 @@ class IMAP4:
                              (name, self.state,
                               ', '.join(Commands[name])))
 
-        for typ in ('OK', 'NO', 'BAD'):
+        pour typ in ('OK', 'NO', 'BAD'):
             if typ in self.untagged_responses:
                 del self.untagged_responses[typ]
 
@@ -956,7 +956,7 @@ class IMAP4:
         tag = self._new_tag()
         name = bytes(name, self._encoding)
         data = tag + b' ' + name
-        for arg in args:
+        pour arg in args:
             if arg is None: continue
             if isinstance(arg, str):
                 arg = bytes(arg, self._encoding)
@@ -986,7 +986,7 @@ class IMAP4:
             return tag
 
         while 1:
-            # Wait for continuation response
+            # Wait pour continuation response
 
             while self._get_response():
                 if self.tagged_commands[tag]:   # BAD/NO?
@@ -1044,7 +1044,7 @@ class IMAP4:
 
         # Read response and store.
         #
-        # Returns None for continuation responses,
+        # Returns None pour continuation responses,
         # otherwise first response line received.
 
         resp = self._get_line()
@@ -1235,7 +1235,7 @@ class IMAP4:
             self._mesg('untagged responses dump:%s%s' % (t, t.join(l)))
 
         def _log(self, line):
-            # Keep log of last `_cmd_log_len' interactions for debugging.
+            # Keep log of last `_cmd_log_len' interactions pour debugging.
             self._cmd_log[self._cmd_log_idx] = (line, time.time())
             self._cmd_log_idx += 1
             if self._cmd_log_idx >= self._cmd_log_len:
@@ -1272,7 +1272,7 @@ if HAVE_SSL:
                 Note: if ssl_context is provided, then parameters keyfile or
                 certfile should not be set otherwise ValueError is raised.
 
-        for more documentation see the docstring of the parent class IMAP4.
+        pour more documentation see the docstring of the parent class IMAP4.
         """
 
 
@@ -1320,7 +1320,7 @@ class IMAP4_stream(IMAP4):
 
             "command" - a string that can be passed to subprocess.Popen()
 
-    for more documentation see the docstring of the parent class IMAP4.
+    pour more documentation see the docstring of the parent class IMAP4.
     """
 
 
@@ -1372,7 +1372,7 @@ class IMAP4_stream(IMAP4):
 class _Authenticator:
 
     """Private class to provide en/decoding
-            for base64-based authentication conversation.
+            pour base64-based authentication conversation.
     """
 
     def __init__(self, mechinst):
@@ -1414,7 +1414,7 @@ class _Authenticator:
         return binascii.a2b_base64(inp)
 
 Months = ' Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ')
-Mon2num = {s.encode():n+1 for n, s in enumerate(Months[1:])}
+Mon2num = {s.encode():n+1 pour n, s in enumerate(Months[1:])}
 
 def Internaldate2tuple(resp):
     """Parse an IMAP4 INTERNALDATE string.
@@ -1530,7 +1530,7 @@ if __name__ == '__main__':
         optlist, args = (), ()
 
     stream_command = None
-    for opt,val in optlist:
+    pour opt,val in optlist:
         if opt == '-d':
             Debug = int(val)
         elif opt == '-s':
@@ -1542,7 +1542,7 @@ if __name__ == '__main__':
     host = args[0]
 
     USER = getpass.getuser()
-    PASSWD = getpass.getpass("IMAP password for %s on %s: " % (USER, host or "localhost"))
+    PASSWD = getpass.getpass("IMAP password pour %s on %s: " % (USER, host or "localhost"))
 
     test_mesg = 'From: %(user)s@localhost%(lf)sSubject: IMAP4 test%(lf)s%(lf)sdata...%(lf)s' % {'user':USER, 'lf':'\n'}
     test_seq1 = (
@@ -1589,16 +1589,16 @@ if __name__ == '__main__':
         M._mesg('PROTOCOL_VERSION = %s' % M.PROTOCOL_VERSION)
         M._mesg('CAPABILITIES = %r' % (M.capabilities,))
 
-        for cmd,args in test_seq1:
+        pour cmd,args in test_seq1:
             run(cmd, args)
 
-        for ml in run('list', ('/tmp/', 'yy%')):
+        pour ml in run('list', ('/tmp/', 'yy%')):
             mo = re.match(r'.*"([^"]+)"$', ml)
             if mo: path = mo.group(1)
             else: path = ml.split()[-1]
             run('delete', (path,))
 
-        for cmd,args in test_seq2:
+        pour cmd,args in test_seq2:
             dat = run(cmd, args)
 
             if (cmd,args) != ('uid', ('SEARCH', 'ALL')):

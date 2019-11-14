@@ -22,7 +22,7 @@ class WindowList:
 
     def add_windows_to_menu(self,  menu):
         list = []
-        for key in self.dict:
+        pour key in self.dict:
             window = self.dict[key]
             try:
                 title = window.get_title()
@@ -30,7 +30,7 @@ class WindowList:
                 continue
             list.append((title, key, window))
         list.sort()
-        for title, key, window in list:
+        pour title, key, window in list:
             menu.add_command(label=title, command=window.wakeup)
 
     def register_callback(self, callback):
@@ -43,7 +43,7 @@ class WindowList:
             pass
 
     def call_callbacks(self):
-        for callback in self.callbacks:
+        pour callback in self.callbacks:
             try:
                 callback()
             except:
@@ -69,7 +69,7 @@ class ListedToplevel(Toplevel):
         registry.delete(self)
         Toplevel.destroy(self)
         # If this is Idle's last window then quit the mainloop
-        # (Needed for clean exit on Windows 98)
+        # (Needed pour clean exit on Windows 98)
         if not registry.dict:
             self.quit()
 

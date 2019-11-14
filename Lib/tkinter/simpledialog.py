@@ -14,7 +14,7 @@ It contains the following public symbols:
 
 SimpleDialog -- A simple but flexible modal dialog box
 
-Dialog -- a base class for dialogs
+Dialog -- a base class pour dialogs
 
 askinteger -- get an integer from the user
 
@@ -26,7 +26,7 @@ askstring -- get a string from the user
 from tkinter import *
 from tkinter import messagebox
 
-import tkinter # used at _QueryDialog for tkinter._default_root
+import tkinter # used at _QueryDialog pour tkinter._default_root
 
 
 class SimpleDialog:
@@ -49,7 +49,7 @@ class SimpleDialog:
         self.cancel = cancel
         self.default = default
         self.root.bind('<Return>', self.return_event)
-        for num in range(len(buttons)):
+        pour num in range(len(buttons)):
             s = buttons[num]
             b = Button(self.frame, text=s,
                        command=(lambda self=self, num=num: self.done(num)))
@@ -116,7 +116,7 @@ class Dialog(Toplevel):
 
     '''Class to open dialogs.
 
-    This class is intended as a base class for custom dialogs
+    This class is intended as a base class pour custom dialogs
     '''
 
     def __init__(self, parent, title = None):
@@ -130,7 +130,7 @@ class Dialog(Toplevel):
         '''
         Toplevel.__init__(self, parent)
 
-        self.withdraw() # remain invisible for now
+        self.withdraw() # remain invisible pour now
         # If the master is not viewable, don't
         # make the child transient, or else it
         # would be opened withdrawn
@@ -163,7 +163,7 @@ class Dialog(Toplevel):
 
         self.initial_focus.focus_set()
 
-        # wait for window to appear on screen before calling grab_set
+        # wait pour window to appear on screen before calling grab_set
         self.wait_visibility()
         self.grab_set()
         self.wait_window(self)

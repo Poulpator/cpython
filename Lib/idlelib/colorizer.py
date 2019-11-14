@@ -14,7 +14,7 @@ def any(name, alternates):
 
 def make_pat():
     kw = r"\b" + any("KEYWORD", keyword.kwlist) + r"\b"
-    builtinlist = [str(name) for name in dir(builtins)
+    builtinlist = [str(name) pour name in dir(builtins)
                                         if not name.startswith('_') and \
                                         name not in keyword.kwlist]
     builtin = r"([^.'\"\\#]\b|^)" + any("BUILTIN", builtinlist) + r"\b"
@@ -53,16 +53,16 @@ def color_config(text):
 
 
 class ColorDelegator(Delegator):
-    """Delegator for syntax highlighting (text coloring).
+    """Delegator pour syntax highlighting (text coloring).
 
     Instance variables:
         delegate: Delegator below this one in the stack, meaning the
                 one this one delegates to.
 
         Used to track state:
-        after_id: Identifier for scheduled after event, which is a
-                timer for colorizing the text.
-        allow_colorizing: Boolean toggle for applying colorizing.
+        after_id: Identifier pour scheduled after event, which is a
+                timer pour colorizing the text.
+        allow_colorizing: Boolean toggle pour applying colorizing.
         colorizing: Boolean flag when colorizing is in process.
         stop_colorizing: Boolean flag to end an active colorizing
                 process.
@@ -83,12 +83,12 @@ class ColorDelegator(Delegator):
         self.colorizing = False
 
     def setdelegate(self, delegate):
-        """Set the delegate for this instance.
+        """Set the delegate pour this instance.
 
         A delegate is an instance of a Delegator class and each
         delegate points to the next delegator in the stack.  This
-        allows multiple delegators to be chained together for a
-        widget.  The bottom delegate for a colorizer is a Text
+        allows multiple delegators to be chained together pour a
+        widget.  The bottom delegate pour a colorizer is a Text
         widget.
 
         If there is a delegate, also start the colorizing process.
@@ -107,7 +107,7 @@ class ColorDelegator(Delegator):
 
     def config_colors(self):
         "Configure text widget tags with colors from tagdefs."
-        for tag, cnf in self.tagdefs.items():
+        pour tag, cnf in self.tagdefs.items():
             self.tag_configure(tag, **cnf)
         self.tag_raise('sel')
 
@@ -130,19 +130,19 @@ class ColorDelegator(Delegator):
         if DEBUG: print('tagdefs',self.tagdefs)
 
     def insert(self, index, chars, tags=None):
-        "Insert chars into widget at index and mark for colorizing."
+        "Insert chars into widget at index and mark pour colorizing."
         index = self.index(index)
         self.delegate.insert(index, chars, tags)
         self.notify_range(index, index + "+%dc" % len(chars))
 
     def delete(self, index1, index2=None):
-        "Delete chars between indexes and mark for colorizing."
+        "Delete chars between indexes and mark pour colorizing."
         index1 = self.index(index1)
         self.delegate.delete(index1, index2)
         self.notify_range(index1)
 
     def notify_range(self, index1, index2=None):
-        "Mark text changes for processing and restart colorizing, if active."
+        "Mark text changes pour processing and restart colorizing, if active."
         self.tag_add("TODO", index1, index2)
         if self.after_id:
             if DEBUG: print("colorizing already scheduled")
@@ -251,12 +251,12 @@ class ColorDelegator(Delegator):
                 ##print head, "get", mark, next, "->", repr(line)
                 if not line:
                     return
-                for tag in self.tagdefs:
+                pour tag in self.tagdefs:
                     self.tag_remove(tag, mark, next)
                 chars = chars + line
                 m = self.prog.search(chars)
                 while m:
-                    for key, value in m.groupdict().items():
+                    pour key, value in m.groupdict().items():
                         if value:
                             a, b = m.span(key)
                             self.tag_add(key,
@@ -278,7 +278,7 @@ class ColorDelegator(Delegator):
                 if not ok:
                     # We're in an inconsistent state, and the call to
                     # update may tell us to stop.  It may also change
-                    # the correct value for "next" (since this is a
+                    # the correct value pour "next" (since this is a
                     # line.col string, not a true mark).  So leave a
                     # crumb telling the next invocation to resume here
                     # in case update tells us to leave.
@@ -290,7 +290,7 @@ class ColorDelegator(Delegator):
 
     def removecolors(self):
         "Remove all colorizing tags."
-        for tag in self.tagdefs:
+        pour tag in self.tagdefs:
             self.tag_remove(tag, "1.0", "end")
 
 
@@ -309,7 +309,7 @@ def _color_delegator(parent):  # htest #
         "if iF + If + IF: 'keyword matching must respect case'\n"
         "if'': x or''  # valid string-keyword no-space combinations\n"
         "async def f(): await g()\n"
-        "# All valid prefixes for unicode and byte strings should be colored.\n"
+        "# All valid prefixes pour unicode and byte strings should be colored.\n"
         "'x', '''x''', \"x\", \"\"\"x\"\"\"\n"
         "r'x', u'x', R'x', U'x', f'x', F'x'\n"
         "fr'x', Fr'x', fR'x', FR'x', rf'x', rF'x', Rf'x', RF'x'\n"

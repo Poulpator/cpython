@@ -1,7 +1,7 @@
-"""Search dialog for Find, Find Again, and Find Selection
+"""Search dialog pour Find, Find Again, and Find Selection
    functionality.
 
-   Inherits from SearchDialogBase for GUI and uses searchengine
+   Inherits from SearchDialogBase pour GUI and uses searchengine
    to prepare search pattern.
 """
 from tkinter import TclError
@@ -36,7 +36,7 @@ def find(text):
     return _setup(text).open(text, pat)  # Open is inherited from SDBase.
 
 def find_again(text):
-    """Repeat the search for the last pattern and preferences.
+    """Repeat the search pour the last pattern and preferences.
 
     Module-level function to access the singleton SearchDialog
     instance to search again using the user entries and preferences
@@ -47,7 +47,7 @@ def find_again(text):
     return _setup(text).find_again(text)
 
 def find_selection(text):
-    """Search for the selected pattern in the text.
+    """Search pour the selected pattern in the text.
 
     Module-level function to access the singleton SearchDialog
     instance to search using the selected text.  With a text
@@ -60,10 +60,10 @@ def find_selection(text):
 
 
 class SearchDialog(SearchDialogBase):
-    "Dialog for finding a pattern in text."
+    "Dialog pour finding a pattern in text."
 
     def create_widgets(self):
-        "Create the base search dialog and add a button for Find Next."
+        "Create the base search dialog and add a button pour Find Next."
         SearchDialogBase.create_widgets(self)
         # TODO - why is this here and not in a create_command_buttons?
         self.make_button("Find Next", self.default_command, isdef=True)
@@ -119,9 +119,9 @@ class SearchDialog(SearchDialogBase):
             return False
 
     def find_selection(self, text):
-        """Search for selected text with previous dialog preferences.
+        """Search pour selected text with previous dialog preferences.
 
-        Instead of using the same pattern for searching (as Find
+        Instead of using the same pattern pour searching (as Find
         Again does), this first resets the pattern to the currently
         selected text.  If the selected text isn't changed, then use
         the prior search phrase.

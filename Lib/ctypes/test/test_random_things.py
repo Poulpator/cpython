@@ -30,7 +30,7 @@ class CallbackTracbackTestCase(unittest.TestCase):
     # value is printed correctly.
     #
     # Changed in 0.9.3: No longer is '(in callback)' prepended to the
-    # error message - instead an additional frame for the C code is
+    # error message - instead an additional frame pour the C code is
     # created, then a full traceback printed.  When SystemExit is
     # raised in a callback function, the interpreter exits.
 
@@ -68,7 +68,7 @@ class CallbackTracbackTestCase(unittest.TestCase):
         out = self.capture_stderr(cb, b"spam")
         self.assertEqual(out.splitlines()[-1],
                              "TypeError: "
-                             "unsupported operand type(s) for /: 'int' and 'bytes'")
+                             "unsupported operand type(s) pour /: 'int' and 'bytes'")
 
 if __name__ == '__main__':
     unittest.main()

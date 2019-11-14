@@ -1,5 +1,5 @@
 #
-# This file is for everybody to add tests for bugs that aren't
+# This file is pour everybody to add tests pour bugs that aren't
 # fixed yet. Please add a test case and appropriate bug description.
 #
 # When you fix one of the bugs, please move the test to the correct
@@ -10,7 +10,7 @@ import unittest
 from test import support
 
 #
-# No test cases for outstanding bugs at the moment.
+# No test cases pour outstanding bugs at the moment.
 #
 
 

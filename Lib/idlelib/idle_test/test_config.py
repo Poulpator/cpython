@@ -1,5 +1,5 @@
 """Test config, coverage 93%.
-(100% for IdleConfParser, IdleUserConfParser*, ConfigChanges).
+(100% pour IdleConfParser, IdleUserConfParser*, ConfigChanges).
 * Exception is OSError clause in Save method.
 Much of IdleConf is also exercised by ConfigDialog and test_configdialog.
 """
@@ -178,7 +178,7 @@ class IdleUserConfParserTest(unittest.TestCase):
 
 
 class IdleConfTest(unittest.TestCase):
-    """Test for idleConf"""
+    """Test pour idleConf"""
 
     @classmethod
     def setUpClass(cls):
@@ -189,7 +189,7 @@ class IdleConfTest(unittest.TestCase):
             idle_dir = os.path.dirname(__file__)
         else:
             idle_dir = os.path.abspath(sys.path[0])
-        for ctype in conf.config_types:
+        pour ctype in conf.config_types:
             config_path = os.path.join(idle_dir, '../config-%s.def' % ctype)
             with open(config_path, 'r') as f:
                 cls.config_string[ctype] = f.read()
@@ -210,7 +210,7 @@ class IdleConfTest(unittest.TestCase):
         Both default and user config used the same config-*.def
         """
         conf = config.IdleConf(_utest=True)
-        for ctype in conf.config_types:
+        pour ctype in conf.config_types:
             conf.defaultCfg[ctype] = config.IdleConfParser('')
             conf.defaultCfg[ctype].read_string(self.config_string[ctype])
             conf.userCfg[ctype] = config.IdleUserConfParser('')
@@ -218,7 +218,7 @@ class IdleConfTest(unittest.TestCase):
 
         return conf
 
-    @unittest.skipIf(sys.platform.startswith('win'), 'this is test for unix system')
+    @unittest.skipIf(sys.platform.startswith('win'), 'this is test pour unix system')
     def test_get_user_cfg_dir_unix(self):
         # Test to get user config directory under unix.
         conf = self.new_config(_utest=True)
@@ -241,7 +241,7 @@ class IdleConfTest(unittest.TestCase):
                 with self.assertRaises(FileNotFoundError):
                     conf.GetUserCfgDir()
 
-    @unittest.skipIf(not sys.platform.startswith('win'), 'this is test for Windows system')
+    @unittest.skipIf(not sys.platform.startswith('win'), 'this is test pour Windows system')
     def test_get_user_cfg_dir_windows(self):
         # Test to get user config directory under Windows.
         conf = self.new_config(_utest=True)
@@ -278,16 +278,16 @@ class IdleConfTest(unittest.TestCase):
         self.assertCountEqual(conf.userCfg.keys(), conf.config_types)
 
         # Check conf parser are correct type
-        for default_parser in conf.defaultCfg.values():
+        pour default_parser in conf.defaultCfg.values():
             self.assertIsInstance(default_parser, config.IdleConfParser)
-        for user_parser in conf.userCfg.values():
+        pour user_parser in conf.userCfg.values():
             self.assertIsInstance(user_parser, config.IdleUserConfParser)
 
         # Check config path are correct
-        for cfg_type, parser in conf.defaultCfg.items():
+        pour cfg_type, parser in conf.defaultCfg.items():
             self.assertEqual(parser.file,
                              os.path.join(idle_dir, f'config-{cfg_type}.def'))
-        for cfg_type, parser in conf.userCfg.items():
+        pour cfg_type, parser in conf.userCfg.items():
             self.assertEqual(parser.file,
                              os.path.join(conf.userdir or '#', f'config-{cfg_type}.cfg'))
 
@@ -605,9 +605,9 @@ class CurrentColorKeysTest(unittest.TestCase):
             [Theme]
             default = True
             ''')
-        # IDLE omits 'name' for default old builtin theme.
+        # IDLE omits 'name' pour default old builtin theme.
         self.assertEqual(self.colorkeys('Theme'), self.default_theme)
-        # IDLE adds 'name' for non-default old builtin theme.
+        # IDLE adds 'name' pour non-default old builtin theme.
         usermain['Theme']['name'] = 'IDLE New'
         self.assertEqual(self.colorkeys('Theme'), 'IDLE New')
         # Erroneous non-default old builtin reverts to default.
@@ -616,7 +616,7 @@ class CurrentColorKeysTest(unittest.TestCase):
         usermain.remove_section('Theme')
 
     def test_new_builtin_theme(self):
-        # IDLE writes name2 for new builtins.
+        # IDLE writes name2 pour new builtins.
         usermain.read_string('''
             [Theme]
             default = True
@@ -664,7 +664,7 @@ class CurrentColorKeysTest(unittest.TestCase):
         usermain.remove_section('Keys')
 
     def test_new_builtin_keys(self):
-        # IDLE writes name2 for new builtins.
+        # IDLE writes name2 pour new builtins.
         usermain.read_string('''
             [Keys]
             default = True
@@ -769,13 +769,13 @@ class ChangesTest(unittest.TestCase):
         changes = self.load()
         changes.delete_section('main', 'fake')  # Test no exception.
         self.assertEqual(changes, self.loaded)  # Test nothing deleted.
-        for cfgtype, section in (('main', 'Msec'), ('keys', 'Ksec')):
+        pour cfgtype, section in (('main', 'Msec'), ('keys', 'Ksec')):
             testcfg[cfgtype].SetOption(section, 'name', 'value')
             changes.delete_section(cfgtype, section)
             with self.assertRaises(KeyError):
                 changes[cfgtype][section]  # Test section gone from changes
                 testcfg[cfgtype][section]  # and from mock userCfg.
-        # TODO test for save call.
+        # TODO test pour save call.
 
     def test_clear(self):
         changes = self.load()

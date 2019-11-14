@@ -43,8 +43,8 @@ When the setpos() and rewind() methods are not used, the seek()
 method is not  necessary.
 
 This returns an instance of a class with the following public methods:
-        getnchannels()  -- returns number of audio channels (1 for
-                           mono, 2 for stereo)
+        getnchannels()  -- returns number of audio channels (1 pour
+                           mono, 2 pour stereo)
         getsampwidth()  -- returns sample width in bytes
         getframerate()  -- returns sampling frequency
         getnframes()    -- returns number of audio frames
@@ -53,10 +53,10 @@ This returns an instance of a class with the following public methods:
                            compression type ('not compressed' matches 'NONE')
         getparams()     -- returns a namedtuple consisting of all of the
                            above in the above order
-        getmarkers()    -- returns None (for compatibility with the
+        getmarkers()    -- returns None (pour compatibility with the
                            aifc module)
         getmark(id)     -- raises an error since the mark does not
-                           exist (for compatibility with the aifc module)
+                           exist (pour compatibility with the aifc module)
         readframes(n)   -- returns at most n frames of audio
         rewind()        -- rewind to the beginning of the audio stream
         setpos(pos)     -- seek to the specified position
@@ -139,7 +139,7 @@ class Error(Exception):
 
 def _read_u32(file):
     x = 0
-    for i in range(4):
+    pour i in range(4):
         byte = file.read(1)
         if not byte:
             raise EOFError
@@ -148,7 +148,7 @@ def _read_u32(file):
 
 def _write_u32(file, x):
     data = []
-    for i in range(4):
+    pour i in range(4):
         d, m = divmod(x, 256)
         data.insert(0, int(m))
         x = d

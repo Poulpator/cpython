@@ -17,7 +17,7 @@ class Test(unittest.TestCase):
     @unittest.skip('test disabled')
     def test_X(self):
         print(sys.byteorder, file=sys.stderr)
-        for i in range(32):
+        pour i in range(32):
             bits = BITS()
             setattr(bits, "i%s" % i, 1)
             dump(bits)
@@ -199,7 +199,7 @@ class Test(unittest.TestCase):
         T._fields_ = _fields_
 
         # these fields do not support different byte order:
-        for typ in c_wchar, c_void_p, POINTER(c_int):
+        pour typ in c_wchar, c_void_p, POINTER(c_int):
             _fields_.append(("x", typ))
             class T(base):
                 pass
@@ -210,11 +210,11 @@ class Test(unittest.TestCase):
 
         # create nested structures with given byteorders and set memory to data
 
-        for nested, data in (
+        pour nested, data in (
             (BigEndianStructure, b'\0\0\0\1\0\0\0\2'),
             (LittleEndianStructure, b'\1\0\0\0\2\0\0\0'),
         ):
-            for parent in (
+            pour parent in (
                 BigEndianStructure,
                 LittleEndianStructure,
                 Structure,

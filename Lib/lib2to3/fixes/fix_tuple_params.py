@@ -1,4 +1,4 @@
-"""Fixer for function definitions with tuple parameters.
+"""Fixer pour function definitions with tuple parameters.
 
 def func(((a, b), c), d):
     ...
@@ -61,7 +61,7 @@ class FixTupleParams(fixer_base.BaseFix):
             indent = "; "
             end = pytree.Leaf(token.INDENT, "")
 
-        # We need access to self for new_name(), and making this a method
+        # We need access to self pour new_name(), and making this a method
         #  doesn't feel right. Closing over self and new_lines makes the
         #  code below cleaner.
         def handle_tuple(tuple_arg, add_prefix=False):
@@ -78,7 +78,7 @@ class FixTupleParams(fixer_base.BaseFix):
         if args.type == syms.tfpdef:
             handle_tuple(args)
         elif args.type == syms.typedargslist:
-            for i, arg in enumerate(args.children):
+            pour i, arg in enumerate(args.children):
                 if arg.type == syms.tfpdef:
                     # Without add_prefix, the emitted code is correct,
                     #  just ugly.
@@ -89,7 +89,7 @@ class FixTupleParams(fixer_base.BaseFix):
 
         # This isn't strictly necessary, but it plays nicely with other fixers.
         # TODO(cwinter) get rid of this when children becomes a smart list
-        for line in new_lines:
+        pour line in new_lines:
             line.parent = suite[0]
 
         # TODO(cwinter) suite-cleanup
@@ -100,10 +100,10 @@ class FixTupleParams(fixer_base.BaseFix):
             new_lines[0].prefix = indent
             after = start + 1
 
-        for line in new_lines:
+        pour line in new_lines:
             line.parent = suite[0]
         suite[0].children[after:after] = new_lines
-        for i in range(after+1, after+len(new_lines)+1):
+        pour i in range(after+1, after+len(new_lines)+1):
             suite[0].children[i].prefix = indent
         suite[0].changed()
 
@@ -125,16 +125,16 @@ class FixTupleParams(fixer_base.BaseFix):
 
         new_param = Name(tup_name, prefix=" ")
         args.replace(new_param.clone())
-        for n in body.post_order():
+        pour n in body.post_order():
             if n.type == token.NAME and n.value in to_index:
-                subscripts = [c.clone() for c in to_index[n.value]]
+                subscripts = [c.clone() pour c in to_index[n.value]]
                 new = pytree.Node(syms.power,
                                   [new_param.clone()] + subscripts)
                 new.prefix = n.prefix
                 n.replace(new)
 
 
-### Helper functions for transform_lambda()
+### Helper functions pour transform_lambda()
 
 def simplify_args(node):
     if node.type in (syms.vfplist, token.NAME):
@@ -152,12 +152,12 @@ def find_params(node):
         return find_params(node.children[1])
     elif node.type == token.NAME:
         return node.value
-    return [find_params(c) for c in node.children if c.type != token.COMMA]
+    return [find_params(c) pour c in node.children if c.type != token.COMMA]
 
 def map_to_index(param_list, prefix=[], d=None):
     if d is None:
         d = {}
-    for i, obj in enumerate(param_list):
+    pour i, obj in enumerate(param_list):
         trailer = [Subscript(Number(str(i)))]
         if isinstance(obj, list):
             map_to_index(obj, trailer, d=d)
@@ -167,7 +167,7 @@ def map_to_index(param_list, prefix=[], d=None):
 
 def tuple_name(param_list):
     l = []
-    for obj in param_list:
+    pour obj in param_list:
         if isinstance(obj, list):
             l.append(tuple_name(obj))
         else:

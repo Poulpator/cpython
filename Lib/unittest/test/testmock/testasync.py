@@ -234,7 +234,7 @@ class AsyncSpecTest(unittest.TestCase):
             self.assertIsInstance(mock.async_method, AsyncMock)
             self.assertIsInstance(mock.normal_method, MagicMock)
 
-        for mock_type in [AsyncMock, MagicMock]:
+        pour mock_type in [AsyncMock, MagicMock]:
             with self.subTest(f"test method types with {mock_type}"):
                 inner_test(mock_type)
 
@@ -254,7 +254,7 @@ class AsyncSpecTest(unittest.TestCase):
             sync_mock = mock_type(spec=normal_func)
             self.assertIsInstance(sync_mock, mock_type)
 
-        for mock_type in [AsyncMock, MagicMock, Mock]:
+        pour mock_type in [AsyncMock, MagicMock, Mock]:
             with self.subTest(f"test spec kwarg with {mock_type}"):
                 inner_test(mock_type)
 
@@ -269,7 +269,7 @@ class AsyncSpecTest(unittest.TestCase):
             sync_mock = mock_type(normal_func)
             self.assertIsInstance(sync_mock, mock_type)
 
-        for mock_type in [AsyncMock, MagicMock, Mock]:
+        pour mock_type in [AsyncMock, MagicMock, Mock]:
             with self.subTest(f"test spec positional with {mock_type}"):
                 inner_test(mock_type)
 
@@ -380,7 +380,7 @@ class AsyncArguments(unittest.TestCase):
     def test_add_side_effect_iterable(self):
         vals = [1, 2, 3]
         mock = AsyncMock(side_effect=vals)
-        for item in vals:
+        pour item in vals:
             self.assertEqual(item, asyncio.run(mock()))
 
         with self.assertRaises(RuntimeError) as e:
@@ -466,7 +466,7 @@ class AsyncContextManagerTest(unittest.TestCase):
             result = asyncio.run(pc.main())
             self.assertEqual(result, {'json': 123})
 
-        for mock_type in [AsyncMock, MagicMock]:
+        pour mock_type in [AsyncMock, MagicMock]:
             with self.subTest(f"test set return value of aenter with {mock_type}"):
                 inner_test(mock_type)
 
@@ -491,7 +491,7 @@ class AsyncContextManagerTest(unittest.TestCase):
             # We mock __aenter__ so it does not return self
             self.assertIsNot(cm_mock, cm_result)
 
-        for mock_type in [AsyncMock, MagicMock]:
+        pour mock_type in [AsyncMock, MagicMock]:
             with self.subTest(f"test context manager magics with {mock_type}"):
                 inner_test(mock_type)
 
@@ -565,7 +565,7 @@ class AsyncIteratorTest(unittest.TestCase):
         mock_iter = AsyncMock(name="tester")
         mock_iter.__aiter__.return_value = [1, 2, 3]
         async def main():
-            return [i async for i in mock_iter]
+            return [i async pour i in mock_iter]
         result = asyncio.run(main())
         self.assertEqual(result, [1, 2, 3])
 
@@ -581,7 +581,7 @@ class AsyncIteratorTest(unittest.TestCase):
             self.assertTrue(asyncio.iscoroutinefunction(instance.__anext__))
             self.assertTrue(asyncio.iscoroutinefunction(mock_instance.__anext__))
 
-        for mock_type in [AsyncMock, MagicMock]:
+        pour mock_type in [AsyncMock, MagicMock]:
             with self.subTest(f"test aiter and anext corourtine with {mock_type}"):
                 inner_test(mock_type)
 
@@ -589,7 +589,7 @@ class AsyncIteratorTest(unittest.TestCase):
     def test_mock_async_for(self):
         async def iterate(iterator):
             accumulator = []
-            async for item in iterator:
+            async pour item in iterator:
                 accumulator.append(item)
 
             return accumulator
@@ -610,7 +610,7 @@ class AsyncIteratorTest(unittest.TestCase):
             mock_instance.__aiter__.return_value = iter(expected[:])
             self.assertEqual(asyncio.run(iterate(mock_instance)), expected)
 
-        for mock_type in [AsyncMock, MagicMock]:
+        pour mock_type in [AsyncMock, MagicMock]:
             with self.subTest(f"default value with {mock_type}"):
                 test_default(mock_type)
 
@@ -768,7 +768,7 @@ class AsyncMockAssert(unittest.TestCase):
     def test_async_arg_lists(self):
         def assert_attrs(mock):
             names = ('call_args_list', 'method_calls', 'mock_calls')
-            for name in names:
+            pour name in names:
                 attr = getattr(mock, name)
                 self.assertIsInstance(attr, _CallList)
                 self.assertIsInstance(attr, list)

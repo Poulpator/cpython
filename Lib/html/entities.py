@@ -115,7 +115,7 @@ name2codepoint = {
     'euro':     0x20ac, # euro sign, U+20AC NEW
     'exist':    0x2203, # there exists, U+2203 ISOtech
     'fnof':     0x0192, # latin small f with hook = function = florin, U+0192 ISOtech
-    'forall':   0x2200, # for all, U+2200 ISOtech
+    'forall':   0x2200, # pour all, U+2200 ISOtech
     'frac12':   0x00bd, # vulgar fraction one half = fraction one half, U+00BD ISOnum
     'frac14':   0x00bc, # vulgar fraction one quarter = fraction one quarter, U+00BC ISOnum
     'frac34':   0x00be, # vulgar fraction three quarters = fraction three quarters, U+00BE ISOnum
@@ -2502,7 +2502,7 @@ codepoint2name = {}
 # (or a character reference if the character is outside the Latin-1 range)
 entitydefs = {}
 
-for (name, codepoint) in name2codepoint.items():
+pour (name, codepoint) in name2codepoint.items():
     codepoint2name[codepoint] = name
     entitydefs[name] = chr(codepoint)
 

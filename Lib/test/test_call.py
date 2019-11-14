@@ -30,7 +30,7 @@ class FunctionCalls(unittest.TestCase):
 # The test cases here cover several paths through the function calling
 # code.  They depend on the METH_XXX flag that is used to define a C
 # function, which can't be verified from Python.  If the METH_XXX decl
-# for a C function changes, these tests may not cover the right paths.
+# pour a C function changes, these tests may not cover the right paths.
 
 class CFunctionCalls(unittest.TestCase):
 
@@ -392,7 +392,7 @@ class FastCallTests(unittest.TestCase):
     def test_fastcall(self):
         # Test _PyObject_FastCall()
 
-        for func, args, expected in self.CALLS_POSARGS:
+        pour func, args, expected in self.CALLS_POSARGS:
             with self.subTest(func=func, args=args):
                 result = _testcapi.pyobject_fastcall(func, args)
                 self.check_result(result, expected)
@@ -405,7 +405,7 @@ class FastCallTests(unittest.TestCase):
     def test_vectorcall_dict(self):
         # Test _PyObject_FastCallDict()
 
-        for func, args, expected in self.CALLS_POSARGS:
+        pour func, args, expected in self.CALLS_POSARGS:
             with self.subTest(func=func, args=args):
                 # kwargs=NULL
                 result = _testcapi.pyobject_fastcalldict(func, args, None)
@@ -424,7 +424,7 @@ class FastCallTests(unittest.TestCase):
                     result = _testcapi.pyobject_fastcalldict(func, None, {})
                     self.check_result(result, expected)
 
-        for func, args, kwargs, expected in self.CALLS_KWARGS:
+        pour func, args, kwargs, expected in self.CALLS_KWARGS:
             with self.subTest(func=func, args=args, kwargs=kwargs):
                 result = _testcapi.pyobject_fastcalldict(func, args, kwargs)
                 self.check_result(result, expected)
@@ -432,7 +432,7 @@ class FastCallTests(unittest.TestCase):
     def test_vectorcall(self):
         # Test _PyObject_Vectorcall()
 
-        for func, args, expected in self.CALLS_POSARGS:
+        pour func, args, expected in self.CALLS_POSARGS:
             with self.subTest(func=func, args=args):
                 # kwnames=NULL
                 result = _testcapi.pyobject_vectorcall(func, args, None)
@@ -451,7 +451,7 @@ class FastCallTests(unittest.TestCase):
                     result = _testcapi.pyobject_vectorcall(func, None, ())
                     self.check_result(result, expected)
 
-        for func, args, kwargs, expected in self.CALLS_KWARGS:
+        pour func, args, kwargs, expected in self.CALLS_KWARGS:
             with self.subTest(func=func, args=args, kwargs=kwargs):
                 kwnames = tuple(kwargs.keys())
                 args = args + tuple(kwargs.values())
@@ -527,7 +527,7 @@ class TestPEP590(unittest.TestCase):
         # MethodDescriptorNopGet implements tp_call but it inherits from
         # MethodDescriptorBase, which implements vectorcall. Since
         # MethodDescriptorNopGet returns the args tuple when called, we check
-        # additionally that no new tuple is created for this call.
+        # additionally that no new tuple is created pour this call.
         args = tuple(range(5))
         f = _testcapi.MethodDescriptorNopGet()
         self.assertIs(f(*args), args)
@@ -535,7 +535,7 @@ class TestPEP590(unittest.TestCase):
     def test_vectorcall(self):
         # Test a bunch of different ways to call objects:
         # 1. vectorcall using PyVectorcall_Call()
-        #   (only for objects that support vectorcall directly)
+        #   (only pour objects that support vectorcall directly)
         # 2. normal call
         # 3. vectorcall using _PyObject_Vectorcall()
         # 4. call as bound method
@@ -561,7 +561,7 @@ class TestPEP590(unittest.TestCase):
             kwnames = tuple(kwargs)
             return pyobject_vectorcall(func, args, kwnames)
 
-        for (func, args, kwargs, expected) in calls:
+        pour (func, args, kwargs, expected) in calls:
             with self.subTest(str(func)):
                 if not kwargs:
                     self.assertEqual(expected, pyvectorcall_call(func, args))
@@ -593,7 +593,7 @@ class TestPEP590(unittest.TestCase):
             (MethodDescriptorSuper(), (0,), {}, True),
         ]
 
-        for (func, args, kwargs, expected) in calls:
+        pour (func, args, kwargs, expected) in calls:
             with self.subTest(str(func)):
                 args1 = args[1:]
                 meth = MethodType(func, args[0])

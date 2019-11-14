@@ -1,4 +1,4 @@
-""" Test suite for the fixer modules """
+""" Test suite pour the fixer modules """
 
 # Python imports
 import os
@@ -21,7 +21,7 @@ class FixerTestCase(support.TestCase):
         self.fixer_log = []
         self.filename = "<string>"
 
-        for fixer in chain(self.refactor.pre_order,
+        pour fixer in chain(self.refactor.pre_order,
                            self.refactor.post_order):
             fixer.log = self.fixer_log
 
@@ -65,7 +65,7 @@ class FixerTestCase(support.TestCase):
             # We're the last in pre and post is empty
             return
         self.fail("Fixer run order (%s) is incorrect; %s should be last."\
-               %(", ".join([x.__class__.__module__ for x in (pre+post)]), n))
+               %(", ".join([x.__class__.__module__ pour x in (pre+post)]), n))
 
 class Test_ne(FixerTestCase):
     fixer = "ne"
@@ -133,8 +133,8 @@ class Test_has_key(FixerTestCase):
         self.check(b, a)
 
     def test_8(self):
-        b = """x = a.has_key(a for a in b)"""
-        a = """x = (a for a in b) in a"""
+        b = """x = a.has_key(a pour a in b)"""
+        a = """x = (a pour a in b) in a"""
         self.check(b, a)
 
     def test_9(self):
@@ -1278,16 +1278,16 @@ class Test_dict(FixerTestCase):
         a = "if   iter(d. keys  ( ))  : pass"
         self.check(b, a)
 
-        b = "[i for i in    d.  iterkeys(  )  ]"
-        a = "[i for i in    d.  keys(  )  ]"
+        b = "[i pour i in    d.  iterkeys(  )  ]"
+        a = "[i pour i in    d.  keys(  )  ]"
         self.check(b, a)
 
         b = "if   d. viewkeys  ( )  : pass"
         a = "if   d. keys  ( )  : pass"
         self.check(b, a)
 
-        b = "[i for i in    d.  viewkeys(  )  ]"
-        a = "[i for i in    d.  keys(  )  ]"
+        b = "[i pour i in    d.  viewkeys(  )  ]"
+        a = "[i pour i in    d.  keys(  )  ]"
         self.check(b, a)
 
     def test_trailing_comment(self):
@@ -1303,15 +1303,15 @@ class Test_dict(FixerTestCase):
         a = "iter(d.keys())  # foo"
         self.check(b, a)
 
-        b = """[i for i in d.iterkeys() # foo
+        b = """[i pour i in d.iterkeys() # foo
                ]"""
-        a = """[i for i in d.keys() # foo
+        a = """[i pour i in d.keys() # foo
                ]"""
         self.check(b, a)
 
-        b = """[i for i in d.iterkeys() # foo
+        b = """[i pour i in d.iterkeys() # foo
                ]"""
-        a = """[i for i in d.keys() # foo
+        a = """[i pour i in d.keys() # foo
                ]"""
         self.check(b, a)
 
@@ -1320,7 +1320,7 @@ class Test_dict(FixerTestCase):
         self.check(b, a)
 
     def test_unchanged(self):
-        for wrapper in fixer_util.consuming_calls:
+        pour wrapper in fixer_util.consuming_calls:
             s = "s = %s(d.keys())" % wrapper
             self.unchanged(s)
 
@@ -1383,33 +1383,33 @@ class Test_dict(FixerTestCase):
         self.check(b, a)
 
     def test_11(self):
-        b = "for i in d.keys(): print i"
-        a = "for i in list(d.keys()): print i"
+        b = "pour i in d.keys(): print i"
+        a = "pour i in list(d.keys()): print i"
         self.check(b, a)
 
     def test_12(self):
-        b = "for i in d.iterkeys(): print i"
-        a = "for i in d.keys(): print i"
+        b = "pour i in d.iterkeys(): print i"
+        a = "pour i in d.keys(): print i"
         self.check(b, a)
 
     def test_13(self):
-        b = "[i for i in d.keys()]"
-        a = "[i for i in list(d.keys())]"
+        b = "[i pour i in d.keys()]"
+        a = "[i pour i in list(d.keys())]"
         self.check(b, a)
 
     def test_14(self):
-        b = "[i for i in d.iterkeys()]"
-        a = "[i for i in d.keys()]"
+        b = "[i pour i in d.iterkeys()]"
+        a = "[i pour i in d.keys()]"
         self.check(b, a)
 
     def test_15(self):
-        b = "(i for i in d.keys())"
-        a = "(i for i in list(d.keys()))"
+        b = "(i pour i in d.keys())"
+        a = "(i pour i in list(d.keys()))"
         self.check(b, a)
 
     def test_16(self):
-        b = "(i for i in d.iterkeys())"
-        a = "(i for i in d.keys())"
+        b = "(i pour i in d.iterkeys())"
+        a = "(i pour i in d.keys())"
         self.check(b, a)
 
     def test_17(self):
@@ -1448,8 +1448,8 @@ class Test_dict(FixerTestCase):
         self.check(b, a)
 
     def test_24(self):
-        b = "for x in h.keys()[0]: print x"
-        a = "for x in list(h.keys())[0]: print x"
+        b = "pour x in h.keys()[0]: print x"
+        a = "pour x in list(h.keys())[0]: print x"
         self.check(b, a)
 
     def test_25(self):
@@ -1468,13 +1468,13 @@ class Test_dict(FixerTestCase):
         self.check(b, a)
 
     def test_28(self):
-        b = "[i for i in d.viewkeys()]"
-        a = "[i for i in d.keys()]"
+        b = "[i pour i in d.viewkeys()]"
+        a = "[i pour i in d.keys()]"
         self.check(b, a)
 
     def test_29(self):
-        b = "(i for i in d.viewkeys())"
-        a = "(i for i in d.keys())"
+        b = "(i pour i in d.viewkeys())"
+        a = "(i pour i in d.keys())"
         self.check(b, a)
 
     def test_30(self):
@@ -1545,23 +1545,23 @@ class Test_xrange(FixerTestCase):
         self.check(b, a)
 
     def test_xrange_in_for(self):
-        b = """for i in xrange(10):\n    j=i"""
-        a = """for i in range(10):\n    j=i"""
+        b = """pour i in xrange(10):\n    j=i"""
+        a = """pour i in range(10):\n    j=i"""
         self.check(b, a)
 
-        b = """[i for i in xrange(10)]"""
-        a = """[i for i in range(10)]"""
+        b = """[i pour i in xrange(10)]"""
+        a = """[i pour i in range(10)]"""
         self.check(b, a)
 
     def test_range_in_for(self):
-        self.unchanged("for i in range(10): pass")
-        self.unchanged("[i for i in range(10)]")
+        self.unchanged("pour i in range(10): pass")
+        self.unchanged("[i pour i in range(10)]")
 
     def test_in_contains_test(self):
         self.unchanged("x in range(10, 3, 9)")
 
     def test_in_consuming_context(self):
-        for call in fixer_util.consuming_calls:
+        pour call in fixer_util.consuming_calls:
             self.unchanged("a = %s(range(10))" % call)
 
 class Test_xrange_with_reduce(FixerTestCase):
@@ -1628,7 +1628,7 @@ class Test_funcattrs(FixerTestCase):
     attrs = ["closure", "doc", "name", "defaults", "code", "globals", "dict"]
 
     def test(self):
-        for attr in self.attrs:
+        pour attr in self.attrs:
             b = "a.func_%s" % attr
             a = "a.__%s__" % attr
             self.check(b, a)
@@ -1638,7 +1638,7 @@ class Test_funcattrs(FixerTestCase):
             self.check(b, a)
 
     def test_unchanged(self):
-        for attr in self.attrs:
+        pour attr in self.attrs:
             s = "foo(func_%s + 5)" % attr
             self.unchanged(s)
 
@@ -1652,16 +1652,16 @@ class Test_xreadlines(FixerTestCase):
     fixer = "xreadlines"
 
     def test_call(self):
-        b = "for x in f.xreadlines(): pass"
-        a = "for x in f: pass"
+        b = "pour x in f.xreadlines(): pass"
+        a = "pour x in f: pass"
         self.check(b, a)
 
-        b = "for x in foo().xreadlines(): pass"
-        a = "for x in foo(): pass"
+        b = "pour x in foo().xreadlines(): pass"
+        a = "pour x in foo(): pass"
         self.check(b, a)
 
-        b = "for x in (5 + foo()).xreadlines(): pass"
-        a = "for x in (5 + foo()): pass"
+        b = "pour x in (5 + foo()).xreadlines(): pass"
+        a = "pour x in (5 + foo()): pass"
         self.check(b, a)
 
     def test_attr_ref(self):
@@ -1678,13 +1678,13 @@ class Test_xreadlines(FixerTestCase):
         self.check(b, a)
 
     def test_unchanged(self):
-        s = "for x in f.xreadlines(5): pass"
+        s = "pour x in f.xreadlines(5): pass"
         self.unchanged(s)
 
-        s = "for x in f.xreadlines(k=5): pass"
+        s = "pour x in f.xreadlines(k=5): pass"
         self.unchanged(s)
 
-        s = "for x in f.xreadlines(*k, **v): pass"
+        s = "pour x in f.xreadlines(*k, **v): pass"
         self.unchanged(s)
 
         s = "foo(xreadlines)"
@@ -1694,7 +1694,7 @@ class Test_xreadlines(FixerTestCase):
 class ImportsFixerTests:
 
     def test_import_module(self):
-        for old, new in self.modules.items():
+        pour old, new in self.modules.items():
             b = "import %s" % old
             a = "import %s" % new
             self.check(b, a)
@@ -1704,7 +1704,7 @@ class ImportsFixerTests:
             self.check(b, a)
 
     def test_import_from(self):
-        for old, new in self.modules.items():
+        pour old, new in self.modules.items():
             b = "from %s import foo" % old
             a = "from %s import foo" % new
             self.check(b, a)
@@ -1718,7 +1718,7 @@ class ImportsFixerTests:
             self.check(b, a)
 
     def test_import_module_as(self):
-        for old, new in self.modules.items():
+        pour old, new in self.modules.items():
             b = "import %s as foo_bar" % old
             a = "import %s as foo_bar" % new
             self.check(b, a)
@@ -1728,19 +1728,19 @@ class ImportsFixerTests:
             self.check(b, a)
 
     def test_import_from_as(self):
-        for old, new in self.modules.items():
+        pour old, new in self.modules.items():
             b = "from %s import foo as bar" % old
             a = "from %s import foo as bar" % new
             self.check(b, a)
 
     def test_star(self):
-        for old, new in self.modules.items():
+        pour old, new in self.modules.items():
             b = "from %s import *" % old
             a = "from %s import *" % new
             self.check(b, a)
 
     def test_import_module_usage(self):
-        for old, new in self.modules.items():
+        pour old, new in self.modules.items():
             b = """
                 import %s
                 foo(%s.bar)
@@ -1822,11 +1822,11 @@ class Test_imports_fixer_order(FixerTestCase, ImportsFixerTests):
         from ..fixes.fix_imports2 import MAPPING as mapping2
         self.modules = mapping2.copy()
         from ..fixes.fix_imports import MAPPING as mapping1
-        for key in ('dbhash', 'dumbdbm', 'dbm', 'gdbm'):
+        pour key in ('dbhash', 'dumbdbm', 'dbm', 'gdbm'):
             self.modules[key] = mapping1[key]
 
     def test_after_local_imports_refactoring(self):
-        for fix in ("imports", "imports2"):
+        pour fix in ("imports", "imports2"):
             self.fixer = fix
             self.assert_runs_after("import")
 
@@ -1836,16 +1836,16 @@ class Test_urllib(FixerTestCase):
     from ..fixes.fix_urllib import MAPPING as modules
 
     def test_import_module(self):
-        for old, changes in self.modules.items():
+        pour old, changes in self.modules.items():
             b = "import %s" % old
             a = "import %s" % ", ".join(map(itemgetter(0), changes))
             self.check(b, a)
 
     def test_import_from(self):
-        for old, changes in self.modules.items():
+        pour old, changes in self.modules.items():
             all_members = []
-            for new, members in changes:
-                for member in members:
+            pour new, members in changes:
+                pour member in members:
                     all_members.append(member)
                     b = "from %s import %s" % (old, member)
                     a = "from %s import %s" % (new, member)
@@ -1864,18 +1864,18 @@ class Test_urllib(FixerTestCase):
             # test the breaking of a module into multiple replacements
             b = "from %s import %s" % (old, ", ".join(all_members))
             a = "\n".join(["from %s import %s" % (new, ", ".join(members))
-                            for (new, members) in changes])
+                            pour (new, members) in changes])
             self.check(b, a)
 
     def test_import_module_as(self):
-        for old in self.modules:
+        pour old in self.modules:
             s = "import %s as foo" % old
             self.warns_unchanged(s, "This module is now multiple modules")
 
     def test_import_from_as(self):
-        for old, changes in self.modules.items():
-            for new, members in changes:
-                for member in members:
+        pour old, changes in self.modules.items():
+            pour new, members in changes:
+                pour member in members:
                     b = "from %s import %s as foo_bar" % (old, member)
                     a = "from %s import %s as foo_bar" % (new, member)
                     self.check(b, a)
@@ -1884,7 +1884,7 @@ class Test_urllib(FixerTestCase):
                     self.check(b, a)
 
     def test_star(self):
-        for old in self.modules:
+        pour old in self.modules:
             s = "from %s import *" % old
             self.warns_unchanged(s, "Cannot handle star imports")
 
@@ -1916,10 +1916,10 @@ def foo():
 
 
     def test_import_module_usage(self):
-        for old, changes in self.modules.items():
-            for new, members in changes:
-                for member in members:
-                    new_import = ", ".join([n for (n, mems)
+        pour old, changes in self.modules.items():
+            pour new, members in changes:
+                pour member in members:
+                    new_import = ", ".join([n pour (n, mems)
                                             in self.modules[old]])
                     b = """
                         import %s
@@ -2181,7 +2181,7 @@ class Test_methodattrs(FixerTestCase):
     attrs = ["func", "self", "class"]
 
     def test(self):
-        for attr in self.attrs:
+        pour attr in self.attrs:
             b = "a.im_%s" % attr
             if attr == "class":
                 a = "a.__self__.__class__"
@@ -2197,7 +2197,7 @@ class Test_methodattrs(FixerTestCase):
             self.check(b, a)
 
     def test_unchanged(self):
-        for attr in self.attrs:
+        pour attr in self.attrs:
             s = "foo(im_%s + 5)" % attr
             self.unchanged(s)
 
@@ -2242,12 +2242,12 @@ class Test_next(FixerTestCase):
 
     def test_prefix_preservation_1(self):
         b = """
-            for a in b:
+            pour a in b:
                 foo(a)
                 a.next()
             """
         a = """
-            for a in b:
+            pour a in b:
                 foo(a)
                 next(a)
             """
@@ -2255,13 +2255,13 @@ class Test_next(FixerTestCase):
 
     def test_prefix_preservation_2(self):
         b = """
-            for a in b:
+            pour a in b:
                 foo(a) # abc
                 # def
                 a.next()
             """
         a = """
-            for a in b:
+            pour a in b:
                 foo(a) # abc
                 # def
                 next(a)
@@ -2271,13 +2271,13 @@ class Test_next(FixerTestCase):
     def test_prefix_preservation_3(self):
         b = """
             next = 5
-            for a in b:
+            pour a in b:
                 foo(a)
                 a.next()
             """
         a = """
             next = 5
-            for a in b:
+            pour a in b:
                 foo(a)
                 a.__next__()
             """
@@ -2286,14 +2286,14 @@ class Test_next(FixerTestCase):
     def test_prefix_preservation_4(self):
         b = """
             next = 5
-            for a in b:
+            pour a in b:
                 foo(a) # abc
                 # def
                 a.next()
             """
         a = """
             next = 5
-            for a in b:
+            pour a in b:
                 foo(a) # abc
                 # def
                 a.__next__()
@@ -2303,13 +2303,13 @@ class Test_next(FixerTestCase):
     def test_prefix_preservation_5(self):
         b = """
             next = 5
-            for a in b:
+            pour a in b:
                 foo(foo(a), # abc
                     a.next())
             """
         a = """
             next = 5
-            for a in b:
+            pour a in b:
                 foo(foo(a), # abc
                     a.__next__())
             """
@@ -2317,12 +2317,12 @@ class Test_next(FixerTestCase):
 
     def test_prefix_preservation_6(self):
         b = """
-            for a in b:
+            pour a in b:
                 foo(foo(a), # abc
                     a.next())
             """
         a = """
-            for a in b:
+            pour a in b:
                 foo(foo(a), # abc
                     next(a))
             """
@@ -2638,7 +2638,7 @@ class Test_next(FixerTestCase):
 
     def test_shadowing_for_simple(self):
         s = """
-            for next in it():
+            pour next in it():
                 pass
 
             b = 5
@@ -2648,7 +2648,7 @@ class Test_next(FixerTestCase):
 
     def test_shadowing_for_tuple_1(self):
         s = """
-            for next, b in it():
+            pour next, b in it():
                 pass
 
             b = 5
@@ -2658,7 +2658,7 @@ class Test_next(FixerTestCase):
 
     def test_shadowing_for_tuple_2(self):
         s = """
-            for a, (next, c), b in it():
+            pour a, (next, c), b in it():
                 pass
 
             b = 5
@@ -2806,7 +2806,7 @@ class Test_renames(FixerTestCase):
               }
 
     def test_import_from(self):
-        for mod, (old, new) in list(self.modules.items()):
+        pour mod, (old, new) in list(self.modules.items()):
             b = "from %s import %s" % (mod, old)
             a = "from %s import %s" % (mod, new)
             self.check(b, a)
@@ -2815,13 +2815,13 @@ class Test_renames(FixerTestCase):
             self.unchanged(s)
 
     def test_import_from_as(self):
-        for mod, (old, new) in list(self.modules.items()):
+        pour mod, (old, new) in list(self.modules.items()):
             b = "from %s import %s as foo_bar" % (mod, old)
             a = "from %s import %s as foo_bar" % (mod, new)
             self.check(b, a)
 
     def test_import_module_usage(self):
-        for mod, (old, new) in list(self.modules.items()):
+        pour mod, (old, new) in list(self.modules.items()):
             b = """
                 import %s
                 foo(%s, %s.%s)
@@ -2834,7 +2834,7 @@ class Test_renames(FixerTestCase):
 
     def XXX_test_from_import_usage(self):
         # not implemented yet
-        for mod, (old, new) in list(self.modules.items()):
+        pour mod, (old, new) in list(self.modules.items()):
             b = """
                 from %s import %s
                 foo(%s, %s)
@@ -2933,12 +2933,12 @@ class Test_filter(FixerTestCase):
         self.check(b, a)
 
         b = """x =   filter(  None , 'abc'  )"""
-        a = """x =   [_f for _f in 'abc' if _f]"""
+        a = """x =   [_f pour _f in 'abc' if _f]"""
         self.check(b, a)
 
     def test_filter_basic(self):
         b = """x = filter(None, 'abc')"""
-        a = """x = [_f for _f in 'abc' if _f]"""
+        a = """x = [_f pour _f in 'abc' if _f]"""
         self.check(b, a)
 
         b = """x = len(filter(f, 'abc'))"""
@@ -2946,17 +2946,17 @@ class Test_filter(FixerTestCase):
         self.check(b, a)
 
         b = """x = filter(lambda x: x%2 == 0, range(10))"""
-        a = """x = [x for x in range(10) if x%2 == 0]"""
+        a = """x = [x pour x in range(10) if x%2 == 0]"""
         self.check(b, a)
 
         # Note the parens around x
         b = """x = filter(lambda (x): x%2 == 0, range(10))"""
-        a = """x = [x for x in range(10) if x%2 == 0]"""
+        a = """x = [x pour x in range(10) if x%2 == 0]"""
         self.check(b, a)
 
     def test_filter_trailers(self):
         b = """x = filter(None, 'abc')[0]"""
-        a = """x = [_f for _f in 'abc' if _f][0]"""
+        a = """x = [_f pour _f in 'abc' if _f][0]"""
         self.check(b, a)
 
         b = """x = len(filter(f, 'abc')[0])"""
@@ -2964,12 +2964,12 @@ class Test_filter(FixerTestCase):
         self.check(b, a)
 
         b = """x = filter(lambda x: x%2 == 0, range(10))[0]"""
-        a = """x = [x for x in range(10) if x%2 == 0][0]"""
+        a = """x = [x pour x in range(10) if x%2 == 0][0]"""
         self.check(b, a)
 
         # Note the parens around x
         b = """x = filter(lambda (x): x%2 == 0, range(10))[0]"""
-        a = """x = [x for x in range(10) if x%2 == 0][0]"""
+        a = """x = [x pour x in range(10) if x%2 == 0][0]"""
         self.check(b, a)
 
     def test_filter_nochange(self):
@@ -3005,11 +3005,11 @@ class Test_filter(FixerTestCase):
         self.unchanged(a)
         a = """enumerate(filter(f, 'abc'), start=1)"""
         self.unchanged(a)
-        a = """for i in filter(f, 'abc'): pass"""
+        a = """pour i in filter(f, 'abc'): pass"""
         self.unchanged(a)
-        a = """[x for x in filter(f, 'abc')]"""
+        a = """[x pour x in filter(f, 'abc')]"""
         self.unchanged(a)
-        a = """(x for x in filter(f, 'abc'))"""
+        a = """(x pour x in filter(f, 'abc'))"""
         self.unchanged(a)
 
     def test_future_builtins(self):
@@ -3045,7 +3045,7 @@ class Test_map(FixerTestCase):
         self.check(b, a)
 
         b = """x = map(lambda x:x, l)[0]"""
-        a = """x = [x for x in l][0]"""
+        a = """x = [x pour x in l][0]"""
         self.check(b, a)
 
         b = """x = map(f, 'abc')[0][1]"""
@@ -3076,12 +3076,12 @@ class Test_map(FixerTestCase):
         self.check(b, a)
 
         b = """x = map(lambda x: x+1, range(4))"""
-        a = """x = [x+1 for x in range(4)]"""
+        a = """x = [x+1 pour x in range(4)]"""
         self.check(b, a)
 
         # Note the parens around x
         b = """x = map(lambda (x): x+1, range(4))"""
-        a = """x = [x+1 for x in range(4)]"""
+        a = """x = [x+1 pour x in range(4)]"""
         self.check(b, a)
 
         b = """
@@ -3094,7 +3094,7 @@ class Test_map(FixerTestCase):
             # foo
             list(map(f, x))
             """
-        self.warns(b, a, "You should use a for loop here")
+        self.warns(b, a, "You should use a pour loop here")
 
     def test_map_nochange(self):
         a = """b.join(map(f, 'abc'))"""
@@ -3129,11 +3129,11 @@ class Test_map(FixerTestCase):
         self.unchanged(a)
         a = """enumerate(map(f, 'abc'), start=1)"""
         self.unchanged(a)
-        a = """for i in map(f, 'abc'): pass"""
+        a = """pour i in map(f, 'abc'): pass"""
         self.unchanged(a)
-        a = """[x for x in map(f, 'abc')]"""
+        a = """[x pour x in map(f, 'abc')]"""
         self.unchanged(a)
-        a = """(x for x in map(f, 'abc'))"""
+        a = """(x pour x in map(f, 'abc'))"""
         self.unchanged(a)
 
     def test_future_builtins(self):
@@ -3209,11 +3209,11 @@ class Test_zip(FixerTestCase):
         self.unchanged(a)
         a = """enumerate(zip(a, b), start=1)"""
         self.unchanged(a)
-        a = """for i in zip(a, b): pass"""
+        a = """pour i in zip(a, b): pass"""
         self.unchanged(a)
-        a = """[x for x in zip(a, b)]"""
+        a = """[x pour x in zip(a, b)]"""
         self.unchanged(a)
-        a = """(x for x in zip(a, b))"""
+        a = """(x pour x in zip(a, b))"""
         self.unchanged(a)
 
     def test_future_builtins(self):
@@ -3666,8 +3666,8 @@ class Test_itertools(FixerTestCase):
         # Because we need to check with and without the itertools prefix
         # and on each of the three functions, these loops make it all
         # much easier
-        for i in ('itertools.', ''):
-            for f in ('map', 'filter', 'zip'):
+        pour i in ('itertools.', ''):
+            pour f in ('map', 'filter', 'zip'):
                 b = before %(i+'i'+f)
                 a = after %(f)
                 self.check(b, a)
@@ -3771,7 +3771,7 @@ class Test_itertools_imports(FixerTestCase):
         self.unchanged(s)
 
     def test_ifilter_and_zip_longest(self):
-        for name in "filterfalse", "zip_longest":
+        pour name in "filterfalse", "zip_longest":
             b = "from itertools import i%s" % (name,)
             a = "from itertools import %s" % (name,)
             self.check(b, a)
@@ -3831,7 +3831,7 @@ class Test_import(FixerTestCase):
         expected_extensions = ('.py', os.path.sep, '.pyc', '.so', '.sl', '.pyd')
         names_to_test = (p("/spam/eggs.py"), "ni.py", p("../../shrubbery.py"))
 
-        for name in names_to_test:
+        pour name in names_to_test:
             self.files_checked = []
             self.filename = name
             self.unchanged("import jam")
@@ -3840,7 +3840,7 @@ class Test_import(FixerTestCase):
                 name = os.path.dirname(name) + '/jam'
             else:
                 name = 'jam'
-            expected_checks = set(name + ext for ext in expected_extensions)
+            expected_checks = set(name + ext pour ext in expected_extensions)
             expected_checks.add("__init__.py")
 
             self.assertEqual(set(self.files_checked), expected_checks)
@@ -3998,20 +3998,20 @@ class Test_set_literal(FixerTestCase):
         self.check(b, a)
 
     def test_listcomps(self):
-        b = """set([x for x in y])"""
-        a = """{x for x in y}"""
+        b = """set([x pour x in y])"""
+        a = """{x pour x in y}"""
         self.check(b, a)
 
-        b = """set([x for x in y if x == m])"""
-        a = """{x for x in y if x == m}"""
+        b = """set([x pour x in y if x == m])"""
+        a = """{x pour x in y if x == m}"""
         self.check(b, a)
 
-        b = """set([x for x in y for a in b])"""
-        a = """{x for x in y for a in b}"""
+        b = """set([x pour x in y pour a in b])"""
+        a = """{x pour x in y pour a in b}"""
         self.check(b, a)
 
-        b = """set([f(x) - 23 for x in y])"""
-        a = """{f(x) - 23 for x in y}"""
+        b = """set([f(x) - 23 pour x in y])"""
+        a = """{f(x) - 23 pour x in y}"""
         self.check(b, a)
 
     def test_whitespace(self):
@@ -4035,8 +4035,8 @@ class Test_set_literal(FixerTestCase):
         a = """{  1,  2  }"""
         self.check(b, a)
 
-        b = """set([x  for x in y ])"""
-        a = """{x  for x in y }"""
+        b = """set([x  pour x in y ])"""
+        a = """{x  pour x in y }"""
         self.check(b, a)
 
         b = """set(
@@ -4075,10 +4075,10 @@ class Test_set_literal(FixerTestCase):
         self.unchanged(s)
 
         # Don't transform generators because they might have to be lazy.
-        s = """set(x for x in y)"""
+        s = """set(x pour x in y)"""
         self.unchanged(s)
 
-        s = """set(x for x in y if z)"""
+        s = """set(x pour x in y if z)"""
         self.unchanged(s)
 
         s = """set(a*823-23**2 + f(23))"""
@@ -4123,58 +4123,58 @@ class Test_paren(FixerTestCase):
     fixer = "paren"
 
     def test_0(self):
-        b = """[i for i in 1, 2 ]"""
-        a = """[i for i in (1, 2) ]"""
+        b = """[i pour i in 1, 2 ]"""
+        a = """[i pour i in (1, 2) ]"""
         self.check(b, a)
 
     def test_1(self):
-        b = """[i for i in 1, 2, ]"""
-        a = """[i for i in (1, 2,) ]"""
+        b = """[i pour i in 1, 2, ]"""
+        a = """[i pour i in (1, 2,) ]"""
         self.check(b, a)
 
     def test_2(self):
-        b = """[i for i  in     1, 2 ]"""
-        a = """[i for i  in     (1, 2) ]"""
+        b = """[i pour i  in     1, 2 ]"""
+        a = """[i pour i  in     (1, 2) ]"""
         self.check(b, a)
 
     def test_3(self):
-        b = """[i for i in 1, 2 if i]"""
-        a = """[i for i in (1, 2) if i]"""
+        b = """[i pour i in 1, 2 if i]"""
+        a = """[i pour i in (1, 2) if i]"""
         self.check(b, a)
 
     def test_4(self):
-        b = """[i for i in 1,    2    ]"""
-        a = """[i for i in (1,    2)    ]"""
+        b = """[i pour i in 1,    2    ]"""
+        a = """[i pour i in (1,    2)    ]"""
         self.check(b, a)
 
     def test_5(self):
-        b = """(i for i in 1, 2)"""
-        a = """(i for i in (1, 2))"""
+        b = """(i pour i in 1, 2)"""
+        a = """(i pour i in (1, 2))"""
         self.check(b, a)
 
     def test_6(self):
-        b = """(i for i in 1   ,2   if i)"""
-        a = """(i for i in (1   ,2)   if i)"""
+        b = """(i pour i in 1   ,2   if i)"""
+        a = """(i pour i in (1   ,2)   if i)"""
         self.check(b, a)
 
     def test_unchanged_0(self):
-        s = """[i for i in (1, 2)]"""
+        s = """[i pour i in (1, 2)]"""
         self.unchanged(s)
 
     def test_unchanged_1(self):
-        s = """[i for i in foo()]"""
+        s = """[i pour i in foo()]"""
         self.unchanged(s)
 
     def test_unchanged_2(self):
-        s = """[i for i in (1, 2) if nothing]"""
+        s = """[i pour i in (1, 2) if nothing]"""
         self.unchanged(s)
 
     def test_unchanged_3(self):
-        s = """(i for i in (1, 2))"""
+        s = """(i pour i in (1, 2))"""
         self.unchanged(s)
 
     def test_unchanged_4(self):
-        s = """[i for i in m]"""
+        s = """[i pour i in m]"""
         self.unchanged(s)
 
 class Test_metaclass(FixerTestCase):
@@ -4609,7 +4609,7 @@ class Test_asserts(FixerTestCase):
             ('self.failUnlessRaises(foo)', 'self.assertRaises(foo)'),
             ('self.failIf(False)', 'self.assertFalse(False)'),
         ]
-        for b, a in tests:
+        pour b, a in tests:
             self.check(b, a)
 
     def test_variants(self):

@@ -6,7 +6,7 @@ import weakref
 from unittest.test.support import LoggingResult, TestEquality
 
 
-### Support code for Test_TestSuite
+### Support code pour Test_TestSuite
 ################################################################
 
 class Test(object):
@@ -17,7 +17,7 @@ class Test(object):
         def runTest(self): pass
 
 def _mk_TestSuite(*names):
-    return unittest.TestSuite(Test.Foo(n) for n in names)
+    return unittest.TestSuite(Test.Foo(n) pour n in names)
 
 ################################################################
 
@@ -41,7 +41,7 @@ class Test_TestSuite(unittest.TestCase, TestEquality):
     ################################################################
     ### /Set up attributes needed by inherited tests
 
-    ### Tests for TestSuite.__init__
+    ### Tests pour TestSuite.__init__
     ################################################################
 
     # "class TestSuite([tests])"
@@ -118,7 +118,7 @@ class Test_TestSuite(unittest.TestCase, TestEquality):
         self.assertEqual(suite.countTestCases(), 2)
 
     ################################################################
-    ### /Tests for TestSuite.__init__
+    ### /Tests pour TestSuite.__init__
 
     # Container types should support the iter protocol
     def test_iter(self):
@@ -170,7 +170,7 @@ class Test_TestSuite(unittest.TestCase, TestEquality):
     # ...this method is also implemented by the TestSuite class, which can
     # return larger [greater than 1] values"
     #
-    # Make sure this holds for nested TestSuite instances, too
+    # Make sure this holds pour nested TestSuite instances, too
     def test_countTestCases_nested(self):
         class Test1(unittest.TestCase):
             def test1(self): pass
@@ -267,7 +267,7 @@ class Test_TestSuite(unittest.TestCase, TestEquality):
     # "Add all the tests from an iterable of TestCase and TestSuite
     # instances to this test suite."
     #
-    # "This is equivalent to iterating over tests, calling addTest() for
+    # "This is equivalent to iterating over tests, calling addTest() pour
     # each element"
     def test_addTests(self):
         class Foo(unittest.TestCase):
@@ -288,10 +288,10 @@ class Test_TestSuite(unittest.TestCase, TestEquality):
 
         self.assertEqual(list(suite_1), list(gen()))
 
-        # "This is equivalent to iterating over tests, calling addTest() for
+        # "This is equivalent to iterating over tests, calling addTest() pour
         # each element"
         suite_2 = unittest.TestSuite()
-        for t in gen():
+        pour t in gen():
             suite_2.addTest(t)
 
         self.assertEqual(suite_1, suite_2)
@@ -350,7 +350,7 @@ class Test_TestSuite(unittest.TestCase, TestEquality):
         suite = unittest.TestSuite()
         suite._tests = None
 
-        # if _removeAtIndex raises for noniterables this next line will break
+        # if _removeAtIndex raises pour noniterables this next line will break
         suite._removeTestAtIndex(2)
 
     def assert_garbage_collect_test_after_run(self, TestSuiteClass):
@@ -369,7 +369,7 @@ class Test_TestSuite(unittest.TestCase, TestEquality):
 
         del test
 
-        # for the benefit of non-reference counting implementations
+        # pour the benefit of non-reference counting implementations
         gc.collect()
 
         self.assertEqual(suite._tests, [None])

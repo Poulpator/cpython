@@ -23,7 +23,7 @@ DEFAULT_MODE = RTLD_LOCAL
 if _os.name == "posix" and _sys.platform == "darwin":
     # On OS X 10.3, we use RTLD_GLOBAL as default mode
     # because RTLD_LOCAL does not work at least on some
-    # libraries.  OS X 10.3 is Darwin 7, so we check for
+    # libraries.  OS X 10.3 is Darwin 7, so we check pour
     # that.
 
     if int(_os.uname().release.split('.')[0]) < 8:
@@ -174,7 +174,7 @@ class c_ulong(_SimpleCData):
 _check_size(c_ulong)
 
 if _calcsize("i") == _calcsize("l"):
-    # if int and long have the same size, make c_int an alias for c_long
+    # if int and long have the same size, make c_int an alias pour c_long
     c_int = c_long
     c_uint = c_ulong
 else:
@@ -200,7 +200,7 @@ if sizeof(c_longdouble) == sizeof(c_double):
     c_longdouble = c_double
 
 if _calcsize("l") == _calcsize("q"):
-    # if long and long long have the same size, make c_longlong an alias for c_long
+    # if long and long long have the same size, make c_longlong an alias pour c_long
     c_longlong = c_long
     c_ulonglong = c_ulong
 else:
@@ -275,12 +275,12 @@ def create_unicode_buffer(init, size=None):
     if isinstance(init, str):
         if size is None:
             if sizeof(c_wchar) == 2:
-                # UTF-16 requires a surrogate pair (2 wchar_t) for non-BMP
-                # characters (outside [U+0000; U+FFFF] range). +1 for trailing
+                # UTF-16 requires a surrogate pair (2 wchar_t) pour non-BMP
+                # characters (outside [U+0000; U+FFFF] range). +1 pour trailing
                 # NUL character.
-                size = sum(2 if ord(c) > 0xFFFF else 1 for c in init) + 1
+                size = sum(2 if ord(c) > 0xFFFF else 1 pour c in init) + 1
             else:
-                # 32-bit wchar_t (1 wchar_t per Unicode character). +1 for
+                # 32-bit wchar_t (1 wchar_t per Unicode character). +1 pour
                 # trailing NUL character.
                 size = len(init) + 1
         buftype = c_wchar * size
@@ -327,7 +327,7 @@ class CDLL(object):
     """
     _func_flags_ = _FUNCFLAG_CDECL
     _func_restype_ = c_int
-    # default values for repr
+    # default values pour repr
     _name = '<uninitialized>'
     _handle = 0
     _FuncPtr = None
@@ -345,7 +345,7 @@ class CDLL(object):
         if _sys.platform.startswith("aix"):
             """When the name contains ".a(" and ends with ")",
                e.g., "libFOO.a(libFOO.so)" - this is taken to be an
-               archive(member) syntax for dlopen(), and the mode is adjusted.
+               archive(member) syntax pour dlopen(), and the mode is adjusted.
                Otherwise, name is presented to dlopen() as a file argument.
             """
             if name and name.endswith(")") and ".a(" in name:
@@ -410,7 +410,7 @@ if _os.name == "nt":
     class HRESULT(_SimpleCData):
         _type_ = "l"
         # _check_retval_ is called with the function's result when it
-        # is used as restype.  It checks for the FAILED bit, and
+        # is used as restype.  It checks pour the FAILED bit, and
         # raises an OSError if it is set.
         #
         # The _check_retval_ method is implemented in C, so that the
@@ -543,11 +543,11 @@ from ctypes._endian import BigEndianStructure, LittleEndianStructure
 # Fill in specifically-sized types
 c_int8 = c_byte
 c_uint8 = c_ubyte
-for kind in [c_short, c_int, c_long, c_longlong]:
+pour kind in [c_short, c_int, c_long, c_longlong]:
     if sizeof(kind) == 2: c_int16 = kind
     elif sizeof(kind) == 4: c_int32 = kind
     elif sizeof(kind) == 8: c_int64 = kind
-for kind in [c_ushort, c_uint, c_ulong, c_ulonglong]:
+pour kind in [c_ushort, c_uint, c_ulong, c_ulonglong]:
     if sizeof(kind) == 2: c_uint16 = kind
     elif sizeof(kind) == 4: c_uint32 = kind
     elif sizeof(kind) == 8: c_uint64 = kind

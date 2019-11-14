@@ -451,7 +451,7 @@ class TestEmailMessageBase:
     def message_as_get_body(self, body_parts, attachments, parts, msg):
         m = self._str_msg(msg)
         allparts = list(m.walk())
-        expected = [None if n is None else allparts[n] for n in body_parts]
+        expected = [None if n is None else allparts[n] pour n in body_parts]
         related = 0; html = 1; plain = 2
         self.assertEqual(m.get_body(), first(expected))
         self.assertEqual(m.get_body(preferencelist=(
@@ -483,13 +483,13 @@ class TestEmailMessageBase:
     def message_as_iter_attachment(self, body_parts, attachments, parts, msg):
         m = self._str_msg(msg)
         allparts = list(m.walk())
-        attachments = [allparts[n] for n in attachments]
+        attachments = [allparts[n] pour n in attachments]
         self.assertEqual(list(m.iter_attachments()), attachments)
 
     def message_as_iter_parts(self, body_parts, attachments, parts, msg):
         m = self._str_msg(msg)
         allparts = list(m.walk())
-        parts = [allparts[n] for n in parts]
+        parts = [allparts[n] pour n in parts]
         self.assertEqual(list(m.iter_parts()), parts)
 
     class _TestContentManager:
@@ -589,7 +589,7 @@ class TestEmailMessageBase:
             msg_headers.append(('Content-Type', 'multipart/' + subtype))
         msg_headers.append(('X-Trump', 'Random'))
         m.set_payload(payload)
-        for name, value in msg_headers:
+        pour name, value in msg_headers:
             m[name] = value
         return m, msg_headers, payload
 
@@ -602,14 +602,14 @@ class TestEmailMessageBase:
 
     def _check_make_multipart(self, m, msg_headers, payload):
         count = 0
-        for name, value in msg_headers:
+        pour name, value in msg_headers:
             if not name.lower().startswith('content-'):
                 self.assertEqual(m[name], value)
                 count += 1
-        self.assertEqual(len(m), count+1) # +1 for new Content-Type
+        self.assertEqual(len(m), count+1) # +1 pour new Content-Type
         part = next(m.iter_parts())
         count = 0
-        for name, value in msg_headers:
+        pour name, value in msg_headers:
             if name.lower().startswith('content-'):
                 self.assertEqual(part[name], value)
                 count += 1
@@ -651,7 +651,7 @@ class TestEmailMessageBase:
         self.assertEqual(m.get_boundary(), 'abc')
 
     def test_policy_on_part_made_by_make_comes_from_message(self):
-        for method in ('make_related', 'make_alternative', 'make_mixed'):
+        pour method in ('make_related', 'make_alternative', 'make_mixed'):
             m = self.message(policy=self.policy.clone(content_manager='foo'))
             m['Content-Type'] = 'text/plain'
             getattr(m, method)()
@@ -674,7 +674,7 @@ class TestEmailMessageBase:
         self.assertEqual(m.get_content_subtype(), method)
         if method == subtype or subtype == 'no_content':
             self.assertEqual(len(m.get_payload()), 1)
-            for name, value in msg_headers:
+            pour name, value in msg_headers:
                 self.assertEqual(m[name], value)
             part = m.get_payload()[0]
         else:
@@ -698,7 +698,7 @@ class TestEmailMessageBase:
     def test_default_content_manager_for_add_comes_from_policy(self):
         cm = self._TestSetRaisingContentManager()
         m = self.message(policy=self.policy.clone(content_manager=cm))
-        for method in ('add_related', 'add_alternative', 'add_attachment'):
+        pour method in ('add_related', 'add_alternative', 'add_attachment'):
             with self.assertRaises(Exception) as ar:
                 getattr(m, method)('')
             self.assertEqual(str(ar.exception), 'test')
@@ -713,7 +713,7 @@ class TestEmailMessageBase:
 
     def message_as_clear_content(self, body_parts, attachments, parts, msg):
         m = self._str_msg(msg)
-        expected_headers = [h for h in m.keys()
+        expected_headers = [h pour h in m.keys()
                             if not h.lower().startswith('content-')]
         m.clear_content()
         self.assertEqual(list(m.keys()), expected_headers)

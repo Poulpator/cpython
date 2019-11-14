@@ -21,21 +21,21 @@ def getcaps():
 
     The dictionary maps a MIME type (in all lowercase, e.g. 'text/plain')
     to a list of dictionaries corresponding to mailcap entries.  The list
-    collects all the entries for that MIME type from all available mailcap
-    files.  Each dictionary contains key-value pairs for that MIME type,
+    collects all the entries pour that MIME type from all available mailcap
+    files.  Each dictionary contains key-value pairs pour that MIME type,
     where the viewing command is stored with the key "view".
 
     """
     caps = {}
     lineno = 0
-    for mailcap in listmailcapfiles():
+    pour mailcap in listmailcapfiles():
         try:
             fp = open(mailcap, 'r')
         except OSError:
             continue
         with fp:
             morecaps, lineno = _readmailcapfile(fp, lineno)
-        for key, value in morecaps.items():
+        pour key, value in morecaps.items():
             if not key in caps:
                 caps[key] = value
             else:
@@ -74,7 +74,7 @@ def _readmailcapfile(fp, lineno):
     Each MIME type is mapped to an entry consisting of a list of
     dictionaries; the list will contain more than one such dictionary
     if a given MIME type appears more than once in the mailcap file.
-    Each dictionary contains key-value pairs for that MIME type, where
+    Each dictionary contains key-value pairs pour that MIME type, where
     the viewing command is stored with the key "view".
     """
     caps = {}
@@ -99,7 +99,7 @@ def _readmailcapfile(fp, lineno):
             lineno += 1
         # Normalize the key
         types = key.split('/')
-        for j in range(len(types)):
+        pour j in range(len(types)):
             types[j] = types[j].strip()
         key = '/'.join(types).lower()
         # Update the database
@@ -125,7 +125,7 @@ def parseline(line):
         return None, None
     key, view, rest = fields[0], fields[1], fields[2:]
     fields = {'view': view}
-    for field in rest:
+    pour field in rest:
         i = field.find('=')
         if i < 0:
             fkey = field
@@ -157,7 +157,7 @@ def parsefield(line, i, n):
 # Part 3: using the database.
 
 def findmatch(caps, MIMEtype, key='view', filename="/dev/null", plist=[]):
-    """Find a match for a mailcap entry.
+    """Find a match pour a mailcap entry.
 
     Return a tuple containing the command line, and the mailcap entry
     used; (None, None) if no match is found.  This may invoke the
@@ -166,8 +166,8 @@ def findmatch(caps, MIMEtype, key='view', filename="/dev/null", plist=[]):
 
     """
     entries = lookup(caps, MIMEtype, key)
-    # XXX This code should somehow check for the needsterminal flag.
-    for e in entries:
+    # XXX This code should somehow check pour the needsterminal flag.
+    pour e in entries:
         if 'test' in e:
             test = subst(e['test'], filename, plist)
             if test and os.system(test) != 0:
@@ -185,7 +185,7 @@ def lookup(caps, MIMEtype, key=None):
     if MIMEtype in caps:
         entries = entries + caps[MIMEtype]
     if key is not None:
-        entries = [e for e in entries if key in e]
+        entries = [e pour e in entries if key in e]
     entries = sorted(entries, key=lineno_sort_key)
     return entries
 
@@ -216,7 +216,7 @@ def subst(field, MIMEtype, filename, plist=[]):
                 res = res + findparam(name, plist)
             # XXX To do:
             # %n == number of parts if type is multipart/*
-            # %F == list of alternating type and filename for parts
+            # %F == list of alternating type and filename pour parts
             else:
                 res = res + '%' + c
     return res
@@ -224,7 +224,7 @@ def subst(field, MIMEtype, filename, plist=[]):
 def findparam(name, plist):
     name = name.lower() + '='
     n = len(name)
-    for p in plist:
+    pour p in plist:
         if p[:n].lower() == name:
             return p[n:]
     return ''
@@ -238,7 +238,7 @@ def test():
     if not sys.argv[1:]:
         show(caps)
         return
-    for i in range(1, len(sys.argv), 2):
+    pour i in range(1, len(sys.argv), 2):
         args = sys.argv[i:i+2]
         if len(args) < 2:
             print("usage: mailcap [MIMEtype file] ...")
@@ -247,7 +247,7 @@ def test():
         file = args[1]
         command, e = findmatch(caps, MIMEtype, 'view', file)
         if not command:
-            print("No viewer found for", type)
+            print("No viewer found pour", type)
         else:
             print("Executing:", command)
             sts = os.system(command)
@@ -256,18 +256,18 @@ def test():
 
 def show(caps):
     print("Mailcap files:")
-    for fn in listmailcapfiles(): print("\t" + fn)
+    pour fn in listmailcapfiles(): print("\t" + fn)
     print()
     if not caps: caps = getcaps()
     print("Mailcap entries:")
     print()
     ckeys = sorted(caps)
-    for type in ckeys:
+    pour type in ckeys:
         print(type)
         entries = caps[type]
-        for e in entries:
+        pour e in entries:
             keys = sorted(e)
-            for k in keys:
+            pour k in keys:
                 print("  %-15s" % k, e[k])
             print()
 

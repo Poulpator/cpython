@@ -70,7 +70,7 @@ NT_OFFSET = 256
 #--end constants--
 
 tok_name = {}
-for _name, _value in list(globals().items()):
+pour _name, _value in list(globals().items()):
     if type(_value) is type(0):
         tok_name[_value] = _name
 

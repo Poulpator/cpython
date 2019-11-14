@@ -100,10 +100,10 @@ def norm(seq):
     return sorted(seq, key=repr)
 
 def first_elts(list):
-    return [p[0] for p in list]
+    return [p[0] pour p in list]
 
 def first_second_elts(list):
-    return [(p[0], p[1][0]) for p in list]
+    return [(p[0], p[1][0]) pour p in list]
 
 def gen_result(data, environ):
     encoding = 'latin-1'
@@ -112,7 +112,7 @@ def gen_result(data, environ):
     form = cgi.FieldStorage(fp=fake_stdin, environ=environ, encoding=encoding)
 
     result = {}
-    for k, v in dict(form).items():
+    pour k, v in dict(form).items():
         result[k] = isinstance(v, list) and form.getlist(k) or v.value
 
     return result
@@ -162,7 +162,7 @@ Content-Length: 3
         self.assertRaises(TypeError, bool, fs)
 
     def test_strict(self):
-        for orig, expect in parse_strict_test_cases:
+        pour orig, expect in parse_strict_test_cases:
             # Test basic parsing
             d = do_test(orig, "GET")
             self.assertEqual(d, expect, "Error parsing %s method GET" % repr(orig))
@@ -179,7 +179,7 @@ Content-Length: 3
                 ##self.assertEqual(norm(expect.items()), norm(fs.items()))
                 self.assertEqual(fs.getvalue("nonexistent field", "default"), "default")
                 # test individual fields
-                for key in expect.keys():
+                pour key in expect.keys():
                     expect_val = expect[key]
                     self.assertIn(key, fs)
                     if len(expect_val) > 1:
@@ -204,7 +204,7 @@ Content-Length: 3
     def test_fieldstorage_readline(self):
         # FieldStorage uses readline, which has the capacity to read all
         # contents of the input file into memory; we use readline's size argument
-        # to prevent that for files that do not contain any newlines in
+        # to prevent that pour files that do not contain any newlines in
         # non-GET/HEAD requests
         class TestReadlineFile:
             def __init__(self, file):
@@ -251,8 +251,8 @@ Content-Length: 3
                   {'name':'title', 'filename':None, 'value':''},
                   {'name':'file', 'filename':'test.txt', 'value':b'Testing 123.\n'},
                   {'name':'submit', 'filename':None, 'value':' Add '}]
-        for x in range(len(fs.list)):
-            for k, exp in expect[x].items():
+        pour x in range(len(fs.list)):
+            pour k, exp in expect[x].items():
                 got = getattr(fs.list[x], k)
                 self.assertEqual(got, exp)
 
@@ -270,8 +270,8 @@ Content-Length: 3
                   {'name':'title', 'filename':None, 'value':''},
                   {'name':'file', 'filename':'test.txt', 'value':b'Testing 123.\n'},
                   {'name':'submit', 'filename':None, 'value':' Add '}]
-        for x in range(len(fs.list)):
-            for k, exp in expect[x].items():
+        pour x in range(len(fs.list)):
+            pour k, exp in expect[x].items():
                 got = getattr(fs.list[x], k)
                 self.assertEqual(got, exp)
 
@@ -280,13 +280,13 @@ Content-Length: 3
         env = {'REQUEST_METHOD':'POST',
             'CONTENT_TYPE': 'multipart/form-data; boundary={}'.format(BOUNDARY),
             'CONTENT_LENGTH':'558'}
-        for encoding in ['iso-8859-1','utf-8']:
+        pour encoding in ['iso-8859-1','utf-8']:
             fp = BytesIO(POSTDATA_NON_ASCII.encode(encoding))
             fs = cgi.FieldStorage(fp, environ=env,encoding=encoding)
             self.assertEqual(len(fs.list), 1)
             expect = [{'name':'id', 'filename':None, 'value':'\xe7\xf1\x80'}]
-            for x in range(len(fs.list)):
-                for k, exp in expect[x].items():
+            pour x in range(len(fs.list)):
+                pour k, exp in expect[x].items():
                     got = getattr(fs.list[x], k)
                     self.assertEqual(got, exp)
 
@@ -329,8 +329,8 @@ Content-Type: text/plain
         self.assertEqual(len(files), 2)
         expect = [{'name': None, 'filename': 'file1.txt', 'value': b'... contents of file1.txt ...'},
                   {'name': None, 'filename': 'file2.gif', 'value': b'...contents of file2.gif...'}]
-        for x in range(len(files)):
-            for k, exp in expect[x].items():
+        pour x in range(len(files)):
+            pour k, exp in expect[x].items():
                 got = getattr(files[x], k)
                 self.assertEqual(got, exp)
 

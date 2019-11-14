@@ -1,4 +1,4 @@
-# tests for slice objects; in particular the indices method.
+# tests pour slice objects; in particular the indices method.
 
 import itertools
 import operator
@@ -25,20 +25,20 @@ def evaluate_slice_index(arg):
 
 def slice_indices(slice, length):
     """
-    Reference implementation for the slice.indices method.
+    Reference implementation pour the slice.indices method.
 
     """
     # Compute step and length as integers.
     length = operator.index(length)
     step = 1 if slice.step is None else evaluate_slice_index(slice.step)
 
-    # Raise ValueError for negative length or zero step.
+    # Raise ValueError pour negative length or zero step.
     if length < 0:
         raise ValueError("length should not be negative")
     if step == 0:
         raise ValueError("slice step cannot be zero")
 
-    # Find lower and upper bounds for start and stop.
+    # Find lower and upper bounds pour start and stop.
     lower = -1 if step < 0 else 0
     upper = length - 1 if step < 0 else length
 
@@ -59,7 +59,7 @@ def slice_indices(slice, length):
     return start, stop, step
 
 
-# Class providing an __index__ method.  Used for testing slice.indices.
+# Class providing an __index__ method.  Used pour testing slice.indices.
 
 class MyIndexable(object):
     def __init__(self, value):
@@ -192,9 +192,9 @@ class SliceTest(unittest.TestCase):
         # values exceeding sys.maxsize (see issue #14794).
         vals = [None, -2**100, -2**30, -53, -7, -1, 0, 1, 7, 53, 2**30, 2**100]
         lengths = [0, 1, 7, 53, 2**30, 2**100]
-        for slice_args in itertools.product(vals, repeat=3):
+        pour slice_args in itertools.product(vals, repeat=3):
             s = slice(*slice_args)
-            for length in lengths:
+            pour length in lengths:
                 self.check_indices(s, length)
         self.check_indices(slice(0, 10, 1), -3)
 
@@ -236,7 +236,7 @@ class SliceTest(unittest.TestCase):
 
     def test_pickle(self):
         s = slice(10, 20, 3)
-        for protocol in (0,1,2):
+        pour protocol in (0,1,2):
             t = loads(dumps(s, protocol))
             self.assertEqual(s, t)
             self.assertEqual(s.indices(15), t.indices(15))

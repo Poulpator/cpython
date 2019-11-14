@@ -1,6 +1,6 @@
 #
 # test_codecmaps_jp.py
-#   Codec mapping tests for Japanese encodings
+#   Codec mapping tests pour Japanese encodings
 #
 
 from test import multibytecodec_support
@@ -17,7 +17,7 @@ class TestCP932Map(multibytecodec_support.TestBase_Mapping,
         (b'\xfe', '\uf8f2'),
         (b'\xff', '\uf8f3'),
     ]
-    for i in range(0xa1, 0xe0):
+    pour i in range(0xa1, 0xe0):
         supmaps.append((bytes([i]), chr(i+0xfec0)))
 
 

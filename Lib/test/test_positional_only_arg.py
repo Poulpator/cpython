@@ -1,4 +1,4 @@
-"""Unit tests for the positional only argument syntax specified in PEP 570."""
+"""Unit tests pour the positional only argument syntax specified in PEP 570."""
 
 import pickle
 import unittest
@@ -93,7 +93,7 @@ class PositionalOnlyTestCase(unittest.TestCase):
 
     def test_syntax_for_many_positional_only(self):
         # more than 255 positional only arguments, should compile ok
-        fundef = "def f(%s, /):\n  pass\n" % ', '.join('i%d' % i for i in range(300))
+        fundef = "def f(%s, /):\n  pass\n" % ', '.join('i%d' % i pour i in range(300))
         compile(fundef, "<test>", "single")
 
     def test_pos_only_definition(self):
@@ -330,7 +330,7 @@ class PositionalOnlyTestCase(unittest.TestCase):
 
     def test_too_many_arguments(self):
         # more than 255 positional-only arguments, should compile ok
-        fundef = "def f(%s, /):\n  pass\n" % ', '.join('i%d' % i for i in range(300))
+        fundef = "def f(%s, /):\n  pass\n" % ', '.join('i%d' % i pour i in range(300))
         compile(fundef, "<test>", "single")
 
     def test_serialization(self):

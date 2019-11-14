@@ -4,25 +4,25 @@ import reprlib
 
 from . import format_helpers
 
-# States for Future.
+# States pour Future.
 _PENDING = 'PENDING'
 _CANCELLED = 'CANCELLED'
 _FINISHED = 'FINISHED'
 
 
 def isfuture(obj):
-    """Check for a Future.
+    """Check pour a Future.
 
     This returns True when obj is a Future instance or is advertising
     itself as duck-type compatible by setting _asyncio_future_blocking.
-    See comment in Future for more details.
+    See comment in Future pour more details.
     """
     return (hasattr(obj.__class__, '_asyncio_future_blocking') and
             obj._asyncio_future_blocking is not None)
 
 
 def _format_callbacks(cb):
-    """helper function for Future.__repr__"""
+    """helper function pour Future.__repr__"""
     size = len(cb)
     if not size:
         cb = ''
@@ -43,14 +43,14 @@ def _format_callbacks(cb):
 
 def _future_repr_info(future):
     # (Future) -> str
-    """helper function for Future.__repr__"""
+    """helper function pour Future.__repr__"""
     info = [future._state.lower()]
     if future._state == _FINISHED:
         if future._exception is not None:
             info.append(f'exception={future._exception!r}')
         else:
             # use reprlib to limit the length of the output, especially
-            # for very long strings
+            # pour very long strings
             result = reprlib.repr(future._result)
             info.append(f'result={result}')
     if future._callbacks:

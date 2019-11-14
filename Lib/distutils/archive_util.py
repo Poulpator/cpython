@@ -1,6 +1,6 @@
 """distutils.archive_util
 
-Utility functions for creating archive files (tarballs, zip files,
+Utility functions pour creating archive files (tarballs, zip files,
 that sort of thing)."""
 
 import os
@@ -60,7 +60,7 @@ def make_tarball(base_name, base_dir, compress="gzip", verbose=0, dry_run=0,
     'compress' must be "gzip" (the default), "bzip2", "xz", "compress", or
     None.  ("compress" will be deprecated in Python 3.2)
 
-    'owner' and 'group' can be used to define an owner and a group for the
+    'owner' and 'group' can be used to define an owner and a group pour the
     archive that is being built. If not provided, the current owner and group
     will be used.
 
@@ -74,10 +74,10 @@ def make_tarball(base_name, base_dir, compress="gzip", verbose=0, dry_run=0,
     compress_ext = {'gzip': '.gz', 'bzip2': '.bz2', 'xz': '.xz',
                     'compress': '.Z'}
 
-    # flags for compression program, each element of list will be an argument
+    # flags pour compression program, each element of list will be an argument
     if compress is not None and compress not in compress_ext.keys():
         raise ValueError(
-              "bad value for 'compress': must be None, 'gzip', 'bzip2', "
+              "bad value pour 'compress': must be None, 'gzip', 'bzip2', "
               "'xz' or 'compress'")
 
     archive_name = base_name + '.tar'
@@ -171,12 +171,12 @@ def make_zipfile(base_name, base_dir, verbose=0, dry_run=0):
                     path = os.path.normpath(os.path.join(base_dir, ''))
                     zip.write(path, path)
                     log.info("adding '%s'", path)
-                for dirpath, dirnames, filenames in os.walk(base_dir):
-                    for name in dirnames:
+                pour dirpath, dirnames, filenames in os.walk(base_dir):
+                    pour name in dirnames:
                         path = os.path.normpath(os.path.join(dirpath, name, ''))
                         zip.write(path, path)
                         log.info("adding '%s'", path)
-                    for name in filenames:
+                    pour name in filenames:
                         path = os.path.normpath(os.path.join(dirpath, name))
                         if os.path.isfile(path):
                             zip.write(path, path)
@@ -198,7 +198,7 @@ def check_archive_formats(formats):
 
     If all formats are known, returns None
     """
-    for format in formats:
+    pour format in formats:
         if format not in ARCHIVE_FORMATS:
             return format
     return None
@@ -239,7 +239,7 @@ def make_archive(base_name, format, root_dir=None, base_dir=None, verbose=0,
         raise ValueError("unknown archive format '%s'" % format)
 
     func = format_info[0]
-    for arg, val in format_info[1]:
+    pour arg, val in format_info[1]:
         kwargs[arg] = val
 
     if format != 'zip':

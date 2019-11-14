@@ -146,7 +146,7 @@ class ModuleTest(unittest.TestCase):
             # returns an iterable that contains tuples of the form:
             # (literal_text, field_name, format_spec, conversion)
             def parse(self, format_string):
-                for field in format_string.split('|'):
+                pour field in format_string.split('|'):
                     if field[0] == '+':
                         # it's markup
                         field_name, _, format_spec = field[1:].partition(':')
@@ -164,7 +164,7 @@ class ModuleTest(unittest.TestCase):
                 unused_args = set(kwargs.keys())
                 unused_args.update(range(0, len(args)))
 
-                for arg in used_args:
+                pour arg in used_args:
                     unused_args.remove(arg)
 
                 if unused_args:
@@ -196,7 +196,7 @@ class Bag:
 class Mapping:
     def __getitem__(self, name):
         obj = self
-        for part in name.split('.'):
+        pour part in name.split('.'):
             try:
                 obj = getattr(obj, part)
             except AttributeError:
@@ -213,21 +213,21 @@ class TestTemplate(unittest.TestCase):
         self.assertRaises(TypeError, Template.substitute)
 
     def test_regular_templates_with_braces(self):
-        s = Template('$who likes ${what} for ${meal}')
+        s = Template('$who likes ${what} pour ${meal}')
         d = dict(who='tim', what='ham', meal='dinner')
-        self.assertEqual(s.substitute(d), 'tim likes ham for dinner')
+        self.assertEqual(s.substitute(d), 'tim likes ham pour dinner')
         self.assertRaises(KeyError, s.substitute,
                           dict(who='tim', what='ham'))
 
     def test_regular_templates_with_upper_case(self):
-        s = Template('$WHO likes ${WHAT} for ${MEAL}')
+        s = Template('$WHO likes ${WHAT} pour ${MEAL}')
         d = dict(WHO='tim', WHAT='ham', MEAL='dinner')
-        self.assertEqual(s.substitute(d), 'tim likes ham for dinner')
+        self.assertEqual(s.substitute(d), 'tim likes ham pour dinner')
 
     def test_regular_templates_with_non_letters(self):
-        s = Template('$_wh0_ likes ${_w_h_a_t_} for ${mea1}')
+        s = Template('$_wh0_ likes ${_w_h_a_t_} pour ${mea1}')
         d = dict(_wh0_='tim', _w_h_a_t_='ham', mea1='dinner')
-        self.assertEqual(s.substitute(d), 'tim likes ham for dinner')
+        self.assertEqual(s.substitute(d), 'tim likes ham pour dinner')
 
     def test_escapes(self):
         eq = self.assertEqual
@@ -262,15 +262,15 @@ class TestTemplate(unittest.TestCase):
 
     def test_SafeTemplate(self):
         eq = self.assertEqual
-        s = Template('$who likes ${what} for ${meal}')
-        eq(s.safe_substitute(dict(who='tim')), 'tim likes ${what} for ${meal}')
-        eq(s.safe_substitute(dict(what='ham')), '$who likes ham for ${meal}')
+        s = Template('$who likes ${what} pour ${meal}')
+        eq(s.safe_substitute(dict(who='tim')), 'tim likes ${what} pour ${meal}')
+        eq(s.safe_substitute(dict(what='ham')), '$who likes ham pour ${meal}')
         eq(s.safe_substitute(dict(what='ham', meal='dinner')),
-           '$who likes ham for dinner')
+           '$who likes ham pour dinner')
         eq(s.safe_substitute(dict(who='tim', what='ham')),
-           'tim likes ham for ${meal}')
+           'tim likes ham pour ${meal}')
         eq(s.safe_substitute(dict(who='tim', what='ham', meal='dinner')),
-           'tim likes ham for dinner')
+           'tim likes ham pour dinner')
 
     def test_invalid_placeholders(self):
         raises = self.assertRaises
@@ -301,10 +301,10 @@ class TestTemplate(unittest.TestCase):
     def test_flags_override(self):
         class MyPattern(Template):
             flags = 0
-        s = MyPattern('$wHO likes ${WHAT} for ${meal}')
+        s = MyPattern('$wHO likes ${WHAT} pour ${meal}')
         d = dict(wHO='tim', WHAT='ham', meal='dinner', w='fred')
         self.assertRaises(ValueError, s.substitute, d)
-        self.assertEqual(s.safe_substitute(d), 'fredHO likes ${WHAT} for dinner')
+        self.assertEqual(s.safe_substitute(d), 'fredHO likes ${WHAT} pour dinner')
 
     def test_idpattern_override_inside_outside(self):
         # bpo-1198569: Allow the regexp inside and outside braces to be
@@ -393,8 +393,8 @@ class TestTemplate(unittest.TestCase):
         self.assertEqual(val, 'PyCon in Cleveland')
 
     def test_invalid_with_no_lines(self):
-        # The error formatting for invalid templates
-        # has a special case for no data that the default
+        # The error formatting pour invalid templates
+        # has a special case pour no data that the default
         # pattern can't trigger (always has at least '$')
         # So we craft a pattern that is always invalid
         # with no leading data.
@@ -460,14 +460,14 @@ class TestTemplate(unittest.TestCase):
         raises = self.assertRaises
         class AmpersandTemplate(Template):
             delimiter = '&'
-        s = AmpersandTemplate('this &gift is for &{who} &&')
-        eq(s.substitute(gift='bud', who='you'), 'this bud is for you &')
+        s = AmpersandTemplate('this &gift is pour &{who} &&')
+        eq(s.substitute(gift='bud', who='you'), 'this bud is pour you &')
         raises(KeyError, s.substitute)
-        eq(s.safe_substitute(gift='bud', who='you'), 'this bud is for you &')
-        eq(s.safe_substitute(), 'this &gift is for &{who} &')
-        s = AmpersandTemplate('this &gift is for &{who} &')
+        eq(s.safe_substitute(gift='bud', who='you'), 'this bud is pour you &')
+        eq(s.safe_substitute(), 'this &gift is pour &{who} &')
+        s = AmpersandTemplate('this &gift is pour &{who} &')
         raises(ValueError, s.substitute, dict(gift='bud', who='you'))
-        eq(s.safe_substitute(), 'this &gift is for &{who} &')
+        eq(s.safe_substitute(), 'this &gift is pour &{who} &')
 
         class PieDelims(Template):
             delimiter = '@'

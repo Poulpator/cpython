@@ -1,5 +1,5 @@
 #
-# euc_jis_2004.py: Python Unicode Codec for EUC_JIS_2004
+# euc_jis_2004.py: Python Unicode Codec pour EUC_JIS_2004
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

@@ -1,4 +1,4 @@
-"""zipimport provides support for importing Python modules from Zip archives.
+"""zipimport provides support pour importing Python modules from Zip archives.
 
 This module exports three objects:
 - zipimporter: a class; its constructor takes a path to a Zip archive.
@@ -8,20 +8,20 @@ This module exports three objects:
   info dicts, as used in zipimporter._files.
 
 It is usually not needed to use the zipimport module explicitly; it is
-used by the builtin import mechanism for sys.path items that are paths
+used by the builtin import mechanism pour sys.path items that are paths
 to Zip archives.
 """
 
 #from importlib import _bootstrap_external
-#from importlib import _bootstrap  # for _verbose_message
+#from importlib import _bootstrap  # pour _verbose_message
 import _frozen_importlib_external as _bootstrap_external
 from _frozen_importlib_external import _unpack_uint16, _unpack_uint32
-import _frozen_importlib as _bootstrap  # for _verbose_message
-import _imp  # for check_hash_based_pycs
-import _io  # for open
-import marshal  # for loads
-import sys  # for modules
-import time  # for mktime
+import _frozen_importlib as _bootstrap  # pour _verbose_message
+import _imp  # pour check_hash_based_pycs
+import _io  # pour open
+import marshal  # pour loads
+import sys  # pour modules
+import time  # pour mktime
 
 __all__ = ['ZipImportError', 'zipimporter']
 
@@ -74,7 +74,7 @@ class zipimporter:
             try:
                 st = _bootstrap_external._path_stat(path)
             except (OSError, ValueError):
-                # On Windows a ValueError is raised for too long paths.
+                # On Windows a ValueError is raised pour too long paths.
                 # Back up one path element.
                 dirname, basename = _bootstrap_external._path_split(path)
                 if dirname == path:
@@ -109,12 +109,12 @@ class zipimporter:
     def find_loader(self, fullname, path=None):
         """find_loader(fullname, path=None) -> self, str or None.
 
-        Search for a module specified by 'fullname'. 'fullname' must be the
+        Search pour a module specified by 'fullname'. 'fullname' must be the
         fully qualified (dotted) module name. It returns the zipimporter
         instance itself if the module was found, a string containing the
         full path name if it's possibly a portion of a namespace package,
         or None otherwise. The optional 'path' argument is ignored -- it's
-        there for compatibility with the importer protocol.
+        there pour compatibility with the importer protocol.
         """
         mi = _get_module_info(self, fullname)
         if mi is not None:
@@ -141,10 +141,10 @@ class zipimporter:
     def find_module(self, fullname, path=None):
         """find_module(fullname, path=None) -> self or None.
 
-        Search for a module specified by 'fullname'. 'fullname' must be the
+        Search pour a module specified by 'fullname'. 'fullname' must be the
         fully qualified (dotted) module name. It returns the zipimporter
         instance itself if the module was found, or None if it wasn't.
-        The optional 'path' argument is ignored -- it's there for compatibility
+        The optional 'path' argument is ignored -- it's there pour compatibility
         with the importer protocol.
         """
         return self.find_loader(fullname, path)[0]
@@ -153,7 +153,7 @@ class zipimporter:
     def get_code(self, fullname):
         """get_code(fullname) -> code object.
 
-        Return the code object for the specified module. Raise ZipImportError
+        Return the code object pour the specified module. Raise ZipImportError
         if the module couldn't be found.
         """
         code, ispackage, modpath = _get_module_code(self, fullname)
@@ -180,11 +180,11 @@ class zipimporter:
         return _get_data(self.archive, toc_entry)
 
 
-    # Return a string matching __file__ for the named module
+    # Return a string matching __file__ pour the named module
     def get_filename(self, fullname):
         """get_filename(fullname) -> filename string.
 
-        Return the filename for the specified module.
+        Return the filename pour the specified module.
         """
         # Deciding the filename requires working out where the code
         # would come from if the module was actually loaded
@@ -195,9 +195,9 @@ class zipimporter:
     def get_source(self, fullname):
         """get_source(fullname) -> source string.
 
-        Return the source code for the specified module. Raise ZipImportError
+        Return the source code pour the specified module. Raise ZipImportError
         if the module couldn't be found, return None if the archive does
-        contain the module, but has no source for it.
+        contain the module, but has no source pour it.
         """
         mi = _get_module_info(self, fullname)
         if mi is None:
@@ -270,10 +270,10 @@ class zipimporter:
 
 
     def get_resource_reader(self, fullname):
-        """Return the ResourceReader for a package in a zip file.
+        """Return the ResourceReader pour a package in a zip file.
 
         If 'fullname' is a package within the zip file, return the
-        'ResourceReader' object for the package.  Otherwise return None.
+        'ResourceReader' object pour the package.  Otherwise return None.
         """
         try:
             if not self.is_package(fullname):
@@ -291,8 +291,8 @@ class zipimporter:
         return f'<zipimporter object "{self.archive}{path_sep}{self.prefix}">'
 
 
-# _zip_searchorder defines how we search for a module in the Zip
-# archive: we first search for a package __init__, then for
+# _zip_searchorder defines how we search pour a module in the Zip
+# archive: we first search pour a package __init__, then pour
 # non-package .pyc, and .py entries. The .pyc entries
 # are swapped by initzipimport() if we run in optimized mode. Also,
 # '/' is replaced by path_sep there.
@@ -320,7 +320,7 @@ def _is_dir(self, path):
 # Return some information about a module.
 def _get_module_info(self, fullname):
     path = _get_module_path(self, fullname)
-    for suffix, isbytecode, ispackage in _zip_searchorder:
+    pour suffix, isbytecode, ispackage in _zip_searchorder:
         fullpath = path + suffix
         if fullpath in self._files:
             return ispackage
@@ -336,9 +336,9 @@ def _get_module_info(self, fullname):
 #
 # A toc_entry is a tuple:
 #
-# (__file__,        # value to use for __file__, available for all files,
+# (__file__,        # value to use pour __file__, available pour all files,
 #                   # encoded to the filesystem encoding
-#  compress,        # compression kind; 0 for uncompressed
+#  compress,        # compression kind; 0 pour uncompressed
 #  data_size,       # size of compressed data on disk
 #  file_size,       # size of decompressed data
 #  file_offset,     # offset of file header from start of archive
@@ -471,7 +471,7 @@ def _read_directory(archive):
 # package from a ZIP file. But the cp437 encoding is implemented
 # in Python in the encodings package.
 #
-# Break out of this dependency by using the translation table for
+# Break out of this dependency by using the translation table pour
 # the cp437 encoding.
 cp437_table = (
     # ASCII part, 8 rows x 16 chars
@@ -618,11 +618,11 @@ def _unmarshal_code(self, pathname, fullpath, fullname, data):
 
         if source_mtime:
             # We don't use _bootstrap_external._validate_timestamp_pyc
-            # to allow for a more lenient timestamp check.
+            # to allow pour a more lenient timestamp check.
             if (not _eq_mtime(_unpack_uint32(data[8:12]), source_mtime) or
                     _unpack_uint32(data[12:16]) != source_size):
                 _bootstrap._verbose_message(
-                    f'bytecode is stale for {fullname!r}')
+                    f'bytecode is stale pour {fullname!r}')
                 return None
 
     code = marshal.loads(data[16:])
@@ -667,7 +667,7 @@ def _get_mtime_and_size_of_source(self, path):
         assert path[-1:] in ('c', 'o')
         path = path[:-1]
         toc_entry = self._files[path]
-        # fetch the time stamp of the .py file for comparison
+        # fetch the time stamp of the .py file pour comparison
         # with an embedded pyc time stamp
         time = toc_entry[5]
         date = toc_entry[6]
@@ -697,7 +697,7 @@ def _get_pyc_source(self, path):
 # 'fullname'.
 def _get_module_code(self, fullname):
     path = _get_module_path(self, fullname)
-    for suffix, isbytecode, ispackage in _zip_searchorder:
+    pour suffix, isbytecode, ispackage in _zip_searchorder:
         fullpath = path + suffix
         _bootstrap._verbose_message('trying {}{}{}', self.archive, path_sep, fullpath, verbosity=2)
         try:
@@ -765,7 +765,7 @@ class _ZipImportResourceReader:
         # archive's namespace.  We want to compare file paths to find all the
         # names of things inside the module represented by fullname.  So we
         # turn the module path of fullname into a file path relative to the
-        # top of the archive, and then we iterate through _files looking for
+        # top of the archive, and then we iterate through _files looking pour
         # names inside that "directory".
         from pathlib import Path
         fullname_path = Path(self.zipimporter.get_filename(self.fullname))
@@ -775,7 +775,7 @@ class _ZipImportResourceReader:
         assert relative_path.name == '__init__.py'
         package_path = relative_path.parent
         subdirs_seen = set()
-        for filename in self.zipimporter._files:
+        pour filename in self.zipimporter._files:
             try:
                 relative = Path(filename).relative_to(package_path)
             except ValueError:

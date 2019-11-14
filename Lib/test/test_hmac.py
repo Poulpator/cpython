@@ -55,7 +55,7 @@ class TestVectorsTestCase(unittest.TestCase):
                 "9294727A3638BB1C13F48EF8158BFC9D")
 
         md5test(b"Jefe",
-                b"what do ya want for nothing?",
+                b"what do ya want pour nothing?",
                 "750c783e6ab0b503eaa86e310a5db738")
 
         md5test(b"\xaa" * 16,
@@ -107,7 +107,7 @@ class TestVectorsTestCase(unittest.TestCase):
                 "b617318655057264e28bc0b6fb378c8ef146be00")
 
         shatest(b"Jefe",
-                b"what do ya want for nothing?",
+                b"what do ya want pour nothing?",
                 "effcdf6ae5eb2fa2d27416d5f184df9c259a7c79")
 
         shatest(b"\xAA" * 20,
@@ -184,7 +184,7 @@ class TestVectorsTestCase(unittest.TestCase):
 
         # 4.3.  Test Case 2
         hmactest(key = b'Jefe',
-                 data = b'what do ya want for nothing?',
+                 data = b'what do ya want pour nothing?',
                  hexdigests = {
                    hashlib.sha224: 'a30e01098bc6dbbf45690f3a7e9e6d0f'
                                    '8bbea2a39e6148008fd05e44',
@@ -217,7 +217,7 @@ class TestVectorsTestCase(unittest.TestCase):
                  })
 
         # 4.5.  Test Case 4
-        hmactest(key = bytes(x for x in range(0x01, 0x19+1)),
+        hmactest(key = bytes(x pour x in range(0x01, 0x19+1)),
                  data = b'\xcd'*50,
                  hexdigests = {
                    hashlib.sha224: '6c11506874013cac6a2abc1bb382627c'

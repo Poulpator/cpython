@@ -1,4 +1,4 @@
-"""Support functions for testing scripts in the Tools directory."""
+"""Support functions pour testing scripts in the Tools directory."""
 import os
 import unittest
 import importlib

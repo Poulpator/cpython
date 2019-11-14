@@ -10,15 +10,15 @@ class Test(unittest.TestCase):
 
         # casting an array to a pointer works.
         ptr = cast(array, POINTER(c_int))
-        self.assertEqual([ptr[i] for i in range(3)], [42, 17, 2])
+        self.assertEqual([ptr[i] pour i in range(3)], [42, 17, 2])
 
         if 2*sizeof(c_short) == sizeof(c_int):
             ptr = cast(array, POINTER(c_short))
             if sys.byteorder == "little":
-                self.assertEqual([ptr[i] for i in range(6)],
+                self.assertEqual([ptr[i] pour i in range(6)],
                                      [42, 0, 17, 0, 2, 0])
             else:
-                self.assertEqual([ptr[i] for i in range(6)],
+                self.assertEqual([ptr[i] pour i in range(6)],
                                      [0, 42, 0, 17, 0, 2])
 
     def test_address2pointer(self):
@@ -26,10 +26,10 @@ class Test(unittest.TestCase):
 
         address = addressof(array)
         ptr = cast(c_void_p(address), POINTER(c_int))
-        self.assertEqual([ptr[i] for i in range(3)], [42, 17, 2])
+        self.assertEqual([ptr[i] pour i in range(3)], [42, 17, 2])
 
         ptr = cast(address, POINTER(c_int))
-        self.assertEqual([ptr[i] for i in range(3)], [42, 17, 2])
+        self.assertEqual([ptr[i] pour i in range(3)], [42, 17, 2])
 
     def test_p2a_objects(self):
         array = (c_char_p * 5)()

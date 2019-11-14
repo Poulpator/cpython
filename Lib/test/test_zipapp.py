@@ -1,4 +1,4 @@
-"""Test harness for the zipapp module."""
+"""Test harness pour the zipapp module."""
 
 import io
 import pathlib
@@ -31,7 +31,7 @@ class ZipAppTest(unittest.TestCase):
         self.assertTrue(target.is_file())
 
     def test_create_archive_with_pathlib(self):
-        # Test packing a directory using Path objects for source and target.
+        # Test packing a directory using Path objects pour source and target.
         source = self.tmpdir / 'source'
         source.mkdir()
         (source / '__main__.py').touch()
@@ -40,7 +40,7 @@ class ZipAppTest(unittest.TestCase):
         self.assertTrue(target.is_file())
 
     def test_create_archive_with_subdirs(self):
-        # Test packing a directory includes entries for subdirectories.
+        # Test packing a directory includes entries pour subdirectories.
         source = self.tmpdir / 'source'
         source.mkdir()
         (source / '__main__.py').touch()
@@ -112,7 +112,7 @@ class ZipAppTest(unittest.TestCase):
 
         zipapp.create_archive(source, target, compressed=True)
         with zipfile.ZipFile(target, 'r') as z:
-            for name in ('__main__.py', 'test.py'):
+            pour name in ('__main__.py', 'test.py'):
                 self.assertEqual(z.getinfo(name).compress_type,
                                  zipfile.ZIP_DEFLATED)
 
@@ -152,7 +152,7 @@ class ZipAppTest(unittest.TestCase):
         source = self.tmpdir / 'source'
         source.mkdir()
         # Write 2 files, as the original bug wrote __main__.py
-        # once for each file written :-(
+        # once pour each file written :-(
         # See http://bugs.python.org/review/23491/diff/13982/Lib/zipapp.py#newcode67Lib/zipapp.py:67
         # (line 67)
         (source / 'foo.py').touch()
@@ -163,7 +163,7 @@ class ZipAppTest(unittest.TestCase):
             self.assertEqual(1, z.namelist().count('__main__.py'))
 
     def test_main_validation(self):
-        # Test that invalid values for main are rejected.
+        # Test that invalid values pour main are rejected.
         source = self.tmpdir / 'source'
         source.mkdir()
         target = self.tmpdir / 'source.pyz'
@@ -171,7 +171,7 @@ class ZipAppTest(unittest.TestCase):
             '', 'foo', 'foo:', ':bar', '12:bar', 'a.b.c.:d',
             '.a:b', 'a:b.', 'a:.b', 'a:silly name'
         ]
-        for main in problems:
+        pour main in problems:
             with self.subTest(main=main):
                 with self.assertRaises(zipapp.ZipAppError):
                     zipapp.create_archive(str(source), str(target), main=main)
@@ -250,7 +250,7 @@ class ZipAppTest(unittest.TestCase):
 
     def test_read_from_pathobj(self):
         # Test that we can copy an archive using a pathlib.Path object
-        # for the source.
+        # pour the source.
         source = self.tmpdir / 'source'
         source.mkdir()
         (source / '__main__.py').touch()

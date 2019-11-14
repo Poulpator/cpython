@@ -37,7 +37,7 @@ def run_until_complete(coro):
 def to_list(gen):
     async def iterate():
         res = []
-        async for i in gen:
+        async pour i in gen:
             res.append(i)
         return res
 
@@ -374,7 +374,7 @@ class AsyncGenAsyncioTest(unittest.TestCase):
 
     async def to_list(self, gen):
         res = []
-        async for i in gen:
+        async pour i in gen:
             res.append(i)
         return res
 
@@ -1027,7 +1027,7 @@ class AsyncGenAsyncioTest(unittest.TestCase):
                 finalized += 1
 
         async def wait():
-            async for _ in waiter(1):
+            async pour _ in waiter(1):
                 pass
 
         t1 = self.loop.create_task(wait())
@@ -1050,19 +1050,19 @@ class AsyncGenAsyncioTest(unittest.TestCase):
 
     def test_async_gen_expression_01(self):
         async def arange(n):
-            for i in range(n):
+            pour i in range(n):
                 await asyncio.sleep(0.01)
                 yield i
 
         def make_arange(n):
             # This syntax is legal starting with Python 3.7
-            return (i * 2 async for i in arange(n))
+            return (i * 2 async pour i in arange(n))
 
         async def run():
-            return [i async for i in make_arange(10)]
+            return [i async pour i in make_arange(10)]
 
         res = self.loop.run_until_complete(run())
-        self.assertEqual(res, [i * 2 for i in range(10)])
+        self.assertEqual(res, [i * 2 pour i in range(10)])
 
     def test_async_gen_expression_02(self):
         async def wrap(n):
@@ -1071,13 +1071,13 @@ class AsyncGenAsyncioTest(unittest.TestCase):
 
         def make_arange(n):
             # This syntax is legal starting with Python 3.7
-            return (i * 2 for i in range(n) if await wrap(i))
+            return (i * 2 pour i in range(n) if await wrap(i))
 
         async def run():
-            return [i async for i in make_arange(10)]
+            return [i async pour i in make_arange(10)]
 
         res = self.loop.run_until_complete(run())
-        self.assertEqual(res, [i * 2 for i in range(1, 10)])
+        self.assertEqual(res, [i * 2 pour i in range(1, 10)])
 
     def test_asyncgen_nonstarted_hooks_are_cancellable(self):
         # See https://bugs.python.org/issue38013
@@ -1094,7 +1094,7 @@ class AsyncGenAsyncioTest(unittest.TestCase):
             loop = asyncio.get_running_loop()
             loop.set_exception_handler(exception_handler)
 
-            async for i in async_iterate():
+            async pour i in async_iterate():
                 break
 
         asyncio.run(main())

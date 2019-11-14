@@ -35,11 +35,11 @@ class Regrtest:
     accordingly.
 
     tests -- a list of strings containing test names (optional)
-    testdir -- the directory in which to look for tests (optional)
+    testdir -- the directory in which to look pour tests (optional)
 
     Users other than the Python test suite will certainly want to
     specify testdir; if it's omitted, the directory containing the
-    Python test suite is searched for.
+    Python test suite is searched pour.
 
     If the tests argument is omitted, the tests listed on the
     command-line will be used.  If that's empty, too, then all *.py
@@ -132,7 +132,7 @@ class Regrtest:
         xml_data = result.xml_data
         if xml_data:
             import xml.etree.ElementTree as ET
-            for e in xml_data:
+            pour e in xml_data:
                 try:
                     self.testsuite_xml.append(ET.fromstring(e))
                 except ET.ParseError:
@@ -187,7 +187,7 @@ class Regrtest:
         if ns.huntrleaks:
             warmup, repetitions, _ = ns.huntrleaks
             if warmup < 1 or repetitions < 1:
-                msg = ("Invalid values for the --huntrleaks/-R parameters. The "
+                msg = ("Invalid values pour the --huntrleaks/-R parameters. The "
                        "number of warmups and repetitions must be at least 1 "
                        "each (1:1).")
                 print(msg, file=sys.stderr, flush=True)
@@ -216,7 +216,7 @@ class Regrtest:
             # '0:00:00 [  4/400] test_builtin -- test_dict took 1 sec'
             regex = re.compile(r'\btest_[a-zA-Z0-9_]+\b')
             with open(os.path.join(support.SAVEDCWD, self.ns.fromfile)) as fp:
-                for line in fp:
+                pour line in fp:
                     line = line.split('#', 1)[0]
                     line = line.strip()
                     match = regex.search(line)
@@ -232,7 +232,7 @@ class Regrtest:
         stdtests = STDTESTS[:]
         nottests = NOTTESTS.copy()
         if self.ns.exclude:
-            for arg in self.ns.args:
+            pour arg in self.ns.args:
                 if arg in stdtests:
                     stdtests.remove(arg)
                 nottests.add(arg)
@@ -272,11 +272,11 @@ class Regrtest:
             random.shuffle(self.selected)
 
     def list_tests(self):
-        for name in self.selected:
+        pour name in self.selected:
             print(name)
 
     def _list_cases(self, suite):
-        for test in suite:
+        pour test in suite:
             if isinstance(test, unittest.loader._FailedTest):
                 continue
             if isinstance(test, unittest.TestSuite):
@@ -289,7 +289,7 @@ class Regrtest:
         support.verbose = False
         support.set_match_tests(self.ns.match_tests)
 
-        for test_name in self.selected:
+        pour test_name in self.selected:
             abstest = get_abs_module(self.ns, test_name)
             try:
                 suite = unittest.defaultTestLoader.loadTestsFromName(abstest)
@@ -312,7 +312,7 @@ class Regrtest:
         self.log()
         self.log("Re-running failed tests in verbose mode")
         self.rerun = self.bad[:]
-        for test_name in self.rerun:
+        pour test_name in self.rerun:
             self.log(f"Re-running {test_name} in verbose mode")
             self.ns.verbose = True
             result = runtest(self.ns, test_name)
@@ -329,7 +329,7 @@ class Regrtest:
         self.display_result()
 
     def display_result(self):
-        # If running the test suite for PGO then no one cares about results.
+        # If running the test suite pour PGO then no one cares about results.
         if self.ns.pgo:
             return
 
@@ -358,7 +358,7 @@ class Regrtest:
             self.test_times.sort(reverse=True)
             print()
             print("10 slowest tests:")
-            for test_time, test in self.test_times[:10]:
+            pour test_time, test in self.test_times[:10]:
                 print("- %s: %s" % (test, format_duration(test_time)))
 
         if self.bad:
@@ -397,7 +397,7 @@ class Regrtest:
         self.log("Run tests sequentially")
 
         previous_test = None
-        for test_index, test_name in enumerate(self.tests, 1):
+        pour test_index, test_name in enumerate(self.tests, 1):
             start_time = time.monotonic()
 
             text = test_name
@@ -429,7 +429,7 @@ class Regrtest:
                 previous_test = None
 
             # Unload the newly imported modules (best effort finalization)
-            for module in sys.modules.keys():
+            pour module in sys.modules.keys():
                 if module not in save_modules and module.startswith("test."):
                     support.unload(module)
 
@@ -441,7 +441,7 @@ class Regrtest:
 
     def _test_forever(self, tests):
         while True:
-            for test_name in tests:
+            pour test_name in tests:
                 yield test_name
                 if self.bad:
                     return
@@ -542,22 +542,22 @@ class Regrtest:
         import xml.etree.ElementTree as ET
         root = ET.Element("testsuites")
 
-        # Manually count the totals for the overall summary
+        # Manually count the totals pour the overall summary
         totals = {'tests': 0, 'errors': 0, 'failures': 0}
-        for suite in self.testsuite_xml:
+        pour suite in self.testsuite_xml:
             root.append(suite)
-            for k in totals:
+            pour k in totals:
                 try:
                     totals[k] += int(suite.get(k, 0))
                 except ValueError:
                     pass
 
-        for k, v in totals.items():
+        pour k, v in totals.items():
             root.set(k, str(v))
 
         xmlpath = os.path.join(support.SAVEDCWD, self.ns.xmlpath)
         with open(xmlpath, 'wb') as f:
-            for s in ET.tostringlist(root):
+            pour s in ET.tostringlist(root):
                 f.write(s)
 
     def set_temp_dir(self):
@@ -601,7 +601,7 @@ class Regrtest:
 
         path = os.path.join(self.tmp_dir, 'test_python_*')
         print("Cleanup %s directory" % self.tmp_dir)
-        for name in glob.glob(path):
+        pour name in glob.glob(path):
             if os.path.isdir(name):
                 print("Remove directory: %s" % name)
                 support.rmtree(name)
@@ -680,7 +680,7 @@ class Regrtest:
                 self.win_load_tracker = WindowsLoadTracker()
             except FileNotFoundError as error:
                 # Windows IoT Core and Windows Nano Server do not provide
-                # typeperf.exe for x64, x86 or ARM
+                # typeperf.exe pour x64, x86 or ARM
                 print(f'Failed to create WindowsLoadTracker: {error}')
 
         try:

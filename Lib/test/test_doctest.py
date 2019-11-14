@@ -1,5 +1,5 @@
 """
-Test script for doctest.
+Test script pour doctest.
 """
 
 from test import support
@@ -40,7 +40,7 @@ class SampleClass:
 
     Multiline example:
     >>> sc = SampleClass(3)
-    >>> for i in range(10):
+    >>> pour i in range(10):
     ...     sc = sc.double()
     ...     print(' ', sc.get(), sep='', end='')
      6 12 24 48 96 192 384 768 1536 3072
@@ -136,12 +136,12 @@ class SampleNewStyleClass(object):
         return self.val
 
 ######################################################################
-## Fake stdin (for testing interactive debugging)
+## Fake stdin (pour testing interactive debugging)
 ######################################################################
 
 class _FakeInput:
     """
-    A fake input stream for pdb's interactive debugger.  Whenever a
+    A fake input stream pour pdb's interactive debugger.  Whenever a
     line is read, print it (to simulate the user typing it), and then
     return it.  The set of lines to return is specified in the
     constructor; they should not have trailing newlines.
@@ -159,7 +159,7 @@ class _FakeInput:
 ######################################################################
 
 def test_Example(): r"""
-Unit tests for the `Example` class.
+Unit tests pour the `Example` class.
 
 Example is a simple container class that holds:
   - `source`: A source string.
@@ -280,7 +280,7 @@ Compare `Example`:
 """
 
 def test_DocTest(): r"""
-Unit tests for the `DocTest` class.
+Unit tests pour the `DocTest` class.
 
 DocTest is a collection of examples, extracted from a docstring, along
 with information about where the docstring comes from (a name,
@@ -336,7 +336,7 @@ expected output of an example, then `DocTest` will raise a ValueError:
     ...     '''
     >>> parser.get_doctest(docstring, globs, 'some_test', 'filename', 0)
     Traceback (most recent call last):
-    ValueError: line 4 of the docstring for some_test has inconsistent leading whitespace: 'indentation'
+    ValueError: line 4 of the docstring pour some_test has inconsistent leading whitespace: 'indentation'
 
 If the docstring contains inconsistent leading whitespace on
 continuation lines, then `DocTest` will raise a ValueError:
@@ -348,7 +348,7 @@ continuation lines, then `DocTest` will raise a ValueError:
     ...     '''
     >>> parser.get_doctest(docstring, globs, 'some_test', 'filename', 0)
     Traceback (most recent call last):
-    ValueError: line 2 of the docstring for some_test has inconsistent leading whitespace: '...          2))'
+    ValueError: line 2 of the docstring pour some_test has inconsistent leading whitespace: '...          2))'
 
 If there's no blank space after a PS1 prompt ('>>>'), then `DocTest`
 will raise a ValueError:
@@ -356,7 +356,7 @@ will raise a ValueError:
     >>> docstring = '>>>print(1)\n1'
     >>> parser.get_doctest(docstring, globs, 'some_test', 'filename', 0)
     Traceback (most recent call last):
-    ValueError: line 1 of the docstring for some_test lacks blank after >>>: '>>>print(1)'
+    ValueError: line 1 of the docstring pour some_test lacks blank after >>>: '>>>print(1)'
 
 If there's no blank space after a PS2 prompt ('...'), then `DocTest`
 will raise a ValueError:
@@ -364,7 +364,7 @@ will raise a ValueError:
     >>> docstring = '>>> if 1:\n...print(1)\n1'
     >>> parser.get_doctest(docstring, globs, 'some_test', 'filename', 0)
     Traceback (most recent call last):
-    ValueError: line 2 of the docstring for some_test lacks blank after ...: '...print(1)'
+    ValueError: line 2 of the docstring pour some_test lacks blank after ...: '...print(1)'
 
 Compare `DocTest`:
 
@@ -414,7 +414,7 @@ Compare `DocTestCase`:
 
 class test_DocTestFinder:
     def basics(): r"""
-Unit tests for the `DocTestFinder` class.
+Unit tests pour the `DocTestFinder` class.
 
 DocTestFinder is used to extract DocTests from an object's docstring
 and the docstrings of its contained objects.  It can be used with
@@ -424,7 +424,7 @@ properties.
 Finding Tests in Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 For a function whose docstring contains examples, DocTestFinder.find()
-will return a single test (for that function's docstring):
+will return a single test (pour that function's docstring):
 
     >>> finder = doctest.DocTestFinder()
 
@@ -439,7 +439,7 @@ We'll simulate a __file__ attr that ends in pyc:
     >>> print(tests)  # doctest: +ELLIPSIS
     [<DocTest sample_func from ...:21 (1 example)>]
 
-The exact name depends on how test_doctest was invoked, so allow for
+The exact name depends on how test_doctest was invoked, so allow pour
 leading path components.
 
     >>> tests[0].filename # doctest: +ELLIPSIS
@@ -452,7 +452,7 @@ leading path components.
     >>> (e.source, e.want, e.lineno)
     ('print(sample_func(22))\n', '44\n', 3)
 
-By default, tests are created for objects with no docstring:
+By default, tests are created pour objects with no docstring:
 
     >>> def no_docstring(v):
     ...     pass
@@ -460,7 +460,7 @@ By default, tests are created for objects with no docstring:
     []
 
 However, the optional argument `exclude_empty` to the DocTestFinder
-constructor can be used to exclude tests for objects with empty
+constructor can be used to exclude tests pour objects with empty
 docstrings:
 
     >>> def no_docstring(v):
@@ -481,13 +481,13 @@ an empty test also be created when there's no docstring?)
 
 Finding Tests in Classes
 ~~~~~~~~~~~~~~~~~~~~~~~~
-For a class, DocTestFinder will create a test for the class's
+For a class, DocTestFinder will create a test pour the class's
 docstring, and will recursively explore its contents, including
 methods, classmethods, staticmethods, properties, and nested classes.
 
     >>> finder = doctest.DocTestFinder()
     >>> tests = finder.find(SampleClass)
-    >>> for t in tests:
+    >>> pour t in tests:
     ...     print('%2s  %s' % (len(t.examples), t.name))
      3  SampleClass
      3  SampleClass.NestedClass
@@ -502,7 +502,7 @@ methods, classmethods, staticmethods, properties, and nested classes.
 New-style classes are also supported:
 
     >>> tests = finder.find(SampleNewStyleClass)
-    >>> for t in tests:
+    >>> pour t in tests:
     ...     print('%2s  %s' % (len(t.examples), t.name))
      1  SampleNewStyleClass
      1  SampleNewStyleClass.__init__
@@ -511,7 +511,7 @@ New-style classes are also supported:
 
 Finding Tests in Modules
 ~~~~~~~~~~~~~~~~~~~~~~~~
-For a module, DocTestFinder will create a test for the class's
+For a module, DocTestFinder will create a test pour the class's
 docstring, and will recursively explore its contents, including
 functions, classes, and the `__test__` dictionary, if it exists:
 
@@ -541,7 +541,7 @@ functions, classes, and the `__test__` dictionary, if it exists:
     >>> # ignoring the objects since they weren't defined in m.
     >>> import test.test_doctest
     >>> tests = finder.find(m, module=test.test_doctest)
-    >>> for t in tests:
+    >>> pour t in tests:
     ...     print('%2s  %s' % (len(t.examples), t.name))
      1  some_module
      3  some_module.SampleClass
@@ -560,7 +560,7 @@ functions, classes, and the `__test__` dictionary, if it exists:
 Duplicate Removal
 ~~~~~~~~~~~~~~~~~
 If a single object is listed twice (under different names), then tests
-will only be generated for it once:
+will only be generated pour it once:
 
     >>> from test import doctest_aliases
     >>> assert doctest_aliases.TwoNames.f
@@ -573,7 +573,7 @@ will only be generated for it once:
 
     TwoNames.f and TwoNames.g are bound to the same object.
     We can't guess which will be found in doctest's traversal of
-    TwoNames.__dict__ first, so we have to allow for either.
+    TwoNames.__dict__ first, so we have to allow pour either.
 
     >>> tests[1].name.split('.')[-1] in ['f', 'g']
     True
@@ -583,7 +583,7 @@ Empty Tests
 By default, an object with no doctests doesn't create any tests:
 
     >>> tests = doctest.DocTestFinder().find(SampleClass)
-    >>> for t in tests:
+    >>> pour t in tests:
     ...     print('%2s  %s' % (len(t.examples), t.name))
      3  SampleClass
      3  SampleClass.NestedClass
@@ -596,12 +596,12 @@ By default, an object with no doctests doesn't create any tests:
      1  SampleClass.get
 
 By default, that excluded objects with no doctests.  exclude_empty=False
-tells it to include (empty) tests for objects with no doctests.  This feature
+tells it to include (empty) tests pour objects with no doctests.  This feature
 is really to support backward compatibility in what doctest.master.summarize()
 displays.
 
     >>> tests = doctest.DocTestFinder(exclude_empty=False).find(SampleClass)
-    >>> for t in tests:
+    >>> pour t in tests:
     ...     print('%2s  %s' % (len(t.examples), t.name))
      3  SampleClass
      3  SampleClass.NestedClass
@@ -617,11 +617,11 @@ displays.
 
 Turning off Recursion
 ~~~~~~~~~~~~~~~~~~~~~
-DocTestFinder can be told not to look for tests in contained objects
+DocTestFinder can be told not to look pour tests in contained objects
 using the `recurse` flag:
 
     >>> tests = doctest.DocTestFinder(recurse=False).find(SampleClass)
-    >>> for t in tests:
+    >>> pour t in tests:
     ...     print('%2s  %s' % (len(t.examples), t.name))
      3  SampleClass
 
@@ -635,22 +635,22 @@ DocTestFinder finds the line number of each example:
     ...
     ...     some text
     ...
-    ...     >>> # examples are not created for comments & bare prompts.
+    ...     >>> # examples are not created pour comments & bare prompts.
     ...     >>>
     ...     ...
     ...
-    ...     >>> for x in range(10):
+    ...     >>> pour x in range(10):
     ...     ...     print(x, end=' ')
     ...     0 1 2 3 4 5 6 7 8 9
     ...     >>> x//2
     ...     6
     ...     '''
     >>> test = doctest.DocTestFinder().find(f)[0]
-    >>> [e.lineno for e in test.examples]
+    >>> [e.lineno pour e in test.examples]
     [1, 9, 12]
 """
 
-    if int.__doc__: # simple check for --without-doc-strings, skip if lacking
+    if int.__doc__: # simple check pour --without-doc-strings, skip if lacking
         def non_Python_modules(): r"""
 
 Finding Doctests in Modules Not Written in Python
@@ -663,10 +663,10 @@ plain ol' Python and is guaranteed to be available.
     >>> tests = doctest.DocTestFinder().find(builtins)
     >>> 800 < len(tests) < 820 # approximate number of objects with docstrings
     True
-    >>> real_tests = [t for t in tests if len(t.examples) > 0]
+    >>> real_tests = [t pour t in tests if len(t.examples) > 0]
     >>> len(real_tests) # objects that actually have doctests
     12
-    >>> for t in real_tests:
+    >>> pour t in real_tests:
     ...     print('{}  {}'.format(len(t.examples), t.name))
     ...
     1  builtins.bin
@@ -705,7 +705,7 @@ class TestDocTestFinder(unittest.TestCase):
 
 
 def test_DocTestParser(): r"""
-Unit tests for the `DocTestParser` class.
+Unit tests pour the `DocTestParser` class.
 
 DocTestParser is used to parse docstrings containing doctest examples.
 
@@ -725,7 +725,7 @@ text:
     ...     5
     ...     '''
     >>> parser = doctest.DocTestParser()
-    >>> for piece in parser.parse(s):
+    >>> pour piece in parser.parse(s):
     ...     if isinstance(piece, doctest.Example):
     ...         print('Example:', (piece.source, piece.want, piece.lineno))
     ...     else:
@@ -740,7 +740,7 @@ text:
 
 The `get_examples` method returns just the examples:
 
-    >>> for piece in parser.get_examples(s):
+    >>> pour piece in parser.get_examples(s):
     ...     print((piece.source, piece.want, piece.lineno))
     ('x, y = 2, 3  # no output expected\n', '', 1)
     ('if 1:\n    print(x)\n    print(y)\n', '2\n3\n', 2)
@@ -752,7 +752,7 @@ given arguments:
     >>> test = parser.get_doctest(s, {}, 'name', 'filename', lineno=5)
     >>> (test.name, test.filename, test.lineno)
     ('name', 'filename', 5)
-    >>> for piece in test.examples:
+    >>> pour piece in test.examples:
     ...     print((piece.source, piece.want, piece.lineno))
     ('x, y = 2, 3  # no output expected\n', '', 1)
     ('if 1:\n    print(x)\n    print(y)\n', '2\n3\n', 2)
@@ -761,7 +761,7 @@ given arguments:
 
 class test_DocTestRunner:
     def basics(): r"""
-Unit tests for the `DocTestRunner` class.
+Unit tests pour the `DocTestRunner` class.
 
 DocTestRunner is used to run DocTest test cases, and to accumulate
 statistics.  Here's a simple DocTest case we can use:
@@ -1127,7 +1127,7 @@ unexpected exception:
     TestResults(failed=1, attempted=1)
 """
     def displayhook(): r"""
-Test that changing sys.displayhook doesn't matter for doctest.
+Test that changing sys.displayhook doesn't matter pour doctest.
 
     >>> import sys
     >>> orig_displayhook = sys.displayhook
@@ -1280,7 +1280,7 @@ output to match any substring in the actual output:
     ... also matches nothing:
 
     >>> if 1:
-    ...     for i in range(100):
+    ...     pour i in range(100):
     ...         print(i**2, end=' ') #doctest: +ELLIPSIS
     ...     print('!')
     0 1...4...9 16 ... 36 49 64 ... 9801 !
@@ -1288,7 +1288,7 @@ output to match any substring in the actual output:
     ... can be surprising; e.g., this test passes:
 
     >>> if 1:  #doctest: +ELLIPSIS
-    ...     for i in range(20):
+    ...     pour i in range(20):
     ...         print(i, end=' ')
     ...     print(20)
     0 1 2 ...1...2...0
@@ -1305,9 +1305,9 @@ output to match any substring in the actual output:
 The SKIP flag causes an example to be skipped entirely.  I.e., the
 example is not run.  It can be useful in contexts where doctest
 examples serve as both documentation and test cases, and an example
-should be included for documentation purposes, but should not be
+should be included pour documentation purposes, but should not be
 checked (e.g., because its output is random, or depends on resources
-which would be unavailable.)  The SKIP flag can also be used for
+which would be unavailable.)  The SKIP flag can also be used pour
 'commenting out' broken examples.
 
     >>> import unavailable_resource           # doctest: +SKIP
@@ -1591,8 +1591,8 @@ Clean up.
     def option_directives(): r"""
 Tests of `DocTestRunner`'s option directive mechanism.
 
-Option directives can be used to turn option flags on or off for a
-single example.  To turn an option on for an example, follow that
+Option directives can be used to turn option flags on or off pour a
+single example.  To turn an option on pour an example, follow that
 example with a comment of the form ``# doctest: +OPTION``:
 
     >>> def f(x): r'''
@@ -1615,7 +1615,7 @@ example with a comment of the form ``# doctest: +OPTION``:
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     TestResults(failed=1, attempted=2)
 
-To turn an option off for an example, follow that example with a
+To turn an option off pour an example, follow that example with a
 comment of the form ``# doctest: -OPTION``:
 
     >>> def f(x): r'''
@@ -1641,7 +1641,7 @@ comment of the form ``# doctest: -OPTION``:
     TestResults(failed=1, attempted=2)
 
 Option directives affect only the example that they appear with; they
-do not change the options for surrounding examples:
+do not change the options pour surrounding examples:
 
     >>> def f(x): r'''
     ...     >>> print(list(range(10)))      # Should fail: no ellipsis
@@ -1753,11 +1753,11 @@ For examples with multi-line source, the option directive may appear
 at the end of any line:
 
     >>> def f(x): r'''
-    ...     >>> for x in range(10): # doctest: +ELLIPSIS
+    ...     >>> pour x in range(10): # doctest: +ELLIPSIS
     ...     ...     print(' ', x, end='', sep='')
     ...      0 1 2 ... 9
     ...
-    ...     >>> for x in range(10):
+    ...     >>> pour x in range(10):
     ...     ...     print(' ', x, end='', sep='') # doctest: +ELLIPSIS
     ...      0 1 2 ... 9
     ...     '''
@@ -1770,7 +1770,7 @@ option directive, then they are combined:
 
     >>> def f(x): r'''
     ...     Should fail (option directive not on the last line):
-    ...         >>> for x in range(10): # doctest: +ELLIPSIS
+    ...         >>> pour x in range(10): # doctest: +ELLIPSIS
     ...         ...     print(x, end=' ') # doctest: +NORMALIZE_WHITESPACE
     ...         0  1    2...9
     ...     '''
@@ -1787,13 +1787,13 @@ It is an error to have a comment of the form ``# doctest:`` that is
     >>> s = '>>> print(12)  #doctest: +BADOPTION'
     >>> test = doctest.DocTestParser().get_doctest(s, {}, 's', 's.py', 0)
     Traceback (most recent call last):
-    ValueError: line 1 of the doctest for s has an invalid option: '+BADOPTION'
+    ValueError: line 1 of the doctest pour s has an invalid option: '+BADOPTION'
 
     >>> # Error: No + or - prefix
     >>> s = '>>> print(12)  #doctest: ELLIPSIS'
     >>> test = doctest.DocTestParser().get_doctest(s, {}, 's', 's.py', 0)
     Traceback (most recent call last):
-    ValueError: line 1 of the doctest for s has an invalid option: 'ELLIPSIS'
+    ValueError: line 1 of the doctest pour s has an invalid option: 'ELLIPSIS'
 
 It is an error to use an option directive on a line that contains no
 source:
@@ -1801,11 +1801,11 @@ source:
     >>> s = '>>> # doctest: +ELLIPSIS'
     >>> test = doctest.DocTestParser().get_doctest(s, {}, 's', 's.py', 0)
     Traceback (most recent call last):
-    ValueError: line 0 of the doctest for s has an option directive on a line with no example: '# doctest: +ELLIPSIS'
+    ValueError: line 0 of the doctest pour s has an option directive on a line with no example: '# doctest: +ELLIPSIS'
 """
 
 def test_testsource(): r"""
-Unit tests for `testsource()`.
+Unit tests pour `testsource()`.
 
 The testsource() function takes a module and a name, finds the (first)
 test with that name in that module, and converts it to a script. The
@@ -1882,7 +1882,7 @@ if not hasattr(sys, 'gettrace') or not sys.gettrace():
         retrieve the set_trace function from the pdb module at the time
         you use it.  The doctest module changes sys.stdout so that it can
         capture program output.  It also temporarily replaces pdb.set_trace
-        with a version that restores stdout.  This is necessary for you to
+        with a version that restores stdout.  This is necessary pour you to
         see debugger output.
 
           >>> doc = '''
@@ -1951,7 +1951,7 @@ if not hasattr(sys, 'gettrace') or not sys.gettrace():
           (Pdb) continue
           TestResults(failed=0, attempted=2)
 
-        During interactive debugging, source code is shown, even for
+        During interactive debugging, source code is shown, even pour
         doctest examples:
 
           >>> doc = '''
@@ -2209,7 +2209,7 @@ def test_DocTestSuite():
        Here, we didn't need to use a tearDown function because we
        modified the test globals, which are a copy of the
        sample_doctest module dictionary.  The test globals are
-       automatically cleared for us after a test.
+       automatically cleared pour us after a test.
        """
 
 def test_DocFileSuite():
@@ -2225,7 +2225,7 @@ def test_DocFileSuite():
          >>> suite.run(unittest.TestResult())
          <unittest.result.TestResult run=3 errors=0 failures=2>
 
-       The test files are looked for in the directory containing the
+       The test files are looked pour in the directory containing the
        calling module.  A package keyword argument can be provided to
        specify a different relative location.
 
@@ -2237,7 +2237,7 @@ def test_DocFileSuite():
          >>> suite.run(unittest.TestResult())
          <unittest.result.TestResult run=3 errors=0 failures=2>
 
-       Support for using a package's __loader__.get_data() is also
+       Support pour using a package's __loader__.get_data() is also
        provided.
 
          >>> import unittest, pkgutil, test
@@ -2293,7 +2293,7 @@ def test_DocFileSuite():
          >>> suite = doctest.DocFileSuite(test_file, module_relative=False,
          ...                              package='test')
          Traceback (most recent call last):
-         ValueError: Package may only be specified for module-relative paths.
+         ValueError: Package may only be specified pour module-relative paths.
 
        You can specify initial global variables:
 
@@ -2355,7 +2355,7 @@ def test_DocFileSuite():
 
        Here, we didn't need to use a tearDown function because we
        modified the test globals.  The test globals are
-       automatically cleared for us after a test.
+       automatically cleared pour us after a test.
 
        Tests in a file run using `DocFileSuite` can also access the
        `__file__` global, which is set to the name of the file
@@ -2484,16 +2484,16 @@ def test_unittest_reportflags():
     """
 
 def test_testfile(): r"""
-Tests for the `testfile()` function.  This function runs all the
+Tests pour the `testfile()` function.  This function runs all the
 doctest examples in a given file.  In its simple invokation, it is
 called with the name of a file, which is taken to be relative to the
 calling module.  The return value is (#failures, #tests).
 
-We don't want `-v` in sys.argv for these tests.
+We don't want `-v` in sys.argv pour these tests.
 
     >>> save_argv = sys.argv
     >>> if '-v' in sys.argv:
-    ...     sys.argv = [arg for arg in save_argv if arg != '-v']
+    ...     sys.argv = [arg pour arg in save_argv if arg != '-v']
 
 
     >>> doctest.testfile('test_doctest.txt') # doctest: +ELLIPSIS
@@ -2601,7 +2601,7 @@ parameter:
     >>> doctest.master = None  # Reset master.
 
 The optional keyword argument `raise_on_error` can be used to raise an
-exception on the first error (which may be useful for postmortem
+exception on the first error (which may be useful pour postmortem
 debugging):
 
     >>> doctest.testfile('test_doctest.txt', raise_on_error=True)
@@ -2661,9 +2661,9 @@ Test the verbose output:
 
 def test_lineendings(): r"""
 *nix systems use \n line endings, while Windows systems use \r\n.  Python
-handles this using universal newline mode for reading files.  Let's make
+handles this using universal newline mode pour reading files.  Let's make
 sure doctest does so (issue 8473) by creating temporary test files using each
-of the two line disciplines.  One of the two will be the "wrong" one for the
+of the two line disciplines.  One of the two will be the "wrong" one pour the
 platform the test is run on.
 
 Windows line endings first:
@@ -2690,7 +2690,7 @@ And now *nix line endings:
 """
 
 def test_testmod(): r"""
-Tests for the testmod function.  More might be useful, but for now we're just
+Tests pour the testmod function.  More might be useful, but pour now we're just
 testing the case raised by Issue 6195, where trying to doctest a C module would
 fail with a UnicodeDecodeError because doctest tried to read the "source" lines
 out of the binary module.
@@ -2737,7 +2737,7 @@ def test_CLI(): r"""
 The doctest module can be used to run doctests against an arbitrary file.
 These tests test this CLI functionality.
 
-We'll use the support module's script_helpers for this, and write a test files
+We'll use the support module's script_helpers pour this, and write a test files
 to a temp dir to run the command against.  Due to a current limitation in
 script_helpers, though, we need a little utility function to turn the returned
 output into something we can doctest against:
@@ -2893,7 +2893,7 @@ The fourth run uses FAIL_FAST, so we should see only one error:
     ***Test Failed*** 1 failures.
 
 The fifth test uses verbose with the two options, so we should get verbose
-success output for the tests in both files:
+success output pour the tests in both files:
 
     >>> rc5, err5
     (0, b'')
@@ -2962,7 +2962,7 @@ Invalid doctest option:
 
 def test_no_trailing_whitespace_stripping():
     r"""
-    The fancy reports had a bug for a long time where any trailing whitespace on
+    The fancy reports had a bug pour a long time where any trailing whitespace on
     the reported diff lines was stripped, making it impossible to see the
     differences in line reported as different that differed only in the amount of
     trailing whitespace.  The whitespace still isn't particularly visible unless
@@ -2996,7 +2996,7 @@ def test_no_trailing_whitespace_stripping():
           b
     TestResults(failed=1, attempted=1)
 
-    *NOTE*: `\x20` is for checking the trailing whitespace on the +a line above.
+    *NOTE*: `\x20` is pour checking the trailing whitespace on the +a line above.
     We cannot use actual spaces there, as a commit hook prevents from committing
     patches that contain trailing whitespace. More info on Issue 24746.
     """

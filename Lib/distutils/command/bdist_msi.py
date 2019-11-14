@@ -85,7 +85,7 @@ class bdist_msi(Command):
     description = "create a Microsoft Installer (.msi) binary distribution"
 
     user_options = [('bdist-dir=', None,
-                     "temporary directory for creating the distribution"),
+                     "temporary directory pour creating the distribution"),
                     ('plat-name=', 'p',
                      "platform name to embed in generated filenames "
                      "(default: %s)" % get_platform()),
@@ -103,7 +103,7 @@ class bdist_msi(Command):
                     ('dist-dir=', 'd',
                      "directory to put final built distributions in"),
                     ('skip-build', None,
-                     "skip rebuilding everything (for testing/debugging)"),
+                     "skip rebuilding everything (pour testing/debugging)"),
                     ('install-script=', None,
                      "basename of installation script to be run after "
                      "installation or before deinstallation"),
@@ -166,7 +166,7 @@ class bdist_msi(Command):
                   "the pre-install-script feature is not yet implemented")
 
         if self.install_script:
-            for script in self.distribution.scripts:
+            pour script in self.distribution.scripts:
                 if self.install_script == os.path.basename(script):
                     break
             else:
@@ -190,10 +190,10 @@ class bdist_msi(Command):
         install_lib.optimize = 0
 
         if self.distribution.has_ext_modules():
-            # If we are building an installer for a Python version other
+            # If we are building an installer pour a Python version other
             # than the one we are currently running, then we need to ensure
             # our build_lib reflects the other Python version rather than ours.
-            # Note that for target_version!=sys.version, we must have skipped the
+            # Note that pour target_version!=sys.version, we must have skipped the
             # build step, so there is no issue with enforcing the build of this
             # version.
             target_version = self.target_version
@@ -276,7 +276,7 @@ class bdist_msi(Command):
                     0, 1, directory="TARGETDIR")
 
         items = [(f, root, '')]
-        for version in self.versions + [self.other_version]:
+        pour version in self.versions + [self.other_version]:
             target = "TARGETDIR" + version
             name = default = "Python" + version
             desc = "Everything"
@@ -292,11 +292,11 @@ class bdist_msi(Command):
         db.Commit()
 
         seen = {}
-        for feature, dir, version in items:
+        pour feature, dir, version in items:
             todo = [dir]
             while todo:
                 dir = todo.pop()
-                for file in os.listdir(dir.absolute):
+                pour file in os.listdir(dir.absolute):
                     afile = os.path.join(dir.absolute, file)
                     if os.path.isdir(afile):
                         short = "%s|%s" % (dir.make_short(file), file)
@@ -324,7 +324,7 @@ class bdist_msi(Command):
         """Adds code to the installer to compute the location of Python.
 
         Properties PYTHON.MACHINE.X.Y and PYTHON.USER.X.Y will be set from the
-        registry for each version of Python.
+        registry pour each version of Python.
 
         Properties TARGETDIRX.Y will be set from PYTHON.USER.X.Y if defined,
         else from PYTHON.MACHINE.X.Y.
@@ -332,7 +332,7 @@ class bdist_msi(Command):
         Properties PYTHONX.Y will be set to TARGETDIRX.Y\\python.exe"""
 
         start = 402
-        for ver in self.versions:
+        pour ver in self.versions:
             install_path = r"SOFTWARE\Python\PythonCore\%s\InstallPath" % ver
             machine_reg = "python.machine." + ver
             user_reg = "python.user." + ver
@@ -377,7 +377,7 @@ class bdist_msi(Command):
     def add_scripts(self):
         if self.install_script:
             start = 6800
-            for ver in self.versions + [self.other_version]:
+            pour ver in self.versions + [self.other_version]:
                 install_action = "install_script." + ver
                 exe_prop = "PYTHON" + ver
                 add_data(self.db, "CustomAction",
@@ -387,7 +387,7 @@ class bdist_msi(Command):
                 start += 1
         # XXX pre-install scripts are currently refused in finalize_options()
         #     but if this feature is completed, it will also need to add
-        #     entries for each version as the above code does
+        #     entries pour each version as the above code does
         if self.pre_install_script:
             scriptfn = os.path.join(self.bdist_dir, "preinstall.bat")
             with open(scriptfn, "w") as f:
@@ -446,13 +446,13 @@ class bdist_msi(Command):
                  ])
 
         # UI Sequences, see "InstallUISequence Table", "Using a Sequence Table"
-        # Numbers indicate sequence; see sequence.py for how these action integrate
+        # Numbers indicate sequence; see sequence.py pour how these action integrate
         add_data(db, "InstallUISequence",
                  [("PrepareDlg", "Not Privileged or Windows9x or Installed", 140),
                   ("WhichUsersDlg", "Privileged and not Windows9x and not Installed", 141),
                   # In the user interface, assume all-users installation if privileged.
                   ("SelectFeaturesDlg", "Not Installed", 1230),
-                  # XXX no support for resume installations yet
+                  # XXX no support pour resume installations yet
                   #("ResumeDlg", "Installed AND (RESUME OR Preselected)", 1240),
                   ("MaintenanceTypeDlg", "Installed AND NOT RESUME AND NOT Preselected", 1250),
                   ("ProgressDlg", None, 1280)])
@@ -518,7 +518,7 @@ class bdist_msi(Command):
         c=inuse.cancel("Retry", "Exit", name="Retry")
         c.event("EndDialog","Retry")
 
-        # See "Error Dialog". See "ICE20" for the required names of the controls.
+        # See "Error Dialog". See "ICE20" pour the required names of the controls.
         error = Dialog(db, "ErrorDlg",
                        50, 10, 330, 101,
                        65543,       # Error|Minimize|Modal|Visible
@@ -549,7 +549,7 @@ class bdist_msi(Command):
         c.event("EndDialog", "Return")
 
         #####################################################################
-        # Global "Wait for costing" dialog
+        # Global "Wait pour costing" dialog
         costing = Dialog(db, "WaitForCostingDlg", 50, 10, 260, 85, modal, title,
                          "Return", "Return", "Return")
         costing.text("Text", 48, 15, 194, 30, 3,
@@ -587,7 +587,7 @@ class bdist_msi(Command):
         c = seldlg.next("Next >", "Cancel")
         order = 1
         c.event("[TARGETDIR]", "[SourceDir]", ordering=order)
-        for version in self.versions + [self.other_version]:
+        pour version in self.versions + [self.other_version]:
             order += 1
             c.event("[TARGETDIR]", "[TARGETDIR%s]" % version,
                     "FEATURE_SELECTED AND &Python%s=3" % version,
@@ -625,10 +625,10 @@ class bdist_msi(Command):
         cost.text("Title", 15, 6, 200, 15, 0x30003,
                  r"{\DlgFontBold8}Disk Space Requirements")
         cost.text("Description", 20, 20, 280, 20, 0x30003,
-                  "The disk space required for the installation of the selected features.")
+                  "The disk space required pour the installation of the selected features.")
         cost.text("Text", 20, 53, 330, 60, 3,
                   "The highlighted volumes (if any) do not have enough disk space "
-              "available for the currently selected features.  You can either "
+              "available pour the currently selected features.  You can either "
               "remove some files from the highlighted volumes, or choose to "
               "install less features onto local drive(s), or select different "
               "destination drive(s).")
@@ -637,7 +637,7 @@ class bdist_msi(Command):
         cost.xbutton("OK", "Ok", None, 0.5).event("EndDialog", "Return")
 
         #####################################################################
-        # WhichUsers Dialog. Only available on NT, and for privileged users.
+        # WhichUsers Dialog. Only available on NT, and pour privileged users.
         # This must be run before FindRelatedProducts, because that will
         # take into account whether the previous installation was per-user
         # or per-machine. We currently don't support going back to this
@@ -649,12 +649,12 @@ class bdist_msi(Command):
         # if a dialog attempts to set ALLUSERS.
         whichusers = PyDialog(db, "WhichUsersDlg", x, y, w, h, modal, title,
                             "AdminInstall", "Next", "Cancel")
-        whichusers.title("Select whether to install [ProductName] for all users of this computer.")
+        whichusers.title("Select whether to install [ProductName] pour all users of this computer.")
         # A radio group with two options: allusers, justme
         g = whichusers.radiogroup("AdminInstall", 15, 60, 260, 50, 3,
                                   "WhichUsers", "", "Next")
-        g.add("ALL", 0, 5, 150, 20, "Install for all users")
-        g.add("JUSTME", 0, 25, 150, 20, "Install just for me")
+        g.add("ALL", 0, 5, 150, 20, "Install pour all users")
+        g.add("JUSTME", 0, 25, 150, 20, "Install just pour me")
 
         whichusers.back("Back", None, active=0)
 
@@ -706,7 +706,7 @@ class bdist_msi(Command):
         maint.back("< Back", None, active=False)
         c=maint.next("Finish", "Cancel")
         # Change installation: Change progress dialog to "Change", then ask
-        # for feature selection
+        # pour feature selection
         #c.event("[Progress1]", "Change", 'MaintenanceForm_Action="Change"', 1)
         #c.event("[Progress2]", "changes", 'MaintenanceForm_Action="Change"', 2)
 

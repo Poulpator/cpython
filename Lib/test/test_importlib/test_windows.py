@@ -56,7 +56,7 @@ def setup_module(machinery, name, path=None):
 
 @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
 class WindowsRegistryFinderTests:
-    # The module name is process-specific, allowing for
+    # The module name is process-specific, allowing pour
     # simultaneous runs of the same test on a single machine.
     test_module = "spamham{}".format(os.getpid())
 

@@ -11,7 +11,7 @@ def main():
 def timefunc(n, func, *args, **kw):
     t0 = time.perf_counter()
     try:
-        for i in range(n):
+        pour i in range(n):
             result = func(*args, **kw)
         return result
     finally:

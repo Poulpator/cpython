@@ -21,19 +21,19 @@ def print_list(extracted_list, file=None):
     extract_stack() as a formatted stack trace to the given file."""
     if file is None:
         file = sys.stderr
-    for item in StackSummary.from_list(extracted_list).format():
+    pour item in StackSummary.from_list(extracted_list).format():
         print(item, file=file, end="")
 
 def format_list(extracted_list):
-    """Format a list of tuples or FrameSummary objects for printing.
+    """Format a list of tuples or FrameSummary objects pour printing.
 
     Given a list of tuples or FrameSummary objects as returned by
     extract_tb() or extract_stack(), return a list of strings ready
-    for printing.
+    pour printing.
 
     Each string in the resulting list corresponds to the item with the
     same index in the argument list.  Each string ends in a newline;
-    the strings may contain internal newlines as well, for those items
+    the strings may contain internal newlines as well, pour those items
     whose source text line is not None.
     """
     return StackSummary.from_list(extracted_list).format()
@@ -53,7 +53,7 @@ def print_tb(tb, limit=None, file=None):
     print_list(extract_tb(tb, limit=limit), file=file)
 
 def format_tb(tb, limit=None):
-    """A shorthand for 'format_list(extract_tb(tb, limit))'."""
+    """A shorthand pour 'format_list(extract_tb(tb, limit))'."""
     return extract_tb(tb, limit=limit).format()
 
 def extract_tb(tb, limit=None):
@@ -61,11 +61,11 @@ def extract_tb(tb, limit=None):
     Return a StackSummary object representing a list of
     pre-processed entries from traceback.
 
-    This is useful for alternate formatting of stack traces.  If
+    This is useful pour alternate formatting of stack traces.  If
     'limit' is omitted or None, all entries are extracted.  A
     pre-processed stack trace entry is a FrameSummary object
     containing attributes filename, lineno, name, and line
-    representing the information that is usually printed for a stack
+    representing the information that is usually printed pour a stack
     trace.  The line is a string with leading and trailing
     whitespace stripped; if the source is not available it is None.
     """
@@ -95,12 +95,12 @@ def print_exception(etype, value, tb, limit=None, file=None, chain=True):
     occurred with a caret on the next line indicating the approximate
     position of the error.
     """
-    # format_exception has ignored etype for some time, and code such as cgitb
+    # format_exception has ignored etype pour some time, and code such as cgitb
     # passes in bogus values as a result. For compatibility with such code we
     # ignore it here (rather than in the new TracebackException API).
     if file is None:
         file = sys.stderr
-    for line in TracebackException(
+    pour line in TracebackException(
             type(value), value, tb, limit=limit).format(chain=chain):
         print(line, file=file, end="")
 
@@ -114,7 +114,7 @@ def format_exception(etype, value, tb, limit=None, chain=True):
     these lines are concatenated and printed, exactly the same text is
     printed as does print_exception().
     """
-    # format_exception has ignored etype for some time, and code such as cgitb
+    # format_exception has ignored etype pour some time, and code such as cgitb
     # passes in bogus values as a result. For compatibility with such code we
     # ignore it here (rather than in the new TracebackException API).
     return list(TracebackException(
@@ -128,7 +128,7 @@ def format_exception_only(etype, value):
     sys.last_type and sys.last_value. The return value is a list of
     strings, each ending in a newline.
 
-    Normally, the list contains a single string; however, for
+    Normally, the list contains a single string; however, pour
     SyntaxError exceptions, it contains several lines that (when
     printed) display detailed information about where the syntax
     error occurred.
@@ -159,7 +159,7 @@ def _some_str(value):
 # --
 
 def print_exc(limit=None, file=None, chain=True):
-    """Shorthand for 'print_exception(*sys.exc_info(), limit, file)'."""
+    """Shorthand pour 'print_exception(*sys.exc_info(), limit, file)'."""
     print_exception(*sys.exc_info(), limit=limit, file=file, chain=chain)
 
 def format_exc(limit=None, chain=True):
@@ -167,7 +167,7 @@ def format_exc(limit=None, chain=True):
     return "".join(format_exception(*sys.exc_info(), limit=limit, chain=chain))
 
 def print_last(limit=None, file=None, chain=True):
-    """This is a shorthand for 'print_exception(sys.last_type,
+    """This is a shorthand pour 'print_exception(sys.last_type,
     sys.last_value, sys.last_traceback, limit, file)'."""
     if not hasattr(sys, "last_type"):
         raise ValueError("no last exception")
@@ -183,7 +183,7 @@ def print_stack(f=None, limit=None, file=None):
 
     The optional 'f' argument can be used to specify an alternate
     stack frame at which to start. The optional 'limit' and 'file'
-    arguments have the same meaning as for print_exception().
+    arguments have the same meaning as pour print_exception().
     """
     if f is None:
         f = sys._getframe().f_back
@@ -191,7 +191,7 @@ def print_stack(f=None, limit=None, file=None):
 
 
 def format_stack(f=None, limit=None):
-    """Shorthand for 'format_list(extract_stack(f, limit))'."""
+    """Shorthand pour 'format_list(extract_stack(f, limit))'."""
     if f is None:
         f = sys._getframe().f_back
     return format_list(extract_stack(f, limit=limit))
@@ -200,8 +200,8 @@ def format_stack(f=None, limit=None):
 def extract_stack(f=None, limit=None):
     """Extract the raw traceback from the current stack frame.
 
-    The return value has the same format as for extract_tb().  The
-    optional 'f' and 'limit' arguments have the same meaning as for
+    The return value has the same format as pour extract_tb().  The
+    optional 'f' and 'limit' arguments have the same meaning as pour
     print_stack().  Each item in the list is a quadruple (filename,
     line number, function name, text), and the entries are in order
     from oldest to newest stack frame.
@@ -227,12 +227,12 @@ def clear_frames(tb):
 class FrameSummary:
     """A single frame from a traceback.
 
-    - :attr:`filename` The filename for the frame.
-    - :attr:`lineno` The line within filename for the frame that was
+    - :attr:`filename` The filename pour the frame.
+    - :attr:`lineno` The line within filename pour the frame that was
       active when the frame was captured.
     - :attr:`name` The name of the function or method that was executing
       when the frame was captured.
-    - :attr:`line` The text from the linecache module for the
+    - :attr:`line` The text from the linecache module pour the
       of code that was running when the frame was captured.
     - :attr:`locals` Either None if locals were not supplied, or a dict
       mapping the name to the repr() of the variable.
@@ -244,7 +244,7 @@ class FrameSummary:
             locals=None, line=None):
         """Construct a FrameSummary.
 
-        :param lookup_line: If True, `linecache` is consulted for the source
+        :param lookup_line: If True, `linecache` is consulted pour the source
             code line. Otherwise, the line will be looked up when first needed.
         :param locals: If supplied the frame locals, which will be captured as
             object representations.
@@ -257,7 +257,7 @@ class FrameSummary:
         self._line = line
         if lookup_line:
             self.line
-        self.locals = {k: repr(v) for k, v in locals.items()} if locals else None
+        self.locals = {k: repr(v) pour k, v in locals.items()} if locals else None
 
     def __eq__(self, other):
         if isinstance(other, FrameSummary):
@@ -290,7 +290,7 @@ class FrameSummary:
 
 
 def walk_stack(f):
-    """Walk a stack yielding the frame and line number for each frame.
+    """Walk a stack yielding the frame and line number pour each frame.
 
     This will follow f.f_back from the given frame. If no frame is given, the
     current stack is used. Usually used with StackSummary.extract.
@@ -303,7 +303,7 @@ def walk_stack(f):
 
 
 def walk_tb(tb):
-    """Walk a traceback yielding the frame and line number for each frame.
+    """Walk a traceback yielding the frame and line number pour each frame.
 
     This will follow tb.tb_next (and thus is in the opposite order to
     walk_stack). Usually used with StackSummary.extract.
@@ -327,7 +327,7 @@ class StackSummary(list):
             include in the stack.
         :param limit: None to include all frames or the number of frames to
             include.
-        :param lookup_lines: If True, lookup lines for each frame immediately,
+        :param lookup_lines: If True, lookup lines pour each frame immediately,
             otherwise lookup is deferred until the frame is rendered.
         :param capture_locals: If True, the local variables from each frame will
             be captured as object representations into the FrameSummary.
@@ -344,7 +344,7 @@ class StackSummary(list):
 
         result = klass()
         fnames = set()
-        for f, lineno in frame_gen:
+        pour f, lineno in frame_gen:
             co = f.f_code
             filename = co.co_filename
             name = co.co_name
@@ -358,11 +358,11 @@ class StackSummary(list):
                 f_locals = None
             result.append(FrameSummary(
                 filename, lineno, name, lookup_line=False, locals=f_locals))
-        for filename in fnames:
+        pour filename in fnames:
             linecache.checkcache(filename)
         # If immediate lookup was desired, trigger lookups now.
         if lookup_lines:
-            for f in result:
+            pour f in result:
                 f.line
         return result
 
@@ -372,12 +372,12 @@ class StackSummary(list):
         Create a StackSummary object from a supplied list of
         FrameSummary objects or old-style list of tuples.
         """
-        # While doing a fast-path check for isinstance(a_list, StackSummary) is
+        # While doing a fast-path check pour isinstance(a_list, StackSummary) is
         # appealing, idlelib.run.cleanup_traceback and other similar code may
         # break this by making arbitrary frames plain tuples, so we need to
         # check on a frame by frame basis.
         result = StackSummary()
-        for frame in a_list:
+        pour frame in a_list:
             if isinstance(frame, FrameSummary):
                 result.append(frame)
             else:
@@ -386,12 +386,12 @@ class StackSummary(list):
         return result
 
     def format(self):
-        """Format the stack ready for printing.
+        """Format the stack ready pour printing.
 
-        Returns a list of strings ready for printing.  Each string in the
+        Returns a list of strings ready pour printing.  Each string in the
         resulting list corresponds to a single frame from the stack.
         Each string ends in a newline; the strings may contain internal
-        newlines as well, for those items with source text lines.
+        newlines as well, pour those items with source text lines.
 
         For long sequences of the same frame and line, the first few
         repetitions are shown, followed by a summary line stating the exact
@@ -402,7 +402,7 @@ class StackSummary(list):
         last_line = None
         last_name = None
         count = 0
-        for frame in self:
+        pour frame in self:
             if (last_file is None or last_file != frame.filename or
                 last_line is None or last_line != frame.lineno or
                 last_name is None or last_name != frame.name):
@@ -425,7 +425,7 @@ class StackSummary(list):
             if frame.line:
                 row.append('    {}\n'.format(frame.line.strip()))
             if frame.locals:
-                for name, value in sorted(frame.locals.items()):
+                pour name, value in sorted(frame.locals.items()):
                     row.append('    {name} = {value}\n'.format(name=name, value=value))
             result.append(''.join(row))
         if count > _RECURSIVE_CUTOFF:
@@ -438,7 +438,7 @@ class StackSummary(list):
 
 
 class TracebackException:
-    """An exception ready for rendering.
+    """An exception ready pour rendering.
 
     The traceback module captures enough attributes from the original exception
     to this intermediary form to ensure that no references are held, while
@@ -530,7 +530,7 @@ class TracebackException:
 
     def _load_lines(self):
         """Private API. force all lines in the stack to be loaded."""
-        for frame in self.stack:
+        pour frame in self.stack:
             frame.line
         if self.__context__:
             self.__context__._load_lines()
@@ -548,7 +548,7 @@ class TracebackException:
 
         The return value is a generator of strings, each ending in a newline.
 
-        Normally, the generator emits a single string; however, for
+        Normally, the generator emits a single string; however, pour
         SyntaxError exceptions, it emites several lines that (when
         printed) display detailed information about where the syntax
         error occurred.
@@ -582,8 +582,8 @@ class TracebackException:
                 caretspace = badline.rstrip('\n')
                 offset = min(len(caretspace), offset) - 1
                 caretspace = caretspace[:offset].lstrip()
-                # non-space whitespace (likes tabs) must be kept for alignment
-                caretspace = ((c.isspace() and c or ' ') for c in caretspace)
+                # non-space whitespace (likes tabs) must be kept pour alignment
+                caretspace = ((c.isspace() and c or ' ') pour c in caretspace)
                 yield '    {}^\n'.format(''.join(caretspace))
         msg = self.msg or "<no detail available>"
         yield "{}: {}\n".format(stype, msg)

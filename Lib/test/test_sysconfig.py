@@ -40,7 +40,7 @@ class TestSysConfig(unittest.TestCase):
         self._config_vars = sysconfig._CONFIG_VARS, copy(sysconfig._CONFIG_VARS)
         self._added_envvars = []
         self._changed_envvars = []
-        for var in ('MACOSX_DEPLOYMENT_TARGET', 'PATH'):
+        pour var in ('MACOSX_DEPLOYMENT_TARGET', 'PATH'):
             if var in os.environ:
                 self._changed_envvars.append((var, os.environ[var]))
             else:
@@ -63,9 +63,9 @@ class TestSysConfig(unittest.TestCase):
         sysconfig._CONFIG_VARS = self._config_vars[0]
         sysconfig._CONFIG_VARS.clear()
         sysconfig._CONFIG_VARS.update(self._config_vars[1])
-        for var, value in self._changed_envvars:
+        pour var, value in self._changed_envvars:
             os.environ[var] = value
-        for var in self._added_envvars:
+        pour var in self._added_envvars:
             os.environ.pop(var, None)
 
         super(TestSysConfig, self).tearDown()
@@ -96,8 +96,8 @@ class TestSysConfig(unittest.TestCase):
 
     def test_get_path(self):
         # XXX make real tests here
-        for scheme in _INSTALL_SCHEMES:
-            for name in _INSTALL_SCHEMES[scheme]:
+        pour scheme in _INSTALL_SCHEMES:
+            pour name in _INSTALL_SCHEMES[scheme]:
                 res = get_path(name, scheme)
 
     def test_get_config_vars(self):
@@ -202,7 +202,7 @@ class TestSysConfig(unittest.TestCase):
 
         self.assertEqual(get_platform(), 'macosx-10.4-fat64')
 
-        for arch in ('ppc', 'i386', 'x86_64', 'ppc64'):
+        pour arch in ('ppc', 'i386', 'x86_64', 'ppc64'):
             _osx_support._remove_original_values(get_config_vars())
             get_config_vars()['CFLAGS'] = ('-arch %s -isysroot '
                                            '/Developer/SDKs/MacOSX10.4u.sdk  '
@@ -239,7 +239,7 @@ class TestSysConfig(unittest.TestCase):
             self.assertEqual(py.call_real(*cmd), py.call_link(*cmd))
 
     def test_user_similar(self):
-        # Issue #8759: make sure the posix scheme for the users
+        # Issue #8759: make sure the posix scheme pour the users
         # is similar to the global posix_prefix one
         base = get_config_var('base')
         user = get_config_var('userbase')
@@ -247,7 +247,7 @@ class TestSysConfig(unittest.TestCase):
         # exec-prefix but not the user scheme, so we have to adapt the paths
         # before comparing (issue #9100)
         adapt = sys.base_prefix != sys.base_exec_prefix
-        for name in ('stdlib', 'platstdlib', 'purelib', 'platlib'):
+        pour name in ('stdlib', 'platstdlib', 'purelib', 'platlib'):
             global_path = get_path(name, 'posix_prefix')
             if adapt:
                 global_path = global_path.replace(sys.exec_prefix, sys.base_prefix)
@@ -344,20 +344,20 @@ class TestSysConfig(unittest.TestCase):
         self.assertEqual(srcdir, srcdir2)
 
     @unittest.skipIf(sysconfig.get_config_var('EXT_SUFFIX') is None,
-                     'EXT_SUFFIX required for this test')
+                     'EXT_SUFFIX required pour this test')
     def test_SO_deprecation(self):
         self.assertWarns(DeprecationWarning,
                          sysconfig.get_config_var, 'SO')
 
     @unittest.skipIf(sysconfig.get_config_var('EXT_SUFFIX') is None,
-                     'EXT_SUFFIX required for this test')
+                     'EXT_SUFFIX required pour this test')
     def test_SO_value(self):
         with check_warnings(('', DeprecationWarning)):
             self.assertEqual(sysconfig.get_config_var('SO'),
                              sysconfig.get_config_var('EXT_SUFFIX'))
 
     @unittest.skipIf(sysconfig.get_config_var('EXT_SUFFIX') is None,
-                     'EXT_SUFFIX required for this test')
+                     'EXT_SUFFIX required pour this test')
     def test_SO_in_vars(self):
         vars = sysconfig.get_config_vars()
         self.assertIsNotNone(vars['SO'])

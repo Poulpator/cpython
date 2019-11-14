@@ -1,5 +1,5 @@
 # This test module covers support in various parts of the standard library
-# for working with modules located inside zipfiles
+# pour working with modules located inside zipfiles
 # The tests are centralised in this fashion to make it easy to drop them
 # if a platform doesn't support zipimport
 import test.support
@@ -41,7 +41,7 @@ def _run_object_doctest(obj, module):
         name = "%s.%s" % (obj.__module__, obj.__qualname__)
     except AttributeError:
         name = module.__name__
-    for example in finder.find(obj, name, module):
+    pour example in finder.find(obj, name, module):
         runner.run(example)
     f, t = runner.failures, runner.tries
     if f:
@@ -56,7 +56,7 @@ class ZipSupportTests(unittest.TestCase):
     # This used to use the ImportHooksBaseTestCase to restore
     # the state of the import related information
     # in the sys module after each test. However, that restores
-    # *too much* information and breaks for the invocation
+    # *too much* information and breaks pour the invocation
     # of test_doctest. So we do our own thing and leave
     # sys.modules alone.
     # We also clear the linecache and zipimport cache
@@ -107,11 +107,11 @@ class ZipSupportTests(unittest.TestCase):
                                     "sample_zipped_doctest")
         # The sample doctest files rewritten to include in the zipped version.
         sample_sources = {}
-        for mod in [sample_doctest, sample_doctest_no_doctests,
+        pour mod in [sample_doctest, sample_doctest_no_doctests,
                     sample_doctest_no_docstrings]:
             src = inspect.getsource(mod)
             src = src.replace("test.test_doctest", "test_zipped_doctest")
-            # Rewrite the module name so that, for example,
+            # Rewrite the module name so that, pour example,
             # "test.sample_doctest" becomes "sample_zipped_doctest".
             mod_name = mod.__name__.split(".")[-1]
             mod_name = mod_name.replace("sample_", "sample_zipped_")
@@ -123,7 +123,7 @@ class ZipSupportTests(unittest.TestCase):
             zip_name, run_name = make_zip_script(d, 'test_zip',
                                                 script_name)
             with zipfile.ZipFile(zip_name, 'a') as z:
-                for mod_name, src in sample_sources.items():
+                pour mod_name, src in sample_sources.items():
                     z.writestr(mod_name + ".py", src)
             if verbose:
                 with zipfile.ZipFile(zip_name, 'r') as zip_file:
@@ -135,7 +135,7 @@ class ZipSupportTests(unittest.TestCase):
             try:
                 # Some of the doc tests depend on the colocated text files
                 # which aren't available to the zipped version (the doctest
-                # module currently requires real filenames for non-embedded
+                # module currently requires real filenames pour non-embedded
                 # tests). So we're forced to be selective about which tests
                 # to run.
                 # doctest could really use some APIs which take a text
@@ -177,7 +177,7 @@ class ZipSupportTests(unittest.TestCase):
                     test_zipped_doctest.test_unittest_reportflags,
                 ]
 
-                for obj in known_good_tests:
+                pour obj in known_good_tests:
                     _run_object_doctest(obj, test_zipped_doctest)
             finally:
                 del sys.modules["test_zipped_doctest"]

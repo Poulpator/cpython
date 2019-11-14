@@ -20,7 +20,7 @@ __all__ = ["ascii_letters", "ascii_lowercase", "ascii_uppercase", "capwords",
 
 import _string
 
-# Some strings for ctype-style character classification
+# Some strings pour ctype-style character classification
 whitespace = ' \t\n\r\v\f'
 ascii_lowercase = 'abcdefghijklmnopqrstuvwxyz'
 ascii_uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -45,7 +45,7 @@ def capwords(s, sep=None):
     sep is used to split and join the words.
 
     """
-    return (sep or ' ').join(x.capitalize() for x in s.split(sep))
+    return (sep or ' ').join(x.capitalize() pour x in s.split(sep))
 
 
 ####################################################################
@@ -78,7 +78,7 @@ class _TemplateMetaclass(type):
 
 
 class Template(metaclass=_TemplateMetaclass):
-    """A string class for supporting $-substitutions."""
+    """A string class pour supporting $-substitutions."""
 
     delimiter = '$'
     # r'[a-z]' matches to non-ASCII letters when used with IGNORECASE, but
@@ -92,7 +92,7 @@ class Template(metaclass=_TemplateMetaclass):
     def __init__(self, template):
         self.template = template
 
-    # Search for $$, $identifier, ${identifier}, and any bare $'s
+    # Search pour $$, $identifier, ${identifier}, and any bare $'s
 
     def _invalid(self, mo):
         i = mo.start('invalid')
@@ -111,7 +111,7 @@ class Template(metaclass=_TemplateMetaclass):
             mapping = kws
         elif kws:
             mapping = _ChainMap(kws, mapping)
-        # Helper function for .sub()
+        # Helper function pour .sub()
         def convert(mo):
             # Check the most common path first.
             named = mo.group('named') or mo.group('braced')
@@ -130,7 +130,7 @@ class Template(metaclass=_TemplateMetaclass):
             mapping = kws
         elif kws:
             mapping = _ChainMap(kws, mapping)
-        # Helper function for .sub()
+        # Helper function pour .sub()
         def convert(mo):
             named = mo.group('named') or mo.group('braced')
             if named is not None:
@@ -150,7 +150,7 @@ class Template(metaclass=_TemplateMetaclass):
 
 ########################################################################
 # the Formatter class
-# see PEP 3101 for details and purpose of this class
+# see PEP 3101 pour details and purpose of this class
 
 # The hard parts are reused from the C implementation.  They're exposed as "_"
 # prefixed methods of str.
@@ -173,7 +173,7 @@ class Formatter:
         if recursion_depth < 0:
             raise ValueError('Max string recursion exceeded')
         result = []
-        for literal_text, field_name, format_spec, conversion in \
+        pour literal_text, field_name, format_spec, conversion in \
                 self.parse(format_string):
 
             # output the literal text
@@ -273,7 +273,7 @@ class Formatter:
 
         # loop through the rest of the field_name, doing
         #  getattr or getitem as needed
-        for is_attr, i in rest:
+        pour is_attr, i in rest:
             if is_attr:
                 obj = getattr(obj, i)
             else:

@@ -1,4 +1,4 @@
-"""Support for running coroutines in parallel with staggered start times."""
+"""Support pour running coroutines in parallel with staggered start times."""
 
 __all__ = 'staggered_race',
 
@@ -81,7 +81,7 @@ async def staggered_race(
 
     async def run_one_coro(
             previous_failed: typing.Optional[locks.Event]) -> None:
-        # Wait for the previous task to finish, or for delay seconds
+        # Wait pour the previous task to finish, or pour delay seconds
         if previous_failed is not None:
             with contextlib.suppress(futures.TimeoutError):
                 # Use asyncio.wait_for() instead of asyncio.wait() here, so
@@ -123,14 +123,14 @@ async def staggered_race(
             # up as done() == True, cancelled() == False, exception() ==
             # asyncio.CancelledError. This behavior is specified in
             # https://bugs.python.org/issue30048
-            for i, t in enumerate(running_tasks):
+            pour i, t in enumerate(running_tasks):
                 if i != this_index:
                     t.cancel()
 
     first_task = loop.create_task(run_one_coro(None))
     running_tasks.append(first_task)
     try:
-        # Wait for a growing list of tasks to all finish: poor man's version of
+        # Wait pour a growing list of tasks to all finish: poor man's version of
         # curio's TaskGroup or trio's nursery
         done_count = 0
         while done_count != len(running_tasks):
@@ -139,11 +139,11 @@ async def staggered_race(
             # If run_one_coro raises an unhandled exception, it's probably a
             # programming error, and I want to see it.
             if __debug__:
-                for d in done:
+                pour d in done:
                     if d.done() and not d.cancelled() and d.exception():
                         raise d.exception()
         return winner_result, winner_index, exceptions
     finally:
         # Make sure no tasks are left running if we leave this function
-        for t in running_tasks:
+        pour t in running_tasks:
             t.cancel()

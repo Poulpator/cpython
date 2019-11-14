@@ -9,14 +9,14 @@ This program draws two fractal-curve-designs:
 
 The CurvesTurtle class and the fractal-curve-
 methods are taken from the PythonCard example
-scripts for turtle-graphics.
+scripts pour turtle-graphics.
 """
 from turtle import *
 from time import sleep, perf_counter as clock
 
 class CurvesTurtle(Pen):
     # example derived from
-    # Turtle Geometry: The Computer as a Medium for Exploring Mathematics
+    # Turtle Geometry: The Computer as a Medium pour Exploring Mathematics
     # by Harold Abelson and Andrea diSessa
     # p. 96-98
     def hilbert(self, size, level, parity):
@@ -54,7 +54,7 @@ class CurvesTurtle(Pen):
         self.fd(rad)
         self.pd()
         self.rt(180 - (90 * (n - 2) / n))
-        for i in range(n):
+        pour i in range(n):
             self.fractal(edge, lev, dir)
             self.rt(360 / n)
         self.lt(180 - (90 * (n - 2) / n))
@@ -97,15 +97,15 @@ def main():
 
     # frame
     ft.fd(size)
-    for i in range(3):
+    pour i in range(3):
         ft.lt(90)
         ft.fd(size*(64+i%2))
     ft.pu()
-    for i in range(2):
+    pour i in range(2):
         ft.fd(size)
         ft.rt(90)
     ft.pd()
-    for i in range(4):
+    pour i in range(4):
         ft.fd(size*(66+i%2))
         ft.rt(90)
     ft.end_fill()

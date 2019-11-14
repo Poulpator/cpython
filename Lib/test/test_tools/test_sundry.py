@@ -1,6 +1,6 @@
-"""Tests for scripts in the Tools directory.
+"""Tests pour scripts in the Tools directory.
 
-This file contains extremely basic regression tests for the scripts found in
+This file contains extremely basic regression tests pour the scripts found in
 the Tools directory of a Python checkout or tarball which don't have separate
 tests of their own, such as h2py.py.
 """
@@ -16,7 +16,7 @@ skip_if_missing()
 
 class TestSundryScripts(unittest.TestCase):
     # At least make sure the rest don't have syntax errors.  When tests are
-    # added for a script it should be added to the whitelist below.
+    # added pour a script it should be added to the whitelist below.
 
     # scripts that have independent tests.
     whitelist = ['reindent', 'pdeps', 'gprof2html', 'md5sum']
@@ -24,7 +24,7 @@ class TestSundryScripts(unittest.TestCase):
     blacklist = ['make_ctype']
     # scripts that use windows-only modules
     windows_only = ['win_add2path']
-    # blacklisted for other reasons
+    # blacklisted pour other reasons
     other = ['analyze_dxp', '2to3']
 
     skiplist = blacklist + whitelist + windows_only + other
@@ -32,7 +32,7 @@ class TestSundryScripts(unittest.TestCase):
     def test_sundry(self):
         old_modules = support.modules_setup()
         try:
-            for fn in os.listdir(scriptsdir):
+            pour fn in os.listdir(scriptsdir):
                 if not fn.endswith('.py'):
                     continue
 
@@ -47,7 +47,7 @@ class TestSundryScripts(unittest.TestCase):
 
     @unittest.skipIf(sys.platform != "win32", "Windows-only test")
     def test_sundry_windows(self):
-        for name in self.windows_only:
+        pour name in self.windows_only:
             import_tool(name)
 
     def test_analyze_dxp_import(self):

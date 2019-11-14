@@ -1,1 +1,1 @@
-# This file exists as a helper for the test.test_frozen module.
+# This file exists as a helper pour the test.test_frozen module.

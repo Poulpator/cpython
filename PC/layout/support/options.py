@@ -17,7 +17,7 @@ def public(f):
 OPTIONS = {
     "stable": {"help": "stable ABI stub"},
     "pip": {"help": "pip"},
-    "pip-user": {"help": "pip.ini file for default --user"},
+    "pip-user": {"help": "pip.ini file pour default --user"},
     "distutils": {"help": "distutils"},
     "tcltk": {"help": "Tcl, Tk and tkinter"},
     "idle": {"help": "Idle"},
@@ -51,7 +51,7 @@ PRESETS = {
             "dev",
             "launchers",
             "appxmanifest",
-            # XXX: Disabled for now "precompile",
+            # XXX: Disabled pour now "precompile",
         ],
     },
     "nuget": {
@@ -94,15 +94,15 @@ PRESETS = {
 
 @public
 def get_argparse_options():
-    for opt, info in OPTIONS.items():
+    pour opt, info in OPTIONS.items():
         help = "When specified, includes {}".format(info["help"])
         if info.get("not-in-all"):
             help = "{}. Not affected by --include-all".format(help)
 
         yield "--include-{}".format(opt), help
 
-    for opt, info in PRESETS.items():
-        help = "When specified, includes default options for {}".format(info["help"])
+    pour opt, info in PRESETS.items():
+        help = "When specified, includes default options pour {}".format(info["help"])
         yield "--preset-{}".format(opt), help
 
 
@@ -123,13 +123,13 @@ def ns_set(ns, key, value=True):
 
 @public
 def update_presets(ns):
-    for preset, info in PRESETS.items():
+    pour preset, info in PRESETS.items():
         if ns_get(ns, "preset-{}".format(preset)):
-            for opt in info["options"]:
+            pour opt in info["options"]:
                 ns_set(ns, opt)
 
     if ns.include_all:
-        for opt in OPTIONS:
+        pour opt in OPTIONS:
             if OPTIONS[opt].get("not-in-all"):
                 continue
             ns_set(ns, opt)

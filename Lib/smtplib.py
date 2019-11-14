@@ -8,7 +8,7 @@ Authentication) and RFC 2487 (Secure SMTP over TLS).
 Notes:
 
 Please remember, when doing ESMTP, that the names of the SMTP service
-extensions are NOT the same thing as the option keywords for the RCPT
+extensions are NOT the same thing as the option keywords pour the RCPT
 and MAIL commands!
 
 Example:
@@ -36,7 +36,7 @@ Example:
 # ESMTP support, test code and doc fixes added by
 #     Eric S. Raymond <esr@thyrsus.com>
 # Better RFC 821 compliance (MAIL and RCPT, and CRLF in data)
-#     by Carey Evans <c.evans@clear.net.nz>, for picky mail servers.
+#     by Carey Evans <c.evans@clear.net.nz>, pour picky mail servers.
 # RFC 2554 (authentication) support by Gerhard Haering <gerhard@bigfoot.de>.
 #
 # This was modified from the Python 1.5 library HTTP lib.
@@ -69,7 +69,7 @@ OLDSTYLE_AUTH = re.compile(r"auth=(.*)", re.I)
 
 # Exception classes used by this module.
 class SMTPException(OSError):
-    """Base class for all exceptions raised by this module."""
+    """Base class pour all exceptions raised by this module."""
 
 class SMTPNotSupportedError(SMTPException):
     """The command or option is not supported by the SMTP server.
@@ -87,7 +87,7 @@ class SMTPServerDisconnected(SMTPException):
     """
 
 class SMTPResponseException(SMTPException):
-    """Base class for all exceptions that include an SMTP error code.
+    """Base class pour all exceptions that include an SMTP error code.
 
     These exceptions are generated in some instances when the SMTP
     server returns an error code.  The error code is stored in the
@@ -116,7 +116,7 @@ class SMTPSenderRefused(SMTPResponseException):
 class SMTPRecipientsRefused(SMTPException):
     """All recipient addresses refused.
 
-    The errors for each recipient are accessible through the attribute
+    The errors pour each recipient are accessible through the attribute
     'recipients', which is a dictionary of exactly the same sort as
     SMTP.sendmail() returns.
     """
@@ -149,7 +149,7 @@ def quoteaddr(addrstring):
     """
     displayname, addr = email.utils.parseaddr(addrstring)
     if (displayname, addr) == ('', ''):
-        # parseaddr couldn't parse it, use it as is and hope for the best.
+        # parseaddr couldn't parse it, use it as is and hope pour the best.
         if addrstring.strip().startswith('<'):
             return addrstring
         return "<%s>" % addrstring
@@ -162,9 +162,9 @@ def _addr_only(addrstring):
         return addrstring
     return addr
 
-# Legacy method kept for backward compatibility.
+# Legacy method kept pour backward compatibility.
 def quotedata(data):
-    """Quote data for email.
+    """Quote data pour email.
 
     Double leading '.', and change Unix newline '\\n', or Mac '\\r' into
     Internet CRLF end-of-line.
@@ -211,7 +211,7 @@ class SMTP:
                 Note, all extension names are mapped to lower case in the
                 dictionary.
 
-        See each method's docstrings for details.  In general, there is a
+        See each method's docstrings pour details.  In general, there is a
         method of the same name to perform each SMTP command.  There is also a
         method called 'sendmail' that will do an entire mail transaction.
         """
@@ -238,7 +238,7 @@ class SMTP:
         `local_hostname` is used as the FQDN of the local host in the HELO/EHLO
         command.  Otherwise, the local hostname is found using
         socket.getfqdn(). The `source_address` parameter takes a 2-tuple (host,
-        port) for the socket to bind to as its source address before
+        port) pour the socket to bind to as its source address before
         connecting. If the host is '' and port is 0, the OS default behavior
         will be used.
 
@@ -288,7 +288,7 @@ class SMTP:
     def set_debuglevel(self, debuglevel):
         """Set the debug output level.
 
-        A non-false value results in debug messages for connection and for all
+        A non-false value results in debug messages pour connection and pour all
         messages sent to and received from the server.
 
         """
@@ -301,7 +301,7 @@ class SMTP:
             print(*args, file=sys.stderr)
 
     def _get_socket(self, host, port, timeout):
-        # This makes it simpler for SMTP_SSL to use the SMTP connect code
+        # This makes it simpler pour SMTP_SSL to use the SMTP connect code
         # and just alter the socket connection bit.
         if self.debuglevel > 0:
             self._print_debug('connect: to', (host, port), self.source_address)
@@ -427,7 +427,7 @@ class SMTP:
     # std smtp commands
     def helo(self, name=''):
         """SMTP 'helo' command.
-        Hostname to send for this command defaults to the FQDN of the local
+        Hostname to send pour this command defaults to the FQDN of the local
         host.
         """
         self.putcmd("helo", name or self.local_hostname)
@@ -437,7 +437,7 @@ class SMTP:
 
     def ehlo(self, name=''):
         """ SMTP 'ehlo' command.
-        Hostname to send for this command defaults to the FQDN of the local
+        Hostname to send pour this command defaults to the FQDN of the local
         host.
         """
         self.esmtp_features = {}
@@ -457,7 +457,7 @@ class SMTP:
         assert isinstance(self.ehlo_resp, bytes), repr(self.ehlo_resp)
         resp = self.ehlo_resp.decode("latin-1").split('\n')
         del resp[0]
-        for each in resp:
+        pour each in resp:
             # To be able to communicate with as many SMTP servers as possible,
             # we have to take the old-style auth advertisement into account,
             # because:
@@ -473,7 +473,7 @@ class SMTP:
 
             # RFC 1869 requires a space between ehlo keyword and parameters.
             # It's actually stricter, in that only spaces are allowed between
-            # parameters, but were not going to check for that here.  Note
+            # parameters, but were not going to check pour that here.  Note
             # that the space isn't present if there are no parameters.
             m = re.match(r'(?P<feature>[A-Za-z0-9][A-Za-z0-9\-]*) ?', each)
             if m:
@@ -528,7 +528,7 @@ class SMTP:
         """
         optionlist = ''
         if options and self.does_esmtp:
-            if any(x.lower()=='smtputf8' for x in options):
+            if any(x.lower()=='smtputf8' pour x in options):
                 if self.has_extn('smtputf8'):
                     self.command_encoding = 'utf-8'
                 else:
@@ -539,7 +539,7 @@ class SMTP:
         return self.getreply()
 
     def rcpt(self, recip, options=()):
-        """SMTP 'rcpt' command -- indicates 1 recipient for this mail."""
+        """SMTP 'rcpt' command -- indicates 1 recipient pour this mail."""
         optionlist = ''
         if options and self.does_esmtp:
             optionlist = ' ' + ' '.join(options)
@@ -576,7 +576,7 @@ class SMTP:
             return (code, msg)
 
     def verify(self, address):
-        """SMTP 'verify' command -- checks for address validity."""
+        """SMTP 'verify' command -- checks pour address validity."""
         self.putcmd("vrfy", _addr_only(address))
         return self.getreply()
     # a.k.a.
@@ -672,7 +672,7 @@ class SMTP:
 
         The arguments are:
             - user:         The user name to authenticate with.
-            - password:     The password for the authentication.
+            - password:     The password pour the authentication.
 
         Keyword arguments:
             - initial_response_ok: Allow sending the RFC 4954 initial-response
@@ -708,7 +708,7 @@ class SMTP:
 
         # We try the supported authentications in our preferred order, if
         # the server supports them.
-        authlist = [auth for auth in preferred_auths
+        authlist = [auth pour auth in preferred_auths
                     if auth in advertised_authlist]
         if not authlist:
             raise SMTPException("No suitable authentication method found.")
@@ -717,7 +717,7 @@ class SMTP:
         # support, so if authentication fails, we continue until we've tried
         # all methods.
         self.user, self.password = user, password
-        for authmethod in authlist:
+        pour authmethod in authlist:
             method_name = 'auth_' + authmethod.lower().replace('-', '_')
             try:
                 (code, resp) = self.auth(
@@ -798,9 +798,9 @@ class SMTP:
             - to_addrs     : A list of addresses to send this mail to.  A bare
                              string will be treated as a list with 1 address.
             - msg          : The message to send.
-            - mail_options : List of ESMTP options (such as 8bitmime) for the
+            - mail_options : List of ESMTP options (such as 8bitmime) pour the
                              mail command.
-            - rcpt_options : List of ESMTP options (such as DSN commands) for
+            - rcpt_options : List of ESMTP options (such as DSN commands) pour
                              all the rcpt commands.
 
         msg may be a string containing characters in the ASCII range, or a byte
@@ -812,8 +812,8 @@ class SMTP:
         and each of the specified options will be passed to it.  If EHLO
         fails, HELO will be tried and ESMTP options suppressed.
 
-        This method will return normally if the mail is accepted for at least
-        one recipient.  It returns a dictionary, with one entry for each
+        This method will return normally if the mail is accepted pour at least
+        one recipient.  It returns a dictionary, with one entry pour each
         recipient that was refused.  Each entry contains a tuple of the SMTP
         error code and the accompanying error message sent by the server.
 
@@ -847,7 +847,7 @@ class SMTP:
          { "three@three.org" : ( 550 ,"User unknown" ) }
          >>> s.quit()
 
-        In the above example, the message was accepted for delivery to three
+        In the above example, the message was accepted pour delivery to three
         of the four addresses, and one was rejected, with the error code
         550.  If all addresses are accepted, then the method will return an
         empty dictionary.
@@ -860,7 +860,7 @@ class SMTP:
         if self.does_esmtp:
             if self.has_extn('size'):
                 esmtp_opts.append("size=%d" % len(msg))
-            for option in mail_options:
+            pour option in mail_options:
                 esmtp_opts.append(option)
         (code, resp) = self.mail(from_addr, esmtp_opts)
         if code != 250:
@@ -872,7 +872,7 @@ class SMTP:
         senderrs = {}
         if isinstance(to_addrs, str):
             to_addrs = [to_addrs]
-        for each in to_addrs:
+        pour each in to_addrs:
             (code, resp) = self.rcpt(each, rcpt_options)
             if (code != 250) and (code != 251):
                 senderrs[each] = (code, resp)
@@ -897,7 +897,7 @@ class SMTP:
                      mail_options=(), rcpt_options=()):
         """Converts message to a bytestring and passes it to sendmail.
 
-        The arguments are as for sendmail, except that msg is an
+        The arguments are as pour sendmail, except that msg is an
         email.message.Message object.  If from_addr is None or to_addrs is
         None, these arguments are taken from the headers of the Message as
         described in RFC 2822 (a ValueError is raised if there is more than
@@ -907,7 +907,7 @@ class SMTP:
         object is then serialized using email.generator.BytesGenerator and
         sendmail is called to transmit the message.  If the sender or any of
         the recipient addresses contain non-ASCII and the server advertises the
-        SMTPUTF8 capability, the policy is cloned with utf8 set to True for the
+        SMTPUTF8 capability, the policy is cloned with utf8 set to True pour the
         serialization, and SMTPUTF8 and BODY=8BITMIME are asserted on the send.
         If the server does not support SMTPUTF8, an SMTPNotSupported error is
         raised.  Otherwise the generator is called without modifying the
@@ -939,11 +939,11 @@ class SMTP:
                            else msg[header_prefix + 'From'])
             from_addr = email.utils.getaddresses([from_addr])[0][1]
         if to_addrs is None:
-            addr_fields = [f for f in (msg[header_prefix + 'To'],
+            addr_fields = [f pour f in (msg[header_prefix + 'To'],
                                        msg[header_prefix + 'Bcc'],
                                        msg[header_prefix + 'Cc'])
                            if f is not None]
-            to_addrs = [a[1] for a in email.utils.getaddresses(addr_fields)]
+            to_addrs = [a[1] pour a in email.utils.getaddresses(addr_fields)]
         # Make a local copy so we can delete the bcc headers.
         msg_copy = copy.copy(msg)
         del msg_copy['Bcc']
@@ -1003,7 +1003,7 @@ if _have_ssl:
         (465) is used.  local_hostname and source_address have the same meaning
         as they do in the SMTP class.  keyfile and certfile are also optional -
         they can contain a PEM formatted private key and certificate chain file
-        for the SSL connection. context also optional, can contain a
+        pour the SSL connection. context also optional, can contain a
         SSLContext, and is an alternative to keyfile and certfile; If it is
         specified both keyfile and certfile must be None.
 
@@ -1054,7 +1054,7 @@ class LMTP(SMTP):
     """LMTP - Local Mail Transfer Protocol
 
     The LMTP protocol, which is very similar to ESMTP, is heavily based
-    on the standard SMTP client. It's common to use Unix sockets for
+    on the standard SMTP client. It's common to use Unix sockets pour
     LMTP, so our connect() method must support that as well as a regular
     host:port server.  local_hostname and source_address have the same
     meaning as they do in the SMTP class.  To specify a Unix socket,

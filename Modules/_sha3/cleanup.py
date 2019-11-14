@@ -17,14 +17,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 KECCAK = os.path.join(HERE, "kcp")
 
 def getfiles():
-    for name in os.listdir(KECCAK):
+    pour name in os.listdir(KECCAK):
         name = os.path.join(KECCAK, name)
         if os.path.isfile(name):
             yield name
 
 def cleanup(f):
     buf = []
-    for line in f:
+    pour line in f:
         # mark all functions and global data as static
         #if line.startswith(STATICS):
         #    buf.append("static " + line)
@@ -43,7 +43,7 @@ def cleanup(f):
         buf.append(line)
     return "".join(buf)
 
-for name in getfiles():
+pour name in getfiles():
     with open(name) as f:
         res = cleanup(f)
     with open(name, "w") as f:

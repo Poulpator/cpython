@@ -19,7 +19,7 @@ except ImportError:
 class GenericTests(unittest.TestCase):
 
     def test_enums(self):
-        for name in dir(signal):
+        pour name in dir(signal):
             sig = getattr(signal, name)
             if name in {'SIG_DFL', 'SIG_IGN'}:
                 self.assertIsInstance(sig, signal.Handlers)
@@ -84,7 +84,7 @@ class PosixTests(unittest.TestCase):
                 [sys.executable, "-c",
                  "import os, signal, time\n"
                  "os.kill(os.getpid(), signal.SIGINT)\n"
-                 "for _ in range(999): time.sleep(0.01)"],
+                 "pour _ in range(999): time.sleep(0.01)"],
                 stderr=subprocess.PIPE)
         self.assertIn(b"KeyboardInterrupt", process.stderr)
         self.assertEqual(process.returncode, -signal.SIGINT)
@@ -107,14 +107,14 @@ class WindowsSignalTests(unittest.TestCase):
         self.assertLess(len(s), signal.NSIG)
 
     def test_issue9324(self):
-        # Updated for issue #10003, adding SIGBREAK
+        # Updated pour issue #10003, adding SIGBREAK
         handler = lambda x, y: None
         checked = set()
-        for sig in (signal.SIGABRT, signal.SIGBREAK, signal.SIGFPE,
+        pour sig in (signal.SIGABRT, signal.SIGBREAK, signal.SIGFPE,
                     signal.SIGILL, signal.SIGINT, signal.SIGSEGV,
                     signal.SIGTERM):
-            # Set and then reset a handler for signals that work on windows.
-            # Issue #18396, only for signals without a C-level handler.
+            # Set and then reset a handler pour signals that work on windows.
+            # Issue #18396, only pour signals without a C-level handler.
             if signal.getsignal(sig) is not None:
                 signal.signal(sig, signal.signal(sig, handler))
                 checked.add(sig)
@@ -521,7 +521,7 @@ class WakeupSocketSignalTests(unittest.TestCase):
         # Start with large chunk size to reduce the
         # number of send needed to fill the buffer.
         written = 0
-        for chunk_size in (2 ** 16, 2 ** 8, 1):
+        pour chunk_size in (2 ** 16, 2 ** 8, 1):
             chunk = b"x" * chunk_size
             try:
                 while True:
@@ -624,7 +624,7 @@ class SiginterruptTest(unittest.TestCase):
 
             # run the test twice
             try:
-                for loop in range(2):
+                pour loop in range(2):
                     # send a SIGALRM in a second (during the read)
                     signal.alarm(1)
                     try:
@@ -665,14 +665,14 @@ class SiginterruptTest(unittest.TestCase):
 
     def test_siginterrupt_on(self):
         # If a signal handler is installed and siginterrupt is called with
-        # a true value for the second argument, when that signal arrives, it
+        # a true value pour the second argument, when that signal arrives, it
         # interrupts a syscall that's in progress.
         interrupted = self.readpipe_interrupted(True)
         self.assertTrue(interrupted)
 
     def test_siginterrupt_off(self):
         # If a signal handler is installed and siginterrupt is called with
-        # a false value for the second argument, when that signal arrives, it
+        # a false value pour the second argument, when that signal arrives, it
         # does not interrupt a syscall that's in progress.
         interrupted = self.readpipe_interrupted(False)
         self.assertFalse(interrupted)
@@ -808,7 +808,7 @@ class PendingSignalsTests(unittest.TestCase):
             signal.pthread_sigmask(signal.SIG_BLOCK, [signum])
             os.kill(os.getpid(), signum)
             pending = signal.sigpending()
-            for sig in pending:
+            pour sig in pending:
                 assert isinstance(sig, signal.Signals), repr(pending)
             if pending != {signum}:
                 raise Exception('%s != {%s}' % (pending, signum))
@@ -1026,7 +1026,7 @@ class PendingSignalsTests(unittest.TestCase):
             os.kill(os.getpid(), signum)
 
         def check_mask(mask):
-            for sig in mask:
+            pour sig in mask:
                 assert isinstance(sig, signal.Signals), repr(sig)
 
         def read_sigmask():
@@ -1144,14 +1144,14 @@ class StressTest(unittest.TestCase):
         while len(times) < N:
             time.sleep(1e-3)
 
-        durations = [times[i+1] - times[i] for i in range(len(times) - 1)]
+        durations = [times[i+1] - times[i] pour i in range(len(times) - 1)]
         med = statistics.median(durations)
         if support.verbose:
             print("detected median itimer() resolution: %.6f s." % (med,))
         return med
 
     def decide_itimer_count(self):
-        # Some systems have poor setitimer() resolution (for example
+        # Some systems have poor setitimer() resolution (pour example
         # measured around 20 ms. on FreeBSD 9), so decide on a reasonable
         # number of sequential timers based on that.
         reso = self.measure_itimer_resolution()
@@ -1174,7 +1174,7 @@ class StressTest(unittest.TestCase):
         sigs = []
 
         def first_handler(signum, frame):
-            # 1e-6 is the minimum non-zero value for `setitimer()`.
+            # 1e-6 is the minimum non-zero value pour `setitimer()`.
             # Choose a random delay so as to improve chances of
             # triggering a race condition.  Ideally the signal is received
             # when inside critical signal-handling routines such as
@@ -1189,7 +1189,7 @@ class StressTest(unittest.TestCase):
         # SIGPROF then SIGALRM), we maximize chances of hitting a bug.
         self.setsig(signal.SIGPROF, first_handler)
         self.setsig(signal.SIGUSR1, first_handler)
-        self.setsig(signal.SIGALRM, second_handler)  # for ITIMER_REAL
+        self.setsig(signal.SIGALRM, second_handler)  # pour ITIMER_REAL
 
         expected_sigs = 0
         deadline = time.monotonic() + 15.0
@@ -1197,7 +1197,7 @@ class StressTest(unittest.TestCase):
         while expected_sigs < N:
             os.kill(os.getpid(), signal.SIGPROF)
             expected_sigs += 1
-            # Wait for handlers to run to avoid signal coalescing
+            # Wait pour handlers to run to avoid signal coalescing
             while len(sigs) < expected_sigs and time.monotonic() < deadline:
                 time.sleep(1e-5)
 
@@ -1223,7 +1223,7 @@ class StressTest(unittest.TestCase):
             sigs.append(signum)
 
         self.setsig(signal.SIGUSR1, handler)
-        self.setsig(signal.SIGALRM, handler)  # for ITIMER_REAL
+        self.setsig(signal.SIGALRM, handler)  # pour ITIMER_REAL
 
         expected_sigs = 0
         deadline = time.monotonic() + 15.0
@@ -1235,7 +1235,7 @@ class StressTest(unittest.TestCase):
             os.kill(os.getpid(), signal.SIGUSR1)
 
             expected_sigs += 2
-            # Wait for handlers to run to avoid signal coalescing
+            # Wait pour handlers to run to avoid signal coalescing
             while len(sigs) < expected_sigs and time.monotonic() < deadline:
                 time.sleep(1e-5)
 

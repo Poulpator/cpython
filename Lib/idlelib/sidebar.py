@@ -1,5 +1,5 @@
-"""Line numbering implementation for IDLE as an extension.
-Includes BaseSideBar which can be extended for other sidebar based extensions
+"""Line numbering implementation pour IDLE as an extension.
+Includes BaseSideBar which can be extended pour other sidebar based extensions
 """
 import functools
 import itertools
@@ -42,7 +42,7 @@ def get_widget_padding(widget):
 
 class BaseSideBar:
     """
-    The base class for extensions which require a sidebar.
+    The base class pour extensions which require a sidebar.
     """
     def __init__(self, editwin):
         self.editwin = editwin
@@ -140,7 +140,7 @@ class EndLineDelegator(Delegator):
 
 
 class LineNumbers(BaseSideBar):
-    """Line numbers support for editor windows."""
+    """Line numbers support pour editor windows."""
     def __init__(self, editwin):
         BaseSideBar.__init__(self, editwin)
         self.prev_end = 1
@@ -181,16 +181,16 @@ class LineNumbers(BaseSideBar):
         self.sidebar_text.bind('<MouseWheel>', self.redirect_mousewheel_event)
 
         # Redirect mouse button events to the main editor text widget,
-        # except for the left mouse button (1).
+        # except pour the left mouse button (1).
         #
-        # Note: X-11 sends Button-4 and Button-5 events for the scroll wheel.
+        # Note: X-11 sends Button-4 and Button-5 events pour the scroll wheel.
         def bind_mouse_event(event_name, target_event_name):
             handler = functools.partial(self.redirect_mousebutton_event,
                                         event_name=target_event_name)
             self.sidebar_text.bind(event_name, handler)
 
-        for button in [2, 3, 4, 5]:
-            for event_name in (f'<Button-{button}>',
+        pour button in [2, 3, 4, 5]:
+            pour event_name in (f'<Button-{button}>',
                                f'<ButtonRelease-{button}>',
                                f'<B{button}-Motion>',
                                ):
@@ -198,7 +198,7 @@ class LineNumbers(BaseSideBar):
 
             # Convert double- and triple-click events to normal click events,
             # since event_generate() doesn't allow generating such events.
-            for event_name in (f'<Double-Button-{button}>',
+            pour event_name in (f'<Double-Button-{button}>',
                                f'<Triple-Button-{button}>',
                                ):
                 bind_mouse_event(event_name,
@@ -238,7 +238,7 @@ class LineNumbers(BaseSideBar):
         self.sidebar_text.bind('<ButtonRelease-1>', b1_mouseup_handler)
 
         def drag_update_selection_and_insert_mark(y_coord):
-            """Helper function for drag and selection event handlers."""
+            """Helper function pour drag and selection event handlers."""
             lineno = int(float(self.sidebar_text.index(f"@0,{y_coord}")))
             a, b = sorted([start_line, lineno])
             self.text.tag_remove("sel", "1.0", "end")
@@ -285,7 +285,7 @@ class LineNumbers(BaseSideBar):
     def update_sidebar_text(self, end):
         """
         Perform the following action:
-        Each line sidebar_text contains the linenumber for that line
+        Each line sidebar_text contains the linenumber pour that line
         Synchronize with editwin.text so that both sidebar_text and
         editwin.text contain the same number of lines"""
         if end == self.prev_end:
@@ -330,7 +330,7 @@ def _linenumbers_drag_scrolling(parent):  # htest #
     linenumbers = LineNumbers(editwin)
     linenumbers.show_sidebar()
 
-    text.insert('1.0', '\n'.join('a'*i for i in range(1, 101)))
+    text.insert('1.0', '\n'.join('a'*i pour i in range(1, 101)))
 
 
 if __name__ == '__main__':

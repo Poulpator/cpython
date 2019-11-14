@@ -32,7 +32,7 @@ class SearchDialogTest(unittest.TestCase):
         self.text.insert('1.0', 'Hello World!')
 
     def test_find_again(self):
-        # Search for various expressions
+        # Search pour various expressions
         text = self.text
 
         self.engine.setpat('')

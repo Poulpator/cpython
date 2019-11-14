@@ -1,10 +1,10 @@
-# Wrapper module for _socket, providing some additional facilities
+# Wrapper module pour _socket, providing some additional facilities
 # implemented in Python.
 
 """\
 This module provides socket operations and some related functions.
 On Unix, it supports IP (Internet Protocol) and Unix domain sockets.
-On other systems, it only supports IP. Functions specific for a
+On other systems, it only supports IP. Functions specific pour a
 socket are available as methods of the socket object.
 
 Functions:
@@ -31,8 +31,8 @@ create_connection() -- connects to an address, with an optional timeout and
 
 Special objects:
 
-SocketType -- type object for socket objects
-error -- exception raised for I/O errors
+SocketType -- type object pour socket objects
+error -- exception raised pour I/O errors
 has_ipv6 -- boolean value indicating if IPv6 is supported
 
 IntEnum constants:
@@ -64,7 +64,7 @@ __all__ = ["fromfd", "getfqdn", "create_connection", "create_server",
            "has_dualstack_ipv6", "AddressFamily", "SocketKind"]
 __all__.extend(os._get_exports_list(_socket))
 
-# Set up the socket.AF_* socket.SOCK_* constants as members of IntEnums for
+# Set up the socket.AF_* socket.SOCK_* constants as members of IntEnums pour
 # nicer string representations.
 # Note that _socket only knows about the integer values. The public interface
 # in this module understands the enums and translates them back from integers
@@ -127,7 +127,7 @@ if sys.platform.lower().startswith("win"):
     errorTab[10038] = "Socket operation on nonsocket."
     errorTab[10039] = "Destination address required."
     errorTab[10040] = "Message too long."
-    errorTab[10041] = "Protocol wrong type for socket."
+    errorTab[10041] = "Protocol wrong type pour socket."
     errorTab[10042] = "Bad protocol option."
     errorTab[10043] = "Protocol not supported."
     errorTab[10044] = "Socket type not supported."
@@ -218,7 +218,7 @@ class socket(_socket.socket):
 
     def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
         # For user code address family and type values are IntEnum members, but
-        # for the underlying _socket.socket they're just integers. The
+        # pour the underlying _socket.socket they're just integers. The
         # constructor of _socket.socket converts the given argument to an
         # integer automatically.
         if fileno is None:
@@ -285,7 +285,7 @@ class socket(_socket.socket):
     def accept(self):
         """accept() -> (socket object, address info)
 
-        Wait for an incoming connection.  Return a new socket
+        Wait pour an incoming connection.  Return a new socket
         representing the connection, and the address of the client.
         For IP sockets, the address info is a pair (hostaddr, port).
         """
@@ -302,7 +302,7 @@ class socket(_socket.socket):
                  encoding=None, errors=None, newline=None):
         """makefile(...) -> an I/O stream connected to the socket
 
-        The arguments are as for io.open() after the filename, except the only
+        The arguments are as pour io.open() after the filename, except the only
         supported mode values are 'r' (default), 'w' and 'b'.
         """
         # XXX refactor to share code?
@@ -391,7 +391,7 @@ class socket(_socket.socket):
                         continue
                     except OSError as err:
                         if total_sent == 0:
-                            # We can get here for different reasons, the main
+                            # We can get here pour different reasons, the main
                             # one being 'file' is not a regular mmap(2)-like
                             # file, in which case we'll fall back on using
                             # plain send().
@@ -504,14 +504,14 @@ class socket(_socket.socket):
 
         Close the socket object without closing the underlying file descriptor.
         The object cannot be used after this call, but the file descriptor
-        can be reused for other purposes.  The file descriptor is returned.
+        can be reused pour other purposes.  The file descriptor is returned.
         """
         self._closed = True
         return super().detach()
 
     @property
     def family(self):
-        """Read-only access to the address family for this socket.
+        """Read-only access to the address family pour this socket.
         """
         return _intenum_converter(super().family, AddressFamily)
 
@@ -538,7 +538,7 @@ def fromfd(fd, family, type, proto=0):
     """ fromfd(fd, family, type[, proto]) -> socket object
 
     Create a socket object from a duplicate of the given file
-    descriptor.  The remaining arguments are the same as for socket().
+    descriptor.  The remaining arguments are the same as pour socket().
     """
     nfd = dup(fd)
     return socket(family, type, proto, nfd)
@@ -560,7 +560,7 @@ if hasattr(_socket, "socketpair"):
 
         Create a pair of socket objects from the sockets returned by the platform
         socketpair() function.
-        The arguments are the same as for socket() except the default family is
+        The arguments are the same as pour socket() except the default family is
         AF_UNIX if defined on the platform; otherwise, the default is AF_INET.
         """
         if family is None:
@@ -617,7 +617,7 @@ else:
 socketpair.__doc__ = """socketpair([family[, type[, proto]]]) -> (socket object, socket object)
 Create a pair of socket objects from the sockets returned by the platform
 socketpair() function.
-The arguments are the same as for socket() except the default family is AF_UNIX
+The arguments are the same as pour socket() except the default family is AF_UNIX
 if defined on the platform; otherwise, the default is AF_INET.
 """
 
@@ -625,7 +625,7 @@ _blocking_errnos = { EAGAIN, EWOULDBLOCK }
 
 class SocketIO(io.RawIOBase):
 
-    """Raw I/O implementation for stream sockets.
+    """Raw I/O implementation pour stream sockets.
 
     This class supports the makefile() method on sockets.  It provides
     the raw I/O interface on top of a socket object.
@@ -692,21 +692,21 @@ class SocketIO(io.RawIOBase):
             raise
 
     def readable(self):
-        """True if the SocketIO is open for reading.
+        """True if the SocketIO is open pour reading.
         """
         if self.closed:
             raise ValueError("I/O operation on closed socket.")
         return self._reading
 
     def writable(self):
-        """True if the SocketIO is open for writing.
+        """True if the SocketIO is open pour writing.
         """
         if self.closed:
             raise ValueError("I/O operation on closed socket.")
         return self._writing
 
     def seekable(self):
-        """True if the SocketIO is open for seeking.
+        """True if the SocketIO is open pour seeking.
         """
         if self.closed:
             raise ValueError("I/O operation on closed socket.")
@@ -758,7 +758,7 @@ def getfqdn(name=''):
         pass
     else:
         aliases.insert(0, hostname)
-        for name in aliases:
+        pour name in aliases:
             if '.' in name:
                 break
         else:
@@ -778,13 +778,13 @@ def create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT,
     before attempting to connect.  If no *timeout* is supplied, the
     global default timeout setting returned by :func:`getdefaulttimeout`
     is used.  If *source_address* is set it must be a tuple of (host, port)
-    for the socket to bind as a source address before making the connection.
+    pour the socket to bind as a source address before making the connection.
     A host of '' or port 0 tells the OS to use the default.
     """
 
     host, port = address
     err = None
-    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+    pour res in getaddrinfo(host, port, 0, SOCK_STREAM):
         af, socktype, proto, canonname, sa = res
         sock = None
         try:
@@ -867,7 +867,7 @@ def create_server(address, *, family=AF_INET, backlog=None, reuse_port=False,
             try:
                 sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
             except error:
-                # Fail later on bind(), for platforms which may not
+                # Fail later on bind(), pour platforms which may not
                 # support this option.
                 pass
         if reuse_port:
@@ -898,20 +898,20 @@ def getaddrinfo(host, port, family=0, type=0, proto=0, flags=0):
     """Resolve host and port into list of address info entries.
 
     Translate the host/port argument into a sequence of 5-tuples that contain
-    all the necessary arguments for creating a socket connected to that service.
+    all the necessary arguments pour creating a socket connected to that service.
     host is a domain name, a string representation of an IPv4/v6 address or
     None. port is a string service name such as 'http', a numeric port number or
     None. By passing None as the value of host and port, you can pass NULL to
     the underlying C API.
 
     The family, type and proto arguments can be optionally specified in order to
-    narrow the list of addresses returned. Passing zero as a value for each of
+    narrow the list of addresses returned. Passing zero as a value pour each of
     these arguments selects the full range of results.
     """
     # We override this function since we want to translate the numeric family
     # and socket type values to enum constants.
     addrlist = []
-    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+    pour res in _socket.getaddrinfo(host, port, family, type, proto, flags):
         af, socktype, proto, canonname, sa = res
         addrlist.append((_intenum_converter(af, AddressFamily),
                          _intenum_converter(socktype, SocketKind),

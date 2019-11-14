@@ -22,7 +22,7 @@ class PickleTest:
         return pickle.loads(item)
 
     def test_simple(self):
-        for src in [
+        pour src in [
             c_int(42),
             c_double(3.14),
             ]:
@@ -56,7 +56,7 @@ class PickleTest:
 
         prototype = CFUNCTYPE(c_int)
 
-        for item in [
+        pour item in [
             c_char_p(),
             c_wchar_p(),
             c_void_p(),
@@ -71,7 +71,7 @@ class PickleTest:
         # Issue 5049
         self.dumps(c_wchar("x"))
 
-for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
     name = 'PickleTest_%s' % proto
     globals()[name] = type(name,
                            (PickleTest, unittest.TestCase),

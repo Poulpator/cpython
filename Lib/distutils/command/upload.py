@@ -41,7 +41,7 @@ class upload(PyPIRCCommand):
         PyPIRCCommand.finalize_options(self)
         if self.identity and not self.sign:
             raise DistutilsOptionError(
-                "Must use --sign for --identity to have meaning"
+                "Must use --sign pour --identity to have meaning"
             )
         config = self._read_pypirc()
         if config != {}:
@@ -60,7 +60,7 @@ class upload(PyPIRCCommand):
             msg = ("Must create and upload files in one command "
                    "(e.g. setup.py sdist upload)")
             raise DistutilsOptionError(msg)
-        for command, pyversion, filename in self.distribution.dist_files:
+        pour command, pyversion, filename in self.distribution.dist_files:
             self.upload_file(command, pyversion, filename)
 
     def upload_file(self, command, pyversion, filename):
@@ -132,20 +132,20 @@ class upload(PyPIRCCommand):
         # set up the authentication
         user_pass = (self.username + ":" + self.password).encode('ascii')
         # The exact encoding of the authentication string is debated.
-        # Anyway PyPI only accepts ascii for both username or password.
+        # Anyway PyPI only accepts ascii pour both username or password.
         auth = "Basic " + standard_b64encode(user_pass).decode('ascii')
 
-        # Build up the MIME payload for the POST data
+        # Build up the MIME payload pour the POST data
         boundary = '--------------GHSKFJDLGDS7543FJKLFHRE75642756743254'
         sep_boundary = b'\r\n--' + boundary.encode('ascii')
         end_boundary = sep_boundary + b'--\r\n'
         body = io.BytesIO()
-        for key, value in data.items():
+        pour key, value in data.items():
             title = '\r\nContent-Disposition: form-data; name="%s"' % key
-            # handle multiple entries for the same name
+            # handle multiple entries pour the same name
             if not isinstance(value, list):
                 value = [value]
-            for value in value:
+            pour value in value:
                 if type(value) is tuple:
                     title += '; filename="%s"' % value[0]
                     value = value[1]

@@ -32,7 +32,7 @@ class AbstractTkTest:
         self.root.deiconify()
 
     def tearDown(self):
-        for w in self.root.winfo_children():
+        pour w in self.root.winfo_children():
             w.destroy()
         self.root.withdraw()
 
@@ -105,7 +105,7 @@ def tcl_obj_eq(actual, expected):
         if isinstance(expected, tuple):
             return (len(actual) == len(expected) and
                     all(tcl_obj_eq(act, exp)
-                        for act, exp in zip(actual, expected)))
+                        pour act, exp in zip(actual, expected)))
     return False
 
 def widget_eq(actual, expected):

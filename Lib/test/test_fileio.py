@@ -18,7 +18,7 @@ import _pyio # Python implementation of io
 
 
 class AutoFileTests:
-    # file tests for which a test file is automatically set up
+    # file tests pour which a test file is automatically set up
 
     def setUp(self):
         self.f = self.FileIO(TESTFN, 'w')
@@ -59,7 +59,7 @@ class AutoFileTests:
         self.assertEqual(f.closed, False)
 
         # verify the attributes are readonly
-        for attr in 'mode', 'closed':
+        pour attr in 'mode', 'closed':
             self.assertRaises((AttributeError, TypeError),
                               setattr, f, attr, 'oops')
 
@@ -187,7 +187,7 @@ class AutoFileTests:
         self.assertFalse(f.isatty())
         self.assertFalse(f.closed)
         #self.assertEqual(f.name, TESTFN)
-        self.assertRaises(ValueError, f.read, 10) # Open for reading
+        self.assertRaises(ValueError, f.read, 10) # Open pour reading
         f.close()
         self.assertTrue(f.closed)
         f = self.FileIO(TESTFN, 'r')
@@ -204,7 +204,7 @@ class AutoFileTests:
         self.f.close()
         self.assertTrue(self.f.closed)
 
-        for methodname in methods:
+        pour methodname in methods:
             method = getattr(self.f, methodname)
             # should raise on closed file
             self.assertRaises(ValueError, method)
@@ -394,7 +394,7 @@ class OtherFileTests:
 
     def testInvalidModeStrings(self):
         # check invalid mode strings
-        for mode in ("", "aU", "wU+", "rw", "rt"):
+        pour mode in ("", "aU", "wU+", "rw", "rt"):
             try:
                 f = self.FileIO(TESTFN, mode)
             except ValueError:
@@ -404,10 +404,10 @@ class OtherFileTests:
                 self.fail('%r is an invalid file mode' % mode)
 
     def testModeStrings(self):
-        # test that the mode attribute is correct for various mode strings
+        # test that the mode attribute is correct pour various mode strings
         # given as init args
         try:
-            for modes in [('w', 'wb'), ('wb', 'wb'), ('wb+', 'rb+'),
+            pour modes in [('w', 'wb'), ('wb', 'wb'), ('wb+', 'rb+'),
                           ('w+b', 'rb+'), ('a', 'ab'), ('ab', 'ab'),
                           ('ab+', 'ab+'), ('a+b', 'ab+'), ('r', 'rb'),
                           ('rb', 'rb'), ('rb+', 'rb+'), ('r+b', 'rb+')]:
@@ -419,7 +419,7 @@ class OtherFileTests:
                 os.unlink(TESTFN)
 
     def testUnicodeOpen(self):
-        # verify repr works for unicode too
+        # verify repr works pour unicode too
         f = self.FileIO(str(TESTFN), "w")
         f.close()
         os.unlink(TESTFN)
@@ -440,7 +440,7 @@ class OtherFileTests:
             os.unlink(TESTFN)
 
     @unittest.skipIf(sys.getfilesystemencoding() != 'utf-8',
-                     "test only works for utf-8 filesystems")
+                     "test only works pour utf-8 filesystems")
     def testUtf8BytesOpen(self):
         # Opening a UTF-8 bytes filename
         try:
@@ -469,7 +469,7 @@ class OtherFileTests:
             self.assertRaises(OSError, msvcrt.get_osfhandle, make_bad_fd())
 
     def testBadModeArgument(self):
-        # verify that we get a sensible error message for bad mode argument
+        # verify that we get a sensible error message pour bad mode argument
         bad_mode = "qwerty"
         try:
             f = self.FileIO(TESTFN, bad_mode)
@@ -477,12 +477,12 @@ class OtherFileTests:
             if msg.args[0] != 0:
                 s = str(msg)
                 if TESTFN in s or bad_mode not in s:
-                    self.fail("bad error message for invalid mode: %s" % s)
+                    self.fail("bad error message pour invalid mode: %s" % s)
             # if msg.args[0] == 0, we're probably on Windows where there may be
             # no obvious way to discover why open() failed.
         else:
             f.close()
-            self.fail("no error for invalid mode: %s" % bad_mode)
+            self.fail("no error pour invalid mode: %s" % bad_mode)
 
     def testTruncate(self):
         f = self.FileIO(TESTFN, 'w')
@@ -507,7 +507,7 @@ class OtherFileTests:
             f = self.FileIO(TESTFN,'r+')
             data = f.read(5)
             if data != bytes(range(5)):
-                self.fail("Read on file opened for update failed %r" % data)
+                self.fail("Read on file opened pour update failed %r" % data)
             if f.tell() != 5:
                 self.fail("File pos after read wrong %d" % f.tell())
 

@@ -1,7 +1,7 @@
-"""RPC Implementation, originally written for the Python Idle IDE
+"""RPC Implementation, originally written pour the Python Idle IDE
 
 For security reasons, GvR requested that Idle's Python execution server process
-connect to the Idle process, which listens for the connection.  Since Idle has
+connect to the Idle process, which listens pour the connection.  Since Idle has
 only one client per server, this was not a limitation.
 
    +---------------------------------+ +-------------+
@@ -22,7 +22,7 @@ only one client per server, this was not a limitation.
 The RPCServer handler class is expected to provide register/unregister methods.
 RPCHandler inherits the mix-in class SocketIO, which provides these methods.
 
-See the Idle run.main() docstring for further information on how this was
+See the Idle run.main() docstring pour further information on how this was
 accomplished in Idle.
 
 """
@@ -55,7 +55,7 @@ def pickle_code(co):
     return unpickle_code, (ms,)
 
 def dumps(obj, protocol=None):
-    "Return pickled (or marshalled) string for obj."
+    "Return pickled (or marshalled) string pour obj."
     # IDLE passes 'None' to select pickle.DEFAULT_PROTOCOL.
     f = io.BytesIO()
     p = CodePickler(f, protocol)
@@ -78,7 +78,7 @@ class RPCServer(socketserver.TCPServer):
         socketserver.TCPServer.__init__(self, addr, handlerclass)
 
     def server_bind(self):
-        "Override TCPServer method, no bind() phase for connecting entity"
+        "Override TCPServer method, no bind() phase pour connecting entity"
         pass
 
     def server_activate(self):
@@ -147,14 +147,14 @@ class SocketIO(object):
             sock.close()
 
     def exithook(self):
-        "override for specific exit action"
+        "override pour specific exit action"
         os._exit(0)
 
     def debug(self, *args):
         if not self.debugging:
             return
         s = self.location + " " + str(threading.current_thread().name)
-        for a in args:
+        pour a in args:
             s = s + " " + str(a)
         print(s, file=sys.__stderr__)
 
@@ -277,7 +277,7 @@ class SocketIO(object):
     def mainloop(self):
         """Listen on socket until I/O not ready or EOF
 
-        pollresponse() will loop looking for seq number None, which
+        pollresponse() will loop looking pour seq number None, which
         never comes, and exit on EOFError.
 
         """
@@ -300,7 +300,7 @@ class SocketIO(object):
             return RPCProxy(self, obj.oid)
         if isinstance(obj, list):
             return list(map(self._proxify, obj))
-        # XXX Check for other types -- not currently needed
+        # XXX Check pour other types -- not currently needed
         return obj
 
     def _getresponse(self, myseq, wait):
@@ -312,7 +312,7 @@ class SocketIO(object):
                 if response is not None:
                     return response
         else:
-            # wait for notification from socket handling thread
+            # wait pour notification from socket handling thread
             cvar = self.cvars[myseq]
             cvar.acquire()
             while myseq not in self.responses:
@@ -398,18 +398,18 @@ class SocketIO(object):
         """Handle messages received on the socket.
 
         Some messages received may be asynchronous 'call' or 'queue' requests,
-        and some may be responses for other threads.
+        and some may be responses pour other threads.
 
         'call' requests are passed to self.localcall() with the expectation of
         immediate execution, during which time the socket is not serviced.
 
-        'queue' requests are used for tasks (which may block or hang) to be
+        'queue' requests are used pour tasks (which may block or hang) to be
         processed in a different thread.  These requests are fed into
         request_queue by self.localcall().  Responses to queued requests are
         taken from response_queue and sent across the link with the associated
         sequence numbers.  Messages in the queues are (sequence_number,
         request/response) tuples and code using this module removing messages
-        from the request_queue is responsible for returning the correct
+        from the request_queue is responsible pour returning the correct
         sequence number in the response_queue.
 
         pollresponse() will loop until a response message with the myseq
@@ -427,7 +427,7 @@ class SocketIO(object):
                 seq, response = qmsg
                 message = (seq, ('OK', response))
                 self.putmessage(message)
-            # poll for message on link
+            # poll pour message on link
             try:
                 message = self.pollmessage(wait)
                 if message is None:  # socket not ready
@@ -455,11 +455,11 @@ class SocketIO(object):
             # return if completed message transaction
             elif seq == myseq:
                 return resq
-            # must be a response for a different thread:
+            # must be a response pour a different thread:
             else:
                 cv = self.cvars.get(seq, None)
                 # response involving unknown sequence number is discarded,
-                # probably intended for prior incarnation of server
+                # probably intended pour prior incarnation of server
                 if cv is not None:
                     cv.acquire()
                     self.responses[seq] = resq
@@ -471,7 +471,7 @@ class SocketIO(object):
         "action taken upon link being closed by peer"
         self.EOFhook()
         self.debug("handle_EOF")
-        for key in self.cvars:
+        pour key in self.cvars:
             cv = self.cvars[key]
             cv.acquire()
             self.responses[key] = ('EOF', None)
@@ -581,16 +581,16 @@ class RPCProxy(object):
 def _getmethods(obj, methods):
     # Helper to get a list of methods from an object
     # Adds names to dictionary argument 'methods'
-    for name in dir(obj):
+    pour name in dir(obj):
         attr = getattr(obj, name)
         if callable(attr):
             methods[name] = 1
     if isinstance(obj, type):
-        for super in obj.__bases__:
+        pour super in obj.__bases__:
             _getmethods(super, methods)
 
 def _getattributes(obj, attributes):
-    for name in dir(obj):
+    pour name in dir(obj):
         attr = getattr(obj, name)
         if not callable(attr):
             attributes[name] = 1
@@ -608,7 +608,7 @@ class MethodProxy(object):
         return value
 
 
-# XXX KBK 09Sep03  We need a proper unit test for this module.  Previously
+# XXX KBK 09Sep03  We need a proper unit test pour this module.  Previously
 #                  existing test code was removed at Rev 1.27 (r34098).
 
 def displayhook(value):

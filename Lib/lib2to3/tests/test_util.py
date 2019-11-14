@@ -1,4 +1,4 @@
-""" Test suite for the code in fixer_util """
+""" Test suite pour the code in fixer_util """
 
 # Testing imports
 from . import support
@@ -13,7 +13,7 @@ def parse(code, strip_levels=0):
     # The topmost node is file_input, which we don't care about.
     # The next-topmost node is a *_stmt node, which we also don't care about
     tree = support.parse_string(code)
-    for i in range(strip_levels):
+    pour i in range(strip_levels):
         tree = tree.children[0]
     tree.parent = None
     return tree
@@ -80,7 +80,7 @@ class Test_Call(MacroTestCase):
         """Help the next test"""
         children = []
         if isinstance(args, list):
-            for arg in args:
+            pour arg in args:
                 children.append(arg)
                 children.append(Comma())
             children.pop()
@@ -102,11 +102,11 @@ class Test_Call(MacroTestCase):
 
 class Test_does_tree_import(support.TestCase):
     def _find_bind_rec(self, name, node):
-        # Search a tree for a binding -- used to find the starting
-        # point for these tests.
+        # Search a tree pour a binding -- used to find the starting
+        # point pour these tests.
         c = fixer_util.find_binding(name, node)
         if c: return c
-        for child in node.children:
+        pour child in node.children:
             c = self._find_bind_rec(name, child)
             if c: return c
 
@@ -122,7 +122,7 @@ class Test_does_tree_import(support.TestCase):
                          ("d.a", "a", "from d.a import b"),
                          (None, "a", "import b"),
                          (None, "a", "import b, c, d"))
-        for package, name, import_ in failing_tests:
+        pour package, name, import_ in failing_tests:
             n = self.does_tree_import(package, name, import_ + "\n" + string)
             self.assertFalse(n)
             n = self.does_tree_import(package, name, string + "\n" + import_)
@@ -135,7 +135,7 @@ class Test_does_tree_import(support.TestCase):
                          ("x.b", "a", "from x.b import b, c, a, d"),
                          (None, "a", "import a"),
                          (None, "a", "import b, c, a, d"))
-        for package, name, import_ in passing_tests:
+        pour package, name, import_ in passing_tests:
             n = self.does_tree_import(package, name, import_ + "\n" + string)
             self.assertTrue(n)
             n = self.does_tree_import(package, name, string + "\n" + import_)
@@ -279,60 +279,60 @@ class Test_find_binding(support.TestCase):
         self.assertFalse(self.find_binding("a", s))
 
     def test_for(self):
-        self.assertTrue(self.find_binding("a", "for a in r: pass"))
-        self.assertTrue(self.find_binding("a", "for a, b in r: pass"))
-        self.assertTrue(self.find_binding("a", "for (a, b) in r: pass"))
-        self.assertTrue(self.find_binding("a", "for c, (a,) in r: pass"))
-        self.assertTrue(self.find_binding("a", "for c, (a, b) in r: pass"))
-        self.assertTrue(self.find_binding("a", "for c in r: a = c"))
-        self.assertFalse(self.find_binding("a", "for c in a: pass"))
+        self.assertTrue(self.find_binding("a", "pour a in r: pass"))
+        self.assertTrue(self.find_binding("a", "pour a, b in r: pass"))
+        self.assertTrue(self.find_binding("a", "pour (a, b) in r: pass"))
+        self.assertTrue(self.find_binding("a", "pour c, (a,) in r: pass"))
+        self.assertTrue(self.find_binding("a", "pour c, (a, b) in r: pass"))
+        self.assertTrue(self.find_binding("a", "pour c in r: a = c"))
+        self.assertFalse(self.find_binding("a", "pour c in a: pass"))
 
     def test_for_nested(self):
         s = """
-            for b in r:
-                for a in b:
+            pour b in r:
+                pour a in b:
                     pass"""
         self.assertTrue(self.find_binding("a", s))
 
         s = """
-            for b in r:
-                for a, c in b:
+            pour b in r:
+                pour a, c in b:
                     pass"""
         self.assertTrue(self.find_binding("a", s))
 
         s = """
-            for b in r:
-                for (a, c) in b:
+            pour b in r:
+                pour (a, c) in b:
                     pass"""
         self.assertTrue(self.find_binding("a", s))
 
         s = """
-            for b in r:
-                for (a,) in b:
+            pour b in r:
+                pour (a,) in b:
                     pass"""
         self.assertTrue(self.find_binding("a", s))
 
         s = """
-            for b in r:
-                for c, (a, d) in b:
+            pour b in r:
+                pour c, (a, d) in b:
                     pass"""
         self.assertTrue(self.find_binding("a", s))
 
         s = """
-            for b in r:
-                for c in b:
+            pour b in r:
+                pour c in b:
                     a = 7"""
         self.assertTrue(self.find_binding("a", s))
 
         s = """
-            for b in r:
-                for c in b:
+            pour b in r:
+                pour c in b:
                     d = a"""
         self.assertFalse(self.find_binding("a", s))
 
         s = """
-            for b in r:
-                for c in a:
+            pour b in r:
+                pour c in a:
                     d = 7"""
         self.assertFalse(self.find_binding("a", s))
 

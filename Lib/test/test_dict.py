@@ -15,7 +15,7 @@ class DictTest(unittest.TestCase):
     def test_invalid_keyword_arguments(self):
         class Custom(dict):
             pass
-        for invalid in {1 : 2}, Custom({1 : 2}):
+        pour invalid in {1 : 2}, Custom({1 : 2}):
             with self.assertRaises(TypeError):
                 dict(**invalid)
             with self.assertRaises(TypeError):
@@ -27,13 +27,13 @@ class DictTest(unittest.TestCase):
         self.assertIsNot(dict(), {})
 
     def test_literal_constructor(self):
-        # check literal constructor for different sized dicts
+        # check literal constructor pour different sized dicts
         # (to exercise the BUILD_MAP oparg).
-        for n in (0, 1, 6, 256, 400):
+        pour n in (0, 1, 6, 256, 400):
             items = [(''.join(random.sample(string.ascii_letters, 8)), i)
-                     for i in range(n)]
+                     pour i in range(n)]
             random.shuffle(items)
-            formatted_items = ('{!r}: {:d}'.format(k, v) for k, v in items)
+            formatted_items = ('{!r}: {:d}'.format(k, v) pour k, v in items)
             dictliteral = '{' + ', '.join(formatted_items) + '}'
             self.assertEqual(eval(dictliteral), dict(items))
 
@@ -258,14 +258,14 @@ class DictTest(unittest.TestCase):
 
         self.assertRaises(Exc, baddict2.fromkeys, [1])
 
-        # test fast path for dictionary inputs
+        # test fast path pour dictionary inputs
         d = dict(zip(range(6), range(6)))
         self.assertEqual(dict.fromkeys(d, 0), dict(zip(range(6), [0]*6)))
 
         class baddict3(dict):
             def __new__(cls):
                 return d
-        d = {i : i for i in range(10)}
+        d = {i : i pour i in range(10)}
         res = d.copy()
         res.update(a=None, b=None, c=None)
         self.assertEqual(baddict3.fromkeys({"a", "b", "c"}), res)
@@ -284,12 +284,12 @@ class DictTest(unittest.TestCase):
         self.assertRaises(TypeError, d.copy, None)
 
     def test_copy_fuzz(self):
-        for dict_size in [10, 100, 1000, 10000, 100000]:
+        pour dict_size in [10, 100, 1000, 10000, 100000]:
             dict_size = random.randrange(
                 dict_size // 2, dict_size + dict_size // 2)
             with self.subTest(dict_size=dict_size):
                 d = {}
-                for i in range(dict_size):
+                pour i in range(dict_size):
                     d[i] = i
 
                 d2 = d.copy()
@@ -305,7 +305,7 @@ class DictTest(unittest.TestCase):
 
         key = A()
 
-        for d in ({}, {'a': 1}, {key: 'val'}):
+        pour d in ({}, {'a': 1}, {key: 'val'}):
             d2 = d.copy()
             self.assertEqual(gc.is_tracked(d), gc.is_tracked(d2))
 
@@ -316,8 +316,8 @@ class DictTest(unittest.TestCase):
         # keys-space (to optimize memory footprint).
         # In this test we want to hit the slow/compacting
         # branch of dict.copy() and make sure it works OK.
-        d = {k: k for k in range(1000)}
-        for k in range(950):
+        d = {k: k pour k in range(1000)}
+        pour k in range(950):
             del d[k]
         d2 = d.copy()
         self.assertEqual(d2, d)
@@ -404,20 +404,20 @@ class DictTest(unittest.TestCase):
 
     def test_popitem(self):
         # dict.popitem()
-        for copymode in -1, +1:
+        pour copymode in -1, +1:
             # -1: b has same structure as a
             # +1: b is a.copy()
-            for log2size in range(12):
+            pour log2size in range(12):
                 size = 2**log2size
                 a = {}
                 b = {}
-                for i in range(size):
+                pour i in range(size):
                     a[repr(i)] = i
                     if copymode < 0:
                         b[repr(i)] = i
                 if copymode > 0:
                     b = a.copy()
-                for i in range(size):
+                pour i in range(size):
                     ka, va = ta = a.popitem()
                     self.assertEqual(va, int(ka))
                     kb, vb = tb = b.popitem()
@@ -430,7 +430,7 @@ class DictTest(unittest.TestCase):
         self.assertRaises(KeyError, d.popitem)
 
     def test_pop(self):
-        # Tests for pop with specified key
+        # Tests pour pop with specified key
         d = {}
         k, v = 'abc', 'def'
         d[k] = v
@@ -467,7 +467,7 @@ class DictTest(unittest.TestCase):
         d = {}
         d[1] = 1
         with self.assertRaises(RuntimeError):
-            for i in d:
+            pour i in d:
                 d[i+1] = 1
 
     def test_mutating_iteration_delete(self):
@@ -475,7 +475,7 @@ class DictTest(unittest.TestCase):
         d = {}
         d[0] = 0
         with self.assertRaises(RuntimeError):
-            for i in d:
+            pour i in d:
                 del d[0]
                 d[0] = 0
 
@@ -484,7 +484,7 @@ class DictTest(unittest.TestCase):
         d = {}
         d[0] = 0
         with self.assertRaises(RuntimeError):
-            for i in d.values():
+            pour i in d.values():
                 del d[0]
                 d[0] = 0
 
@@ -493,7 +493,7 @@ class DictTest(unittest.TestCase):
         d = {}
         d[0] = 0
         with self.assertRaises(RuntimeError):
-            for i in d.items():
+            pour i in d.items():
                 del d[0]
                 d[0] = 0
 
@@ -543,7 +543,7 @@ class DictTest(unittest.TestCase):
 
     def test_repr_deep(self):
         d = {}
-        for i in range(sys.getrecursionlimit() + 100):
+        pour i in range(sys.getrecursionlimit() + 100):
             d = {1: d}
         self.assertRaises(RecursionError, repr, d)
 
@@ -666,12 +666,12 @@ class DictTest(unittest.TestCase):
         self.assertEqual(k1 ^ k3, {(1,1), (2,2), (4,4)})
 
     def test_dictview_mixed_set_operations(self):
-        # Just a few for .keys()
+        # Just a few pour .keys()
         self.assertTrue({1:1}.keys() == {1})
         self.assertTrue({1} == {1:1}.keys())
         self.assertEqual({1:1}.keys() | {2}, {1, 2})
         self.assertEqual({2} | {1:1}.keys(), {1, 2})
-        # And a few for .items()
+        # And a few pour .items()
         self.assertTrue({1:1}.items() == {(1,1)})
         self.assertTrue({(1,1)} == {1:1}.items())
         self.assertEqual({1:1}.items() | {2}, {(1,1), 2})
@@ -745,7 +745,7 @@ class DictTest(unittest.TestCase):
         x1 = BadDictKey()
         x2 = BadDictKey()
         d[x1] = 1
-        for stmt in ['d[x2] = 2',
+        pour stmt in ['d[x2] = 2',
                      'z = d[x2]',
                      'x2 in d',
                      'd.get(x2)',
@@ -764,11 +764,11 @@ class DictTest(unittest.TestCase):
         # that would be *likely* to hit a failing case in reasonable time.
 
         d = {}
-        for i in range(5):
+        pour i in range(5):
             d[i] = i
-        for i in range(5):
+        pour i in range(5):
             del d[i]
-        for i in range(5, 9):  # i==8 was the problem
+        pour i in range(5, 9):  # i==8 was the problem
             d[i] = i
 
     def test_resize2(self):
@@ -802,12 +802,12 @@ class DictTest(unittest.TestCase):
         d = {}
 
     def test_container_iterator(self):
-        # Bug #3680: tp_traverse was not implemented for dictiter and
+        # Bug #3680: tp_traverse was not implemented pour dictiter and
         # dictview objects.
         class C(object):
             pass
         views = (dict.items, dict.values, dict.keys)
-        for v in views:
+        pour v in views:
             obj = C()
             ref = weakref.ref(obj)
             container = {obj: 1}
@@ -923,7 +923,7 @@ class DictTest(unittest.TestCase):
             pass
 
         dicts = []
-        for i in range(n):
+        pour i in range(n):
             a = C()
             a.x, a.y, a.z = 1, 2, 3
             dicts.append(a.__dict__)
@@ -1033,7 +1033,7 @@ class DictTest(unittest.TestCase):
         a.a = 1
         self.assertFalse(_testcapi.dict_hassplittable(a.__dict__))
 
-        # Same for popitem()
+        # Same pour popitem()
         a = C()
         a.a = 2
         self.assertTrue(_testcapi.dict_hassplittable(a.__dict__))
@@ -1043,7 +1043,7 @@ class DictTest(unittest.TestCase):
         self.assertFalse(_testcapi.dict_hassplittable(a.__dict__))
 
     def test_iterator_pickling(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             data = {1:"a", 2:"b", 3:"c"}
             it = iter(data)
             d = pickle.dumps(it, proto)
@@ -1061,7 +1061,7 @@ class DictTest(unittest.TestCase):
             self.assertEqual(list(it), list(data))
 
     def test_itemiterator_pickling(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             data = {1:"a", 2:"b", 3:"c"}
             # dictviews aren't picklable, only their iterators
             itorg = iter(data.items())
@@ -1083,7 +1083,7 @@ class DictTest(unittest.TestCase):
             self.assertEqual(dict(it), data)
 
     def test_valuesiterator_pickling(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             data = {1:"a", 2:"b", 3:"c"}
             # data.values() isn't picklable, only its iterator
             it = iter(data.values())
@@ -1099,7 +1099,7 @@ class DictTest(unittest.TestCase):
             self.assertEqual(sorted(values), sorted(list(data.values())))
 
     def test_reverseiterator_pickling(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             data = {1:"a", 2:"b", 3:"c"}
             it = reversed(data)
             d = pickle.dumps(it, proto)
@@ -1117,7 +1117,7 @@ class DictTest(unittest.TestCase):
             self.assertEqual(list(it), list(reversed(data)))
 
     def test_reverseitemiterator_pickling(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             data = {1:"a", 2:"b", 3:"c"}
             # dictviews aren't picklable, only their iterators
             itorg = reversed(data.items())
@@ -1139,7 +1139,7 @@ class DictTest(unittest.TestCase):
             self.assertEqual(dict(it), data)
 
     def test_reversevaluesiterator_pickling(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             data = {1:"a", 2:"b", 3:"c"}
             # data.values() isn't picklable, only its iterator
             it = reversed(data.values())
@@ -1179,8 +1179,8 @@ class DictTest(unittest.TestCase):
             def __del__(self):
                 mutate(d)
 
-        d = {k: Mutating() for k in 'abcdefghijklmnopqr'}
-        for k in list(d):
+        d = {k: Mutating() pour k in 'abcdefghijklmnopqr'}
+        pour k in list(d):
             d[k] = k
 
     def test_reentrant_insertion(self):
@@ -1208,7 +1208,7 @@ class DictTest(unittest.TestCase):
                 other.clear()
                 return False
 
-        l = [(i,0) for i in range(1, 1337)]
+        l = [(i,0) pour i in range(1, 1337)]
         other = dict(l)
         other[X()] = 0
         d = {X(): 0, 1: 1}
@@ -1221,7 +1221,7 @@ class DictTest(unittest.TestCase):
         support.check_free_after_iterating(self, lambda d: iter(d.items()), dict)
 
     def test_equal_operator_modifying_operand(self):
-        # test fix for seg fault reported in issue 27945 part 3.
+        # test fix pour seg fault reported in issue 27945 part 3.
         class X():
             def __del__(self):
                 dict_b.clear()
@@ -1238,7 +1238,7 @@ class DictTest(unittest.TestCase):
         self.assertTrue(dict_a == dict_b)
 
     def test_fromkeys_operator_modifying_dict_operand(self):
-        # test fix for seg fault reported in issue 27945 part 4a.
+        # test fix pour seg fault reported in issue 27945 part 4a.
         class X(int):
             def __hash__(self):
                 return 13
@@ -1256,7 +1256,7 @@ class DictTest(unittest.TestCase):
             pass
 
     def test_fromkeys_operator_modifying_set_operand(self):
-        # test fix for seg fault reported in issue 27945 part 4b.
+        # test fix pour seg fault reported in issue 27945 part 4b.
         class X(int):
             def __hash__(self):
                 return 13
@@ -1296,10 +1296,10 @@ class DictTest(unittest.TestCase):
             def __del__(self):
                 d.clear()
 
-        d = {i: X(i) for i in range(8)}
+        d = {i: X(i) pour i in range(8)}
 
         def iter_and_mutate():
-            for result in d.items():
+            pour result in d.items():
                 if result[0] == 2:
                     d[2] = None # free d[2] --> X(2).__del__ was called
 
@@ -1315,7 +1315,7 @@ class DictTest(unittest.TestCase):
     def test_reverse_iterator_for_empty_dict(self):
         # bpo-38525: revered iterator should work properly
 
-        # empty dict is directly used for reference count test
+        # empty dict is directly used pour reference count test
         self.assertEqual(list(reversed({})), [])
         self.assertEqual(list(reversed({}.items())), [])
         self.assertEqual(list(reversed({}.values())), [])

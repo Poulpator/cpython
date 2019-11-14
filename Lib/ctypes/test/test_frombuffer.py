@@ -32,7 +32,7 @@ class Test(unittest.TestCase):
         x = (c_int * 16).from_buffer(a)
 
         self.assertIn(a, [obj.obj if isinstance(obj, memoryview) else obj
-                          for obj in x._objects.values()])
+                          pour obj in x._objects.values()])
 
         expected = x[:]
         del a; gc.collect(); gc.collect(); gc.collect()

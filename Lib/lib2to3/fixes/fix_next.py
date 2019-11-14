@@ -1,4 +1,4 @@
-"""Fixer for it.next() -> next(it), per PEP 3114."""
+"""Fixer pour it.next() -> next(it), per PEP 3114."""
 # Author: Collin Winter
 
 # Things that currently aren't covered:
@@ -54,7 +54,7 @@ class FixNext(fixer_base.BaseFix):
             if self.shadowed_next:
                 attr.replace(Name("__next__", prefix=attr.prefix))
             else:
-                base = [n.clone() for n in base]
+                base = [n.clone() pour n in base]
                 base[0].prefix = ""
                 node.replace(Call(Name("next", prefix=node.prefix), base))
         elif name:
@@ -66,7 +66,7 @@ class FixNext(fixer_base.BaseFix):
             #  so it's being done here.
             if is_assign_target(node):
                 head = results["head"]
-                if "".join([str(n) for n in head]).strip() == '__builtin__':
+                if "".join([str(n) pour n in head]).strip() == '__builtin__':
                     self.warning(node, bind_warning)
                 return
             attr.replace(Name("__next__"))
@@ -83,7 +83,7 @@ def is_assign_target(node):
     if assign is None:
         return False
 
-    for child in assign.children:
+    pour child in assign.children:
         if child.type == token.EQUAL:
             return False
         elif is_subtree(child, node):
@@ -100,4 +100,4 @@ def find_assign(node):
 def is_subtree(root, node):
     if root == node:
         return True
-    return any(is_subtree(c, node) for c in root.children)
+    return any(is_subtree(c, node) pour c in root.children)

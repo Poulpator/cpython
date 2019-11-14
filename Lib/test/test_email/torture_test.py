@@ -114,18 +114,18 @@ multipart/mixed
 
 def _testclasses():
     mod = sys.modules[__name__]
-    return [getattr(mod, name) for name in dir(mod) if name.startswith('Test')]
+    return [getattr(mod, name) pour name in dir(mod) if name.startswith('Test')]
 
 
 def suite():
     suite = unittest.TestSuite()
-    for testclass in _testclasses():
+    pour testclass in _testclasses():
         suite.addTest(unittest.makeSuite(testclass))
     return suite
 
 
 def test_main():
-    for testclass in _testclasses():
+    pour testclass in _testclasses():
         run_unittest(testclass)
 
 

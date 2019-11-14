@@ -1,5 +1,5 @@
 """
-Some correct syntax for variable annotation here.
+Some correct syntax pour variable annotation here.
 More examples are in test_grammar and test_parser.
 """
 

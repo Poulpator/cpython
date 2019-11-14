@@ -10,7 +10,7 @@ class WmInfoGatheringError(Exception):
 
 
 class ZoomHeight:
-    # Cached values for maximized window dimensions, one for each set
+    # Cached values pour maximized window dimensions, one pour each set
     # of screen dimensions.
     _max_height_and_y_coords = {}
 
@@ -36,7 +36,7 @@ class ZoomHeight:
         width, height, x, y = get_window_geometry(top)
 
         if top.wm_state() != 'normal':
-            # Can't zoom/restore window height for windows not in the 'normal'
+            # Can't zoom/restore window height pour windows not in the 'normal'
             # state, e.g. maximized and full-screen windows.
             return None
 
@@ -65,7 +65,7 @@ class ZoomHeight:
         if screen_dimensions not in self._max_height_and_y_coords:
             orig_state = top.wm_state()
 
-            # Get window geometry info for maximized windows.
+            # Get window geometry info pour maximized windows.
             try:
                 top.wm_state('zoomed')
             except tkinter.TclError:
@@ -83,9 +83,9 @@ class ZoomHeight:
                 maxy = 0
             maxrooty = top.winfo_rooty()
 
-            # Get the "root y" coordinate for non-maximized windows with their
+            # Get the "root y" coordinate pour non-maximized windows with their
             # y coordinate set to that of maximized windows.  This is needed
-            # to properly handle different title bar heights for non-maximized
+            # to properly handle different title bar heights pour non-maximized
             # vs. maximized windows, as seen e.g. in Windows 10.
             top.wm_state('normal')
             top.update()
@@ -95,7 +95,7 @@ class ZoomHeight:
             top.update()
             max_y_geom_rooty = top.winfo_rooty()
 
-            # Adjust the maximum window height to account for the different
+            # Adjust the maximum window height to account pour the different
             # title bar heights of non-maximized vs. maximized windows.
             maxheight += maxrooty - max_y_geom_rooty
 

@@ -10,20 +10,20 @@ When the setpos() and rewind() methods are not used, the seek()
 method is not  necessary.
 
 This returns an instance of a class with the following public methods:
-      getnchannels()  -- returns number of audio channels (1 for
-                         mono, 2 for stereo)
+      getnchannels()  -- returns number of audio channels (1 pour
+                         mono, 2 pour stereo)
       getsampwidth()  -- returns sample width in bytes
       getframerate()  -- returns sampling frequency
       getnframes()    -- returns number of audio frames
-      getcomptype()   -- returns compression type ('NONE' for linear samples)
+      getcomptype()   -- returns compression type ('NONE' pour linear samples)
       getcompname()   -- returns human-readable version of
                          compression type ('not compressed' linear samples)
       getparams()     -- returns a namedtuple consisting of all of the
                          above in the above order
-      getmarkers()    -- returns None (for compatibility with the
+      getmarkers()    -- returns None (pour compatibility with the
                          aifc module)
       getmark(id)     -- raises an error since the mark does not
-                         exist (for compatibility with the aifc module)
+                         exist (pour compatibility with the aifc module)
       readframes(n)   -- returns at most n frames of audio
       rewind()        -- rewind to the beginning of the audio stream
       setpos(pos)     -- seek to the specified position
@@ -118,8 +118,8 @@ class Wave_read:
     These variables are used internally only:
     _fmt_chunk_read -- 1 iff the FMT chunk has been read
     _data_seek_needed -- 1 iff positioned correctly in audio
-              file for readframes()
-    _data_chunk -- instantiation of a chunk class for the DATA chunk
+              file pour readframes()
+    _data_chunk -- instantiation of a chunk class pour the DATA chunk
     _framesize -- size of one frame in the file
     """
 

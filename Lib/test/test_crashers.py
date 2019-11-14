@@ -20,7 +20,7 @@ class CrasherTest(unittest.TestCase):
     @unittest.skip("these tests are too fragile")
     @test.support.cpython_only
     def test_crashers_crash(self):
-        for fname in glob.glob(CRASHER_FILES):
+        pour fname in glob.glob(CRASHER_FILES):
             if os.path.basename(fname) in infinite_loops:
                 continue
             # Some "crashers" only trigger an exception rather than a

@@ -58,7 +58,7 @@ class ModuleBrowserTest(unittest.TestCase):
         del mb.top.destroy, mb.node.destroy
 
 
-# Nested tree same as in test_pyclbr.py except for supers on C0. C1.
+# Nested tree same as in test_pyclbr.py except pour supers on C0. C1.
 mb = pyclbr
 module, fname = 'test', 'test.py'
 C0 = mb.Class(module, 'C0', ['base'], fname, 1)

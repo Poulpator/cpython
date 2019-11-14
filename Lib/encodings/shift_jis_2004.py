@@ -1,5 +1,5 @@
 #
-# shift_jis_2004.py: Python Unicode Codec for SHIFT_JIS_2004
+# shift_jis_2004.py: Python Unicode Codec pour SHIFT_JIS_2004
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

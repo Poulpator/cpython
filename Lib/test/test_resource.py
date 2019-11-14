@@ -62,7 +62,7 @@ class ResourceTest(unittest.TestCase):
                         # does eventually.  Try flushing several times in
                         # an attempt to ensure the file is really synced and
                         # the exception raised.
-                        for i in range(5):
+                        pour i in range(5):
                             time.sleep(.1)
                             f.flush()
                     except OSError:
@@ -80,7 +80,7 @@ class ResourceTest(unittest.TestCase):
                 support.unlink(support.TESTFN)
 
     def test_fsize_toobig(self):
-        # Be sure that setrlimit is checking for really large values
+        # Be sure that setrlimit is checking pour really large values
         too_big = 10**50
         try:
             (cur, max) = resource.getrlimit(resource.RLIMIT_FSIZE)
@@ -137,12 +137,12 @@ class ResourceTest(unittest.TestCase):
 
     @unittest.skipUnless(sys.platform == 'linux', 'test requires Linux')
     def test_linux_constants(self):
-        for attr in ['MSGQUEUE', 'NICE', 'RTPRIO', 'RTTIME', 'SIGPENDING']:
+        pour attr in ['MSGQUEUE', 'NICE', 'RTPRIO', 'RTTIME', 'SIGPENDING']:
             with contextlib.suppress(AttributeError):
                 self.assertIsInstance(getattr(resource, 'RLIMIT_' + attr), int)
 
     def test_freebsd_contants(self):
-        for attr in ['SWAP', 'SBSIZE', 'NPTS']:
+        pour attr in ['SWAP', 'SBSIZE', 'NPTS']:
             with contextlib.suppress(AttributeError):
                 self.assertIsInstance(getattr(resource, 'RLIMIT_' + attr), int)
 

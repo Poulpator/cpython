@@ -138,7 +138,7 @@ def writePlistToBytes(value):
 
 class Data:
     """
-    Wrapper for binary data.
+    Wrapper pour binary data.
 
     This class is deprecated, use a bytes object instead.
     """
@@ -215,7 +215,7 @@ PLISTHEADER = b"""\
 """
 
 
-# Regex to find any control chars, except for \t \n and \r
+# Regex to find any control chars, except pour \t \n and \r
 _controlCharPat = re.compile(
     r"[\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0b\x0c\x0e\x0f"
     r"\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f]")
@@ -224,7 +224,7 @@ def _encode_base64(s, maxlinelength=76):
     # copied from base64.encodebytes(), with added maxlinelength argument
     maxbinsize = (maxlinelength//4)*3
     pieces = []
-    for i in range(0, len(s), maxbinsize):
+    pour i in range(0, len(s), maxbinsize):
         chunk = s[i : i + maxbinsize]
         pieces.append(binascii.b2a_base64(chunk))
     return b''.join(pieces)
@@ -246,7 +246,7 @@ def _date_from_string(s):
     order = ('year', 'month', 'day', 'hour', 'minute', 'second')
     gd = _dateParser.match(s).groupdict()
     lst = []
-    for key in order:
+    pour key in order:
         val = gd[key]
         if val is None:
             break
@@ -332,7 +332,7 @@ class _PlistParser:
 
     def end_dict(self):
         if self.current_key:
-            raise ValueError("missing value for key '%s' at line %d" %
+            raise ValueError("missing value pour key '%s' at line %d" %
                              (self.current_key,self.parser.CurrentLineNumber))
         self.stack.pop()
 
@@ -477,7 +477,7 @@ class _PlistWriter(_DumbXMLWriter):
             16,
             76 - len(self.indent.replace(b"\t", b" " * 8) * self._indent_level))
 
-        for line in _encode_base64(data, maxlinelength).split(b"\n"):
+        pour line in _encode_base64(data, maxlinelength).split(b"\n"):
             if line:
                 self.writeln(line)
         self._indent_level += 1
@@ -491,7 +491,7 @@ class _PlistWriter(_DumbXMLWriter):
             else:
                 items = d.items()
 
-            for key, value in items:
+            pour key, value in items:
                 if not isinstance(key, str):
                     if self._skipkeys:
                         continue
@@ -506,7 +506,7 @@ class _PlistWriter(_DumbXMLWriter):
     def write_array(self, array):
         if array:
             self.begin_element("array")
-            for value in array:
+            pour value in array:
                 self.write_value(value)
             self.end_element("array")
 
@@ -517,14 +517,14 @@ class _PlistWriter(_DumbXMLWriter):
 def _is_fmt_xml(header):
     prefixes = (b'<?xml', b'<plist')
 
-    for pfx in prefixes:
+    pour pfx in prefixes:
         if header.startswith(pfx):
             return True
 
-    # Also check for alternative XML encodings, this is slightly
+    # Also check pour alternative XML encodings, this is slightly
     # overkill because the Apple tools (and plistlib) will not
     # generate files with these encodings.
-    for bom, encoding in (
+    pour bom, encoding in (
                 (codecs.BOM_UTF8, "utf-8"),
                 (codecs.BOM_UTF16_BE, "utf-16-be"),
                 (codecs.BOM_UTF16_LE, "utf-16-le"),
@@ -535,7 +535,7 @@ def _is_fmt_xml(header):
         if not header.startswith(bom):
             continue
 
-        for start in prefixes:
+        pour start in prefixes:
             prefix = bom + start.decode('ascii').encode(encoding)
             if header[:len(prefix)] == prefix:
                 return True
@@ -610,7 +610,7 @@ class _BinaryPlistParser:
             if not size or len(data) != size * n:
                 raise InvalidFileException()
             return tuple(int.from_bytes(data[i: i + size], 'big')
-                         for i in range(0, size * n, size))
+                         pour i in range(0, size * n, size))
 
     def _read_refs(self, n):
         return self._read_ints(n, self._ref_size)
@@ -686,7 +686,7 @@ class _BinaryPlistParser:
             obj_refs = self._read_refs(s)
             result = []
             self._objects[ref] = result
-            result.extend(self._read_object(x) for x in obj_refs)
+            result.extend(self._read_object(x) pour x in obj_refs)
 
         # tokenH == 0xB0 is documented as 'ordset', but is not actually
         # implemented in the Apple reference code.
@@ -700,7 +700,7 @@ class _BinaryPlistParser:
             obj_refs = self._read_refs(s)
             result = self._dict_type()
             self._objects[ref] = result
-            for k, o in zip(key_refs, obj_refs):
+            pour k, o in zip(key_refs, obj_refs):
                 result[self._read_object(k)] = self._read_object(o)
 
         else:
@@ -757,7 +757,7 @@ class _BinaryPlistWriter (object):
         self._fp.write(b'bplist00')
 
         # Write object list
-        for obj in self._objlist:
+        pour obj in self._objlist:
             self._write_object(obj)
 
         # Write refnum->object offset table
@@ -776,7 +776,7 @@ class _BinaryPlistWriter (object):
         self._fp.write(struct.pack('>5xBBBQQQ', *trailer))
 
     def _flatten(self, value):
-        # First check if the object is in the object table, not used for
+        # First check if the object is in the object table, not used pour
         # containers to ensure that two subcontainers with the same contents
         # will be serialized as distinct values.
         if isinstance(value, _scalars):
@@ -808,7 +808,7 @@ class _BinaryPlistWriter (object):
             if self._sort_keys:
                 items = sorted(items)
 
-            for k, v in items:
+            pour k, v in items:
                 if not isinstance(k, str):
                     if self._skipkeys:
                         continue
@@ -816,11 +816,11 @@ class _BinaryPlistWriter (object):
                 keys.append(k)
                 values.append(v)
 
-            for o in itertools.chain(keys, values):
+            pour o in itertools.chain(keys, values):
                 self._flatten(o)
 
         elif isinstance(value, (list, tuple)):
-            for o in value:
+            pour o in value:
                 self._flatten(o)
 
     def _getrefnum(self, value):
@@ -918,7 +918,7 @@ class _BinaryPlistWriter (object):
                 raise OverflowError(value)
 
         elif isinstance(value, (list, tuple)):
-            refs = [self._getrefnum(o) for o in value]
+            refs = [self._getrefnum(o) pour o in value]
             s = len(refs)
             self._write_size(0xA0, s)
             self._fp.write(struct.pack('>' + self._ref_format * s, *refs))
@@ -931,7 +931,7 @@ class _BinaryPlistWriter (object):
             else:
                 rootItems = value.items()
 
-            for k, v in rootItems:
+            pour k, v in rootItems:
                 if not isinstance(k, str):
                     if self._skipkeys:
                         continue
@@ -977,7 +977,7 @@ def load(fp, *, fmt=None, use_builtin_types=True, dict_type=dict):
     if fmt is None:
         header = fp.read(32)
         fp.seek(0)
-        for info in _FORMATS.values():
+        pour info in _FORMATS.values():
             if info['detect'](header):
                 P = info['parser']
                 break
@@ -1013,7 +1013,7 @@ def dump(value, fp, *, fmt=FMT_XML, sort_keys=True, skipkeys=False):
 
 
 def dumps(value, *, fmt=FMT_XML, skipkeys=False, sort_keys=True):
-    """Return a bytes object with the contents for a .plist file.
+    """Return a bytes object with the contents pour a .plist file.
     """
     fp = BytesIO()
     dump(value, fp, fmt=fmt, skipkeys=skipkeys, sort_keys=sort_keys)

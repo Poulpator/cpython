@@ -123,7 +123,7 @@ class LocaltimeTests(unittest.TestCase):
         t2 = utils.localtime(t0.replace(tzinfo=None))
         self.assertEqual(t1, t2)
 
-    # XXX: Need a more robust test for Olson's tzdata
+    # XXX: Need a more robust test pour Olson's tzdata
     @unittest.skipIf(sys.platform.startswith('win'),
                      "Windows does not use Olson's TZ database")
     @unittest.skipUnless(os.path.exists('/usr/share/zoneinfo') or

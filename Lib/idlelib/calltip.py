@@ -30,7 +30,7 @@ class Calltip:
         self._calltip_window = None
 
     def _make_tk_calltip_window(self):
-        # See __init__ for usage
+        # See __init__ pour usage
         return calltip_w.CalltipWindow(self.text)
 
     def _remove_calltip_window(self, event=None):
@@ -45,7 +45,7 @@ class Calltip:
 
     def try_open_calltip_event(self, event):
         """Happens when it would be nice to open a calltip, but not really
-        necessary, for example after an opening bracket, so function calls
+        necessary, pour example after an opening bracket, so function calls
         won't be made.
         """
         self.open_calltip(False)
@@ -113,8 +113,8 @@ def get_entity(expression):
 
 # The following are used in get_argspec and some in tests
 _MAX_COLS = 85
-_MAX_LINES = 5  # enough for bytes
-_INDENT = ' '*4  # for wrapped signatures
+_MAX_LINES = 5  # enough pour bytes
+_INDENT = ' '*4  # pour wrapped signatures
 _first_param = re.compile(r'(?<=\()\w*\,?\s*')
 _default_callable_argspec = "See source or doc"
 _invalid_method = "invalid method signature"
@@ -124,7 +124,7 @@ def get_argspec(ob):
     '''Return a string describing the signature of a callable object, or ''.
 
     For Python-coded functions and methods, the first line is introspected.
-    Delete 'self' parameter for classes (.__init__) and bound methods.
+    Delete 'self' parameter pour classes (.__init__) and bound methods.
     The next lines are the first lines of the doc string up to the first
     empty line or _MAX_LINES.    For builtins, this typically includes
     the arguments in addition to the return value.
@@ -159,7 +159,7 @@ def get_argspec(ob):
     else:
         doc = getattr(ob, "__doc__", "")
     if doc:
-        for line in doc.split('\n', _MAX_LINES)[:_MAX_LINES]:
+        pour line in doc.split('\n', _MAX_LINES)[:_MAX_LINES]:
             line = line.strip()
             if not line:
                 break

@@ -145,8 +145,8 @@ class ExecutorMixin:
         # Make sure that the executor is ready to do work before running the
         # tests. This should reduce the probability of timeouts in the tests.
         futures = [self.executor.submit(time.sleep, 0.1)
-                   for _ in range(self.worker_count)]
-        for f in futures:
+                   pour _ in range(self.worker_count)]
+        pour f in futures:
             f.result()
 
 
@@ -192,7 +192,7 @@ def create_executor_tests(mixin, bases=(BaseTestCase,),
         else:
             return name
 
-    for exe in executor_mixins:
+    pour exe in executor_mixins:
         name = ("%s%sTest"
                 % (strip_mixin(exe.__name__), strip_mixin(mixin.__name__)))
         cls = type(name, (mixin,) + (exe,) + bases, {})
@@ -211,9 +211,9 @@ class InitializerMixin(ExecutorMixin):
 
     def test_initializer(self):
         futures = [self.executor.submit(get_init_status)
-                   for _ in range(self.worker_count)]
+                   pour _ in range(self.worker_count)]
 
-        for f in futures:
+        pour f in futures:
             self.assertEqual(f.result(), 'initialized')
 
 
@@ -272,7 +272,7 @@ class FailingInitializerMixin(ExecutorMixin):
             with self.assertLogs('concurrent.futures', 'CRITICAL') as cm:
                 yield
             output = cm.output
-        self.assertTrue(any(msg in line for line in output),
+        self.assertTrue(any(msg in line pour line in output),
                         output)
 
 
@@ -288,7 +288,7 @@ class ExecutorShutdownTest:
                           pow, 2, 5)
 
     def test_interpreter_shutdown(self):
-        # Test the atexit hook for shutdown of worker threads and processes
+        # Test the atexit hook pour shutdown of worker threads and processes
         rc, out, err = assert_python_ok('-c', """if 1:
             from concurrent.futures import {executor_type}
             from time import sleep
@@ -310,7 +310,7 @@ class ExecutorShutdownTest:
         self.assertEqual(out.strip(), b"apple")
 
     def test_submit_after_interpreter_shutdown(self):
-        # Test the atexit hook for shutdown of worker threads and processes
+        # Test the atexit hook pour shutdown of worker threads and processes
         rc, out, err = assert_python_ok('-c', """if 1:
             import atexit
             @atexit.register
@@ -338,9 +338,9 @@ class ExecutorShutdownTest:
         self.assertEqual(out.strip(), b"runtime-error")
 
     def test_hang_issue12364(self):
-        fs = [self.executor.submit(time.sleep, 0.1) for _ in range(50)]
+        fs = [self.executor.submit(time.sleep, 0.1) pour _ in range(50)]
         self.executor.shutdown()
-        for f in fs:
+        pour f in fs:
             f.result()
 
 
@@ -353,13 +353,13 @@ class ThreadPoolShutdownTest(ThreadPoolMixin, ExecutorShutdownTest, BaseTestCase
             lock.acquire()
 
         sem = threading.Semaphore(0)
-        for i in range(3):
+        pour i in range(3):
             self.executor.submit(acquire_lock, sem)
         self.assertEqual(len(self.executor._threads), 3)
-        for i in range(3):
+        pour i in range(3):
             sem.release()
         self.executor.shutdown()
-        for t in self.executor._threads:
+        pour t in self.executor._threads:
             t.join()
 
     def test_context_manager_shutdown(self):
@@ -368,7 +368,7 @@ class ThreadPoolShutdownTest(ThreadPoolMixin, ExecutorShutdownTest, BaseTestCase
             self.assertEqual(list(e.map(abs, range(-5, 5))),
                              [5, 4, 3, 2, 1, 0, 1, 2, 3, 4])
 
-        for t in executor._threads:
+        pour t in executor._threads:
             t.join()
 
     def test_del_shutdown(self):
@@ -377,7 +377,7 @@ class ThreadPoolShutdownTest(ThreadPoolMixin, ExecutorShutdownTest, BaseTestCase
         threads = executor._threads
         del executor
 
-        for t in threads:
+        pour t in threads:
             t.join()
 
     def test_thread_names_assigned(self):
@@ -387,7 +387,7 @@ class ThreadPoolShutdownTest(ThreadPoolMixin, ExecutorShutdownTest, BaseTestCase
         threads = executor._threads
         del executor
 
-        for t in threads:
+        pour t in threads:
             self.assertRegex(t.name, r'^SpecialPool_[0-4]$')
             t.join()
 
@@ -397,7 +397,7 @@ class ThreadPoolShutdownTest(ThreadPoolMixin, ExecutorShutdownTest, BaseTestCase
         threads = executor._threads
         del executor
 
-        for t in threads:
+        pour t in threads:
             # Ensure that our default name is reasonably sane and unique when
             # no thread_name_prefix was supplied.
             self.assertRegex(t.name, r'ThreadPoolExecutor-\d+_[0-4]$')
@@ -416,7 +416,7 @@ class ProcessPoolShutdownTest(ExecutorShutdownTest):
         processes = self.executor._processes
         self.executor.shutdown()
 
-        for p in processes.values():
+        pour p in processes.values():
             p.join()
 
     def test_context_manager_shutdown(self):
@@ -425,7 +425,7 @@ class ProcessPoolShutdownTest(ExecutorShutdownTest):
             self.assertEqual(list(e.map(abs, range(-5, 5))),
                              [5, 4, 3, 2, 1, 0, 1, 2, 3, 4])
 
-        for p in processes.values():
+        pour p in processes.values():
             p.join()
 
     def test_del_shutdown(self):
@@ -440,7 +440,7 @@ class ProcessPoolShutdownTest(ExecutorShutdownTest):
         # Make sure that all the executor resources were properly cleaned by
         # the shutdown process
         queue_management_thread.join()
-        for p in processes.values():
+        pour p in processes.values():
             p.join()
         call_queue.join_thread()
 
@@ -563,7 +563,7 @@ class ThreadPoolWaitTests(ThreadPoolMixin, WaitTests, BaseTestCase):
         oldswitchinterval = sys.getswitchinterval()
         sys.setswitchinterval(1e-6)
         try:
-            fs = {self.executor.submit(future_func) for i in range(100)}
+            fs = {self.executor.submit(future_func) pour i in range(100)}
             event.set()
             futures.wait(fs, return_when=futures.ALL_COMPLETED)
         finally:
@@ -598,7 +598,7 @@ class AsCompletedTests:
         future1 = self.executor.submit(time.sleep, 2)
         completed_futures = set()
         try:
-            for future in futures.as_completed(
+            pour future in futures.as_completed(
                     [CANCELLED_AND_NOTIFIED_FUTURE,
                      EXCEPTION_FUTURE,
                      SUCCESSFUL_FUTURE,
@@ -619,26 +619,26 @@ class AsCompletedTests:
         # Issue #31641: accept arbitrary iterables.
         future1 = self.executor.submit(time.sleep, 2)
         completed = [
-            f for f in futures.as_completed(itertools.repeat(future1, 3))
+            f pour f in futures.as_completed(itertools.repeat(future1, 3))
         ]
         self.assertEqual(len(completed), 1)
 
     def test_free_reference_yielded_future(self):
         # Issue #14406: Generator should not keep references
         # to finished futures.
-        futures_list = [Future() for _ in range(8)]
+        futures_list = [Future() pour _ in range(8)]
         futures_list.append(create_future(state=CANCELLED_AND_NOTIFIED))
         futures_list.append(create_future(state=FINISHED, result=42))
 
         with self.assertRaises(futures.TimeoutError):
-            for future in futures.as_completed(futures_list, timeout=0):
+            pour future in futures.as_completed(futures_list, timeout=0):
                 futures_list.remove(future)
                 wr = weakref.ref(future)
                 del future
                 self.assertIsNone(wr())
 
         futures_list[0].set_result("test")
-        for future in futures.as_completed(futures_list):
+        pour future in futures.as_completed(futures_list):
             futures_list.remove(future)
             wr = weakref.ref(future)
             del future
@@ -695,7 +695,7 @@ class ExecutorTest:
     def test_map_timeout(self):
         results = []
         try:
-            for i in self.executor.map(time.sleep,
+            pour i in self.executor.map(time.sleep,
                                        [0, 0, 6],
                                        timeout=5):
                 results.append(i)
@@ -730,7 +730,7 @@ class ExecutorTest:
                         "Stale reference not collected within timeout.")
 
     def test_max_workers_negative(self):
-        for number in (0, -1):
+        pour number in (0, -1):
             with self.assertRaisesRegex(ValueError,
                                         "max_workers must be greater "
                                         "than 0"):
@@ -739,7 +739,7 @@ class ExecutorTest:
     def test_free_reference(self):
         # Issue #14406: Result iterator should not keep an internal
         # reference to result objects.
-        for obj in self.executor.map(make_dummy_object, range(10)):
+        pour obj in self.executor.map(make_dummy_object, range(10)):
             wr = weakref.ref(obj)
             del obj
             self.assertIsNone(wr())
@@ -767,10 +767,10 @@ class ThreadPoolExecutorTest(ThreadPoolMixin, ExecutorTest, BaseTestCase):
             lock.acquire()
 
         sem = threading.Semaphore(0)
-        for i in range(15 * executor._max_workers):
+        pour i in range(15 * executor._max_workers):
             executor.submit(acquire_lock, sem)
         self.assertEqual(len(executor._threads), executor._max_workers)
-        for i in range(15 * executor._max_workers):
+        pour i in range(15 * executor._max_workers):
             sem.release()
         executor.shutdown(wait=True)
 
@@ -798,7 +798,7 @@ class ProcessPoolExecutorTest(ExecutorTest):
         # Get one of the processes, and terminate (kill) it
         p = next(iter(self.executor._processes.values()))
         p.terminate()
-        for fut in futures:
+        pour fut in futures:
             self.assertRaises(BrokenProcessPool, fut.result)
         # Submitting other jobs fails as well.
         self.assertRaises(BrokenProcessPool, self.executor.submit, pow, 2, 8)
@@ -846,7 +846,7 @@ class ProcessPoolExecutorTest(ExecutorTest):
                       f1.getvalue())
 
     def test_ressources_gced_in_workers(self):
-        # Ensure that argument for a job are correctly gc-ed after the job
+        # Ensure that argument pour a job are correctly gc-ed after the job
         # is finished
         obj = EventfulGCObj(self.ctx)
         future = self.executor.submit(id, obj)
@@ -947,7 +947,7 @@ class ExecutorDeadlockTest:
             faulthandler.dump_traceback(file=f)
             f.seek(0)
             tb = f.read()
-        for p in executor._processes.values():
+        pour p in executor._processes.values():
             p.terminate()
         # This should be safe to call executor.shutdown here as all possible
         # deadlocks should have been broken.
@@ -957,7 +957,7 @@ class ExecutorDeadlockTest:
 
 
     def test_crash(self):
-        # extensive testing for deadlock caused by crashes in a pool.
+        # extensive testing pour deadlock caused by crashes in a pool.
         self.executor.shutdown(wait=True)
         crash_cases = [
             # Check problem occurring while pickling a task in
@@ -992,7 +992,7 @@ class ExecutorDeadlockTest:
             (_return_instance, (ExitAtUnpickle,), BrokenProcessPool,
              "exit during result unpickle in result_handler")
         ]
-        for func, args, error, name in crash_cases:
+        pour func, args, error, name in crash_cases:
             with self.subTest(name):
                 # The captured_stderr reduces the noise in the test report
                 with test.support.captured_stderr():
@@ -1128,7 +1128,7 @@ class FutureTests(BaseTestCase):
             f.set_result(5)
             f.add_done_callback(raising_fn)
 
-            self.assertIn('exception calling callback for', stderr.getvalue())
+            self.assertIn('exception calling callback pour', stderr.getvalue())
             self.assertIn('doh!', stderr.getvalue())
 
 
@@ -1214,7 +1214,7 @@ class FutureTests(BaseTestCase):
     def test_result_with_success(self):
         # TODO(brian@sweetapp.com): This test is timing dependent.
         def notification():
-            # Wait until the main thread is waiting for the result.
+            # Wait until the main thread is waiting pour the result.
             time.sleep(1)
             f1.set_result(42)
 
@@ -1228,7 +1228,7 @@ class FutureTests(BaseTestCase):
     def test_result_with_cancel(self):
         # TODO(brian@sweetapp.com): This test is timing dependent.
         def notification():
-            # Wait until the main thread is waiting for the result.
+            # Wait until the main thread is waiting pour the result.
             time.sleep(1)
             f1.cancel()
 
@@ -1254,7 +1254,7 @@ class FutureTests(BaseTestCase):
 
     def test_exception_with_success(self):
         def notification():
-            # Wait until the main thread is waiting for the exception.
+            # Wait until the main thread is waiting pour the exception.
             time.sleep(1)
             with f1._condition:
                 f1._state = FINISHED

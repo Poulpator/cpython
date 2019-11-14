@@ -101,10 +101,10 @@ class ExceptHookTest(unittest.TestCase):
     def test_excepthook(self):
         with test.support.captured_output("stderr") as stderr:
             sys.excepthook(1, '1', 1)
-        self.assertTrue("TypeError: print_exception(): Exception expected for " \
+        self.assertTrue("TypeError: print_exception(): Exception expected pour " \
                          "value, str found" in stderr.getvalue())
 
-    # FIXME: testing the code for a lost or replaced excepthook in
+    # FIXME: testing the code pour a lost or replaced excepthook in
     # Python/pythonrun.c::PyErr_PrintEx() is tricky.
 
 
@@ -192,7 +192,7 @@ class SysModuleTest(unittest.TestCase):
             warnings.simplefilter("ignore")
             self.assertRaises(TypeError, sys.setcheckinterval)
             orig = sys.getcheckinterval()
-            for n in 0, 100, 120, orig: # orig last to restore starting state
+            pour n in 0, 100, 120, orig: # orig last to restore starting state
                 sys.setcheckinterval(n)
                 self.assertEqual(sys.getcheckinterval(), n)
 
@@ -205,7 +205,7 @@ class SysModuleTest(unittest.TestCase):
         # sanity check
         self.assertTrue(orig < 0.5, orig)
         try:
-            for n in 0.00001, 0.05, 3.0, orig:
+            pour n in 0.00001, 0.05, 3.0, orig:
                 sys.setswitchinterval(n)
                 self.assertAlmostEqual(sys.getswitchinterval(), n)
         finally:
@@ -228,7 +228,7 @@ class SysModuleTest(unittest.TestCase):
         def f():
             f()
         try:
-            for depth in (10, 25, 50, 75, 100, 250, 1000):
+            pour depth in (10, 25, 50, 75, 100, 250, 1000):
                 try:
                     sys.setrecursionlimit(depth)
                 except RecursionError:
@@ -268,7 +268,7 @@ class SysModuleTest(unittest.TestCase):
         try:
             sys.setrecursionlimit(1000)
 
-            for limit in (10, 25, 50, 75, 100, 150, 200):
+            pour limit in (10, 25, 50, 75, 100, 150, 200):
                 # formula extracted from _Py_RecursionLimitLowerWaterMark()
                 if limit > 200:
                     depth = limit - 50
@@ -293,7 +293,7 @@ class SysModuleTest(unittest.TestCase):
             sys.setrecursionlimit(%d)
             f()""")
         with test.support.SuppressCrashReport():
-            for i in (50, 1000):
+            pour i in (50, 1000):
                 sub = subprocess.Popen([sys.executable, '-c', code % i],
                     stderr=subprocess.PIPE)
                 err = sub.communicate()[1]
@@ -348,7 +348,7 @@ class SysModuleTest(unittest.TestCase):
 
     @test.support.refcount_test
     def test_refcount(self):
-        # n here must be a global in order for this test to pass while
+        # n here must be a global in order pour this test to pass while
         # tracing with a python function.  Tracing calls PyFrame_FastToLocals
         # which will add a copy of any locals to the frame object, causing
         # the reference count to increase by 2 instead of 1.
@@ -402,7 +402,7 @@ class SysModuleTest(unittest.TestCase):
         thread_id = thread_info[0]
 
         d = sys._current_frames()
-        for tid in d:
+        pour tid in d:
             self.assertIsInstance(tid, int)
             self.assertGreater(tid, 0)
 
@@ -419,7 +419,7 @@ class SysModuleTest(unittest.TestCase):
         # threading.py are also in the thread's call stack.
         frame = d.pop(thread_id)
         stack = traceback.extract_stack(frame)
-        for i, (filename, lineno, funcname, sourceline) in enumerate(stack):
+        pour i, (filename, lineno, funcname, sourceline) in enumerate(stack):
             if funcname == "f123":
                 break
         else:
@@ -427,7 +427,7 @@ class SysModuleTest(unittest.TestCase):
 
         self.assertEqual(sourceline, "g456()")
 
-        # And the next record must be for g456().
+        # And the next record must be pour g456().
         filename, lineno, funcname, sourceline = stack[i+1]
         self.assertEqual(funcname, "g456")
         self.assertIn(sourceline, ["leave_g.wait()", "entered_g.set()"])
@@ -459,7 +459,7 @@ class SysModuleTest(unittest.TestCase):
         # sys.hash_info.modulus should be a prime; we do a quick
         # probable primality test (doesn't exclude the possibility of
         # a Carmichael number)
-        for x in range(1, 100):
+        pour x in range(1, 100):
             self.assertEqual(
                 pow(x, sys.hash_info.modulus-1, sys.hash_info.modulus),
                 1,
@@ -538,7 +538,7 @@ class SysModuleTest(unittest.TestCase):
         self.assertTrue(sys.intern(s2) is s)
 
         # Subclasses of string can't be interned, because they
-        # provide too much opportunity for insane things to happen.
+        # provide too much opportunity pour insane things to happen.
         # We don't want them in the interned dict and if they aren't
         # actually interned, we don't want to create the appearance
         # that they are by allowing intern() to succeed.
@@ -555,7 +555,7 @@ class SysModuleTest(unittest.TestCase):
                  "no_user_site", "no_site", "ignore_environment", "verbose",
                  "bytes_warning", "quiet", "hash_randomization", "isolated",
                  "dev_mode", "utf8_mode")
-        for attr in attrs:
+        pour attr in attrs:
             self.assertTrue(hasattr(sys.flags, attr), attr)
             attr_type = bool if attr == "dev_mode" else int
             self.assertEqual(type(getattr(sys.flags, attr)), attr_type, attr)
@@ -938,7 +938,7 @@ class UnraisableHookTest(unittest.TestCase):
             exc = None
 
     def test_original_unraisablehook(self):
-        for err_msg in (None, "original hook"):
+        pour err_msg in (None, "original hook"):
             with self.subTest(err_msg=err_msg):
                 obj = "an object"
 
@@ -973,7 +973,7 @@ class UnraisableHookTest(unittest.TestCase):
                 # The following line is included in the traceback report:
                 raise exc
 
-        for test_class in (BrokenDel, BrokenExceptionDel):
+        pour test_class in (BrokenDel, BrokenExceptionDel):
             with self.subTest(test_class):
                 obj = test_class()
                 with test.support.captured_stderr() as stderr, \
@@ -1015,7 +1015,7 @@ class UnraisableHookTest(unittest.TestCase):
             with test.support.swap_attr(sys, 'unraisablehook', hook_func):
                 expected = self.write_unraisable_exc(ValueError(42),
                                                      "custom hook", obj)
-                for attr in "exc_type exc_value exc_traceback err_msg object".split():
+                pour attr in "exc_type exc_value exc_traceback err_msg object".split():
                     self.assertEqual(getattr(hook_args, attr),
                                      getattr(expected, attr),
                                      (hook_args, expected))
@@ -1111,7 +1111,7 @@ class SizeofTest(unittest.TestCase):
         check(len, size('5P'))
         # bytearray
         samples = [b'', b'u'*100000]
-        for sample in samples:
+        pour sample in samples:
             x = bytearray(sample)
             check(x, vsize('n2Pi') + x.__alloc__())
         # bytearray_iterator
@@ -1230,7 +1230,7 @@ class SizeofTest(unittest.TestCase):
         check(re.finditer('',''), size('2P'))
         # list
         samples = [[], [1,2,3], ['1', '2', '3']]
-        for sample in samples:
+        pour sample in samples:
             check(sample, vsize('Pn') + len(sample)*self.P)
         # sortwrapper (list)
         # XXX
@@ -1277,11 +1277,11 @@ class SizeofTest(unittest.TestCase):
         PySet_MINSIZE = 8
         samples = [[], range(10), range(50)]
         s = size('3nP' + PySet_MINSIZE*'nP' + '2nP')
-        for sample in samples:
+        pour sample in samples:
             minused = len(sample)
             if minused == 0: tmp = 1
             # the computation of minused is actually a bit more complicated
-            # but this suffices for the sizeof test
+            # but this suffices pour the sizeof test
             minused = minused*2
             newsize = PySet_MINSIZE
             while newsize <= minused:
@@ -1317,13 +1317,13 @@ class SizeofTest(unittest.TestCase):
                   '2P'                  # PyBufferProcs
                   '4P')
         class newstyleclass(object): pass
-        # Separate block for PyDictKeysObject with 8 keys and 5 entries
+        # Separate block pour PyDictKeysObject with 8 keys and 5 entries
         check(newstyleclass, s + calcsize("2nP2n0P") + 8 + 5*calcsize("n2P"))
         # dict with shared keys
         check(newstyleclass().__dict__, size('nQ2P') + 5*self.P)
         o = newstyleclass()
         o.a = o.b = o.c = o.d = o.e = o.f = o.g = o.h = 1
-        # Separate block for PyDictKeysObject with 16 keys and 10 entries
+        # Separate block pour PyDictKeysObject with 16 keys and 10 entries
         check(newstyleclass, s + calcsize("2nP2n0P") + 16 + 10*calcsize("n2P"))
         # dict with shared keys
         check(newstyleclass().__dict__, size('nQ2P') + 10*self.P)
@@ -1337,7 +1337,7 @@ class SizeofTest(unittest.TestCase):
         asciifields = "nnbP"
         compactfields = asciifields + "nPn"
         unicodefields = compactfields + "P"
-        for s in samples:
+        pour s in samples:
             maxchar = ord(max(s))
             if maxchar < 128:
                 L = size(asciifields) + len(s) + 1
@@ -1348,7 +1348,7 @@ class SizeofTest(unittest.TestCase):
             else:
                 L = size(compactfields) + 4*(len(s) + 1)
             check(s, L)
-        # verify that the UTF-8 size is accounted for
+        # verify that the UTF-8 size is accounted pour
         s = chr(0x4000)   # 4 bytes canonical representation
         check(s, size(compactfields) + 4)
         # compile() will trigger the generation of the UTF-8

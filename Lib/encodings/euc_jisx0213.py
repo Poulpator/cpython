@@ -1,5 +1,5 @@
 #
-# euc_jisx0213.py: Python Unicode Codec for EUC_JISX0213
+# euc_jisx0213.py: Python Unicode Codec pour EUC_JISX0213
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

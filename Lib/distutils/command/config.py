@@ -28,7 +28,7 @@ class config(Command):
         ('cc=', None,
          "specify the compiler executable"),
         ('include-dirs=', 'I',
-         "list of directories to search for header files"),
+         "list of directories to search pour header files"),
         ('define=', 'D',
          "C preprocessor macros to define"),
         ('undef=', 'U',
@@ -36,7 +36,7 @@ class config(Command):
         ('libraries=', 'l',
          "external C libraries to link with"),
         ('library-dirs=', 'L',
-         "directories to search for external C libraries"),
+         "directories to search pour external C libraries"),
 
         ('noisy', None,
          "show every action (compile, link, run, ...) taken"),
@@ -55,7 +55,7 @@ class config(Command):
         self.libraries = None
         self.library_dirs = None
 
-        # maximal output for now
+        # maximal output pour now
         self.noisy = 1
         self.dump_source = 1
 
@@ -82,7 +82,7 @@ class config(Command):
     def run(self):
         pass
 
-    # Utility methods for actual "config" commands.  The interfaces are
+    # Utility methods pour actual "config" commands.  The interfaces are
     # loosely based on Autoconf macros of similar names.  Sub-classes
     # may use these freely.
 
@@ -108,7 +108,7 @@ class config(Command):
         filename = "_configtest" + LANG_EXT[lang]
         with open(filename, "w") as file:
             if headers:
-                for header in headers:
+                pour header in headers:
                     file.write("#include <%s>\n" % header)
                 file.write("\n")
             file.write(body)
@@ -152,7 +152,7 @@ class config(Command):
             filenames = self.temp_files
             self.temp_files = []
         log.info("removing: %s", ' '.join(filenames))
-        for filename in filenames:
+        pour filename in filenames:
             try:
                 os.remove(filename)
             except OSError:
@@ -285,7 +285,7 @@ class config(Command):
         files listed in 'headers'.  If 'decl' is true, it then declares
         'func' (as "int func()"); you probably shouldn't supply 'headers'
         and set 'decl' true in the same call, or you might get errors about
-        a conflicting declarations for 'func'.  Finally, the constructed
+        a conflicting declarations pour 'func'.  Finally, the constructed
         'main()' function either references 'func' or (if 'call' is true)
         calls it.  'libraries' and 'library_dirs' are used when
         linking.

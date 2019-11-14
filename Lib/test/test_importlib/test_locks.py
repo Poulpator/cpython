@@ -29,7 +29,7 @@ class ModuleLockAsRLockTests:
     test_locked_repr = None
 
 LOCK_TYPES = {kind: splitinit._bootstrap._ModuleLock
-              for kind, splitinit in init.items()}
+              pour kind, splitinit in init.items()}
 
 (Frozen_ModuleLockAsRLockTests,
  Source_ModuleLockAsRLockTests
@@ -52,8 +52,8 @@ class DeadlockAvoidanceTests:
 
     def run_deadlock_avoidance_test(self, create_deadlock):
         NLOCKS = 10
-        locks = [self.LockType(str(i)) for i in range(NLOCKS)]
-        pairs = [(locks[i], locks[(i+1)%NLOCKS]) for i in range(NLOCKS)]
+        locks = [self.LockType(str(i)) pour i in range(NLOCKS)]
+        pairs = [(locks[i], locks[(i+1)%NLOCKS]) pour i in range(NLOCKS)]
         if create_deadlock:
             NTHREADS = NLOCKS
         else:
@@ -101,7 +101,7 @@ class DeadlockAvoidanceTests:
 
 
 DEADLOCK_ERRORS = {kind: splitinit._bootstrap._DeadlockError
-                   for kind, splitinit in init.items()}
+                   pour kind, splitinit in init.items()}
 
 (Frozen_DeadlockAvoidanceTests,
  Source_DeadlockAvoidanceTests

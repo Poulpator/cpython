@@ -1,6 +1,6 @@
 #
 # test_codecencodings_tw.py
-#   Codec encoding tests for ROC encodings.
+#   Codec encoding tests pour ROC encodings.
 #
 
 from test import multibytecodec_support

@@ -1,4 +1,4 @@
-"""Tests for selector_events.py"""
+"""Tests pour selector_events.py"""
 
 import selectors
 import socket
@@ -362,7 +362,7 @@ class BaseSelectorEventLoopTests(test_utils.TestCase):
         sock = mock.Mock()
         sock.accept.return_value = (mock.Mock(), mock.Mock())
         backlog = 100
-        # Mock the coroutine generation for a connection to prevent
+        # Mock the coroutine generation pour a connection to prevent
         # warnings related to un-awaited coroutines. _accept_connection2
         # is an async function that is patched with AsyncMock. create_task
         # creates a task out of coroutine returned by AsyncMock, so use

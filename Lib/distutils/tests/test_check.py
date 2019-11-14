@@ -1,4 +1,4 @@
-"""Tests for distutils.command.check."""
+"""Tests pour distutils.command.check."""
 import os
 import textwrap
 import unittest
@@ -30,7 +30,7 @@ class CheckTestCase(support.LoggingSilencer,
         pkg_info, dist = self.create_dist(**metadata)
         cmd = check(dist)
         cmd.initialize_options()
-        for name, value in options.items():
+        pour name, value in options.items():
             setattr(cmd, name, value)
         cmd.ensure_finalized()
         cmd.run()
@@ -135,7 +135,7 @@ class CheckTestCase(support.LoggingSilencer,
                     pass
             """))
 
-        for rest_with_code in example_rst_docs:
+        pour rest_with_code in example_rst_docs:
             pkg_info, dist = self.create_dist(long_description=rest_with_code)
             cmd = check(dist)
             cmd.check_restructuredtext()

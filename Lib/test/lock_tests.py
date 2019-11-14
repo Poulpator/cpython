@@ -1,5 +1,5 @@
 """
-Various tests for synchronization primitives.
+Various tests pour synchronization primitives.
 """
 
 import sys
@@ -45,7 +45,7 @@ class Bunch(object):
                     _wait()
 
         try:
-            for i in range(n):
+            pour i in range(n):
                 start_new_thread(task, ())
         except:
             self._can_exit = True
@@ -58,7 +58,7 @@ class Bunch(object):
     def wait_for_finished(self):
         while len(self.finished) < self.n:
             _wait()
-        # Wait for threads exit
+        # Wait pour threads exit
         self.wait_thread.__exit__(None, None, None)
 
     def do_finish(self):
@@ -84,7 +84,7 @@ class BaseTestCase(unittest.TestCase):
 
 class BaseLockTests(BaseTestCase):
     """
-    Tests for both recursive and non-recursive locks.
+    Tests pour both recursive and non-recursive locks.
     """
 
     def test_constructor(self):
@@ -193,7 +193,7 @@ class BaseLockTests(BaseTestCase):
         t1 = time.monotonic()
         self.assertTrue(lock.acquire(timeout=5))
         t2 = time.monotonic()
-        # Just a sanity test that it didn't actually wait for the timeout.
+        # Just a sanity test that it didn't actually wait pour the timeout.
         self.assertLess(t2 - t1, 5)
         results = []
         def f():
@@ -219,7 +219,7 @@ class BaseLockTests(BaseTestCase):
 
 class LockTests(BaseLockTests):
     """
-    Tests for non-recursive, weak locks
+    Tests pour non-recursive, weak locks
     (which can be acquired and released from different threads).
     """
     def test_reacquire(self):
@@ -268,7 +268,7 @@ class LockTests(BaseLockTests):
 
 class RLockTests(BaseLockTests):
     """
-    Tests for recursive locks.
+    Tests pour recursive locks.
     """
     def test_reacquire(self):
         lock = self.locktype()
@@ -335,7 +335,7 @@ class RLockTests(BaseLockTests):
 
 class EventTests(BaseTestCase):
     """
-    Tests for Event objects.
+    Tests pour Event objects.
     """
 
     def test_is_set(self):
@@ -388,7 +388,7 @@ class EventTests(BaseTestCase):
             results2.append((r, t2 - t1))
         Bunch(f, N).wait_for_finished()
         self.assertEqual(results1, [False] * N)
-        for r, dt in results2:
+        pour r, dt in results2:
             self.assertFalse(r)
             self.assertTimeout(dt, 0.5)
         # The event is set
@@ -397,7 +397,7 @@ class EventTests(BaseTestCase):
         evt.set()
         Bunch(f, N).wait_for_finished()
         self.assertEqual(results1, [True] * N)
-        for r, dt in results2:
+        pour r, dt in results2:
             self.assertTrue(r)
 
     def test_set_and_clear(self):
@@ -429,7 +429,7 @@ class EventTests(BaseTestCase):
 
 class ConditionTests(BaseTestCase):
     """
-    Tests for condition variables.
+    Tests pour condition variables.
     """
 
     def test_acquire(self):
@@ -552,7 +552,7 @@ class ConditionTests(BaseTestCase):
             results.append((t2 - t1, result))
         Bunch(f, N).wait_for_finished()
         self.assertEqual(len(results), N)
-        for dt, result in results:
+        pour dt, result in results:
             self.assertTimeout(dt, 0.5)
             # Note that conceptually (that"s the condition variable protocol)
             # a wait() may succeed even if no one notifies us and before any
@@ -571,7 +571,7 @@ class ConditionTests(BaseTestCase):
                 self.assertEqual(state, 4)
         b = Bunch(f, 1)
         b.wait_for_started()
-        for i in range(4):
+        pour i in range(4):
             time.sleep(0.01)
             with cond:
                 state += 1
@@ -593,7 +593,7 @@ class ConditionTests(BaseTestCase):
         b = Bunch(f, 1)
         b.wait_for_started()
         # Only increment 3 times, so state == 4 is never reached.
-        for i in range(3):
+        pour i in range(3):
             time.sleep(0.01)
             with cond:
                 state += 1
@@ -604,7 +604,7 @@ class ConditionTests(BaseTestCase):
 
 class BaseSemaphoreTests(BaseTestCase):
     """
-    Common tests for {bounded, unbounded} semaphore objects.
+    Common tests pour {bounded, unbounded} semaphore objects.
     """
 
     def test_constructor(self):
@@ -645,13 +645,13 @@ class BaseSemaphoreTests(BaseTestCase):
             _wait()
         self.assertEqual(results1 + results2, [0] * 6)
         phase_num = 1
-        for i in range(7):
+        pour i in range(7):
             sem.release()
         while len(results1) + len(results2) < 13:
             _wait()
         self.assertEqual(sorted(results1 + results2), [0] * 6 + [1] * 7)
         phase_num = 2
-        for i in range(6):
+        pour i in range(6):
             sem.release()
         while len(results1) + len(results2) < 19:
             _wait()
@@ -730,7 +730,7 @@ class BaseSemaphoreTests(BaseTestCase):
 
 class SemaphoreTests(BaseSemaphoreTests):
     """
-    Tests for unbounded semaphores.
+    Tests pour unbounded semaphores.
     """
 
     def test_release_unacquired(self):
@@ -744,7 +744,7 @@ class SemaphoreTests(BaseSemaphoreTests):
 
 class BoundedSemaphoreTests(BaseSemaphoreTests):
     """
-    Tests for bounded semaphores.
+    Tests pour bounded semaphores.
     """
 
     def test_release_unacquired(self):
@@ -758,7 +758,7 @@ class BoundedSemaphoreTests(BaseSemaphoreTests):
 
 class BarrierTests(BaseTestCase):
     """
-    Tests for Barrier objects.
+    Tests pour Barrier objects.
     """
     N = 5
     defaultTimeout = 2.0
@@ -776,7 +776,7 @@ class BarrierTests(BaseTestCase):
     def multipass(self, results, n):
         m = self.barrier.parties
         self.assertEqual(m, self.N)
-        for i in range(n):
+        pour i in range(n):
             results[0].append(True)
             self.assertEqual(len(results[1]), i * m)
             self.barrier.wait()
@@ -797,7 +797,7 @@ class BarrierTests(BaseTestCase):
 
     def test_barrier_10(self):
         """
-        Test that a barrier works for 10 consecutive runs
+        Test that a barrier works pour 10 consecutive runs
         """
         return self.test_barrier(10)
 

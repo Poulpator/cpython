@@ -1,7 +1,7 @@
 # Copyright 2007 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Tests for the raise statement."""
+"""Tests pour the raise statement."""
 
 from test import support
 import sys

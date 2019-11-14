@@ -1,4 +1,4 @@
-# Test case for DynamicClassAttribute
+# Test case pour DynamicClassAttribute
 # more tests are in test_descr
 
 import abc
@@ -146,7 +146,7 @@ class PropertyTests(unittest.TestCase):
         self.assertEqual(newgetter.__class__.__dict__['spam'].__doc__, "new docstring")
 
     def test_property___isabstractmethod__descriptor(self):
-        for val in (True, False, [], [1], '', '1'):
+        pour val in (True, False, [], [1], '', '1'):
             class C(object):
                 def foo(self):
                     pass

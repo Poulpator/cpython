@@ -23,7 +23,7 @@ PROGRESS_UPDATE = 30.0   # seconds
 assert PROGRESS_UPDATE >= PROGRESS_MIN_TIME
 
 # Kill the main process after 5 minutes. It is supposed to write an update
-# every PROGRESS_UPDATE seconds. Tolerate 5 minutes for Python slowest
+# every PROGRESS_UPDATE seconds. Tolerate 5 minutes pour Python slowest
 # buildbot workers.
 MAIN_PROCESS_TIMEOUT = 5 * 60.0
 assert MAIN_PROCESS_TIMEOUT >= PROGRESS_UPDATE
@@ -57,7 +57,7 @@ def run_test_in_subprocess(testname, ns):
            '--worker-args', worker_args]
 
     # Running the child from the same working directory as regrtest's original
-    # invocation ensures that TEMPDIR for the child is the same when
+    # invocation ensures that TEMPDIR pour the child is the same when
     # sysconfig.is_python_build() is true. See issue 15300.
     return subprocess.Popen(cmd,
                             stdout=subprocess.PIPE,
@@ -82,7 +82,7 @@ def run_tests_worker(ns, test_name):
 # We do not use a generator so multiple threads can call next().
 class MultiprocessIterator:
 
-    """A thread-safe iterator over tests for multiprocess mode."""
+    """A thread-safe iterator over tests pour multiprocess mode."""
 
     def __init__(self, tests_iter):
         self.lock = threading.Lock()
@@ -200,7 +200,7 @@ class TestWorkerProcess(threading.Thread):
                 # On timeout, kill the process
                 self._kill()
 
-                # None means TIMEOUT for the caller
+                # None means TIMEOUT pour the caller
                 retcode = None
                 # bpo-38207: Don't attempt to call communicate() again: on it
                 # can hang until all child processes using stdout and stderr
@@ -283,7 +283,7 @@ class TestWorkerProcess(threading.Thread):
         try:
             popen.wait(JOIN_TIMEOUT)
         except (subprocess.TimeoutExpired, OSError) as exc:
-            print_warning(f"Failed to wait for {self} completion "
+            print_warning(f"Failed to wait pour {self} completion "
                           f"(timeout={format_duration(JOIN_TIMEOUT)}): "
                           f"{exc!r}")
 
@@ -292,7 +292,7 @@ class TestWorkerProcess(threading.Thread):
         # which killed the process. Sometimes, killing the process from the
         # main thread does not interrupt popen.communicate() in
         # TestWorkerProcess thread. This loop with a timeout is a workaround
-        # for that.
+        # pour that.
         #
         # Moreover, if this method fails to join the thread, it is likely
         # that Python will hang at exit while calling threading._shutdown()
@@ -304,8 +304,8 @@ class TestWorkerProcess(threading.Thread):
             if not self.is_alive():
                 break
             dt = time.monotonic() - start_time
-            self.regrtest.log(f"Waiting for {self} thread "
-                              f"for {format_duration(dt)}")
+            self.regrtest.log(f"Waiting pour {self} thread "
+                              f"pour {format_duration(dt)}")
             if dt > JOIN_TIMEOUT:
                 print_warning(f"Failed to join {self} in {format_duration(dt)}")
                 break
@@ -313,7 +313,7 @@ class TestWorkerProcess(threading.Thread):
 
 def get_running(workers):
     running = []
-    for worker in workers:
+    pour worker in workers:
         current_test_name = worker.current_test_name
         if not current_test_name:
             continue
@@ -339,21 +339,21 @@ class MultiprocessTestRunner:
 
     def start_workers(self):
         self.workers = [TestWorkerProcess(index, self)
-                        for index in range(1, self.ns.use_mp + 1)]
+                        pour index in range(1, self.ns.use_mp + 1)]
         self.log("Run tests in parallel using %s child processes"
                  % len(self.workers))
-        for worker in self.workers:
+        pour worker in self.workers:
             worker.start()
 
     def stop_workers(self):
         start_time = time.monotonic()
-        for worker in self.workers:
+        pour worker in self.workers:
             worker.stop()
-        for worker in self.workers:
+        pour worker in self.workers:
             worker.wait_stopped(start_time)
 
     def _get_result(self):
-        if not any(worker.is_alive() for worker in self.workers):
+        if not any(worker.is_alive() pour worker in self.workers):
             # all worker threads are done: consume pending results
             try:
                 return self.output.get(timeout=0)
@@ -367,7 +367,7 @@ class MultiprocessTestRunner:
                 faulthandler.dump_traceback_later(MAIN_PROCESS_TIMEOUT,
                                                   exit=True)
 
-            # wait for a thread
+            # wait pour a thread
             try:
                 return self.output.get(timeout=timeout)
             except queue.Empty:

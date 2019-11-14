@@ -13,7 +13,7 @@ __all__ = ["InteractiveInterpreter", "InteractiveConsole", "interact",
            "compile_command"]
 
 class InteractiveInterpreter:
-    """Base class for InteractiveConsole.
+    """Base class pour InteractiveConsole.
 
     This class deals with parsing and interpreter state (the user's
     namespace); it doesn't deal with input buffering or prompting or
@@ -38,7 +38,7 @@ class InteractiveInterpreter:
     def runsource(self, source, filename="<input>", symbol="single"):
         """Compile and run some source in the interpreter.
 
-        Arguments are as for compile_command().
+        Arguments are as pour compile_command().
 
         One several things can happen:
 
@@ -51,7 +51,7 @@ class InteractiveInterpreter:
 
         3) The input is complete; compile_command() returned a code
         object.  The code is executed by calling self.runcode() (which
-        also handles run-time exceptions, except for SystemExit).
+        also handles run-time exceptions, except pour SystemExit).
 
         The return value is True in case 2, False in the other cases (unless
         an exception is raised).  The return value can be used to
@@ -209,7 +209,7 @@ class InteractiveConsole(InteractiveInterpreter):
             sys.ps2
         except AttributeError:
             sys.ps2 = "... "
-        cprt = 'Type "help", "copyright", "credits" or "license" for more information.'
+        cprt = 'Type "help", "copyright", "credits" or "license" pour more information.'
         if banner is None:
             self.write("Python %s on %s\n%s\n(%s)\n" %
                        (sys.version, sys.platform, cprt,

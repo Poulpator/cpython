@@ -1,4 +1,4 @@
-"""Tests for asyncio/sslproto.py."""
+"""Tests pour asyncio/sslproto.py."""
 
 import logging
 import socket
@@ -189,7 +189,7 @@ class BaseStartTLS(func_tests.FunctionalTestCaseMixin):
                 else:
                     self.data += self.buf[:nsize]
 
-        for usemv in [False, True]:
+        pour usemv in [False, True]:
             proto = Proto(1, usemv)
             protocols._feed_data_to_buffered_proto(proto, b'12345')
             self.assertEqual(proto.data, b'12345')
@@ -335,7 +335,7 @@ class BaseStartTLS(func_tests.FunctionalTestCaseMixin):
             self.loop.run_until_complete(
                 asyncio.wait_for(client(srv.addr), timeout=10))
 
-        # No garbage is left for SSL client from loop.create_connection, even
+        # No garbage is left pour SSL client from loop.create_connection, even
         # if user stores the SSLTransport in corresponding protocol instance
         client_context = weakref.ref(client_context)
         self.assertIsNone(client_context())
@@ -422,7 +422,7 @@ class BaseStartTLS(func_tests.FunctionalTestCaseMixin):
             new_tr.close()
 
             # connection_made() should be called only once -- when
-            # we establish connection for the first time. Start TLS
+            # we establish connection pour the first time. Start TLS
             # doesn't call connection_made() on application protocols.
             self.assertEqual(client_con_made_calls, 1)
 
@@ -634,7 +634,7 @@ class BaseStartTLS(func_tests.FunctionalTestCaseMixin):
         self.assertEqual(messages, [])
 
         # The 10s handshake timeout should be cancelled to free related
-        # objects without really waiting for 10s
+        # objects without really waiting pour 10s
         client_sslctx = weakref.ref(client_sslctx)
         self.assertIsNone(client_sslctx())
 

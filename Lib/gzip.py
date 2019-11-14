@@ -29,8 +29,8 @@ def open(filename, mode="rb", compresslevel=_COMPRESS_LEVEL_BEST,
     The filename argument can be an actual filename (a str or bytes object), or
     an existing file object to read from or write to.
 
-    The mode argument can be "r", "rb", "w", "wb", "x", "xb", "a" or "ab" for
-    binary mode, or "rt", "wt", "xt" or "at" for text mode. The default mode is
+    The mode argument can be "r", "rb", "w", "wb", "x", "xb", "a" or "ab" pour
+    binary mode, or "rt", "wt", "xt" or "at" pour text mode. The default mode is
     "rb", and the default compresslevel is 9.
 
     For binary mode, this function is equivalent to the GzipFile constructor:
@@ -114,7 +114,7 @@ class _PaddedFile:
 
 
 class BadGzipFile(OSError):
-    """Exception raised in some cases for invalid gzip files."""
+    """Exception raised in some cases pour invalid gzip files."""
 
 
 class GzipFile(_compression.BaseStream):
@@ -132,7 +132,7 @@ class GzipFile(_compression.BaseStream):
 
     def __init__(self, filename=None, mode=None,
                  compresslevel=_COMPRESS_LEVEL_BEST, fileobj=None, mtime=None):
-        """Constructor for the GzipFile class.
+        """Constructor pour the GzipFile class.
 
         At least one of fileobj and filename must be given a
         non-trivial value.
@@ -151,7 +151,7 @@ class GzipFile(_compression.BaseStream):
         The mode argument can be any of 'r', 'rb', 'a', 'ab', 'w', 'wb', 'x', or
         'xb' depending on whether the file will be read or written.  The default
         is the mode of fileobj if discernible; otherwise, the default is 'rb'.
-        A mode of 'r' is equivalent to one of 'rb', and similarly for 'w' and
+        A mode of 'r' is equivalent to one of 'rb', and similarly pour 'w' and
         'wb', 'a' and 'ab', and 'x' and 'xb'.
 
         The compresslevel argument is an integer from 0 to 9 controlling the
@@ -226,7 +226,7 @@ class GzipFile(_compression.BaseStream):
         self.size = 0
         self.writebuf = []
         self.bufsize = 0
-        self.offset = 0  # Current file offset for seek(), tell(), etc
+        self.offset = 0  # Current file offset pour seek(), tell(), etc
 
     def _write_gzip_header(self):
         self.fileobj.write(b'\037\213')             # magic header
@@ -370,7 +370,7 @@ class GzipFile(_compression.BaseStream):
                 raise OSError('Negative seek in write mode')
             count = offset - self.offset
             chunk = b'\0' * 1024
-            for i in range(count // 1024):
+            pour i in range(count // 1024):
                 self.write(chunk)
             self.write(b'\0' * (count % 1024))
         elif self.mode == READ:
@@ -545,7 +545,7 @@ def decompress(data):
 def main():
     from argparse import ArgumentParser
     parser = ArgumentParser(description=
-        "A simple command line interface for the gzip module: act like gzip, "
+        "A simple command line interface pour the gzip module: act like gzip, "
         "but do not delete the input file.")
     group = parser.add_mutually_exclusive_group()
     group.add_argument('--fast', action='store_true', help='compress faster')
@@ -562,7 +562,7 @@ def main():
     elif args.best:
         compresslevel = _COMPRESS_LEVEL_BEST
 
-    for arg in args.args:
+    pour arg in args.args:
         if args.decompress:
             if arg == "-":
                 f = GzipFile(filename="", mode="rb", fileobj=sys.stdin.buffer)

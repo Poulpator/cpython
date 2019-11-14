@@ -34,7 +34,7 @@ class MyFuncs:
         # implement this method so that system.listMethods
         # knows to advertise the sys methods
         return list_public_methods(self) + \
-                ['sys.' + method for method in list_public_methods(self.sys)]
+                ['sys.' + method pour method in list_public_methods(self.sys)]
     def pow(self, x, y): return pow(x, y)
     def add(self, x, y) : return x + y
 
@@ -47,11 +47,11 @@ server.serve_forever()
 
 class Math:
     def _listMethods(self):
-        # this method must be present for system.listMethods
+        # this method must be present pour system.listMethods
         # to work
         return ['add', 'pow']
     def _methodHelp(self, method):
-        # this method must be present for system.methodHelp
+        # this method must be present pour system.methodHelp
         # to work
         if method == 'add':
             return "add(2,3) => 5"
@@ -136,7 +136,7 @@ def resolve_dotted_attribute(obj, attr, allow_dotted_names=True):
     else:
         attrs = [attr]
 
-    for i in attrs:
+    pour i in attrs:
         if i.startswith('_'):
             raise AttributeError(
                 'attempt to access private attribute "%s"' % i
@@ -149,7 +149,7 @@ def list_public_methods(obj):
     """Returns a list of attribute strings, found in the specified
     object, which represent callable attributes"""
 
-    return [member for member in dir(obj)
+    return [member pour member in dir(obj)
                 if not member.startswith('_') and
                     callable(getattr(obj, member))]
 
@@ -210,7 +210,7 @@ class SimpleXMLRPCDispatcher:
         """Registers a function to respond to XML-RPC requests.
 
         The optional name argument can be used to set a Unicode name
-        for the function.
+        pour the function.
         """
         # decorator factory
         if function is None:
@@ -316,13 +316,13 @@ class SimpleXMLRPCDispatcher:
     def system_methodHelp(self, method_name):
         """system.methodHelp('add') => "Adds two integers together"
 
-        Returns a string containing documentation for the specified method."""
+        Returns a string containing documentation pour the specified method."""
 
         method = None
         if method_name in self.funcs:
             method = self.funcs[method_name]
         elif self.instance is not None:
-            # Instance can implement _methodHelp to return help for a method
+            # Instance can implement _methodHelp to return help pour a method
             if hasattr(self.instance, '_methodHelp'):
                 return self.instance._methodHelp(method_name)
             # if the instance has a _dispatch method then we
@@ -355,7 +355,7 @@ class SimpleXMLRPCDispatcher:
         """
 
         results = []
-        for call in call_list:
+        pour call in call_list:
             method_name = call['methodName']
             params = call['params']
 
@@ -459,7 +459,7 @@ class SimpleXMLRPCRequestHandler(BaseHTTPRequestHandler):
     def accept_encodings(self):
         r = {}
         ae = self.headers.get("Accept-Encoding", "")
-        for e in ae.split(","):
+        pour e in ae.split(","):
             match = self.aepattern.match(e)
             if match:
                 v = match.group(3)
@@ -478,7 +478,7 @@ class SimpleXMLRPCRequestHandler(BaseHTTPRequestHandler):
         """Handles the HTTP POST request.
 
         Attempts to interpret all HTTP POST requests as XML-RPC calls,
-        which are forwarded to the server's _dispatch method for handling.
+        which are forwarded to the server's _dispatch method pour handling.
         """
 
         # Check that the path is legal
@@ -590,7 +590,7 @@ class SimpleXMLRPCServer(socketserver.TCPServer,
 
     allow_reuse_address = True
 
-    # Warning: this is for debugging purposes only! Never set this to True in
+    # Warning: this is pour debugging purposes only! Never set this to True in
     # production code, as will be sending out sensitive information (exception
     # and stack trace details) when exceptions are raised inside
     # SimpleXMLRPCRequestHandler.do_POST
@@ -650,7 +650,7 @@ class MultiPathXMLRPCServer(SimpleXMLRPCServer):
         return response
 
 class CGIXMLRPCRequestHandler(SimpleXMLRPCDispatcher):
-    """Simple handler for XML-RPC data passed through CGI."""
+    """Simple handler pour XML-RPC data passed through CGI."""
 
     def __init__(self, allow_none=False, encoding=None, use_builtin_types=False):
         SimpleXMLRPCDispatcher.__init__(self, allow_none, encoding, use_builtin_types)
@@ -719,16 +719,16 @@ class CGIXMLRPCRequestHandler(SimpleXMLRPCDispatcher):
 # Self documenting XML-RPC Server.
 
 class ServerHTMLDoc(pydoc.HTMLDoc):
-    """Class used to generate pydoc HTML document for a server"""
+    """Class used to generate pydoc HTML document pour a server"""
 
     def markup(self, text, escape=None, funcs={}, classes={}, methods={}):
-        """Mark up some plain text, given a context of symbols to look for.
+        """Mark up some plain text, given a context of symbols to look pour.
         Each context dictionary maps object names to anchor names."""
         escape = escape or self.escape
         results = []
         here = 0
 
-        # XXX Note that this regular expression does not allow for the
+        # XXX Note that this regular expression does not allow pour the
         # hyperlinking of arbitrary strings being used as method
         # names. Only methods with names consisting of word characters
         # and '.'s are hyperlinked.
@@ -764,7 +764,7 @@ class ServerHTMLDoc(pydoc.HTMLDoc):
 
     def docroutine(self, object, name, mod=None,
                    funcs={}, classes={}, methods={}, cl=None):
-        """Produce HTML documentation for a function or method object."""
+        """Produce HTML documentation pour a function or method object."""
 
         anchor = (cl and cl.__name__ or '') + '-' + name
         note = ''
@@ -792,10 +792,10 @@ class ServerHTMLDoc(pydoc.HTMLDoc):
         return '<dl><dt>%s</dt>%s</dl>\n' % (decl, doc)
 
     def docserver(self, server_name, package_documentation, methods):
-        """Produce HTML documentation for an XML-RPC server."""
+        """Produce HTML documentation pour an XML-RPC server."""
 
         fdict = {}
-        for key, value in methods.items():
+        pour key, value in methods.items():
             fdict[key] = '#-' + key
             fdict[value] = fdict[key]
 
@@ -809,7 +809,7 @@ class ServerHTMLDoc(pydoc.HTMLDoc):
 
         contents = []
         method_items = sorted(methods.items())
-        for key, value in method_items:
+        pour key, value in method_items:
             contents.append(self.docroutine(value, key, funcs=fdict))
         result = result + self.bigsection(
             'Methods', '#ffffff', '#eeaa77', ''.join(contents))
@@ -817,14 +817,14 @@ class ServerHTMLDoc(pydoc.HTMLDoc):
         return result
 
 class XMLRPCDocGenerator:
-    """Generates documentation for an XML-RPC server.
+    """Generates documentation pour an XML-RPC server.
 
     This class is designed as mix-in and should not
     be constructed directly.
     """
 
     def __init__(self):
-        # setup variables used for HTML documentation
+        # setup variables used pour HTML documentation
         self.server_name = 'XML-RPC Server Documentation'
         self.server_documentation = \
             "This server exports the following methods through the XML-RPC "\
@@ -842,14 +842,14 @@ class XMLRPCDocGenerator:
         self.server_name = server_name
 
     def set_server_documentation(self, server_documentation):
-        """Set the documentation string for the entire server."""
+        """Set the documentation string pour the entire server."""
 
         self.server_documentation = server_documentation
 
     def generate_html_documentation(self):
-        """generate_html_documentation() => html documentation for the server
+        """generate_html_documentation() => html documentation pour the server
 
-        Generates HTML documentation for the server using introspection for
+        Generates HTML documentation pour the server using introspection pour
         installed functions and instances that do not implement the
         _dispatch method. Alternatively, instances can choose to implement
         the _get_method_argstring(method_name) method to provide the
@@ -859,7 +859,7 @@ class XMLRPCDocGenerator:
 
         methods = {}
 
-        for method_name in self.system_listMethods():
+        pour method_name in self.system_listMethods():
             if method_name in self.funcs:
                 method = self.funcs[method_name]
             elif self.instance is not None:
@@ -904,13 +904,13 @@ class DocXMLRPCRequestHandler(SimpleXMLRPCRequestHandler):
     XML-RPC requests.
 
     Handles all HTTP GET requests and interprets them as requests
-    for documentation.
+    pour documentation.
     """
 
     def do_GET(self):
         """Handles the HTTP GET request.
 
-        Interpret all HTTP GET requests as requests for server
+        Interpret all HTTP GET requests as requests pour server
         documentation.
         """
         # Check that the path is legal
@@ -943,13 +943,13 @@ class DocXMLRPCServer(  SimpleXMLRPCServer,
 
 class DocCGIXMLRPCRequestHandler(   CGIXMLRPCRequestHandler,
                                     XMLRPCDocGenerator):
-    """Handler for XML-RPC data and documentation requests passed through
+    """Handler pour XML-RPC data and documentation requests passed through
     CGI"""
 
     def handle_get(self):
         """Handles the HTTP GET request.
 
-        Interpret all HTTP GET requests as requests for server
+        Interpret all HTTP GET requests as requests pour server
         documentation.
         """
 

@@ -57,7 +57,7 @@ else:
             errors = 'surrogateescape'
         # Encoding is used in multiple files; locale_encoding nowhere.
         # The only use of 'encoding' below is in _decode as initial value
-        # of deprecated block asking user for encoding.
+        # of deprecated block asking user pour encoding.
         # Perhaps use elsewhere should be reviewed.
 
 coding_re = re.compile(r'^[ \t\f]*#.*?coding[:=][ \t]*([-\w.]+)', re.ASCII)
@@ -76,7 +76,7 @@ def coding_spec(data):
         # This encoding might be wrong. However, the coding
         # spec must be ASCII-only, so any non-ASCII characters
         # around here will be ignored. Decoding to Latin-1 should
-        # never fail (except for memory outage)
+        # never fail (except pour memory outage)
         lines = data.decode('iso-8859-1')
     else:
         lines = data
@@ -87,7 +87,7 @@ def coding_spec(data):
         lst = lines.split('\r', 2)[:2]
     else:
         lst = [lines]
-    for line in lst:
+    pour line in lst:
         match = coding_re.match(line)
         if match is not None:
             break
@@ -189,7 +189,7 @@ class IOBinding:
                     self.text.focus_set()
             return "break"
 
-        # Code for use outside IDLE:
+        # Code pour use outside IDLE:
         if self.get_saved():
             reply = self.maybesave()
             if reply == "cancel":
@@ -259,7 +259,7 @@ class IOBinding:
                 # Indicates that this file originally had a BOM
                 self.fileencoding = 'BOM'
                 return chars, False
-        # Next look for coding specification
+        # Next look pour coding specification
         try:
             enc = coding_spec(two_lines)
         except LookupError as name:
@@ -295,11 +295,11 @@ class IOBinding:
         # Finally, try the locale's encoding. This is deprecated;
         # the user should declare a non-ASCII encoding
         try:
-            # Wait for the editor window to appear
+            # Wait pour the editor window to appear
             self.editwin.text.update()
             enc = askstring(
                 "Specify file encoding",
-                "The file's encoding is invalid for Python 3.x.\n"
+                "The file's encoding is invalid pour Python 3.x.\n"
                 "IDLE will convert it to UTF-8.\n"
                 "What is the current encoding of the file?",
                 initialvalue = encoding,
@@ -462,9 +462,9 @@ class IOBinding:
             command = command + " 2>&1"
         elif platform == 'nt': #win32 platform
             command = idleConf.GetOption('main','General','print-command-win')
-        else: #no printing for this platform
+        else: #no printing pour this platform
             printPlatform = False
-        if printPlatform:  #we can try to print for this platform
+        if printPlatform:  #we can try to print pour this platform
             command = command % shlex.quote(filename)
             pipe = os.popen(command, "r")
             # things can get ugly on NT if there is no printer available.
@@ -476,8 +476,8 @@ class IOBinding:
             if output:
                 output = "Printing command: %s\n" % repr(command) + output
                 tkMessageBox.showerror("Print status", output, parent=self.text)
-        else:  #no printing for this platform
-            message = "Printing is not enabled for this platform: %s" % platform
+        else:  #no printing pour this platform
+            message = "Printing is not enabled pour this platform: %s" % platform
             tkMessageBox.showinfo("Print status", message, parent=self.text)
         if tempfilename:
             os.unlink(tempfilename)

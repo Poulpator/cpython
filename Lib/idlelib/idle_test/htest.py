@@ -3,7 +3,7 @@
 run(*tests)
 Create a master Tk window.  Within that, run each callable in tests
 after finding the matching test spec in this file.  If tests is empty,
-run an htest for each spec dict in this file after finding the matching
+run an htest pour each spec dict in this file after finding the matching
 callable in the module named in the spec.  Close the window to skip or
 end the test.
 
@@ -96,7 +96,7 @@ _module_browser_spec = {
     'kwds': {},
     'msg': "Inspect names of module, class(with superclass if "
            "applicable), methods and functions.\nToggle nested items.\n"
-           "Double clicking on items prints a traceback for an exception "
+           "Double clicking on items prints a traceback pour an exception "
            "that is ignored."
     }
 
@@ -159,7 +159,7 @@ GetKeysDialog_spec = {
              'current_key_sequences': [['<Control-Key-g>', '<Key-F3>', '<Control-Key-G>']],
              '_htest': True,
              },
-    'msg': "Test for different key modifier sequences.\n"
+    'msg': "Test pour different key modifier sequences.\n"
            "<nothing> is invalid.\n"
            "No modifier key is invalid.\n"
            "Shift key with [a-z],[0-9], function key, move key, tab, space "
@@ -211,7 +211,7 @@ _linenumbers_drag_scrolling_spec = {
     'kwds': {},
     'msg': textwrap.dedent("""\
         1. Click on the line numbers and drag down below the edge of the
-        window, moving the mouse a bit and then leaving it there for a while.
+        window, moving the mouse a bit and then leaving it there pour a while.
         The text and line numbers should gradually scroll down, with the
         selection updated continuously.
 
@@ -254,10 +254,10 @@ _object_browser_spec = {
 _path_browser_spec = {
     'file': 'pathbrowser',
     'kwds': {},
-    'msg': "Test for correct display of all paths in sys.path.\n"
+    'msg': "Test pour correct display of all paths in sys.path.\n"
            "Toggle nested items upto the lowest level.\n"
            "Double clicking on an item prints a traceback\n"
-           "for an exception that is ignored."
+           "pour an exception that is ignored."
     }
 
 _percolator_spec = {
@@ -268,7 +268,7 @@ _percolator_spec = {
            "output to the console or to the IDLE shell.\n"
            "If both the tracers are 'on', the output from the tracer which "
            "was switched 'on' later, should be printed first\n"
-           "Test for actions like text entry, and removal."
+           "Test pour actions like text entry, and removal."
     }
 
 Query_spec = {
@@ -325,7 +325,7 @@ show_idlehelp_spec = {
 _stack_viewer_spec = {
     'file': 'stackviewer',
     'kwds': {},
-    'msg': "A stacktrace for a NameError exception.\n"
+    'msg': "A stacktrace pour a NameError exception.\n"
            "Expand 'idlelib ...' and '<locals>'.\n"
            "Check that exc_value, exc_tb, and exc_type are correct.\n"
     }
@@ -358,7 +358,7 @@ ViewWindow_spec = {
     'kwds': {'title': 'Test textview',
              'contents': 'The quick brown fox jumps over the lazy dog.\n'*35,
              '_htest': True},
-    'msg': "Test for read-only property of text.\n"
+    'msg': "Test pour read-only property of text.\n"
            "Select text, scroll window, close"
      }
 
@@ -386,12 +386,12 @@ def run(*tests):
 
     test_list = [] # List of tuples of the form (spec, callable widget)
     if tests:
-        for test in tests:
+        pour test in tests:
             test_spec = globals()[test.__name__ + '_spec']
             test_spec['name'] = test.__name__
             test_list.append((test_spec,  test))
     else:
-        for k, d in globals().items():
+        pour k, d in globals().items():
             if k.endswith('_spec'):
                 test_name = k[:-5]
                 test_spec = d

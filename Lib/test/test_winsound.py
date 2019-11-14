@@ -1,4 +1,4 @@
-# Ridiculously simple test of the winsound module for Windows.
+# Ridiculously simple test of the winsound module pour Windows.
 
 import functools
 import time
@@ -46,7 +46,7 @@ class BeepTest(unittest.TestCase):
         safe_Beep(32767, 75)
 
     def test_increasingfrequency(self):
-        for i in range(100, 2000, 100):
+        pour i in range(100, 2000, 100):
             safe_Beep(i, 75)
 
     def test_keyword_args(self):
@@ -122,7 +122,7 @@ class PlaySoundTest(unittest.TestCase):
             "SystemHand",
             "SystemQuestion",
         ]
-        for alias in aliases:
+        pour alias in aliases:
             with self.subTest(alias=alias):
                 safe_PlaySound(alias, winsound.SND_ALIAS)
 

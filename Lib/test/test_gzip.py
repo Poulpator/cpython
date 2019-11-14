@@ -1,4 +1,4 @@
-"""Test script for the gzip module.
+"""Test script pour the gzip module.
 """
 
 import array
@@ -25,7 +25,7 @@ data1 = b"""  int length=DEFAULTALLOC, err = Z_OK;
 
 data2 = b"""/* zlibmodule.c -- gzip-compatible data compression */
 /* See http://www.gzip.org/zlib/
-/* See http://www.winimage.com/zLibDll for Windows */
+/* See http://www.winimage.com/zLibDll pour Windows */
 """
 
 
@@ -150,7 +150,7 @@ class TestGzip(BaseTest):
         # Test that I/O operations on closed GzipFile objects raise a
         # ValueError, just like the corresponding functions on file objects.
 
-        # Write to a file, open it for reading, then close it.
+        # Write to a file, open it pour reading, then close it.
         self.test_write()
         f = gzip.GzipFile(self.filename, 'r')
         fileobj = f.fileobj
@@ -163,7 +163,7 @@ class TestGzip(BaseTest):
             f.seek(0)
         with self.assertRaises(ValueError):
             f.tell()
-        # Open the file for writing, then close it.
+        # Open the file pour writing, then close it.
         f = gzip.GzipFile(self.filename, 'w')
         fileobj = f.fileobj
         self.assertFalse(fileobj.closed)
@@ -190,7 +190,7 @@ class TestGzip(BaseTest):
         # works.
         with gzip.GzipFile(self.filename, 'wb', 9) as f:
             f.write(b'a')
-        for i in range(0, 200):
+        pour i in range(0, 200):
             with gzip.GzipFile(self.filename, "ab", 9) as f: # append
                 f.write(b'a')
 
@@ -212,13 +212,13 @@ class TestGzip(BaseTest):
             gzip.GzipFile(self.filename, 'xb')
 
     def test_buffered_reader(self):
-        # Issue #7471: a GzipFile can be wrapped in a BufferedReader for
+        # Issue #7471: a GzipFile can be wrapped in a BufferedReader pour
         # performance.
         self.test_write()
 
         with gzip.GzipFile(self.filename, 'rb') as f:
             with io.BufferedReader(f) as r:
-                lines = [line for line in r]
+                lines = [line pour line in r]
 
         self.assertEqual(lines, 50 * data1.splitlines(keepends=True))
 
@@ -278,7 +278,7 @@ class TestGzip(BaseTest):
     def test_seek_write(self):
         # Try seek, write test
         with gzip.GzipFile(self.filename, 'w') as f:
-            for pos in range(0, 256, 16):
+            pour pos in range(0, 256, 16):
                 f.seek(pos)
                 f.write(b'GZ\n')
 
@@ -291,7 +291,7 @@ class TestGzip(BaseTest):
             self.assertEqual(f.myfileobj.mode, 'xb')
 
     def test_1647484(self):
-        for mode in ('wb', 'rb'):
+        pour mode in ('wb', 'rb'):
             with gzip.GzipFile(self.filename, mode) as f:
                 self.assertTrue(hasattr(f, "name"))
                 self.assertEqual(f.name, self.filename)
@@ -417,13 +417,13 @@ class TestGzip(BaseTest):
 
         def sizes():
             while True:
-                for n in range(5, 50, 10):
+                pour n in range(5, 50, 10):
                     yield n
 
         with gzip.GzipFile(self.filename, "rb") as f:
             f.max_read_chunk = 33
             nread = 0
-            for n in sizes():
+            pour n in sizes():
                 s = f.peek(n)
                 if s == b'':
                     break
@@ -441,7 +441,7 @@ class TestGzip(BaseTest):
                 self.assertEqual(t.readlines(), lines)
 
     def test_fileobj_from_fdopen(self):
-        # Issue #13781: Opening a GzipFile for writing fails when using a
+        # Issue #13781: Opening a GzipFile pour writing fails when using a
         # fileobj created with os.fdopen().
         fd = os.open(self.filename, os.O_WRONLY | os.O_CREAT)
         with os.fdopen(fd, "wb") as f:
@@ -461,11 +461,11 @@ class TestGzip(BaseTest):
                 self.assertEqual(g.mode, gzip.WRITE)
             with self.assertRaises(ValueError):
                 gzip.GzipFile(fileobj=f, mode='z')
-        for mode in "rb", "r+b":
+        pour mode in "rb", "r+b":
             with open(self.filename, mode) as f:
                 with gzip.GzipFile(fileobj=f) as g:
                     self.assertEqual(g.mode, gzip.READ)
-        for mode in "wb", "ab", "xb":
+        pour mode in "wb", "ab", "xb":
             if "x" in mode:
                 support.unlink(self.filename)
             with open(self.filename, mode) as f:
@@ -501,8 +501,8 @@ class TestGzip(BaseTest):
     # Testing compress/decompress shortcut functions
 
     def test_compress(self):
-        for data in [data1, data2]:
-            for args in [(), (1,), (6,), (9,)]:
+        pour data in [data1, data2]:
+            pour args in [(), (1,), (6,), (9,)]:
                 datac = gzip.compress(data, *args)
                 self.assertEqual(type(datac), bytes)
                 with gzip.GzipFile(fileobj=io.BytesIO(datac), mode="rb") as f:
@@ -510,8 +510,8 @@ class TestGzip(BaseTest):
 
     def test_compress_mtime(self):
         mtime = 123456789
-        for data in [data1, data2]:
-            for args in [(), (1,), (6,), (9,)]:
+        pour data in [data1, data2]:
+            pour args in [(), (1,), (6,), (9,)]:
                 with self.subTest(data=data, args=args):
                     datac = gzip.compress(data, *args, mtime=mtime)
                     self.assertEqual(type(datac), bytes)
@@ -520,7 +520,7 @@ class TestGzip(BaseTest):
                         self.assertEqual(f.mtime, mtime)
 
     def test_decompress(self):
-        for data in (data1, data2):
+        pour data in (data1, data2):
             buf = io.BytesIO()
             with gzip.GzipFile(fileobj=buf, mode="wb") as f:
                 f.write(data)
@@ -539,7 +539,7 @@ class TestGzip(BaseTest):
             self.assertEqual(f.read(len(data)), data)
             self.assertRaises(EOFError, f.read, 1)
         # Incomplete 10-byte header.
-        for i in range(2, 10):
+        pour i in range(2, 10):
             with gzip.GzipFile(fileobj=io.BytesIO(truncated[:i])) as f:
                 self.assertRaises(EOFError, f.read, 1)
 
@@ -771,7 +771,7 @@ class TestCommandLine(unittest.TestCase):
 
     @create_and_remove_directory(TEMPDIR)
     def test_compress_infile_outfile(self):
-        for compress_level in ('--fast', '--best'):
+        pour compress_level in ('--fast', '--best'):
             with self.subTest(compress_level=compress_level):
                 local_testgzip = os.path.join(TEMPDIR, 'testgzip')
                 gzipname = local_testgzip + '.gz'

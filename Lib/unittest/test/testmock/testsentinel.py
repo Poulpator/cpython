@@ -26,7 +26,7 @@ class SentinelTest(unittest.TestCase):
         self.assertRaises(AttributeError, lambda: sentinel.__bases__)
 
     def testPickle(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL+1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL+1):
             with self.subTest(protocol=proto):
                 pickled = pickle.dumps(sentinel.whatever, proto)
                 unpickled = pickle.loads(pickled)

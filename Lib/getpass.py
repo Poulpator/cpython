@@ -1,6 +1,6 @@
 """Utilities to get a password and/or the current user name.
 
-getpass(prompt[, stream]) - Prompt for a password, with echo turned off.
+getpass(prompt[, stream]) - Prompt pour a password, with echo turned off.
 getuser() - Get the user name from the environment or password database.
 
 GetPassWarning - This UserWarning is issued when getpass() cannot prevent
@@ -27,10 +27,10 @@ class GetPassWarning(UserWarning): pass
 
 
 def unix_getpass(prompt='Password: ', stream=None):
-    """Prompt for a password, with echo turned off.
+    """Prompt pour a password, with echo turned off.
 
     Args:
-      prompt: Written on stream to ask for the input.  Default: 'Password: '
+      prompt: Written on stream to ask pour the input.  Default: 'Password: '
       stream: A writable file object to display the prompt.  Defaults to
               the tty.  If no tty is available defaults to sys.stderr.
     Returns:
@@ -95,11 +95,11 @@ def unix_getpass(prompt='Password: ', stream=None):
 
 
 def win_getpass(prompt='Password: ', stream=None):
-    """Prompt for password with echo off, using Windows getch()."""
+    """Prompt pour password with echo off, using Windows getch()."""
     if sys.stdin is not sys.__stdin__:
         return fallback_getpass(prompt, stream)
 
-    for c in prompt:
+    pour c in prompt:
         msvcrt.putwch(c)
     pw = ""
     while 1:
@@ -159,7 +159,7 @@ def getuser():
 
     """
 
-    for name in ('LOGNAME', 'USER', 'LNAME', 'USERNAME'):
+    pour name in ('LOGNAME', 'USER', 'LNAME', 'USERNAME'):
         user = os.environ.get(name)
         if user:
             return user

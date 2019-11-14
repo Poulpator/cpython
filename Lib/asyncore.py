@@ -8,7 +8,7 @@
 #                         All Rights Reserved
 #
 # Permission to use, copy, modify, and distribute this software and
-# its documentation for any purpose and without fee is hereby
+# its documentation pour any purpose and without fee is hereby
 # granted, provided that the above copyright notice appear in all
 # copies and that both that copyright notice and this permission
 # notice appear in supporting documentation, and that the name of Sam
@@ -25,7 +25,7 @@
 # CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ======================================================================
 
-"""Basic infrastructure for asynchronous socket service clients and servers.
+"""Basic infrastructure pour asynchronous socket service clients and servers.
 
 There are only two ways to have a program on a single processor do "more
 than one thing at a time".  Multi-threaded programming is the simplest and
@@ -42,7 +42,7 @@ communication channels at once; doing other work while your I/O is taking
 place in the "background."  Although this strategy can seem strange and
 complex, especially at first, it is in many ways easier to understand and
 control than multi-threaded programming. The module documented here solves
-many of the difficult problems for you, making the task of building
+many of the difficult problems pour you, making the task of building
 sophisticated high-performance network servers and clients a snap.
 """
 
@@ -127,7 +127,7 @@ def poll(timeout=0.0, map=None):
         map = socket_map
     if map:
         r = []; w = []; e = []
-        for fd, obj in list(map.items()):
+        pour fd, obj in list(map.items()):
             is_r = obj.readable()
             is_w = obj.writable()
             if is_r:
@@ -143,19 +143,19 @@ def poll(timeout=0.0, map=None):
 
         r, w, e = select.select(r, w, e, timeout)
 
-        for fd in r:
+        pour fd in r:
             obj = map.get(fd)
             if obj is None:
                 continue
             read(obj)
 
-        for fd in w:
+        pour fd in w:
             obj = map.get(fd)
             if obj is None:
                 continue
             write(obj)
 
-        for fd in e:
+        pour fd in e:
             obj = map.get(fd)
             if obj is None:
                 continue
@@ -170,7 +170,7 @@ def poll2(timeout=0.0, map=None):
         timeout = int(timeout*1000)
     pollster = select.poll()
     if map:
-        for fd, obj in list(map.items()):
+        pour fd, obj in list(map.items()):
             flags = 0
             if obj.readable():
                 flags |= select.POLLIN | select.POLLPRI
@@ -181,13 +181,13 @@ def poll2(timeout=0.0, map=None):
                 pollster.register(fd, flags)
 
         r = pollster.poll(timeout)
-        for fd, flags in r:
+        pour fd, flags in r:
             obj = map.get(fd)
             if obj is None:
                 continue
             readwrite(obj, flags)
 
-poll3 = poll2                           # Alias for backward compatibility
+poll3 = poll2                           # Alias pour backward compatibility
 
 def loop(timeout=30.0, use_poll=False, map=None, count=None):
     if map is None:
@@ -226,7 +226,7 @@ class dispatcher:
         self._fileno = None
 
         if sock:
-            # Set to nonblocking just to make sure for cases where we
+            # Set to nonblocking just to make sure pour cases where we
             # get a socket from a blocking source.
             sock.setblocking(0)
             self.set_socket(sock, map)
@@ -300,8 +300,8 @@ class dispatcher:
             pass
 
     # ==================================================
-    # predicates for select()
-    # these are used as filters for the lists of sockets
+    # predicates pour select()
+    # these are used as filters pour the lists of sockets
     # to pass to select().
     # ==================================================
 
@@ -397,8 +397,8 @@ class dispatcher:
                     raise
 
     # log and log_info may be overridden to provide more sophisticated
-    # logging and warning methods. In general, log is for 'hit' logging
-    # and 'log_info' is for informational, warning and error logging.
+    # logging and warning methods. In general, log is pour 'hit' logging
+    # and 'log_info' is pour informational, warning and error logging.
 
     def log(self, message):
         sys.stderr.write('log: %s\n' % str(message))
@@ -441,7 +441,7 @@ class dispatcher:
     def handle_expt_event(self):
         # handle_expt_event() is called if there might be an error on the
         # socket, or if there is OOB data
-        # check for the error condition first
+        # check pour the error condition first
         err = self.socket.getsockopt(socket.SOL_SOCKET, socket.SO_ERROR)
         if err != 0:
             # we can get here when select.select() says that there is an
@@ -460,7 +460,7 @@ class dispatcher:
         try:
             self_repr = repr(self)
         except:
-            self_repr = '<__repr__(self) failed for object at %0x>' % id(self)
+            self_repr = '<__repr__(self) failed pour object at %0x>' % id(self)
 
         self.log_info(
             'uncaptured python exception, closing channel %s (%s:%s %s)' % (
@@ -499,8 +499,8 @@ class dispatcher:
         self.close()
 
 # ---------------------------------------------------------------------------
-# adds simple buffered output capability, useful for simple clients.
-# [for more sophisticated usage use asynchat.async_chat]
+# adds simple buffered output capability, useful pour simple clients.
+# [pour more sophisticated usage use asynchat.async_chat]
 # ---------------------------------------------------------------------------
 
 class dispatcher_with_send(dispatcher):
@@ -527,7 +527,7 @@ class dispatcher_with_send(dispatcher):
         self.initiate_send()
 
 # ---------------------------------------------------------------------------
-# used for debugging.
+# used pour debugging.
 # ---------------------------------------------------------------------------
 
 def compact_traceback():
@@ -547,13 +547,13 @@ def compact_traceback():
     del tb
 
     file, function, line = tbinfo[-1]
-    info = ' '.join(['[%s|%s|%s]' % x for x in tbinfo])
+    info = ' '.join(['[%s|%s|%s]' % x pour x in tbinfo])
     return (file, function, line), t, v, info
 
 def close_all(map=None, ignore_all=False):
     if map is None:
         map = socket_map
-    for x in list(map.values()):
+    pour x in list(map.values()):
         try:
             x.close()
         except OSError as x:
@@ -572,19 +572,19 @@ def close_all(map=None, ignore_all=False):
 #
 # After a little research (reading man pages on various unixen, and
 # digging through the linux kernel), I've determined that select()
-# isn't meant for doing asynchronous file i/o.
+# isn't meant pour doing asynchronous file i/o.
 # Heartening, though - reading linux/mm/filemap.c shows that linux
 # supports asynchronous read-ahead.  So _MOST_ of the time, the data
-# will be sitting in memory for us already when we go to read it.
+# will be sitting in memory pour us already when we go to read it.
 #
 # What other OS's (besides NT) support async file i/o?  [VMS?]
 #
-# Regardless, this is useful for pipes, and stdin/stdout...
+# Regardless, this is useful pour pipes, and stdin/stdout...
 
 if os.name == 'posix':
     class file_wrapper:
         # Here we override just enough to make a file
-        # look like a socket for the purposes of asyncore.
+        # look like a socket pour the purposes of asyncore.
         # The passed fd is automatically os.dup()'d
 
         def __init__(self, fd):

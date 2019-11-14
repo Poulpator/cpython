@@ -1,4 +1,4 @@
-"""Tests for distutils.filelist."""
+"""Tests pour distutils.filelist."""
 import os
 import re
 import unittest
@@ -49,7 +49,7 @@ class FileListTestCase(support.LoggingSilencer,
         if os.sep == '\\':
             sep = re.escape(os.sep)
 
-        for glob, regex in (
+        pour glob, regex in (
             # simple cases
             ('foo*', r'(?s:foo[^%(sep)s]*)\Z'),
             ('foo?', r'(?s:foo[^%(sep)s])\Z'),
@@ -84,7 +84,7 @@ class FileListTestCase(support.LoggingSilencer,
                               l('dir3/sub/ok.txt'),
                              ]
 
-        for line in MANIFEST_IN.split('\n'):
+        pour line in MANIFEST_IN.split('\n'):
             if line.strip() == '':
                 continue
             file_list.process_template_line(line)
@@ -189,7 +189,7 @@ class FileListTestCase(support.LoggingSilencer,
         l = make_local_path
         # invalid lines
         file_list = FileList()
-        for action in ('include', 'exclude', 'global-include',
+        pour action in ('include', 'exclude', 'global-include',
                        'global-exclude', 'recursive-include',
                        'recursive-exclude', 'graft', 'prune', 'blarg'):
             self.assertRaises(DistutilsTemplateError,

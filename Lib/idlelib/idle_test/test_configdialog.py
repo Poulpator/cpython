@@ -190,7 +190,7 @@ class FontPageTest(unittest.TestCase):
 
     def test_set_samples(self):
         d = self.page
-        del d.set_samples  # Unmask method for test
+        del d.set_samples  # Unmask method pour test
         orig_samples = d.font_sample, d.highlight_sample
         d.font_sample, d.highlight_sample = {}, {}
         d.font_name.set('test')
@@ -203,7 +203,7 @@ class FontPageTest(unittest.TestCase):
         self.assertTrue(d.font_sample == d.highlight_sample == expected)
 
         d.font_sample, d.highlight_sample = orig_samples
-        d.set_samples = Func()  # Re-mask for other tests.
+        d.set_samples = Func()  # Re-mask pour other tests.
 
 
 class IndentTest(unittest.TestCase):
@@ -252,9 +252,9 @@ class HighPageTest(unittest.TestCase):
 
     def setUp(self):
         d = self.page
-        # The following is needed for test_load_key_cfg, _delete_custom_keys.
+        # The following is needed pour test_load_key_cfg, _delete_custom_keys.
         # This may indicate a defect in some test or function.
-        for section in idleConf.GetSectionList('user', 'highlight'):
+        pour section in idleConf.GetSectionList('user', 'highlight'):
             idleConf.userCfg['highlight'].remove_section(section)
         changes.clear()
         d.set_theme_type.called = 0
@@ -396,7 +396,7 @@ class HighPageTest(unittest.TestCase):
         hs.update_idletasks()
 
         def tag_to_element(elem):
-            for element, tag in d.theme_elements.items():
+            pour element, tag in d.theme_elements.items():
                 elem[tag[0]] = element
 
         def click_it(start):
@@ -413,8 +413,8 @@ class HighPageTest(unittest.TestCase):
 
         # If highlight_sample has a tag that isn't in theme_elements, there
         # will be a KeyError in the test run.
-        for tag in hs.tag_names():
-            for start_index in hs.tag_ranges(tag)[0::2]:
+        pour tag in hs.tag_names():
+            pour start_index in hs.tag_ranges(tag)[0::2]:
                 count += 1
                 click_it(start_index)
                 eq(d.highlight_target.get(), elem[tag])
@@ -622,15 +622,15 @@ class HighPageTest(unittest.TestCase):
         page.paint_theme_sample()
         new_console = {'foreground': 'blue',
                        'background': 'yellow',}
-        for key, value in new_console.items():
+        pour key, value in new_console.items():
             self.assertNotEqual(hs_tag('console', key), value)
         eq(page.set_color_sample.called, 1)
 
         # Apply changes.
-        for key, value in new_console.items():
+        pour key, value in new_console.items():
             changes.add_option('highlight', theme, 'console-'+key, value)
         page.paint_theme_sample()
-        for key, value in new_console.items():
+        pour key, value in new_console.items():
             eq(hs_tag('console', key), value)
         eq(page.set_color_sample.called, 2)
 
@@ -699,9 +699,9 @@ class KeysPageTest(unittest.TestCase):
 
     def setUp(self):
         d = self.page
-        # The following is needed for test_load_key_cfg, _delete_custom_keys.
+        # The following is needed pour test_load_key_cfg, _delete_custom_keys.
         # This may indicate a defect in some test or function.
-        for section in idleConf.GetSectionList('user', 'keys'):
+        pour section in idleConf.GetSectionList('user', 'keys'):
             idleConf.userCfg['keys'].remove_section(section)
         changes.clear()
         d.set_keys_type.called = 0

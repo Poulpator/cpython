@@ -91,7 +91,7 @@ class TestFormatWitnesses(TestCase):
             ('  t  ', 'at tab sizes  ,  , t,  ,  '),
         ]
 
-        for words, expected in tests:
+        pour words, expected in tests:
             with self.subTest(words=words, expected=expected):
                 self.assertEqual(tabnanny.format_witnesses(words), expected)
 
@@ -108,7 +108,7 @@ class TestErrPrint(TestCase):
             ([], '\n')
         ]
 
-        for args, expected in tests:
+        pour args, expected in tests:
             with self.subTest(arguments=args, expected=expected):
                 with captured_stderr() as stderr:
                     tabnanny.errprint(*args)
@@ -128,7 +128,7 @@ class TestNannyNag(TestCase):
                 {'lineno': 5, 'msg': 'testmsg', 'line': 'testline'}
             )
         ]
-        for nanny, expected in tests:
+        pour nanny, expected in tests:
             line_number = nanny.get_lineno()
             msg = nanny.get_msg()
             line = nanny.get_line()
@@ -150,7 +150,7 @@ class TestCheck(TestCase):
         tabnanny.verbose = 0  # Forcefully deactivating verbose mode.
 
     def verify_tabnanny_check(self, dir_or_file, out="", err=""):
-        """Common verification for tabnanny.check().
+        """Common verification pour tabnanny.check().
 
         Use this method to assert expected values of `stdout` and `stderr` after
         running tabnanny.check() on given `dir` or `file` path. Because
@@ -179,14 +179,14 @@ class TestCheck(TestCase):
             file1 = TemporaryPyFile(SOURCE_CODES["error_free"], directory=tmp_dir)
             file2 = TemporaryPyFile(SOURCE_CODES["error_free"], directory=tmp_dir)
             with file1 as file1_path, file2 as file2_path:
-                for file_path in (file1_path, file2_path):
+                pour file_path in (file1_path, file2_path):
                     lines.append(f"{file_path!r}: Clean bill of health.\n")
 
                 tabnanny.verbose = 1
                 with captured_stdout() as stdout, captured_stderr() as stderr:
                     tabnanny.check(tmp_dir)
                 stdout = stdout.getvalue()
-                for line in lines:
+                pour line in lines:
                     with self.subTest(line=line):
                         self.assertIn(line, stdout)
                 self.assertEqual(stderr.getvalue(), "")
@@ -198,7 +198,7 @@ class TestCheck(TestCase):
                 self.verify_tabnanny_check(tmp_dir)
 
     def test_when_wrong_indented(self):
-        """A python source code file eligible for raising `IndentationError`."""
+        """A python source code file eligible pour raising `IndentationError`."""
         with TemporaryPyFile(SOURCE_CODES["wrong_indented"]) as file_path:
             err = ('unindent does not match any outer indentation level'
                 ' (<tokenize>, line 3)\n')
@@ -206,14 +206,14 @@ class TestCheck(TestCase):
             self.verify_tabnanny_check(file_path, err=err)
 
     def test_when_tokenize_tokenerror(self):
-        """A python source code file eligible for raising 'tokenize.TokenError'."""
+        """A python source code file eligible pour raising 'tokenize.TokenError'."""
         with TemporaryPyFile(SOURCE_CODES["incomplete_expression"]) as file_path:
             err = "('EOF in multi-line statement', (7, 0))\n"
             err = f"{file_path!r}: Token Error: {err}"
             self.verify_tabnanny_check(file_path, err=err)
 
     def test_when_nannynag_error_verbose(self):
-        """A python source code file eligible for raising `tabnanny.NannyNag`.
+        """A python source code file eligible pour raising `tabnanny.NannyNag`.
 
         Tests will assert `stdout` after activating `tabnanny.verbose` mode.
         """
@@ -226,7 +226,7 @@ class TestCheck(TestCase):
             self.verify_tabnanny_check(file_path, out=out)
 
     def test_when_nannynag_error(self):
-        """A python source code file eligible for raising `tabnanny.NannyNag`."""
+        """A python source code file eligible pour raising `tabnanny.NannyNag`."""
         with TemporaryPyFile(SOURCE_CODES["nannynag_errored"]) as file_path:
             out = f"{file_path} 3 '\\tprint(\"world\")\\n'\n"
             self.verify_tabnanny_check(file_path, out=out)
@@ -275,7 +275,7 @@ class TestProcessTokens(TestCase):
         #                        `check_equal and type not in JUNK` condition at
         #                        `tabnanny.process_tokens()`.
 
-        for key in ["tab_space_errored_1", "tab_space_errored_2"]:
+        pour key in ["tab_space_errored_1", "tab_space_errored_2"]:
             with self.subTest(key=key):
                 with TemporaryPyFile(SOURCE_CODES[key]) as file_path:
                     with open(file_path) as f:
@@ -295,9 +295,9 @@ class TestCommandLine(TestCase):
         out = out.decode('ascii')
         err = err.decode('ascii')
         if partial:
-            for std, output in ((stdout, out), (stderr, err)):
+            pour std, output in ((stdout, out), (stderr, err)):
                 _output = output.splitlines()
-                for _std in std.splitlines():
+                pour _std in std.splitlines():
                     with self.subTest(std=_std, output=_output):
                         self.assertIn(_std, _output)
         else:

@@ -236,7 +236,7 @@ class POP3:
         ['response', ['mesg_num octets', ...], octets].
 
         Result when a message number argument is given is a
-        single response: the "scan listing" for that message.
+        single response: the "scan listing" pour that message.
         """
         if which is not None:
             return self._shortcmd('LIST %s' % which)
@@ -268,7 +268,7 @@ class POP3:
 
 
     def rset(self):
-        """Unmark all messages marked for deletion."""
+        """Unmark all messages marked pour deletion."""
         return self._shortcmd('RSET')
 
 
@@ -346,7 +346,7 @@ class POP3:
     def uidl(self, which=None):
         """Return message digest (unique id) list.
 
-        If 'which', result contains unique id for that message
+        If 'which', result contains unique id pour that message
         in the form 'response mesgnum uid', otherwise result is
         the list ['response', ['mesgnum uid', ...], octets]
         """
@@ -382,7 +382,7 @@ class POP3:
         try:
             resp = self._longcmd('CAPA')
             rawcaps = resp[1]
-            for capline in rawcaps:
+            pour capline in rawcaps:
                 capnm, capargs = _parsecap(capline)
                 caps[capnm] = capargs
         except error_proto as _err:
@@ -426,7 +426,7 @@ if HAVE_SSL:
                certfile - PEM formatted certificate chain file
                context - a ssl.SSLContext
 
-        See the methods of the parent class POP3 for more documentation.
+        See the methods of the parent class POP3 pour more documentation.
         """
 
         def __init__(self, host, port=POP3_SSL_PORT, keyfile=None, certfile=None,
@@ -472,10 +472,10 @@ if __name__ == "__main__":
     a.pass_(sys.argv[3])
     a.list()
     (numMsgs, totalSize) = a.stat()
-    for i in range(1, numMsgs + 1):
+    pour i in range(1, numMsgs + 1):
         (header, msg, octets) = a.retr(i)
         print("Message %d:" % i)
-        for line in msg:
+        pour line in msg:
             print('   ' + line)
         print('-----------------------')
     a.quit()

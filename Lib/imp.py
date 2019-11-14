@@ -29,7 +29,7 @@ import types
 import warnings
 
 warnings.warn("the imp module is deprecated in favour of importlib; "
-              "see the module's documentation for alternative uses",
+              "see the module's documentation pour alternative uses",
               DeprecationWarning, stacklevel=2)
 
 # DEPRECATED
@@ -59,13 +59,13 @@ def new_module(name):
 def get_magic():
     """**DEPRECATED**
 
-    Return the magic number for .pyc files.
+    Return the magic number pour .pyc files.
     """
     return util.MAGIC_NUMBER
 
 
 def get_tag():
-    """Return the magic tag for .pyc files."""
+    """Return the magic tag pour .pyc files."""
     return sys.implementation.cache_tag
 
 
@@ -104,9 +104,9 @@ def source_from_cache(path):
 
 def get_suffixes():
     """**DEPRECATED**"""
-    extensions = [(s, 'rb', C_EXTENSION) for s in machinery.EXTENSION_SUFFIXES]
-    source = [(s, 'r', PY_SOURCE) for s in machinery.SOURCE_SUFFIXES]
-    bytecode = [(s, 'rb', PY_COMPILED) for s in machinery.BYTECODE_SUFFIXES]
+    extensions = [(s, 'rb', C_EXTENSION) pour s in machinery.EXTENSION_SUFFIXES]
+    source = [(s, 'r', PY_SOURCE) pour s in machinery.SOURCE_SUFFIXES]
+    bytecode = [(s, 'rb', PY_COMPILED) pour s in machinery.BYTECODE_SUFFIXES]
 
     return extensions + source + bytecode
 
@@ -132,7 +132,7 @@ class NullImporter:
 
 class _HackedGetData:
 
-    """Compatibility support for 'file' arguments of various load_*()
+    """Compatibility support pour 'file' arguments of various load_*()
     functions."""
 
     def __init__(self, fullname, path, file=None):
@@ -159,7 +159,7 @@ class _HackedGetData:
 
 class _LoadSourceCompatibility(_HackedGetData, machinery.SourceFileLoader):
 
-    """Compatibility support for implementing load_source()."""
+    """Compatibility support pour implementing load_source()."""
 
 
 def load_source(name, pathname, file=None):
@@ -178,7 +178,7 @@ def load_source(name, pathname, file=None):
 
 class _LoadCompiledCompatibility(_HackedGetData, SourcelessFileLoader):
 
-    """Compatibility support for implementing load_compiled()."""
+    """Compatibility support pour implementing load_compiled()."""
 
 
 def load_compiled(name, pathname, file=None):
@@ -201,7 +201,7 @@ def load_package(name, path):
     if os.path.isdir(path):
         extensions = (machinery.SOURCE_SUFFIXES[:] +
                       machinery.BYTECODE_SUFFIXES[:])
-        for extension in extensions:
+        pour extension in extensions:
             init_path = os.path.join(path, '__init__' + extension)
             if os.path.exists(init_path):
                 path = init_path
@@ -228,7 +228,7 @@ def load_module(name, file, filename, details):
     if mode and (not mode.startswith(('r', 'U')) or '+' in mode):
         raise ValueError('invalid file open mode {!r}'.format(mode))
     elif file is None and type_ in {PY_SOURCE, PY_COMPILED}:
-        msg = 'file object required for import (type code {})'.format(type_)
+        msg = 'file object required pour import (type code {})'.format(type_)
         raise ValueError(msg)
     elif type_ == PY_SOURCE:
         return load_source(name, filename, file)
@@ -254,11 +254,11 @@ def load_module(name, file, filename, details):
 def find_module(name, path=None):
     """**DEPRECATED**
 
-    Search for a module.
+    Search pour a module.
 
-    If path is omitted or None, search for a built-in, frozen or special
+    If path is omitted or None, search pour a built-in, frozen or special
     module and continue search in sys.path. The module name cannot
-    contain '.'; to search for a submodule of a package, pass the
+    contain '.'; to search pour a submodule of a package, pass the
     submodule name and the package's __path__.
 
     """
@@ -277,14 +277,14 @@ def find_module(name, path=None):
         else:
             path = sys.path
 
-    for entry in path:
+    pour entry in path:
         package_directory = os.path.join(entry, name)
-        for suffix in ['.py', machinery.BYTECODE_SUFFIXES[0]]:
+        pour suffix in ['.py', machinery.BYTECODE_SUFFIXES[0]]:
             package_file_name = '__init__' + suffix
             file_path = os.path.join(package_directory, package_file_name)
             if os.path.isfile(file_path):
                 return None, package_directory, ('', '', PKG_DIRECTORY)
-        for suffix, mode, type_ in get_suffixes():
+        pour suffix, mode, type_ in get_suffixes():
             file_name = name + suffix
             file_path = os.path.join(entry, file_name)
             if os.path.isfile(file_path):

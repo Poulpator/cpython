@@ -1,4 +1,4 @@
-"""Tests for distutils.command.bdist."""
+"""Tests pour distutils.command.bdist."""
 import os
 import unittest
 from test.support import run_unittest
@@ -38,7 +38,7 @@ class BuildTestCase(support.TempdirManager,
         if os.name == 'nt':
             names.append('bdist_msi')
 
-        for name in names:
+        pour name in names:
             with warnings.catch_warnings():
                 warnings.filterwarnings('ignore', 'bdist_wininst command is deprecated',
                                         DeprecationWarning)

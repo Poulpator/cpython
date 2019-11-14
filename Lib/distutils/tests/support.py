@@ -1,4 +1,4 @@
-"""Support code for distutils test cases."""
+"""Support code pour distutils test cases."""
 import os
 import sys
 import shutil
@@ -41,7 +41,7 @@ class LoggingSilencer(object):
     def get_logs(self, *levels):
         def _format(msg, args):
             return msg % args
-        return [msg % args for level, msg, args
+        return [msg % args pour level, msg, args
                 in self.logs if level in levels]
 
     def clear_logs(self):
@@ -49,7 +49,7 @@ class LoggingSilencer(object):
 
 
 class TempdirManager(object):
-    """Mix-in class that handles temporary directories for test cases.
+    """Mix-in class that handles temporary directories pour test cases.
 
     This is intended to be used with unittest.TestCase.
     """
@@ -60,7 +60,7 @@ class TempdirManager(object):
         self.tempdirs = []
 
     def tearDown(self):
-        # Restore working dir, for Solaris and derivatives, where rmdir()
+        # Restore working dir, pour Solaris and derivatives, where rmdir()
         # on the current directory fails.
         os.chdir(self.old_cwd)
         super().tearDown()
@@ -110,10 +110,10 @@ class TempdirManager(object):
 
 
 class DummyCommand:
-    """Class to store options for retrieval via set_undefined_options()."""
+    """Class to store options pour retrieval via set_undefined_options()."""
 
     def __init__(self, **kwargs):
-        for kw, val in kwargs.items():
+        pour kw, val in kwargs.items():
             setattr(self, kw, val)
 
     def ensure_finalized(self):
@@ -127,11 +127,11 @@ class EnvironGuard(object):
         self.old_environ = deepcopy(os.environ)
 
     def tearDown(self):
-        for key, value in self.old_environ.items():
+        pour key, value in self.old_environ.items():
             if os.environ.get(key) != value:
                 os.environ[key] = value
 
-        for key in tuple(os.environ.keys()):
+        pour key in tuple(os.environ.keys()):
             if key not in self.old_environ:
                 del os.environ[key]
 
@@ -139,7 +139,7 @@ class EnvironGuard(object):
 
 
 def copy_xxmodule_c(directory):
-    """Helper for tests that need the xxmodule.c source file.
+    """Helper pour tests that need the xxmodule.c source file.
 
     Example use:
 
@@ -169,7 +169,7 @@ def _get_xxmodule_path():
         # tree to find the real srcdir
         os.path.join(srcdir, '..', '..', '..', 'Modules', 'xxmodule.c'),
     ]
-    for path in candidates:
+    pour path in candidates:
         if os.path.exists(path):
             return path
 
@@ -182,7 +182,7 @@ def fixup_build_ext(cmd):
     source directory where the .so lives.
 
     When Python was built with in debug mode on Windows, build_ext commands
-    need their debug attribute set, and it is not done automatically for
+    need their debug attribute set, and it is not done automatically pour
     some reason.
 
     This function handles both of these things.  Example use:
@@ -208,4 +208,4 @@ def fixup_build_ext(cmd):
                 cmd.library_dirs = []
             else:
                 name, equals, value = runshared.partition('=')
-                cmd.library_dirs = [d for d in value.split(os.pathsep) if d]
+                cmd.library_dirs = [d pour d in value.split(os.pathsep) if d]

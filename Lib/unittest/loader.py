@@ -65,7 +65,7 @@ def _jython_aware_splitext(path):
 
 class TestLoader(object):
     """
-    This class is responsible for loading tests according to various criteria
+    This class is responsible pour loading tests according to various criteria
     and returning them wrapped in a TestSuite
     """
     testMethodPrefix = 'test'
@@ -93,7 +93,7 @@ class TestLoader(object):
         loaded_suite = self.suiteClass(map(testCaseClass, testCaseNames))
         return loaded_suite
 
-    # XXX After Python 3.5, remove backward compatibility hacks for
+    # XXX After Python 3.5, remove backward compatibility hacks pour
     # use_load_tests deprecation via *args and **kws.  See issue 16662.
     def loadTestsFromModule(self, module, *args, pattern=None, **kws):
         """Return a suite of all test cases contained in the given module"""
@@ -118,7 +118,7 @@ class TestLoader(object):
             complaint = sorted(kws)[0]
             raise TypeError("loadTestsFromModule() got an unexpected keyword argument '{}'".format(complaint))
         tests = []
-        for name in dir(module):
+        pour name in dir(module):
             obj = getattr(module, name)
             if isinstance(obj, type) and issubclass(obj, case.TestCase):
                 tests.append(self.loadTestsFromTestCase(obj))
@@ -164,7 +164,7 @@ class TestLoader(object):
                         return error_case
             parts = parts[1:]
         obj = module
-        for part in parts:
+        pour part in parts:
             try:
                 parent, obj = obj, getattr(obj, part)
             except AttributeError as e:
@@ -217,7 +217,7 @@ class TestLoader(object):
         """Return a suite of all test cases found using the given sequence
         of string specifiers. See 'loadTestsFromName()'.
         """
-        suites = [self.loadTestsFromName(name, module) for name in names]
+        suites = [self.loadTestsFromName(name, module) pour name in names]
         return self.suiteClass(suites)
 
     def getTestCaseNames(self, testCaseClass):
@@ -233,7 +233,7 @@ class TestLoader(object):
                 testCaseClass.__module__, testCaseClass.__qualname__, attrname
             )
             return self.testNamePatterns is None or \
-                any(fnmatchcase(fullName, pattern) for pattern in self.testNamePatterns)
+                any(fnmatchcase(fullName, pattern) pour pattern in self.testNamePatterns)
         testFnNames = list(filter(shouldIncludeMethod, dir(testCaseClass)))
         if self.sortTestMethodsUsing:
             testFnNames.sort(key=functools.cmp_to_key(self.sortTestMethodsUsing))
@@ -250,15 +250,15 @@ class TestLoader(object):
         level directory must be specified separately.
 
         If a test package name (directory with '__init__.py') matches the
-        pattern then the package will be checked for a 'load_tests' function. If
+        pattern then the package will be checked pour a 'load_tests' function. If
         this exists then it will be called with (loader, tests, pattern) unless
         the package has already had load_tests called from the same discovery
-        invocation, in which case the package module object is not scanned for
+        invocation, in which case the package module object is not scanned pour
         tests - this ensures that when a package uses discover to further
         discover child tests that infinite recursion does not happen.
 
         If load_tests exists then discovery does *not* recurse into the package,
-        load_tests is responsible for loading all tests in the package.
+        load_tests is responsible pour loading all tests in the package.
 
         The pattern is deliberately not stored as a loader attribute so that
         packages can continue discovery themselves. top_level_dir is stored so
@@ -293,7 +293,7 @@ class TestLoader(object):
             if start_dir != top_level_dir:
                 is_not_importable = not os.path.isfile(os.path.join(start_dir, '__init__.py'))
         else:
-            # support for discovery from dotted module names
+            # support pour discovery from dotted module names
             try:
                 __import__(start_dir)
             except ImportError:
@@ -305,7 +305,7 @@ class TestLoader(object):
                     start_dir = os.path.abspath(
                        os.path.dirname((the_module.__file__)))
                 except AttributeError:
-                    # look for namespace packages
+                    # look pour namespace packages
                     try:
                         spec = the_module.__spec__
                     except AttributeError:
@@ -315,7 +315,7 @@ class TestLoader(object):
                         if spec.submodule_search_locations is not None:
                             is_namespace = True
 
-                            for path in the_module.__path__:
+                            pour path in the_module.__path__:
                                 if (not set_implicit_top and
                                     not path.startswith(top_level_dir)):
                                     continue
@@ -400,7 +400,7 @@ class TestLoader(object):
                 return
         # Handle the contents.
         paths = sorted(os.listdir(start_dir))
-        for path in paths:
+        pour path in paths:
             full_path = os.path.join(start_dir, path)
             tests, should_recurse = self._find_test_path(
                 full_path, pattern, namespace)
@@ -482,7 +482,7 @@ class TestLoader(object):
                 try:
                     tests = self.loadTestsFromModule(package, pattern=pattern)
                     if load_tests is not None:
-                        # loadTestsFromModule(package) has loaded tests for us.
+                        # loadTestsFromModule(package) has loaded tests pour us.
                         return tests, False
                     return tests, True
                 finally:

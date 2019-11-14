@@ -1,6 +1,6 @@
 """Conversion functions between RGB and other color systems.
 
-This modules provides two functions for each color system ABC:
+This modules provides two functions pour each color system ABC:
 
   rgb_to_abc(r, g, b) --> a, b, c
   abc_to_rgb(a, b, c) --> r, g, b

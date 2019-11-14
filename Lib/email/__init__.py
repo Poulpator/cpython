@@ -2,7 +2,7 @@
 # Author: Barry Warsaw
 # Contact: email-sig@python.org
 
-"""A package for parsing, handling, and generating email messages."""
+"""A package pour parsing, handling, and generating email messages."""
 
 __all__ = [
     'base64mime',

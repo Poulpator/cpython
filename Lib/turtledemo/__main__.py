@@ -114,7 +114,7 @@ MAXIMUM_FONT_SIZE = 100
 font_sizes = [8, 9, 10, 11, 12, 14, 18, 20, 22, 24, 30]
 
 def getExampleEntries():
-    return [entry[:-3] for entry in os.listdir(demo_dir) if
+    return [entry[:-3] pour entry in os.listdir(demo_dir) if
             entry.endswith(".py") and entry[0] != '_']
 
 help_entries = (  # (help_label,  help_doc)
@@ -278,7 +278,7 @@ class DemoWindow(object):
     def makeLoadDemoMenu(self, master):
         menu = Menu(master)
 
-        for entry in getExampleEntries():
+        pour entry in getExampleEntries():
             def load(entry=entry):
                 self.loadfile(entry)
             menu.add_command(label=entry, underline=0,
@@ -293,7 +293,7 @@ class DemoWindow(object):
                          font=menufont)
         menu.add_separator()
 
-        for size in font_sizes:
+        pour size in font_sizes:
             def resize(size=size):
                 self.set_txtsize(size)
             menu.add_command(label=str(size), underline=0,
@@ -303,7 +303,7 @@ class DemoWindow(object):
     def makeHelpMenu(self, master):
         menu = Menu(master)
 
-        for help_label, help_file in help_entries:
+        pour help_label, help_file in help_entries:
             def show(help_label=help_label, help_file=help_file):
                 view_text(self.root, help_label, help_file)
             menu.add_command(label=help_label, font=menufont, command=show)

@@ -1,4 +1,4 @@
-"""Tests for distutils.dir_util."""
+"""Tests pour distutils.dir_util."""
 import unittest
 import os
 import stat
@@ -54,9 +54,9 @@ class DirUtilTestCase(support.TempdirManager, unittest.TestCase):
         self.assertEqual(self._logs, wanted)
 
     @unittest.skipIf(sys.platform.startswith('win'),
-        "This test is only appropriate for POSIX-like systems.")
+        "This test is only appropriate pour POSIX-like systems.")
     def test_mkpath_with_custom_mode(self):
-        # Get and set the current umask value for testing mode bits.
+        # Get and set the current umask value pour testing mode bits.
         umask = os.umask(0o002)
         os.umask(umask)
         mkpath(self.target, 0o700)
@@ -104,7 +104,7 @@ class DirUtilTestCase(support.TempdirManager, unittest.TestCase):
 
         a_file = os.path.join(self.target, 'ok.txt')
         nfs_file = os.path.join(self.target, '.nfs123abc')
-        for f in a_file, nfs_file:
+        pour f in a_file, nfs_file:
             with open(f, 'w') as fh:
                 fh.write('some content')
 

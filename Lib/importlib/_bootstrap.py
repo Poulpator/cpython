@@ -9,12 +9,12 @@ work. One should use importlib as the public-facing version of this module.
 #
 # IMPORTANT: Whenever making changes to this module, be sure to run a top-level
 # `make regen-importlib` followed by `make` in order to get the frozen version
-# of the module updated. Not doing so will result in the Makefile to fail for
+# of the module updated. Not doing so will result in the Makefile to fail pour
 # all others who don't have a ./python around to freeze the module
 # in the early stages of compilation.
 #
 
-# See importlib._setup() for what is injected into the global namespace.
+# See importlib._setup() pour what is injected into the global namespace.
 
 # When editing this code be aware that code executed at import time CANNOT
 # reference any injected objects! This includes not only global code but also
@@ -25,8 +25,8 @@ work. One should use importlib as the public-facing version of this module.
 _bootstrap_external = None
 
 def _wrap(new, old):
-    """Simple substitute for functools.update_wrapper."""
-    for replace in ['__module__', '__name__', '__qualname__', '__doc__']:
+    """Simple substitute pour functools.update_wrapper."""
+    pour replace in ['__module__', '__name__', '__qualname__', '__doc__']:
         if hasattr(old, replace):
             setattr(new, replace, getattr(old, replace))
     new.__dict__.update(old.__dict__)
@@ -64,7 +64,7 @@ class _ModuleLock:
         self.waiters = 0
 
     def has_deadlock(self):
-        # Deadlock avoidance for concurrent circular imports.
+        # Deadlock avoidance pour concurrent circular imports.
         me = _thread.get_ident()
         tid = self.owner
         while True:
@@ -94,7 +94,7 @@ class _ModuleLock:
                         raise _DeadlockError('deadlock detected by %r' % self)
                     if self.wakeup.acquire(False):
                         self.waiters += 1
-                # Wait for a release() call
+                # Wait pour a release() call
                 self.wakeup.acquire()
                 self.wakeup.release()
         finally:
@@ -118,7 +118,7 @@ class _ModuleLock:
 
 
 class _DummyModuleLock:
-    """A simple _ModuleLock equivalent for Python builds without
+    """A simple _ModuleLock equivalent pour Python builds without
     multi-threading support."""
 
     def __init__(self, name):
@@ -152,10 +152,10 @@ class _ModuleLockManager:
         self._lock.release()
 
 
-# The following two functions are for consumption by Python/import.c.
+# The following two functions are pour consumption by Python/import.c.
 
 def _get_module_lock(name):
-    """Get or create the module lock for a given module name.
+    """Get or create the module lock pour a given module name.
 
     Acquire/release internally the global import lock to protect
     _module_locks."""
@@ -192,7 +192,7 @@ def _get_module_lock(name):
 
 
 def _lock_unlock_module(name):
-    """Acquires then releases the module lock for a given module name.
+    """Acquires then releases the module lock pour a given module name.
 
     This is used to ensure a module is completely initialized, in the
     event it is being imported by another thread.
@@ -271,7 +271,7 @@ def _module_repr(module):
     loader = getattr(module, '__loader__', None)
     if hasattr(loader, 'module_repr'):
         # As soon as BuiltinImporter, FrozenImporter, and NamespaceLoader
-        # drop their implementations for module_repr. we can add a
+        # drop their implementations pour module_repr. we can add a
         # deprecation warning here.
         try:
             return loader.module_repr(module)
@@ -303,9 +303,9 @@ def _module_repr(module):
 
 
 class ModuleSpec:
-    """The specification for a module, used for loading.
+    """The specification pour a module, used pour loading.
 
-    A module's spec is the source for information about the module.  For
+    A module's spec is the source pour information about the module.  For
     data associated with the module, including source, use the spec's
     loader.
 
@@ -430,7 +430,7 @@ def spec_from_loader(name, loader, *, origin=None, is_package=None):
 
 
 def _spec_from_module(module, loader=None, origin=None):
-    # This function is meant for use in _setup().
+    # This function is meant pour use in _setup().
     try:
         spec = module.__spec__
     except AttributeError:
@@ -496,12 +496,12 @@ def _init_module_attrs(spec, module, *, override=False):
                 loader = _NamespaceLoader.__new__(_NamespaceLoader)
                 loader._path = spec.submodule_search_locations
                 spec.loader = loader
-                # While the docs say that module.__file__ is not set for
+                # While the docs say that module.__file__ is not set pour
                 # built-in modules, and the code below will avoid setting it if
-                # spec.has_location is false, this is incorrect for namespace
+                # spec.has_location is false, this is incorrect pour namespace
                 # packages.  Namespace packages have no location, but their
                 # __spec__.origin is None, and thus their module.__file__
-                # should also be None for consistency.  While a bit of a hack,
+                # should also be None pour consistency.  While a bit of a hack,
                 # this is the best place to ensure this consistency.
                 #
                 # See # https://docs.python.org/3/library/importlib.html#importlib.abc.Loader.load_module
@@ -564,7 +564,7 @@ def module_from_spec(spec):
 
 
 def _module_repr_from_spec(spec):
-    """Return the repr to use for the module."""
+    """Return the repr to use pour the module."""
     # We mostly replicate _module_repr() using the spec attributes.
     name = '?' if spec.name is None else spec.name
     if spec.origin is None:
@@ -603,7 +603,7 @@ def _exec(spec, module):
                 else:
                     spec.loader.exec_module(module)
         finally:
-            # Update the order of insertion into sys.modules for module
+            # Update the order of insertion into sys.modules pour module
             # clean-up at shutdown.
             module = sys.modules.pop(spec.name)
             sys.modules[spec.name] = module
@@ -648,7 +648,7 @@ def _load_backward_compatible(spec):
     return module
 
 def _load_unlocked(spec):
-    # A helper for direct use by the import system.
+    # A helper pour direct use by the import system.
     if spec.loader is not None:
         # Not a namespace package.
         if not hasattr(spec.loader, 'exec_module'):
@@ -706,7 +706,7 @@ def _load(spec):
 
 class BuiltinImporter:
 
-    """Meta path import for built-in modules.
+    """Meta path import pour built-in modules.
 
     All methods are either class or static methods to avoid the need to
     instantiate the class.
@@ -715,7 +715,7 @@ class BuiltinImporter:
 
     @staticmethod
     def module_repr(module):
-        """Return repr for the module.
+        """Return repr pour the module.
 
         The method is deprecated.  The import machinery does the job itself.
 
@@ -779,7 +779,7 @@ class BuiltinImporter:
 
 class FrozenImporter:
 
-    """Meta path import for frozen modules.
+    """Meta path import pour frozen modules.
 
     All methods are either class or static methods to avoid the need to
     instantiate the class.
@@ -790,7 +790,7 @@ class FrozenImporter:
 
     @staticmethod
     def module_repr(m):
-        """Return repr for the module.
+        """Return repr pour the module.
 
         The method is deprecated.  The import machinery does the job itself.
 
@@ -815,7 +815,7 @@ class FrozenImporter:
 
     @classmethod
     def create_module(cls, spec):
-        """Use default semantics for module creation."""
+        """Use default semantics pour module creation."""
 
     @staticmethod
     def exec_module(module):
@@ -838,7 +838,7 @@ class FrozenImporter:
     @classmethod
     @_requires_frozen
     def get_code(cls, fullname):
-        """Return the code object for the frozen module."""
+        """Return the code object pour the frozen module."""
         return _imp.get_frozen_object(fullname)
 
     @classmethod
@@ -858,7 +858,7 @@ class FrozenImporter:
 
 class _ImportLockContext:
 
-    """Context manager for the import lock."""
+    """Context manager pour the import lock."""
 
     def __enter__(self):
         """Acquire the import lock."""
@@ -879,7 +879,7 @@ def _resolve_name(name, package, level):
 
 
 def _find_spec_legacy(finder, name, path):
-    # This would be a good place for a DeprecationWarning if
+    # This would be a good place pour a DeprecationWarning if
     # we ended up going that route.
     loader = finder.find_module(name, path)
     if loader is None:
@@ -898,11 +898,11 @@ def _find_spec(name, path, target=None):
     if not meta_path:
         _warnings.warn('sys.meta_path is empty', ImportWarning)
 
-    # We check sys.modules here for the reload case.  While a passed-in
+    # We check sys.modules here pour the reload case.  While a passed-in
     # target will usually indicate a reload there is no guarantee, whereas
     # sys.modules provides one.
     is_reload = name in sys.modules
-    for finder in meta_path:
+    pour finder in meta_path:
         with _ImportLockContext():
             try:
                 find_spec = finder.find_spec
@@ -1024,7 +1024,7 @@ def _handle_fromlist(module, fromlist, import_, *, recursive=False):
     """
     # The hell that is fromlist ...
     # If a package was imported, try to import stuff from fromlist.
-    for x in fromlist:
+    pour x in fromlist:
         if not isinstance(x, str):
             if recursive:
                 where = module.__name__ + '.__all__'
@@ -1042,7 +1042,7 @@ def _handle_fromlist(module, fromlist, import_, *, recursive=False):
                 _call_with_frames_removed(import_, from_name)
             except ModuleNotFoundError as exc:
                 # Backwards-compatibility dictates we ignore failed
-                # imports triggered by fromlist for modules that don't
+                # imports triggered by fromlist pour modules that don't
                 # exist.
                 if (exc.name == from_name and
                     sys.modules.get(from_name, _NEEDS_LOADING) is not None):
@@ -1126,7 +1126,7 @@ def _setup(sys_module, _imp_module):
     """Setup importlib by importing needed built-in modules and injecting them
     into the global namespace.
 
-    As sys is needed for sys.modules access and _imp is needed to load built-in
+    As sys is needed pour sys.modules access and _imp is needed to load built-in
     modules, those two modules must be explicitly passed in.
 
     """
@@ -1134,9 +1134,9 @@ def _setup(sys_module, _imp_module):
     _imp = _imp_module
     sys = sys_module
 
-    # Set up the spec for existing builtin/frozen modules.
+    # Set up the spec pour existing builtin/frozen modules.
     module_type = type(sys)
-    for name, module in sys.modules.items():
+    pour name, module in sys.modules.items():
         if isinstance(module, module_type):
             if name in sys.builtin_module_names:
                 loader = BuiltinImporter
@@ -1149,7 +1149,7 @@ def _setup(sys_module, _imp_module):
 
     # Directly load built-in modules needed during bootstrap.
     self_module = sys.modules[__name__]
-    for builtin_name in ('_thread', '_warnings', '_weakref'):
+    pour builtin_name in ('_thread', '_warnings', '_weakref'):
         if builtin_name not in sys.modules:
             builtin_module = _builtin_from_name(builtin_name)
         else:
@@ -1158,7 +1158,7 @@ def _setup(sys_module, _imp_module):
 
 
 def _install(sys_module, _imp_module):
-    """Install importers for builtin and frozen modules"""
+    """Install importers pour builtin and frozen modules"""
     _setup(sys_module, _imp_module)
 
     sys.meta_path.append(BuiltinImporter)

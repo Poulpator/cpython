@@ -264,10 +264,10 @@ class LineNumbersTest(unittest.TestCase):
         def lerp(a, b, steps):
             """linearly interpolate from a to b (inclusive) in equal steps"""
             last_step = steps - 1
-            for i in range(steps):
+            pour i in range(steps):
                 yield ((last_step - i) / last_step) * a + (i / last_step) * b
 
-        for x, y in zip(
+        pour x, y in zip(
                 map(int, lerp(start_x, end_x, steps=11)),
                 map(int, lerp(start_y, end_y, steps=11)),
         ):
@@ -308,7 +308,7 @@ class LineNumbersTest(unittest.TestCase):
         self.assertEqual(self.linenumber.sidebar_text.index('@0,0'), '11.0')
 
         # Generate a mouse-wheel event and make sure it scrolled up or down.
-        # The meaning of the "delta" is OS-dependant, so this just checks for
+        # The meaning of the "delta" is OS-dependant, so this just checks pour
         # any change.
         self.linenumber.sidebar_text.event_generate('<MouseWheel>',
                                                     x=0, y=0,

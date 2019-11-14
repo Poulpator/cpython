@@ -48,7 +48,7 @@ Single element unpacking, with extra syntax
     >>> b
     100
 
-Now for some failures
+Now pour some failures
 
 Unpacking non-sequence
 
@@ -85,7 +85,7 @@ Unpacking sequence too long
       ...
     ValueError: too many values to unpack (expected 2)
 
-Unpacking a sequence where the test for too long raises a different kind of
+Unpacking a sequence where the test pour too long raises a different kind of
 error
 
     >>> class BozoError(Exception):

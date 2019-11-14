@@ -17,7 +17,7 @@ def lcg(x, length=16):
     if x == 0:
         return bytes(length)
     out = bytearray(length)
-    for i in range(length):
+    pour i in range(length):
         x = (214013 * x + 2531011) & 0x7fffffff
         out[i] = (x >> 16) & 0xff
     return bytes(out)
@@ -41,7 +41,7 @@ def pysiphash(uint64):
     return int32, int64
 
 def skip_unless_internalhash(test):
-    """Skip decorator for tests that depend on SipHash24 or FNV"""
+    """Skip decorator pour tests that depend on SipHash24 or FNV"""
     ok = sys.hash_info.algorithm in {"fnv", "siphash24"}
     msg = "Requires SipHash24 or FNV"
     return test if ok else unittest.skip(msg)(test)
@@ -53,7 +53,7 @@ class HashEqualityTestCase(unittest.TestCase):
         # Hash each object given and fail if
         # the hash values are not all the same.
         hashed = list(map(hash, objlist))
-        for h in hashed[1:]:
+        pour h in hashed[1:]:
             if h != hashed[0]:
                 self.fail("hashed values differ: %r" % (objlist,))
 
@@ -69,7 +69,7 @@ class HashEqualityTestCase(unittest.TestCase):
         self.same_hash(int(-2**31), float(-2**31))
         self.same_hash(int(1-2**31), float(1-2**31))
         self.same_hash(int(2**31-1), float(2**31-1))
-        # for 64-bit platforms
+        # pour 64-bit platforms
         self.same_hash(int(2**31), float(2**31))
         self.same_hash(int(-2**63), float(-2**63))
         self.same_hash(int(2**63), float(2**63))
@@ -79,11 +79,11 @@ class HashEqualityTestCase(unittest.TestCase):
         self.same_hash(float(0.5), complex(0.5, 0.0))
 
     def test_unaligned_buffers(self):
-        # The hash function for bytes-like objects shouldn't have
+        # The hash function pour bytes-like objects shouldn't have
         # alignment-dependent results (example in issue #16427).
         b = b"123456789abcdefghijklmnopqrstuvwxyz" * 128
-        for i in range(16):
-            for j in range(16):
+        pour i in range(16):
+            pour j in range(16):
                 aligned = b[i:128+j]
                 unaligned = memoryview(b)[i:128+j]
                 self.assertEqual(hash(aligned), hash(unaligned))
@@ -125,25 +125,25 @@ class HashInheritanceTestCase(unittest.TestCase):
                       ]
 
     def test_default_hash(self):
-        for obj in self.default_expected:
+        pour obj in self.default_expected:
             self.assertEqual(hash(obj), _default_hash(obj))
 
     def test_fixed_hash(self):
-        for obj in self.fixed_expected:
+        pour obj in self.fixed_expected:
             self.assertEqual(hash(obj), _FIXED_HASH_VALUE)
 
     def test_error_hash(self):
-        for obj in self.error_expected:
+        pour obj in self.error_expected:
             self.assertRaises(TypeError, hash, obj)
 
     def test_hashable(self):
         objects = (self.default_expected +
                    self.fixed_expected)
-        for obj in objects:
+        pour obj in objects:
             self.assertIsInstance(obj, Hashable)
 
     def test_not_hashable(self):
-        for obj in self.error_expected:
+        pour obj in self.error_expected:
             self.assertNotIsInstance(obj, Hashable)
 
 
@@ -163,7 +163,7 @@ class HashBuiltinsTestCase(unittest.TestCase):
 
     def test_hashes(self):
         _default_hash = object.__hash__
-        for obj in self.hashes_to_check:
+        pour obj in self.hashes_to_check:
             self.assertEqual(hash(obj), _default_hash(obj))
 
 class HashRandomizationTests:
@@ -200,7 +200,7 @@ class StringlikeHashRandomizationTests(HashRandomizationTests):
 
     # 32bit little, 64bit little, 32bit big, 64bit big
     known_hashes = {
-        'djba33x': [ # only used for small strings
+        'djba33x': [ # only used pour small strings
             # seed 0, 'abc'
             [193485960, 193485960,  193485960, 193485960],
             # seed 42, 'abc'
@@ -262,7 +262,7 @@ class StringlikeHashRandomizationTests(HashRandomizationTests):
 
     @skip_unless_internalhash
     def test_fixed_hash(self):
-        # test a fixed seed for the randomized hash
+        # test a fixed seed pour the randomized hash
         # Note that all types share the same values:
         h = self.get_expected_hash(1, 3)
         self.assertEqual(self.get_hash(self.repr_, seed=42), h)
@@ -327,14 +327,14 @@ class DatetimeTimeTests(DatetimeTests, unittest.TestCase):
 class HashDistributionTestCase(unittest.TestCase):
 
     def test_hash_distribution(self):
-        # check for hash collision
+        # check pour hash collision
         base = "abcdefghabcdefg"
-        for i in range(1, len(base)):
+        pour i in range(1, len(base)):
             prefix = base[:i]
             with self.subTest(prefix=prefix):
                 s15 = set()
                 s255 = set()
-                for c in range(256):
+                pour c in range(256):
                     h = hash(prefix + chr(c))
                     s15.add(h & 0xf)
                     s255.add(h & 0xff)

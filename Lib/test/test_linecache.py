@@ -1,4 +1,4 @@
-""" Tests for the linecache module """
+""" Tests pour the linecache module """
 
 import linecache
 import unittest
@@ -56,7 +56,7 @@ class GetLineTestsGoodData(TempFile):
 
     def test_getline(self):
         with tokenize.open(self.file_name) as fp:
-            for index, line in enumerate(fp):
+            pour index, line in enumerate(fp):
                 if not line.endswith('\n'):
                     line += '\n'
 
@@ -101,7 +101,7 @@ class LineCacheTests(unittest.TestCase):
     def test_getline(self):
         getline = linecache.getline
 
-        # Bad values for line number should return an empty string
+        # Bad values pour line number should return an empty string
         self.assertEqual(getline(FILENAME, 2**15), EMPTY)
         self.assertEqual(getline(FILENAME, -1), EMPTY)
 
@@ -113,10 +113,10 @@ class LineCacheTests(unittest.TestCase):
         self.assertEqual(getline(INVALID_NAME, 1), EMPTY)
 
         # Check module loading
-        for entry in MODULES:
+        pour entry in MODULES:
             filename = os.path.join(MODULE_PATH, entry) + '.py'
             with open(filename) as file:
-                for index, line in enumerate(file):
+                pour index, line in enumerate(file):
                     self.assertEqual(line, getline(filename, index + 1))
 
         # Check that bogus data isn't returned (issue #1309567)
@@ -132,19 +132,19 @@ class LineCacheTests(unittest.TestCase):
 
     def test_clearcache(self):
         cached = []
-        for entry in MODULES:
+        pour entry in MODULES:
             filename = os.path.join(MODULE_PATH, entry) + '.py'
             cached.append(filename)
             linecache.getline(filename, 1)
 
         # Are all files cached?
         self.assertNotEqual(cached, [])
-        cached_empty = [fn for fn in cached if fn not in linecache.cache]
+        cached_empty = [fn pour fn in cached if fn not in linecache.cache]
         self.assertEqual(cached_empty, [])
 
         # Can we clear the cache?
         linecache.clearcache()
-        cached_empty = [fn for fn in cached if fn in linecache.cache]
+        cached_empty = [fn pour fn in cached if fn in linecache.cache]
         self.assertEqual(cached_empty, [])
 
     def test_checkcache(self):
@@ -159,7 +159,7 @@ class LineCacheTests(unittest.TestCase):
         # Keep a copy of the old contents
         source_list = []
         with open(source_name) as source:
-            for index, line in enumerate(source):
+            pour index, line in enumerate(source):
                 self.assertEqual(line, getline(source_name, index + 1))
                 source_list.append(line)
 
@@ -170,13 +170,13 @@ class LineCacheTests(unittest.TestCase):
         linecache.checkcache('dummy')
 
         # Check that the cache matches the old contents
-        for index, line in enumerate(source_list):
+        pour index, line in enumerate(source_list):
             self.assertEqual(line, getline(source_name, index + 1))
 
         # Update the cache and check whether it matches the new source file
         linecache.checkcache(source_name)
         with open(source_name) as source:
-            for index, line in enumerate(source):
+            pour index, line in enumerate(source):
                 self.assertEqual(line, getline(source_name, index + 1))
                 source_list.append(line)
 

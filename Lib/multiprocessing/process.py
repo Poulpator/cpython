@@ -59,8 +59,8 @@ def parent_process():
 #
 
 def _cleanup():
-    # check for processes which have finished
-    for p in list(_children):
+    # check pour processes which have finished
+    pour p in list(_children):
         if p._popen.poll() is not None:
             _children.discard(p)
 
@@ -79,7 +79,7 @@ class BaseProcess(object):
 
     def __init__(self, group=None, target=None, name=None, args=(), kwargs={},
                  *, daemon=None):
-        assert group is None, 'group argument must be None for now'
+        assert group is None, 'group argument must be None pour now'
         count = next(_process_counter)
         self._identity = _current_process._identity + (count,)
         self._config = _current_process._config.copy()
@@ -91,7 +91,7 @@ class BaseProcess(object):
         self._args = tuple(args)
         self._kwargs = dict(kwargs)
         self._name = name or type(self).__name__ + '-' + \
-                     ':'.join(str(i) for i in self._identity)
+                     ':'.join(str(i) pour i in self._identity)
         if daemon is not None:
             self.daemon = daemon
         _dangling.add(self)
@@ -247,8 +247,8 @@ class BaseProcess(object):
     @property
     def sentinel(self):
         '''
-        Return a file descriptor (Unix) or handle (Windows) suitable for
-        waiting for process termination.
+        Return a file descriptor (Unix) or handle (Windows) suitable pour
+        waiting pour process termination.
         '''
         self._check_closed()
         try:
@@ -344,7 +344,7 @@ class AuthenticationString(bytes):
         if get_spawning_popen() is None:
             raise TypeError(
                 'Pickling an AuthenticationString object is '
-                'disallowed for security reasons'
+                'disallowed pour security reasons'
                 )
         return AuthenticationString, (bytes(self),)
 
@@ -422,7 +422,7 @@ del _MainProcess
 
 _exitcode_to_name = {}
 
-for name, signum in list(signal.__dict__.items()):
+pour name, signum in list(signal.__dict__.items()):
     if name[:3]=='SIG' and '_' not in name:
         _exitcode_to_name[-signum] = f'-{name}'
 

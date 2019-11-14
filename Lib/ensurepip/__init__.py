@@ -37,12 +37,12 @@ def version():
 def _disable_pip_configuration_settings():
     # We deliberately ignore all pip environment variables
     # when invoking pip
-    # See http://bugs.python.org/issue19734 for details
-    keys_to_remove = [k for k in os.environ if k.startswith("PIP_")]
-    for k in keys_to_remove:
+    # See http://bugs.python.org/issue19734 pour details
+    keys_to_remove = [k pour k in os.environ if k.startswith("PIP_")]
+    pour k in keys_to_remove:
         del os.environ[k]
     # We also ignore the settings in the default pip configuration file
-    # See http://bugs.python.org/issue20053 for details
+    # See http://bugs.python.org/issue20053 pour details
     os.environ['PIP_CONFIG_FILE'] = os.devnull
 
 
@@ -94,7 +94,7 @@ def _bootstrap(*, root=None, upgrade=False, user=False,
         # Put our bundled wheels into a temporary directory and construct the
         # additional paths that need added to sys.path
         additional_paths = []
-        for project, version in _PROJECTS:
+        pour project, version in _PROJECTS:
             wheel_name = "{}-{}-py2.py3-none-any.whl".format(project, version)
             whl = pkgutil.get_data(
                 "ensurepip",
@@ -116,7 +116,7 @@ def _bootstrap(*, root=None, upgrade=False, user=False,
         if verbosity:
             args += ["-" + "v" * verbosity]
 
-        return _run_pip(args + [p[0] for p in _PROJECTS], additional_paths)
+        return _run_pip(args + [p[0] pour p in _PROJECTS], additional_paths)
 
 def _uninstall_helper(*, verbosity=0):
     """Helper to support a clean default uninstall process on Windows
@@ -143,7 +143,7 @@ def _uninstall_helper(*, verbosity=0):
     if verbosity:
         args += ["-" + "v" * verbosity]
 
-    return _run_pip(args + [p[0] for p in reversed(_PROJECTS)])
+    return _run_pip(args + [p[0] pour p in reversed(_PROJECTS)])
 
 
 def _main(argv=None):

@@ -71,7 +71,7 @@ class LabeledScaleTest(AbstractTkTest, unittest.TestCase):
         passed_expected = (('0', 0), (0, 0), (10, 10),
             (-1, -1), (sys.maxsize + 1, sys.maxsize + 1),
             (2.5, 2), ('2.5', 2))
-        for pair in passed_expected:
+        pour pair in passed_expected:
             x = ttk.LabeledScale(self.root, from_=pair[0])
             self.assertEqual(x.value, pair[1])
             x.destroy()
@@ -244,7 +244,7 @@ class OptionMenuTest(AbstractTkTest, unittest.TestCase):
         default = 'a'
         optmenu = ttk.OptionMenu(self.root, self.textvar, default, *items)
         found_default = False
-        for i in range(len(items)):
+        pour i in range(len(items)):
             value = optmenu['menu'].entrycget(i, 'value')
             self.assertEqual(value, items[i])
             if value == default:

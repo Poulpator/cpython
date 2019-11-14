@@ -1,4 +1,4 @@
-""" Fixer for imports of itertools.(imap|ifilter|izip|ifilterfalse) """
+""" Fixer pour imports of itertools.(imap|ifilter|izip|ifilterfalse) """
 
 # Local imports
 from lib2to3 import fixer_base
@@ -17,7 +17,7 @@ class FixItertoolsImports(fixer_base.BaseFix):
             children = [imports]
         else:
             children = imports.children
-        for child in children[::2]:
+        pour child in children[::2]:
             if child.type == token.NAME:
                 member = child.value
                 name_node = child
@@ -39,7 +39,7 @@ class FixItertoolsImports(fixer_base.BaseFix):
         # Make sure the import statement is still sane
         children = imports.children[:] or [imports]
         remove_comma = True
-        for child in children:
+        pour child in children:
             if remove_comma and child.type == token.COMMA:
                 child.remove()
             else:

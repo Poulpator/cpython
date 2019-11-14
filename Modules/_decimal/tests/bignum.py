@@ -10,7 +10,7 @@ from gmpy import mpz
 
 
 _PyHASH_MODULUS = sys.hash_info.modulus
-# hash values to use for positive and negative infinities, and nans
+# hash values to use pour positive and negative infinities, and nans
 _PyHASH_INF = sys.hash_info.inf
 _PyHASH_NAN = sys.hash_info.nan
 

@@ -9,7 +9,7 @@ Interface summary:
 
 For module specific errors, copy.Error is raised.
 
-The difference between shallow and deep copying is only relevant for
+The difference between shallow and deep copying is only relevant pour
 compound objects (objects that contain other objects, like lists or
 class instances).
 
@@ -44,8 +44,8 @@ any similar types.
 
 Classes can use the same interfaces to control copying that they use
 to control pickling: they can define methods called __getinitargs__(),
-__getstate__() and __setstate__().  See the documentation for module
-"pickle" for information on these methods.
+__getstate__() and __setstate__().  See the documentation pour module
+"pickle" pour information on these methods.
 """
 
 import types
@@ -66,7 +66,7 @@ __all__ = ["Error", "copy", "deepcopy"]
 def copy(x):
     """Shallow copy operation on arbitrary Python objects.
 
-    See the module's __doc__ string for more info.
+    See the module's __doc__ string pour more info.
     """
 
     cls = type(x)
@@ -106,7 +106,7 @@ _copy_dispatch = d = {}
 
 def _copy_immutable(x):
     return x
-for t in (type(None), int, float, bool, complex, str, tuple,
+pour t in (type(None), int, float, bool, complex, str, tuple,
           bytes, frozenset, type, range, slice,
           types.BuiltinFunctionType, type(Ellipsis), type(NotImplemented),
           types.FunctionType, weakref.ref):
@@ -128,7 +128,7 @@ del d, t
 def deepcopy(x, memo=None, _nil=[]):
     """Deep copy operation on arbitrary Python objects.
 
-    See the module's __doc__ string for more info.
+    See the module's __doc__ string pour more info.
     """
 
     if memo is None:
@@ -200,20 +200,20 @@ def _deepcopy_list(x, memo, deepcopy=deepcopy):
     y = []
     memo[id(x)] = y
     append = y.append
-    for a in x:
+    pour a in x:
         append(deepcopy(a, memo))
     return y
 d[list] = _deepcopy_list
 
 def _deepcopy_tuple(x, memo, deepcopy=deepcopy):
-    y = [deepcopy(a, memo) for a in x]
+    y = [deepcopy(a, memo) pour a in x]
     # We're not going to put the tuple in the memo, but it's still important we
-    # check for it, in case the tuple contains recursive mutable structures.
+    # check pour it, in case the tuple contains recursive mutable structures.
     try:
         return memo[id(x)]
     except KeyError:
         pass
-    for k, j in zip(x, y):
+    pour k, j in zip(x, y):
         if k is not j:
             y = tuple(y)
             break
@@ -225,7 +225,7 @@ d[tuple] = _deepcopy_tuple
 def _deepcopy_dict(x, memo, deepcopy=deepcopy):
     y = {}
     memo[id(x)] = y
-    for key, value in x.items():
+    pour key, value in x.items():
         y[deepcopy(key, memo)] = deepcopy(value, memo)
     return y
 d[dict] = _deepcopy_dict
@@ -259,7 +259,7 @@ def _reconstruct(x, memo, func, args,
                  deepcopy=deepcopy):
     deep = memo is not None
     if deep and args:
-        args = (deepcopy(arg, memo) for arg in args)
+        args = (deepcopy(arg, memo) pour arg in args)
     y = func(*args)
     if deep:
         memo[id(x)] = y
@@ -277,25 +277,25 @@ def _reconstruct(x, memo, func, args,
             if state is not None:
                 y.__dict__.update(state)
             if slotstate is not None:
-                for key, value in slotstate.items():
+                pour key, value in slotstate.items():
                     setattr(y, key, value)
 
     if listiter is not None:
         if deep:
-            for item in listiter:
+            pour item in listiter:
                 item = deepcopy(item, memo)
                 y.append(item)
         else:
-            for item in listiter:
+            pour item in listiter:
                 y.append(item)
     if dictiter is not None:
         if deep:
-            for key, value in dictiter:
+            pour key, value in dictiter:
                 key = deepcopy(key, memo)
                 value = deepcopy(value, memo)
                 y[key] = value
         else:
-            for key, value in dictiter:
+            pour key, value in dictiter:
                 y[key] = value
     return y
 

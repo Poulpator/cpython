@@ -1,4 +1,4 @@
-"""Tests for base_events.py"""
+"""Tests pour base_events.py"""
 
 import concurrent.futures
 import errno
@@ -29,7 +29,7 @@ def tearDownModule():
 
 def mock_socket_module():
     m_socket = mock.MagicMock(spec=socket)
-    for name in (
+    pour name in (
         'AF_INET', 'AF_INET6', 'AF_UNSPEC', 'IPPROTO_TCP', 'IPPROTO_UDP',
         'SOCK_STREAM', 'SOCK_DGRAM', 'SOL_SOCKET', 'SO_REUSEADDR', 'inet_pton'
     ):
@@ -113,7 +113,7 @@ class BaseEventTests(test_utils.TestCase):
                 base_events._ipaddr_info('::3%lo0', 1, INET6, STREAM, TCP))
 
     def test_port_parameter_types(self):
-        # Test obscure kinds of arguments for "port".
+        # Test obscure kinds of arguments pour "port".
         INET = socket.AF_INET
         STREAM = socket.SOCK_STREAM
         TCP = socket.IPPROTO_TCP
@@ -408,13 +408,13 @@ class BaseEventLoopTests(test_utils.TestCase):
         # cancelled handles, ensure they aren't removed
 
         cancelled_count = 2
-        for x in range(2):
+        pour x in range(2):
             h = self.loop.call_later(3600, cb)
             h.cancel()
 
         # Add some cancelled events that will be at head and removed
         cancelled_count += 2
-        for x in range(2):
+        pour x in range(2):
             h = self.loop.call_later(100, cb)
             h.cancel()
 
@@ -444,12 +444,12 @@ class BaseEventLoopTests(test_utils.TestCase):
 
         # Add some events that will not be cancelled
         not_cancelled_count += add_not_cancel_count
-        for x in range(add_not_cancel_count):
+        pour x in range(add_not_cancel_count):
             self.loop.call_later(3600, cb)
 
         # Add enough cancelled events
         cancelled_count += add_cancel_count
-        for x in range(add_cancel_count):
+        pour x in range(add_cancel_count):
             h = self.loop.call_later(3600, cb)
             h.cancel()
 
@@ -463,7 +463,7 @@ class BaseEventLoopTests(test_utils.TestCase):
         self.assertEqual(len(self.loop._scheduled), not_cancelled_count)
 
         # Ensure only uncancelled events remain scheduled
-        self.assertTrue(all([not x._cancelled for x in self.loop._scheduled]))
+        self.assertTrue(all([not x._cancelled pour x in self.loop._scheduled]))
 
     def test_run_until_complete_type_error(self):
         self.assertRaises(TypeError,
@@ -492,7 +492,7 @@ class BaseEventLoopTests(test_utils.TestCase):
             self.loop.run_until_complete(foo(0.1))
 
         # This call fails if run_until_complete does not clean up
-        # done-callback for the previous future.
+        # done-callback pour the previous future.
         self.loop.run_until_complete(foo(0.2))
 
     def test_subprocess_exec_invalid_args(self):
@@ -889,16 +889,16 @@ class BaseEventLoopTests(test_utils.TestCase):
         self.loop._process_events = proc_events
         self.loop._selector.select.return_value = (event_sentinel,)
 
-        for i in range(1, 3):
+        pour i in range(1, 3):
             with self.subTest('Loop %d/2' % i):
                 self.loop.call_soon(self.loop.stop)
                 self.loop.run_forever()
                 self.assertEqual(callcount, 1)
 
     def test_run_once(self):
-        # Simple test for test_utils.run_once().  It may seem strange
-        # to have a test for this (the function isn't even used!) but
-        # it's a de-factor standard API for library tests.  This tests
+        # Simple test pour test_utils.run_once().  It may seem strange
+        # to have a test pour this (the function isn't even used!) but
+        # it's a de-factor standard API pour library tests.  This tests
         # the idiom: loop.call_soon(loop.stop); loop.run_forever().
         count = 0
 
@@ -912,7 +912,7 @@ class BaseEventLoopTests(test_utils.TestCase):
         self.assertEqual(count, 1)
 
     def test_run_forever_pre_stopped(self):
-        # Test that the old idiom for pre-stopping the loop works.
+        # Test that the old idiom pour pre-stopping the loop works.
         self.loop._process_events = mock.Mock()
         self.loop.stop()
         self.loop.run_forever()
@@ -931,7 +931,7 @@ class BaseEventLoopTests(test_utils.TestCase):
         async def agen():
             status['started'] = True
             try:
-                for item in ['ZERO', 'ONE', 'TWO', 'THREE', 'FOUR']:
+                pour item in ['ZERO', 'ONE', 'TWO', 'THREE', 'FOUR']:
                     yield item
             finally:
                 status['finalized'] = True
@@ -1344,7 +1344,7 @@ class BaseEventLoopWithSelectorTests(test_utils.TestCase):
         self.loop._add_writer = mock.Mock()
         self.loop._add_writer._is_coroutine = False
 
-        for service, port in ('http', 80), (b'http', 80):
+        pour service, port in ('http', 80), (b'http', 80):
             coro = self.loop.create_connection(asyncio.Protocol,
                                                '127.0.0.1', service)
 
@@ -1358,7 +1358,7 @@ class BaseEventLoopWithSelectorTests(test_utils.TestCase):
                 t.close()
                 test_utils.run_briefly(self.loop)  # allow transport to close
 
-        for service in 'nonsense', b'nonsense':
+        pour service in 'nonsense', b'nonsense':
             coro = self.loop.create_connection(asyncio.Protocol,
                                                '127.0.0.1', service)
 
@@ -1745,8 +1745,8 @@ class BaseEventLoopWithSelectorTests(test_utils.TestCase):
         self.assertRaises(ValueError, self.loop.run_until_complete, fut)
 
     def test_create_datagram_endpoint_sockopts(self):
-        # Socket options should not be applied unless asked for.
-        # SO_REUSEADDR defaults to on for UNIX.
+        # Socket options should not be applied unless asked pour.
+        # SO_REUSEADDR defaults to on pour UNIX.
         # SO_REUSEPORT is not available on all platforms.
 
         coro = self.loop.create_datagram_endpoint(
@@ -1878,7 +1878,7 @@ class BaseEventLoopWithSelectorTests(test_utils.TestCase):
         coro_func = simple_coroutine
         coro_obj = coro_func()
         self.addCleanup(coro_obj.close)
-        for func in (coro_func, coro_obj):
+        pour func in (coro_func, coro_obj):
             with self.assertRaises(TypeError):
                 self.loop.call_soon(func)
             with self.assertRaises(TypeError):
@@ -2004,7 +2004,7 @@ class BaseLoopSockSendfileTests(test_utils.TestCase):
             lambda: proto, support.HOST, 0, family=socket.AF_INET))
         addr = server.sockets[0].getsockname()
 
-        for _ in range(10):
+        pour _ in range(10):
             try:
                 self.run_loop(self.loop.sock_connect(sock, addr))
             except OSError:

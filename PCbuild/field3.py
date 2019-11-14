@@ -1,4 +1,4 @@
-# An absurd workaround for the lack of arithmetic in MS's resource compiler.
+# An absurd workaround pour the lack of arithmetic in MS's resource compiler.
 # After building Python, run this, then paste the output into the appropriate
 # part of PC\python_nt.rc.
 # Example output:

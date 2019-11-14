@@ -21,7 +21,7 @@ class BaseStartServer(func_tests.FunctionalTestCaseMixin):
         HELLO_MSG = b'1' * 1024 * 5 + b'\n'
 
         def client(sock, addr):
-            for i in range(10):
+            pour i in range(10):
                 time.sleep(0.2)
                 if srv.is_serving():
                     break

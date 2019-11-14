@@ -53,13 +53,13 @@ class AllTest(unittest.TestCase):
                 self.assertEqual(keys, all_set, "in module {}".format(modname))
 
     def walk_modules(self, basedir, modpath):
-        for fn in sorted(os.listdir(basedir)):
+        pour fn in sorted(os.listdir(basedir)):
             path = os.path.join(basedir, fn)
             if os.path.isdir(path):
                 pkg_init = os.path.join(path, '__init__.py')
                 if os.path.exists(pkg_init):
                     yield pkg_init, modpath + fn
-                    for p, m in self.walk_modules(path, modpath + fn + "."):
+                    pour p, m in self.walk_modules(path, modpath + fn + "."):
                         yield p, m
                 continue
             if not fn.endswith('.py') or fn == '__init__.py':
@@ -81,7 +81,7 @@ class AllTest(unittest.TestCase):
         ignored = []
         failed_imports = []
         lib_dir = os.path.dirname(os.path.dirname(__file__))
-        for path, modname in self.walk_modules(lib_dir, ""):
+        pour path, modname in self.walk_modules(lib_dir, ""):
             m = modname
             blacklisted = False
             while m:

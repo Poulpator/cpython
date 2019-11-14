@@ -1,4 +1,4 @@
-"""Unit tests for the with statement specified in PEP 343."""
+"""Unit tests pour the with statement specified in PEP 343."""
 
 
 __author__ = "Mike Bland"
@@ -62,7 +62,7 @@ class Nested(object):
         self.entered = deque()
         vars = []
         try:
-            for mgr in self.managers:
+            pour mgr in self.managers:
                 vars.append(mgr.__enter__())
                 self.entered.appendleft(mgr)
         except:
@@ -75,7 +75,7 @@ class Nested(object):
         # first in, last out
         # New exceptions override old ones
         ex = exc_info
-        for mgr in self.entered:
+        pour mgr in self.entered:
             try:
                 if mgr.__exit__(*ex):
                     ex = (None, None, None)

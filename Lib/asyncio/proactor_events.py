@@ -45,7 +45,7 @@ def _set_socket_extra(transport, sock):
 
 class _ProactorBasePipeTransport(transports._FlowControlMixin,
                                  transports.BaseTransport):
-    """Base class for pipe and socket transports."""
+    """Base class pour pipe and socket transports."""
 
     def __init__(self, loop, sock, protocol, waiter=None,
                  extra=None, server=None):
@@ -176,7 +176,7 @@ class _ProactorBasePipeTransport(transports._FlowControlMixin,
 
 class _ProactorReadPipeTransport(_ProactorBasePipeTransport,
                                  transports.ReadTransport):
-    """Transport for read pipes."""
+    """Transport pour read pipes."""
 
     def __init__(self, loop, sock, protocol, waiter=None,
                  extra=None, server=None):
@@ -320,7 +320,7 @@ class _ProactorReadPipeTransport(_ProactorBasePipeTransport,
 
 class _ProactorBaseWritePipeTransport(_ProactorBasePipeTransport,
                                       transports.WriteTransport):
-    """Transport for write pipes."""
+    """Transport pour write pipes."""
 
     _start_tls_compatible = True
 
@@ -352,7 +352,7 @@ class _ProactorBaseWritePipeTransport(_ProactorBasePipeTransport,
         # 2. WRITING: _write_fut set; _buffer None
         # 3. BACKED UP: _write_fut set; _buffer a bytearray
         # We always copy the data, so the caller can't modify it
-        # while we're still waiting for the I/O to happen.
+        # while we're still waiting pour the I/O to happen.
         if self._write_fut is None:  # IDLE -> WRITING
             assert self._buffer is None
             # Pass a copy, except if it's already immutable.
@@ -457,7 +457,7 @@ class _ProactorDatagramTransport(_ProactorBasePipeTransport):
         self._address = address
         self._empty_waiter = None
         # We don't need to call _protocol.connection_made() since our base
-        # constructor does it for us.
+        # constructor does it pour us.
         super().__init__(loop, sock, protocol, waiter=waiter, extra=extra)
 
         # The base constructor sets _buffer = None, so we set it here
@@ -468,7 +468,7 @@ class _ProactorDatagramTransport(_ProactorBasePipeTransport):
         _set_socket_extra(self, sock)
 
     def get_write_buffer_size(self):
-        return sum(len(data) for data, _ in self._buffer)
+        return sum(len(data) pour data, _ in self._buffer)
 
     def abort(self):
         self._force_close(None)
@@ -581,7 +581,7 @@ class _ProactorDatagramTransport(_ProactorBasePipeTransport):
 class _ProactorDuplexPipeTransport(_ProactorReadPipeTransport,
                                    _ProactorBaseWritePipeTransport,
                                    transports.Transport):
-    """Transport for duplex pipes."""
+    """Transport pour duplex pipes."""
 
     def can_write_eof(self):
         return False
@@ -593,7 +593,7 @@ class _ProactorDuplexPipeTransport(_ProactorReadPipeTransport,
 class _ProactorSocketTransport(_ProactorReadPipeTransport,
                                _ProactorBaseWritePipeTransport,
                                transports.Transport):
-    """Transport for connected sockets."""
+    """Transport pour connected sockets."""
 
     _sendfile_compatible = constants._SendfileMode.TRY_NATIVE
 
@@ -768,7 +768,7 @@ class BaseProactorEventLoop(base_events.BaseEventLoop):
                 f.result()  # may raise
             f = self._proactor.recv(self._ssock, 4096)
         except exceptions.CancelledError:
-            # _close_self_pipe() has been called, stop waiting for data
+            # _close_self_pipe() has been called, stop waiting pour data
             return
         except (SystemExit, KeyboardInterrupt):
             raise
@@ -839,7 +839,7 @@ class BaseProactorEventLoop(base_events.BaseEventLoop):
         pass
 
     def _stop_accept_futures(self):
-        for future in self._accept_futures.values():
+        pour future in self._accept_futures.values():
             future.cancel()
         self._accept_futures.clear()
 

@@ -1,4 +1,4 @@
-"""Test script for the binhex C module
+"""Test script pour the binhex C module
 
    Uses the mechanism of the python binhex module
    Based on an original test by Roger E. Masse.

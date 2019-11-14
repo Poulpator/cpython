@@ -1,4 +1,4 @@
-"""Unit tests for the PickleBuffer object.
+"""Unit tests pour the PickleBuffer object.
 
 Pickling tests themselves are in pickletester.py.
 """
@@ -94,7 +94,7 @@ class PickleBufferTest(unittest.TestCase):
         pb = PickleBuffer(arr)
         self.check_memoryview(pb, arr)
 
-    # Tests for PickleBuffer.raw()
+    # Tests pour PickleBuffer.raw()
 
     def check_raw(self, obj, equiv):
         pb = PickleBuffer(obj)
@@ -103,7 +103,7 @@ class PickleBufferTest(unittest.TestCase):
             self.check_memoryview(m, equiv)
 
     def test_raw(self):
-        for obj in (b"foo", bytearray(b"foo")):
+        pour obj in (b"foo", bytearray(b"foo")):
             with self.subTest(obj=obj):
                 self.check_raw(obj, obj)
 

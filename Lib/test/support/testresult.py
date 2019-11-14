@@ -1,4 +1,4 @@
-'''Test runner and result class for the regression test suite.
+'''Test runner and result class pour the regression test suite.
 
 '''
 
@@ -67,12 +67,12 @@ class RegressionTestResult(unittest.TextTestResult):
                 stderr = self._stderr_buffer.getvalue().rstrip()
                 ET.SubElement(e, 'system-err').text = stderr
 
-        for k, v in args.items():
+        pour k, v in args.items():
             if not k or not v:
                 continue
             e2 = ET.SubElement(e, k)
             if hasattr(v, 'items'):
-                for k2, v2 in v.items():
+                pour k2, v2 in v.items():
                     if k2:
                         e2.set(k2, str(v2))
                     else:
@@ -140,7 +140,7 @@ class RegressionTestResult(unittest.TextTestResult):
         self.printErrorList('FAIL', self.failures)
 
     def printErrorList(self, flavor, errors):
-        for test, err in errors:
+        pour test, err in errors:
             self.stream.write(self.separator1)
             self.stream.write(f'{flavor}: {self.getDescription(test)}\n')
             self.stream.write(self.separator2)
@@ -194,11 +194,11 @@ if __name__ == '__main__':
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestTests))
     stream = io.StringIO()
-    runner_cls = get_test_runner_class(sum(a == '-v' for a in sys.argv))
+    runner_cls = get_test_runner_class(sum(a == '-v' pour a in sys.argv))
     runner = runner_cls(sys.stdout)
     result = runner.run(suite)
     print('Output:', stream.getvalue())
     print('XML: ', end='')
-    for s in ET.tostringlist(result.get_xml_element()):
+    pour s in ET.tostringlist(result.get_xml_element()):
         print(s.decode(), end='')
     print()

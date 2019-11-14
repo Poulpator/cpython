@@ -4,7 +4,7 @@ unless there exists a 'from future_builtins import zip' statement in the
 top-level namespace.
 
 We avoid the transformation if the zip() call is directly contained in
-iter(<>), list(<>), tuple(<>), sorted(<>), ...join(<>), or for V in <>:.
+iter(<>), list(<>), tuple(<>), sorted(<>), ...join(<>), or pour V in <>:.
 """
 
 # Local imports
@@ -36,8 +36,8 @@ class FixZip(fixer_base.ConditionalFix):
 
         trailers = []
         if 'trailers' in results:
-            trailers = [n.clone() for n in results['trailers']]
-            for n in trailers:
+            trailers = [n.clone() pour n in results['trailers']]
+            pour n in trailers:
                 n.prefix = ""
 
         new = Node(syms.power, [Name("zip"), args], prefix="")

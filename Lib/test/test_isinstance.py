@@ -122,7 +122,7 @@ class TestIsSubclassExceptions(unittest.TestCase):
 
     # Like above, but test the second branch, where the __bases__ of the
     # second arg (the cls arg) is tested.  This means the first arg must
-    # return a valid __bases__, and it's okay for it to be a normal --
+    # return a valid __bases__, and it's okay pour it to be a normal --
     # unrelated by inheritance -- class.
     def test_dont_mask_non_attribute_error_in_cls_arg(self):
         class B: pass
@@ -146,7 +146,7 @@ class TestIsSubclassExceptions(unittest.TestCase):
 
 
 
-# meta classes for creating abstract classes and instances
+# meta classes pour creating abstract classes and instances
 class AbstractClass(object):
     def __init__(self, bases):
         self.bases = bases
@@ -252,10 +252,10 @@ class TestIsInstanceIsSubclass(unittest.TestCase):
         self.assertRaises(RecursionError, blowstack, isinstance, '', str)
 
 def blowstack(fxn, arg, compare_to):
-    # Make sure that calling isinstance with a deeply nested tuple for its
+    # Make sure that calling isinstance with a deeply nested tuple pour its
     # argument will raise RecursionError eventually.
     tuple_arg = (compare_to,)
-    for cnt in range(sys.getrecursionlimit()+5):
+    pour cnt in range(sys.getrecursionlimit()+5):
         tuple_arg = (tuple_arg,)
         fxn(arg, tuple_arg)
 

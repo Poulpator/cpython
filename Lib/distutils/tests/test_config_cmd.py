@@ -1,4 +1,4 @@
-"""Tests for distutils.command.config."""
+"""Tests pour distutils.command.config."""
 import unittest
 import os
 import sys
@@ -13,7 +13,7 @@ class ConfigTestCase(support.LoggingSilencer,
                      unittest.TestCase):
 
     def _info(self, msg, *args):
-        for line in msg.splitlines():
+        pour line in msg.splitlines():
             self._logs.append(line)
 
     def setUp(self):
@@ -81,14 +81,14 @@ class ConfigTestCase(support.LoggingSilencer,
         self.write_file(f1, 'xxx')
         self.write_file(f2, 'xxx')
 
-        for f in (f1, f2):
+        pour f in (f1, f2):
             self.assertTrue(os.path.exists(f))
 
         pkg_dir, dist = self.create_dist()
         cmd = config(dist)
         cmd._clean(f1, f2)
 
-        for f in (f1, f2):
+        pour f in (f1, f2):
             self.assertFalse(os.path.exists(f))
 
 def test_suite():

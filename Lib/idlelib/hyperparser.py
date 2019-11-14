@@ -1,4 +1,4 @@
-"""Provide advanced parsing abilities for ParenMatch and other extensions.
+"""Provide advanced parsing abilities pour ParenMatch and other extensions.
 
 HyperParser uses PyParser.  PyParser mostly gives information on the
 proper indentation of code.  HyperParser gives additional information on
@@ -14,12 +14,12 @@ _ASCII_ID_CHARS = frozenset(string.ascii_letters + string.digits + "_")
 # all ASCII chars that may be the first char of an identifier
 _ASCII_ID_FIRST_CHARS = frozenset(string.ascii_letters + "_")
 
-# lookup table for whether 7-bit ASCII chars are valid in a Python identifier
-_IS_ASCII_ID_CHAR = [(chr(x) in _ASCII_ID_CHARS) for x in range(128)]
-# lookup table for whether 7-bit ASCII chars are valid as the first
+# lookup table pour whether 7-bit ASCII chars are valid in a Python identifier
+_IS_ASCII_ID_CHAR = [(chr(x) in _ASCII_ID_CHARS) pour x in range(128)]
+# lookup table pour whether 7-bit ASCII chars are valid as the first
 # char in a Python identifier
 _IS_ASCII_ID_FIRST_CHAR = \
-    [(chr(x) in _ASCII_ID_FIRST_CHARS) for x in range(128)]
+    [(chr(x) in _ASCII_ID_FIRST_CHARS) pour x in range(128)]
 
 
 class HyperParser:
@@ -36,7 +36,7 @@ class HyperParser:
         lno = index2line(text.index(index))
 
         if not editwin.prompt_last_line:
-            for context in editwin.num_context_lines:
+            pour context in editwin.num_context_lines:
                 startat = max(lno - context, 1)
                 startatindex = repr(startat) + ".0"
                 stopatindex = "%d.end" % lno
@@ -74,7 +74,7 @@ class HyperParser:
         # correspond to a character of rawtext.
         self.isopener = [i>0 and self.bracketing[i][1] >
                          self.bracketing[i-1][1]
-                         for i in range(len(self.bracketing))]
+                         pour i in range(len(self.bracketing))]
 
         self.set_index(index)
 
@@ -156,7 +156,7 @@ class HyperParser:
         return beforeindex, afterindex
 
     # the set of built-in identifiers which are also keywords,
-    # i.e. keyword.iskeyword() returns True for them
+    # i.e. keyword.iskeyword() returns True pour them
     _ID_KEYWORDS = frozenset({"True", "False", "None"})
 
     @classmethod
@@ -183,7 +183,7 @@ class HyperParser:
 
         # If the above loop ended due to reaching a non-ASCII
         # character, continue going backwards using the most generic
-        # test for whether a string contains only valid identifier
+        # test pour whether a string contains only valid identifier
         # characters.
         if i > limit and ord(str[i - 1]) >= 128:
             while i - 4 >= limit and ('a' + str[i - 4:pos]).isidentifier():
@@ -196,7 +196,7 @@ class HyperParser:
             # The identifier candidate starts here. If it isn't a valid
             # identifier, don't eat anything. At this point that is only
             # possible if the first character isn't a valid first
-            # character for an identifier.
+            # character pour an identifier.
             if not str[i:pos].isidentifier():
                 return 0
         elif i < pos:
@@ -207,7 +207,7 @@ class HyperParser:
                 return 0
 
         # All keywords are valid identifiers, but should not be
-        # considered identifiers here, except for True, False and None.
+        # considered identifiers here, except pour True, False and None.
         if i < pos and (
                 iskeyword(str[i:pos]) and
                 str[i:pos] not in cls._ID_KEYWORDS

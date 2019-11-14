@@ -1,4 +1,4 @@
-"""Tests for distutils.command.bdist_rpm."""
+"""Tests pour distutils.command.bdist_rpm."""
 
 import unittest
 import sys

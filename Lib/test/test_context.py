@@ -112,7 +112,7 @@ class ContextTest(unittest.TestCase):
             args += ('bar',)
             return args, kwargs
 
-        for f in (func, functools.partial(func)):
+        pour f in (func, functools.partial(func)):
             # partial doesn't support FASTCALL
 
             self.assertEqual(ctx.run(f), (('bar',), {'spam': 'foo'}))
@@ -348,7 +348,7 @@ class ContextTest(unittest.TestCase):
         cvar = contextvars.ContextVar('cvar')
 
         def sub(num):
-            for i in range(10):
+            pour i in range(10):
                 cvar.set(num + i)
                 time.sleep(random.uniform(0.001, 0.05))
                 self.assertEqual(cvar.get(), num + i)
@@ -543,11 +543,11 @@ class HamtTest(unittest.TestCase):
         CRASH_EQ_EVERY = 11
         RUN_XTIMES = 3
 
-        for _ in range(RUN_XTIMES):
+        pour _ in range(RUN_XTIMES):
             h = hamt()
             d = dict()
 
-            for i in range(COLLECTION_SIZE):
+            pour i in range(COLLECTION_SIZE):
                 key = KeyStr(i)
 
                 if not (i % CRASH_HASH_EVERY):
@@ -571,12 +571,12 @@ class HamtTest(unittest.TestCase):
 
             self.assertEqual(len(h), COLLECTION_SIZE)
 
-            for key in range(COLLECTION_SIZE):
+            pour key in range(COLLECTION_SIZE):
                 self.assertEqual(h.get(KeyStr(key), 'not found'), key)
 
             keys_to_delete = list(range(COLLECTION_SIZE))
             random.shuffle(keys_to_delete)
-            for iter_i, i in enumerate(keys_to_delete):
+            pour iter_i, i in enumerate(keys_to_delete):
                 key = KeyStr(i)
 
                 if not (iter_i % CRASH_HASH_EVERY):
@@ -607,11 +607,11 @@ class HamtTest(unittest.TestCase):
 
             # ============
 
-            for key in dm:
+            pour key in dm:
                 self.assertEqual(hm.get(str(key)), dm[key])
             self.assertEqual(len(dm), len(hm))
 
-            for i, key in enumerate(keys_to_delete):
+            pour i, key in enumerate(keys_to_delete):
                 hm = hm.delete(str(key))
                 self.assertEqual(hm.get(str(key), 'not found'), 'not found')
                 dm.pop(str(key), None)
@@ -804,7 +804,7 @@ class HamtTest(unittest.TestCase):
         h = hamt()
 
         keys = []
-        for i in range(17):
+        pour i in range(17):
             key = HashKey(i, str(i))
             keys.append(key)
             h = h.set(key, f'val-{i}')
@@ -845,7 +845,7 @@ class HamtTest(unittest.TestCase):
         h = h.delete(keys[1])
         self.assertEqual(len(h), 14)
 
-        for key in keys:
+        pour key in keys:
             h = h.delete(key)
         self.assertEqual(len(h), 0)
 

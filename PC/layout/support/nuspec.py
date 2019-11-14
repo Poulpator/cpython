@@ -45,7 +45,7 @@ NUSPEC_TEMPLATE = r"""<?xml version="1.0"?>
     <authors>Python Software Foundation</authors>
     <license type="file">tools\LICENSE.txt</license>
     <projectUrl>https://www.python.org/</projectUrl>
-    <description>Installs {PYTHON_BITNESS} Python for use in build scenarios.</description>
+    <description>Installs {PYTHON_BITNESS} Python pour use in build scenarios.</description>
     <iconUrl>https://www.python.org/static/favicon.ico</iconUrl>
     <tags>python</tags>
   </metadata>

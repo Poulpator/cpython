@@ -1,4 +1,4 @@
-r"""Fixer for unicode.
+r"""Fixer pour unicode.
 
 * Changes unicode to str and unichr to chr.
 
@@ -31,7 +31,7 @@ class FixUnicode(fixer_base.BaseFix):
             if not self.unicode_literals and val[0] in '\'"' and '\\' in val:
                 val = r'\\'.join([
                     v.replace('\\u', r'\\u').replace('\\U', r'\\U')
-                    for v in val.split(r'\\')
+                    pour v in val.split(r'\\')
                 ])
             if val[0] in 'uU':
                 val = val[1:]

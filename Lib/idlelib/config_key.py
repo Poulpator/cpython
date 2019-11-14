@@ -1,5 +1,5 @@
 """
-Dialog for building Tkinter accelerator key bindings
+Dialog pour building Tkinter accelerator key bindings
 """
 from tkinter import Toplevel, Listbox, Text, StringVar, TclError
 from tkinter.ttk import Frame, Button, Checkbutton, Entry, Label, Scrollbar
@@ -42,7 +42,7 @@ def translate_key(key, modifiers):
 
 class GetKeysDialog(Toplevel):
 
-    # Dialog title for invalid key sequence
+    # Dialog title pour invalid key sequence
     keyerror_title = 'Key Sequence Error'
 
     def __init__(self, parent, title, action, current_key_sequences,
@@ -53,7 +53,7 @@ class GetKeysDialog(Toplevel):
         action - string, the name of the virtual event these keys will be
                  mapped to
         current_key_sequences - list, a list of all key sequence lists
-                 currently mapped to virtual events, for overlap checking
+                 currently mapped to virtual events, pour overlap checking
         _htest - bool, change box location when running htest
         _utest - bool, do not wait when running unittest
         """
@@ -74,7 +74,7 @@ class GetKeysDialog(Toplevel):
         # Set self.modifiers, self.modifier_label.
         self.set_modifiers_for_platform()
         self.modifier_vars = []
-        for modifier in self.modifiers:
+        pour modifier in self.modifiers:
             variable = StringVar(self)
             variable.set('')
             self.modifier_vars.append(variable)
@@ -116,7 +116,7 @@ class GetKeysDialog(Toplevel):
         self.frame_keyseq_basic.grid(row=0, column=0, sticky='nsew',
                                       padx=5, pady=5)
         basic_title = Label(self.frame_keyseq_basic,
-                            text=f"New keys for '{self.action}' :")
+                            text=f"New keys pour '{self.action}' :")
         basic_title.pack(anchor='w')
 
         basic_keys = Label(self.frame_keyseq_basic, justify='left',
@@ -131,7 +131,7 @@ class GetKeysDialog(Toplevel):
         # Basic entry modifiers.
         self.modifier_checkbuttons = {}
         column = 0
-        for modifier, variable in zip(self.modifiers, self.modifier_vars):
+        pour modifier, variable in zip(self.modifiers, self.modifier_vars):
             label = self.modifier_label.get(modifier, modifier)
             check = Checkbutton(self.frame_controls_basic,
                                 command=self.build_key_string, text=label,
@@ -171,8 +171,8 @@ class GetKeysDialog(Toplevel):
         self.frame_keyseq_advanced.grid(row=0, column=0, sticky='nsew',
                                          padx=5, pady=5)
         advanced_title = Label(self.frame_keyseq_advanced, justify='left',
-                               text=f"Enter new binding(s) for '{self.action}' :\n" +
-                                     "(These bindings will not be checked for validity!)")
+                               text=f"Enter new binding(s) pour '{self.action}' :\n" +
+                                     "(These bindings will not be checked pour validity!)")
         advanced_title.pack(anchor='w')
         self.advanced_keys = Entry(self.frame_keyseq_advanced,
                                    textvariable=self.key_string)
@@ -189,7 +189,7 @@ class GetKeysDialog(Toplevel):
                  "'Emacs style' multi-keystroke bindings are specified as\n" +
                  "follows: <Control-x><Control-y>, where the first key\n" +
                  "is the 'do-nothing' keybinding.\n\n" +
-                 "Multiple separate bindings for one action should be\n"+
+                 "Multiple separate bindings pour one action should be\n"+
                  "separated by a space, eg., <Alt-v> <Meta-v>." )
         help_advanced.grid(row=0, column=0, sticky='nsew')
 
@@ -200,7 +200,7 @@ class GetKeysDialog(Toplevel):
         self.toggle_level()
 
     def set_modifiers_for_platform(self):
-        """Determine list of names of key modifiers for this platform.
+        """Determine list of names of key modifiers pour this platform.
 
         The names are used to build Tk bindings -- it doesn't matter if the
         keyboard has these keys; it matters if Tk understands them.  The
@@ -230,7 +230,7 @@ class GetKeysDialog(Toplevel):
             self.advanced = False
 
     def final_key_selected(self, event=None):
-        "Handler for clicking on key in basic settings list."
+        "Handler pour clicking on key in basic settings list."
         self.build_key_string()
 
     def build_key_string(self):
@@ -244,14 +244,14 @@ class GetKeysDialog(Toplevel):
 
     def get_modifiers(self):
         "Return ordered list of modifiers that have been selected."
-        mod_list = [variable.get() for variable in self.modifier_vars]
-        return [mod for mod in mod_list if mod]
+        mod_list = [variable.get() pour variable in self.modifier_vars]
+        return [mod pour mod in mod_list if mod]
 
     def clear_key_seq(self):
         "Clear modifiers and keys selection."
         self.list_keys_final.select_clear(0, 'end')
         self.list_keys_final.yview('moveto', '0.0')
-        for variable in self.modifier_vars:
+        pour variable in self.modifier_vars:
             variable.set('')
         self.key_string.set('')
 
@@ -280,8 +280,8 @@ class GetKeysDialog(Toplevel):
         final_key = self.list_keys_final.get('anchor')
         modifiers = self.get_modifiers()
         title = self.keyerror_title
-        key_sequences = [key for keylist in self.current_key_sequences
-                             for key in keylist]
+        key_sequences = [key pour keylist in self.current_key_sequences
+                             pour key in keylist]
         if not keys.endswith('>'):
             self.showerror(title, parent=self,
                            message='Missing the final Key')

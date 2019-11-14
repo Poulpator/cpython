@@ -1,4 +1,4 @@
-"""Tests harness for distutils.versionpredicate.
+"""Tests harness pour distutils.versionpredicate.
 
 """
 

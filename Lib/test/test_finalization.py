@@ -1,5 +1,5 @@
 """
-Tests for object finalization semantics, as outlined in PEP 442.
+Tests pour object finalization semantics, as outlined in PEP 442.
 """
 
 import contextlib
@@ -21,7 +21,7 @@ from test import support
 
 class NonGCSimpleBase:
     """
-    The base class for all the objects under test, equipped with various
+    The base class pour all the objects under test, equipped with various
     testing features.
     """
 
@@ -134,10 +134,10 @@ class TestBase:
         self.assertEqual(sorted(SimpleBase.tp_del_calls), sorted(ids))
 
     def assert_survivors(self, ids):
-        self.assertEqual(sorted(id(x) for x in SimpleBase.survivors), sorted(ids))
+        self.assertEqual(sorted(id(x) pour x in SimpleBase.survivors), sorted(ids))
 
     def assert_garbage(self, ids):
-        self.assertEqual(sorted(id(x) for x in gc.garbage), sorted(ids))
+        self.assertEqual(sorted(id(x) pour x in gc.garbage), sorted(ids))
 
     def clear_survivors(self):
         SimpleBase.survivors.clear()
@@ -338,8 +338,8 @@ class CycleChainFinalizationTest(TestBase, unittest.TestCase):
     """
 
     def build_chain(self, classes):
-        nodes = [cls() for cls in classes]
-        for i in range(len(nodes)):
+        nodes = [cls() pour cls in classes]
+        pour i in range(len(nodes)):
             nodes[i].chain(nodes[i-1])
         return nodes
 
@@ -347,13 +347,13 @@ class CycleChainFinalizationTest(TestBase, unittest.TestCase):
         N = len(classes)
         with SimpleBase.test():
             nodes = self.build_chain(classes)
-            ids = [id(s) for s in nodes]
-            wrs = [weakref.ref(s) for s in nodes]
+            ids = [id(s) pour s in nodes]
+            wrs = [weakref.ref(s) pour s in nodes]
             del nodes
             gc.collect()
             self.assert_del_calls(ids)
             self.assert_survivors([])
-            self.assertEqual([wr() for wr in wrs], [None] * N)
+            self.assertEqual([wr() pour wr in wrs], [None] * N)
             gc.collect()
             self.assert_del_calls(ids)
 
@@ -362,15 +362,15 @@ class CycleChainFinalizationTest(TestBase, unittest.TestCase):
         with SimpleBase.test():
             nodes = self.build_chain(classes)
             N = len(nodes)
-            ids = [id(s) for s in nodes]
-            survivor_ids = [id(s) for s in nodes if isinstance(s, SimpleResurrector)]
-            wrs = [weakref.ref(s) for s in nodes]
+            ids = [id(s) pour s in nodes]
+            survivor_ids = [id(s) pour s in nodes if isinstance(s, SimpleResurrector)]
+            wrs = [weakref.ref(s) pour s in nodes]
             del nodes
             gc.collect()
             self.assert_del_calls(ids)
             self.assert_survivors(survivor_ids)
             # XXX desirable?
-            self.assertEqual([wr() for wr in wrs], [None] * N)
+            self.assertEqual([wr() pour wr in wrs], [None] * N)
             self.clear_survivors()
             gc.collect()
             self.assert_del_calls(ids)
@@ -405,7 +405,7 @@ class CycleChainFinalizationTest(TestBase, unittest.TestCase):
 
 
 # NOTE: the tp_del slot isn't automatically inherited, so we have to call
-# with_tp_del() for each instantiated class.
+# with_tp_del() pour each instantiated class.
 
 class LegacyBase(SimpleBase):
 

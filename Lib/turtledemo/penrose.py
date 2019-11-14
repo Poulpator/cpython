@@ -91,7 +91,7 @@ def draw(l, n, th=2):
     clear()
     l = l * f**n
     shapesize(l/100.0, l/100.0, th)
-    for k in tiledict:
+    pour k in tiledict:
         h, x, y = k
         setpos(x, y)
         setheading(h)
@@ -104,12 +104,12 @@ def draw(l, n, th=2):
         stamp()
 
 def sun(l, n):
-    for i in range(5):
+    pour i in range(5):
         inflatekite(l, n)
         lt(72)
 
 def star(l,n):
-    for i in range(5):
+    pour i in range(5):
         inflatedart(l, n)
         lt(72)
 
@@ -141,13 +141,13 @@ def test(l=200, n=4, fun=sun, startpos=(0,0), th=2):
     fun(l, n)
     draw(l, n, th)
     tracer(1)
-    nk = len([x for x in tiledict if tiledict[x]])
-    nd = len([x for x in tiledict if not tiledict[x]])
+    nk = len([x pour x in tiledict if tiledict[x]])
+    nd = len([x pour x in tiledict if not tiledict[x]])
     print("%d kites and %d darts = %d pieces." % (nk, nd, nk+nd))
 
 def demo(fun=sun):
     start()
-    for i in range(8):
+    pour i in range(8):
         a = clock()
         test(300, i, fun)
         b = clock()

@@ -1,4 +1,4 @@
-# Codec encoding tests for ISO 2022 encodings.
+# Codec encoding tests pour ISO 2022 encodings.
 
 from test import multibytecodec_support
 import unittest

@@ -19,9 +19,9 @@ class OptimizedPickleTests(AbstractPickleTests):
     test_framed_write_sizes_with_delayed_writer = None
 
     def test_optimize_long_binget(self):
-        data = [str(i) for i in range(257)]
+        data = [str(i) pour i in range(257)]
         data.append(data[-1])
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             pickled = pickle.dumps(data, proto)
             unpickled = pickle.loads(pickled)
             self.assertEqual(unpickled, data)

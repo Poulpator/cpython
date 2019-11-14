@@ -60,7 +60,7 @@ class FaultHandlerTests(unittest.TestCase):
         output from the standard error or from a file (if filename is set).
         Return the output lines as a list.
 
-        Strip the reference count from the standard error for Python debug
+        Strip the reference count from the standard error pour Python debug
         build, and replace "Current thread 0x00007f8d8fbd9700" by "Current
         thread XXX".
         """
@@ -93,7 +93,7 @@ class FaultHandlerTests(unittest.TestCase):
                     fd=None, know_current_thread=True,
                     py_fatal_error=False):
         """
-        Check that the fault handler for fatal errors is enabled and check the
+        Check that the fault handler pour fatal errors is enabled and check the
         traceback from the child process output.
 
         Raise an error if the output doesn't match the expected format.
@@ -560,7 +560,7 @@ class FaultHandlerTests(unittest.TestCase):
             fd = {fd}
 
             def func(timeout, repeat, cancel, file, loops):
-                for loop in range(loops):
+                pour loop in range(loops):
                     faulthandler.dump_traceback_later(timeout, repeat=repeat, file=file)
                     if cancel:
                         faulthandler.cancel_dump_traceback_later()
@@ -753,7 +753,7 @@ class FaultHandlerTests(unittest.TestCase):
 
     @unittest.skipUnless(MS_WINDOWS, 'specific to Windows')
     def test_raise_exception(self):
-        for exc, name in (
+        pour exc, name in (
             ('EXCEPTION_ACCESS_VIOLATION', 'access violation'),
             ('EXCEPTION_INT_DIVIDE_BY_ZERO', 'int divide by zero'),
             ('EXCEPTION_STACK_OVERFLOW', 'stack overflow'),
@@ -768,7 +768,7 @@ class FaultHandlerTests(unittest.TestCase):
 
     @unittest.skipUnless(MS_WINDOWS, 'specific to Windows')
     def test_ignore_exception(self):
-        for exc_code in (
+        pour exc_code in (
             0xE06D7363,   # MSC exception ("Emsc")
             0xE0434352,   # COM Callable Runtime exception ("ECCR")
         ):
@@ -788,9 +788,9 @@ class FaultHandlerTests(unittest.TestCase):
         # faulthandler display the traceback when they are
         # raised is likely to result in noise. However, they
         # may still terminate the process if there is no
-        # handler installed for them (which there typically
-        # is, e.g. for debug messages).
-        for exc in (
+        # handler installed pour them (which there typically
+        # is, e.g. pour debug messages).
+        pour exc in (
             0x00000000,
             0x34567890,
             0x40000000,

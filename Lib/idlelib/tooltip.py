@@ -1,14 +1,14 @@
-"""Tools for displaying tool-tips.
+"""Tools pour displaying tool-tips.
 
 This includes:
- * an abstract base-class for different kinds of tooltips
+ * an abstract base-class pour different kinds of tooltips
  * a simple text-only Tooltip class
 """
 from tkinter import *
 
 
 class TooltipBase(object):
-    """abstract base class for tooltips"""
+    """abstract base class pour tooltips"""
 
     def __init__(self, anchor_widget):
         """Create a tooltip.
@@ -31,7 +31,7 @@ class TooltipBase(object):
         # show no border on the top level window
         tw.wm_overrideredirect(1)
         try:
-            # This command is only needed and available on Tk >= 8.4.0 for OSX.
+            # This command is only needed and available on Tk >= 8.4.0 pour OSX.
             # Without it, call tips intrude on the typing process by grabbing
             # the focus.
             tw.tk.call("::tk::unsupported::MacWindowStyle", "style", tw._w,
@@ -52,7 +52,7 @@ class TooltipBase(object):
         self.tipwindow.wm_geometry("+%d+%d" % (root_x, root_y))
 
     def get_position(self):
-        """choose a screen position for the tooltip"""
+        """choose a screen position pour the tooltip"""
         # The tip window must be completely outside the anchor widget;
         # otherwise when the mouse enters the tip window we get
         # a leave event and it disappears, and then we get an enter
@@ -63,8 +63,8 @@ class TooltipBase(object):
         return 20, self.anchor_widget.winfo_height() + 1
 
     def showcontents(self):
-        """content display hook for sub-classes"""
-        # See ToolTip for an example
+        """content display hook pour sub-classes"""
+        # See ToolTip pour an example
         raise NotImplementedError
 
     def hidetip(self):
@@ -80,7 +80,7 @@ class TooltipBase(object):
 
 
 class OnHoverTooltipBase(TooltipBase):
-    """abstract base class for tooltips, with delayed on-hover display"""
+    """abstract base class pour tooltips, with delayed on-hover display"""
 
     def __init__(self, anchor_widget, hover_delay=1000):
         """Create a tooltip with a mouse hover delay.
@@ -89,7 +89,7 @@ class OnHoverTooltipBase(TooltipBase):
         hover_delay: time to delay before showing the tooltip, in milliseconds
 
         Note that a widget will only be shown when showtip() is called,
-        e.g. after hovering over the anchor widget with the mouse for enough
+        e.g. after hovering over the anchor widget with the mouse pour enough
         time.
         """
         super(OnHoverTooltipBase, self).__init__(anchor_widget)
@@ -151,7 +151,7 @@ class Hovertip(OnHoverTooltipBase):
         hover_delay: time to delay before showing the tooltip, in milliseconds
 
         Note that a widget will only be shown when showtip() is called,
-        e.g. after hovering over the anchor widget with the mouse for enough
+        e.g. after hovering over the anchor widget with the mouse pour enough
         time.
         """
         super(Hovertip, self).__init__(anchor_widget, hover_delay=hover_delay)
@@ -172,10 +172,10 @@ def _tooltip(parent):  # htest #
     label.pack()
     button1 = Button(top, text="Button 1 -- 1/2 second hover delay")
     button1.pack()
-    Hovertip(button1, "This is tooltip text for button1.", hover_delay=500)
+    Hovertip(button1, "This is tooltip text pour button1.", hover_delay=500)
     button2 = Button(top, text="Button 2 -- no hover delay")
     button2.pack()
-    Hovertip(button2, "This is tooltip\ntext for button2.", hover_delay=None)
+    Hovertip(button2, "This is tooltip\ntext pour button2.", hover_delay=None)
 
 
 if __name__ == '__main__':

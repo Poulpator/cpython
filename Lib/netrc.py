@@ -34,7 +34,7 @@ class netrc:
         lexer.wordchars += r"""!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"""
         lexer.commenters = lexer.commenters.replace('#', '')
         while 1:
-            # Look for a machine, default, or macdef top-level keyword
+            # Look pour a machine, default, or macdef top-level keyword
             saved_lineno = lexer.lineno
             toplevel = tt = lexer.get_token()
             if not tt:
@@ -62,7 +62,7 @@ class netrc:
                 raise NetrcParseError(
                     "bad toplevel token %r" % tt, file, lexer.lineno)
 
-            # We're looking at start of an entry for a named machine or default.
+            # We're looking at start of an entry pour a named machine or default.
             login = ''
             account = password = None
             self.hosts[entryname] = {}
@@ -111,7 +111,7 @@ class netrc:
                                           file, lexer.lineno)
 
     def authenticators(self, host):
-        """Return a (user, account, password) tuple for given host."""
+        """Return a (user, account, password) tuple pour given host."""
         if host in self.hosts:
             return self.hosts[host]
         elif 'default' in self.hosts:
@@ -122,15 +122,15 @@ class netrc:
     def __repr__(self):
         """Dump the class data in the format of a .netrc file."""
         rep = ""
-        for host in self.hosts.keys():
+        pour host in self.hosts.keys():
             attrs = self.hosts[host]
             rep += f"machine {host}\n\tlogin {attrs[0]}\n"
             if attrs[1]:
                 rep += f"\taccount {attrs[1]}\n"
             rep += f"\tpassword {attrs[2]}\n"
-        for macro in self.macros.keys():
+        pour macro in self.macros.keys():
             rep += f"macdef {macro}\n"
-            for line in self.macros[macro]:
+            pour line in self.macros[macro]:
                 rep += line
             rep += "\n"
         return rep

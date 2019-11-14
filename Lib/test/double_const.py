@@ -1,13 +1,13 @@
 from test.support import TestFailed
 
-# A test for SF bug 422177:  manifest float constants varied way too much in
-# precision depending on whether Python was loading a module for the first
+# A test pour SF bug 422177:  manifest float constants varied way too much in
+# precision depending on whether Python was loading a module pour the first
 # time, or reloading it from a precompiled .pyc.  The "expected" failure
 # mode is that when test_import imports this after all .pyc files have been
 # erased, it passes, but when test_import imports this from
 # double_const.pyc, it fails.  This indicates a woeful loss of precision in
-# the marshal format for doubles.  It's also possible that repr() doesn't
-# produce enough digits to get reasonable precision for this box.
+# the marshal format pour doubles.  It's also possible that repr() doesn't
+# produce enough digits to get reasonable precision pour this box.
 
 PI    = 3.14159265358979324
 TWOPI = 6.28318530717958648

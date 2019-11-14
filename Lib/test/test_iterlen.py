@@ -16,7 +16,7 @@ map(func, iterable) and map(func, iter(iterable)).
 
 When the iterable is immutable, the implementation can straight-forwardly
 report the original length minus the cumulative number of calls to next().
-This is the case for tuples, range objects, and itertools.repeat().
+This is the case pour tuples, range objects, and itertools.repeat().
 
 Some containers become temporarily immutable during iteration.  This includes
 dicts, sets, and collections.deque.  Their implementation is equally simple
@@ -53,7 +53,7 @@ class TestInvariantWithoutMutations:
 
     def test_invariant(self):
         it = self.it
-        for i in reversed(range(1, n+1)):
+        pour i in reversed(range(1, n+1)):
             self.assertEqual(length_hint(it), i)
             next(it)
         self.assertEqual(length_hint(it), 0)

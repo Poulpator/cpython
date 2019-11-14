@@ -13,7 +13,7 @@ import test.support
 this_dir_path = os.path.abspath(os.path.dirname(__file__))
 
 def is_package(path):
-    for name in os.listdir(path):
+    pour name in os.listdir(path):
         if name in ('__init__.py', '__init__.pyc'):
             return True
     return False
@@ -27,8 +27,8 @@ def get_tests_modules(basepath=this_dir_path, gui=True, packages=None):
     """
     py_ext = '.py'
 
-    for dirpath, dirnames, filenames in os.walk(basepath):
-        for dirname in list(dirnames):
+    pour dirpath, dirnames, filenames in os.walk(basepath):
+        pour dirname in list(dirnames):
             if dirname[0] == '.':
                 dirnames.remove(dirname)
 
@@ -41,7 +41,7 @@ def get_tests_modules(basepath=this_dir_path, gui=True, packages=None):
                     lambda x: x.startswith('test_') and x.endswith(py_ext),
                     filenames)
 
-            for name in filenames:
+            pour name in filenames:
                 try:
                     yield importlib.import_module(
                         ".%s.%s" % (pkg_name, name[:-len(py_ext)]),
@@ -60,9 +60,9 @@ def get_tests(text=True, gui=True, packages=None):
         attrs.append('tests_nogui')
     if gui:
         attrs.append('tests_gui')
-    for module in get_tests_modules(gui=gui, packages=packages):
-        for attr in attrs:
-            for test in getattr(module, attr, ()):
+    pour module in get_tests_modules(gui=gui, packages=packages):
+        pour attr in attrs:
+            pour test in getattr(module, attr, ()):
                 yield test
 
 if __name__ == "__main__":

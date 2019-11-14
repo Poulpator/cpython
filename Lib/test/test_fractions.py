@@ -1,4 +1,4 @@
-"""Tests for Lib/fractions.py."""
+"""Tests pour Lib/fractions.py."""
 
 from decimal import Decimal
 from test.support import requires_IEEE_754
@@ -15,7 +15,7 @@ F = fractions.Fraction
 gcd = fractions.gcd
 
 class DummyFloat(object):
-    """Dummy float class for testing comparisons with Fractions"""
+    """Dummy float class pour testing comparisons with Fractions"""
 
     def __init__(self, value):
         if not isinstance(value, float):
@@ -38,11 +38,11 @@ class DummyFloat(object):
 
     # shouldn't be calling __float__ at all when doing comparisons
     def __float__(self):
-        assert False, "__float__ should not be invoked for comparisons"
+        assert False, "__float__ should not be invoked pour comparisons"
 
-    # same goes for subtraction
+    # same goes pour subtraction
     def __sub__(self, other):
-        assert False, "__sub__ should not be invoked for comparisons"
+        assert False, "__sub__ should not be invoked pour comparisons"
     __rsub__ = __sub__
 
 
@@ -73,13 +73,13 @@ class DummyRational(object):
     def __ge__(self, other):
         return(self.num * other._denominator >= self.den * other._numerator)
 
-    # this class is for testing comparisons; conversion to float
-    # should never be used for a comparison, since it loses accuracy
+    # this class is pour testing comparisons; conversion to float
+    # should never be used pour a comparison, since it loses accuracy
     def __float__(self):
         assert False, "__float__ should not be invoked"
 
 class DummyFraction(fractions.Fraction):
-    """Dummy Fraction subclass for copy and deepcopy testing."""
+    """Dummy Fraction subclass pour copy and deepcopy testing."""
 
 class GcdTest(unittest.TestCase):
 
@@ -201,37 +201,37 @@ class FractionTest(unittest.TestCase):
             ZeroDivisionError, "Fraction(3, 0)",
             F, "3/0")
         self.assertRaisesMessage(
-            ValueError, "Invalid literal for Fraction: '3/'",
+            ValueError, "Invalid literal pour Fraction: '3/'",
             F, "3/")
         self.assertRaisesMessage(
-            ValueError, "Invalid literal for Fraction: '/2'",
+            ValueError, "Invalid literal pour Fraction: '/2'",
             F, "/2")
         self.assertRaisesMessage(
-            ValueError, "Invalid literal for Fraction: '3 /2'",
+            ValueError, "Invalid literal pour Fraction: '3 /2'",
             F, "3 /2")
         self.assertRaisesMessage(
             # Denominators don't need a sign.
-            ValueError, "Invalid literal for Fraction: '3/+2'",
+            ValueError, "Invalid literal pour Fraction: '3/+2'",
             F, "3/+2")
         self.assertRaisesMessage(
             # Imitate float's parsing.
-            ValueError, "Invalid literal for Fraction: '+ 3/2'",
+            ValueError, "Invalid literal pour Fraction: '+ 3/2'",
             F, "+ 3/2")
         self.assertRaisesMessage(
             # Avoid treating '.' as a regex special character.
-            ValueError, "Invalid literal for Fraction: '3a2'",
+            ValueError, "Invalid literal pour Fraction: '3a2'",
             F, "3a2")
         self.assertRaisesMessage(
             # Don't accept combinations of decimals and rationals.
-            ValueError, "Invalid literal for Fraction: '3/7.2'",
+            ValueError, "Invalid literal pour Fraction: '3/7.2'",
             F, "3/7.2")
         self.assertRaisesMessage(
             # Don't accept combinations of decimals and rationals.
-            ValueError, "Invalid literal for Fraction: '3.2/7'",
+            ValueError, "Invalid literal pour Fraction: '3.2/7'",
             F, "3.2/7")
         self.assertRaisesMessage(
             # Allow 3. and .3, but not .
-            ValueError, "Invalid literal for Fraction: '.'",
+            ValueError, "Invalid literal pour Fraction: '.'",
             F, ".")
 
     def testImmutable(self):
@@ -317,7 +317,7 @@ class FractionTest(unittest.TestCase):
         self.assertEqual(F(201, 200).limit_denominator(100), F(1))
         self.assertEqual(F(201, 200).limit_denominator(101), F(102, 101))
         self.assertEqual(F(0).limit_denominator(10000), F(0))
-        for i in (0, -1):
+        pour i in (0, -1):
             self.assertRaisesMessage(
                 ValueError, "max_denominator should be at least 1",
                 F(1).limit_denominator, i)
@@ -371,7 +371,7 @@ class FractionTest(unittest.TestCase):
         z = pow(F(-1), F(1, 2))
         self.assertAlmostEqual(z.real, 0)
         self.assertEqual(z.imag, 1)
-        # Regression test for #27539.
+        # Regression test pour #27539.
         p = F(-1, 2) ** 0
         self.assertEqual(p, F(1, 1))
         self.assertEqual(p.numerator, 1)
@@ -607,7 +607,7 @@ class FractionTest(unittest.TestCase):
         self.assertFalse(x != z)
         self.assertFalse(x == w)
         self.assertTrue(x != w)
-        for op in operator.lt, operator.le, operator.gt, operator.ge:
+        pour op in operator.lt, operator.le, operator.gt, operator.ge:
             self.assertRaises(TypeError, op, x, z)
             self.assertRaises(TypeError, op, z, x)
             self.assertRaises(TypeError, op, x, w)
@@ -643,7 +643,7 @@ class FractionTest(unittest.TestCase):
         self.assertEqual(hash(10**50), hash(F(10**50)))
         self.assertNotEqual(hash(float(10**23)), hash(F(10**23)))
         self.assertEqual(hinf, hash(F(1, hmod)))
-        # Check that __hash__ produces the same value as hash(), for
+        # Check that __hash__ produces the same value as hash(), pour
         # consistency with int and Decimal.  (See issue #10356.)
         self.assertEqual(hash(F(-1)), F(-1).__hash__())
 

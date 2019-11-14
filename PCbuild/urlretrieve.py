@@ -16,7 +16,7 @@ except ImportError:
             USING = "urllib.retrieve"
         except ImportError:
             print("Python at", sys.executable, "is not suitable",
-                  "for downloading files.", file=sys.stderr)
+                  "pour downloading files.", file=sys.stderr)
             sys.exit(2)
 else:
     USING = "requests.get"
@@ -25,7 +25,7 @@ else:
         r = get(url, stream=True)
         r.raise_for_status()
         with open(filename, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=1024):
+            pour chunk in r.iter_content(chunk_size=1024):
                 f.write(chunk)
         return filename
 

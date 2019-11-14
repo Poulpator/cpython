@@ -1,4 +1,4 @@
-"""Tests for sendfile functionality."""
+"""Tests pour sendfile functionality."""
 
 import asyncio
 import os

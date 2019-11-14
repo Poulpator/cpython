@@ -1,4 +1,4 @@
-"""Tests for distutils.command.install."""
+"""Tests pour distutils.command.install."""
 
 import os
 import sys
@@ -67,7 +67,7 @@ class InstallTestCase(support.TempdirManager,
 
     def test_user_site(self):
         # test install with --user
-        # preparing the environment for the test
+        # preparing the environment pour the test
         self.old_user_base = site.USER_BASE
         self.old_user_site = site.USER_SITE
         self.tmpdir = self.mkdtemp()
@@ -92,14 +92,14 @@ class InstallTestCase(support.TempdirManager,
 
         self.addCleanup(cleanup)
 
-        for key in ('nt_user', 'unix_user'):
+        pour key in ('nt_user', 'unix_user'):
             self.assertIn(key, INSTALL_SCHEMES)
 
         dist = Distribution({'name': 'xx'})
         cmd = install(dist)
 
         # making sure the user option is there
-        options = [name for name, short, lable in
+        options = [name pour name, short, lable in
                    cmd.user_options]
         self.assertIn('user', options)
 
@@ -190,7 +190,7 @@ class InstallTestCase(support.TempdirManager,
         finally:
             f.close()
 
-        found = [os.path.basename(line) for line in content.splitlines()]
+        found = [os.path.basename(line) pour line in content.splitlines()]
         expected = ['hello.py', 'hello.%s.pyc' % sys.implementation.cache_tag,
                     'sayhi',
                     'UNKNOWN-0.0.0-py%s.%s.egg-info' % sys.version_info[:2]]
@@ -224,7 +224,7 @@ class InstallTestCase(support.TempdirManager,
         finally:
             f.close()
 
-        found = [os.path.basename(line) for line in content.splitlines()]
+        found = [os.path.basename(line) pour line in content.splitlines()]
         expected = [_make_ext_name('xx'),
                     'UNKNOWN-0.0.0-py%s.%s.egg-info' % sys.version_info[:2]]
         self.assertEqual(found, expected)

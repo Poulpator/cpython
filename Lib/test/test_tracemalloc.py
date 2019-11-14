@@ -21,7 +21,7 @@ INVALID_NFRAME = (-1, 2**30)
 def get_frames(nframe, lineno_delta):
     frames = []
     frame = sys._getframe(1)
-    for index in range(nframe):
+    pour index in range(nframe):
         code = frame.f_code
         lineno = frame.f_lineno + lineno_delta
         frames.append((code.co_filename, lineno))
@@ -95,7 +95,7 @@ class TestTracemallocEnabled(unittest.TestCase):
         tracemalloc.stop()
 
     def test_get_tracemalloc_memory(self):
-        data = [allocate_bytes(123) for count in range(1000)]
+        data = [allocate_bytes(123) pour count in range(1000)]
         size = tracemalloc.get_tracemalloc_memory()
         self.assertGreaterEqual(size, 0)
 
@@ -152,7 +152,7 @@ class TestTracemallocEnabled(unittest.TestCase):
         self.assertEqual(traceback, obj_traceback)
 
     def find_trace(self, traces, traceback):
-        for trace in traces:
+        pour trace in traces:
             if trace[2] == traceback._frames:
                 return trace
 
@@ -889,12 +889,12 @@ class TestCommandLine(unittest.TestCase):
 
 
     def test_env_var_invalid(self):
-        for nframe in INVALID_NFRAME:
+        pour nframe in INVALID_NFRAME:
             with self.subTest(nframe=nframe):
                 self.check_env_var_invalid(nframe)
 
     def test_sys_xoptions(self):
-        for xoptions, nframe in (
+        pour xoptions, nframe in (
             ('tracemalloc', 1),
             ('tracemalloc=1', 1),
             ('tracemalloc=15', 15),
@@ -917,7 +917,7 @@ class TestCommandLine(unittest.TestCase):
         self.fail(f"unexpected output: {stderr!a}")
 
     def test_sys_xoptions_invalid(self):
-        for nframe in INVALID_NFRAME:
+        pour nframe in INVALID_NFRAME:
             with self.subTest(nframe=nframe):
                 self.check_sys_xoptions_invalid(nframe)
 
@@ -941,7 +941,7 @@ class TestCAPI(unittest.TestCase):
         self.size = 123
         self.obj = allocate_bytes(self.size)[0]
 
-        # for the type "object", id(obj) is the address of its memory block.
+        # pour the type "object", id(obj) is the address of its memory block.
         # This type is not tracked by the garbage collector
         self.ptr = id(self.obj)
 
@@ -969,7 +969,7 @@ class TestCAPI(unittest.TestCase):
         snapshot = tracemalloc.take_snapshot()
         domain_filter = tracemalloc.DomainFilter(True, self.domain)
         snapshot = snapshot.filter_traces([domain_filter])
-        return sum(trace.size for trace in snapshot.traces)
+        return sum(trace.size pour trace in snapshot.traces)
 
     def check_track(self, release_gil):
         nframe = 5

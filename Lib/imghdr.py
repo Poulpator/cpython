@@ -19,7 +19,7 @@ def what(file, h=None):
                 location = file.tell()
                 h = file.read(32)
                 file.seek(location)
-        for tf in tests:
+        pour tf in tests:
             res = tf(h, f)
             if res:
                 return res
@@ -146,7 +146,7 @@ def test():
 def testall(list, recursive, toplevel):
     import sys
     import os
-    for filename in list:
+    pour filename in list:
         if os.path.isdir(filename):
             print(filename + '/:', end=' ')
             if recursive or toplevel:

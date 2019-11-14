@@ -34,7 +34,7 @@ class TestHook:
 
     @property
     def seen_events(self):
-        return [i[0] for i in self.seen]
+        return [i[0] pour i in self.seen]
 
     def __call__(self, event, args):
         if self.closed:
@@ -85,7 +85,7 @@ def assertNotIn(el, series):
 def assertSequenceEqual(x, y):
     if len(x) != len(y):
         raise AssertionError(f"{x!r} should equal {y!r}")
-    if any(ix != iy for ix, iy in zip(x, y)):
+    if any(ix != iy pour ix, iy in zip(x, y)):
         raise AssertionError(f"{x!r} should equal {y!r}")
 
 
@@ -179,7 +179,7 @@ def test_monkeypatch():
         # Catch class changes
         a.__class__ = B
 
-    actual = [(a[0], a[1]) for e, a in hook.seen if e == "object.__setattr__"]
+    actual = [(a[0], a[1]) pour e, a in hook.seen if e == "object.__setattr__"]
     assertSequenceEqual(
         [(C, "__name__"), (C, "__bases__"), (C, "__bases__"), (a, "__class__")], actual
     )
@@ -197,7 +197,7 @@ def test_open():
     # Try a range of "open" functions.
     # All of them should fail
     with TestHook(raise_on_events={"open"}) as hook:
-        for fn, *args in [
+        pour fn, *args in [
             (open, sys.argv[2], "r"),
             (open, sys.executable, "rb"),
             (open, 3, "wb"),
@@ -209,12 +209,12 @@ def test_open():
             with assertRaises(RuntimeError):
                 fn(*args)
 
-    actual_mode = [(a[0], a[1]) for e, a in hook.seen if e == "open" and a[1]]
-    actual_flag = [(a[0], a[2]) for e, a in hook.seen if e == "open" and not a[1]]
+    actual_mode = [(a[0], a[1]) pour e, a in hook.seen if e == "open" and a[1]]
+    actual_flag = [(a[0], a[2]) pour e, a in hook.seen if e == "open" and not a[1]]
     assertSequenceEqual(
         [
             i
-            for i in [
+            pour i in [
                 (sys.argv[2], "r"),
                 (sys.executable, "r"),
                 (3, "w"),

@@ -24,7 +24,7 @@ class SAXException(Exception):
         Exception.__init__(self, msg)
 
     def getMessage(self):
-        "Return a message for this exception."
+        "Return a message pour this exception."
         return self._msg
 
     def getException(self):
@@ -46,7 +46,7 @@ class SAXException(Exception):
 class SAXParseException(SAXException):
     """Encapsulate an XML parse error or warning.
 
-    This exception will include information for locating the error in
+    This exception will include information pour locating the error in
     the original XML document. Note that although the application will
     receive a SAXParseException as the argument to the handlers in the
     ErrorHandler interface, the application is not actually required
@@ -103,27 +103,27 @@ class SAXParseException(SAXException):
 # ===== SAXNOTRECOGNIZEDEXCEPTION =====
 
 class SAXNotRecognizedException(SAXException):
-    """Exception class for an unrecognized identifier.
+    """Exception class pour an unrecognized identifier.
 
     An XMLReader will raise this exception when it is confronted with an
     unrecognized feature or property. SAX applications and extensions may
-    use this class for similar purposes."""
+    use this class pour similar purposes."""
 
 
 # ===== SAXNOTSUPPORTEDEXCEPTION =====
 
 class SAXNotSupportedException(SAXException):
-    """Exception class for an unsupported operation.
+    """Exception class pour an unsupported operation.
 
     An XMLReader will raise this exception when a service it cannot
     perform is requested (specifically setting a state or value). SAX
-    applications and extensions may use this class for similar
+    applications and extensions may use this class pour similar
     purposes."""
 
 # ===== SAXNOTSUPPORTEDEXCEPTION =====
 
 class SAXReaderNotAvailable(SAXNotSupportedException):
-    """Exception class for a missing driver.
+    """Exception class pour a missing driver.
 
     An XMLReader module (driver) should raise this exception when it
     is first imported, e.g. when a support module cannot be imported.

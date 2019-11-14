@@ -4,7 +4,7 @@ import test._test_multiprocessing
 from test import support
 
 if support.PGO:
-    raise unittest.SkipTest("test is not helpful for PGO")
+    raise unittest.SkipTest("test is not helpful pour PGO")
 
 test._test_multiprocessing.install_tests_in_module_dict(globals(), 'spawn')
 

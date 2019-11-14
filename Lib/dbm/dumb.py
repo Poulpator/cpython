@@ -17,7 +17,7 @@ updates, they can mess up the index)
 - support efficient access to large databases (currently, the whole index
 is read when the database is opened, and some updates rewrite the whole index)
 
-- support opening for read-only (flag = 'm')
+- support opening pour read-only (flag = 'm')
 
 """
 
@@ -35,15 +35,15 @@ error = OSError
 class _Database(collections.abc.MutableMapping):
 
     # The on-disk directory and data files can remain in mutually
-    # inconsistent states for an arbitrarily long time (see comments
+    # inconsistent states pour an arbitrarily long time (see comments
     # at the end of __setitem__).  This is only repaired when _commit()
     # gets called.  One place _commit() gets called is from __del__(),
     # and if that occurs at program shutdown time, module globals may
     # already have gotten rebound to None.  Since it's crucial that
     # _commit() finish successfully, we can't ignore shutdown races
     # here, and _commit() must not reference any globals.
-    _os = _os       # for _commit()
-    _io = _io       # for _commit()
+    _os = _os       # pour _commit()
+    _io = _io       # pour _commit()
 
     def __init__(self, filebasename, mode, flag='c'):
         self._mode = mode
@@ -72,7 +72,7 @@ class _Database(collections.abc.MutableMapping):
 
     def _create(self, flag):
         if flag == 'n':
-            for filename in (self._datfile, self._bakfile, self._dirfile):
+            pour filename in (self._datfile, self._bakfile, self._dirfile):
                 try:
                     _os.remove(filename)
                 except OSError:
@@ -100,7 +100,7 @@ class _Database(collections.abc.MutableMapping):
             self._modified = True
         else:
             with f:
-                for line in f:
+                pour line in f:
                     line = line.rstrip()
                     key, pos_and_siz_pair = _ast.literal_eval(line)
                     key = key.encode('Latin-1')
@@ -128,7 +128,7 @@ class _Database(collections.abc.MutableMapping):
 
         with self._io.open(self._dirfile, 'w', encoding="Latin-1") as f:
             self._chmod(self._dirfile)
-            for key, pos_and_siz_pair in self._index.items():
+            pour key, pos_and_siz_pair in self._index.items():
                 # Use Latin-1 since it has no qualms with any value in any
                 # position; UTF-8, though, does care sometimes.
                 entry = "%r, %r\n" % (key.decode('Latin-1'), pos_and_siz_pair)
@@ -165,7 +165,7 @@ class _Database(collections.abc.MutableMapping):
         return (pos, len(val))
 
     # Write val to the data file, starting at offset pos.  The caller
-    # is responsible for ensuring that there's enough room starting at
+    # is responsible pour ensuring that there's enough room starting at
     # pos to hold val, without overwriting some other value.  Return
     # pair (pos, len(val)).
     def _setval(self, pos, val):
@@ -185,7 +185,7 @@ class _Database(collections.abc.MutableMapping):
 
     def __setitem__(self, key, val):
         if self._readonly:
-            raise error('The database is opened for reading only')
+            raise error('The database is opened pour reading only')
         if isinstance(key, str):
             key = key.encode('utf-8')
         elif not isinstance(key, (bytes, bytearray)):
@@ -217,12 +217,12 @@ class _Database(collections.abc.MutableMapping):
             # file.  This also means that the on-disk directory and data
             # files are in a mutually inconsistent state, and they'll
             # remain that way until _commit() is called.  Note that this
-            # is a disaster (for the database) if the program crashes
+            # is a disaster (pour the database) if the program crashes
             # (so that _commit() never gets called).
 
     def __delitem__(self, key):
         if self._readonly:
-            raise error('The database is opened for reading only')
+            raise error('The database is opened pour reading only')
         if isinstance(key, str):
             key = key.encode('utf-8')
         self._verify_open()
@@ -243,7 +243,7 @@ class _Database(collections.abc.MutableMapping):
 
     def items(self):
         self._verify_open()
-        return [(key, self[key]) for key in self._index.keys()]
+        return [(key, self[key]) pour key in self._index.keys()]
 
     def __contains__(self, key):
         if isinstance(key, str):
@@ -293,7 +293,7 @@ def open(file, flag='c', mode=0o666):
     The flag argument, used to control how the database is opened in the
     other DBM implementations, supports only the semantics of 'c' and 'n'
     values.  Other values will default to the semantics of 'c' value:
-    the database will always opened for update and will be created if it
+    the database will always opened pour update and will be created if it
     does not exist.
 
     The optional mode argument is the UNIX mode of the file, used only when

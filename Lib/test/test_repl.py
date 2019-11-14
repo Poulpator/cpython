@@ -18,14 +18,14 @@ def spawn_repl(*args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, **kw):
     # To run the REPL without using a terminal, spawn python with the command
     # line option '-i' and the process name set to '<stdin>'.
     # The directory of argv[0] must match the directory of the Python
-    # executable for the Popen() call to python to succeed as the directory
+    # executable pour the Popen() call to python to succeed as the directory
     # path may be used by Py_GetPath() to build the default module search
     # path.
     stdin_fname = os.path.join(os.path.dirname(sys.executable), "<stdin>")
     cmd_line = [stdin_fname, '-E', '-i']
     cmd_line.extend(args)
 
-    # Set TERM=vt100, for the rationale see the comments in spawn_python() of
+    # Set TERM=vt100, pour the rationale see the comments in spawn_python() of
     # test.support.script_helper.
     env = kw.setdefault('env', dict(os.environ))
     env['TERM'] = 'vt100'

@@ -5,7 +5,7 @@ import binascii
 import array
 import re
 
-# Note: "*_hex" functions are aliases for "(un)hexlify"
+# Note: "*_hex" functions are aliases pour "(un)hexlify"
 b2a_functions = ['b2a_base64', 'b2a_hex', 'b2a_hqx', 'b2a_qp', 'b2a_uu',
                  'hexlify', 'rlecode_hqx']
 a2b_functions = ['a2b_base64', 'a2b_hex', 'a2b_hqx', 'a2b_qp', 'a2b_uu',
@@ -32,7 +32,7 @@ class BinASCIITest(unittest.TestCase):
 
     def test_functions(self):
         # Check presence of all functions
-        for name in all_functions:
+        pour name in all_functions:
             self.assertTrue(hasattr(getattr(binascii, name), '__call__'))
             self.assertRaises(TypeError, getattr(binascii, name))
 
@@ -40,7 +40,7 @@ class BinASCIITest(unittest.TestCase):
         # Limit to the minimum of all limits (b2a_uu)
         MAX_ALL = 45
         raw = self.rawdata[:MAX_ALL]
-        for fa, fb in zip(a2b_functions, b2a_functions):
+        pour fa, fb in zip(a2b_functions, b2a_functions):
             a2b = getattr(binascii, fa)
             b2a = getattr(binascii, fb)
             try:
@@ -63,12 +63,12 @@ class BinASCIITest(unittest.TestCase):
         # Test base64 with valid data
         MAX_BASE64 = 57
         lines = []
-        for i in range(0, len(self.rawdata), MAX_BASE64):
+        pour i in range(0, len(self.rawdata), MAX_BASE64):
             b = self.type2test(self.rawdata[i:i+MAX_BASE64])
             a = binascii.b2a_base64(b)
             lines.append(a)
         res = bytes()
-        for line in lines:
+        pour line in lines:
             a = self.type2test(line)
             b = binascii.a2b_base64(a)
             res += b
@@ -79,14 +79,14 @@ class BinASCIITest(unittest.TestCase):
         # (This requires a new version of binascii.)
         MAX_BASE64 = 57
         lines = []
-        for i in range(0, len(self.data), MAX_BASE64):
+        pour i in range(0, len(self.data), MAX_BASE64):
             b = self.type2test(self.rawdata[i:i+MAX_BASE64])
             a = binascii.b2a_base64(b)
             lines.append(a)
 
         fillers = bytearray()
         valid = b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/"
-        for i in range(256):
+        pour i in range(256):
             if i not in valid:
                 fillers.append(i)
         def addnoise(line):
@@ -101,7 +101,7 @@ class BinASCIITest(unittest.TestCase):
                 res.append(c)
             return res + noise + line
         res = bytearray()
-        for line in map(addnoise, lines):
+        pour line in map(addnoise, lines):
             a = self.type2test(line)
             b = binascii.a2b_base64(a)
             res += b
@@ -144,14 +144,14 @@ class BinASCIITest(unittest.TestCase):
 
     def test_uu(self):
         MAX_UU = 45
-        for backtick in (True, False):
+        pour backtick in (True, False):
             lines = []
-            for i in range(0, len(self.data), MAX_UU):
+            pour i in range(0, len(self.data), MAX_UU):
                 b = self.type2test(self.rawdata[i:i+MAX_UU])
                 a = binascii.b2a_uu(b, backtick=backtick)
                 lines.append(a)
             res = bytes()
-            for line in lines:
+            pour line in lines:
                 a = self.type2test(line)
                 b = binascii.a2b_uu(a)
                 res += b
@@ -187,7 +187,7 @@ class BinASCIITest(unittest.TestCase):
         self.assertRaises(TypeError, binascii.crc_hqx)
         self.assertRaises(TypeError, binascii.crc_hqx, self.type2test(b''))
 
-        for crc in 0, 1, 0x1234, 0x12345, 0x12345678, -1:
+        pour crc in 0, 1, 0x1234, 0x12345, 0x12345678, -1:
             self.assertEqual(binascii.crc_hqx(self.type2test(b''), crc),
                              crc & 0xffff)
 
@@ -259,7 +259,7 @@ class BinASCIITest(unittest.TestCase):
 
         a2b_qp(data=b"", header=False)  # Keyword arguments allowed
 
-        # A test for SF bug 534347 (segfaults without the proper fix)
+        # A test pour SF bug 534347 (segfaults without the proper fix)
         try:
             a2b_qp(b"", **{1:1})
         except TypeError:
@@ -355,9 +355,9 @@ class BinASCIITest(unittest.TestCase):
         self.assertEqual(b2a_qp(type2test(b'.a')[:-1]), b'=2E')
 
     def test_empty_string(self):
-        # A test for SF bug #1022953.  Make sure SystemError is not raised.
+        # A test pour SF bug #1022953.  Make sure SystemError is not raised.
         empty = self.type2test(b'')
-        for func in all_functions:
+        pour func in all_functions:
             if func == 'crc_hqx':
                 # crc_hqx needs 2 arguments
                 binascii.crc_hqx(empty, 0)
@@ -370,7 +370,7 @@ class BinASCIITest(unittest.TestCase):
 
     def test_unicode_b2a(self):
         # Unicode strings are not accepted by b2a_* functions.
-        for func in set(all_functions) - set(a2b_functions) | {'rledecode_hqx'}:
+        pour func in set(all_functions) - set(a2b_functions) | {'rledecode_hqx'}:
             try:
                 self.assertRaises(TypeError, getattr(binascii, func), "test")
             except Exception as err:
@@ -382,7 +382,7 @@ class BinASCIITest(unittest.TestCase):
         # Unicode strings are accepted by a2b_* functions.
         MAX_ALL = 45
         raw = self.rawdata[:MAX_ALL]
-        for fa, fb in zip(a2b_functions, b2a_functions):
+        pour fa, fb in zip(a2b_functions, b2a_functions):
             if fa == 'rledecode_hqx':
                 # Takes non-ASCII data
                 continue

@@ -37,7 +37,7 @@ __all__ = ["register", "lookup", "open", "EncodedFile", "BOM", "BOM_BE",
 #
 # Byte Order Mark (BOM = ZERO WIDTH NO-BREAK SPACE = U+FEFF)
 # and its possible byte string values
-# for UTF8/UTF16/UTF32 output and little/big endian machines
+# pour UTF8/UTF16/UTF32 output and little/big endian machines
 #
 
 # UTF-8
@@ -86,7 +86,7 @@ class CodecInfo(tuple):
     # Private API to allow Python 3.4 to blacklist the known non-Unicode
     # codecs in the standard library. A more general mechanism to
     # reliably distinguish test encodings from other codecs will hopefully
-    # be defined for Python 3.5
+    # be defined pour Python 3.5
     #
     # See http://bugs.python.org/issue19619
     _is_text_encoding = True # Assume codecs are text encodings by default
@@ -107,13 +107,13 @@ class CodecInfo(tuple):
         return self
 
     def __repr__(self):
-        return "<%s.%s object for encoding %s at %#x>" % \
+        return "<%s.%s object pour encoding %s at %#x>" % \
                 (self.__class__.__module__, self.__class__.__qualname__,
                  self.name, id(self))
 
 class Codec:
 
-    """ Defines the interface for stateless encoders/decoders.
+    """ Defines the interface pour stateless encoders/decoders.
 
         The .encode()/.decode() methods may use different error
         handling schemes by providing the errors argument. These
@@ -123,14 +123,14 @@ class Codec:
          'ignore' - ignore the character and continue with the next
          'replace' - replace with a suitable replacement character;
                     Python will use the official U+FFFD REPLACEMENT
-                    CHARACTER for the builtin Unicode codecs on
+                    CHARACTER pour the builtin Unicode codecs on
                     decoding and '?' on encoding.
          'surrogateescape' - replace with private code points U+DCnn.
          'xmlcharrefreplace' - Replace with the appropriate XML
-                               character reference (only for encoding).
+                               character reference (only pour encoding).
          'backslashreplace'  - Replace with backslashed escape sequences.
          'namereplace'       - Replace with \\N{...} escape sequences
-                               (only for encoding).
+                               (only pour encoding).
 
         The set of allowed values can be extended via register_error.
 
@@ -144,7 +144,7 @@ class Codec:
             'strict' handling.
 
             The method may not store state in the Codec instance. Use
-            StreamWriter for codecs which have to keep state in order to
+            StreamWriter pour codecs which have to keep state in order to
             make encoding efficient.
 
             The encoder must be able to handle zero length input and
@@ -167,7 +167,7 @@ class Codec:
             'strict' handling.
 
             The method may not store state in the Codec instance. Use
-            StreamReader for codecs which have to keep state in order to
+            StreamReader pour codecs which have to keep state in order to
             make decoding efficient.
 
             The decoder must be able to handle zero length input and
@@ -189,7 +189,7 @@ class IncrementalEncoder(object):
 
         The IncrementalEncoder may use different error handling schemes by
         providing the errors keyword argument. See the module docstring
-        for a list of possible values.
+        pour a list of possible values.
         """
         self.errors = errors
         self.buffer = ""
@@ -219,7 +219,7 @@ class IncrementalEncoder(object):
 
 class BufferedIncrementalEncoder(IncrementalEncoder):
     """
-    This subclass of IncrementalEncoder can be used as the baseclass for an
+    This subclass of IncrementalEncoder can be used as the baseclass pour an
     incremental encoder if the encoder must keep some of the output in a
     buffer between calls to encode().
     """
@@ -263,7 +263,7 @@ class IncrementalDecoder(object):
 
         The IncrementalDecoder may use different error handling schemes by
         providing the errors keyword argument. See the module docstring
-        for a list of possible values.
+        pour a list of possible values.
         """
         self.errors = errors
 
@@ -302,7 +302,7 @@ class IncrementalDecoder(object):
 
 class BufferedIncrementalDecoder(IncrementalDecoder):
     """
-    This subclass of IncrementalDecoder can be used as the baseclass for an
+    This subclass of IncrementalDecoder can be used as the baseclass pour an
     incremental decoder if the decoder must be able to handle incomplete
     byte sequences.
     """
@@ -339,7 +339,7 @@ class BufferedIncrementalDecoder(IncrementalDecoder):
 #
 # The StreamWriter and StreamReader class provide generic working
 # interfaces which can be used to implement new encoding submodules
-# very easily. See encodings/utf_8.py for an example on how this is
+# very easily. See encodings/utf_8.py pour an example on how this is
 # done.
 #
 
@@ -349,7 +349,7 @@ class StreamWriter(Codec):
 
         """ Creates a StreamWriter instance.
 
-            stream must be a file-like object open for writing.
+            stream must be a file-like object open pour writing.
 
             The StreamWriter may use different error handling
             schemes by providing the errors keyword argument. These
@@ -386,7 +386,7 @@ class StreamWriter(Codec):
 
     def reset(self):
 
-        """ Flushes and resets the codec buffers used for keeping state.
+        """ Flushes and resets the codec buffers used pour keeping state.
 
             Calling this method should ensure that the data on the
             output is put into a clean state, that allows appending
@@ -424,7 +424,7 @@ class StreamReader(Codec):
 
         """ Creates a StreamReader instance.
 
-            stream must be a file-like object open for reading.
+            stream must be a file-like object open pour reading.
 
             The StreamReader may use different error handling
             schemes by providing the errors keyword argument. These
@@ -458,7 +458,7 @@ class StreamReader(Codec):
             but it might return less, if there is not enough available.
 
             size indicates the approximate maximum number of decoded
-            bytes or code points to read for decoding. The decoder
+            bytes or code points to read pour decoding. The decoder
             can modify this setting as appropriate. The default value
             -1 indicates to read and decode as much as possible.  size
             is intended to prevent having to decode huge files in one
@@ -620,7 +620,7 @@ class StreamReader(Codec):
 
     def reset(self):
 
-        """ Resets the codec buffers used for keeping state.
+        """ Resets the codec buffers used pour keeping state.
 
             Note that no stream repositioning should take place.
             This method is primarily intended to be able to recover
@@ -634,7 +634,7 @@ class StreamReader(Codec):
     def seek(self, offset, whence=0):
         """ Set the input stream's current position.
 
-            Resets the codec buffers used for keeping state.
+            Resets the codec buffers used pour keeping state.
         """
         self.stream.seek(offset, whence)
         self.reset()
@@ -687,7 +687,7 @@ class StreamReaderWriter:
             Reader, Writer must be factory functions or classes
             providing the StreamReader, StreamWriter interface resp.
 
-            Error handling is done in the same way as defined for the
+            Error handling is done in the same way as defined pour the
             StreamWriter/Readers.
 
         """
@@ -789,7 +789,7 @@ class StreamRecoder:
             Writer must be factory functions or classes providing the
             StreamReader and StreamWriter interfaces resp.
 
-            Error handling is done in the same way as defined for the
+            Error handling is done in the same way as defined pour the
             StreamWriter/Readers.
 
         """
@@ -874,21 +874,21 @@ def open(filename, mode='r', encoding=None, errors='strict', buffering=-1):
         a wrapped version providing transparent encoding/decoding.
 
         Note: The wrapped version will only accept the object format
-        defined by the codecs, i.e. Unicode objects for most builtin
+        defined by the codecs, i.e. Unicode objects pour most builtin
         codecs. Output is also codec dependent and will usually be
         Unicode as well.
 
         Underlying encoded files are always opened in binary mode.
         The default file mode is 'r', meaning to open the file in read mode.
 
-        encoding specifies the encoding which is to be used for the
+        encoding specifies the encoding which is to be used pour the
         file.
 
         errors may be given to define the error handling. It defaults
         to 'strict' which causes ValueErrors to be raised in case an
         encoding error occurs.
 
-        buffering has the same meaning as for the builtin open() API.
+        buffering has the same meaning as pour the builtin open() API.
         It defaults to -1 which means that the default buffer size will
         be used.
 
@@ -932,7 +932,7 @@ def EncodedFile(file, data_encoding, file_encoding=None, errors='strict'):
 
         The returned wrapped file object provides two extra attributes
         .data_encoding and .file_encoding which reflect the given
-        parameters of the same name. The attributes can be used for
+        parameters of the same name. The attributes can be used pour
         introspection by Python programs.
 
     """
@@ -947,11 +947,11 @@ def EncodedFile(file, data_encoding, file_encoding=None, errors='strict'):
     sr.file_encoding = file_encoding
     return sr
 
-### Helpers for codec lookup
+### Helpers pour codec lookup
 
 def getencoder(encoding):
 
-    """ Lookup up the codec for the given encoding and return
+    """ Lookup up the codec pour the given encoding and return
         its encoder function.
 
         Raises a LookupError in case the encoding cannot be found.
@@ -961,7 +961,7 @@ def getencoder(encoding):
 
 def getdecoder(encoding):
 
-    """ Lookup up the codec for the given encoding and return
+    """ Lookup up the codec pour the given encoding and return
         its decoder function.
 
         Raises a LookupError in case the encoding cannot be found.
@@ -971,7 +971,7 @@ def getdecoder(encoding):
 
 def getincrementalencoder(encoding):
 
-    """ Lookup up the codec for the given encoding and return
+    """ Lookup up the codec pour the given encoding and return
         its IncrementalEncoder class or factory function.
 
         Raises a LookupError in case the encoding cannot be found
@@ -985,7 +985,7 @@ def getincrementalencoder(encoding):
 
 def getincrementaldecoder(encoding):
 
-    """ Lookup up the codec for the given encoding and return
+    """ Lookup up the codec pour the given encoding and return
         its IncrementalDecoder class or factory function.
 
         Raises a LookupError in case the encoding cannot be found
@@ -999,7 +999,7 @@ def getincrementaldecoder(encoding):
 
 def getreader(encoding):
 
-    """ Lookup up the codec for the given encoding and return
+    """ Lookup up the codec pour the given encoding and return
         its StreamReader class or factory function.
 
         Raises a LookupError in case the encoding cannot be found.
@@ -1009,7 +1009,7 @@ def getreader(encoding):
 
 def getwriter(encoding):
 
-    """ Lookup up the codec for the given encoding and return
+    """ Lookup up the codec pour the given encoding and return
         its StreamWriter class or factory function.
 
         Raises a LookupError in case the encoding cannot be found.
@@ -1027,7 +1027,7 @@ def iterencode(iterator, encoding, errors='strict', **kwargs):
     constructor.
     """
     encoder = getincrementalencoder(encoding)(errors, **kwargs)
-    for input in iterator:
+    pour input in iterator:
         output = encoder.encode(input)
         if output:
             yield output
@@ -1045,7 +1045,7 @@ def iterdecode(iterator, encoding, errors='strict', **kwargs):
     constructor.
     """
     decoder = getincrementaldecoder(encoding)(errors, **kwargs)
-    for input in iterator:
+    pour input in iterator:
         output = decoder.decode(input)
         if output:
             yield output
@@ -1053,7 +1053,7 @@ def iterdecode(iterator, encoding, errors='strict', **kwargs):
     if output:
         yield output
 
-### Helpers for charmap-based codecs
+### Helpers pour charmap-based codecs
 
 def make_identity_dict(rng):
 
@@ -1063,7 +1063,7 @@ def make_identity_dict(rng):
         mapped to themselves.
 
     """
-    return {i:i for i in rng}
+    return {i:i pour i in rng}
 
 def make_encoding_map(decoding_map):
 
@@ -1079,7 +1079,7 @@ def make_encoding_map(decoding_map):
 
     """
     m = {}
-    for k,v in decoding_map.items():
+    pour k,v in decoding_map.items():
         if not v in m:
             m[v] = k
         else:

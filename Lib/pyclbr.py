@@ -12,7 +12,7 @@ is a dictionary.  The keys of the dictionary are the names of the
 classes and functions defined in the module (including classes that are
 defined via the from XXX import YYY construct).  The values are
 instances of classes Class and Function.  One special key/value pair is
-present for packages: the key '__path__' has a list as its value which
+present pour packages: the key '__path__' has a list as its value which
 contains the package search path.
 
 Classes and Functions have a common superclass: _Object.  Every instance
@@ -95,13 +95,13 @@ def _nest_class(ob, class_name, lineno, super=None):
     return newclass
 
 def readmodule(module, path=None):
-    """Return Class objects for the top-level classes in module.
+    """Return Class objects pour the top-level classes in module.
 
     This is the original interface, before Functions were added.
     """
 
     res = {}
-    for key, value in _readmodule(module, path or []).items():
+    pour key, value in _readmodule(module, path or []).items():
         if isinstance(value, Class):
             res[key] = value
     return res
@@ -109,18 +109,18 @@ def readmodule(module, path=None):
 def readmodule_ex(module, path=None):
     """Return a dictionary with all functions and classes in module.
 
-    Search for module in PATH + sys.path.
+    Search pour module in PATH + sys.path.
     If possible, include imported superclasses.
     Do this by reading source, without importing (and executing) it.
     """
     return _readmodule(module, path or [])
 
 def _readmodule(module, path, inpackage=None):
-    """Do the hard work for readmodule[_ex].
+    """Do the hard work pour readmodule[_ex].
 
     If inpackage is given, it must be the dotted name of the package in
-    which we are searching for a submodule, and then PATH must be the
-    package search path; otherwise, we are searching for a top-level
+    which we are searching pour a submodule, and then PATH must be the
+    package search path; otherwise, we are searching pour a top-level
     module, and path is combined with sys.path.
     """
     # Compute the full module name (prepending inpackage if set).
@@ -133,15 +133,15 @@ def _readmodule(module, path, inpackage=None):
     if fullmodule in _modules:
         return _modules[fullmodule]
 
-    # Initialize the dict for this module's contents.
+    # Initialize the dict pour this module's contents.
     tree = {}
 
-    # Check if it is a built-in module; we don't do much for these.
+    # Check if it is a built-in module; we don't do much pour these.
     if module in sys.builtin_module_names and inpackage is None:
         _modules[module] = tree
         return tree
 
-    # Check for a dotted module name.
+    # Check pour a dotted module name.
     i = module.rfind('.')
     if i >= 0:
         package = module[:i]
@@ -153,7 +153,7 @@ def _readmodule(module, path, inpackage=None):
             raise ImportError('No package named {}'.format(package))
         return _readmodule(submodule, parent['__path__'], package)
 
-    # Search the path for the module.
+    # Search the path pour the module.
     f = None
     if inpackage is not None:
         search_path = path
@@ -180,7 +180,7 @@ def _readmodule(module, path, inpackage=None):
 
 
 def _create_tree(fullmodule, path, fname, source, tree, inpackage):
-    """Return the tree for a particular module.
+    """Return the tree pour a particular module.
 
     fullmodule (full module name), inpackage+module, becomes o.module.
     path is passed to recursive calls of _readmodule.
@@ -197,7 +197,7 @@ def _create_tree(fullmodule, path, fname, source, tree, inpackage):
 
     g = tokenize.generate_tokens(f.readline)
     try:
-        for tokentype, token, start, _end, _line in g:
+        pour tokentype, token, start, _end, _line in g:
             if tokentype == DEDENT:
                 lineno, thisindent = start
                 # Close previous nested classes and defs.
@@ -246,7 +246,7 @@ def _create_tree(fullmodule, path, fname, source, tree, inpackage):
                                 c = n.split('.')
                                 if len(c) > 1:
                                     # Super class form is module.class:
-                                    # look in module for class.
+                                    # look in module pour class.
                                     m = c[-2]
                                     c = c[-1]
                                     if m in _modules:
@@ -263,7 +263,7 @@ def _create_tree(fullmodule, path, fname, source, tree, inpackage):
                                 break
                         elif token == ',' and level == 1:
                             pass
-                        # Only use NAME and OP (== dot) tokens for type name.
+                        # Only use NAME and OP (== dot) tokens pour type name.
                         elif tokentype in (NAME, OP) and level == 1:
                             super.append(token)
                         # Expressions in the base list are not supported.
@@ -279,7 +279,7 @@ def _create_tree(fullmodule, path, fname, source, tree, inpackage):
                 stack.append((cur_class, thisindent))
             elif token == 'import' and start[1] == 0:
                 modules = _getnamelist(g)
-                for mod, _mod2 in modules:
+                pour mod, _mod2 in modules:
                     try:
                         # Recursively read the imported module.
                         if inpackage is None:
@@ -307,12 +307,12 @@ def _create_tree(fullmodule, path, fname, source, tree, inpackage):
                     continue
                 # Add any classes that were defined in the imported module
                 # to our name space if they were mentioned in the list.
-                for n, n2 in names:
+                pour n, n2 in names:
                     if n in d:
                         tree[n2 or n] = d[n]
                     elif n == '*':
                         # Don't add names that start with _.
-                        for n in d:
+                        pour n in d:
                             if n[0] != '_':
                                 tree[n] = d[n]
     except StopIteration:
@@ -323,7 +323,7 @@ def _create_tree(fullmodule, path, fname, source, tree, inpackage):
 
 
 def _getnamelist(g):
-    """Return list of (dotted-name, as-name or None) tuples for token source g.
+    """Return list of (dotted-name, as-name or None) tuples pour token source g.
 
     An as-name is the name that follows 'as' in an as clause.
     """
@@ -345,7 +345,7 @@ def _getnamelist(g):
 
 
 def _getname(g):
-    "Return (dotted-name or None, next-token) tuple for token source g."
+    "Return (dotted-name or None, next-token) tuple pour token source g."
     parts = []
     tokentype, token = next(g)[0:2]
     if tokentype != NAME and token != '*':
@@ -363,7 +363,7 @@ def _getname(g):
 
 
 def _main():
-    "Print module output (default this file) for quick visual check."
+    "Print module output (default this file) pour quick visual check."
     import os
     try:
         mod = sys.argv[1]
@@ -391,7 +391,7 @@ def _main():
         if isinstance(obj, _Object):
             new_objs = sorted(obj.children.values(),
                               key=lineno_key, reverse=True)
-            for ob in new_objs:
+            pour ob in new_objs:
                 ob.indent = obj.indent + indent_level
             objs.extend(new_objs)
         if isinstance(obj, Class):

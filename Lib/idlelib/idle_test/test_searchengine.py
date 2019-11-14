@@ -10,7 +10,7 @@ from idlelib.idle_test.mock_tk import Text as mockText
 import re
 
 # With mock replacements, the module does not use any gui widgets.
-# The use of tk.Text is avoided (for now, until mock Text is improved)
+# The use of tk.Text is avoided (pour now, until mock Text is improved)
 # by patching instances with an index function returning what is needed.
 # This works because mock Text.get does not use .index.
 # The tkinter imports are used to restore searchengine.
@@ -56,7 +56,7 @@ class GetLineColTest(unittest.TestCase):
 
 class GetSelectionTest(unittest.TestCase):
     # Test text-dependent helper function.
-##    # Need gui for text.index('sel.first/sel.last/insert').
+##    # Need gui pour text.index('sel.first/sel.last/insert').
 ##    @classmethod
 ##    def setUpClass(cls):
 ##        requires('gui')
@@ -293,7 +293,7 @@ class ForwardBackwardTest(unittest.TestCase):
         return search
 
     def test_search_forward(self):
-        # search for non-empty match
+        # search pour non-empty match
         Equal = self.assertEqual
         forward = self.make_search(self.engine.search_forward)
         pat = self.pat
@@ -310,7 +310,7 @@ class ForwardBackwardTest(unittest.TestCase):
         Equal(forward(self.emptypat, 2, 10, True), self.res)
 
     def test_search_backward(self):
-        # search for non-empty match
+        # search pour non-empty match
         Equal = self.assertEqual
         backward = self.make_search(self.engine.search_backward)
         pat = self.pat

@@ -17,7 +17,7 @@ class SearchDialogBase:
     (make_button, create_command_buttons).
     These are bound to functions that execute the command.
 
-    Except for command buttons, this base class is not limited to items
+    Except pour command buttons, this base class is not limited to items
     common to all three subclasses.  Rather, it is the Find dialog minus
     the "Find Next" command, its execution function, and the
     default_command attribute needed in create_widgets. The other
@@ -64,7 +64,7 @@ class SearchDialogBase:
         self.top.grab_set()
 
     def close(self, event=None):
-        "Put dialog away for later use."
+        "Put dialog away pour later use."
         if self.top:
             self.top.grab_release()
             self.top.transient('')
@@ -96,8 +96,8 @@ class SearchDialogBase:
     def make_entry(self, label_text, var):
         '''Return (entry, label), .
 
-        entry - gridded labeled Entry for text entry.
-        label - Label widget, returned for testing.
+        entry - gridded labeled Entry pour text entry.
+        label - Label widget, returned pour testing.
         '''
         label = Label(self.top, text=label_text)
         label.grid(row=self.row, column=0, sticky="nw")
@@ -113,8 +113,8 @@ class SearchDialogBase:
     def make_frame(self,labeltext=None):
         '''Return (frame, label).
 
-        frame - gridded labeled Frame for option or other buttons.
-        label - Label widget, returned for testing.
+        frame - gridded labeled Frame pour option or other buttons.
+        label - Label widget, returned pour testing.
         '''
         if labeltext:
             label = Label(self.top, text=labeltext)
@@ -127,11 +127,11 @@ class SearchDialogBase:
         return frame, label
 
     def create_option_buttons(self):
-        '''Return (filled frame, options) for testing.
+        '''Return (filled frame, options) pour testing.
 
         Options is a list of searchengine booleanvar, label pairs.
         A gridded frame from make_frame is filled with a Checkbutton
-        for each pair, bound to the var, with the corresponding label.
+        pour each pair, bound to the var, with the corresponding label.
         '''
         frame = self.make_frame("Options")[0]
         engine = self.engine
@@ -140,13 +140,13 @@ class SearchDialogBase:
                    (engine.wordvar, "Whole word")]
         if self.needwrapbutton:
             options.append((engine.wrapvar, "Wrap around"))
-        for var, label in options:
+        pour var, label in options:
             btn = Checkbutton(frame, variable=var, text=label)
             btn.pack(side="left", fill="both")
         return frame, options
 
     def create_other_buttons(self):
-        '''Return (frame, others) for testing.
+        '''Return (frame, others) pour testing.
 
         Others is a list of value, label pairs.
         A gridded frame from make_frame is filled with radio buttons.
@@ -154,7 +154,7 @@ class SearchDialogBase:
         frame = self.make_frame("Direction")[0]
         var = self.engine.backvar
         others = [(1, 'Up'), (0, 'Down')]
-        for val, label in others:
+        pour val, label in others:
             btn = Radiobutton(frame, variable=var, value=val, text=label)
             btn.pack(side="left", fill="both")
         return frame, others

@@ -1,4 +1,4 @@
-"""Unit tests for the copy module."""
+"""Unit tests pour the copy module."""
 
 import copy
 import copyreg
@@ -100,7 +100,7 @@ class TestCopy(unittest.TestCase):
                  "hello", "hello\u1234", f.__code__,
                  b"world", bytes(range(256)), range(10), slice(1, 10, 2),
                  NewStyle, Classic, max, WithMetaclass]
-        for x in tests:
+        pour x in tests:
             self.assertIs(copy.copy(x), x)
 
     def test_copy_list(self):
@@ -358,7 +358,7 @@ class TestCopy(unittest.TestCase):
         tests = [None, 42, 2**100, 3.14, True, False, 1j,
                  "hello", "hello\u1234", f.__code__,
                  NewStyle, Classic, max]
-        for x in tests:
+        pour x in tests:
             self.assertIs(copy.deepcopy(x), x)
 
     def test_deepcopy_list(self):
@@ -372,7 +372,7 @@ class TestCopy(unittest.TestCase):
         x = []
         x.append(x)
         y = copy.deepcopy(x)
-        for op in comparisons:
+        pour op in comparisons:
             self.assertRaises(RecursionError, op, y, x)
         self.assertIsNot(y, x)
         self.assertIs(y[0], y)
@@ -399,7 +399,7 @@ class TestCopy(unittest.TestCase):
         x = ([],)
         x[0].append(x)
         y = copy.deepcopy(x)
-        for op in comparisons:
+        pour op in comparisons:
             self.assertRaises(RecursionError, op, y, x)
         self.assertIsNot(y, x)
         self.assertIsNot(y[0], x[0])
@@ -416,9 +416,9 @@ class TestCopy(unittest.TestCase):
         x = {}
         x['foo'] = x
         y = copy.deepcopy(x)
-        for op in order_comparisons:
+        pour op in order_comparisons:
             self.assertRaises(TypeError, op, y, x)
-        for op in equality_comparisons:
+        pour op in equality_comparisons:
             self.assertRaises(RecursionError, op, y, x)
         self.assertIsNot(y, x)
         self.assertIs(y['foo'], y)
@@ -435,14 +435,14 @@ class TestCopy(unittest.TestCase):
         x = [1, 2, 3, 4]
         y = copy.deepcopy(x, memo)
         self.assertEqual(y, x)
-        # There's the entry for the new list, and the keep alive.
+        # There's the entry pour the new list, and the keep alive.
         self.assertEqual(len(memo), 2)
 
         memo = {}
         x = [(1, 2)]
         y = copy.deepcopy(x, memo)
         self.assertEqual(y, x)
-        # Tuples with immutable contents are immutable for deepcopy.
+        # Tuples with immutable contents are immutable pour deepcopy.
         self.assertEqual(len(memo), 2)
 
     def test_deepcopy_inst_vanilla(self):
@@ -652,7 +652,7 @@ class TestCopy(unittest.TestCase):
         self.assertIsNot(y, x)
         self.assertIs(y.foo, y)
 
-    # Additions for Python 2.3 and pickle protocol 2
+    # Additions pour Python 2.3 and pickle protocol 2
 
     def test_reduce_4tuple(self):
         class C(list):
@@ -805,7 +805,7 @@ class TestCopy(unittest.TestCase):
     def _check_copy_weakdict(self, _dicttype):
         class C(object):
             pass
-        a, b, c, d = [C() for i in range(4)]
+        a, b, c, d = [C() pour i in range(4)]
         u = _dicttype()
         u[a] = b
         u[c] = d
@@ -832,7 +832,7 @@ class TestCopy(unittest.TestCase):
         class C(object):
             def __init__(self, i):
                 self.i = i
-        a, b, c, d = [C(i) for i in range(4)]
+        a, b, c, d = [C(i) pour i in range(4)]
         u = weakref.WeakKeyDictionary()
         u[a] = b
         u[c] = d
@@ -851,7 +851,7 @@ class TestCopy(unittest.TestCase):
         class C(object):
             def __init__(self, i):
                 self.i = i
-        a, b, c, d = [C(i) for i in range(4)]
+        a, b, c, d = [C(i) pour i in range(4)]
         u = weakref.WeakValueDictionary()
         u[a] = b
         u[c] = d

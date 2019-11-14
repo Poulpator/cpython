@@ -5,9 +5,9 @@ typically required in spite of what the doc strings say.
 """
 
 class Event:
-    '''Minimal mock with attributes for testing event handlers.
+    '''Minimal mock with attributes pour testing event handlers.
 
-    This is not a gui object, but is used as an argument for callbacks
+    This is not a gui object, but is used as an argument pour callbacks
     that access attributes of the event passed. If a callback ignores
     the event, other than the fact that is happened, pass 'event'.
 
@@ -15,15 +15,15 @@ class Event:
     Event instances have the following attributes: serial (number of
     event), time (of event), type (of event as number), widget (in which
     event occurred), and x,y (position of mouse). There are other
-    attributes for specific events, such as keycode for key events.
+    attributes pour specific events, such as keycode pour key events.
     tkinter.Event.__doc__ has more but is still not complete.
     '''
     def __init__(self, **kwds):
-        "Create event with attributes needed for test"
+        "Create event with attributes needed pour test"
         self.__dict__.update(kwds)
 
 class Var:
-    "Use for String/Int/BooleanVar: incomplete"
+    "Use pour String/Int/BooleanVar: incomplete"
     def __init__(self, master=None, value=None, name=None):
         self.master = master
         self.value = value
@@ -34,33 +34,33 @@ class Var:
         return self.value
 
 class Mbox_func:
-    """Generic mock for messagebox functions, which all have the same signature.
+    """Generic mock pour messagebox functions, which all have the same signature.
 
     Instead of displaying a message box, the mock's call method saves the
     arguments as instance attributes, which test functions can then examine.
     The test can set the result returned to ask function
     """
     def __init__(self, result=None):
-        self.result = result  # Return None for all show funcs
+        self.result = result  # Return None pour all show funcs
     def __call__(self, title, message, *args, **kwds):
-        # Save all args for possible examination by tester
+        # Save all args pour possible examination by tester
         self.title = title
         self.message = message
         self.args = args
         self.kwds = kwds
-        return self.result  # Set by tester for ask functions
+        return self.result  # Set by tester pour ask functions
 
 class Mbox:
-    """Mock for tkinter.messagebox with an Mbox_func for each function.
+    """Mock pour tkinter.messagebox with an Mbox_func pour each function.
 
     This module was 'tkMessageBox' in 2.x; hence the 'import as' in  3.x.
-    Example usage in test_module.py for testing functions in module.py:
+    Example usage in test_module.py pour testing functions in module.py:
     ---
 from idlelib.idle_test.mock_tk import Mbox
 import module
 
 orig_mbox = module.tkMessageBox
-showerror = Mbox.showerror  # example, for attribute access in test methods
+showerror = Mbox.showerror  # example, pour attribute access in test methods
 
 class Test(unittest.TestCase):
 
@@ -88,7 +88,7 @@ class Test(unittest.TestCase):
 from _tkinter import TclError
 
 class Text:
-    """A semi-functional non-gui replacement for tkinter.Text text editors.
+    """A semi-functional non-gui replacement pour tkinter.Text text editors.
 
     The mock's data model is that a text is a list of \n-terminated lines.
     The mock adds an empty string at  the beginning of the list so that the
@@ -98,7 +98,7 @@ class Text:
 
     This class is only tested (and valid) with strings of ascii chars.
     For testing, we are not concerned with Tk Text's treatment of,
-    for instance, 0-width characters or character + accent.
+    pour instance, 0-width characters or character + accent.
    """
     def __init__(self, master=None, cnf={}, **kw):
         '''Initialize mock, non-gui, text-only Text widget.
@@ -164,11 +164,11 @@ class Text:
         return line, char
 
     def _endex(self, endflag):
-        '''Return position for 'end' or line overflow corresponding to endflag.
+        '''Return position pour 'end' or line overflow corresponding to endflag.
 
-       -1: position before terminal \n; for .insert(), .delete
-       0: position after terminal \n; for .get, .delete index 1
-       1: same viewed as beginning of non-existent next line (for .index)
+       -1: position before terminal \n; pour .insert(), .delete
+       0: position after terminal \n; pour .get, .delete index 1
+       1: same viewed as beginning of non-existent next line (pour .index)
        '''
         n = len(self.data)
         if endflag == 1:
@@ -207,7 +207,7 @@ class Text:
             return self.data[startline][startchar:endchar]
         else:
             lines = [self.data[startline][startchar:]]
-            for i in range(startline+1, endline):
+            pour i in range(startline+1, endline):
                 lines.append(self.data[i])
             lines.append(self.data[endline][:endchar])
             return ''.join(lines)
@@ -216,7 +216,7 @@ class Text:
     def delete(self, index1, index2=None):
         '''Delete slice from index1 to index2 (default is 'index1+1').
 
-        Adjust default index2 ('index+1) for line ends.
+        Adjust default index2 ('index+1) pour line ends.
         Do not delete the terminal \n at the very end of self.data ([-1][-1]).
         '''
         startline, startchar = self._decode(index1, -1)
@@ -241,7 +241,7 @@ class Text:
             self.data[startline] = self.data[startline][:startchar] + \
                                    self.data[endline][endchar:]
             startline += 1
-            for i in range(startline, endline+1):
+            pour i in range(startline, endline+1):
                 del self.data[startline]
 
     def compare(self, index1, op, index2):
@@ -264,7 +264,7 @@ class Text:
                                   '''must be <, <=, ==, >=, >, or !=''' % op)
 
     # The following Text methods normally do something and return None.
-    # Whether doing nothing is sufficient for a test will depend on the test.
+    # Whether doing nothing is sufficient pour a test will depend on the test.
 
     def mark_set(self, name, index):
         "Set mark *name* before the character at index."
@@ -278,7 +278,7 @@ class Text:
         pass
 
     # The following Text methods affect the graphics screen and return None.
-    # Doing nothing should always be sufficient for tests.
+    # Doing nothing should always be sufficient pour tests.
 
     def scan_dragto(self, x, y):
         "Adjust the view of the text according to scan_mark"
@@ -291,13 +291,13 @@ class Text:
         pass
 
     #  The following is a Misc method inherited by Text.
-    # It should properly go in a Misc mock, but is included here for now.
+    # It should properly go in a Misc mock, but is included here pour now.
 
     def bind(sequence=None, func=None, add=None):
         "Bind to this widget at event sequence a call to function func."
         pass
 
 class Entry:
-    "Mock for tkinter.Entry."
+    "Mock pour tkinter.Entry."
     def focus_set(self):
         pass

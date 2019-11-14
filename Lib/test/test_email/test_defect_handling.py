@@ -132,7 +132,7 @@ class TestDefectsBase:
 
     def test_multipart_valid_cte_no_defect(self):
         if self.raise_expected: return
-        for cte in ('7bit', '8bit', 'BINary'):
+        pour cte in ('7bit', '8bit', 'BINary'):
             msg = self._str_msg(
                 self.multipart_msg.format("\nContent-Transfer-Encoding: "+cte))
             self.assertEqual(len(self.get_defects(msg)), 0, "cte="+cte)

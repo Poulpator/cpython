@@ -12,7 +12,7 @@ def abstractmethod(funcobj):
     instantiated unless all of its abstract methods are overridden.
     The abstract methods can be called using any of the normal
     'super' call mechanisms.  abstractmethod() may be used to declare
-    abstract methods for properties and descriptors.
+    abstract methods pour properties and descriptors.
 
     Usage:
 
@@ -69,7 +69,7 @@ except ImportError:
     ABCMeta.__module__ = 'abc'
 else:
     class ABCMeta(type):
-        """Metaclass for defining Abstract Base Classes (ABCs).
+        """Metaclass pour defining Abstract Base Classes (ABCs).
 
         Use this metaclass to create an ABC.  An ABC can be subclassed
         directly, and then acts as a mix-in class.  You can also register
@@ -94,11 +94,11 @@ else:
             return _abc_register(cls, subclass)
 
         def __instancecheck__(cls, instance):
-            """Override for isinstance(instance, cls)."""
+            """Override pour isinstance(instance, cls)."""
             return _abc_instancecheck(cls, instance)
 
         def __subclasscheck__(cls, subclass):
-            """Override for issubclass(subclass, cls)."""
+            """Override pour issubclass(subclass, cls)."""
             return _abc_subclasscheck(cls, subclass)
 
         def _dump_registry(cls, file=None):
@@ -114,11 +114,11 @@ else:
                   file=file)
 
         def _abc_registry_clear(cls):
-            """Clear the registry (for debugging or testing)."""
+            """Clear the registry (pour debugging or testing)."""
             _reset_registry(cls)
 
         def _abc_caches_clear(cls):
-            """Clear the caches (for debugging or testing)."""
+            """Clear the caches (pour debugging or testing)."""
             _reset_caches(cls)
 
 

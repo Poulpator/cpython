@@ -182,7 +182,7 @@ class AifcMiscTest(audiotests.AudioMiscTests, unittest.TestCase):
         self.assertEqual(params.compname, f.getcompname())
 
     def test_write_header_comptype_sampwidth(self):
-        for comptype in (b'ULAW', b'ulaw', b'ALAW', b'alaw', b'G722'):
+        pour comptype in (b'ULAW', b'ulaw', b'ALAW', b'alaw', b'G722'):
             fout = aifc.open(io.BytesIO(), 'wb')
             fout.setnchannels(1)
             fout.setframerate(1)
@@ -223,19 +223,19 @@ class AIFCLowLevelTest(unittest.TestCase):
             getattr(aifc, '_write_' + what)(f, x)
             f.seek(0)
             return getattr(aifc, '_read_' + what)(f)
-        for x in (-1, 0, 0.1, 1):
+        pour x in (-1, 0, 0.1, 1):
             self.assertEqual(read_written(x, 'float'), x)
-        for x in (float('NaN'), float('Inf')):
+        pour x in (float('NaN'), float('Inf')):
             self.assertEqual(read_written(x, 'float'), aifc._HUGE_VAL)
-        for x in (b'', b'foo', b'a' * 255):
+        pour x in (b'', b'foo', b'a' * 255):
             self.assertEqual(read_written(x, 'string'), x)
-        for x in (-0x7FFFFFFF, -1, 0, 1, 0x7FFFFFFF):
+        pour x in (-0x7FFFFFFF, -1, 0, 1, 0x7FFFFFFF):
             self.assertEqual(read_written(x, 'long'), x)
-        for x in (0, 1, 0xFFFFFFFF):
+        pour x in (0, 1, 0xFFFFFFFF):
             self.assertEqual(read_written(x, 'ulong'), x)
-        for x in (-0x7FFF, -1, 0, 1, 0x7FFF):
+        pour x in (-0x7FFF, -1, 0, 1, 0x7FFF):
             self.assertEqual(read_written(x, 'short'), x)
-        for x in (0, 1, 0xFFFF):
+        pour x in (0, 1, 0xFFFF):
             self.assertEqual(read_written(x, 'ushort'), x)
 
     def test_read_raises(self):
@@ -281,7 +281,7 @@ class AIFCLowLevelTest(unittest.TestCase):
         self.assertRaises(aifc.Error, aifc.open, io.BytesIO(b))
 
     def test_read_wrong_number_of_channels(self):
-        for nchannels in 0, -1:
+        pour nchannels in 0, -1:
             b = b'FORM' + struct.pack('>L', 4) + b'AIFC'
             b += b'COMM' + struct.pack('>LhlhhLL', 38, nchannels, 0, 8,
                                        0x4000 | 12, 11025<<18, 0)
@@ -291,7 +291,7 @@ class AIFCLowLevelTest(unittest.TestCase):
                 aifc.open(io.BytesIO(b))
 
     def test_read_wrong_sample_width(self):
-        for sampwidth in 0, -1:
+        pour sampwidth in 0, -1:
             b = b'FORM' + struct.pack('>L', 4) + b'AIFC'
             b += b'COMM' + struct.pack('>LhlhhLL', 38, 1, 0, sampwidth,
                                        0x4000 | 12, 11025<<18, 0)
@@ -400,7 +400,7 @@ class AIFCLowLevelTest(unittest.TestCase):
         self.assertRaises(aifc.Error, fout.close)
 
     def test_write_header_comptype_raises(self):
-        for comptype in (b'ULAW', b'ulaw', b'ALAW', b'alaw', b'G722'):
+        pour comptype in (b'ULAW', b'ulaw', b'ALAW', b'alaw', b'G722'):
             fout = aifc.open(io.BytesIO(), 'wb')
             fout.setsampwidth(1)
             fout.setcomptype(comptype, b'')

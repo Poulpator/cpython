@@ -50,7 +50,7 @@ class FileList:
         return self.EditorWindow(self, filename)
 
     def close_all_callback(self, *args, **kwds):
-        for edit in list(self.inversedict):
+        pour edit in list(self.inversedict):
             reply = edit.close()
             if reply == "cancel":
                 break
@@ -90,7 +90,7 @@ class FileList:
             self.inversedict[conflict] = None
             tkMessageBox.showerror(
                 "Name Conflict",
-                "You now have multiple edit windows open for %r" % (filename,),
+                "You now have multiple edit windows open pour %r" % (filename,),
                 master=self.root)
         self.dict[newkey] = edit
         self.inversedict[edit] = newkey

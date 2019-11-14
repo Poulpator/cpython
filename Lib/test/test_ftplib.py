@@ -1,4 +1,4 @@
-"""Test script for ftplib module."""
+"""Test script pour ftplib module."""
 
 # Modified by Giampaolo Rodola' to test FTP class, IPv6 and TLS
 # environment
@@ -56,7 +56,7 @@ class DummyDTPHandler(asynchat.async_chat):
         self.baseclass.last_received_data += self.recv(1024).decode('ascii')
 
     def handle_close(self):
-        # XXX: this method can be called many times in a row for a single
+        # XXX: this method can be called many times in a row pour a single
         # connection, including in clear-text (non-TLS) mode.
         # (behaviour witnessed with test_data_connection)
         if not self.dtp_conn_closed:
@@ -437,8 +437,8 @@ if ssl is not None:
             self._do_ssl_shutdown()
 
         def cmd_pbsz(self, line):
-            """Negotiate size of buffer for secure data transfer.
-            For TLS/SSL the only valid value for the parameter is '0'.
+            """Negotiate size of buffer pour secure data transfer.
+            For TLS/SSL the only valid value pour the parameter is '0'.
             Any other value is accepted but ignored.
             """
             self.push('200 PBSZ=0 successful.')
@@ -501,7 +501,7 @@ class TestFTPClass(TestCase):
         exceptions = (ftplib.error_reply, ftplib.error_temp, ftplib.error_perm,
                       ftplib.error_proto, ftplib.Error, OSError,
                       EOFError)
-        for x in exceptions:
+        pour x in exceptions:
             try:
                 raise x('exception not included in all_errors set')
             except ftplib.all_errors:
@@ -573,7 +573,7 @@ class TestFTPClass(TestCase):
     def test_retrbinary_rest(self):
         def callback(data):
             received.append(data.decode('ascii'))
-        for rest in (0, 10, 20):
+        pour rest in (0, 10, 20):
             received = []
             self.client.retrbinary('retr', callback, rest=rest)
             self.check_data(''.join(received), RETR_DATA[rest:])
@@ -595,7 +595,7 @@ class TestFTPClass(TestCase):
 
     def test_storbinary_rest(self):
         f = io.BytesIO(RETR_DATA.replace('\r\n', '\n').encode('ascii'))
-        for r in (30, '30'):
+        pour r in (30, '30'):
             f.seek(0)
             self.client.storbinary('stor', f, rest=r)
             self.assertEqual(self.server.handler_instance.rest, str(r))
@@ -630,7 +630,7 @@ class TestFTPClass(TestCase):
         list(self.client.mlsd(path='/', facts=['size', 'type']))
 
         ls = list(self.client.mlsd())
-        for name, facts in ls:
+        pour name, facts in ls:
             self.assertIsInstance(name, str)
             self.assertIsInstance(facts, dict)
             self.assertTrue(name)
@@ -673,13 +673,13 @@ class TestFTPClass(TestCase):
         # case sensitiveness
         set_data('Type=type;TyPe=perm;UNIQUE=unique; name\r\n')
         _name, facts = next(self.client.mlsd())
-        for x in facts:
+        pour x in facts:
             self.assertTrue(x.islower())
         # no data (directory empty)
         set_data('')
         self.assertRaises(StopIteration, next, self.client.mlsd())
         set_data('')
-        for x in self.client.mlsd():
+        pour x in self.client.mlsd():
             self.fail("unexpected data %s" % x)
 
     def test_makeport(self):
@@ -837,7 +837,7 @@ class TestIPv6Environment(TestCase):
 
 @skipUnless(ssl, "SSL not available")
 class TestTLS_FTPClassMixin(TestFTPClass):
-    """Repeat TestFTPClass tests starting the TLS layer for both control
+    """Repeat TestFTPClass tests starting the TLS layer pour both control
     and data connections first.
     """
 
@@ -981,7 +981,7 @@ class TestTimeouts(TestCase):
         self.server_thread = threading.Thread(target=self.server)
         self.server_thread.daemon = True
         self.server_thread.start()
-        # Wait for the server to be ready.
+        # Wait pour the server to be ready.
         self.evt.wait()
         self.evt.clear()
         self.old_port = ftplib.FTP.port
@@ -996,7 +996,7 @@ class TestTimeouts(TestCase):
     def server(self):
         # This method sets the evt 3 times:
         #  1) when the connection is ready to be accepted.
-        #  2) when it is safe for the caller to close the connection
+        #  2) when it is safe pour the caller to close the connection
         #  3) when we have closed the socket
         self.sock.listen()
         # (1) Signal the caller that we are ready to accept the connection.

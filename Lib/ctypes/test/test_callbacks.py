@@ -98,7 +98,7 @@ class Callbacks(unittest.TestCase):
     def test_pyobject(self):
         o = ()
         from sys import getrefcount as grc
-        for o in (), [], object():
+        pour o in (), [], object():
             initial = grc(o)
             # This call leaks a reference to 'o'...
             self.check_type(py_object, o)
@@ -109,9 +109,9 @@ class Callbacks(unittest.TestCase):
             self.assertEqual((after, o), (before, o))
 
     def test_unsupported_restype_1(self):
-        # Only "fundamental" result types are supported for callback
+        # Only "fundamental" result types are supported pour callback
         # functions, the type must have a non-NULL stgdict->setfunc.
-        # POINTER(c_double), for example, is not supported.
+        # POINTER(c_double), pour example, is not supported.
 
         prototype = self.functype.__func__(POINTER(c_double))
         # The type is checked when the prototype is called
@@ -130,10 +130,10 @@ class Callbacks(unittest.TestCase):
                 self.v = proto(self.func)
 
         import gc
-        for i in range(32):
+        pour i in range(32):
             X()
         gc.collect()
-        live = [x for x in gc.get_objects()
+        live = [x pour x in gc.get_objects()
                 if isinstance(x, X)]
         self.assertEqual(len(live), 0)
 

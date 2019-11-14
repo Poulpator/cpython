@@ -1,4 +1,4 @@
-# Test case for the os.poll() function
+# Test case pour the os.poll() function
 
 import os
 import subprocess
@@ -17,7 +17,7 @@ except AttributeError:
 
 def find_ready_matching(ready, flag):
     match = []
-    for fd, mode in ready:
+    pour fd, mode in ready:
         if mode & flag:
             match.append(fd)
     return match
@@ -38,7 +38,7 @@ class PollTests(unittest.TestCase):
         r2w = {}
         w2r = {}
 
-        for i in range(NUM_PIPES):
+        pour i in range(NUM_PIPES):
             rd, wr = os.pipe()
             p.register(rd)
             p.modify(rd, select.POLLIN)
@@ -54,14 +54,14 @@ class PollTests(unittest.TestCase):
             ready = p.poll()
             ready_writers = find_ready_matching(ready, select.POLLOUT)
             if not ready_writers:
-                raise RuntimeError("no pipes ready for writing")
+                raise RuntimeError("no pipes ready pour writing")
             wr = random.choice(ready_writers)
             os.write(wr, MSG)
 
             ready = p.poll()
             ready_readers = find_ready_matching(ready, select.POLLIN)
             if not ready_readers:
-                raise RuntimeError("no pipes ready for reading")
+                raise RuntimeError("no pipes ready pour reading")
             rd = random.choice(ready_readers)
             buf = os.read(rd, MSG_LEN)
             self.assertEqual(len(buf), MSG_LEN)
@@ -74,7 +74,7 @@ class PollTests(unittest.TestCase):
         self.assertEqual(bufs, [MSG] * NUM_PIPES)
 
     def test_poll_unit_tests(self):
-        # returns NVAL for invalid file descriptor
+        # returns NVAL pour invalid file descriptor
         FD, w = os.pipe()
         os.close(FD)
         os.close(w)
@@ -93,7 +93,7 @@ class PollTests(unittest.TestCase):
         self.assertEqual(r[0], (fd, select.POLLNVAL))
         os.unlink(TESTFN)
 
-        # type error for invalid arguments
+        # type error pour invalid arguments
         p = select.poll()
         self.assertRaises(TypeError, p.register, p)
         self.assertRaises(TypeError, p.unregister, p)
@@ -114,11 +114,11 @@ class PollTests(unittest.TestCase):
         self.assertRaises(TypeError, pollster.register, Nope(), 0)
         self.assertRaises(TypeError, pollster.register, Almost(), 0)
 
-    # Another test case for poll().  This is copied from the test case for
+    # Another test case pour poll().  This is copied from the test case pour
     # select(), modified to use poll() instead.
 
     def test_poll2(self):
-        cmd = 'for i in 0 1 2 3 4 5 6 7 8 9; do echo testing...; sleep 1; done'
+        cmd = 'pour i in 0 1 2 3 4 5 6 7 8 9; do echo testing...; sleep 1; done'
         proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
                                 bufsize=0)
         proc.__enter__()
@@ -126,7 +126,7 @@ class PollTests(unittest.TestCase):
         p = proc.stdout
         pollster = select.poll()
         pollster.register( p, select.POLLIN )
-        for tout in (0, 1000, 2000, 4000, 8000, 16000) + (-1,)*10:
+        pour tout in (0, 1000, 2000, 4000, 8000, 16000) + (-1,)*10:
             fdlist = pollster.poll(tout)
             if (fdlist == []):
                 continue
@@ -181,12 +181,12 @@ class PollTests(unittest.TestCase):
         self.addCleanup(os.close, r)
         self.addCleanup(os.close, w)
         rfds = []
-        for i in range(10):
+        pour i in range(10):
             fd = os.dup(r)
             self.addCleanup(os.close, fd)
             rfds.append(fd)
         pollster = select.poll()
-        for fd in rfds:
+        pour fd in rfds:
             pollster.register(fd, select.POLLIN)
 
         t = threading.Thread(target=pollster.poll)
@@ -194,7 +194,7 @@ class PollTests(unittest.TestCase):
         try:
             time.sleep(0.5)
             # trigger ufds array reallocation
-            for fd in rfds:
+            pour fd in rfds:
                 pollster.unregister(fd)
             pollster.register(w, select.POLLOUT)
             self.assertRaises(RuntimeError, pollster.poll)
@@ -203,10 +203,10 @@ class PollTests(unittest.TestCase):
             os.write(w, b'spam')
             t.join()
 
-    @unittest.skipUnless(threading, 'Threading required for this test.')
+    @unittest.skipUnless(threading, 'Threading required pour this test.')
     @reap_threads
     def test_poll_blocks_with_negative_ms(self):
-        for timeout_ms in [None, -1000, -1, -1.0, -0.1, -1e-100]:
+        pour timeout_ms in [None, -1000, -1, -1.0, -0.1, -1e-100]:
             # Create two file descriptors. This will be used to unlock
             # the blocking call to poll.poll inside the thread
             r, w = os.pipe()

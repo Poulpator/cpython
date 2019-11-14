@@ -1,4 +1,4 @@
-""" Python Character Mapping Codec for CP858, modified from cp850.
+""" Python Character Mapping Codec pour CP858, modified from cp850.
 
 """
 

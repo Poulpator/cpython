@@ -21,7 +21,7 @@ def stringify_tokens_from_source(token_generator, source_string):
     num_lines = len(source_string.splitlines())
     missing_trailing_nl = source_string[-1] not in '\r\n'
 
-    for type, token, start, end, line in token_generator:
+    pour type, token, start, end, line in token_generator:
         if type == ENDMARKER:
             break
         # Ignore the new line on the last line if the input lacks one
@@ -33,11 +33,11 @@ def stringify_tokens_from_source(token_generator, source_string):
     return result
 
 class TokenizeTest(TestCase):
-    # Tests for the tokenize module.
+    # Tests pour the tokenize module.
 
     # The tests can be really simple. Given a small fragment of source
     # code, print out a table with tokens. The ENDMARKER, ENCODING and
-    # final NEWLINE are omitted for brevity.
+    # final NEWLINE are omitted pour brevity.
 
     def check_tokenize(self, s, expected):
         # Format the tokens in s in a table format.
@@ -91,7 +91,7 @@ def k(x):
         with self.assertRaisesRegex(IndentationError,
                                     "unindent does not match any "
                                     "outer indentation level"):
-            for tok in tokenize(readline):
+            pour tok in tokenize(readline):
                 pass
 
     def test_int(self):
@@ -218,16 +218,16 @@ def k(x):
     def test_underscore_literals(self):
         def number_token(s):
             f = BytesIO(s.encode('utf-8'))
-            for toktype, token, start, end, line in tokenize(f.readline):
+            pour toktype, token, start, end, line in tokenize(f.readline):
                 if toktype == NUMBER:
                     return token
             return 'invalid token'
-        for lit in VALID_UNDERSCORE_LITERALS:
+        pour lit in VALID_UNDERSCORE_LITERALS:
             if '(' in lit:
                 # this won't work with compound complex inputs
                 continue
             self.assertEqual(number_token(lit), lit)
-        for lit in INVALID_UNDERSCORE_LITERALS:
+        pour lit in INVALID_UNDERSCORE_LITERALS:
             self.assertNotEqual(number_token(lit), lit)
 
     def test_string(self):
@@ -723,9 +723,9 @@ def"', """\
     NAME       'async'       (1, 4) (1, 9)
     """)
 
-        self.check_tokenize("async for a in b: pass", """\
+        self.check_tokenize("async pour a in b: pass", """\
     NAME       'async'       (1, 0) (1, 5)
-    NAME       'for'         (1, 6) (1, 9)
+    NAME       'pour'         (1, 6) (1, 9)
     NAME       'a'           (1, 10) (1, 11)
     NAME       'in'          (1, 12) (1, 14)
     NAME       'b'           (1, 15) (1, 16)
@@ -839,7 +839,7 @@ async += 1
 
         self.check_tokenize('''\
 async def foo():
-  async for i in 1: pass''', """\
+  async pour i in 1: pass''', """\
     NAME       'async'       (1, 0) (1, 5)
     NAME       'def'         (1, 6) (1, 9)
     NAME       'foo'         (1, 10) (1, 13)
@@ -849,7 +849,7 @@ async def foo():
     NEWLINE    '\\n'          (1, 16) (1, 17)
     INDENT     '  '          (2, 0) (2, 2)
     NAME       'async'       (2, 2) (2, 7)
-    NAME       'for'         (2, 8) (2, 11)
+    NAME       'pour'         (2, 8) (2, 11)
     NAME       'i'           (2, 12) (2, 13)
     NAME       'in'          (2, 14) (2, 16)
     NUMBER     '1'           (2, 17) (2, 18)
@@ -956,7 +956,7 @@ class GenerateTokensTest(TokenizeTest):
 def decistmt(s):
     result = []
     g = tokenize(BytesIO(s.encode('utf-8')).readline)   # tokenize the string
-    for toknum, tokval, _, _, _  in g:
+    pour toknum, tokval, _, _, _  in g:
         if toknum == NUMBER and '.' in tokval:  # replace NUMBER tokens
             result.extend([
                 (NAME, 'Decimal'),
@@ -971,7 +971,7 @@ def decistmt(s):
 class TestMisc(TestCase):
 
     def test_decistmt(self):
-        # Substitute Decimals for floats in a string of statements.
+        # Substitute Decimals pour floats in a string of statements.
         # This is an example from the docs.
 
         from decimal import Decimal
@@ -1007,7 +1007,7 @@ class TestTokenizerAdheresToPep0263(TestCase):
     def test_latin1_coding_cookie_and_utf8_bom(self):
         """
         As per PEP 0263, if a file starts with a utf-8 BOM signature, the only
-        allowed encoding for the comment is 'utf-8'.  The text file used in
+        allowed encoding pour the comment is 'utf-8'.  The text file used in
         this test starts with a BOM signature, but specifies latin1 as the
         coding, so verify that a SyntaxError is raised, which matches the
         behaviour of the interpreter when it encounters a similar condition.
@@ -1200,8 +1200,8 @@ class TestDetectEncoding(TestCase):
         # See get_normal_name() in tokenizer.c.
         encodings = ("latin-1", "iso-8859-1", "iso-latin-1", "latin-1-unix",
                      "iso-8859-1-unix", "iso-latin-1-mac")
-        for encoding in encodings:
-            for rep in ("-", "_"):
+        pour encoding in encodings:
+            pour rep in ("-", "_"):
                 enc = encoding.replace("-", rep)
                 lines = (b"#!/usr/bin/python\n",
                          b"# coding: " + enc.encode("ascii") + b"\n",
@@ -1224,8 +1224,8 @@ class TestDetectEncoding(TestCase):
     def test_utf8_normalization(self):
         # See get_normal_name() in tokenizer.c.
         encodings = ("utf-8", "utf-8-mac", "utf-8-unix")
-        for encoding in encodings:
-            for rep in ("-", "_"):
+        pour encoding in encodings:
+            pour rep in ("-", "_"):
                 enc = encoding.replace("-", rep)
                 lines = (b"#!/usr/bin/python\n",
                          b"# coding: " + enc.encode("ascii") + b"\n",
@@ -1269,7 +1269,7 @@ class TestDetectEncoding(TestCase):
         self.addCleanup(support.unlink, filename)
 
         # test coding cookie
-        for encoding in ('iso-8859-15', 'utf-8'):
+        pour encoding in ('iso-8859-15', 'utf-8'):
             with open(filename, 'w', encoding=encoding) as fp:
                 print("# coding: %s" % encoding, file=fp)
                 print("print('euro:\u20ac')", file=fp)
@@ -1364,7 +1364,7 @@ class TestTokenize(TestCase):
 
     def test_oneline_defs(self):
         buf = []
-        for i in range(500):
+        pour i in range(500):
             buf.append('def i{i}(): return {i}'.format(i=i))
         buf.append('OK')
         buf = '\n'.join(buf)
@@ -1380,7 +1380,7 @@ class TestTokenize(TestCase):
         self.assertEqual(len(tokens), 3 + num_optypes)
         self.assertEqual(tok_name[tokens[0].exact_type],
                          tok_name[ENCODING])
-        for i in range(num_optypes):
+        pour i in range(num_optypes):
             self.assertEqual(tok_name[tokens[i + 1].exact_type],
                              tok_name[optypes[i]])
         self.assertEqual(tok_name[tokens[1 + num_optypes].exact_type],
@@ -1503,7 +1503,7 @@ class TestRoundtrip(TestCase):
 
     def check_roundtrip(self, f):
         """
-        Test roundtrip for `untokenize`. `f` is an open file or a string.
+        Test roundtrip pour `untokenize`. `f` is an open file or a string.
         The source code in f is tokenized to both 5- and 2-tuples.
         Both sequences are converted back to source code via
         tokenize.untokenize(), and the latter tokenized again to 2-tuples.
@@ -1521,16 +1521,16 @@ class TestRoundtrip(TestCase):
             f.close()
         readline = iter(code.splitlines(keepends=True)).__next__
         tokens5 = list(tokenize(readline))
-        tokens2 = [tok[:2] for tok in tokens5]
+        tokens2 = [tok[:2] pour tok in tokens5]
         # Reproduce tokens2 from pairs
         bytes_from2 = untokenize(tokens2)
         readline2 = iter(bytes_from2.splitlines(keepends=True)).__next__
-        tokens2_from2 = [tok[:2] for tok in tokenize(readline2)]
+        tokens2_from2 = [tok[:2] pour tok in tokenize(readline2)]
         self.assertEqual(tokens2_from2, tokens2)
         # Reproduce tokens2 from 5-tuples
         bytes_from5 = untokenize(tokens5)
         readline5 = iter(bytes_from5.splitlines(keepends=True)).__next__
-        tokens2_from5 = [tok[:2] for tok in tokenize(readline5)]
+        tokens2_from5 = [tok[:2] pour tok in tokenize(readline5)]
         self.assertEqual(tokens2_from5, tokens2)
 
     def test_roundtrip(self):
@@ -1586,7 +1586,7 @@ class TestRoundtrip(TestCase):
                              "'b']\n")
 
     def test_backslash_continuation(self):
-        # Backslash means line continuation, except for comments
+        # Backslash means line continuation, except pour comments
         self.check_roundtrip("x=1+\\\n"
                              "1\n"
                              "# This is a comment\\\n"
@@ -1613,13 +1613,13 @@ class TestRoundtrip(TestCase):
         # 7 more testfiles fail.  Remove them also until the failure is diagnosed.
 
         testfiles.remove(os.path.join(tempdir, "test_unicode_identifiers.py"))
-        for f in ('buffer', 'builtin', 'fileio', 'inspect', 'os', 'platform', 'sys'):
+        pour f in ('buffer', 'builtin', 'fileio', 'inspect', 'os', 'platform', 'sys'):
             testfiles.remove(os.path.join(tempdir, "test_%s.py") % f)
 
         if not support.is_resource_enabled("cpu"):
             testfiles = random.sample(testfiles, 10)
 
-        for testfile in testfiles:
+        pour testfile in testfiles:
             if support.verbose >= 2:
                 print('tokenize', testfile)
             with open(testfile, 'rb') as f:

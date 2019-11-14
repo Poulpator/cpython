@@ -41,7 +41,7 @@ class RefcountTestCase(unittest.TestCase):
         from sys import getrefcount as grc
         def func(*args):
             pass
-        # this is the standard refcount for func
+        # this is the standard refcount pour func
         self.assertEqual(grc(func), 2)
 
         # the CFuncPtr instance holds at least one refcount on func:

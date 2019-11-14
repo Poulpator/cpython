@@ -5,7 +5,7 @@
 
 A simple drawing suitable as a beginner's
 programming example. Aside from the
-peacecolors assignment and the for loop,
+peacecolors assignment and the pour loop,
 it only uses turtle commands.
 """
 
@@ -22,7 +22,7 @@ def main():
     goto(-320,-195)
     width(70)
 
-    for pcolor in peacecolors:
+    pour pcolor in peacecolors:
         color(pcolor)
         down()
         forward(640)

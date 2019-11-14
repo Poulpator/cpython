@@ -129,7 +129,7 @@ def __%s__(self, *args):
 
 d = {}
 exec(statictests, globals(), d)
-for method in testmeths:
+pour method in testmeths:
     exec(method_template % method, globals(), d)
 AllTests = type("AllTests", (object,), d)
 del d, statictests, method, method_template
@@ -472,7 +472,7 @@ class ClassTests(unittest.TestCase):
         def index(x):
             return [][x]
 
-        for f in [float, complex, str, repr, bytes, bin, oct, hex, bool, index]:
+        pour f in [float, complex, str, repr, bytes, bin, oct, hex, bool, index]:
             self.assertRaises(TypeError, f, BadTypeClass())
 
     def testHashStuff(self):
@@ -491,7 +491,7 @@ class ClassTests(unittest.TestCase):
 
 
     def testSFBug532646(self):
-        # Test for SF bug 532646
+        # Test pour SF bug 532646
 
         class A:
             pass
@@ -506,7 +506,7 @@ class ClassTests(unittest.TestCase):
             self.fail("Failed to raise RecursionError")
 
     def testForExceptionsRaisedInInstanceGetattr2(self):
-        # Tests for exceptions raised in instance_getattr2().
+        # Tests pour exceptions raised in instance_getattr2().
 
         def booh(self):
             raise AttributeError("booh")
@@ -517,7 +517,7 @@ class ClassTests(unittest.TestCase):
             A().a # Raised AttributeError: A instance has no attribute 'a'
         except AttributeError as x:
             if str(x) != "booh":
-                self.fail("attribute error for A().a got masked: %s" % x)
+                self.fail("attribute error pour A().a got masked: %s" % x)
 
         class E:
             __eq__ = property(booh)
@@ -532,7 +532,7 @@ class ClassTests(unittest.TestCase):
         except AttributeError as x:
             pass
         else:
-            self.fail("attribute error for I.__init__ got masked")
+            self.fail("attribute error pour I.__init__ got masked")
 
     def assertNotOrderable(self, a, b):
         with self.assertRaises(TypeError):
@@ -612,7 +612,7 @@ class ClassTests(unittest.TestCase):
             type.__setattr__(A, b'x', None)
 
     def testConstructorErrorMessages(self):
-        # bpo-31506: Improves the error message logic for object_new & object_init
+        # bpo-31506: Improves the error message logic pour object_new & object_init
 
         # Class without any method overrides
         class C:

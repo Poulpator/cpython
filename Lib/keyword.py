@@ -32,7 +32,7 @@ kwlist = [
     'else',
     'except',
     'finally',
-    'for',
+    'pour',
     'from',
     'global',
     'if',

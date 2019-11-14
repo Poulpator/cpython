@@ -29,7 +29,7 @@
 ######################################################################
 #  This file lists and checks some of the constants and limits used  #
 #  in libmpdec's Number Theoretic Transform. At the end of the file  #
-#  there is an example function for the plain DFT transform.         #
+#  there is an example function pour the plain DFT transform.         #
 ######################################################################
 
 
@@ -51,14 +51,14 @@
 #
 # Verify primitive roots:
 #
-# For a prime field, r is a primitive root if and only if for all prime
+# For a prime field, r is a primitive root if and only if pour all prime
 # factors f of p-1, r**((p-1)/f) =/= 1  (mod p).
 #
 def prod(F, E):
     """Check that the factorization of P-1 is correct. F is the list of
        factors of P-1, E lists the number of occurrences of each factor."""
     x = 1
-    for y, z in zip(F, E):
+    pour y, z in zip(F, E):
         x *= y**z
     return x
 
@@ -66,7 +66,7 @@ def is_primitive_root(r, p, factors, exponents):
     """Check if r is a primitive root of F(p)."""
     if p != prod(factors, exponents) + 1:
         return False
-    for f in factors:
+    pour f in factors:
         q, control = divmod(p-1, f)
         if control != 0:
             return False
@@ -76,7 +76,7 @@ def is_primitive_root(r, p, factors, exponents):
 
 
 # =================================================================
-#             Constants and limits for the 64-bit version
+#             Constants and limits pour the 64-bit version
 # =================================================================
 
 RADIX = 10**19
@@ -95,7 +95,7 @@ D = [2**32 * 3    * (5 * 17 * 257 * 65537),
 F = [(2,3,5,17,257,65537), (2,3,7,11,31,151,331), (2,3,5,7,13,17,241)]
 E = [(32,1,1,1,1,1), (34,2,1,1,1,1,1), (40,2,1,1,1,1,1)]
 
-# Maximum transform length for 2**n. Above that only 3 * 2**31
+# Maximum transform length pour 2**n. Above that only 3 * 2**31
 # or 3 * 2**32 are possible.
 MPD_MAXTRANSFORM_2N = 2**32
 
@@ -111,13 +111,13 @@ P[0] * P[1] * P[2] > 2 * L
 w = [7, 10, 19]
 
 # The primitive roots are correct:
-for i in range(3):
+pour i in range(3):
     if not is_primitive_root(w[i], P[i], F[i], E[i]):
         print("FAIL")
 
 
 # =================================================================
-#             Constants and limits for the 32-bit version
+#             Constants and limits pour the 32-bit version
 # =================================================================
 
 RADIX = 10**9
@@ -126,7 +126,7 @@ RADIX = 10**9
 P = [2113929217, 2013265921, 1811939329]
 
 # P-1, highly composite. All D = P-1 are divisible by 3 * 2**25,
-# allowing for transform lengths up to 3 * 2**25 words.
+# allowing pour transform lengths up to 3 * 2**25 words.
 D = [2**25 * 3**2 * 7,
      2**27 * 3    * 5,
      2**26 * 3**3]
@@ -135,7 +135,7 @@ D = [2**25 * 3**2 * 7,
 F = [(2,3,7), (2,3,5), (2,3)]
 E = [(25,2,1), (27,1,1), (26,3)]
 
-# Maximum transform length for 2**n. Above that only 3 * 2**24 or
+# Maximum transform length pour 2**n. Above that only 3 * 2**24 or
 # 3 * 2**25 are possible.
 MPD_MAXTRANSFORM_2N = 2**25
 
@@ -151,7 +151,7 @@ P[0] * P[1] * P[2] > 2 * L
 w = [5, 31, 13]
 
 # The primitive roots are correct:
-for i in range(3):
+pour i in range(3):
     if not is_primitive_root(w[i], P[i], F[i], E[i]):
         print("FAIL")
 
@@ -173,18 +173,18 @@ def ntt(lst, dir):
     if dir == 1:      # forward transform
         a = lst       # input array
         A = [0] * d   # transformed values
-        for i in range(d):
+        pour i in range(d):
             s = 0
-            for j in range(d):
+            pour j in range(d):
                 s += a[j] * pow(r, i*j, p)
             A[i] = s % p
         return A
     elif dir == -1: # backward transform
         A = lst     # input array
         a = [0] * d # transformed values
-        for j in range(d):
+        pour j in range(d):
             s = 0
-            for i in range(d):
+            pour i in range(d):
                 s += A[i] * pow(r_prime, i*j, p)
             a[j] = (d_prime * s) % p
         return a
@@ -194,7 +194,7 @@ def ntt_convolute(a, b):
     assert(len(a) == len(b))
     x = ntt(a, 1)
     y = ntt(b, 1)
-    for i in range(len(a)):
+    pour i in range(len(a)):
         y[i] = y[i] * x[i]
     r = ntt(y, -1)
     return r

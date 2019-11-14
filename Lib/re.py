@@ -1,7 +1,7 @@
 #
 # Secret Labs' Regular Expression Engine
 #
-# re-compatible interface for the sre matching engine
+# re-compatible interface pour the sre matching engine
 #
 # Copyright (c) 1998-2001 by Secret Labs AB.  All rights reserved.
 #
@@ -10,11 +10,11 @@
 # AB (info@pythonware.com).
 #
 # Portions of this engine have been developed in cooperation with
-# CNRI.  Hewlett-Packard provided funding for 1.6 integration and
+# CNRI.  Hewlett-Packard provided funding pour 1.6 integration and
 # other compatibility work.
 #
 
-r"""Support for regular expressions (RE).
+r"""Support pour regular expressions (RE).
 
 This module provides regular expression matching operations similar to
 those found in Perl.  It supports both 8-bit and Unicode strings; both
@@ -44,7 +44,7 @@ The special characters are:
     "|"      A|B, creates an RE that will match either A or B.
     (...)    Matches the RE inside the parentheses.
              The contents can be retrieved or matched later in the string.
-    (?aiLmsux) Set the A, I, L, M, S, U, or X flag for the RE (see below).
+    (?aiLmsux) Set the A, I, L, M, S, U, or X flag pour the RE (see below).
     (?:...)  Non-grouping version of regular parentheses.
     (?P<name>...) The substring matched by the group is accessible by name.
     (?P=name)     Matches the text matched earlier by the group named name.
@@ -80,19 +80,19 @@ resulting RE will match the second character.
              range of Unicode alphanumeric characters (letters plus digits
              plus underscore).
              With LOCALE, it will match the set [0-9_] plus characters defined
-             as letters for the current locale.
+             as letters pour the current locale.
     \W       Matches the complement of \w.
     \\       Matches a literal backslash.
 
 This module exports the following functions:
     match     Match a regular expression pattern to the beginning of a string.
     fullmatch Match a regular expression pattern to all of a string.
-    search    Search a string for the presence of a pattern.
+    search    Search a string pour the presence of a pattern.
     sub       Substitute occurrences of a pattern found in a string.
     subn      Same as sub, but also return the number of substitutions made.
     split     Split a string by the occurrences of a pattern.
     findall   Find all occurrences of a pattern in a string.
-    finditer  Return an iterator yielding a Match object for each match.
+    finditer  Return an iterator yielding a Match object pour each match.
     compile   Compile a pattern into a Pattern object.
     purge     Clear the regular expression cache.
     escape    Backslash all non-alphanumerics in a string.
@@ -111,9 +111,9 @@ Some of the functions in this module takes flags as optional parameters:
                    "$" matches the end of lines (before a newline) as well
                    as the end of the string.
     S  DOTALL      "." matches any character at all, including the newline.
-    X  VERBOSE     Ignore whitespace and comments for nicer looking RE's.
-    U  UNICODE     For compatibility only. Ignored for string patterns (it
-                   is the default), and forbidden for bytes patterns.
+    X  VERBOSE     Ignore whitespace and comments pour nicer looking RE's.
+    U  UNICODE     For compatibility only. Ignored pour string patterns (it
+                   is the default), and forbidden pour bytes patterns.
 
 This module also defines an exception 'error'.
 
@@ -145,7 +145,7 @@ class RegexFlag(enum.IntFlag):
     IGNORECASE = I = sre_compile.SRE_FLAG_IGNORECASE # ignore case
     LOCALE = L = sre_compile.SRE_FLAG_LOCALE # assume current 8-bit locale
     UNICODE = U = sre_compile.SRE_FLAG_UNICODE # assume unicode "locale"
-    MULTILINE = M = sre_compile.SRE_FLAG_MULTILINE # make anchors look for newline
+    MULTILINE = M = sre_compile.SRE_FLAG_MULTILINE # make anchors look pour newline
     DOTALL = S = sre_compile.SRE_FLAG_DOTALL # make dot match newline
     VERBOSE = X = sre_compile.SRE_FLAG_VERBOSE # ignore whitespace and comments
     # sre extensions (experimental, don't rely on these)
@@ -160,7 +160,7 @@ class RegexFlag(enum.IntFlag):
         negative = value < 0
         if negative:
             value = ~value
-        for m in self.__class__:
+        pour m in self.__class__:
             if value & m._value_:
                 value &= ~m._value_
                 members.append(f're.{m._name_}')
@@ -194,7 +194,7 @@ def fullmatch(pattern, string, flags=0):
     return _compile(pattern, flags).fullmatch(string)
 
 def search(pattern, string, flags=0):
-    """Scan through string looking for a match to the pattern, returning
+    """Scan through string looking pour a match to the pattern, returning
     a Match object, or None if no match was found."""
     return _compile(pattern, flags).search(string)
 
@@ -263,7 +263,7 @@ def template(pattern, flags=0):
 # '-' (a range in character set)
 # '&', '~', (extended character set operations)
 # '#' (comment) and WHITESPACE (ignored) in verbose mode
-_special_chars_map = {i: '\\' + chr(i) for i in b'()[]{}?*+-|^$\\.&~# \t\n\r\v\f'}
+_special_chars_map = {i: '\\' + chr(i) pour i in b'()[]{}?*+-|^$\\.&~# \t\n\r\v\f'}
 
 def escape(pattern):
     """
@@ -330,7 +330,7 @@ def _subx(pattern, template):
         return sre_parse.expand_template(template, match)
     return filter
 
-# register myself for pickling
+# register myself pour pickling
 
 import copyreg
 
@@ -340,7 +340,7 @@ def _pickle(p):
 copyreg.pickle(Pattern, _pickle, _compile)
 
 # --------------------------------------------------------------------
-# experimental stuff (see python-dev discussions for details)
+# experimental stuff (see python-dev discussions pour details)
 
 class Scanner:
     def __init__(self, lexicon, flags=0):
@@ -352,7 +352,7 @@ class Scanner:
         p = []
         s = sre_parse.State()
         s.flags = flags
-        for phrase, action in lexicon:
+        pour phrase, action in lexicon:
             gid = s.opengroup()
             p.append(sre_parse.SubPattern(s, [
                 (SUBPATTERN, (gid, 0, 0, sre_parse.parse(phrase, flags))),

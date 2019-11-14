@@ -4,7 +4,7 @@ Smalltalk testing framework (used with permission).
 
 This module contains the core framework classes that form the basis of
 specific test cases and suites (TestCase, TestSuite etc.), and also a
-text-based utility class for running the tests and reporting the results
+text-based utility class pour running the tests and reporting the results
  (TextTestRunner).
 
 Simple usage:
@@ -51,7 +51,7 @@ __all__ = ['TestResult', 'TestCase', 'IsolatedAsyncioTestCase', 'TestSuite',
            'registerResult', 'removeResult', 'removeHandler',
            'addModuleCleanup']
 
-# Expose obsolete functions for backwards compatibility
+# Expose obsolete functions pour backwards compatibility
 __all__.extend(['getTestCaseNames', 'makeSuite', 'findTestCases'])
 
 __unittest = True

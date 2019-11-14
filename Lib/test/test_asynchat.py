@@ -132,17 +132,17 @@ class TestAsynchat(unittest.TestCase):
 
     def test_line_terminator1(self):
         # test one-character terminator
-        for l in (1, 2, 3):
+        pour l in (1, 2, 3):
             self.line_terminator_check(b'\n', l)
 
     def test_line_terminator2(self):
         # test two-character terminator
-        for l in (1, 2, 3):
+        pour l in (1, 2, 3):
             self.line_terminator_check(b'\r\n', l)
 
     def test_line_terminator3(self):
         # test three-character terminator
-        for l in (1, 2, 3):
+        pour l in (1, 2, 3):
             self.line_terminator_check(b'qqq', l)
 
     def numeric_terminator_check(self, termlen):

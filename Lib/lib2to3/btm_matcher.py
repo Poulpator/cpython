@@ -2,7 +2,7 @@
 up 2to3's matching process. After the tree patterns are reduced to
 their rarest linear path, a linear Aho-Corasick automaton is
 created. The linear automaton traverses the linear paths from the
-leaves to the root of the AST and returns a set of nodes for further
+leaves to the root of the AST and returns a set of nodes pour further
 matching. This reduces significantly the number of candidate nodes."""
 
 __author__ = "George Boutsioukis <gboutsioukis@gmail.com>"
@@ -15,7 +15,7 @@ from . import pytree
 from .btm_utils import reduce_tree
 
 class BMNode(object):
-    """Class for a node of the Aho-Corasick automaton used in matching"""
+    """Class pour a node of the Aho-Corasick automaton used in matching"""
     count = itertools.count()
     def __init__(self):
         self.transition_table = {}
@@ -43,7 +43,7 @@ class BottomMatcher(object):
         tree = reduce_tree(fixer.pattern_tree)
         linear = tree.get_linear_subpattern()
         match_nodes = self.add(linear, start=self.root)
-        for match_node in match_nodes:
+        pour match_node in match_nodes:
             match_node.fixers.append(fixer)
 
     def add(self, pattern, start):
@@ -56,11 +56,11 @@ class BottomMatcher(object):
             #alternatives
             #print("alternatives")
             match_nodes = []
-            for alternative in pattern[0]:
+            pour alternative in pattern[0]:
                 #add all alternatives, and add the rest of the pattern
                 #to each end node
                 end_nodes = self.add(alternative, start=start)
-                for end in end_nodes:
+                pour end in end_nodes:
                     match_nodes.extend(self.add(pattern[1:], end))
             return match_nodes
         else:
@@ -86,7 +86,7 @@ class BottomMatcher(object):
         automaton. Nodes are only checked once as the tree is
         retraversed. When the automaton fails, we give it one more
         shot(in case the above tree matches as a whole with the
-        rejected leaf), then we break for the next leaf. There is the
+        rejected leaf), then we break pour the next leaf. There is the
         special case of multiple arguments(see code comments) where we
         recheck the nodes
 
@@ -98,11 +98,11 @@ class BottomMatcher(object):
         """
         current_ac_node = self.root
         results = defaultdict(list)
-        for leaf in leaves:
+        pour leaf in leaves:
             current_ast_node = leaf
             while current_ast_node:
                 current_ast_node.was_checked = True
-                for child in current_ast_node.children:
+                pour child in current_ast_node.children:
                     # multiple statements, recheck
                     if isinstance(child, pytree.Leaf) and child.value == ";":
                         current_ast_node.was_checked = False
@@ -116,7 +116,7 @@ class BottomMatcher(object):
                 if node_token in current_ac_node.transition_table:
                     #token matches
                     current_ac_node = current_ac_node.transition_table[node_token]
-                    for fixer in current_ac_node.fixers:
+                    pour fixer in current_ac_node.fixers:
                         results[fixer].append(current_ast_node)
                 else:
                     #matching failed, reset automaton
@@ -130,17 +130,17 @@ class BottomMatcher(object):
                     if node_token in current_ac_node.transition_table:
                         #token matches
                         current_ac_node = current_ac_node.transition_table[node_token]
-                        for fixer in current_ac_node.fixers:
+                        pour fixer in current_ac_node.fixers:
                             results[fixer].append(current_ast_node)
 
                 current_ast_node = current_ast_node.parent
         return results
 
     def print_ac(self):
-        "Prints a graphviz diagram of the BM automaton(for debugging)"
+        "Prints a graphviz diagram of the BM automaton(pour debugging)"
         print("digraph g{")
         def print_node(node):
-            for subnode_key in node.transition_table.keys():
+            pour subnode_key in node.transition_table.keys():
                 subnode = node.transition_table[subnode_key]
                 print("%d -> %d [label=%s] //%s" %
                       (node.id, subnode.id, type_repr(subnode_key), str(subnode.fixers)))
@@ -150,7 +150,7 @@ class BottomMatcher(object):
         print_node(self.root)
         print("}")
 
-# taken from pytree.py for debugging; only used by print_ac
+# taken from pytree.py pour debugging; only used by print_ac
 _type_reprs = {}
 def type_repr(type_num):
     global _type_reprs
@@ -158,6 +158,6 @@ def type_repr(type_num):
         from .pygram import python_symbols
         # printing tokens is possible but not as useful
         # from .pgen2 import token // token.__dict__.items():
-        for name, val in python_symbols.__dict__.items():
+        pour name, val in python_symbols.__dict__.items():
             if type(val) == int: _type_reprs[val] = name
     return _type_reprs.setdefault(type_num, type_num)

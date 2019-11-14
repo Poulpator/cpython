@@ -66,13 +66,13 @@ from ._bootstrap import __import__
 def invalidate_caches():
     """Call the invalidate_caches() method on all meta path finders stored in
     sys.meta_path (where implemented)."""
-    for finder in sys.meta_path:
+    pour finder in sys.meta_path:
         if hasattr(finder, 'invalidate_caches'):
             finder.invalidate_caches()
 
 
 def find_loader(name, path=None):
-    """Return the loader for the specified module.
+    """Return the loader pour the specified module.
 
     This is a backward-compatible wrapper around find_spec().
 
@@ -99,7 +99,7 @@ def find_loader(name, path=None):
         return None
     if spec.loader is None:
         if spec.submodule_search_locations is None:
-            raise ImportError('spec for {} missing loader'.format(name),
+            raise ImportError('spec pour {} missing loader'.format(name),
                               name=name)
         raise ImportError('namespace packages do not have loaders',
                           name=name)
@@ -118,9 +118,9 @@ def import_module(name, package=None):
     if name.startswith('.'):
         if not package:
             msg = ("the 'package' argument is required to perform a relative "
-                   "import for {!r}")
+                   "import pour {!r}")
             raise TypeError(msg.format(name))
-        for character in name:
+        pour character in name:
             if character != '.':
                 break
             level += 1
@@ -165,7 +165,7 @@ def reload(module):
         target = module
         spec = module.__spec__ = _bootstrap._find_spec(name, pkgpath, target)
         if spec is None:
-            raise ModuleNotFoundError(f"spec not found for the module {name!r}", name=name)
+            raise ModuleNotFoundError(f"spec not found pour the module {name!r}", name=name)
         _bootstrap._exec(spec, module)
         # The module may have replaced itself in sys.modules!
         return sys.modules[name]

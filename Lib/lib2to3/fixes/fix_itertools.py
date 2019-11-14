@@ -1,4 +1,4 @@
-""" Fixer for itertools.(imap|ifilter|izip) --> (map|filter|zip) and
+""" Fixer pour itertools.(imap|ifilter|izip) --> (map|filter|zip) and
     itertools.ifilterfalse --> itertools.filterfalse (bugs 2360-2363)
 
     imports from itertools are fixed in fix_itertools_import.py

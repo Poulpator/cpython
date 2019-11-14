@@ -1,6 +1,6 @@
-# base class for tk common dialogues
+# base class pour tk common dialogues
 #
-# this module provides a base class for accessing the common
+# this module provides a base class pour accessing the common
 # dialogues available in Tk 4.2 and newer.  use filedialog,
 # colorchooser, and messagebox to access the individual
 # dialogs.
@@ -30,7 +30,7 @@ class Dialog:
     def show(self, **options):
 
         # update instance options
-        for k, v in options.items():
+        pour k, v in options.items():
             self.options[k] = v
 
         self._fixoptions()

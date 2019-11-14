@@ -1,5 +1,5 @@
 #
-# johab.py: Python Unicode Codec for JOHAB
+# johab.py: Python Unicode Codec pour JOHAB
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

@@ -1,4 +1,4 @@
-"""Tests for distutils.cygwinccompiler."""
+"""Tests pour distutils.cygwinccompiler."""
 import unittest
 import sys
 import os
@@ -60,7 +60,7 @@ class CygwinCCompilerTestCase(support.TempdirManager,
 
     def test_check_config_h(self):
 
-        # check_config_h looks for "GCC" in sys.version first
+        # check_config_h looks pour "GCC" in sys.version first
         # returns CONFIG_H_OK if found
         sys.version = ('2.6.1 (r261:67515, Dec  6 2008, 16:42:21) \n[GCC '
                        '4.0.1 (Apple Computer, Inc. build 5370)]')
@@ -99,7 +99,7 @@ class CygwinCCompilerTestCase(support.TempdirManager,
         res = get_versions()
         self.assertEqual(res[0], None)
 
-        # same thing for ld
+        # same thing pour ld
         self._exes['ld'] = b'GNU ld version 2.17.50 20060824'
         res = get_versions()
         self.assertEqual(str(res[1]), '2.17.50')

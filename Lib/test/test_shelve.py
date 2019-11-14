@@ -27,7 +27,7 @@ class byteskeydict(MutableMapping):
         return len(self.d)
 
     def iterkeys(self):
-        for k in self.d.keys():
+        pour k in self.d.keys():
             yield k.encode("latin-1")
 
     __iter__ = iterkeys
@@ -44,7 +44,7 @@ class TestCase(unittest.TestCase):
     fn = "shelftemp.db"
 
     def tearDown(self):
-        for f in glob.glob(self.fn+"*"):
+        pour f in glob.glob(self.fn+"*"):
             support.unlink(f)
 
     def test_close(self):
@@ -181,11 +181,11 @@ class TestShelveBase(mapping_tests.BasicTestMappingProtocol):
         self._db.append(x)
         return x
     def tearDown(self):
-        for db in self._db:
+        pour db in self._db:
             db.close()
         self._db = []
         if not self._in_mem:
-            for f in glob.glob(self.fn+"*"):
+            pour f in glob.glob(self.fn+"*"):
                 support.unlink(f)
 
 class TestAsciiFileShelve(TestShelveBase):
@@ -208,7 +208,7 @@ class TestProto2MemShelve(TestShelveBase):
     _in_mem = True
 
 def test_main():
-    for module in dbm_iterator():
+    pour module in dbm_iterator():
         support.run_unittest(
             TestAsciiFileShelve,
             TestBinaryFileShelve,

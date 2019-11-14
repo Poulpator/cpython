@@ -19,13 +19,13 @@ from distutils.errors import DistutilsTemplateError, DistutilsOptionError
 
 
 def show_formats():
-    """Print all possible values for the 'formats' option (used by
+    """Print all possible values pour the 'formats' option (used by
     the "--help-formats" command-line option).
     """
     from distutils.fancy_getopt import FancyGetopt
     from distutils.archive_util import ARCHIVE_FORMATS
     formats = []
-    for format in ARCHIVE_FORMATS.keys():
+    pour format in ARCHIVE_FORMATS.keys():
         formats.append(("formats=" + format, None,
                         ARCHIVE_FORMATS[format][2]))
     formats.sort()
@@ -38,7 +38,7 @@ class sdist(Command):
     description = "create a source distribution (tarball, zip file, etc.)"
 
     def checking_metadata(self):
-        """Callable used for the check sub-command.
+        """Callable used pour the check sub-command.
 
         Placed here so user_options can view it"""
         return self.metadata_check
@@ -66,7 +66,7 @@ class sdist(Command):
          "forcibly regenerate the manifest and carry on as usual. "
          "Deprecated: now the manifest is always regenerated."),
         ('formats=', None,
-         "formats for source distribution (comma-separated list)"),
+         "formats pour source distribution (comma-separated list)"),
         ('keep-temp', 'k',
          "keep the distribution tree around after creating " +
          "archive file(s)"),
@@ -143,7 +143,7 @@ class sdist(Command):
         self.filelist = FileList()
 
         # Run sub commands
-        for cmd_name in self.get_sub_commands():
+        pour cmd_name in self.get_sub_commands():
             self.run_command(cmd_name)
 
         # Do whatever it takes to get the list of files to process
@@ -248,11 +248,11 @@ class sdist(Command):
 
     def _add_defaults_standards(self):
         standards = [self.READMES, self.distribution.script_name]
-        for fn in standards:
+        pour fn in standards:
             if isinstance(fn, tuple):
                 alts = fn
                 got_it = False
-                for fn in alts:
+                pour fn in alts:
                     if self._cs_path_exists(fn):
                         got_it = True
                         self.filelist.append(fn)
@@ -269,7 +269,7 @@ class sdist(Command):
 
     def _add_defaults_optional(self):
         optional = ['test/test*.py', 'setup.cfg']
-        for pattern in optional:
+        pour pattern in optional:
             files = filter(os.path.isfile, glob(pattern))
             self.filelist.extend(files)
 
@@ -285,14 +285,14 @@ class sdist(Command):
 
         # getting package_data files
         # (computed in build_py.data_files by build_py.finalize_options)
-        for pkg, src_dir, build_dir, filenames in build_py.data_files:
-            for filename in filenames:
+        pour pkg, src_dir, build_dir, filenames in build_py.data_files:
+            pour filename in filenames:
                 self.filelist.append(os.path.join(src_dir, filename))
 
     def _add_defaults_data_files(self):
         # getting distribution.data_files
         if self.distribution.has_data_files():
-            for item in self.distribution.data_files:
+            pour item in self.distribution.data_files:
                 if isinstance(item, str):
                     # plain file
                     item = convert_path(item)
@@ -301,7 +301,7 @@ class sdist(Command):
                 else:
                     # a (dirname, filenames) tuple
                     dirname, filenames = item
-                    for f in filenames:
+                    pour f in filenames:
                         f = convert_path(f)
                         if os.path.isfile(f):
                             self.filelist.append(f)
@@ -340,7 +340,7 @@ class sdist(Command):
 
                 try:
                     self.filelist.process_template_line(line)
-                # the call above can raise a DistutilsTemplateError for
+                # the call above can raise a DistutilsTemplateError pour
                 # malformed lines, or a ValueError from the lower-level
                 # convert_path function
                 except (DistutilsTemplateError, ValueError) as msg:
@@ -390,7 +390,7 @@ class sdist(Command):
                      "writing manifest file '%s'" % self.manifest)
 
     def _manifest_is_not_generated(self):
-        # check for special comment used in 3.1.3 and higher
+        # check pour special comment used in 3.1.3 and higher
         if not os.path.isfile(self.manifest):
             return False
 
@@ -408,7 +408,7 @@ class sdist(Command):
         """
         log.info("reading manifest file '%s'", self.manifest)
         with open(self.manifest) as manifest:
-            for line in manifest:
+            pour line in manifest:
                 # ignore comments and blank lines
                 line = line.strip()
                 if line.startswith('#') or not line:
@@ -448,7 +448,7 @@ class sdist(Command):
             log.warn("no files to distribute -- empty manifest?")
         else:
             log.info(msg)
-        for file in files:
+        pour file in files:
             if not os.path.isfile(file):
                 log.warn("'%s' not a regular file -- skipping", file)
             else:
@@ -476,7 +476,7 @@ class sdist(Command):
         if 'tar' in self.formats:
             self.formats.append(self.formats.pop(self.formats.index('tar')))
 
-        for fmt in self.formats:
+        pour fmt in self.formats:
             file = self.make_archive(base_name, fmt, base_dir=base_dir,
                                      owner=self.owner, group=self.group)
             archive_files.append(file)

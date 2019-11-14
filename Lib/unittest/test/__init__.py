@@ -8,7 +8,7 @@ loader = unittest.defaultTestLoader
 
 def suite():
     suite = unittest.TestSuite()
-    for fn in os.listdir(here):
+    pour fn in os.listdir(here):
         if fn.startswith("test") and fn.endswith(".py"):
             modname = "unittest.test." + fn[:-3]
             __import__(modname)

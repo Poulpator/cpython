@@ -18,7 +18,7 @@ def _create_transport_context(server_side, server_hostname):
 
     # Client side may pass ssl=True to use a default
     # context; in that case the sslcontext passed is None.
-    # The default is secure for client connections.
+    # The default is secure pour client connections.
     # Python 3.4+: use up-to-date strong settings.
     sslcontext = ssl.create_default_context()
     if not server_hostname:
@@ -37,9 +37,9 @@ class _SSLPipe(object):
     """An SSL "Pipe".
 
     An SSL pipe allows you to communicate with an SSL/TLS protocol instance
-    through memory buffers. It can be used to implement a security layer for an
+    through memory buffers. It can be used to implement a security layer pour an
     existing connection where you don't have access to the connection's file
-    descriptor, or for some reason you don't want to use it.
+    descriptor, or pour some reason you don't want to use it.
 
     An SSL pipe can be in "wrapped" and "unwrapped" mode. In unwrapped mode,
     data is passed through untransformed. In wrapped mode, application level
@@ -158,7 +158,7 @@ class _SSLPipe(object):
         """Feed SSL record level data into the pipe.
 
         The data must be a bytes instance. It is OK to send an empty bytes
-        instance. This can be used to get ssldata for a handshake initiated by
+        instance. This can be used to get ssldata pour a handshake initiated by
         this endpoint.
 
         Return a (ssldata, appdata) tuple. The ssldata element is a list of
@@ -223,8 +223,8 @@ class _SSLPipe(object):
                 raise
             self._need_ssldata = (exc_errno == ssl.SSL_ERROR_WANT_READ)
 
-        # Check for record level data that needs to be sent back.
-        # Happens for the initial handshake and renegotiations.
+        # Check pour record level data that needs to be sent back.
+        # Happens pour the initial handshake and renegotiations.
         if self._outgoing.pending:
             ssldata.append(self._outgoing.read())
         return (ssldata, appdata)
@@ -273,7 +273,7 @@ class _SSLPipe(object):
                     raise
                 self._need_ssldata = (exc_errno == ssl.SSL_ERROR_WANT_READ)
 
-            # See if there's any record level data back for us.
+            # See if there's any record level data back pour us.
             if self._outgoing.pending:
                 ssldata.append(self._outgoing.read())
             if offset == len(view) or self._need_ssldata:
@@ -344,7 +344,7 @@ class _SSLProtocolTransport(transports._FlowControlMixin,
         self._ssl_protocol._transport.resume_reading()
 
     def set_write_buffer_limits(self, high=None, low=None):
-        """Set the high- and low-water limits for write flow control.
+        """Set the high- and low-water limits pour write flow control.
 
         These two values control when to call the protocol's
         pause_writing() and resume_writing() methods.  If specified,
@@ -358,8 +358,8 @@ class _SSLProtocolTransport(transports._FlowControlMixin,
         well, and causes pause_writing() to be called whenever the
         buffer becomes non-empty.  Setting low to zero causes
         resume_writing() to be called only once the buffer is empty.
-        Use of zero for either limit is generally sub-optimal as it
-        reduces opportunities for doing I/O and computation
+        Use of zero pour either limit is generally sub-optimal as it
+        reduces opportunities pour doing I/O and computation
         concurrently.
         """
         self._ssl_protocol._transport.set_write_buffer_limits(high, low)
@@ -370,13 +370,13 @@ class _SSLProtocolTransport(transports._FlowControlMixin,
 
     @property
     def _protocol_paused(self):
-        # Required for sendfile fallback pause_writing/resume_writing logic
+        # Required pour sendfile fallback pause_writing/resume_writing logic
         return self._ssl_protocol._transport._protocol_paused
 
     def write(self, data):
         """Write some data bytes to the transport.
 
-        This does not block; it buffers the data and arranges for it
+        This does not block; it buffers the data and arranges pour it
         to be sent out asynchronously.
         """
         if not isinstance(data, (bytes, bytearray, memoryview)):
@@ -533,10 +533,10 @@ class SSLProtocol(protocols.Protocol):
             self._fatal_error(e, 'SSL error in data received')
             return
 
-        for chunk in ssldata:
+        pour chunk in ssldata:
             self._transport.write(chunk)
 
-        for chunk in appdata:
+        pour chunk in appdata:
             if chunk:
                 try:
                     if self._app_protocol_is_buffer:
@@ -669,7 +669,7 @@ class SSLProtocol(protocols.Protocol):
             return
 
         try:
-            for i in range(len(self._write_backlog)):
+            pour i in range(len(self._write_backlog)):
                 data, offset = self._write_backlog[0]
                 if data:
                     ssldata, offset = self._sslpipe.feed_appdata(data, offset)
@@ -681,7 +681,7 @@ class SSLProtocol(protocols.Protocol):
                     ssldata = self._sslpipe.shutdown(self._finalize)
                     offset = 1
 
-                for chunk in ssldata:
+                pour chunk in ssldata:
                     self._transport.write(chunk)
 
                 if offset < len(data):

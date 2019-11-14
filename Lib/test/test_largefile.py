@@ -13,7 +13,7 @@ import _pyio as pyio # Python implementation of io
 size = 2_500_000_000
 
 class LargeFileTest:
-    """Test that each file function works as expected for large
+    """Test that each file function works as expected pour large
     (i.e. > 2 GiB) files.
     """
 
@@ -135,7 +135,7 @@ class LargeFileTest:
     def test_seekable(self):
         # Issue #5016; seekable() can return False when the current position
         # is negative when truncated to an int.
-        for pos in (2**31-1, 2**31, 2**31+1):
+        pour pos in (2**31-1, 2**31, 2**31+1):
             with self.open(TESTFN, 'rb') as f:
                 f.seek(pos)
                 self.assertTrue(f.seekable())
@@ -143,7 +143,7 @@ class LargeFileTest:
 def setUpModule():
     try:
         import signal
-        # The default handler for SIGXFSZ is to abort the process.
+        # The default handler pour SIGXFSZ is to abort the process.
         # By ignoring it, system calls exceeding the file size resource
         # limit will raise OSError instead of crashing the interpreter.
         signal.signal(signal.SIGXFSZ, signal.SIG_IGN)

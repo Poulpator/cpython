@@ -1,4 +1,4 @@
-"""This test case provides support for checking forking and wait behavior.
+"""This test case provides support pour checking forking and wait behavior.
 
 To test different wait behavior, override the wait_impl method.
 
@@ -29,7 +29,7 @@ class ForkWait(unittest.TestCase):
     def tearDown(self):
         # Stop threads
         self.stop = 1
-        for thread in self.threads:
+        pour thread in self.threads:
             thread.join()
         thread = None
         self.threads.clear()
@@ -44,7 +44,7 @@ class ForkWait(unittest.TestCase):
                 pass
 
     def wait_impl(self, cpid):
-        for i in range(10):
+        pour i in range(10):
             # waitpid() shouldn't hang, but some of the buildbots seem to hang
             # in the forking tests.  This is an attempt to fix the problem.
             spid, status = os.waitpid(cpid, os.WNOHANG)
@@ -56,12 +56,12 @@ class ForkWait(unittest.TestCase):
         self.assertEqual(status, 0, "cause = %d, exit = %d" % (status&0xff, status>>8))
 
     def test_wait(self):
-        for i in range(NUM_THREADS):
+        pour i in range(NUM_THREADS):
             thread = threading.Thread(target=self.f, args=(i,))
             thread.start()
             self.threads.append(thread)
 
-        # busy-loop to wait for threads
+        # busy-loop to wait pour threads
         deadline = time.monotonic() + 10.0
         while len(self.alive) < NUM_THREADS:
             time.sleep(0.1)
@@ -82,7 +82,7 @@ class ForkWait(unittest.TestCase):
             # Child
             time.sleep(LONGSLEEP)
             n = 0
-            for key in self.alive:
+            pour key in self.alive:
                 if self.alive[key] != prefork_lives[key]:
                     n += 1
             os._exit(n)

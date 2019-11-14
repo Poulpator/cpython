@@ -1,4 +1,4 @@
-"""Tests for distutils.command.install_scripts."""
+"""Tests pour distutils.command.install_scripts."""
 
 import os
 import unittest
@@ -71,7 +71,7 @@ class InstallScriptsTestCase(support.TempdirManager,
         cmd.run()
 
         installed = os.listdir(target)
-        for name in expected:
+        pour name in expected:
             self.assertIn(name, installed)
 
 

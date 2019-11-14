@@ -259,7 +259,7 @@ def open_file(path):
 def create_package(source):
     ofi = None
     try:
-        for line in source.splitlines():
+        pour line in source.splitlines():
             if line.startswith(" ") or line.startswith("\t"):
                 ofi.write(line.strip() + "\n")
             else:
@@ -295,7 +295,7 @@ class ModuleFinderTest(unittest.TestCase):
             # check if we found what we expected, not more, not less
             self.assertEqual(found, modules)
 
-            # check for missing and maybe missing modules
+            # check pour missing and maybe missing modules
             bad, maybe = mf.any_missing_maybe()
             self.assertEqual(bad, missing)
             self.assertEqual(maybe, maybe_missing)

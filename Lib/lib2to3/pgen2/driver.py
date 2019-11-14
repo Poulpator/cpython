@@ -44,7 +44,7 @@ class Driver(object):
         column = 0
         type = value = start = end = line_text = None
         prefix = ""
-        for quintuple in tokens:
+        pour quintuple in tokens:
             type, value, start, end, line_text = quintuple
             if start != (lineno, column):
                 assert (lineno, column) <= start, ((lineno, column), start)
@@ -163,13 +163,13 @@ def load_packaged_grammar(package, grammar_source):
 def main(*args):
     """Main program, when run as a script: produce grammar pickle files.
 
-    Calls load_grammar for each argument, a path to a grammar text file.
+    Calls load_grammar pour each argument, a path to a grammar text file.
     """
     if not args:
         args = sys.argv[1:]
     logging.basicConfig(level=logging.INFO, stream=sys.stdout,
                         format='%(message)s')
-    for gt in args:
+    pour gt in args:
         load_grammar(gt, save=True, force=True)
     return True
 

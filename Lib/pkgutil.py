@@ -38,7 +38,7 @@ def _get_spec(finder, name):
 
 
 def read_code(stream):
-    # This helper is needed in order for the PEP 302 emulation to
+    # This helper is needed in order pour the PEP 302 emulation to
     # correctly handle compiled files
     import marshal
 
@@ -51,10 +51,10 @@ def read_code(stream):
 
 
 def walk_packages(path=None, prefix='', onerror=None):
-    """Yields ModuleInfo for all modules recursively
+    """Yields ModuleInfo pour all modules recursively
     on path, or, if path is None, all accessible modules.
 
-    'path' should be either None or a list of paths to look for
+    'path' should be either None or a list of paths to look pour
     modules in.
 
     'prefix' is a string to output on the front of every module name
@@ -84,7 +84,7 @@ def walk_packages(path=None, prefix='', onerror=None):
             return True
         m[p] = True
 
-    for info in iter_modules(path, prefix):
+    pour info in iter_modules(path, prefix):
         yield info
 
         if info.ispkg:
@@ -102,16 +102,16 @@ def walk_packages(path=None, prefix='', onerror=None):
                 path = getattr(sys.modules[info.name], '__path__', None) or []
 
                 # don't traverse path items we've seen before
-                path = [p for p in path if not seen(p)]
+                path = [p pour p in path if not seen(p)]
 
                 yield from walk_packages(path, info.name+'.', onerror)
 
 
 def iter_modules(path=None, prefix=''):
-    """Yields ModuleInfo for all submodules on path,
+    """Yields ModuleInfo pour all submodules on path,
     or, if path is None, all top-level modules on sys.path.
 
-    'path' should be either None or a list of paths to look for
+    'path' should be either None or a list of paths to look pour
     modules in.
 
     'prefix' is a string to output on the front of every module name
@@ -120,14 +120,14 @@ def iter_modules(path=None, prefix=''):
     if path is None:
         importers = iter_importers()
     elif isinstance(path, str):
-        raise ValueError("path must be None or list of paths to look for "
+        raise ValueError("path must be None or list of paths to look pour "
                         "modules in")
     else:
         importers = map(get_importer, path)
 
     yielded = {}
-    for i in importers:
-        for name, ispkg in iter_importer_modules(i, prefix):
+    pour i in importers:
+        pour name, ispkg in iter_importer_modules(i, prefix):
             if name not in yielded:
                 yielded[name] = 1
                 yield ModuleInfo(i, name, ispkg)
@@ -140,7 +140,7 @@ def iter_importer_modules(importer, prefix=''):
     return importer.iter_modules(prefix)
 
 
-# Implement a file walker for the normal importlib path hook
+# Implement a file walker pour the normal importlib path hook
 def _iter_file_finder_modules(importer, prefix=''):
     if importer.path is None or not os.path.isdir(importer.path):
         return
@@ -154,7 +154,7 @@ def _iter_file_finder_modules(importer, prefix=''):
         filenames = []
     filenames.sort()  # handle packages before same-named modules
 
-    for fn in filenames:
+    pour fn in filenames:
         modname = inspect.getmodulename(fn)
         if modname=='__init__' or modname in yielded:
             continue
@@ -169,7 +169,7 @@ def _iter_file_finder_modules(importer, prefix=''):
             except OSError:
                 # ignore unreadable directories like import does
                 dircontents = []
-            for fn in dircontents:
+            pour fn in dircontents:
                 subname = inspect.getmodulename(fn)
                 if subname=='__init__':
                     ispkg = True
@@ -237,7 +237,7 @@ class ImpImporter:
             filenames = []
         filenames.sort()  # handle packages before same-named modules
 
-        for fn in filenames:
+        pour fn in filenames:
             modname = inspect.getmodulename(fn)
             if modname=='__init__' or modname in yielded:
                 continue
@@ -252,7 +252,7 @@ class ImpImporter:
                 except OSError:
                     # ignore unreadable directories like import does
                     dircontents = []
-                for fn in dircontents:
+                pour fn in dircontents:
                     subname = inspect.getmodulename(fn)
                     if subname=='__init__':
                         ispkg = True
@@ -287,7 +287,7 @@ class ImpLoader:
             if self.file:
                 self.file.close()
         # Note: we don't set __loader__ because we want the module to look
-        # normal; i.e. this is just a wrapper for standard import machinery
+        # normal; i.e. this is just a wrapper pour standard import machinery
         return mod
 
     def get_data(self, pathname):
@@ -306,7 +306,7 @@ class ImpLoader:
         if fullname is None:
             fullname = self.fullname
         elif fullname != self.fullname:
-            raise ImportError("Loader for module %s cannot handle "
+            raise ImportError("Loader pour module %s cannot handle "
                               "module %s" % (self.fullname, fullname))
         return fullname
 
@@ -374,7 +374,7 @@ try:
         plen = len(_prefix)
         yielded = {}
         import inspect
-        for fn in dirlist:
+        pour fn in dirlist:
             if not fn.startswith(_prefix):
                 continue
 
@@ -403,7 +403,7 @@ except ImportError:
 
 
 def get_importer(path_item):
-    """Retrieve a finder for the given path item
+    """Retrieve a finder pour the given path item
 
     The returned finder is cached in sys.path_importer_cache
     if it was newly created by a path hook.
@@ -414,7 +414,7 @@ def get_importer(path_item):
     try:
         importer = sys.path_importer_cache[path_item]
     except KeyError:
-        for path_hook in sys.path_hooks:
+        pour path_hook in sys.path_hooks:
             try:
                 importer = path_hook(path_item)
                 sys.path_importer_cache.setdefault(path_item, importer)
@@ -427,9 +427,9 @@ def get_importer(path_item):
 
 
 def iter_importers(fullname=""):
-    """Yield finders for the given module name
+    """Yield finders pour the given module name
 
-    If fullname contains a '.', the finders will be for the package
+    If fullname contains a '.', the finders will be pour the package
     containing fullname, otherwise they will be all registered top level
     finders (i.e. those on both sys.meta_path and sys.path_hooks).
 
@@ -451,12 +451,12 @@ def iter_importers(fullname=""):
     else:
         yield from sys.meta_path
         path = sys.path
-    for item in path:
+    pour item in path:
         yield get_importer(item)
 
 
 def get_loader(module_or_name):
-    """Get a "loader" object for module_or_name
+    """Get a "loader" object pour module_or_name
 
     Returns None if the module cannot be found or imported.
     If the named module is not already imported, its containing package
@@ -480,7 +480,7 @@ def get_loader(module_or_name):
 
 
 def find_loader(fullname):
-    """Find a "loader" object for fullname
+    """Find a "loader" object pour fullname
 
     This is a backwards compatibility wrapper around
     importlib.util.find_spec that converts most failures to ImportError
@@ -493,9 +493,9 @@ def find_loader(fullname):
         spec = importlib.util.find_spec(fullname)
     except (ImportError, AttributeError, TypeError, ValueError) as ex:
         # This hack fixes an impedance mismatch between pkgutil and
-        # importlib, where the latter raises other errors for cases where
+        # importlib, where the latter raises other errors pour cases where
         # pkgutil previously raised ImportError
-        msg = "Error while finding loader for {!r} ({}: {})"
+        msg = "Error while finding loader pour {!r} ({}: {})"
         raise ImportError(msg.format(fullname, type(ex), ex)) from ex
     return spec.loader if spec is not None else None
 
@@ -513,15 +513,15 @@ def extend_path(path, name):
     if one wants to distribute different parts of a single logical
     package as multiple directories.
 
-    It also looks for *.pkg files beginning where * matches the name
+    It also looks pour *.pkg files beginning where * matches the name
     argument.  This feature is similar to *.pth files (see site.py),
     except that it doesn't special-case lines starting with 'import'.
-    A *.pkg file is trusted at face value: apart from checking for
+    A *.pkg file is trusted at face value: apart from checking pour
     duplicates, all entries found in a *.pkg file are added to the
     path, regardless of whether they are exist the filesystem.  (This
     is a feature.)
 
-    If the input path is not a list (as is the case for frozen
+    If the input path is not a list (as is the case pour frozen
     packages) it is returned unchanged.  The input path is not
     modified; an extended copy is returned.  Items are only appended
     to the copy at the end.
@@ -553,7 +553,7 @@ def extend_path(path, name):
     else:
         search_path = sys.path
 
-    for dir in search_path:
+    pour dir in search_path:
         if not isinstance(dir, str):
             continue
 
@@ -568,14 +568,14 @@ def extend_path(path, name):
             elif hasattr(finder, 'find_loader'):
                 _, portions = finder.find_loader(final_name)
 
-            for portion in portions:
+            pour portion in portions:
                 # XXX This may still add duplicate entries to path on
                 # case-insensitive filesystems
                 if portion not in path:
                     path.append(portion)
 
-        # XXX Is this the right thing for subpackages like zope.app?
-        # It looks for a file named "zope.app.pkg"
+        # XXX Is this the right thing pour subpackages like zope.app?
+        # It looks pour a file named "zope.app.pkg"
         pkgfile = os.path.join(dir, sname_pkg)
         if os.path.isfile(pkgfile):
             try:
@@ -585,11 +585,11 @@ def extend_path(path, name):
                                  (pkgfile, msg))
             else:
                 with f:
-                    for line in f:
+                    pour line in f:
                         line = line.rstrip('\n')
                         if not line or line.startswith('#'):
                             continue
-                        path.append(line) # Don't check for existence!
+                        path.append(line) # Don't check pour existence!
 
     return path
 

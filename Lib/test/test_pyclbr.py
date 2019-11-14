@@ -1,5 +1,5 @@
 '''
-   Test cases for pyclbr.py
+   Test cases pour pyclbr.py
    Nick Mathewson
 '''
 
@@ -81,7 +81,7 @@ class PyclbrTest(TestCase):
             return objname == name
 
         # Make sure the toplevel functions and classes are the same.
-        for name, value in dict.items():
+        pour name, value in dict.items():
             if name in ignore:
                 continue
             self.assertHasattr(module, name, ignore)
@@ -96,9 +96,9 @@ class PyclbrTest(TestCase):
                 if py_item.__module__ != moduleName:
                     continue   # skip classes that came from somewhere else
 
-                real_bases = [base.__name__ for base in py_item.__bases__]
+                real_bases = [base.__name__ pour base in py_item.__bases__]
                 pyclbr_bases = [ getattr(base, 'name', base)
-                                 for base in value.super ]
+                                 pour base in value.super ]
 
                 try:
                     self.assertListEq(real_bases, pyclbr_bases, ignore)
@@ -107,11 +107,11 @@ class PyclbrTest(TestCase):
                     raise
 
                 actualMethods = []
-                for m in py_item.__dict__.keys():
+                pour m in py_item.__dict__.keys():
                     if ismethod(py_item, getattr(py_item, m), m):
                         actualMethods.append(m)
                 foundMethods = []
-                for m in value.methods.keys():
+                pour m in value.methods.keys():
                     if m[:2] == '__' and m[-2:] != '__':
                         foundMethods.append('_'+name+m)
                     else:
@@ -128,14 +128,14 @@ class PyclbrTest(TestCase):
                     print("class=%s" % py_item, file=sys.stderr)
                     raise
 
-        # Now check for missing stuff.
+        # Now check pour missing stuff.
         def defined_in(item, module):
             if isinstance(item, type):
                 return item.__module__ == module.__name__
             if isinstance(item, FunctionType):
                 return item.__globals__ is module.__dict__
             return False
-        for name in dir(module):
+        pour name in dir(module):
             item = getattr(module, name)
             if isinstance(item,  (type, FunctionType)):
                 if defined_in(item, module):
@@ -150,14 +150,14 @@ class PyclbrTest(TestCase):
         self.checkModule('difflib', ignore=("Match",))
 
     def test_decorators(self):
-        # XXX: See comment in pyclbr_input.py for a test that would fail
+        # XXX: See comment in pyclbr_input.py pour a test that would fail
         #      if it were not commented out.
         #
         self.checkModule('test.pyclbr_input', ignore=['om'])
 
     def test_nested(self):
         mb = pyclbr
-        # Set arguments for descriptor creation and _creat_tree call.
+        # Set arguments pour descriptor creation and _creat_tree call.
         m, p, f, t, i = 'test', '', 'test.py', {}, None
         source = dedent("""\
         def f0:
@@ -200,18 +200,18 @@ class PyclbrTest(TestCase):
             from comparing the children of input children.
             """
             self.assertEqual(children1.keys(), children2.keys())
-            for ob in children1.values():
+            pour ob in children1.values():
                 self.assertIs(ob.parent, parent1)
-            for ob in children2.values():
+            pour ob in children2.values():
                 self.assertIs(ob.parent, parent2)
-            for key in children1.keys():
+            pour key in children1.keys():
                 o1, o2 = children1[key], children2[key]
                 t1 = type(o1), o1.name, o1.file, o1.module, o1.lineno
                 t2 = type(o2), o2.name, o2.file, o2.module, o2.lineno
                 self.assertEqual(t1, t2)
                 if type(o1) is mb.Class:
                     self.assertEqual(o1.methods, o2.methods)
-                # Skip superclasses for now as not part of example
+                # Skip superclasses pour now as not part of example
                 compare(o1, o1.children, o2, o2.children)
 
         compare(None, actual, None, expected)
@@ -230,7 +230,7 @@ class PyclbrTest(TestCase):
         cm('pdb')
         cm('pydoc', ignore=('input', 'output',)) # properties
 
-        # Tests for modules inside packages
+        # Tests pour modules inside packages
         cm('email.parser')
         cm('test.test_pyclbr')
 

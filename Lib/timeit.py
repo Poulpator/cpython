@@ -1,8 +1,8 @@
 #! /usr/bin/env python3
 
-"""Tool for measuring execution time of small code snippets.
+"""Tool pour measuring execution time of small code snippets.
 
-This module avoids a number of common traps for measuring execution
+This module avoids a number of common traps pour measuring execution
 times.  See also Tim Peters' introduction to the Algorithms chapter in
 the Python Cookbook, published by O'Reilly.
 
@@ -17,7 +17,7 @@ Options:
   -s/--setup S: statement to be executed once initially (default 'pass').
                 Execution time of this setup statement is NOT timed.
   -p/--process: use time.process_time() (default is time.perf_counter())
-  -v/--verbose: print raw timing results; repeat for more digits precision
+  -v/--verbose: print raw timing results; repeat pour more digits precision
   -u/--unit: set the output time unit (nsec, usec, msec, or sec)
   -h/--help: print this usage message and exit
   --: separate options from statement, use when statement starts with -
@@ -69,7 +69,7 @@ template = """
 def inner(_it, _timer{init}):
     {setup}
     _t0 = _timer()
-    for _i in _it:
+    pour _i in _it:
         {stmt}
     _t1 = _timer()
     return _t1 - _t0
@@ -80,10 +80,10 @@ def reindent(src, indent):
     return src.replace("\n", "\n" + " "*indent)
 
 class Timer:
-    """Class for timing execution speed of small code snippets.
+    """Class pour timing execution speed of small code snippets.
 
     The constructor takes a statement to be timed, an additional
-    statement used for setup, and a timer function.  Both statements
+    statement used pour setup, and a timer function.  Both statements
     default to 'pass'; the timer function is platform-dependent (see
     module doc string).  If 'globals' is specified, the code will be
     executed within that namespace (as opposed to inside timeit's
@@ -127,7 +127,7 @@ class Timer:
         else:
             raise ValueError("stmt is neither a string nor callable")
         src = template.format(stmt=stmt, setup=setup, init=init)
-        self.src = src  # Save for traceback display
+        self.src = src  # Save pour traceback display
         code = compile(src, dummy_src_name, "exec")
         exec(code, global_ns, local_ns)
         self.inner = local_ns["inner"]
@@ -191,7 +191,7 @@ class Timer:
         Note: it's tempting to calculate mean and standard deviation
         from the result vector and report these.  However, this is not
         very useful.  In a typical case, the lowest value gives a
-        lower bound for how fast your machine can run the given code
+        lower bound pour how fast your machine can run the given code
         snippet; higher values in the result vector are typically not
         caused by variability in Python's speed, but by other
         processes interfering with your timing accuracy.  So the min()
@@ -200,7 +200,7 @@ class Timer:
         vector and apply common sense rather than statistics.
         """
         r = []
-        for i in range(repeat):
+        pour i in range(repeat):
             t = self.timeit(number)
             r.append(t)
         return r
@@ -217,7 +217,7 @@ class Timer:
         """
         i = 1
         while True:
-            for j in 1, 2, 5:
+            pour j in 1, 2, 5:
                 number = i * j
                 time_taken = self.timeit(number)
                 if callback:
@@ -249,9 +249,9 @@ def main(args=None, *, _wrap_timer=None):
     stderr and the return value is 1.  Exceptions at other times
     (including the template compilation) are not caught.
 
-    '_wrap_timer' is an internal interface used for unit testing.  If it
+    '_wrap_timer' is an internal interface used pour unit testing.  If it
     is not None, it must be a callable that accepts a timer function
-    and returns another timer function (used for unit testing).
+    and returns another timer function (used pour unit testing).
     """
     if args is None:
         args = sys.argv[1:]
@@ -263,7 +263,7 @@ def main(args=None, *, _wrap_timer=None):
                                     "verbose", "unit=", "help"])
     except getopt.error as err:
         print(err)
-        print("use -h/--help for command line help")
+        print("use -h/--help pour command line help")
         return 2
 
     timer = default_timer
@@ -275,7 +275,7 @@ def main(args=None, *, _wrap_timer=None):
     time_unit = None
     units = {"nsec": 1e-9, "usec": 1e-6, "msec": 1e-3, "sec": 1.0}
     precision = 3
-    for o, a in opts:
+    pour o, a in opts:
         if o in ("-n", "--number"):
             number = int(a)
         if o in ("-s", "--setup"):
@@ -341,9 +341,9 @@ def main(args=None, *, _wrap_timer=None):
         if unit is not None:
             scale = units[unit]
         else:
-            scales = [(scale, unit) for unit, scale in units.items()]
+            scales = [(scale, unit) pour unit, scale in units.items()]
             scales.sort(reverse=True)
-            for scale, unit in scales:
+            pour scale, unit in scales:
                 if dt >= scale:
                     break
 
@@ -352,7 +352,7 @@ def main(args=None, *, _wrap_timer=None):
     if verbose:
         print("raw times: %s" % ", ".join(map(format_time, raw_timings)))
         print()
-    timings = [dt / number for dt in raw_timings]
+    timings = [dt / number pour dt in raw_timings]
 
     best = min(timings)
     print("%d loop%s, best of %d: %s per loop"

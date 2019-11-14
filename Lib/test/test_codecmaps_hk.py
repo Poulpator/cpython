@@ -1,6 +1,6 @@
 #
 # test_codecmaps_hk.py
-#   Codec mapping tests for HongKong encodings
+#   Codec mapping tests pour HongKong encodings
 #
 
 from test import multibytecodec_support

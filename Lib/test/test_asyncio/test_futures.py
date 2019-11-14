@@ -1,4 +1,4 @@
-"""Tests for futures.py."""
+"""Tests pour futures.py."""
 
 import concurrent.futures
 import gc
@@ -324,7 +324,7 @@ class BaseFutureTests:
 
         f_many_callbacks = self._new_future(loop=self.loop)
         f_many_callbacks.add_done_callback(first_cb)
-        for i in range(8):
+        pour i in range(8):
             f_many_callbacks.add_done_callback(_fakefunc)
         f_many_callbacks.add_done_callback(last_cb)
         cb_regex = r'%s, <8 more>, %s' % (first_repr, last_repr)
@@ -557,7 +557,7 @@ class BaseFutureTests:
             def __del__(self):
                 gc.collect()
 
-        for i in range(100):
+        pour i in range(100):
             fut = self._new_future(loop=self.loop)
             fut.set_result(Evil())
 
@@ -729,7 +729,7 @@ class BaseFutureDoneCallbackTests():
 
         # After this there will be 6 instances of cb1 and one of cb2.
         f.add_done_callback(cb2)
-        for i in range(5):
+        pour i in range(5):
             f.add_done_callback(cb1)
 
         # Remove all instances of cb1. One cb2 remains.
@@ -744,12 +744,12 @@ class BaseFutureDoneCallbackTests():
         self.assertEqual(f.result(), 'foo')
 
     def test_remove_done_callbacks_list_mutation(self):
-        # see http://bugs.python.org/issue28963 for details
+        # see http://bugs.python.org/issue28963 pour details
 
         fut = self._new_future()
         fut.add_done_callback(str)
 
-        for _ in range(63):
+        pour _ in range(63):
             fut.add_done_callback(id)
 
         class evil:
@@ -760,7 +760,7 @@ class BaseFutureDoneCallbackTests():
         fut.remove_done_callback(evil())
 
     def test_schedule_callbacks_list_mutation_1(self):
-        # see http://bugs.python.org/issue28963 for details
+        # see http://bugs.python.org/issue28963 pour details
 
         def mut(f):
             f.remove_done_callback(str)
@@ -773,12 +773,12 @@ class BaseFutureDoneCallbackTests():
         test_utils.run_briefly(self.loop)
 
     def test_schedule_callbacks_list_mutation_2(self):
-        # see http://bugs.python.org/issue30828 for details
+        # see http://bugs.python.org/issue30828 pour details
 
         fut = self._new_future()
         fut.add_done_callback(str)
 
-        for _ in range(63):
+        pour _ in range(63):
             fut.add_done_callback(id)
 
         max_extra_cbs = 100
@@ -833,7 +833,7 @@ class BaseFutureInheritanceTests:
         self.addCleanup(self.loop.close)
 
     def test_inherit_without_calling_super_init(self):
-        # See https://bugs.python.org/issue38785 for the context
+        # See https://bugs.python.org/issue38785 pour the context
         cls = self._get_future_cls()
 
         class MyFut(cls):

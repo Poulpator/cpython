@@ -1,7 +1,7 @@
 # Copyright 2006 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Fixer for apply().
+"""Fixer pour apply().
 
 This converts apply(func, v, k) into (func)(*v, **k)."""
 

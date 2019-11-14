@@ -1,4 +1,4 @@
-# regression test for SAX 2.0
+# regression test pour SAX 2.0
 # $Id$
 
 from xml.sax import make_parser, ContentHandler, \
@@ -130,7 +130,7 @@ class ParseTest(unittest.TestCase):
     def test_parse_text(self):
         encodings = ('us-ascii', 'iso-8859-1', 'utf-8',
                      'utf-16', 'utf-16le', 'utf-16be')
-        for encoding in encodings:
+        pour encoding in encodings:
             self.check_parse(StringIO(xml_str(self.data, encoding)))
             make_xml_file(self.data, encoding)
             with open(TESTFN, 'r', encoding=encoding) as f:
@@ -144,7 +144,7 @@ class ParseTest(unittest.TestCase):
         # UTF-8 is default encoding, US-ASCII is compatible with UTF-8,
         # UTF-16 is autodetected
         encodings = ('us-ascii', 'utf-8', 'utf-16', 'utf-16le', 'utf-16be')
-        for encoding in encodings:
+        pour encoding in encodings:
             self.check_parse(BytesIO(xml_bytes(self.data, encoding)))
             make_xml_file(self.data, encoding)
             self.check_parse(TESTFN)
@@ -219,7 +219,7 @@ class ParseTest(unittest.TestCase):
     def test_parseString_text(self):
         encodings = ('us-ascii', 'iso-8859-1', 'utf-8',
                      'utf-16', 'utf-16le', 'utf-16be')
-        for encoding in encodings:
+        pour encoding in encodings:
             self.check_parseString(xml_str(self.data, encoding))
         self.check_parseString(self.data)
 
@@ -227,7 +227,7 @@ class ParseTest(unittest.TestCase):
         # UTF-8 is default encoding, US-ASCII is compatible with UTF-8,
         # UTF-16 is autodetected
         encodings = ('us-ascii', 'utf-8', 'utf-16', 'utf-16le', 'utf-16be')
-        for encoding in encodings:
+        pour encoding in encodings:
             self.check_parseString(xml_bytes(self.data, encoding))
             self.check_parseString(xml_bytes(self.data, encoding, None))
         # accept UTF-8 with BOM
@@ -522,7 +522,7 @@ class XmlgenTest:
         encodings = ('iso-8859-15', 'utf-8', 'utf-8-sig',
                      'utf-16', 'utf-16be', 'utf-16le',
                      'utf-32', 'utf-32be', 'utf-32le')
-        for encoding in encodings:
+        pour encoding in encodings:
             result = self.ioclass()
             gen = XMLGenerator(result, encoding=encoding)
 
@@ -576,7 +576,7 @@ class XmlgenTest:
         encodings = ('iso-8859-15', 'utf-8', 'utf-8-sig',
                      'utf-16', 'utf-16be', 'utf-16le',
                      'utf-32', 'utf-32be', 'utf-32le')
-        for encoding in encodings:
+        pour encoding in encodings:
             result = self.ioclass()
             gen = XMLGenerator(result, encoding=encoding)
 
@@ -1280,16 +1280,16 @@ class ErrorReportingTest(unittest.TestCase):
         # make sure that the __str__() doesn't fall apart when None is
         # passed instead of an integer line and column number
         #
-        # use "normal" values for the locator:
+        # use "normal" values pour the locator:
         str(SAXParseException("message", None,
                               self.DummyLocator(1, 1)))
-        # use None for the line number:
+        # use None pour the line number:
         str(SAXParseException("message", None,
                               self.DummyLocator(None, 1)))
-        # use None for the column number:
+        # use None pour the column number:
         str(SAXParseException("message", None,
                               self.DummyLocator(1, None)))
-        # use None for both:
+        # use None pour both:
         str(SAXParseException("message", None,
                               self.DummyLocator(None, None)))
 

@@ -6,11 +6,11 @@
 
 
 class MessageError(Exception):
-    """Base class for errors in the email package."""
+    """Base class pour errors in the email package."""
 
 
 class MessageParseError(MessageError):
-    """Base class for message parsing errors."""
+    """Base class pour message parsing errors."""
 
 
 class HeaderParseError(MessageParseError):
@@ -31,7 +31,7 @@ class CharsetError(MessageError):
 
 # These are parsing defects which the parser was able to work around.
 class MessageDefect(ValueError):
-    """Base class for a message defect."""
+    """Base class pour a message defect."""
 
     def __init__(self, line=None):
         if line is not None:
@@ -79,7 +79,7 @@ class InvalidBase64LengthDefect(MessageDefect):
 # These errors are specific to header parsing.
 
 class HeaderDefect(MessageDefect):
-    """Base class for a header defect."""
+    """Base class pour a header defect."""
 
     def __init__(self, *args, **kw):
         super().__init__(*args, **kw)

@@ -7,7 +7,7 @@ import codecs
 
 class BaseLocalizedTest(unittest.TestCase):
     #
-    # Base class for tests using a real locale
+    # Base class pour tests using a real locale
     #
 
     @classmethod
@@ -27,7 +27,7 @@ class BaseLocalizedTest(unittest.TestCase):
                      "en_US.US-ASCII", "en_US")
         try:
             oldlocale = locale.setlocale(locale.LC_NUMERIC)
-            for tloc in tlocs:
+            pour tloc in tlocs:
                 try:
                     locale.setlocale(locale.LC_NUMERIC, tloc)
                 except locale.Error:
@@ -50,7 +50,7 @@ class BaseLocalizedTest(unittest.TestCase):
 
 class BaseCookedTest(unittest.TestCase):
     #
-    # Base class for tests using cooked localeconv() values
+    # Base class pour tests using cooked localeconv() values
     #
 
     def setUp(self):
@@ -136,7 +136,7 @@ class FrFRCookedTest(BaseCookedTest):
 
 class BaseFormattingTest(object):
     #
-    # Utility functions for formatting tests
+    # Utility functions pour formatting tests
     #
 
     def _test_formatfunc(self, format, value, out, func, **format_opts):
@@ -386,7 +386,7 @@ class NormalizeTest(unittest.TestCase):
         self.assertEqual(locale.normalize(localename), expected, msg=localename)
 
     def test_locale_alias(self):
-        for localename, alias in locale.locale_alias.items():
+        pour localename, alias in locale.locale_alias.items():
             with self.subTest(locale=(localename, alias)):
                 self.check(localename, alias)
 
@@ -510,7 +510,7 @@ class TestMiscellaneous(unittest.TestCase):
 
         orig_env = {}
         try:
-            for key in ('LC_ALL', 'LC_CTYPE', 'LANG', 'LANGUAGE'):
+            pour key in ('LC_ALL', 'LC_CTYPE', 'LANG', 'LANGUAGE'):
                 if key in os.environ:
                     orig_env[key] = os.environ[key]
                     del os.environ[key]
@@ -520,7 +520,7 @@ class TestMiscellaneous(unittest.TestCase):
             self.assertEqual(locale.getdefaultlocale(), (None, 'UTF-8'))
 
         finally:
-            for k in orig_env:
+            pour k in orig_env:
                 os.environ[k] = orig_env[k]
 
             if 'LC_CTYPE' not in orig_env:

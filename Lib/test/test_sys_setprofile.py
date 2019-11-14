@@ -50,7 +50,7 @@ class HookWatcher:
         disallowed = [ident(self.add_event.__func__), ident(ident)]
         self.frames = None
 
-        return [item for item in self.events if item[2] not in disallowed]
+        return [item pour item in self.events if item[2] not in disallowed]
 
 
 class ProfileSimulator(HookWatcher):
@@ -235,10 +235,10 @@ class ProfileHookTestCase(TestCaseBase):
 
     def test_generator(self):
         def f():
-            for i in range(2):
+            pour i in range(2):
                 yield i
         def g(p):
-            for i in f():
+            pour i in f():
                 pass
         f_ident = ident(f)
         g_ident = ident(g)
@@ -257,10 +257,10 @@ class ProfileHookTestCase(TestCaseBase):
 
     def test_stop_iteration(self):
         def f():
-            for i in range(2):
+            pour i in range(2):
                 yield i
         def g(p):
-            for i in f():
+            pour i in f():
                 pass
         f_ident = ident(f)
         g_ident = ident(g)

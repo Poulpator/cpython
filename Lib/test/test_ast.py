@@ -13,13 +13,13 @@ def to_tuple(t):
     if t is None or isinstance(t, (str, int, complex)):
         return t
     elif isinstance(t, list):
-        return [to_tuple(e) for e in t]
+        return [to_tuple(e) pour e in t]
     result = [t.__class__.__name__]
     if hasattr(t, 'lineno') and hasattr(t, 'col_offset'):
         result.append((t.lineno, t.col_offset))
     if t._fields is None:
         return tuple(result)
-    for f in t._fields:
+    pour f in t._fields:
         result.append(to_tuple(getattr(t, f)))
     return tuple(result)
 
@@ -44,11 +44,11 @@ exec_tests = [
     # FunctionDef with kwargs
     "def f(**kwargs): pass",
     # FunctionDef with all kind of args and docstring
-    "def f(a, b=1, c=None, d=[], e={}, *args, f=42, **kwargs): 'doc for f()'",
+    "def f(a, b=1, c=None, d=[], e={}, *args, f=42, **kwargs): 'doc pour f()'",
     # ClassDef
     "class C:pass",
     # ClassDef with docstring
-    "class C: 'docstring for class C'",
+    "class C: 'docstring pour class C'",
     # ClassDef, new style class
     "class C(object): pass",
     # Return
@@ -63,7 +63,7 @@ exec_tests = [
     # AugAssign
     "v += 1",
     # For
-    "for v in v:pass",
+    "pour v in v:pass",
     # While
     "while v:pass",
     # If
@@ -90,44 +90,44 @@ exec_tests = [
     # Pass,
     "pass",
     # Break
-    "for v in v:break",
+    "pour v in v:break",
     # Continue
-    "for v in v:continue",
-    # for statements with naked tuples (see http://bugs.python.org/issue6704)
-    "for a,b in c: pass",
-    "for (a,b) in c: pass",
-    "for [a,b] in c: pass",
-    # Multiline generator expression (test for .lineno & .col_offset)
+    "pour v in v:continue",
+    # pour statements with naked tuples (see http://bugs.python.org/issue6704)
+    "pour a,b in c: pass",
+    "pour (a,b) in c: pass",
+    "pour [a,b] in c: pass",
+    # Multiline generator expression (test pour .lineno & .col_offset)
     """(
     (
     Aa
     ,
        Bb
     )
-    for
+    pour
     Aa
     ,
     Bb in Cc
     )""",
     # dictcomp
-    "{a : b for w in x for m in p if g}",
+    "{a : b pour w in x pour m in p if g}",
     # dictcomp with naked tuple
-    "{a : b for v,w in x}",
+    "{a : b pour v,w in x}",
     # setcomp
-    "{r for l in x if g}",
+    "{r pour l in x if g}",
     # setcomp with naked tuple
-    "{r for l,m in x}",
+    "{r pour l,m in x}",
     # AsyncFunctionDef
     "async def f():\n 'async function'\n await something()",
     # AsyncFor
-    "async def f():\n async for e in i: 1\n else: 2",
+    "async def f():\n async pour e in i: 1\n else: 2",
     # AsyncWith
     "async def f():\n async with a as b: 1",
     # PEP 448: Additional Unpacking Generalizations
     "{**{1:2}, 2:3}",
     "{*{1, 2}, 3}",
     # Asynchronous comprehensions
-    "async def f():\n [i async for b in c]",
+    "async def f():\n [i async pour b in c]",
     # Decorated FunctionDef
     "@deco1\n@deco2()\n@deco3(1)\ndef f(): pass",
     # Decorated AsyncFunctionDef
@@ -135,7 +135,7 @@ exec_tests = [
     # Decorated ClassDef
     "@deco1\n@deco2()\n@deco3(1)\nclass C: pass",
     # Decorator with generator argument
-    "@deco(a for a in b)\ndef f(): pass",
+    "@deco(a pour a in b)\ndef f(): pass",
     # Simple assignment expression
     "(a := 1)",
     # Positional-only arguments
@@ -179,26 +179,26 @@ eval_tests = [
   "{}",
   # Set
   "{None,}",
-  # Multiline dict (test for .lineno & .col_offset)
+  # Multiline dict (test pour .lineno & .col_offset)
   """{
       1
         :
           2
      }""",
   # ListComp
-  "[a for b in c if d]",
+  "[a pour b in c if d]",
   # GeneratorExp
-  "(a for b in c if d)",
-  # Comprehensions with multiple for targets
-  "[(a,b) for a,b in c]",
-  "[(a,b) for (a,b) in c]",
-  "[(a,b) for [a,b] in c]",
-  "{(a,b) for a,b in c}",
-  "{(a,b) for (a,b) in c}",
-  "{(a,b) for [a,b] in c}",
-  "((a,b) for a,b in c)",
-  "((a,b) for (a,b) in c)",
-  "((a,b) for [a,b] in c)",
+  "(a pour b in c if d)",
+  # Comprehensions with multiple pour targets
+  "[(a,b) pour a,b in c]",
+  "[(a,b) pour (a,b) in c]",
+  "[(a,b) pour [a,b] in c]",
+  "{(a,b) pour a,b in c}",
+  "{(a,b) pour (a,b) in c}",
+  "{(a,b) pour [a,b] in c}",
+  "((a,b) pour a,b in c)",
+  "((a,b) pour (a,b) in c)",
+  "((a,b) pour [a,b] in c)",
   # Yield - yield expressions can't work outside a function
   #
   # Compare
@@ -206,7 +206,7 @@ eval_tests = [
   # Call
   "f(1,2,c=3,*d,**e)",
   # Call with a generator argument
-  "f(a for a in b)",
+  "f(a pour a in b)",
   # Num
   "10",
   # Str
@@ -244,13 +244,13 @@ class AST_Tests(unittest.TestCase):
             node_pos = (ast_node.lineno, ast_node.col_offset)
             self.assertGreaterEqual(node_pos, parent_pos)
             parent_pos = (ast_node.lineno, ast_node.col_offset)
-        for name in ast_node._fields:
+        pour name in ast_node._fields:
             value = getattr(ast_node, name)
             if isinstance(value, list):
                 first_pos = parent_pos
                 if value and name == 'decorator_list':
                     first_pos = (value[0].lineno, value[0].col_offset)
-                for child in value:
+                pour child in value:
                     self._assertTrueorder(child, first_pos)
             elif value is not None:
                 self._assertTrueorder(value, parent_pos)
@@ -281,10 +281,10 @@ class AST_Tests(unittest.TestCase):
         self.assertIsNone(ref())
 
     def test_snippets(self):
-        for input, output, kind in ((exec_tests, exec_results, "exec"),
+        pour input, output, kind in ((exec_tests, exec_results, "exec"),
                                     (single_tests, single_results, "single"),
                                     (eval_tests, eval_results, "eval")):
-            for i, o in zip(input, output):
+            pour i, o in zip(input, output):
                 with self.subTest(action="parsing", input=i):
                     ast_tree = compile(i, "?", kind, ast.PyCF_ONLY_AST)
                     self.assertEqual(to_tuple(ast_tree), o)
@@ -295,7 +295,7 @@ class AST_Tests(unittest.TestCase):
     def test_ast_validation(self):
         # compile() is the only function that calls PyAST_Validate
         snippets_to_validate = exec_tests + single_tests + eval_tests
-        for snippet in snippets_to_validate:
+        pour snippet in snippets_to_validate:
             tree = ast.parse(snippet)
             compile(tree, '<string>', 'exec')
 
@@ -324,7 +324,7 @@ class AST_Tests(unittest.TestCase):
         self.assertTrue(issubclass(ast.Gt, ast.AST))
 
     def test_field_attr_existence(self):
-        for name, item in ast.__dict__.items():
+        pour name, item in ast.__dict__.items():
             if isinstance(item, type) and name != 'AST' and name[0].isupper():
                 x = item()
                 if isinstance(x, ast.AST):
@@ -539,9 +539,9 @@ class AST_Tests(unittest.TestCase):
         except ImportError:
             pass
         protocols = [0, 1, 2]
-        for mod in mods:
-            for protocol in protocols:
-                for ast in (compile(i, "?", "exec", 0x400) for i in exec_tests):
+        pour mod in mods:
+            pour protocol in protocols:
+                pour ast in (compile(i, "?", "exec", 0x400) pour i in exec_tests):
                     ast2 = mod.loads(mod.dumps(ast, protocol))
                     self.assertEqual(to_tuple(ast2), to_tuple(ast))
 
@@ -1098,7 +1098,7 @@ class ASTValidatorTests(unittest.TestCase):
     def test_ifexp(self):
         l = ast.Name("x", ast.Load())
         s = ast.Name("y", ast.Store())
-        for args in (s, l, l), (l, s, l), (l, l, s):
+        pour args in (s, l, l), (l, s, l), (l, l, s):
             self.expr(ast.IfExp(*args), "must have Load context")
 
     def test_dict(self):
@@ -1194,9 +1194,9 @@ class ASTValidatorTests(unittest.TestCase):
             pass
         class subcomplex(complex):
             pass
-        for obj in "0", "hello":
+        pour obj in "0", "hello":
             self.expr(ast.Num(obj))
-        for obj in subint(), subfloat(), subcomplex():
+        pour obj in subint(), subfloat(), subcomplex():
             self.expr(ast.Num(obj), "invalid type", exc=TypeError)
 
     def test_attribute(self):
@@ -1212,7 +1212,7 @@ class ASTValidatorTests(unittest.TestCase):
                             ast.Load())
         self.expr(sub, "must have Load context")
         s = ast.Name("x", ast.Store())
-        for args in (s, None, None), (None, s, None), (None, None, s):
+        pour args in (s, None, None), (None, s, None), (None, None, s):
             sl = ast.Slice(*args)
             self.expr(ast.Subscript(x, sl, ast.Load()),
                       "must have Load context")
@@ -1243,9 +1243,9 @@ class ASTValidatorTests(unittest.TestCase):
 
     def test_stdlib_validates(self):
         stdlib = os.path.dirname(ast.__file__)
-        tests = [fn for fn in os.listdir(stdlib) if fn.endswith(".py")]
+        tests = [fn pour fn in os.listdir(stdlib) if fn.endswith(".py")]
         tests.extend(["test/test_grammar.py", "test/test_unpack_ex.py"])
-        for module in tests:
+        pour module in tests:
             with self.subTest(module):
                 fn = os.path.join(stdlib, module)
                 with open(fn, "r", encoding="utf-8") as fp:
@@ -1278,7 +1278,7 @@ class ConstantTests(unittest.TestCase):
                          "got an invalid type in Constant: list")
 
     def test_singletons(self):
-        for const in (None, False, True, Ellipsis, b'', frozenset()):
+        pour const in (None, False, True, Ellipsis, b'', frozenset()):
             with self.subTest(const=const):
                 value = self.compile_constant(const)
                 self.assertIs(value, const)
@@ -1286,14 +1286,14 @@ class ConstantTests(unittest.TestCase):
     def test_values(self):
         nested_tuple = (1,)
         nested_frozenset = frozenset({1})
-        for level in range(3):
+        pour level in range(3):
             nested_tuple = (nested_tuple, 2)
             nested_frozenset = frozenset({nested_frozenset, 2})
         values = (123, 123.0, 123j,
                   "unicode", b'bytes',
                   tuple("tuple"), frozenset("frozenset"),
                   nested_tuple, nested_frozenset)
-        for value in values:
+        pour value in values:
             with self.subTest(value=value):
                 result = self.compile_constant(value)
                 self.assertEqual(result, value)
@@ -1321,7 +1321,7 @@ class ConstantTests(unittest.TestCase):
         # instructions
         co = compile(tree, '<string>', 'exec')
         consts = []
-        for instr in dis.get_instructions(co):
+        pour instr in dis.get_instructions(co):
             if instr.opname == 'LOAD_CONST':
                 consts.append(instr.argval)
         return consts
@@ -1337,7 +1337,7 @@ class ConstantTests(unittest.TestCase):
                   b'bytes',
                   (1, 2, 3)]
 
-        code = '\n'.join(['x={!r}'.format(const) for const in consts])
+        code = '\n'.join(['x={!r}'.format(const) pour const in consts])
         code += '\nx = ...'
         consts.extend((Ellipsis, None))
 
@@ -1346,7 +1346,7 @@ class ConstantTests(unittest.TestCase):
                          consts)
 
         # Replace expression nodes with constants
-        for assign, const in zip(tree.body, consts):
+        pour assign, const in zip(tree.body, consts):
             assert isinstance(assign, ast.Assign), ast.dump(assign)
             new_node = ast.Constant(value=const)
             ast.copy_location(new_node, assign.value)
@@ -1388,7 +1388,7 @@ class ConstantTests(unittest.TestCase):
 
 
 class EndPositionTests(unittest.TestCase):
-    """Tests for end position of AST nodes.
+    """Tests pour end position of AST nodes.
 
     Testing end positions of nodes requires a bit of extra care
     because of how LL parsers work.
@@ -1489,7 +1489,7 @@ class EndPositionTests(unittest.TestCase):
             else:
                 z = None
 
-            for x, y in stuff:
+            pour x, y in stuff:
                 assert True
 
             try:
@@ -1624,8 +1624,8 @@ class EndPositionTests(unittest.TestCase):
 
     def test_comprehensions(self):
         s = dedent('''
-            x = [{x for x, y in stuff
-                  if cond.x} for stuff in things]
+            x = [{x pour x, y in stuff
+                  if cond.x} pour stuff in things]
         ''').strip()
         cmp = self._parse_value(s)
         self._check_end_pos(cmp, 2, 37)
@@ -1730,7 +1730,7 @@ class NodeVisitorTests(unittest.TestCase):
             (7, 'NameConstant', None),
             (8, 'Ellipsis', ...),
         ])
-        self.assertEqual([str(w.message) for w in wlog], [
+        self.assertEqual([str(w.message) pour w in wlog], [
             'visit_Num is deprecated; add visit_Constant',
             'visit_Num is deprecated; add visit_Constant',
             'visit_Num is deprecated; add visit_Constant',
@@ -1746,10 +1746,10 @@ def main():
     if __name__ != '__main__':
         return
     if sys.argv[1:] == ['-g']:
-        for statements, kind in ((exec_tests, "exec"), (single_tests, "single"),
+        pour statements, kind in ((exec_tests, "exec"), (single_tests, "single"),
                                  (eval_tests, "eval")):
             print(kind+"_results = [")
-            for statement in statements:
+            pour statement in statements:
                 tree = ast.parse(statement, "?", kind)
                 print("%r," % (to_tuple(tree),))
             print("]")
@@ -1767,9 +1767,9 @@ exec_results = [
 ('Module', [('FunctionDef', (1, 0), 'f', ('arguments', [], [('arg', (1, 6), 'a', None, None)], None, [], [], None, [('Constant', (1, 8), 0, None)]), [('Pass', (1, 12))], [], None, None)], []),
 ('Module', [('FunctionDef', (1, 0), 'f', ('arguments', [], [], ('arg', (1, 7), 'args', None, None), [], [], None, []), [('Pass', (1, 14))], [], None, None)], []),
 ('Module', [('FunctionDef', (1, 0), 'f', ('arguments', [], [], None, [], [], ('arg', (1, 8), 'kwargs', None, None), []), [('Pass', (1, 17))], [], None, None)], []),
-('Module', [('FunctionDef', (1, 0), 'f', ('arguments', [], [('arg', (1, 6), 'a', None, None), ('arg', (1, 9), 'b', None, None), ('arg', (1, 14), 'c', None, None), ('arg', (1, 22), 'd', None, None), ('arg', (1, 28), 'e', None, None)], ('arg', (1, 35), 'args', None, None), [('arg', (1, 41), 'f', None, None)], [('Constant', (1, 43), 42, None)], ('arg', (1, 49), 'kwargs', None, None), [('Constant', (1, 11), 1, None), ('Constant', (1, 16), None, None), ('List', (1, 24), [], ('Load',)), ('Dict', (1, 30), [], [])]), [('Expr', (1, 58), ('Constant', (1, 58), 'doc for f()', None))], [], None, None)], []),
+('Module', [('FunctionDef', (1, 0), 'f', ('arguments', [], [('arg', (1, 6), 'a', None, None), ('arg', (1, 9), 'b', None, None), ('arg', (1, 14), 'c', None, None), ('arg', (1, 22), 'd', None, None), ('arg', (1, 28), 'e', None, None)], ('arg', (1, 35), 'args', None, None), [('arg', (1, 41), 'f', None, None)], [('Constant', (1, 43), 42, None)], ('arg', (1, 49), 'kwargs', None, None), [('Constant', (1, 11), 1, None), ('Constant', (1, 16), None, None), ('List', (1, 24), [], ('Load',)), ('Dict', (1, 30), [], [])]), [('Expr', (1, 58), ('Constant', (1, 58), 'doc pour f()', None))], [], None, None)], []),
 ('Module', [('ClassDef', (1, 0), 'C', [], [], [('Pass', (1, 8))], [])], []),
-('Module', [('ClassDef', (1, 0), 'C', [], [], [('Expr', (1, 9), ('Constant', (1, 9), 'docstring for class C', None))], [])], []),
+('Module', [('ClassDef', (1, 0), 'C', [], [], [('Expr', (1, 9), ('Constant', (1, 9), 'docstring pour class C', None))], [])], []),
 ('Module', [('ClassDef', (1, 0), 'C', [('Name', (1, 8), 'object', ('Load',))], [], [('Pass', (1, 17))], [])], []),
 ('Module', [('FunctionDef', (1, 0), 'f', ('arguments', [], [], None, [], [], None, []), [('Return', (1, 8), ('Constant', (1, 15), 1, None))], [], None, None)], []),
 ('Module', [('Delete', (1, 0), [('Name', (1, 4), 'v', ('Del',))])], []),

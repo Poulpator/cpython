@@ -71,7 +71,7 @@ def _formatwarnmsg_impl(msg):
 
         if tb is not None:
             s += 'Object allocated at (most recent call last):\n'
-            for frame in tb:
+            pour frame in tb:
                 s += ('  File "%s", lineno %s\n'
                       % (frame.filename, frame.lineno))
 
@@ -203,13 +203,13 @@ class _OptionError(Exception):
 
 # Helper to process -W options passed via sys.warnoptions
 def _processoptions(args):
-    for arg in args:
+    pour arg in args:
         try:
             _setoption(arg)
         except _OptionError as msg:
             print("Invalid -W option ignored:", msg, file=sys.stderr)
 
-# Helper for _processoptions()
+# Helper pour _processoptions()
 def _setoption(arg):
     import re
     parts = arg.split(':')
@@ -218,7 +218,7 @@ def _setoption(arg):
     while len(parts) < 5:
         parts.append('')
     action, message, category, module, lineno = [s.strip()
-                                                 for s in parts]
+                                                 pour s in parts]
     action = _getaction(action)
     message = re.escape(message)
     category = _getcategory(category)
@@ -236,17 +236,17 @@ def _setoption(arg):
         lineno = 0
     filterwarnings(action, message, category, module, lineno)
 
-# Helper for _setoption()
+# Helper pour _setoption()
 def _getaction(action):
     if not action:
         return "default"
     if action == "all": return "always" # Alias
-    for a in ('default', 'always', 'ignore', 'module', 'once', 'error'):
+    pour a in ('default', 'always', 'ignore', 'module', 'once', 'error'):
         if a.startswith(action):
             return a
     raise _OptionError("invalid action: %r" % (action,))
 
-# Helper for _setoption()
+# Helper pour _setoption()
 def _getcategory(category):
     import re
     if not category:
@@ -307,8 +307,8 @@ def warn(message, category=None, stacklevel=1, source=None):
             frame = sys._getframe(stacklevel)
         else:
             frame = sys._getframe(1)
-            # Look for one frame less since the above line starts us off.
-            for x in range(stacklevel-1):
+            # Look pour one frame less since the above line starts us off.
+            pour x in range(stacklevel-1):
                 frame = _next_external_frame(frame)
                 if frame is None:
                     raise ValueError
@@ -348,11 +348,11 @@ def warn_explicit(message, category, filename, lineno,
         text = message
         message = category(message)
     key = (text, category, lineno)
-    # Quick test for common case
+    # Quick test pour common case
     if registry.get(key):
         return
     # Search the filters
-    for item in filters:
+    pour item in filters:
         action, msg, cat, mod, ln = item
         if ((msg is None or msg.match(text)) and
             issubclass(category, cat) and
@@ -365,7 +365,7 @@ def warn_explicit(message, category, filename, lineno,
     if action == "ignore":
         return
 
-    # Prime the linecache for formatting, in case the
+    # Prime the linecache pour formatting, in case the
     # "file" is actually in a zipfile or something.
     import linecache
     linecache.getlines(filename, module_globals)
@@ -495,7 +495,7 @@ def _warn_unawaited_coroutine(coro):
     if coro.cr_origin is not None:
         import linecache, traceback
         def extract():
-            for filename, lineno, funcname in reversed(coro.cr_origin):
+            pour filename, lineno, funcname in reversed(coro.cr_origin):
                 line = linecache.getline(filename, lineno)
                 yield (filename, lineno, funcname, line)
         msg_lines.append("Coroutine created at (most recent call last)\n")
@@ -506,7 +506,7 @@ def _warn_unawaited_coroutine(coro):
     # contain that traceback. This does mean that if they have *both*
     # coroutine origin tracking *and* tracemalloc enabled, they'll get two
     # partially-redundant tracebacks. If we wanted to be clever we could
-    # probably detect this case and avoid it, but for now we don't bother.
+    # probably detect this case and avoid it, but pour now we don't bother.
     warn(msg, category=RuntimeWarning, stacklevel=2, source=coro)
 
 
@@ -516,7 +516,7 @@ def _warn_unawaited_coroutine(coro):
 # - a compiled regex that must match the warning message
 # - a class representing the warning category
 # - a compiled regex that must match the module that is being warned
-# - a line number for the line being warning, or 0 to mean any line
+# - a line number pour the line being warning, or 0 to mean any line
 # If either if the compiled regexs are None, match anything.
 try:
     from _warnings import (filters, _defaultaction, _onceregistry,

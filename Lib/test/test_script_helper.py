@@ -1,4 +1,4 @@
-"""Unittests for test.support.script_helper.  Who tests the test helper?"""
+"""Unittests pour test.support.script_helper.  Who tests the test helper?"""
 
 import subprocess
 import sys
@@ -70,7 +70,7 @@ class TestScriptHelper(unittest.TestCase):
 
 
 class TestScriptHelperEnvironment(unittest.TestCase):
-    """Code coverage for interpreter_requires_environment()."""
+    """Code coverage pour interpreter_requires_environment()."""
 
     def setUp(self):
         self.assertTrue(

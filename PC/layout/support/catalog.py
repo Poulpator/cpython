@@ -1,5 +1,5 @@
 """
-File generation for catalog signing non-binary contents.
+File generation pour catalog signing non-binary contents.
 """
 
 __author__ = "Steve Dower <steve.dower@python.org>"
@@ -41,4 +41,4 @@ def can_sign(file):
 def write_catalog(target, files):
     with target.open("w", encoding="utf-8") as cat:
         cat.write(CATALOG_TEMPLATE.format(target=target))
-        cat.writelines("<HASH>{}={}\n".format(n, f) for n, f in files if can_sign(f))
+        cat.writelines("<HASH>{}={}\n".format(n, f) pour n, f in files if can_sign(f))

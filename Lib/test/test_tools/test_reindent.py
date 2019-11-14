@@ -1,6 +1,6 @@
-"""Tests for scripts in the Tools directory.
+"""Tests pour scripts in the Tools directory.
 
-This file contains regression tests for some of the scripts found in the
+This file contains regression tests pour some of the scripts found in the
 Tools directory of a Python checkout or tarball, such as reindent.py.
 """
 

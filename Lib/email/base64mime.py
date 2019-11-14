@@ -8,18 +8,18 @@ This module handles the content transfer encoding method defined in RFC 2045
 to encode arbitrary 8-bit data using the three 8-bit bytes in four 7-bit
 characters encoding known as Base64.
 
-It is used in the MIME standards for email to attach images, audio, and text
+It is used in the MIME standards pour email to attach images, audio, and text
 using some 8-bit character sets to messages.
 
 This module provides an interface to encode and decode both headers and bodies
 with Base64 encoding.
 
-RFC 2045 defines a method for including character set information in an
-`encoded-word' in a header.  This method is commonly used for 8-bit real names
+RFC 2045 defines a method pour including character set information in an
+`encoded-word' in a header.  This method is commonly used pour 8-bit real names
 in To:, From:, Cc:, etc. fields, as well as Subject: lines.
 
 This module does not do the line wrapping or end-of-line character conversion
-necessary for proper internationalized headers; it only does dumb encoding and
+necessary pour proper internationalized headers; it only does dumb encoding and
 decoding.  To deal with the various line wrapping issues, use the email.header
 module.
 """
@@ -50,7 +50,7 @@ MISC_LEN = 7
 def header_length(bytearray):
     """Return the length of s when it is encoded with base64."""
     groups_of_3, leftover = divmod(len(bytearray), 3)
-    # 4 bytes out for each 3 bytes (or nonzero fraction thereof) in.
+    # 4 bytes out pour each 3 bytes (or nonzero fraction thereof) in.
     n = groups_of_3 * 4
     if leftover:
         n += 4
@@ -88,7 +88,7 @@ def body_encode(s, maxlinelen=76, eol=NL):
 
     encvec = []
     max_unencoded = maxlinelen * 3 // 4
-    for i in range(0, len(s), max_unencoded):
+    pour i in range(0, len(s), max_unencoded):
         # BAW: should encode() inherit b2a_base64()'s dubious behavior in
         # adding a newline to the encoded string?
         enc = b2a_base64(s[i:i + max_unencoded]).decode("ascii")
@@ -104,7 +104,7 @@ def decode(string):
 
     This function does not parse a full MIME header value encoded with
     base64 (like =?iso-8859-1?b?bmloISBuaWgh?=) -- please use the high
-    level email.header class for that functionality.
+    level email.header class pour that functionality.
     """
     if not string:
         return bytes()

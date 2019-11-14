@@ -24,8 +24,8 @@ class PlatformTest(unittest.TestCase):
             self.assertEqual(py.call_real(*cmd), py.call_link(*cmd))
 
     def test_platform(self):
-        for aliased in (False, True):
-            for terse in (False, True):
+        pour aliased in (False, True):
+            pour terse in (False, True):
                 res = platform.platform(aliased, terse)
 
     def test_system(self):
@@ -58,7 +58,7 @@ class PlatformTest(unittest.TestCase):
 
     def test_sys_version(self):
         # Old test.
-        for input, output in (
+        pour input, output in (
             ('2.4.3 (#1, Jun 21 2006, 13:54:21) \n[GCC 3.3.4 (pre 3.3.5 20040809)]',
              ('CPython', '2.4.3', '', '', '1', 'Jun 21 2006 13:54:21', 'GCC 3.3.4 (pre 3.3.5 20040809)')),
             ('IronPython 1.0.60816 on .NET 2.0.50727.42',
@@ -89,7 +89,7 @@ class PlatformTest(unittest.TestCase):
             self.assertEqual(
                 (name, version, '', '', buildno, builddate, compiler), output)
 
-        # Tests for python_implementation(), python_version(), python_branch(),
+        # Tests pour python_implementation(), python_version(), python_branch(),
         # python_revision(), python_build(), and python_compiler().
         sys_versions = {
             ("2.6.1 (r261:67515, Dec  6 2008, 15:26:00) \n[GCC 4.0.1 (Apple Computer, Inc. build 5370)]",
@@ -126,7 +126,7 @@ class PlatformTest(unittest.TestCase):
                 ("PyPy", "2.5.2", "trunk", "63378", ('63378', 'Mar 26 2009'),
                  "")
             }
-        for (version_tag, scm, sys_platform), info in \
+        pour (version_tag, scm, sys_platform), info in \
                 sys_versions.items():
             sys.version = version_tag
             if scm is None:
@@ -196,7 +196,7 @@ class PlatformTest(unittest.TestCase):
             # We are on a macOS system, check that the right version
             # information is returned
             output = subprocess.check_output(['sw_vers'], text=True)
-            for line in output.splitlines():
+            pour line in output.splitlines():
                 if line.startswith('ProductVersion:'):
                     real_ver = line.strip().split()[-1]
                     break
@@ -226,7 +226,7 @@ class PlatformTest(unittest.TestCase):
     def test_mac_ver_with_fork(self):
         # Issue7895: platform.mac_ver() crashes when using fork without exec
         #
-        # This test checks that the fix for that issue works.
+        # This test checks that the fix pour that issue works.
         #
         pid = os.fork()
         if pid == 0:
@@ -263,7 +263,7 @@ class PlatformTest(unittest.TestCase):
             self.assertEqual(platform.libc_ver(), ('mock', '1.0'))
 
             # test the different regular expressions
-            for data, expected in (
+            pour data, expected in (
                 (b'__libc_init', ('libc', '')),
                 (b'GLIBC_2.9', ('glibc', '2.9')),
                 (b'libc.so.1.2.5', ('libc', '1.2.5')),
@@ -336,7 +336,7 @@ class PlatformTest(unittest.TestCase):
         arch = ('64bit', '')
         with mock.patch.object(platform, 'uname', return_value=uname), \
              mock.patch.object(platform, 'architecture', return_value=arch):
-            for mac_ver, expected_terse, expected in [
+            pour mac_ver, expected_terse, expected in [
                 # darwin: mac_ver() returns empty strings
                 (('', '', ''),
                  'Darwin-17.7.0',

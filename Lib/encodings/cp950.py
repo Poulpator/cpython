@@ -1,5 +1,5 @@
 #
-# cp950.py: Python Unicode Codec for CP950
+# cp950.py: Python Unicode Codec pour CP950
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

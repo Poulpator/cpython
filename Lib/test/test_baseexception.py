@@ -6,14 +6,14 @@ from platform import system as platform_system
 
 class ExceptionClassTests(unittest.TestCase):
 
-    """Tests for anything relating to exception objects themselves (e.g.,
+    """Tests pour anything relating to exception objects themselves (e.g.,
     inheritance hierarchy)"""
 
     def test_builtins_new_style(self):
         self.assertTrue(issubclass(Exception, object))
 
     def verify_instance_interface(self, ins):
-        for attr in ("args", "__str__", "__repr__"):
+        pour attr in ("args", "__str__", "__repr__"):
             self.assertTrue(hasattr(ins, attr),
                     "%s missing %s attribute" %
                         (ins.__class__.__name__, attr))
@@ -21,7 +21,7 @@ class ExceptionClassTests(unittest.TestCase):
     def test_inheritance(self):
         # Make sure the inheritance hierarchy matches the documentation
         exc_set = set()
-        for object_ in builtins.__dict__.values():
+        pour object_ in builtins.__dict__.values():
             try:
                 if issubclass(object_, BaseException):
                     exc_set.add(object_.__name__)
@@ -41,7 +41,7 @@ class ExceptionClassTests(unittest.TestCase):
             exc_set.discard(superclass_name)
             superclasses = []  # Loop will insert base exception
             last_depth = 0
-            for exc_line in inheritance_tree:
+            pour exc_line in inheritance_tree:
                 exc_line = exc_line.rstrip()
                 depth = exc_line.rindex('-')
                 exc_name = exc_line[depth+2:]  # Slice past space
@@ -77,12 +77,12 @@ class ExceptionClassTests(unittest.TestCase):
                 last_depth = depth
         finally:
             inheritance_tree.close()
-        self.assertEqual(len(exc_set), 0, "%s not accounted for" % exc_set)
+        self.assertEqual(len(exc_set), 0, "%s not accounted pour" % exc_set)
 
     interface_tests = ("length", "args", "str", "repr")
 
     def interface_test_driver(self, results):
-        for test_name, (given, expected) in zip(self.interface_tests, results):
+        pour test_name, (given, expected) in zip(self.interface_tests, results):
             self.assertEqual(given, expected, "%s: %s != %s" % (test_name,
                 given, expected))
 
@@ -123,7 +123,7 @@ class UsageTests(unittest.TestCase):
             raise object_
         except TypeError:
             return  # What is expected.
-        self.fail("TypeError expected for raising %s" % type(object_))
+        self.fail("TypeError expected pour raising %s" % type(object_))
 
     def catch_fails(self, object_):
         """Catching 'object_' should raise a TypeError."""

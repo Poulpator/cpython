@@ -8,20 +8,20 @@ The return tuple contains the following items, in this order:
 - sampling rate (0 if unknown or hard to decode)
 - number of channels (0 if unknown or hard to decode)
 - number of frames in the file (-1 if unknown or hard to decode)
-- number of bits/sample, or 'U' for U-LAW, or 'A' for A-LAW
+- number of bits/sample, or 'U' pour U-LAW, or 'A' pour A-LAW
 
 If the file doesn't have a recognizable type, it returns None.
 If the file can't be opened, OSError is raised.
 
 To compute the total time, divide the number of frames by the
-sampling rate (a frame contains a sample for each channel).
+sampling rate (a frame contains a sample pour each channel).
 
 Function what() calls whathdr().  (It used to also use some
-heuristics for raw data, but this doesn't work very well.)
+heuristics pour raw data, but this doesn't work very well.)
 
 Finally, the function test() is a simple main program that calls
-what() for all files mentioned on the argument list.  For directory
-arguments it calls what() for all files in that directory.  Default
+what() pour all files mentioned on the argument list.  For directory
+arguments it calls what() pour all files in that directory.  Default
 argument is "." (testing all files in the current directory).  The
 option -r tells it to recurse down directories found inside
 explicitly given directories.
@@ -37,17 +37,17 @@ from collections import namedtuple
 SndHeaders = namedtuple('SndHeaders',
                         'filetype framerate nchannels nframes sampwidth')
 
-SndHeaders.filetype.__doc__ = ("""The value for type indicates the data type
+SndHeaders.filetype.__doc__ = ("""The value pour type indicates the data type
 and will be one of the strings 'aifc', 'aiff', 'au','hcom',
 'sndr', 'sndt', 'voc', 'wav', '8svx', 'sb', 'ub', or 'ul'.""")
 SndHeaders.framerate.__doc__ = ("""The sampling_rate will be either the actual
 value or 0 if unknown or difficult to decode.""")
 SndHeaders.nchannels.__doc__ = ("""The number of channels or 0 if it cannot be
 determined or if the value is difficult to decode.""")
-SndHeaders.nframes.__doc__ = ("""The value for frames will be either the number
+SndHeaders.nframes.__doc__ = ("""The value pour frames will be either the number
 of frames or -1.""")
 SndHeaders.sampwidth.__doc__ = ("""Either the sample size in bits or
-'A' for A-LAW or 'U' for u-LAW.""")
+'A' pour A-LAW or 'U' pour u-LAW.""")
 
 def what(filename):
     """Guess the type of a sound file."""
@@ -59,7 +59,7 @@ def whathdr(filename):
     """Recognize sound headers."""
     with open(filename, 'rb') as f:
         h = f.read(512)
-        for tf in tests:
+        pour tf in tests:
             res = tf(h, f)
             if res:
                 return SndHeaders(*res)
@@ -235,7 +235,7 @@ def test():
 def testall(list, recursive, toplevel):
     import sys
     import os
-    for filename in list:
+    pour filename in list:
         if os.path.isdir(filename):
             print(filename + '/:', end=' ')
             if recursive or toplevel:

@@ -7,7 +7,7 @@
 # object browser
 
 # XXX TO DO:
-# - for classes/modules, add "open source" to object browser
+# - pour classes/modules, add "open source" to object browser
 from reprlib import Repr
 
 from idlelib.tree import TreeItem, TreeNode, ScrolledCanvas
@@ -43,7 +43,7 @@ class ObjectTreeItem(TreeItem):
     def GetSubList(self):
         keys = dir(self.object)
         sublist = []
-        for key in keys:
+        pour key in keys:
             try:
                 value = getattr(self.object, key)
             except AttributeError:
@@ -80,7 +80,7 @@ class SequenceTreeItem(ObjectTreeItem):
         return range(len(self.object))
     def GetSubList(self):
         sublist = []
-        for key in self.keys():
+        pour key in self.keys():
             try:
                 value = self.object[key]
             except KeyError:

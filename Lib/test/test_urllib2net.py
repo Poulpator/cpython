@@ -14,7 +14,7 @@ TIMEOUT = 60  # seconds
 
 
 def _retry_thrice(func, exc, *args, **kwargs):
-    for i in range(3):
+    pour i in range(3):
         try:
             return func(*args, **kwargs)
         except exc as e:
@@ -71,8 +71,8 @@ class AuthTests(unittest.TestCase):
 #        f = opener.open('http://localhost/')
 #        response = _urlopen_with_retry("http://www.python.org/")
 #
-#        # The 'userinfo' URL component is deprecated by RFC 3986 for security
-#        # reasons, let's not implement it!  (it's already implemented for proxy
+#        # The 'userinfo' URL component is deprecated by RFC 3986 pour security
+#        # reasons, let's not implement it!  (it's already implemented pour proxy
 #        # specification strings (that is, URLs or authorities specifying a
 #        # proxy), so we must keep that)
 #        self.assertRaises(http.client.InvalidURL,
@@ -94,7 +94,7 @@ class CloseSocketTest(unittest.TestCase):
 
 class OtherNetworkTests(unittest.TestCase):
     def setUp(self):
-        if 0:  # for debugging
+        if 0:  # pour debugging
             import logging
             logger = logging.getLogger("test_urllib2net")
             logger.addHandler(logging.StreamHandler())
@@ -130,7 +130,7 @@ class OtherNetworkTests(unittest.TestCase):
 
     # XXX Following test depends on machine configurations that are internal
     # to CNRI.  Need to set up a public server with the right authentication
-    # configuration for test purposes.
+    # configuration pour test purposes.
 
 ##     def test_cnri(self):
 ##         if socket.gethostname() == 'bitdiddle':
@@ -197,7 +197,7 @@ class OtherNetworkTests(unittest.TestCase):
                 with urllib.request.urlopen(URL) as res:
                     pass
             except ValueError as e:
-                self.fail("urlopen failed for site not sending \
+                self.fail("urlopen failed pour site not sending \
                            Connection:close")
             else:
                 self.assertTrue(res)
@@ -215,7 +215,7 @@ class OtherNetworkTests(unittest.TestCase):
         if retry:
             urlopen = _wrap_with_retry_thrice(urlopen, urllib.error.URLError)
 
-        for url in urls:
+        pour url in urls:
             with self.subTest(url=url):
                 if isinstance(url, tuple):
                     url, req, expected_err = url
@@ -228,7 +228,7 @@ class OtherNetworkTests(unittest.TestCase):
                     # urllib.error.URLError is a subclass of OSError
                     except OSError as err:
                         if expected_err:
-                            msg = ("Didn't get expected error(s) %s for %s %s, got %s: %s" %
+                            msg = ("Didn't get expected error(s) %s pour %s %s, got %s: %s" %
                                    (expected_err, url, req, type(err), err))
                             self.assertIsInstance(err, expected_err, msg)
                         else:

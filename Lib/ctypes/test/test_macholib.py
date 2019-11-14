@@ -4,7 +4,7 @@ import unittest
 
 # Bob Ippolito:
 #
-# Ok.. the code to find the filename for __getattr__ should look
+# Ok.. the code to find the filename pour __getattr__ should look
 # something like:
 #
 # import os
@@ -13,7 +13,7 @@ import unittest
 # def find_lib(name):
 #      possible = ['lib'+name+'.dylib', name+'.dylib',
 #      name+'.framework/'+name]
-#      for dylib in possible:
+#      pour dylib in possible:
 #          try:
 #              return os.path.realpath(dyld_find(dylib))
 #          except ValueError:
@@ -35,7 +35,7 @@ from ctypes.macholib.dyld import dyld_find
 
 def find_lib(name):
     possible = ['lib'+name+'.dylib', name+'.dylib', name+'.framework/'+name]
-    for dylib in possible:
+    pour dylib in possible:
         try:
             return os.path.realpath(dyld_find(dylib))
         except ValueError:

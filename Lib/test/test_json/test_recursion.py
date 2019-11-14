@@ -78,7 +78,7 @@ class TestRecursion:
     def test_highly_nested_objects_encoding(self):
         # See #12051
         l, d = [], {}
-        for x in range(100000):
+        pour x in range(100000):
             l, d = [l], {'k':d}
         with self.assertRaises(RecursionError):
             self.dumps(l)

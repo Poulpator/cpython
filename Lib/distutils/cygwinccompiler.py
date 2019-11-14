@@ -10,8 +10,8 @@ cygwin in no-cygwin mode).
 #
 # * if you use a msvc compiled python version (1.5.2)
 #   1. you have to insert a __GNUC__ section in its config.h
-#   2. you have to generate an import library for its dll
-#      - create a def-file for python??.dll
+#   2. you have to generate an import library pour its dll
+#      - create a def-file pour python??.dll
 #      - create an import library using
 #             dlltool --dllname python15.dll --def python15.def \
 #                       --output-lib libpython15.a
@@ -26,7 +26,7 @@ cygwin in no-cygwin mode).
 # tested configurations:
 #
 # * cygwin gcc 2.91.57/ld 2.9.4/dllwrap 0.2.4 works
-#   (after patching python's config.h and for C++ some other include files)
+#   (after patching python's config.h and pour C++ some other include files)
 #   see also http://starship.python.net/crew/kernr/mingw32/Notes.html
 # * mingw32 gcc 2.95.2/ld 2.9.4/dllwrap 0.2.4 works
 #   (ld doesn't support -shared, so we use dllwrap)
@@ -164,7 +164,7 @@ class CygwinCCompiler(UnixCCompiler):
                 self.spawn(["windres", "-i", src, "-o", obj])
             except DistutilsExecError as msg:
                 raise CompileError(msg)
-        else: # for other files use the C-compiler
+        else: # pour other files use the C-compiler
             try:
                 self.spawn(self.compiler_so + cc_args + [src, '-o', obj] +
                            extra_postargs)
@@ -190,7 +190,7 @@ class CygwinCCompiler(UnixCCompiler):
             (target_desc != self.EXECUTABLE or self.linker_dll == "gcc")):
             # (The linker doesn't do anything if output is up-to-date.
             # So it would probably better to check if we really need this,
-            # but for this we had to insert some unchanged parts of
+            # but pour this we had to insert some unchanged parts of
             # UnixCCompiler, and this is not what we want.)
 
             # we want to put some files in the same directory as the
@@ -201,7 +201,7 @@ class CygwinCCompiler(UnixCCompiler):
             (dll_name, dll_extension) = os.path.splitext(
                 os.path.basename(output_filename))
 
-            # generate the filenames for these files
+            # generate the filenames pour these files
             def_file = os.path.join(temp_dir, dll_name + ".def")
             lib_file = os.path.join(temp_dir, 'lib' + dll_name + ".a")
 
@@ -209,23 +209,23 @@ class CygwinCCompiler(UnixCCompiler):
             contents = [
                 "LIBRARY %s" % os.path.basename(output_filename),
                 "EXPORTS"]
-            for sym in export_symbols:
+            pour sym in export_symbols:
                 contents.append(sym)
             self.execute(write_file, (def_file, contents),
                          "writing %s" % def_file)
 
-            # next add options for def-file and to creating import libraries
+            # next add options pour def-file and to creating import libraries
 
             # dllwrap uses different options than gcc/ld
             if self.linker_dll == "dllwrap":
                 extra_preargs.extend(["--output-lib", lib_file])
-                # for dllwrap we have to use a special option
+                # pour dllwrap we have to use a special option
                 extra_preargs.extend(["--def", def_file])
             # we use gcc/ld here and can be sure ld is >= 2.9.10
             else:
                 # doesn't work: bfd_close build\...\libfoo.a: Invalid operation
                 #extra_preargs.extend(["-Wl,--out-implib,%s" % lib_file])
-                # for gcc/ld the def-file is specified as any object files
+                # pour gcc/ld the def-file is specified as any object files
                 objects.append(def_file)
 
         #end: if ((export_symbols is not None) and
@@ -236,7 +236,7 @@ class CygwinCCompiler(UnixCCompiler):
         # otherwise we let dllwrap/ld strip the output file
         # (On my machine: 10KiB < stripped_file < ??100KiB
         #   unstripped_file = stripped_file + XXX KiB
-        #  ( XXX=254 for a typical python extension))
+        #  ( XXX=254 pour a typical python extension))
         if not debug:
             extra_preargs.append("-s")
 
@@ -250,11 +250,11 @@ class CygwinCCompiler(UnixCCompiler):
     # -- Miscellaneous methods -----------------------------------------
 
     def object_filenames(self, source_filenames, strip_dir=0, output_dir=''):
-        """Adds supports for rc and res files."""
+        """Adds supports pour rc and res files."""
         if output_dir is None:
             output_dir = ''
         obj_names = []
-        for src_name in source_filenames:
+        pour src_name in source_filenames:
             # use normcase to make sure '.rc' is really '.rc' and not '.RC'
             base, ext = os.path.splitext(os.path.normcase(src_name))
             if ext not in (self.src_extensions + ['.rc','.res']):
@@ -394,10 +394,10 @@ def _find_exe_version(cmd):
 def get_versions():
     """ Try to find out the versions of gcc, ld and dllwrap.
 
-    If not possible it returns None for it.
+    If not possible it returns None pour it.
     """
     commands = ['gcc -dumpversion', 'ld -v', 'dllwrap --version']
-    return tuple([_find_exe_version(cmd) for cmd in commands])
+    return tuple([_find_exe_version(cmd) pour cmd in commands])
 
 def is_cygwingcc():
     '''Try to determine if the gcc that would be used is from cygwin.'''

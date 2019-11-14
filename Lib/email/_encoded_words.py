@@ -1,6 +1,6 @@
-""" Routines for manipulating RFC2047 encoded words.
+""" Routines pour manipulating RFC2047 encoded words.
 
-This is currently a package-private API, but will be considered for promotion
+This is currently a package-private API, but will be considered pour promotion
 to a public API if there is demand.
 
 """
@@ -9,34 +9,34 @@ to a public API if there is demand.
 #
 #        =?charset[*lang]?cte?encoded_string?=
 #
-# for more information about charset see the charset module.  Here it is one
+# pour more information about charset see the charset module.  Here it is one
 # of the preferred MIME charset names (hopefully; you never know when parsing).
 # cte (Content Transfer Encoding) is either 'q' or 'b' (ignoring case).  In
-# theory other letters could be used for other encodings, but in practice this
-# (almost?) never happens.  There could be a public API for adding entries
-# to the CTE tables, but YAGNI for now.  'q' is Quoted Printable, 'b' is
+# theory other letters could be used pour other encodings, but in practice this
+# (almost?) never happens.  There could be a public API pour adding entries
+# to the CTE tables, but YAGNI pour now.  'q' is Quoted Printable, 'b' is
 # Base64.  The meaning of encoded_string should be obvious.  'lang' is optional
 # as indicated by the brackets (they are not part of the syntax) but is almost
 # never encountered in practice.
 #
-# The general interface for a CTE decoder is that it takes the encoded_string
+# The general interface pour a CTE decoder is that it takes the encoded_string
 # as its argument, and returns a tuple (cte_decoded_string, defects).  The
 # cte_decoded_string is the original binary that was encoded using the
 # specified cte.  'defects' is a list of MessageDefect instances indicating any
 # problems encountered during conversion.  'charset' and 'lang' are the
 # corresponding strings extracted from the EW, case preserved.
 #
-# The general interface for a CTE encoder is that it takes a binary sequence
+# The general interface pour a CTE encoder is that it takes a binary sequence
 # as input and returns the cte_encoded_string, which is an ascii-only string.
 #
 # Each decoder must also supply a length function that takes the binary
 # sequence as its argument and returns the length of the resulting encoded
 # string.
 #
-# The main API functions for the module are decode, which calls the decoder
+# The main API functions pour the module are decode, which calls the decoder
 # referenced by the cte specifier, and encode, which adds the appropriate
 # RFC 2047 "chrome" to the encoded string, and can optionally automatically
-# select the shortest possible encoding.  See their docstrings below for
+# select the shortest possible encoding.  See their docstrings below pour
 # details.
 
 import re
@@ -87,10 +87,10 @@ _q_byte_map = _QByteMap()
 _q_byte_map[ord(' ')] = '_'
 
 def encode_q(bstring):
-    return ''.join(_q_byte_map[x] for x in bstring)
+    return ''.join(_q_byte_map[x] pour x in bstring)
 
 def len_q(bstring):
-    return sum(len(_q_byte_map[x]) for x in bstring)
+    return sum(len(_q_byte_map[x]) pour x in bstring)
 
 
 #
@@ -140,7 +140,7 @@ def encode_b(bstring):
 
 def len_b(bstring):
     groups_of_3, leftover = divmod(len(bstring), 3)
-    # 4 bytes out for each 3 bytes (or nonzero fraction thereof) in.
+    # 4 bytes out pour each 3 bytes (or nonzero fraction thereof) in.
     return groups_of_3 * 4 + (4 if leftover else 0)
 
 
@@ -166,7 +166,7 @@ def decode(ew):
     character set, a defect is added to the defects list and the unknown octets
     are replaced by the unicode 'unknown' character \\uFDFF.
 
-    The specified charset and language are returned.  The default for language,
+    The specified charset and language are returned.  The default pour language,
     which is rarely if ever encountered, is the empty string.
 
     """
@@ -211,7 +211,7 @@ def encode(string, charset='utf-8', encoding=None, lang=''):
     where '*lang' is omitted unless the 'lang' parameter is given a value.
     Optional argument charset (defaults to utf-8) specifies the charset to use
     to encode the string to binary before CTE encoding it.  Optional argument
-    'encoding' is the cte specifier for the encoding that should be used ('q'
+    'encoding' is the cte specifier pour the encoding that should be used ('q'
     or 'b'); if it is None (the default) the encoding which produces the
     shortest encoded sequence is used, except that 'q' is preferred if it is up
     to five characters longer.  Optional argument 'lang' (default '') gives the

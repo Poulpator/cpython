@@ -1,7 +1,7 @@
 # Copyright 2006 Georg Brandl.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Fixer for intern().
+"""Fixer pour intern().
 
 intern(s) -> sys.intern(s)"""
 

@@ -1,5 +1,5 @@
 #
-# big5.py: Python Unicode Codec for BIG5
+# big5.py: Python Unicode Codec pour BIG5
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

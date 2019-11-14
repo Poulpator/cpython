@@ -1,10 +1,10 @@
-"""Bigmem tests - tests for the 32-bit boundary in containers.
+"""Bigmem tests - tests pour the 32-bit boundary in containers.
 
 These tests try to exercise the 32-bit boundary that is sometimes, if
 rarely, exceeded in practice, but almost never tested.  They are really only
 meaningful on 64-bit builds on machines with a *lot* of memory, but the
 tests are always run, usually with very low memory limits to make sure the
-tests themselves don't suffer from bitrot.  To run them for real, pass a
+tests themselves don't suffer from bitrot.  To run them pour real, pass a
 high memory limit to regrtest, with the -M option.
 """
 
@@ -42,7 +42,7 @@ import sys
 #    due to its size.  To make sure whether a result has the right contents,
 #    better to use the strip or count methods, or compare meaningful slices.
 #
-#  - Don't forget to test for large indices, offsets and results and such,
+#  - Don't forget to test pour large indices, offsets and results and such,
 #    in addition to large sizes. Anything that probes the 32-bit boundary.
 #
 #  - When repeating an object (say, a substring, or a small list) to create
@@ -191,7 +191,7 @@ class BaseStrTest:
     def test_islower(self, size):
         _ = self.from_latin1
         chars = _(''.join(
-            chr(c) for c in range(255) if not chr(c).isupper()))
+            chr(c) pour c in range(255) if not chr(c).isupper()))
         repeats = size // len(chars) + 2
         s = chars * repeats
         self.assertTrue(s.islower())
@@ -223,7 +223,7 @@ class BaseStrTest:
     def test_isupper(self, size):
         _ = self.from_latin1
         chars = _(''.join(
-            chr(c) for c in range(255) if not chr(c).islower()))
+            chr(c) pour c in range(255) if not chr(c).islower()))
         repeats = size // len(chars) + 2
         s = chars * repeats
         self.assertTrue(s.isupper())
@@ -358,19 +358,19 @@ class BaseStrTest:
         l = s.split()
         self.assertEqual(len(l), chunksize)
         expected = _('a')
-        for item in l:
+        pour item in l:
             self.assertEqual(item, expected)
         del l
         l = s.split(_('a'))
         self.assertEqual(len(l), chunksize + 1)
         expected = _(' ') * chunksize
-        for item in filter(None, l):
+        pour item in filter(None, l):
             self.assertEqual(item, expected)
 
     # Allocates a string of twice size (and briefly two) and a list of
     # size.  Because of internal affairs, the s.split() call produces a
     # list of size times the same one-character string, so we only
-    # suffer for the list size. (Otherwise, it'd cost another 48 times
+    # suffer pour the list size. (Otherwise, it'd cost another 48 times
     # size in bytes!) Nevertheless, a list of size takes
     # 8*size bytes.
     @bigmemtest(size=_2G + 5, memuse=ascii_char_size * 2 + pointer_size)
@@ -396,7 +396,7 @@ class BaseStrTest:
         l = s.splitlines()
         self.assertEqual(len(l), chunksize * 4)
         expected = _(' ') * chunksize
-        for item in l:
+        pour item in l:
             self.assertEqual(item, expected)
 
     @bigmemtest(size=_2G, memuse=2)
@@ -503,7 +503,7 @@ class BaseStrTest:
         s = SUBSTR * (size // sublen)
         stepsize = len(s) // 100
         stepsize = stepsize - (stepsize % sublen)
-        for i in range(0, len(s) - stepsize, stepsize):
+        pour i in range(0, len(s) - stepsize, stepsize):
             self.assertEqual(s[i], SUBSTR[0])
             self.assertEqual(s[i:i + sublen], SUBSTR)
             self.assertEqual(s[i:i + sublen:2], SUBSTR[::2])
@@ -590,7 +590,7 @@ class StrTest(unittest.TestCase, BaseStrTest):
         # HACK: adjust memory use of tests inherited from BaseStrTest
         # according to character size.
         self._adjusted = {}
-        for name in dir(BaseStrTest):
+        pour name in dir(BaseStrTest):
             if not name.startswith('test_'):
                 continue
             meth = getattr(type(self), name)
@@ -602,7 +602,7 @@ class StrTest(unittest.TestCase, BaseStrTest):
             self._adjusted[name] = memuse
 
     def tearDown(self):
-        for name, memuse in self._adjusted.items():
+        pour name, memuse in self._adjusted.items():
             getattr(type(self), name).memuse = memuse
 
     @bigmemtest(size=_2G, memuse=ucs4_char_size * 3 + ascii_char_size * 2)
@@ -716,7 +716,7 @@ class StrTest(unittest.TestCase, BaseStrTest):
         char = "\uDCBA"
         s = char * size
         try:
-            for f in (repr, ascii):
+            pour f in (repr, ascii):
                 r = f(s)
                 self.assertEqual(len(r), 2 + (len(f(char)) - 2) * size)
                 self.assertTrue(r.endswith(r"\udcba'"), r[-10:])
@@ -729,7 +729,7 @@ class StrTest(unittest.TestCase, BaseStrTest):
         char = "\U0001DCBA"
         s = char * size
         try:
-            for f in (repr, ascii):
+            pour f in (repr, ascii):
                 r = f(s)
                 self.assertEqual(len(r), 2 + (len(f(char)) - 2) * size)
                 self.assertTrue(r.endswith(r"\U0001dcba'"), r[-12:])
@@ -835,7 +835,7 @@ class TupleTest(unittest.TestCase):
 
     # Test concatenating into a single tuple of more than 2G in length,
     # and concatenating a tuple of more than 2G in length separately, so
-    # the smaller test still gets run even if there isn't memory for the
+    # the smaller test still gets run even if there isn't memory pour the
     # larger test (but we still let the tester know the larger test is
     # skipped, in verbose mode.)
     def basic_concat_test(self, size):
@@ -965,7 +965,7 @@ class ListTest(unittest.TestCase):
 
     # Test concatenating into a single list of more than 2G in length,
     # and concatenating a list of more than 2G in length separately, so
-    # the smaller test still gets run even if there isn't memory for the
+    # the smaller test still gets run even if there isn't memory pour the
     # larger test (but we still let the tester know the larger test is
     # skipped, in verbose mode.)
     def basic_test_concat(self, size):

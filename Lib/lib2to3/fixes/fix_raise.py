@@ -1,4 +1,4 @@
-"""Fixer for 'raise E, V, T'
+"""Fixer pour 'raise E, V, T'
 
 raise         -> raise
 raise E       -> raise E
@@ -46,7 +46,7 @@ class FixRaise(fixer_base.BaseFix):
 
         # Python 2 supports
         #  raise ((((E1, E2), E3), E4), E5), V
-        # as a synonym for
+        # as a synonym pour
         #  raise E1, V
         # Since Python 3 will not support this, we recurse down any tuple
         # literals, always taking the first element.
@@ -65,7 +65,7 @@ class FixRaise(fixer_base.BaseFix):
 
         val = results["val"].clone()
         if is_tuple(val):
-            args = [c.clone() for c in val.children[1:-1]]
+            args = [c.clone() pour c in val.children[1:-1]]
         else:
             val.prefix = ""
             args = [val]

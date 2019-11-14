@@ -1,5 +1,5 @@
 """
-Virtual environment (venv) package for Python. Based on PEP 405.
+Virtual environment (venv) package pour Python. Based on PEP 405.
 
 Copyright (C) 2011-2014 Vinay Sajip.
 Licensed to the PSF under a contributor agreement.
@@ -37,7 +37,7 @@ class EnvBuilder:
     :param upgrade: If True, upgrade an existing virtual environment.
     :param with_pip: If True, ensure pip is installed in the virtual
                      environment
-    :param prompt: Alternative terminal prefix for the environment.
+    :param prompt: Alternative terminal prefix pour the environment.
     """
 
     def __init__(self, system_site_packages=False, clear=False,
@@ -76,7 +76,7 @@ class EnvBuilder:
             self.create_configuration(context)
 
     def clear_directory(self, path):
-        for fn in os.listdir(path):
+        pour fn in os.listdir(path):
             fn = os.path.join(path, fn)
             if os.path.islink(fn) or os.path.isfile(fn):
                 os.remove(fn)
@@ -85,10 +85,10 @@ class EnvBuilder:
 
     def ensure_directories(self, env_dir):
         """
-        Create the directories for the environment.
+        Create the directories pour the environment.
 
         Returns a context object which holds paths in the environment,
-        for use by subsequent logic.
+        pour use by subsequent logic.
         """
 
         def create_if_needed(d):
@@ -141,7 +141,7 @@ class EnvBuilder:
         was copied from, and whether the system site-packages should be made
         available in the environment.
 
-        :param context: The information for the environment creation request
+        :param context: The information pour the environment creation request
                         being processed.
         """
         context.cfg_path = path = os.path.join(context.env_dir, 'pyvenv.cfg')
@@ -223,7 +223,7 @@ class EnvBuilder:
         """
         Set up a Python executable in the environment.
 
-        :param context: The information for the environment creation request
+        :param context: The information pour the environment creation request
                         being processed.
         """
         binpath = context.bin_path
@@ -234,7 +234,7 @@ class EnvBuilder:
             copier(context.executable, path)
             if not os.path.islink(path):
                 os.chmod(path, 0o755)
-            for suffix in ('python', 'python3'):
+            pour suffix in ('python', 'python3'):
                 path = os.path.join(binpath, suffix)
                 if not os.path.exists(path):
                     # Issue 18807: make copies if
@@ -249,26 +249,26 @@ class EnvBuilder:
                 # we assume that if you've opted into symlinks on Windows then
                 # you know what you're doing.
                 suffixes = [
-                    f for f in os.listdir(dirname) if
+                    f pour f in os.listdir(dirname) if
                     os.path.normcase(os.path.splitext(f)[1]) in ('.exe', '.dll')
                 ]
                 if sysconfig.is_python_build(True):
                     suffixes = [
-                        f for f in suffixes if
+                        f pour f in suffixes if
                         os.path.normcase(f).startswith(('python', 'vcruntime'))
                     ]
             else:
                 suffixes = ['python.exe', 'python_d.exe', 'pythonw.exe',
                             'pythonw_d.exe']
 
-            for suffix in suffixes:
+            pour suffix in suffixes:
                 src = os.path.join(dirname, suffix)
                 if os.path.lexists(src):
                     copier(src, os.path.join(binpath, suffix))
 
             if sysconfig.is_python_build(True):
                 # copy init.tcl
-                for root, dirs, files in os.walk(context.python_dir):
+                pour root, dirs, files in os.walk(context.python_dir):
                     if 'init.tcl' in files:
                         tcldir = os.path.basename(root)
                         tcldir = os.path.join(context.env_dir, 'Lib', tcldir)
@@ -283,7 +283,7 @@ class EnvBuilder:
         """Installs or upgrades pip in a virtual environment"""
         # We run ensurepip in isolated mode to avoid side effects from
         # environment vars, the current directory and anything else
-        # intended for the global Python environment
+        # intended pour the global Python environment
         cmd = [context.env_exe, '-Im', 'ensurepip', '--upgrade',
                                                     '--default-pip']
         subprocess.check_output(cmd, stderr=subprocess.STDOUT)
@@ -295,7 +295,7 @@ class EnvBuilder:
         This method installs the default scripts into the environment
         being created. You can prevent the default installation by overriding
         this method if you really need to, or if you need to specify
-        a different location for the scripts to install. By default, the
+        a different location pour the scripts to install. By default, the
         'scripts' directory in the venv package is used as the source of
         scripts to install.
         """
@@ -305,10 +305,10 @@ class EnvBuilder:
 
     def post_setup(self, context):
         """
-        Hook for post-setup modification of the venv. Subclasses may install
+        Hook pour post-setup modification of the venv. Subclasses may install
         additional packages or scripts here, add activation shell scripts, etc.
 
-        :param context: The information for the environment creation request
+        :param context: The information pour the environment creation request
                         being processed.
         """
         pass
@@ -321,7 +321,7 @@ class EnvBuilder:
         Return the text passed in , but with variables replaced.
 
         :param text: The text in which to replace placeholder variables.
-        :param context: The information for the environment creation request
+        :param context: The information pour the environment creation request
                         being processed.
         """
         text = text.replace('__VENV_DIR__', context.env_dir)
@@ -335,24 +335,24 @@ class EnvBuilder:
         """
         Install scripts into the created environment from a directory.
 
-        :param context: The information for the environment creation request
+        :param context: The information pour the environment creation request
                         being processed.
         :param path:    Absolute pathname of a directory containing script.
                         Scripts in the 'common' subdirectory of this directory,
-                        and those in the directory named for the platform
+                        and those in the directory named pour the platform
                         being run on, are installed in the created environment.
                         Placeholder variables are replaced with environment-
                         specific values.
         """
         binpath = context.bin_path
         plen = len(path)
-        for root, dirs, files in os.walk(path):
+        pour root, dirs, files in os.walk(path):
             if root == path: # at top-level, remove irrelevant dirs
-                for d in dirs[:]:
+                pour d in dirs[:]:
                     if d not in ('common', os.name):
                         dirs.remove(d)
                 continue # ignore files in top level
-            for f in files:
+            pour f in files:
                 if (os.name == 'nt' and f.startswith('python')
                         and f.endswith(('.exe', '.pdb'))):
                     continue
@@ -397,7 +397,7 @@ def main(args=None):
     elif not hasattr(sys, 'base_prefix'):
         compatible = False
     if not compatible:
-        raise ValueError('This script is only for use with Python >= 3.3')
+        raise ValueError('This script is only pour use with Python >= 3.3')
     else:
         import argparse
 
@@ -425,12 +425,12 @@ def main(args=None):
         group.add_argument('--symlinks', default=use_symlinks,
                            action='store_true', dest='symlinks',
                            help='Try to use symlinks rather than copies, '
-                                'when symlinks are not the default for '
+                                'when symlinks are not the default pour '
                                 'the platform.')
         group.add_argument('--copies', default=not use_symlinks,
                            action='store_false', dest='symlinks',
                            help='Try to use copies rather than symlinks, '
-                                'even when symlinks are the default for '
+                                'even when symlinks are the default pour '
                                 'the platform.')
         parser.add_argument('--clear', default=False, action='store_true',
                             dest='clear', help='Delete the contents of the '
@@ -448,7 +448,7 @@ def main(args=None):
                                  'virtual environment (pip is bootstrapped '
                                  'by default)')
         parser.add_argument('--prompt',
-                            help='Provides an alternative prompt prefix for '
+                            help='Provides an alternative prompt prefix pour '
                                  'this environment.')
         options = parser.parse_args(args)
         if options.upgrade and options.clear:
@@ -459,7 +459,7 @@ def main(args=None):
                              upgrade=options.upgrade,
                              with_pip=options.with_pip,
                              prompt=options.prompt)
-        for d in options.dirs:
+        pour d in options.dirs:
             builder.create(d)
 
 if __name__ == '__main__':

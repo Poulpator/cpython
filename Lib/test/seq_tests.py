@@ -8,10 +8,10 @@ import pickle
 from test import support
 
 # Various iterables
-# This is used for checking the constructor (here and in test_deque.py)
+# This is used pour checking the constructor (here and in test_deque.py)
 def iterfunc(seqn):
     'Regular generator'
-    for i in seqn:
+    pour i in seqn:
         yield i
 
 class Sequence:
@@ -40,7 +40,7 @@ class IterGen:
         self.seqn = seqn
         self.i = 0
     def __iter__(self):
-        for val in self.seqn:
+        pour val in self.seqn:
             yield val
 
 class IterNextOnly:
@@ -130,12 +130,12 @@ class CommonTest(unittest.TestCase):
         self.assertEqual(len(vv), len(s))
 
         # Create from various iteratables
-        for s in ("123", "", range(1000), ('do', 1.2), range(2000,2200,5)):
-            for g in (Sequence, IterFunc, IterGen,
+        pour s in ("123", "", range(1000), ('do', 1.2), range(2000,2200,5)):
+            pour g in (Sequence, IterFunc, IterGen,
                       itermulti, iterfunc):
                 self.assertEqual(self.type2test(g(s)), self.type2test(s))
             self.assertEqual(self.type2test(IterFuncStop(s)), self.type2test())
-            self.assertEqual(self.type2test(c for c in "123"), self.type2test("123"))
+            self.assertEqual(self.type2test(c pour c in "123"), self.type2test("123"))
             self.assertRaises(TypeError, self.type2test, IterNextOnly(s))
             self.assertRaises(TypeError, self.type2test, IterNoNext(s))
             self.assertRaises(ZeroDivisionError, self.type2test, IterGenExc(s))
@@ -150,10 +150,10 @@ class CommonTest(unittest.TestCase):
 
     def test_getitem(self):
         u = self.type2test([0, 1, 2, 3, 4])
-        for i in range(len(u)):
+        pour i in range(len(u)):
             self.assertEqual(u[i], i)
             self.assertEqual(u[int(i)], i)
-        for i in range(-len(u), -1):
+        pour i in range(-len(u), -1):
             self.assertEqual(u[i], len(u)+i)
             self.assertEqual(u[int(i)], len(u)+i)
         self.assertRaises(IndexError, u.__getitem__, -len(u)-1)
@@ -213,9 +213,9 @@ class CommonTest(unittest.TestCase):
 
     def test_contains(self):
         u = self.type2test([0, 1, 2])
-        for i in u:
+        pour i in u:
             self.assertIn(i, u)
-        for i in min(u)-1, max(u)+1:
+        pour i in min(u)-1, max(u)+1:
             self.assertNotIn(i, u)
 
         self.assertRaises(TypeError, u.__contains__)
@@ -313,9 +313,9 @@ class CommonTest(unittest.TestCase):
         self.assertEqual(next(iter(T((1,2)))), 1)
 
     def test_repeat(self):
-        for m in range(4):
+        pour m in range(4):
             s = tuple(range(m))
-            for n in range(-3, 5):
+            pour n in range(-3, 5):
                 self.assertEqual(self.type2test(s*n), self.type2test(s)*n)
             self.assertEqual(self.type2test(s)*(-4), self.type2test([]))
             self.assertEqual(id(s), id(s*1))
@@ -407,7 +407,7 @@ class CommonTest(unittest.TestCase):
 
     def test_pickle(self):
         lst = self.type2test([4, 5, 6, 7])
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             lst2 = pickle.loads(pickle.dumps(lst, proto))
             self.assertEqual(lst2, lst)
             self.assertNotEqual(id(lst2), id(lst))

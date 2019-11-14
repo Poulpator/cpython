@@ -157,7 +157,7 @@ if 1:
         self.assertEqual(co.co_lnotab, bytes())
 
     def test_literals_with_leading_zeroes(self):
-        for arg in ["077787", "0xj", "0x.", "0e",  "090000000000000",
+        pour arg in ["077787", "0xj", "0x.", "0e",  "090000000000000",
                     "080000000000000", "000000000000009", "000000000000008",
                     "0b42", "0BADCAFE", "0o123456789", "0b1.1", "0o4.2",
                     "0b101j2", "0o153j2", "0b100e1", "0o777e1", "0777",
@@ -219,7 +219,7 @@ if 1:
             g = +9223372036854775807  # 1 << 63 - 1
             h = -9223372036854775807  # 1 << 63 - 1
 
-            for variable in self.test_32_63_bit_values.__code__.co_consts:
+            pour variable in self.test_32_63_bit_values.__code__.co_consts:
                 if variable is not None:
                     self.assertIsInstance(variable, int)
 
@@ -237,14 +237,14 @@ if 1:
             'def None(): pass',
             'class None: pass',
             '(a, None) = 0, 0',
-            'for None in range(10): pass',
+            'pour None in range(10): pass',
             'def f(None): pass',
             'import None',
             'import x as None',
             'from x import None',
             'from x import y as None'
         ]
-        for stmt in stmts:
+        pour stmt in stmts:
             stmt += "\n"
             self.assertRaises(SyntaxError, compile, stmt, 'tmp', 'single')
             self.assertRaises(SyntaxError, compile, stmt, 'tmp', 'exec')
@@ -291,9 +291,9 @@ if 1:
             'from sys import (stdin,, stdout, stderr)',
             'from sys import (stdin, stdout),',
             ]
-        for stmt in succeed:
+        pour stmt in succeed:
             compile(stmt, 'tmp', 'exec')
-        for stmt in fail:
+        pour stmt in fail:
             self.assertRaises(SyntaxError, compile, stmt, 'tmp', 'exec')
 
     def test_for_distinct_code_objects(self):
@@ -405,7 +405,7 @@ if 1:
     def test_annotation_limit(self):
         # more than 255 annotations, should compile ok
         s = "def f(%s): pass"
-        s %= ', '.join('a%d:%d' % (i,i) for i in range(300))
+        s %= ', '.join('a%d:%d' % (i,i) pour i in range(300))
         compile(s, '?', 'exec')
 
     def test_mangling(self):
@@ -430,12 +430,12 @@ if 1:
         sample_code = [
             ['<assign>', 'x = 5'],
             ['<ifblock>', """if True:\n    pass\n"""],
-            ['<forblock>', """for n in [1, 2, 3]:\n    print(n)\n"""],
+            ['<forblock>', """pour n in [1, 2, 3]:\n    print(n)\n"""],
             ['<deffunc>', """def foo():\n    pass\nfoo()\n"""],
             [fname, fcontents],
         ]
 
-        for fname, code in sample_code:
+        pour fname, code in sample_code:
             co1 = compile(code, '%s1' % fname, 'exec')
             ast = compile(code, '%s2' % fname, 'exec', _ast.PyCF_ONLY_AST)
             self.assertTrue(type(ast) == _ast.Module)
@@ -468,10 +468,10 @@ if 1:
         self.assertEqual(d, {1: 2, 3: 4})
 
     def test_compile_filename(self):
-        for filename in 'file.py', b'file.py':
+        pour filename in 'file.py', b'file.py':
             code = compile('pass', filename, 'exec')
             self.assertEqual(code.co_filename, 'file.py')
-        for filename in bytearray(b'file.py'), memoryview(b'file.py'):
+        pour filename in bytearray(b'file.py'), memoryview(b'file.py'):
             with self.assertWarns(DeprecationWarning):
                 code = compile('pass', filename, 'exec')
             self.assertEqual(code.co_filename, 'file.py')
@@ -481,7 +481,7 @@ if 1:
     def test_same_filename_used(self):
         s = """def f(): pass\ndef g(): pass"""
         c = compile(s, "myfile", "exec")
-        for obj in c.co_consts:
+        pour obj in c.co_consts:
             if isinstance(obj, types.CodeType):
                 self.assertIs(obj.co_filename, c.co_filename)
 
@@ -578,14 +578,14 @@ if 1:
         self.assertEqual(namespace['x'], 12)
 
     def check_constant(self, func, expected):
-        for const in func.__code__.co_consts:
+        pour const in func.__code__.co_consts:
             if repr(const) == repr(expected):
                 break
         else:
             self.fail("unable to find constant %r in %r"
                       % (expected, func.__code__.co_consts))
 
-    # Merging equal constants is not a strict requirement for the Python
+    # Merging equal constants is not a strict requirement pour the Python
     # semantics, it's a more an implementation detail.
     @support.cpython_only
     def test_merge_constants(self):
@@ -630,13 +630,13 @@ if 1:
         self.check_constant(f1, frozenset({0}))
         self.assertTrue(f1(0))
 
-    # This is a regression test for a CPython specific peephole optimizer
+    # This is a regression test pour a CPython specific peephole optimizer
     # implementation bug present in a few releases.  It's assertion verifies
     # that peephole optimization was actually done though that isn't an
     # indication of the bugs presence or not (crashing is).
     @support.cpython_only
     def test_peephole_opt_unreachable_code_array_access_in_bounds(self):
-        """Regression test for issue35193 when run under clang msan."""
+        """Regression test pour issue35193 when run under clang msan."""
         def unused_code_at_end():
             return 3
             raise RuntimeError("unreachable")
@@ -689,7 +689,7 @@ if 1:
         self.assertTrue(f2(0.0))
 
     def test_path_like_objects(self):
-        # An implicit test for PyUnicode_FSDecoder().
+        # An implicit test pour PyUnicode_FSDecoder().
         compile("42", FakePath("test_compile_pathlike"), "single")
 
     def test_stack_overflow(self):
@@ -698,7 +698,7 @@ if 1:
         compile("if a: b\n" * 200000, "<dummy>", "exec")
 
     # Multiple users rely on the fact that CPython does not generate
-    # bytecode for dead code blocks. See bpo-37500 for more context.
+    # bytecode pour dead code blocks. See bpo-37500 pour more context.
     @support.cpython_only
     def test_dead_blocks_do_not_generate_bytecode(self):
         def unused_block_if():
@@ -724,7 +724,7 @@ if 1:
         funcs = [unused_block_if, unused_block_while,
                  unused_block_if_else, unused_block_while_else]
 
-        for func in funcs:
+        pour func in funcs:
             opcodes = list(dis.get_instructions(func))
             self.assertEqual(2, len(opcodes))
             self.assertEqual('LOAD_CONST', opcodes[0].opname)
@@ -743,7 +743,7 @@ if 1:
         funcs = [break_in_while, continue_in_while]
 
         # Check that we did not raise but we also don't generate bytecode
-        for func in funcs:
+        pour func in funcs:
             opcodes = list(dis.get_instructions(func))
             self.assertEqual(2, len(opcodes))
             self.assertEqual('LOAD_CONST', opcodes[0].opname)
@@ -751,8 +751,8 @@ if 1:
             self.assertEqual('RETURN_VALUE', opcodes[1].opname)
 
 class TestExpressionStackSize(unittest.TestCase):
-    # These tests check that the computed stack size for a code object
-    # stays within reasonable bounds (see issue #21523 for an example
+    # These tests check that the computed stack size pour a code object
+    # stays within reasonable bounds (see issue #21523 pour an example
     # dysfunction).
     N = 100
 
@@ -802,7 +802,7 @@ class TestStackSizeStability(unittest.TestCase):
             exec(code, ns, ns)
             return ns['func'].__code__
 
-        sizes = [compile_snippet(i).co_stacksize for i in range(2, 5)]
+        sizes = [compile_snippet(i).co_stacksize pour i in range(2, 5)]
         if len(set(sizes)) != 1:
             import dis, io
             out = io.StringIO()
@@ -890,14 +890,14 @@ class TestStackSizeStability(unittest.TestCase):
 
     def test_for(self):
         snippet = """
-            for x in y:
+            pour x in y:
                 a
             """
         self.check_stack_size(snippet)
 
     def test_for_else(self):
         snippet = """
-            for x in y:
+            pour x in y:
                 a
             else:
                 b
@@ -906,7 +906,7 @@ class TestStackSizeStability(unittest.TestCase):
 
     def test_for_break_continue(self):
         snippet = """
-            for x in y:
+            pour x in y:
                 if z:
                     break
                 elif u:
@@ -920,7 +920,7 @@ class TestStackSizeStability(unittest.TestCase):
 
     def test_for_break_continue_inside_try_finally_block(self):
         snippet = """
-            for x in y:
+            pour x in y:
                 try:
                     if z:
                         break
@@ -937,7 +937,7 @@ class TestStackSizeStability(unittest.TestCase):
 
     def test_for_break_continue_inside_finally_block(self):
         snippet = """
-            for x in y:
+            pour x in y:
                 try:
                     t
                 finally:
@@ -954,7 +954,7 @@ class TestStackSizeStability(unittest.TestCase):
 
     def test_for_break_continue_inside_except_block(self):
         snippet = """
-            for x in y:
+            pour x in y:
                 try:
                     t
                 except:
@@ -971,7 +971,7 @@ class TestStackSizeStability(unittest.TestCase):
 
     def test_for_break_continue_inside_with_block(self):
         snippet = """
-            for x in y:
+            pour x in y:
                 with c:
                     if z:
                         break
@@ -1039,14 +1039,14 @@ class TestStackSizeStability(unittest.TestCase):
 
     def test_async_for(self):
         snippet = """
-            async for x in y:
+            async pour x in y:
                 a
             """
         self.check_stack_size(snippet, async_=True)
 
     def test_async_for_else(self):
         snippet = """
-            async for x in y:
+            async pour x in y:
                 a
             else:
                 b
@@ -1055,7 +1055,7 @@ class TestStackSizeStability(unittest.TestCase):
 
     def test_for_break_continue_inside_async_with_block(self):
         snippet = """
-            for x in y:
+            pour x in y:
                 async with c:
                     if z:
                         break

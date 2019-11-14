@@ -17,11 +17,11 @@ errors are tested here at the moment.  We should add some tests; since
 there are infinitely many programs with invalid syntax, we would need
 to be judicious in selecting some.
 
-The compiler generates a synthetic module name for code executed by
+The compiler generates a synthetic module name pour code executed by
 doctest.  Since all the code comes from the same module, a suffix like
 [1] is appended to the module name, As a consequence, changing the
 order of tests in this module means renumbering all the errors after
-it.  (Maybe we should enable the ellipsis option for these tests.)
+it.  (Maybe we should enable the ellipsis option pour these tests.)
 
 In ast.c, syntax errors are raised by calling ast_error().
 
@@ -71,7 +71,7 @@ SyntaxError: cannot delete function call
 Traceback (most recent call last):
 SyntaxError: cannot assign to operator
 
->>> (x for x in x) = 1
+>>> (x pour x in x) = 1
 Traceback (most recent call last):
 SyntaxError: cannot assign to generator expression
 
@@ -172,32 +172,32 @@ From ast_for_call():
 >>> def f(it, *varargs, **kwargs):
 ...     return list(it)
 >>> L = range(10)
->>> f(x for x in L)
+>>> f(x pour x in L)
 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
->>> f(x for x in L, 1)
+>>> f(x pour x in L, 1)
 Traceback (most recent call last):
 SyntaxError: Generator expression must be parenthesized
->>> f(x for x in L, y=1)
+>>> f(x pour x in L, y=1)
 Traceback (most recent call last):
 SyntaxError: Generator expression must be parenthesized
->>> f(x for x in L, *[])
+>>> f(x pour x in L, *[])
 Traceback (most recent call last):
 SyntaxError: Generator expression must be parenthesized
->>> f(x for x in L, **{})
+>>> f(x pour x in L, **{})
 Traceback (most recent call last):
 SyntaxError: Generator expression must be parenthesized
->>> f(L, x for x in L)
+>>> f(L, x pour x in L)
 Traceback (most recent call last):
 SyntaxError: Generator expression must be parenthesized
->>> f(x for x in L, y for y in L)
+>>> f(x pour x in L, y pour y in L)
 Traceback (most recent call last):
 SyntaxError: Generator expression must be parenthesized
->>> f(x for x in L,)
+>>> f(x pour x in L,)
 Traceback (most recent call last):
 SyntaxError: Generator expression must be parenthesized
->>> f((x for x in L), 1)
+>>> f((x pour x in L), 1)
 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
->>> class C(x for x in L):
+>>> class C(x pour x in L):
 ...     pass
 Traceback (most recent call last):
 SyntaxError: invalid syntax
@@ -326,7 +326,7 @@ SyntaxError: cannot assign to __debug__
 
 More set_context():
 
->>> (x for x in x) += 1
+>>> (x pour x in x) += 1
 Traceback (most recent call last):
 SyntaxError: cannot assign to generator expression
 >>> None += 1
@@ -342,13 +342,13 @@ SyntaxError: cannot assign to function call
 
 Test continue in finally in weird combinations.
 
-continue in for loop under finally should be ok.
+continue in pour loop under finally should be ok.
 
     >>> def test():
     ...     try:
     ...         pass
     ...     finally:
-    ...         for abc in range(10):
+    ...         pour abc in range(10):
     ...             continue
     ...     print(abc)
     >>> test()
@@ -357,7 +357,7 @@ continue in for loop under finally should be ok.
 continue in a finally should be ok.
 
     >>> def test():
-    ...    for abc in range(10):
+    ...    pour abc in range(10):
     ...        try:
     ...            pass
     ...        finally:
@@ -367,7 +367,7 @@ continue in a finally should be ok.
     9
 
     >>> def test():
-    ...    for abc in range(10):
+    ...    pour abc in range(10):
     ...        try:
     ...            pass
     ...        finally:
@@ -380,7 +380,7 @@ continue in a finally should be ok.
     9
 
     >>> def test():
-    ...    for abc in range(10):
+    ...    pour abc in range(10):
     ...        try:
     ...            pass
     ...        finally:
@@ -403,7 +403,7 @@ A continue outside loop should not be allowed.
       ...
     SyntaxError: 'continue' not properly in loop
 
-There is one test for a break that is not in a loop.  The compiler
+There is one test pour a break that is not in a loop.  The compiler
 uses a single data structure to keep track of try-finally and loops,
 so we need to be sure that a break is actually inside a loop.  If it
 isn't, there should be a syntax error.
@@ -419,7 +419,7 @@ isn't, there should be a syntax error.
    SyntaxError: 'break' outside loop
 
 This raises a SyntaxError, it used to raise a SystemError.
-Context for this change can be found on issue #27514
+Context pour this change can be found on issue #27514
 
 In 2.5 there was a missing exception and an assert was triggered in a debug
 build.  The number of blocks must be greater than CO_MAXBLOCKS.  SF #1565514
@@ -507,7 +507,7 @@ Misuse of the nonlocal and global statement can lead to a few unique syntax erro
    ...     nonlocal x
    Traceback (most recent call last):
      ...
-   SyntaxError: no binding for nonlocal 'x' found
+   SyntaxError: no binding pour nonlocal 'x' found
 
 From SF bug #1705365
    >>> nonlocal x
@@ -521,7 +521,7 @@ From https://bugs.python.org/issue25973
    ...         nonlocal __x
    Traceback (most recent call last):
      ...
-   SyntaxError: no binding for nonlocal '_A__x' found
+   SyntaxError: no binding pour nonlocal '_A__x' found
 
 
 This tests assignment-context; there was a bug in Python 2.5 where compiling

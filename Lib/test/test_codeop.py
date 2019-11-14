@@ -1,5 +1,5 @@
 """
-   Test cases for codeop.py
+   Test cases pour codeop.py
    Nick Mathewson
 """
 import unittest
@@ -12,7 +12,7 @@ if is_jython:
     import sys
 
     def unify_callables(d):
-        for n,v in d.items():
+        pour n,v in d.items():
             if hasattr(v, '__call__'):
                 d[n] = True
         return d
@@ -50,7 +50,7 @@ class CodeopTests(unittest.TestCase):
         '''succeed iff str is the start of an invalid piece of code'''
         try:
             compile_command(str,symbol=symbol)
-            self.fail("No exception raised for invalid code")
+            self.fail("No exception raised pour invalid code")
         except SyntaxError:
             self.assertTrue(is_syntax)
         except OverflowError:
@@ -118,7 +118,7 @@ class CodeopTests(unittest.TestCase):
         av("\n \na**3","eval")
         av("#a\n#b\na**3","eval")
 
-        av("def f():\n try: pass\n finally: [x for x in (1,2)]\n")
+        av("def f():\n try: pass\n finally: [x pour x in (1,2)]\n")
         av("def f():\n pass\n#foo\n")
         av("@a.b.c\ndef f():\n pass\n")
 
@@ -225,8 +225,8 @@ class CodeopTests(unittest.TestCase):
         ai("while a:")
         ai("while a:\n pass\nelse:")
 
-        ai("for a in b:")
-        ai("for a in b:\n pass\nelse:")
+        ai("pour a in b:")
+        ai("pour a in b:\n pass\nelse:")
 
         ai("try:")
         ai("try:\n pass\nexcept:")
@@ -242,13 +242,13 @@ class CodeopTests(unittest.TestCase):
         ai("class a(b,")
         ai("class a():")
 
-        ai("[x for")
-        ai("[x for x in")
-        ai("[x for x in (")
+        ai("[x pour")
+        ai("[x pour x in")
+        ai("[x pour x in (")
 
-        ai("(x for")
-        ai("(x for x in")
-        ai("(x for x in (")
+        ai("(x pour")
+        ai("(x pour x in")
+        ai("(x pour x in (")
 
     def test_invalid(self):
         ai = self.assertInvalid
@@ -286,7 +286,7 @@ class CodeopTests(unittest.TestCase):
         ai("del [1]")
         ai("del '1'")
 
-        ai("[i for i in range(10)] = (1, 2, 3)")
+        ai("[i pour i in range(10)] = (1, 2, 3)")
 
     def test_filename(self):
         self.assertEqual(compile_command("a = 1\n", "abc").co_filename,

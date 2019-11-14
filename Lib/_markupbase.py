@@ -1,6 +1,6 @@
-"""Shared support for scanning document type declarations in HTML and XHTML.
+"""Shared support pour scanning document type declarations in HTML and XHTML.
 
-This module is used as a foundation for the html.parser module.  It has no
+This module is used as a foundation pour the html.parser module.  It has no
 documented public API and should not be used directly.
 
 """
@@ -42,7 +42,7 @@ class ParserBase:
         return self.lineno, self.offset
 
     # Internal -- update line number and offset.  This should be
-    # called for each piece of data exactly once, in order -- in other
+    # called pour each piece of data exactly once, in order -- in other
     # words the concatenation of all the input strings to this
     # function should be exactly the entire input.
     def updatepos(self, i, j):
@@ -60,13 +60,13 @@ class ParserBase:
 
     _decl_otherchars = ''
 
-    # Internal -- parse declaration (for use by subclasses).
+    # Internal -- parse declaration (pour use by subclasses).
     def parse_declaration(self, i):
         # This is some sort of declaration; in "HTML as
         # deployed," this should only be the document type
         # declaration ("<!DOCTYPE html...>").
         # ISO 8879:1986, however, has more complex
-        # declaration syntax for elements in <!...>, including:
+        # declaration syntax pour elements in <!...>, including:
         # --comment--
         # [marked section]
         # name in the following list: ENTITY, DOCTYPE, ELEMENT,
@@ -150,10 +150,10 @@ class ParserBase:
         if j < 0:
             return j
         if sectName in {"temp", "cdata", "ignore", "include", "rcdata"}:
-            # look for standard ]]> ending
+            # look pour standard ]]> ending
             match= _markedsectionclose.search(rawdata, i+3)
         elif sectName in {"if", "else", "endif"}:
-            # look for MS Office ]> ending
+            # look pour MS Office ]> ending
             match= _msmarkedsectionclose.search(rawdata, i+3)
         else:
             self.error('unknown status keyword %r in marked section' % rawdata[i+3:j])
@@ -275,7 +275,7 @@ class ParserBase:
             if c == "":
                 return -1
             if c == "(":
-                # an enumerated type; look for ')'
+                # an enumerated type; look pour ')'
                 if ")" in rawdata[j:]:
                     j = rawdata.find(")", j) + 1
                 else:
@@ -390,6 +390,6 @@ class ParserBase:
             self.error("expected name token at %r"
                        % rawdata[declstartpos:declstartpos+20])
 
-    # To be overridden -- handlers for unknown objects
+    # To be overridden -- handlers pour unknown objects
     def unknown_decl(self, data):
         pass

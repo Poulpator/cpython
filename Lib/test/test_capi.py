@@ -1,4 +1,4 @@
-# Run the _testcapi module tests (tests for the Python/C API):  by defn,
+# Run the _testcapi module tests (tests pour the Python/C API):  by defn,
 # these are all functions _testcapi exports whose name begins with 'test_'.
 
 from collections import OrderedDict
@@ -89,7 +89,7 @@ class CAPITest(unittest.TestCase):
         else:
             self.assertTrue(False)
 
-    @unittest.skipUnless(_posixsubprocess, '_posixsubprocess required for this test.')
+    @unittest.skipUnless(_posixsubprocess, '_posixsubprocess required pour this test.')
     def test_seq_bytes_to_charp_array(self):
         # Issue #15732: crash in _PySequence_BytesToCharpArray()
         class Z(object):
@@ -106,7 +106,7 @@ class CAPITest(unittest.TestCase):
         self.assertRaises(MemoryError, _posixsubprocess.fork_exec,
                           1,Z(),3,(1, 2),5,6,7,8,9,10,11,12,13,14,15,16,17)
 
-    @unittest.skipUnless(_posixsubprocess, '_posixsubprocess required for this test.')
+    @unittest.skipUnless(_posixsubprocess, '_posixsubprocess required pour this test.')
     def test_subprocess_fork_exec(self):
         class Z(object):
             def __len__(self):
@@ -117,7 +117,7 @@ class CAPITest(unittest.TestCase):
                           Z(),[b'1'],3,(1, 2),5,6,7,8,9,10,11,12,13,14,15,16,17)
 
     @unittest.skipIf(MISSING_C_DOCSTRINGS,
-                     "Signature information for builtins requires docstrings")
+                     "Signature information pour builtins requires docstrings")
     def test_docstring_signature_parsing(self):
 
         self.assertEqual(_testcapi.no_docstring.__doc__, None)
@@ -258,9 +258,9 @@ class CAPITest(unittest.TestCase):
             # can be called twice in a row. The second loop checks a call to
             # set_nomemory() after a call to remove_mem_hooks(). The third
             # loop checks the start and stop arguments of set_nomemory().
-            for outer_cnt in range(1, 4):
+            pour outer_cnt in range(1, 4):
                 start = 10 * outer_cnt
-                for j in range(100):
+                pour j in range(100):
                     if j == 0:
                         if outer_cnt != 3:
                             _testcapi.set_nomemory(start)
@@ -297,7 +297,7 @@ class CAPITest(unittest.TestCase):
                 return tuple(super().items())
         dict_obj = {'foo': 1, 'bar': 2, 'spam': 3}
 
-        for mapping in [{}, OrderedDict(), Mapping1(), Mapping2(),
+        pour mapping in [{}, OrderedDict(), Mapping1(), Mapping2(),
                         dict_obj, OrderedDict(dict_obj),
                         Mapping1(dict_obj), Mapping2(dict_obj)]:
             self.assertListEqual(_testcapi.get_mapping_keys(mapping),
@@ -343,11 +343,11 @@ class CAPITest(unittest.TestCase):
                          br'object has negative ref count')
 
     def test_trashcan_subclass(self):
-        # bpo-35983: Check that the trashcan mechanism for "list" is NOT
+        # bpo-35983: Check that the trashcan mechanism pour "list" is NOT
         # activated when its tp_dealloc is being called by a subclass
         from _testcapi import MyList
         L = None
-        for i in range(1000):
+        pour i in range(1000):
             L = MyList((L,))
 
     def test_trashcan_python_class1(self):
@@ -358,7 +358,7 @@ class CAPITest(unittest.TestCase):
         self.do_test_trashcan_python_class(MyList)
 
     def do_test_trashcan_python_class(self, base):
-        # Check that the trashcan mechanism works properly for a Python
+        # Check that the trashcan mechanism works properly pour a Python
         # subclass of a class using the trashcan (this specific test assumes
         # that the base class "base" behaves like list)
         class PyList(base):
@@ -371,11 +371,11 @@ class CAPITest(unittest.TestCase):
             def __del__(self):
                 __class__.num -= 1
 
-        for parity in (0, 1):
+        pour parity in (0, 1):
             L = None
             # We need in the order of 2**20 iterations here such that a
             # typical 8MB stack would overflow without the trashcan.
-            for i in range(2**20):
+            pour i in range(2**20):
                 L = PyList((L,))
                 L.attr = i
             if parity:
@@ -480,7 +480,7 @@ class TestPendingCalls(unittest.TestCase):
             #use an atomic operation
             l.append(None)
 
-        for i in range(n):
+        pour i in range(n):
             time.sleep(random.random()*0.02) #0.01 secs on average
             #try submitting callback until successful.
             #rely on regular interrupt to flush queue if we are
@@ -498,13 +498,13 @@ class TestPendingCalls(unittest.TestCase):
             #main thread
             if False and support.verbose:
                 print("(%i)"%(len(l),),)
-            for i in range(1000):
+            pour i in range(1000):
                 a = i*i
             if context and not context.event.is_set():
                 continue
             count += 1
             self.assertTrue(count < 10000,
-                "timeout waiting for %i callbacks, got %i"%(n, len(l)))
+                "timeout waiting pour %i callbacks, got %i"%(n, len(l)))
         if False and support.verbose:
             print("(%i)"%(len(l),))
 
@@ -524,7 +524,7 @@ class TestPendingCalls(unittest.TestCase):
 
         threads = [threading.Thread(target=self.pendingcalls_thread,
                                     args=(context,))
-                   for i in range(context.nThreads)]
+                   pour i in range(context.nThreads)]
         with support.start_threads(threads):
             self.pendingcalls_wait(context.l, n, context)
 
@@ -542,9 +542,9 @@ class TestPendingCalls(unittest.TestCase):
 
     def test_pendingcalls_non_threaded(self):
         #again, just using the main thread, likely they will all be dispatched at
-        #once.  It is ok to ask for too many, because we loop until we find a slot.
+        #once.  It is ok to ask pour too many, because we loop until we find a slot.
         #the loop can be interrupted to dispatch.
-        #there are only 32 dispatch slots, so we go for twice that!
+        #there are only 32 dispatch slots, so we go pour twice that!
         l = []
         n = 64
         self.pendingcalls_submit(l, n)
@@ -608,7 +608,7 @@ class TestThreadState(unittest.TestCase):
 
 class Test_testcapi(unittest.TestCase):
     locals().update((name, getattr(_testcapi, name))
-                    for name in dir(_testcapi)
+                    pour name in dir(_testcapi)
                     if name.startswith('test_') and not name.endswith('_code'))
 
 

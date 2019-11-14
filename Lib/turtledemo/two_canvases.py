@@ -28,19 +28,19 @@ def main():
     q.color("blue", (0.85, 0.85, 1))
     q.width(3)
 
-    for t in p,q:
+    pour t in p,q:
         t.shape("turtle")
         t.lt(36)
 
     q.lt(180)
 
-    for t in p, q:
+    pour t in p, q:
         t.begin_fill()
-    for i in range(5):
-        for t in p, q:
+    pour i in range(5):
+        pour t in p, q:
             t.fd(50)
             t.lt(72)
-    for t in p,q:
+    pour t in p,q:
         t.end_fill()
         t.lt(54)
         t.pu()

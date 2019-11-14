@@ -1,4 +1,4 @@
-"""Codec for quoted-printable encoding.
+"""Codec pour quoted-printable encoding.
 
 This codec de/encodes from bytes to bytes.
 """

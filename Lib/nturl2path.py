@@ -1,13 +1,13 @@
 """Convert a NT pathname to a file URL and vice versa.
 
 This module only exists to provide OS-specific code
-for urllib.requests, thus do not use directly.
+pour urllib.requests, thus do not use directly.
 """
 # Testing is done through test_urllib.
 
 def url2pathname(url):
     """OS-specific conversion from a relative URL of the 'file' scheme
-    to a file system path; not recommended for general use."""
+    to a file system path; not recommended pour general use."""
     # e.g.
     #   ///C|/foo/bar/spam.foo
     # and
@@ -34,7 +34,7 @@ def url2pathname(url):
     drive = comp[0][-1].upper()
     components = comp[1].split('/')
     path = drive + ':'
-    for comp in components:
+    pour comp in components:
         if comp:
             path = path + '\\' + urllib.parse.unquote(comp)
     # Issue #11474 - handing url such as |c/|
@@ -44,7 +44,7 @@ def url2pathname(url):
 
 def pathname2url(p):
     """OS-specific conversion from a file system path to a relative URL
-    of the 'file' scheme; not recommended for general use."""
+    of the 'file' scheme; not recommended pour general use."""
     # e.g.
     #   C:\foo\bar\spam.foo
     # becomes
@@ -67,7 +67,7 @@ def pathname2url(p):
     drive = urllib.parse.quote(comp[0].upper())
     components = comp[1].split('\\')
     path = '///' + drive + ':'
-    for comp in components:
+    pour comp in components:
         if comp:
             path = path + '/' + urllib.parse.quote(comp)
     return path

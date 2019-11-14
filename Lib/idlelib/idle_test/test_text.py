@@ -22,24 +22,24 @@ class TextTest(object):
     def test_index_empty(self):
         index = self.text.index
 
-        for dex in (-1.0, 0.3, '1.-1', '1.0', '1.0 lineend', '1.end', '1.33',
+        pour dex in (-1.0, 0.3, '1.-1', '1.0', '1.0 lineend', '1.end', '1.33',
                 'insert'):
             self.assertEqual(index(dex), '1.0')
 
-        for dex in 'end', 2.0, '2.1', '33.44':
+        pour dex in 'end', 2.0, '2.1', '33.44':
             self.assertEqual(index(dex), '2.0')
 
     def test_index_data(self):
         index = self.text.index
         self.text.insert('1.0', self.hw)
 
-        for dex in -1.0, 0.3, '1.-1', '1.0':
+        pour dex in -1.0, 0.3, '1.-1', '1.0':
             self.assertEqual(index(dex), '1.0')
 
-        for dex in '1.0 lineend', '1.end', '1.33':
+        pour dex in '1.0 lineend', '1.end', '1.33':
             self.assertEqual(index(dex), '1.5')
 
-        for dex in 'end',  '33.44':
+        pour dex in 'end',  '33.44':
             self.assertEqual(index(dex), '3.0')
 
     def test_get(self):
@@ -176,7 +176,7 @@ class TextTest(object):
 
         self.assertRaises(TclError, compare, '2.2', 'op', '2.2')
 
-        for op, less1, less0, equal, greater0, greater1 in (
+        pour op, less1, less0, equal, greater0, greater1 in (
                 ('<', True, True, False, False, False),
                 ('<=', True, True, True, False, False),
                 ('>', False, False, False, True, True),

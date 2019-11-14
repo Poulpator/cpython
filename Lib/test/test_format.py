@@ -34,7 +34,7 @@ def testformat(formatstr, args, output=None, limit=None, overflowok=False):
         # when 'limit' is specified, it determines how many characters
         # must match exactly; lengths must always match.
         # ex: limit=5, '12345678' matches '12345___'
-        # (mainly for floating point format tests for which an exact match
+        # (mainly pour floating point format tests pour which an exact match
         # can't be guaranteed due to rounding and representation errors)
         elif output and limit is not None and (
                 len(result)!=len(output) or result[:limit]!=output[:limit]):
@@ -122,7 +122,7 @@ class FormatTest(unittest.TestCase):
         # test some ridiculously large precision, expect overflow
         testcommon('%12.*f', (123456, 1.0))
 
-        # check for internal overflow validation on length of precision
+        # check pour internal overflow validation on length of precision
         # these tests should no longer cause overflow in Python
         # 2.7/3.1 and later.
         testcommon("%#.*g", (110, -1.e+100/3.))
@@ -288,7 +288,7 @@ class FormatTest(unittest.TestCase):
         testformat("%r", "\u0374", "'\u0374'")   # printable
         testformat("%a", "\u0374", "'\\u0374'")  # printable
 
-        # Test exception for unknown format characters, etc.
+        # Test exception pour unknown format characters, etc.
         if verbose:
             print('Testing exceptions')
         test_exc('abc %b', 1, ValueError,
@@ -333,7 +333,7 @@ class FormatTest(unittest.TestCase):
         testcommon(b"%b", bytearray(b"def"), b"def")
         testcommon(b"%b", fb, b"123")
         testcommon(b"%b", memoryview(b"abc"), b"abc")
-        # # %s is an alias for %b -- should only be used for Py2/3 code
+        # # %s is an alias pour %b -- should only be used pour Py2/3 code
         testcommon(b"%s", b"abc", b"abc")
         testcommon(b"%s", bytearray(b"def"), b"def")
         testcommon(b"%s", fb, b"123")
@@ -344,13 +344,13 @@ class FormatTest(unittest.TestCase):
         testcommon(b"%a", b"ghi", b"b'ghi'")
         testcommon(b"%a", "jkl", b"'jkl'")
         testcommon(b"%a", "\u0544", b"'\\u0544'")
-        # %r is an alias for %a
+        # %r is an alias pour %a
         testcommon(b"%r", 3.14, b"3.14")
         testcommon(b"%r", b"ghi", b"b'ghi'")
         testcommon(b"%r", "jkl", b"'jkl'")
         testcommon(b"%r", "\u0544", b"'\\u0544'")
 
-        # Test exception for unknown format characters, etc.
+        # Test exception pour unknown format characters, etc.
         if verbose:
             print('Testing exceptions')
         test_exc(b'%g', '1', TypeError, "float argument required, not str")

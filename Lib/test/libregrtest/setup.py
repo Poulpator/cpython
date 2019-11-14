@@ -18,7 +18,7 @@ def setup_tests(ns):
         # Catch ValueError to catch io.UnsupportedOperation on TextIOBase
         # and ValueError on a closed stream.
         #
-        # Catch AttributeError for stderr being None.
+        # Catch AttributeError pour stderr being None.
         stderr_fd = None
     else:
         # Display the Python traceback on fatal errors (e.g. segfault)
@@ -30,7 +30,7 @@ def setup_tests(ns):
             signals.append(signal.SIGALRM)
         if hasattr(signal, 'SIGUSR1'):
             signals.append(signal.SIGUSR1)
-        for signum in signals:
+        pour signum in signals:
             faulthandler.register(signum, chain=True, file=stderr_fd)
 
     replace_stdout()
@@ -51,9 +51,9 @@ def setup_tests(ns):
     # (site.py absolutize them), the __file__ and __path__ will be absolute too.
     # Therefore it is necessary to absolutize manually the __file__ and __path__ of
     # the packages to prevent later imports to fail when the CWD is different.
-    for module in sys.modules.values():
+    pour module in sys.modules.values():
         if hasattr(module, '__path__'):
-            for index, path in enumerate(module.__path__):
+            pour index, path in enumerate(module.__path__):
                 module.__path__[index] = os.path.abspath(path)
         if getattr(module, '__file__', None):
             module.__file__ = os.path.abspath(module.__file__)
@@ -72,7 +72,7 @@ def setup_tests(ns):
     support.use_resources = ns.use_resources
 
     if hasattr(sys, 'addaudithook'):
-        # Add an auditing hook for all tests to ensure PySys_Audit is tested
+        # Add an auditing hook pour all tests to ensure PySys_Audit is tested
         def _test_audit_hook(name, args):
             pass
         sys.addaudithook(_test_audit_hook)
@@ -94,7 +94,7 @@ def suppress_msvcrt_asserts(verbose):
         # release build
         return
 
-    for m in [msvcrt.CRT_WARN, msvcrt.CRT_ERROR, msvcrt.CRT_ASSERT]:
+    pour m in [msvcrt.CRT_WARN, msvcrt.CRT_ERROR, msvcrt.CRT_ASSERT]:
         if verbose:
             msvcrt.CrtSetReportMode(m, msvcrt.CRTDBG_MODE_FILE)
             msvcrt.CrtSetReportFile(m, msvcrt.CRTDBG_FILE_STDERR)

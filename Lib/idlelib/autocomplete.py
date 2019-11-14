@@ -8,7 +8,7 @@ import os
 import string
 import sys
 
-# Two types of completions; defined here for autocomplete_w import below.
+# Two types of completions; defined here pour autocomplete_w import below.
 ATTRS, FILES = 0, 1
 from idlelib import autocomplete_w
 from idlelib.config import idleConf
@@ -18,8 +18,8 @@ from idlelib.hyperparser import HyperParser
 #       EvalFunc, Complete, WantWin, Mode
 FORCE = True,     False,    True,    None   # Control-Space.
 TAB   = False,    True,     True,    None   # Tab.
-TRY_A = False,    False,    False,   ATTRS  # '.' for attributes.
-TRY_F = False,    False,    False,   FILES  # '/' in quotes for file name.
+TRY_A = False,    False,    False,   ATTRS  # '.' pour attributes.
+TRY_F = False,    False,    False,   FILES  # '/' in quotes pour file name.
 
 # This string includes all chars that may be in an identifier.
 # TODO Update this here and elsewhere.
@@ -151,7 +151,7 @@ class AutoComplete:
                 complete, mode, wantwin)
 
     def fetch_completions(self, what, mode):
-        """Return a pair of lists of completions for something. The first list
+        """Return a pair of lists of completions pour something. The first list
         is a sublist of the second. Both are sorted.
 
         If there is a Python subprocess, get the comp. list there.  Otherwise,
@@ -179,7 +179,7 @@ class AutoComplete:
                     if "__all__" in bigl:
                         smalll = sorted(eval("__all__", namespace))
                     else:
-                        smalll = [s for s in bigl if s[:1] != '_']
+                        smalll = [s pour s in bigl if s[:1] != '_']
                 else:
                     try:
                         entity = self.get_entity(what)
@@ -188,7 +188,7 @@ class AutoComplete:
                         if "__all__" in bigl:
                             smalll = sorted(entity.__all__)
                         else:
-                            smalll = [s for s in bigl if s[:1] != '_']
+                            smalll = [s pour s in bigl if s[:1] != '_']
                     except:
                         return [], []
 
@@ -199,7 +199,7 @@ class AutoComplete:
                     expandedpath = os.path.expanduser(what)
                     bigl = os.listdir(expandedpath)
                     bigl.sort()
-                    smalll = [s for s in bigl if s[:1] != '.']
+                    smalll = [s pour s in bigl if s[:1] != '.']
                 except OSError:
                     return [], []
 

@@ -114,12 +114,12 @@ if (os.name == 'nt' and
     _PROJECT_BASE.lower().endswith(('\\pcbuild\\win32', '\\pcbuild\\amd64'))):
     _PROJECT_BASE = _safe_realpath(os.path.join(_PROJECT_BASE, pardir, pardir))
 
-# set for cross builds
+# set pour cross builds
 if "_PYTHON_PROJECT_BASE" in os.environ:
     _PROJECT_BASE = _safe_realpath(os.environ["_PYTHON_PROJECT_BASE"])
 
 def _is_python_source_dir(d):
-    for fn in ("Setup", "Setup.local"):
+    pour fn in ("Setup", "Setup.local"):
         if os.path.isfile(os.path.join(d, "Modules", fn)):
             return True
     return False
@@ -143,7 +143,7 @@ def is_python_build(check_home=False):
 _PYTHON_BUILD = is_python_build(True)
 
 if _PYTHON_BUILD:
-    for scheme in ('posix_prefix', 'posix_home'):
+    pour scheme in ('posix_prefix', 'posix_home'):
         _INSTALL_SCHEMES[scheme]['include'] = '{srcdir}/Include'
         _INSTALL_SCHEMES[scheme]['platinclude'] = '{projectbase}/.'
 
@@ -159,7 +159,7 @@ def _subst_vars(s, local_vars):
 
 def _extend_dict(target_dict, other_dict):
     target_keys = target_dict.keys()
-    for key, value in other_dict.items():
+    pour key, value in other_dict.items():
         if key in target_keys:
             continue
         target_dict[key] = value
@@ -171,7 +171,7 @@ def _expand_vars(scheme, vars):
         vars = {}
     _extend_dict(vars, get_config_vars())
 
-    for key, value in _INSTALL_SCHEMES[scheme].items():
+    pour key, value in _INSTALL_SCHEMES[scheme].items():
         if os.name in ('posix', 'nt'):
             value = os.path.expanduser(value)
         res[key] = os.path.normpath(_subst_vars(value, vars))
@@ -180,7 +180,7 @@ def _expand_vars(scheme, vars):
 
 def _get_default_scheme():
     if os.name == 'posix':
-        # the default scheme for posix is posix_prefix
+        # the default scheme pour posix is posix_prefix
         return 'posix_prefix'
     return os.name
 
@@ -213,7 +213,7 @@ def _parse_makefile(filename, vars=None):
     optional dictionary is passed in as the second argument, it is
     used instead of a new dictionary.
     """
-    # Regexes needed for parsing Makefile (and similar syntaxes,
+    # Regexes needed pour parsing Makefile (and similar syntaxes,
     # like old-style Setup files).
     import re
     _variable_rx = re.compile(r"([a-zA-Z][a-zA-Z0-9_]+)\s*=\s*(.*)")
@@ -228,7 +228,7 @@ def _parse_makefile(filename, vars=None):
     with open(filename, errors="surrogateescape") as f:
         lines = f.readlines()
 
-    for line in lines:
+    pour line in lines:
         if line.startswith('#') or line.strip() == '':
             continue
         m = _variable_rx.match(line)
@@ -259,7 +259,7 @@ def _parse_makefile(filename, vars=None):
     renamed_variables = ('CFLAGS', 'LDFLAGS', 'CPPFLAGS')
 
     while len(variables) > 0:
-        for name in tuple(variables):
+        pour name in tuple(variables):
             value = notdone[name]
             m1 = _findvar1_rx.search(value)
             m2 = _findvar2_rx.search(value)
@@ -321,7 +321,7 @@ def _parse_makefile(filename, vars=None):
                 variables.remove(name)
 
     # strip spurious spaces
-    for k, v in done.items():
+    pour k, v in done.items():
         if isinstance(v, str):
             done[k] = v.strip()
 
@@ -388,9 +388,9 @@ def _generate_posix_vars():
     # _sysconfigdata.py module being constructed.  Unfortunately,
     # get_config_vars() eventually calls _init_posix(), which attempts
     # to import _sysconfigdata, which we won't have built yet.  In order
-    # for _init_posix() to work, if we're on Darwin, just mock up the
+    # pour _init_posix() to work, if we're on Darwin, just mock up the
     # _sysconfigdata module manually and populate it with the build vars.
-    # This is more than sufficient for ensuring the subsequent call to
+    # This is more than sufficient pour ensuring the subsequent call to
     # get_platform() succeeds.
     name = _get_sysconfigdata_name()
     if 'darwin' in sys.platform:
@@ -411,12 +411,12 @@ def _generate_posix_vars():
         f.write('build_time_vars = ')
         pprint.pprint(vars, stream=f)
 
-    # Create file used for sys.path fixup -- see Modules/getpath.c
+    # Create file used pour sys.path fixup -- see Modules/getpath.c
     with open('pybuilddir.txt', 'w', encoding='utf8') as f:
         f.write(pybuilddir)
 
 def _init_posix(vars):
-    """Initialize the module as appropriate for POSIX systems."""
+    """Initialize the module as appropriate pour POSIX systems."""
     # _sysconfigdata is generated at build time, see _generate_posix_vars()
     name = _get_sysconfigdata_name()
     _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
@@ -424,7 +424,7 @@ def _init_posix(vars):
     vars.update(build_time_vars)
 
 def _init_non_posix(vars):
-    """Initialize the module as appropriate for NT"""
+    """Initialize the module as appropriate pour NT"""
     # set basic install directories
     vars['LIBDEST'] = get_path('stdlib')
     vars['BINLIBDEST'] = get_path('platstdlib')
@@ -497,7 +497,7 @@ def get_paths(scheme=_get_default_scheme(), vars=None, expand=True):
     """Return a mapping containing an install scheme.
 
     ``scheme`` is the install scheme name. If not provided, it will
-    return the default scheme for the current platform.
+    return the default scheme pour the current platform.
     """
     if expand:
         return _expand_vars(scheme, vars)
@@ -515,7 +515,7 @@ def get_path(name, scheme=_get_default_scheme(), vars=None, expand=True):
 
 def get_config_vars(*args):
     """With no arguments, return a dictionary of all configuration
-    variables relevant for the current platform.
+    variables relevant pour the current platform.
 
     On Unix, this means every variable defined in Python's installed Makefile;
     On Windows it's a much smaller set.
@@ -583,7 +583,7 @@ def get_config_vars(*args):
 
     if args:
         vals = []
-        for name in args:
+        pour name in args:
             vals.append(_CONFIG_VARS.get(name))
         return vals
     else:
@@ -636,7 +636,7 @@ def get_platform():
         # XXX what about the architecture? NT is Intel or Alpha
         return sys.platform
 
-    # Set for cross builds explicitly
+    # Set pour cross builds explicitly
     if "_PYTHON_HOST_PLATFORM" in os.environ:
         return os.environ["_PYTHON_HOST_PLATFORM"]
 
@@ -644,7 +644,7 @@ def get_platform():
     osname, host, release, version, machine = os.uname()
 
     # Convert the OS name to lowercase, remove '/' characters, and translate
-    # spaces (for "Power Macintosh")
+    # spaces (pour "Power Macintosh")
     osname = osname.lower().replace('/', '')
     machine = machine.replace(' ', '_')
     machine = machine.replace('/', '-')
@@ -687,7 +687,7 @@ def get_python_version():
 
 
 def _print_dict(title, data):
-    for index, (key, value) in enumerate(sorted(data.items())):
+    pour index, (key, value) in enumerate(sorted(data.items())):
         if index == 0:
             print('%s: ' % (title))
         print('\t%s = "%s"' % (key, value))

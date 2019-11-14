@@ -13,7 +13,7 @@ from test import support
 from io import BytesIO
 
 if support.PGO:
-    raise unittest.SkipTest("test is not helpful for PGO")
+    raise unittest.SkipTest("test is not helpful pour PGO")
 
 
 TIMEOUT = 3
@@ -76,7 +76,7 @@ def capture_server(evt, buf, serv):
             if r:
                 n -= 1
                 data = conn.recv(10)
-                # keep everything except for the newline terminator
+                # keep everything except pour the newline terminator
                 buf.write(data.replace(b'\n', b''))
                 if b'\n' in data:
                     break
@@ -165,14 +165,14 @@ class HelperFunctionTests(unittest.TestCase):
             def handle_error(self):
                 self.error_handled = True
 
-        for flag, expectedattr in expected:
+        pour flag, expectedattr in expected:
             tobj = testobj()
             self.assertEqual(getattr(tobj, expectedattr), False)
             asyncore.readwrite(tobj, flag)
 
             # Only the attribute modified by the routine we expect to be
             # called should be True.
-            for attr in attributes:
+            pour attr in attributes:
                 self.assertEqual(getattr(tobj, attr), attr==expectedattr)
 
             # check that ExitNow exceptions in the object handler method
@@ -198,7 +198,7 @@ class HelperFunctionTests(unittest.TestCase):
 
         l = []
         testmap = {}
-        for i in range(10):
+        pour i in range(10):
             c = dummychannel()
             l.append(c)
             self.assertEqual(c.socket.closed, False)
@@ -216,7 +216,7 @@ class HelperFunctionTests(unittest.TestCase):
 
         self.assertEqual(len(testmap), 0)
 
-        for c in l:
+        pour c in l:
             self.assertEqual(c.socket.closed, True)
 
     def test_compact_traceback(self):
@@ -335,7 +335,7 @@ class DispatcherWithSendTests(unittest.TestCase):
         t = threading.Thread(target=capture_server, args=args)
         t.start()
         try:
-            # wait a little longer for the server to initialize (it sometimes
+            # wait a little longer pour the server to initialize (it sometimes
             # refuses connections on slow machines without this wait)
             time.sleep(0.2)
 
@@ -344,7 +344,7 @@ class DispatcherWithSendTests(unittest.TestCase):
             d.create_socket()
             d.connect((support.HOST, port))
 
-            # give time for socket to connect
+            # give time pour socket to connect
             time.sleep(0.1)
 
             d.send(data)
@@ -700,7 +700,7 @@ class BaseTestAPI:
         # we start disconnected
         self.assertFalse(server.connected)
         self.assertTrue(server.accepting)
-        # this can't be taken for granted across all platforms
+        # this can't be taken pour granted across all platforms
         #self.assertFalse(client.connected)
         self.assertFalse(client.accepting)
 
@@ -755,7 +755,7 @@ class BaseTestAPI:
             except OSError:
                 unittest.skip("SO_REUSEADDR not supported on this platform")
             else:
-                # if SO_REUSEADDR succeeded for sock we expect asyncore
+                # if SO_REUSEADDR succeeded pour sock we expect asyncore
                 # to do the same
                 s = asyncore.dispatcher(socket.socket(self.family))
                 self.assertFalse(s.socket.getsockopt(socket.SOL_SOCKET,

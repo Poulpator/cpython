@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Tests for distutils.archive_util."""
+"""Tests pour distutils.archive_util."""
 import unittest
 import os
 import sys
@@ -99,7 +99,7 @@ class ArchiveUtilTestCase(support.TempdirManager,
         Mirror test_make_tarball, except filename contains extended
         characters outside the latin charset.
         """
-        self.test_make_tarball('のアーカイブ') # japanese for archive
+        self.test_make_tarball('のアーカイブ') # japanese pour archive
 
     def _make_tarball(self, tmpdir, target_name, suffix, **kwargs):
         tmpdir2 = self.mkdtemp()
@@ -128,7 +128,7 @@ class ArchiveUtilTestCase(support.TempdirManager,
 
     _zip_created_files = ['dist/', 'dist/file1', 'dist/file2',
                           'dist/sub/', 'dist/sub/file3', 'dist/sub2/']
-    _created_files = [p.rstrip('/') for p in _zip_created_files]
+    _created_files = [p.rstrip('/') pour p in _zip_created_files]
 
     def _create_files(self):
         # creating something to tar
@@ -188,7 +188,7 @@ class ArchiveUtilTestCase(support.TempdirManager,
         tarball = base_name + '.tar'
         self.assertTrue(os.path.exists(tarball))
 
-        # now for a dry_run
+        # now pour a dry_run
         base_name = os.path.join(tmpdir2, 'archive')
         old_dir = os.getcwd()
         os.chdir(tmpdir)
@@ -381,7 +381,7 @@ class ArchiveUtilTestCase(support.TempdirManager,
         # now checks the rights
         archive = tarfile.open(archive_name)
         try:
-            for member in archive.getmembers():
+            pour member in archive.getmembers():
                 self.assertEqual(member.uid, 0)
                 self.assertEqual(member.gid, 0)
         finally:

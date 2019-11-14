@@ -123,7 +123,7 @@ class VectorComparisonMixin:
     def assertVectorsAlmostEqual(self, vec1, vec2):
         if len(vec1) != len(vec2):
             self.fail("Tuples are not of equal size")
-        for idx, (i, j) in enumerate(zip(vec1, vec2)):
+        pour idx, (i, j) in enumerate(zip(vec1, vec2)):
             self.assertAlmostEqual(
                 i, j, msg='values at index {} do not match'.format(idx))
 
@@ -158,7 +158,7 @@ class TestVec2D(VectorComparisonMixin, unittest.TestCase):
 
     def test_pickling(self):
         vec = Vec2D(0.5, 2)
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             with self.subTest(proto=proto):
                 pickled = pickle.dumps(vec, protocol=proto)
                 unpickled = pickle.loads(pickled)
@@ -166,7 +166,7 @@ class TestVec2D(VectorComparisonMixin, unittest.TestCase):
                 self.assertIsInstance(unpickled, Vec2D)
 
     def _assert_arithmetic_cases(self, test_cases, lambda_operator):
-        for test_case in test_cases:
+        pour test_case in test_cases:
             with self.subTest(case=test_case):
 
                 ((first, second), expected) = test_case
@@ -240,7 +240,7 @@ class TestVec2D(VectorComparisonMixin, unittest.TestCase):
             (((1, 0), 360), (1, 0)),
         ]
 
-        for case in cases:
+        pour case in cases:
             with self.subTest(case=case):
                 (vec, rot), expected = case
                 vec = Vec2D(*vec)
@@ -332,7 +332,7 @@ class TestTNavigator(VectorComparisonMixin, unittest.TestCase):
             ((100, -100), 315.0),
         ]
 
-        for (x, y), expected in coordinates:
+        pour (x, y), expected in coordinates:
             self.assertEqual(self.nav.towards(x, y), expected)
             self.assertEqual(self.nav.towards((x, y)), expected)
             self.assertEqual(self.nav.towards(Vec2D(x, y)), expected)
@@ -350,20 +350,20 @@ class TestTNavigator(VectorComparisonMixin, unittest.TestCase):
 
         rotations = [10, 20, 170, 300]
         result = sum(rotations) % 360
-        for num in rotations:
+        pour num in rotations:
             self.nav.left(num)
         self.assertEqual(self.nav.heading(), result)
         self.nav.reset()
 
         result = (360-sum(rotations)) % 360
-        for num in rotations:
+        pour num in rotations:
             self.nav.right(num)
         self.assertEqual(self.nav.heading(), result)
         self.nav.reset()
 
         rotations = [10, 20, -170, 300, -210, 34.3, -50.2, -10, -29.98, 500]
         sum_so_far = 0
-        for num in rotations:
+        pour num in rotations:
             if num < 0:
                 self.nav.right(abs(num))
             else:

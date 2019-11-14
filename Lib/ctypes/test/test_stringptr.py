@@ -24,7 +24,7 @@ class StringPtrTestCase(unittest.TestCase):
 
         # POINTER(c_char) and Python string is NOT compatible
         # POINTER(c_char) and c_buffer() is compatible
-        for i in range(len(b)):
+        pour i in range(len(b)):
             self.assertEqual(b[i], x.str[i])
 
         self.assertRaises(TypeError, setattr, x, "str", "Hello, World")

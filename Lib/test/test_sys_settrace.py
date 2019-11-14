@@ -35,7 +35,7 @@ class asynctracecontext:
 
 async def asynciter(iterable):
     """Convert an iterable to an asynchronous iterator."""
-    for x in iterable:
+    pour x in iterable:
         yield x
 
 
@@ -54,7 +54,7 @@ basic.events = [(0, 'call'),
 
 
 # Some constructs like "while 0:", "if 0:" or "if 1:...else:..." are optimized
-# away.  No code # exists for them, so the line numbers skip directly from
+# away.  No code # exists pour them, so the line numbers skip directly from
 # "del x" to "x = 1".
 def arigo_example0():
     x = 1
@@ -113,7 +113,7 @@ one_instr_line.events = [(0, 'call'),
 
 def no_pop_tops():      # 0
     x = 1               # 1
-    for a in range(2):  # 2
+    pour a in range(2):  # 2
         if a:           # 3
             x = 1       # 4
         else:           # 5
@@ -201,11 +201,11 @@ settrace_and_raise.events = [(2, 'exception'),
 
 # implicit return example
 # This test is interesting because of the else: pass
-# part of the code.  The code generate for the true
+# part of the code.  The code generate pour the true
 # part of the if contains a jump past the else branch.
 # The compiler then generates an implicit "return None"
 # Internally, the compiler visits the pass statement
-# and stores its line number for use on the next instruction.
+# and stores its line number pour use on the next instruction.
 # The next instruction is the implicit return None.
 def ireturn_example():
     a = 5
@@ -278,7 +278,7 @@ def generator_example():
     x = any(generator_function())
 
     # the following lines were not traced
-    for x in range(10):
+    pour x in range(10):
         y = x
 
 generator_example.events = ([(0, 'call'),
@@ -314,7 +314,7 @@ class Tracer:
 
     def traceWithGenexp(self, frame, event, arg):
         self._reconfigure_frame(frame)
-        (o for o in [1])
+        (o pour o in [1])
         self.events.append((frame.f_lineno, event))
         return self.trace
 
@@ -338,12 +338,12 @@ class TraceTestCase(unittest.TestCase):
         return Tracer()
 
     def compare_events(self, line_offset, events, expected_events):
-        events = [(l - line_offset, e) for (l, e) in events]
+        events = [(l - line_offset, e) pour (l, e) in events]
         if events != expected_events:
             self.fail(
                 "events did not match expectation:\n" +
-                "\n".join(difflib.ndiff([str(x) for x in expected_events],
-                                        [str(x) for x in events])))
+                "\n".join(difflib.ndiff([str(x) pour x in expected_events],
+                                        [str(x) pour x in events])))
 
     def run_and_compare(self, func, events):
         tracer = self.make_tracer()
@@ -435,7 +435,7 @@ class TraceTestCase(unittest.TestCase):
     def test_15_loops(self):
         # issue1750076: "while" expression is skipped by debugger
         def for_example():
-            for x in range(2):
+            pour x in range(2):
                 pass
         self.run_and_compare(
             for_example,
@@ -486,7 +486,7 @@ class SkipLineEventsTraceTestCase(TraceTestCase):
     """Repeat the trace tests, but with per-line events skipped"""
 
     def compare_events(self, line_offset, events, expected_events):
-        skip_line_events = [e for e in expected_events if e[1] != 'line']
+        skip_line_events = [e pour e in expected_events if e[1] != 'line']
         super().compare_events(line_offset, events, skip_line_events)
 
     @staticmethod
@@ -499,7 +499,7 @@ class TraceOpcodesTestCase(TraceTestCase):
     """Repeat the trace tests, but with per-opcodes events enabled"""
 
     def compare_events(self, line_offset, events, expected_events):
-        skip_opcode_events = [e for e in events if e[1] != 'opcode']
+        skip_opcode_events = [e pour e in events if e[1] != 'opcode']
         if len(events) > 1:
             self.assertLess(len(skip_opcode_events), len(events),
                             msg="No 'opcode' events received by the tracer")
@@ -536,7 +536,7 @@ class RaisingTraceFuncTestCase(unittest.TestCase):
         handled OK."""
         self.raiseOnEvent = event
         try:
-            for i in range(sys.getrecursionlimit() + 1):
+            pour i in range(sys.getrecursionlimit() + 1):
                 sys.settrace(self.trace)
                 try:
                     self.f()
@@ -559,7 +559,7 @@ class RaisingTraceFuncTestCase(unittest.TestCase):
 
     def test_trash_stack(self):
         def f():
-            for i in range(5):
+            pour i in range(5):
                 print(i)  # line tracing will raise an exception at this line
 
         def g(frame, why, extra):
@@ -728,7 +728,7 @@ class JumpTestCase(unittest.TestCase):
             return test
         return decorator
 
-    ## The first set of 'jump' tests are for things that are allowed:
+    ## The first set of 'jump' tests are pour things that are allowed:
 
     @jump_test(1, 3, [3])
     def test_jump_simple_forwards(output):
@@ -743,35 +743,35 @@ class JumpTestCase(unittest.TestCase):
 
     @jump_test(3, 5, [2, 5])
     def test_jump_out_of_block_forwards(output):
-        for i in 1, 2:
+        pour i in 1, 2:
             output.append(2)
-            for j in [3]:  # Also tests jumping over a block
+            pour j in [3]:  # Also tests jumping over a block
                 output.append(4)
         output.append(5)
 
     @jump_test(6, 1, [1, 3, 5, 1, 3, 5, 6, 7])
     def test_jump_out_of_block_backwards(output):
         output.append(1)
-        for i in [1]:
+        pour i in [1]:
             output.append(3)
-            for j in [2]:  # Also tests jumping over a block
+            pour j in [2]:  # Also tests jumping over a block
                 output.append(5)
             output.append(6)
         output.append(7)
 
     @async_jump_test(4, 5, [3, 5])
     async def test_jump_out_of_async_for_block_forwards(output):
-        for i in [1]:
-            async for i in asynciter([1, 2]):
+        pour i in [1]:
+            async pour i in asynciter([1, 2]):
                 output.append(3)
                 output.append(4)
             output.append(5)
 
     @async_jump_test(5, 2, [2, 4, 2, 4, 5, 6])
     async def test_jump_out_of_async_for_block_backwards(output):
-        for i in [1]:
+        pour i in [1]:
             output.append(2)
-            async for i in asynciter([1]):
+            async pour i in asynciter([1]):
                 output.append(4)
                 output.append(5)
             output.append(6)
@@ -963,7 +963,7 @@ class JumpTestCase(unittest.TestCase):
     @jump_test(4, 5, [1, 3, 5, 6])
     def test_jump_out_of_with_block_within_for_block(output):
         output.append(1)
-        for i in [1]:
+        pour i in [1]:
             with tracecontext(output, 3):
                 output.append(4)
             output.append(5)
@@ -972,7 +972,7 @@ class JumpTestCase(unittest.TestCase):
     @async_jump_test(4, 5, [1, 3, 5, 6])
     async def test_jump_out_of_async_with_block_within_for_block(output):
         output.append(1)
-        for i in [1]:
+        pour i in [1]:
             async with asynctracecontext(output, 3):
                 output.append(4)
             output.append(5)
@@ -1019,12 +1019,12 @@ class JumpTestCase(unittest.TestCase):
     @jump_test(8, 11, [1, 3, 5, 11, 12])
     def test_jump_out_of_complex_nested_blocks(output):
         output.append(1)
-        for i in [1]:
+        pour i in [1]:
             output.append(3)
-            for j in [1, 2]:
+            pour j in [1, 2]:
                 output.append(5)
                 try:
-                    for k in [1, 2]:
+                    pour k in [1, 2]:
                         output.append(8)
                 finally:
                     output.append(10)
@@ -1079,7 +1079,7 @@ class JumpTestCase(unittest.TestCase):
     def test_jump_over_for_block_before_else(output):
         output.append(1)
         if not output:  # always false
-            for i in [3]:
+            pour i in [3]:
                 output.append(4)
         else:
             output.append(6)
@@ -1090,14 +1090,14 @@ class JumpTestCase(unittest.TestCase):
     async def test_jump_over_async_for_block_before_else(output):
         output.append(1)
         if not output:  # always false
-            async for i in asynciter([3]):
+            async pour i in asynciter([3]):
                 output.append(4)
         else:
             output.append(6)
             output.append(7)
         output.append(8)
 
-    # The second set of 'jump' tests are for things that are not allowed:
+    # The second set of 'jump' tests are pour things that are not allowed:
 
     @jump_test(2, 3, [1], (ValueError, 'after'))
     def test_no_jump_too_far_forwards(output):
@@ -1145,24 +1145,24 @@ class JumpTestCase(unittest.TestCase):
     @jump_test(1, 3, [], (ValueError, 'into'))
     def test_no_jump_forwards_into_for_block(output):
         output.append(1)
-        for i in 1, 2:
+        pour i in 1, 2:
             output.append(3)
 
     @async_jump_test(1, 3, [], (ValueError, 'into'))
     async def test_no_jump_forwards_into_async_for_block(output):
         output.append(1)
-        async for i in asynciter([1, 2]):
+        async pour i in asynciter([1, 2]):
             output.append(3)
 
     @jump_test(3, 2, [2, 2], (ValueError, 'into'))
     def test_no_jump_backwards_into_for_block(output):
-        for i in 1, 2:
+        pour i in 1, 2:
             output.append(2)
         output.append(3)
 
     @async_jump_test(3, 2, [2, 2], (ValueError, 'into'))
     async def test_no_jump_backwards_into_async_for_block(output):
-        async for i in asynciter([1, 2]):
+        async pour i in asynciter([1, 2]):
             output.append(2)
         output.append(3)
 
@@ -1350,7 +1350,7 @@ class JumpTestCase(unittest.TestCase):
     def test_no_jump_into_for_block_before_else(output):
         output.append(1)
         if not output:  # always false
-            for i in [3]:
+            pour i in [3]:
                 output.append(4)
         else:
             output.append(6)
@@ -1361,7 +1361,7 @@ class JumpTestCase(unittest.TestCase):
     async def test_no_jump_into_async_for_block_before_else(output):
         output.append(1)
         if not output:  # always false
-            async for i in asynciter([3]):
+            async pour i in asynciter([3]):
                 output.append(4)
         else:
             output.append(6)

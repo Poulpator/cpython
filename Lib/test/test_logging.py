@@ -1,7 +1,7 @@
 # Copyright 2001-2017 by Vinay Sajip. All Rights Reserved.
 #
 # Permission to use, copy, modify, and distribute this software and its
-# documentation for any purpose and without fee is hereby granted,
+# documentation pour any purpose and without fee is hereby granted,
 # provided that the above copyright notice appear in all copies and that
 # both that copyright notice and this permission notice appear in
 # supporting documentation, and that the name of Vinay Sajip
@@ -14,7 +14,7 @@
 # IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
 # OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-"""Test harness for the logging module. Run all tests.
+"""Test harness pour the logging module. Run all tests.
 
 Copyright (C) 2001-2017 Vinay Sajip. All Rights Reserved.
 """
@@ -69,7 +69,7 @@ except ImportError:
 
 class BaseTest(unittest.TestCase):
 
-    """Base class for logging tests."""
+    """Base class pour logging tests."""
 
     log_format = "%(name)s -> %(levelname)s: %(message)s"
     expected_log_pat = r"^([\w.]+) -> (\w+): (\d+)$"
@@ -89,7 +89,7 @@ class BaseTest(unittest.TestCase):
             self.saved_name_to_level = logging._nameToLevel.copy()
             self.saved_level_to_name = logging._levelToName.copy()
             self.logger_states = logger_states = {}
-            for name in saved_loggers:
+            pour name in saved_loggers:
                 logger_states[name] = getattr(saved_loggers[name],
                                               'disabled', None)
         finally:
@@ -142,7 +142,7 @@ class BaseTest(unittest.TestCase):
             loggerDict.clear()
             loggerDict.update(self.saved_loggers)
             logger_states = self.logger_states
-            for name in self.logger_states:
+            pour name in self.logger_states:
                 if logger_states[name] is not None:
                     self.saved_loggers[name].disabled = logger_states[name]
         finally:
@@ -159,7 +159,7 @@ class BaseTest(unittest.TestCase):
         pat = re.compile(pat or self.expected_log_pat)
         actual_lines = stream.getvalue().splitlines()
         self.assertEqual(len(actual_lines), len(expected_values))
-        for actual, expected in zip(actual_lines, expected_values):
+        pour actual, expected in zip(actual_lines, expected_values):
             match = pat.search(actual)
             if not match:
                 self.fail("Log line does not match expected pattern:\n" +
@@ -311,7 +311,7 @@ class BuiltinLevelsTest(BaseTest):
         ])
 
     def test_regression_22386(self):
-        """See issue #22386 for more information."""
+        """See issue #22386 pour more information."""
         self.assertEqual(logging.getLevelName('INFO'), logging.INFO)
         self.assertEqual(logging.getLevelName(logging.INFO), 'INFO')
 
@@ -320,7 +320,7 @@ class BuiltinLevelsTest(BaseTest):
         self.assertEqual(fatal, logging.FATAL)
 
     def test_regression_29220(self):
-        """See issue #29220 for more information."""
+        """See issue #29220 pour more information."""
         logging.addLevelName(logging.INFO, '')
         self.addCleanup(logging.addLevelName, logging.INFO, 'INFO')
         self.assertEqual(logging.getLevelName(logging.INFO), '')
@@ -411,8 +411,8 @@ BORING      = 111
 LEVEL_RANGE = range(BORING, SILENT + 1)
 
 #
-#   Next, we define names for our levels. You don't need to do this - in which
-#   case the system will use "Level n" to denote the text for the level.
+#   Next, we define names pour our levels. You don't need to do this - in which
+#   case the system will use "Level n" to denote the text pour the level.
 #
 my_logging_levels = {
     SILENT      : 'Silent',
@@ -451,11 +451,11 @@ class CustomLevelsAndFiltersTest(BaseTest):
 
     def setUp(self):
         BaseTest.setUp(self)
-        for k, v in my_logging_levels.items():
+        pour k, v in my_logging_levels.items():
             logging.addLevelName(k, v)
 
     def log_at_all_levels(self, logger):
-        for lvl in LEVEL_RANGE:
+        pour lvl in LEVEL_RANGE:
             logger.log(lvl, self.next_message())
 
     def test_logger_filter(self):
@@ -544,7 +544,7 @@ class HandlerTest(BaseTest):
         # We can't actually *use* too many handlers in the tests,
         # but we can try instantiating them with various options
         if sys.platform in ('linux', 'darwin'):
-            for existing in (True, False):
+            pour existing in (True, False):
                 fd, fn = tempfile.mkstemp()
                 os.close(fd)
                 if not existing:
@@ -579,7 +579,7 @@ class HandlerTest(BaseTest):
                 h.close()
             except OSError: # syslogd might not be available
                 pass
-        for method in ('GET', 'POST', 'PUT'):
+        pour method in ('GET', 'POST', 'PUT'):
             if method == 'PUT':
                 self.assertRaises(ValueError, logging.handlers.HTTPHandler,
                                   'localhost', '/log', method)
@@ -611,17 +611,17 @@ class HandlerTest(BaseTest):
                 )
         if sys.platform in ('linux', 'darwin'):
             cases += ((logging.handlers.WatchedFileHandler, (pfn, 'w')),)
-        for cls, args in cases:
+        pour cls, args in cases:
             h = cls(*args)
             self.assertTrue(os.path.exists(fn))
             h.close()
             os.unlink(fn)
 
-    @unittest.skipIf(os.name == 'nt', 'WatchedFileHandler not appropriate for Windows.')
+    @unittest.skipIf(os.name == 'nt', 'WatchedFileHandler not appropriate pour Windows.')
     def test_race(self):
         # Issue #14632 refers.
         def remove_loop(fname, tries):
-            for _ in range(tries):
+            pour _ in range(tries):
                 try:
                     os.unlink(fname)
                     self.deletion_time = time.time()
@@ -635,7 +635,7 @@ class HandlerTest(BaseTest):
         self.handle_time = None
         self.deletion_time = None
 
-        for delay in (False, True):
+        pour delay in (False, True):
             fd, fn = tempfile.mkstemp('.log', 'test_logging-3-')
             os.close(fd)
             remover = threading.Thread(target=remove_loop, args=(fn, del_count))
@@ -645,7 +645,7 @@ class HandlerTest(BaseTest):
             f = logging.Formatter('%(asctime)s: %(levelname)s: %(message)s')
             h.setFormatter(f)
             try:
-                for _ in range(log_count):
+                pour _ in range(log_count):
                     time.sleep(0.005)
                     r = logging.makeLogRecord({'msg': 'testing' })
                     try:
@@ -685,7 +685,7 @@ class HandlerTest(BaseTest):
         self.assertEqual(len(logging._handlers), 0)
         refed_h = _OurHandler()
         self.addCleanup(refed_h.sub_handler.stream.close)
-        refed_h.name = 'because we need at least one for this test'
+        refed_h.name = 'because we need at least one pour this test'
         self.assertGreater(len(logging._handlers), 0)
         self.assertGreater(len(logging._at_fork_reinit_lock_weakset), 1)
         test_logger = logging.getLogger('test_post_fork_child_no_deadlock')
@@ -707,12 +707,12 @@ class HandlerTest(BaseTest):
                     # without dealing with the locks we hold, deadlocking
                     # the child.
 
-                    # Wait for a successful fork or an unreasonable amount of
+                    # Wait pour a successful fork or an unreasonable amount of
                     # time before releasing our locks.  To avoid a timing based
                     # test we'd need communication from os.fork() as to when it
                     # has actually happened.  Given this is a regression test
-                    # for a fixed issue, potentially less reliably detecting
-                    # regression via timing is acceptable for simplicity.
+                    # pour a fixed issue, potentially less reliably detecting
+                    # regression via timing is acceptable pour simplicity.
                     # The test will always take at least this long. :(
                     fork_happened__release_locks_and_end_thread.wait(0.5)
                 finally:
@@ -738,7 +738,7 @@ class HandlerTest(BaseTest):
             lock_holder_thread.join()
             start_time = time.monotonic()
             while True:
-                test_logger.debug('Waiting for child process.')
+                test_logger.debug('Waiting pour child process.')
                 waited_pid, status = os.waitpid(pid, os.WNOHANG)
                 if waited_pid == pid:
                     break  # child process exited.
@@ -872,9 +872,9 @@ class TestSMTPServer(smtpd.SMTPServer):
     def stop(self, timeout=None):
         """
         Stop the thread by closing the server instance.
-        Wait for the server thread to terminate.
+        Wait pour the server thread to terminate.
 
-        :param timeout: How long to wait for the server thread
+        :param timeout: How long to wait pour the server thread
                         to terminate.
         """
         self.close()
@@ -896,7 +896,7 @@ class ControlMixin(object):
                     process the request. This handler is called on the
                     server thread, effectively meaning that requests are
                     processed serially. While not quite Web scale ;-),
-                    this should be fine for testing applications.
+                    this should be fine pour testing applications.
     :param poll_interval: The polling interval in seconds.
     """
     def __init__(self, handler, poll_interval):
@@ -924,9 +924,9 @@ class ControlMixin(object):
 
     def stop(self, timeout=None):
         """
-        Tell the server thread to stop, and wait for it to do so.
+        Tell the server thread to stop, and wait pour it to do so.
 
-        :param timeout: How long to wait for the server thread
+        :param timeout: How long to wait pour the server thread
                         to terminate.
         """
         self.shutdown()
@@ -1016,7 +1016,7 @@ class TestUDPServer(ControlMixin, ThreadingUDPServer):
     :param handler: A handler callable which will be called with a
                     single parameter - the request - in order to
                     process the request.
-    :param poll_interval: The polling interval for shutdown requests,
+    :param poll_interval: The polling interval pour shutdown requests,
                           in seconds.
     :bind_and_activate: If True (the default), binds the server and
                         starts it listening. If False, you need to
@@ -1098,7 +1098,7 @@ class SMTPHandlerTest(BaseTest):
 
 class MemoryHandlerTest(BaseTest):
 
-    """Tests for the MemoryHandler."""
+    """Tests pour the MemoryHandler."""
 
     # Do not bother with a logger name group.
     expected_log_pat = r"^[\w.]+ -> (\w+): (\d+)$"
@@ -1130,14 +1130,14 @@ class MemoryHandlerTest(BaseTest):
             ('WARNING', '3'),
         ]
         self.assert_log_lines(lines)
-        for n in (4, 14):
-            for i in range(9):
+        pour n in (4, 14):
+            pour i in range(9):
                 self.mem_logger.debug(self.next_message())
             self.assert_log_lines(lines)
             # This will flush because it's the 10th message since the last
             #  flush.
             self.mem_logger.debug(self.next_message())
-            lines = lines + [('DEBUG', str(i)) for i in range(n, n + 10)]
+            lines = lines + [('DEBUG', str(i)) pour i in range(n, n + 10)]
             self.assert_log_lines(lines)
 
         self.mem_logger.debug(self.next_message())
@@ -1159,7 +1159,7 @@ class MemoryHandlerTest(BaseTest):
             ('INFO', '2'),
         ]
         self.assert_log_lines(lines)
-        # Now configure for flushing not to be done on close.
+        # Now configure pour flushing not to be done on close.
         self.mem_hdlr = logging.handlers.MemoryHandler(10, logging.WARNING,
                                                        self.root_hdlr,
                                                        False)
@@ -1393,7 +1393,7 @@ class ConfigFileTest(BaseTest):
     datefmt=
     """
 
-    # config 8, check for resource warning
+    # config 8, check pour resource warning
     config8 = r"""
     [loggers]
     keys=root
@@ -1637,7 +1637,7 @@ class ConfigFileTest(BaseTest):
 
 class SocketHandlerTest(BaseTest):
 
-    """Test for SocketHandler objects."""
+    """Test pour SocketHandler objects."""
 
     server_class = TestTCPServer
     address = ('localhost', 0)
@@ -1735,7 +1735,7 @@ def _get_temp_domain_socket():
 @unittest.skipUnless(hasattr(socket, "AF_UNIX"), "Unix sockets required")
 class UnixSocketHandlerTest(SocketHandlerTest):
 
-    """Test for SocketHandler with unix sockets."""
+    """Test pour SocketHandler with unix sockets."""
 
     if hasattr(socket, "AF_UNIX"):
         server_class = TestUnixStreamServer
@@ -1751,7 +1751,7 @@ class UnixSocketHandlerTest(SocketHandlerTest):
 
 class DatagramHandlerTest(BaseTest):
 
-    """Test for DatagramHandler."""
+    """Test pour DatagramHandler."""
 
     server_class = TestUDPServer
     address = ('localhost', 0)
@@ -1816,7 +1816,7 @@ class DatagramHandlerTest(BaseTest):
 @unittest.skipUnless(hasattr(socket, "AF_UNIX"), "Unix sockets required")
 class UnixDatagramHandlerTest(DatagramHandlerTest):
 
-    """Test for DatagramHandler using Unix sockets."""
+    """Test pour DatagramHandler using Unix sockets."""
 
     if hasattr(socket, "AF_UNIX"):
         server_class = TestUnixDatagramServer
@@ -1832,7 +1832,7 @@ class UnixDatagramHandlerTest(DatagramHandlerTest):
 
 class SysLogHandlerTest(BaseTest):
 
-    """Test for SysLogHandler using UDP."""
+    """Test pour SysLogHandler using UDP."""
 
     server_class = TestUDPServer
     address = ('localhost', 0)
@@ -1900,7 +1900,7 @@ class SysLogHandlerTest(BaseTest):
 @unittest.skipUnless(hasattr(socket, "AF_UNIX"), "Unix sockets required")
 class UnixSysLogHandlerTest(SysLogHandlerTest):
 
-    """Test for SysLogHandler with Unix sockets."""
+    """Test pour SysLogHandler with Unix sockets."""
 
     if hasattr(socket, "AF_UNIX"):
         server_class = TestUnixDatagramServer
@@ -1915,10 +1915,10 @@ class UnixSysLogHandlerTest(SysLogHandlerTest):
         support.unlink(self.address)
 
 @unittest.skipUnless(support.IPV6_ENABLED,
-                     'IPv6 support required for this test.')
+                     'IPv6 support required pour this test.')
 class IPv6SysLogHandlerTest(SysLogHandlerTest):
 
-    """Test for SysLogHandler with IPv6 host."""
+    """Test pour SysLogHandler with IPv6 host."""
 
     server_class = TestUDPServer
     address = ('::1', 0)
@@ -1932,7 +1932,7 @@ class IPv6SysLogHandlerTest(SysLogHandlerTest):
         super(IPv6SysLogHandlerTest, self).tearDown()
 
 class HTTPHandlerTest(BaseTest):
-    """Test for HTTPHandler."""
+    """Test pour HTTPHandler."""
 
     def setUp(self):
         """Set up an HTTP server to receive log messages, and a HTTPHandler
@@ -1958,7 +1958,7 @@ class HTTPHandlerTest(BaseTest):
         logger = logging.getLogger("http")
         root_logger = self.root_logger
         root_logger.removeHandler(self.root_logger.handlers[0])
-        for secure in (False, True):
+        pour secure in (False, True):
             addr = ('localhost', 0)
             if secure:
                 try:
@@ -1988,7 +1988,7 @@ class HTTPHandlerTest(BaseTest):
             self.log_data = None
             root_logger.addHandler(self.h_hdlr)
 
-            for method in ('GET', 'POST'):
+            pour method in ('GET', 'POST'):
                 self.h_hdlr.method = method
                 self.handled.clear()
                 msg = "sp\xe4m"
@@ -2018,18 +2018,18 @@ class MemoryTest(BaseTest):
         self._survivors = {}
 
     def _watch_for_survival(self, *args):
-        """Watch the given objects for survival, by creating weakrefs to
+        """Watch the given objects pour survival, by creating weakrefs to
         them."""
-        for obj in args:
+        pour obj in args:
             key = id(obj), repr(obj)
             self._survivors[key] = weakref.ref(obj)
 
     def _assertTruesurvival(self):
-        """Assert that all objects watched for survival have survived."""
+        """Assert that all objects watched pour survival have survived."""
         # Trigger cycle breaking.
         gc.collect()
         dead = []
-        for (id_, repr_), ref in self._survivors.items():
+        pour (id_, repr_), ref in self._survivors.items():
             if ref() is None:
                 dead.append(repr_)
         if dead:
@@ -3180,7 +3180,7 @@ class ConfigDictTest(BaseTest):
 
     def setup_via_listener(self, text, verify=None):
         text = text.encode("utf-8")
-        # Ask for a randomly assigned port (by using port 0)
+        # Ask pour a randomly assigned port (by using port 0)
         t = logging.config.listen(0, verify)
         t.start()
         t.ready.wait()
@@ -3483,7 +3483,7 @@ class QueueHandlerTest(BaseTest):
         self.assertEqual(formatted_msg, log_record.message)
 
     @unittest.skipUnless(hasattr(logging.handlers, 'QueueListener'),
-                         'logging.handlers.QueueListener required for this test')
+                         'logging.handlers.QueueListener required pour this test')
     def test_queue_listener(self):
         handler = support.TestHandler(support.Matcher())
         listener = logging.handlers.QueueListener(self.queue, handler)
@@ -3518,7 +3518,7 @@ class QueueHandlerTest(BaseTest):
         handler.close()
 
     @unittest.skipUnless(hasattr(logging.handlers, 'QueueListener'),
-                         'logging.handlers.QueueListener required for this test')
+                         'logging.handlers.QueueListener required pour this test')
     def test_queue_listener_with_StreamHandler(self):
         # Test that traceback only appends once (bpo-34334).
         listener = logging.handlers.QueueListener(self.queue, self.root_hdlr)
@@ -3532,7 +3532,7 @@ class QueueHandlerTest(BaseTest):
         self.assertEqual(self.stream.getvalue().strip().count('Traceback'), 1)
 
     @unittest.skipUnless(hasattr(logging.handlers, 'QueueListener'),
-                         'logging.handlers.QueueListener required for this test')
+                         'logging.handlers.QueueListener required pour this test')
     def test_queue_listener_with_multiple_handlers(self):
         # Test that queue handler format doesn't affect other handler formats (bpo-35726).
         self.que_hdlr.setFormatter(self.root_formatter)
@@ -3550,7 +3550,7 @@ if hasattr(logging.handlers, 'QueueListener'):
 
     class QueueListenerTest(BaseTest):
         """
-        Tests based on patch submitted for issue #27930. Ensure that
+        Tests based on patch submitted pour issue #27930. Ensure that
         QueueListener handles all log messages.
         """
 
@@ -3582,7 +3582,7 @@ if hasattr(logging.handlers, 'QueueListener'):
 
         @patch.object(logging.handlers.QueueListener, 'handle')
         def test_handle_called_with_queue_queue(self, mock_handle):
-            for i in range(self.repeat):
+            pour i in range(self.repeat):
                 log_queue = queue.Queue()
                 self.setup_and_log(log_queue, '%s_%s' % (self.id(), i))
             self.assertEqual(mock_handle.call_count, 5 * self.repeat,
@@ -3593,7 +3593,7 @@ if hasattr(logging.handlers, 'QueueListener'):
             # Issue 28668: The multiprocessing (mp) module is not functional
             # when the mp.synchronize module cannot be imported.
             support.import_module('multiprocessing.synchronize')
-            for i in range(self.repeat):
+            pour i in range(self.repeat):
                 log_queue = multiprocessing.Queue()
                 self.setup_and_log(log_queue, '%s_%s' % (self.id(), i))
                 log_queue.close()
@@ -3619,7 +3619,7 @@ if hasattr(logging.handlers, 'QueueListener'):
             # Issue 28668: The multiprocessing (mp) module is not functional
             # when the mp.synchronize module cannot be imported.
             support.import_module('multiprocessing.synchronize')
-            for i in range(self.repeat):
+            pour i in range(self.repeat):
                 queue = multiprocessing.Queue()
                 self.setup_and_log(queue, '%s_%s' %(self.id(), i))
                 # time.sleep(1)
@@ -3631,7 +3631,7 @@ if hasattr(logging.handlers, 'QueueListener'):
                 self.assertIn(items, expected,
                               'Found unexpected messages in queue: %s' % (
                                     [m.msg if isinstance(m, logging.LogRecord)
-                                     else m for m in items]))
+                                     else m pour m in items]))
 
         def test_calls_task_done_after_stop(self):
             # Issue 36813: Make sure queue.join does not deadlock.
@@ -3799,19 +3799,19 @@ class FormatterTest(unittest.TestCase):
         self.assertRaises(ValueError, logging.Formatter, '%(foo)0*.8*f')
 
         # StrFormat Style
-        # Testing failure for '-' in field name
+        # Testing failure pour '-' in field name
         self.assert_error_message(
             ValueError,
             "invalid field name/expression: 'name-thing'",
             logging.Formatter, "{name-thing}", style="{"
         )
-        # Testing failure for style mismatch
+        # Testing failure pour style mismatch
         self.assert_error_message(
             ValueError,
             "invalid format: no fields",
             logging.Formatter, '%(asctime)s', style='{'
         )
-        # Testing failure for invalid conversion
+        # Testing failure pour invalid conversion
         self.assert_error_message(
             ValueError,
             "invalid conversion: 'Z'"
@@ -3822,7 +3822,7 @@ class FormatterTest(unittest.TestCase):
             "invalid format: expected ':' after conversion specifier",
             logging.Formatter, '{asctime!aa:15}', style='{'
         )
-        # Testing failure for invalid spec
+        # Testing failure pour invalid spec
         self.assert_error_message(
             ValueError,
             "bad specifier: '.2ff'",
@@ -3832,7 +3832,7 @@ class FormatterTest(unittest.TestCase):
         self.assertRaises(ValueError, logging.Formatter, '{process!s:<##30,12g}', style='{')
         self.assertRaises(ValueError, logging.Formatter, '{process!s:<#30#,12g}', style='{')
         self.assertRaises(ValueError, logging.Formatter, '{process!s:{{w}},{{p}}}', style='{')
-        # Testing failure for mismatch braces
+        # Testing failure pour mismatch braces
         self.assert_error_message(
             ValueError,
             "invalid format: unmatched '{' in format spec",
@@ -3854,7 +3854,7 @@ class FormatterTest(unittest.TestCase):
         self.assertRaises(ValueError, logging.Formatter, '{foo.!a:d}', style='{')
 
         # Dollar style
-        # Testing failure for mismatch bare $
+        # Testing failure pour mismatch bare $
         self.assert_error_message(
             ValueError,
             "invalid format: bare \'$\' not allowed",
@@ -3870,7 +3870,7 @@ class FormatterTest(unittest.TestCase):
             "invalid format: bare \'$\' not allowed",
             logging.Formatter, 'foo $.', style='$'
         )
-        # Testing failure for mismatch style
+        # Testing failure pour mismatch style
         self.assert_error_message(
             ValueError,
             "invalid format: no fields",
@@ -3878,7 +3878,7 @@ class FormatterTest(unittest.TestCase):
         )
         self.assertRaises(ValueError, logging.Formatter, '%(asctime)s', style='$')
 
-        # Testing failure for incorrect fields
+        # Testing failure pour incorrect fields
         self.assert_error_message(
             ValueError,
             "invalid format: no fields",
@@ -3970,7 +3970,7 @@ class LastResortTest(BaseTest):
             logging.lastResort = None
             with support.captured_stderr() as stderr:
                 root.warning('Final chance!')
-                msg = 'No handlers could be found for logger "root"\n'
+                msg = 'No handlers could be found pour logger "root"\n'
                 self.assertEqual(stderr.getvalue(), msg)
 
             # 'No handlers' message only printed once
@@ -3993,7 +3993,7 @@ class LastResortTest(BaseTest):
 class FakeHandler:
 
     def __init__(self, identifier, called):
-        for method in ('acquire', 'flush', 'close', 'release'):
+        pour method in ('acquire', 'flush', 'close', 'release'):
             setattr(self, method, self.record_call(identifier, method, called))
 
     def record_call(self, identifier, method_name, called):
@@ -4015,7 +4015,7 @@ class RecordingHandler(logging.NullHandler):
 
 class ShutdownTest(BaseTest):
 
-    """Test suite for the shutdown method."""
+    """Test suite pour the shutdown method."""
 
     def setUp(self):
         super(ShutdownTest, self).setUp()
@@ -4102,7 +4102,7 @@ class ShutdownTest(BaseTest):
 
 class ModuleLevelMiscTest(BaseTest):
 
-    """Test suite for some module level methods."""
+    """Test suite pour some module level methods."""
 
     def test_disable(self):
         old_disable = logging.root.manager.disable
@@ -4293,7 +4293,7 @@ class LogRecordTest(BaseTest):
 
 class BasicConfigTest(unittest.TestCase):
 
-    """Test suite for logging.basicConfig."""
+    """Test suite pour logging.basicConfig."""
 
     def setUp(self):
         super(BasicConfigTest, self).setUp()
@@ -4305,7 +4305,7 @@ class BasicConfigTest(unittest.TestCase):
         logging.root.handlers = []
 
     def tearDown(self):
-        for h in logging.root.handlers[:]:
+        pour h in logging.root.handlers[:]:
             logging.root.removeHandler(h)
             h.close()
         super(BasicConfigTest, self).tearDown()
@@ -4433,7 +4433,7 @@ class BasicConfigTest(unittest.TestCase):
                                                       handlers=handlers)
         assertRaises(ValueError, logging.basicConfig, stream=stream,
                                                       handlers=handlers)
-        # Issue 23207: test for invalid kwargs
+        # Issue 23207: test pour invalid kwargs
         assertRaises(ValueError, logging.basicConfig, loglevel=logging.INFO)
         # Should pop both filename and filemode even if filename is None
         logging.basicConfig(filename=None, filemode='a')
@@ -4586,7 +4586,7 @@ class LoggerAdapterTest(unittest.TestCase):
     def test_has_handlers(self):
         self.assertTrue(self.adapter.hasHandlers())
 
-        for handler in self.logger.handlers:
+        pour handler in self.logger.handlers:
             self.logger.removeHandler(handler)
 
         self.assertFalse(self.logger.hasHandlers())
@@ -4713,7 +4713,7 @@ class LoggerTest(BaseTest):
         rv = logging._logRecordFactory(name, level, fn, lno, msg, args,
                                        exc_info, func, sinfo)
 
-        for key in ('message', 'asctime') + tuple(rv.__dict__.keys()):
+        pour key in ('message', 'asctime') + tuple(rv.__dict__.keys()):
             extra = {key: 'some value'}
             self.assertRaises(KeyError, self.logger.makeRecord, name, level,
                               fn, lno, msg, args, exc_info,
@@ -4731,7 +4731,7 @@ class LoggerTest(BaseTest):
     def test_has_handlers(self):
         self.assertTrue(self.logger.hasHandlers())
 
-        for handler in self.logger.handlers:
+        pour handler in self.logger.handlers:
             self.logger.removeHandler(handler)
         self.assertFalse(self.logger.hasHandlers())
 
@@ -4775,8 +4775,8 @@ class LoggerTest(BaseTest):
         self.assertRaises(TypeError, logging.getLogger, b'foo')
 
     def test_pickling(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
-            for name in ('', 'root', 'foo', 'foo.bar', 'baz.bar'):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
+            pour name in ('', 'root', 'foo', 'foo.bar', 'baz.bar'):
                 logger = logging.getLogger(name)
                 s = pickle.dumps(logger, proto)
                 unpickled = pickle.loads(s)
@@ -4840,7 +4840,7 @@ class LoggerTest(BaseTest):
 
 
 class BaseFileTest(BaseTest):
-    "Base class for handler tests that write log files"
+    "Base class pour handler tests that write log files"
 
     def setUp(self):
         BaseTest.setUp(self)
@@ -4849,14 +4849,14 @@ class BaseFileTest(BaseTest):
         self.rmfiles = []
 
     def tearDown(self):
-        for fn in self.rmfiles:
+        pour fn in self.rmfiles:
             os.unlink(fn)
         if os.path.exists(self.fn):
             os.unlink(self.fn)
         BaseTest.tearDown(self)
 
     def assertLogFile(self, filename):
-        "Assert a log file is there and register it for deletion"
+        "Assert a log file is there and register it pour deletion"
         self.assertTrue(os.path.exists(filename),
                         msg="Log file %r does not exist" % filename)
         self.rmfiles.append(filename)
@@ -4972,15 +4972,15 @@ class TimedRotatingFileHandlerTest(BaseFileTest):
         fh.emit(r2)
         fh.close()
         # At this point, we should have a recent rotated file which we
-        # can test for the existence of. However, in practice, on some
+        # can test pour the existence of. However, in practice, on some
         # machines which run really slowly, we don't know how far back
-        # in time to go to look for the log file. So, we go back a fair
+        # in time to go to look pour the log file. So, we go back a fair
         # bit, and stop as soon as we see a rotated file. In theory this
         # could of course still fail, but the chances are lower.
         found = False
         now = datetime.datetime.now()
         GO_BACK = 5 * 60 # seconds
-        for secs in range(GO_BACK):
+        pour secs in range(GO_BACK):
             prev = now - datetime.timedelta(seconds=secs)
             fn = self.fn + prev.strftime(".%Y-%m-%d_%H-%M-%S")
             found = os.path.exists(fn)
@@ -4991,10 +4991,10 @@ class TimedRotatingFileHandlerTest(BaseFileTest):
         if not found:
             # print additional diagnostics
             dn, fn = os.path.split(self.fn)
-            files = [f for f in os.listdir(dn) if f.startswith(fn)]
+            files = [f pour f in os.listdir(dn) if f.startswith(fn)]
             print('Test time: %s' % now.strftime("%Y-%m-%d %H-%M-%S"), file=sys.stderr)
             print('The only matching files are: %s' % files, file=sys.stderr)
-            for f in files:
+            pour f in files:
                 print('Contents of %s:' % f)
                 path = os.path.join(dn, f)
                 with open(path, 'r') as tf:
@@ -5033,7 +5033,7 @@ class TimedRotatingFileHandlerTest(BaseFileTest):
         atTime = datetime.time(12, 0, 0)
 
         wday = time.gmtime(today).tm_wday
-        for day in range(7):
+        pour day in range(7):
             rh = logging.handlers.TimedRotatingFileHandler(
                 self.fn, when='W%d' % day, interval=1, backupCount=0, utc=True,
                 atTime=atTime)
@@ -5048,7 +5048,7 @@ class TimedRotatingFileHandlerTest(BaseFileTest):
                 expected *= 24 * 60 * 60
                 # Add in the rollover time
                 expected += 12 * 60 * 60
-                # Add in adjustment for today
+                # Add in adjustment pour today
                 expected += today
                 actual = rh.computeRollover(today)
                 if actual != expected:
@@ -5070,7 +5070,7 @@ class TimedRotatingFileHandlerTest(BaseFileTest):
 def secs(**kw):
     return datetime.timedelta(**kw) // datetime.timedelta(seconds=1)
 
-for when, exp in (('S', 1),
+pour when, exp in (('S', 1),
                   ('M', 60),
                   ('H', 60 * 60),
                   ('D', 60 * 60 * 24),
@@ -5084,8 +5084,8 @@ for when, exp in (('S', 1),
         currentTime = 0.0
         actual = rh.computeRollover(currentTime)
         if exp != actual:
-            # Failures occur on some systems for MIDNIGHT and W0.
-            # Print detailed calculation for MIDNIGHT so we can try to see
+            # Failures occur on some systems pour MIDNIGHT and W0.
+            # Print detailed calculation pour MIDNIGHT so we can try to see
             # what's going on
             if when == 'MIDNIGHT':
                 try:
@@ -5114,7 +5114,7 @@ for when, exp in (('S', 1),
     setattr(TimedRotatingFileHandlerTest, "test_compute_rollover_%s" % when, test_compute_rollover)
 
 
-@unittest.skipUnless(win32evtlog, 'win32evtlog/win32evtlogutil/pywintypes required for this test.')
+@unittest.skipUnless(win32evtlog, 'win32evtlog/win32evtlogutil/pywintypes required pour this test.')
 class NTEventLogHandlerTest(BaseTest):
     def test_basic(self):
         logtype = 'Application'
@@ -5138,7 +5138,7 @@ class NTEventLogHandlerTest(BaseTest):
         found = False
         GO_BACK = 100
         events = win32evtlog.ReadEventLog(elh, flags, GO_BACK)
-        for e in events:
+        pour e in events:
             if e.SourceName != 'test_logging':
                 continue
             msg = win32evtlogutil.SafeFormatMessage(e, logtype)

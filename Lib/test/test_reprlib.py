@@ -1,5 +1,5 @@
 """
-  Test cases for the repr module
+  Test cases pour the repr module
   Nick Mathewson
 """
 
@@ -18,7 +18,7 @@ from reprlib import recursive_repr
 
 def nestedTuple(nesting):
     t = ()
-    for i in range(nesting):
+    pour i in range(nesting):
         t = (t,)
     return t
 
@@ -242,13 +242,13 @@ class LongReprTest(unittest.TestCase):
 
     def tearDown(self):
         actions = []
-        for dirpath, dirnames, filenames in os.walk(self.pkgname):
-            for name in dirnames + filenames:
+        pour dirpath, dirnames, filenames in os.walk(self.pkgname):
+            pour name in dirnames + filenames:
                 actions.append(os.path.join(dirpath, name))
         actions.append(self.pkgname)
         actions.sort()
         actions.reverse()
-        for p in actions:
+        pour p in actions:
             if os.path.isdir(p):
                 os.rmdir(p)
             else:
@@ -268,7 +268,7 @@ class LongReprTest(unittest.TestCase):
             # Under Windows, the max path len is 260 including C's terminating
             # NUL character.
             # (see http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247%28v=vs.85%29.aspx#maxpath)
-            self.skipTest("test paths too long (%d characters) for Windows' 260 character limit"
+            self.skipTest("test paths too long (%d characters) pour Windows' 260 character limit"
                           % cached_path_len)
         elif os.name == 'nt' and verbose:
             print("cached_path_len =", cached_path_len)
@@ -360,7 +360,7 @@ class ClassWithFailingRepr:
         raise Exception("This should be caught by Repr.repr_instance")
 
 class MyContainer:
-    'Helper class for TestRecursiveRepr'
+    'Helper class pour TestRecursiveRepr'
     def __init__(self, values):
         self.values = list(values)
     def append(self, value):
@@ -398,7 +398,7 @@ class TestRecursiveRepr(unittest.TestCase):
         from functools import WRAPPER_ASSIGNMENTS as assigned
         wrapped = MyContainer3.wrapped
         wrapper = MyContainer3.wrapper
-        for name in assigned:
+        pour name in assigned:
             self.assertIs(getattr(wrapper, name), getattr(wrapped, name))
 
 if __name__ == "__main__":

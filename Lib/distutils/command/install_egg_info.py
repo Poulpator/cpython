@@ -1,6 +1,6 @@
 """distutils.command.install_egg_info
 
-Implements the Distutils 'install_egg_info' command, for installing
+Implements the Distutils 'install_egg_info' command, pour installing
 a package's PKG-INFO metadata."""
 
 
@@ -9,7 +9,7 @@ from distutils import log, dir_util
 import os, sys, re
 
 class install_egg_info(Command):
-    """Install an .egg-info file for the package"""
+    """Install an .egg-info file pour the package"""
 
     description = "Install package's PKG-INFO metadata as an .egg-info file"
     user_options = [

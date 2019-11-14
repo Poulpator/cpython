@@ -1,4 +1,4 @@
-"""Tests for binary operators on subtypes of built-in types."""
+"""Tests pour binary operators on subtypes of built-in types."""
 
 import unittest
 from operator import eq, le, ne
@@ -16,7 +16,7 @@ def isint(x):
 
 def isnum(x):
     """Test whether an object is an instance of a built-in numeric type."""
-    for T in int, float, complex:
+    pour T in int, float, complex:
         if isinstance(x, T):
             return 1
     return 0
@@ -47,12 +47,12 @@ class Rat(object):
         self.__den = int(den//g)
 
     def _get_num(self):
-        """Accessor function for read-only 'num' attribute of Rat."""
+        """Accessor function pour read-only 'num' attribute of Rat."""
         return self.__num
     num = property(_get_num, None)
 
     def _get_den(self):
-        """Accessor function for read-only 'den' attribute of Rat."""
+        """Accessor function pour read-only 'den' attribute of Rat."""
         return self.__den
     den = property(_get_den, None)
 
@@ -185,7 +185,7 @@ class Rat(object):
         return divmod(other, self)[1]
 
     def __eq__(self, other):
-        """Compare two Rats for equality."""
+        """Compare two Rats pour equality."""
         if isint(other):
             return self.__den == 1 and self.__num == other
         if isRat(other):
@@ -195,7 +195,7 @@ class Rat(object):
         return NotImplemented
 
 class RatTestCase(unittest.TestCase):
-    """Unit tests for Rat class and its support utilities."""
+    """Unit tests pour Rat class and its support utilities."""
 
     def test_gcd(self):
         self.assertEqual(gcd(10, 12), 2)
@@ -205,8 +205,8 @@ class RatTestCase(unittest.TestCase):
         self.assertEqual(gcd(-10, 2), -2)
         self.assertEqual(gcd(10, -2), 2)
         self.assertEqual(gcd(-10, -2), -2)
-        for i in range(1, 20):
-            for j in range(1, 20):
+        pour i in range(1, 20):
+            pour j in range(1, 20):
                 self.assertTrue(gcd(i, j) > 0)
                 self.assertTrue(gcd(-i, j) < 0)
                 self.assertTrue(gcd(i, -j) > 0)
@@ -234,7 +234,7 @@ class RatTestCase(unittest.TestCase):
             pass
         else:
             self.fail("Rat(1, 0) didn't raise ZeroDivisionError")
-        for bad in "0", 0.0, 0j, (), [], {}, None, Rat, unittest:
+        pour bad in "0", 0.0, 0j, (), [], {}, None, Rat, unittest:
             try:
                 a = Rat(bad)
             except TypeError:
@@ -301,7 +301,7 @@ class RatTestCase(unittest.TestCase):
 
 
 class OperationLogger:
-    """Base class for classes with operation logging."""
+    """Base class pour classes with operation logging."""
     def __init__(self, logger):
         self.logger = logger
     def log_operation(self, *args):
@@ -312,7 +312,7 @@ def op_sequence(op, *classes):
     the operation `op` to instances of the given classes."""
     log = []
     instances = []
-    for c in classes:
+    pour c in classes:
         instances.append(c(log.append))
 
     try:
@@ -414,7 +414,7 @@ class XN:
     __ne__ = None
 
 class FallbackBlockingTests(unittest.TestCase):
-    """Unit tests for None method blocking"""
+    """Unit tests pour None method blocking"""
 
     def test_fallback_rmethod_blocking(self):
         e, f, s, x = SupEq(), F(), S(), X()

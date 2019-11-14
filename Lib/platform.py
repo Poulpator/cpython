@@ -13,9 +13,9 @@
 #    Python bug tracker (http://bugs.python.org) and assign them to "lemburg".
 #
 #    Still needed:
-#    * support for MS-DOS (PythonDX ?)
-#    * support for Amiga and other still unsupported platforms running Python
-#    * support for additional Linux distributions
+#    * support pour MS-DOS (PythonDX ?)
+#    * support pour Amiga and other still unsupported platforms running Python
+#    * support pour additional Linux distributions
 #
 #    Many thanks to all those who helped adding platform-specific
 #    checks (in no particular order):
@@ -30,7 +30,7 @@
 #
 #    History:
 #
-#    <see CVS and SVN checkin messages for history>
+#    <see CVS and SVN checkin messages pour history>
 #
 #    1.0.8 - changed Windows support to read version from kernel32.dll
 #    1.0.7 - added DEV_NULL
@@ -44,9 +44,9 @@
 #    0.8.0 - added sys.version parser and various new access
 #            APIs (python_version(), python_compiler(), etc.)
 #    0.7.2 - fixed architecture() to use sizeof(pointer) where available
-#    0.7.1 - added support for Caldera OpenLinux
-#    0.7.0 - some fixes for WinCE; untabified the source file
-#    0.6.2 - support for OpenVMS - requires version 1.5.2-V006 or higher and
+#    0.7.1 - added support pour Caldera OpenLinux
+#    0.7.0 - some fixes pour WinCE; untabified the source file
+#    0.6.2 - support pour OpenVMS - requires version 1.5.2-V006 or higher and
 #            vms_lib.getsyi() configured
 #    0.6.1 - added code to prevent 'uname -p' on platforms which are
 #            known not to support it
@@ -61,7 +61,7 @@
 #    0.5.2 - fixed uname() to return '' instead of 'unknown' in all
 #            return values (the system uname command tends to return
 #            'unknown' instead of just leaving the field empty)
-#    0.5.1 - included code for slackware dist; added exception handlers
+#    0.5.1 - included code pour slackware dist; added exception handlers
 #            to cover up situations where platforms don't have os.popen
 #            (e.g. Mac) or fail on socket.gethostname(); fixed libc
 #            detection RE
@@ -70,10 +70,10 @@
 #            API (was system_ver() in previous versions) -- use uname()
 #            instead; extended the win32_ver() to also return processor
 #            type information
-#    0.4.0 - added win32_ver() and modified the platform() output for WinXX
+#    0.4.0 - added win32_ver() and modified the platform() output pour WinXX
 #    0.3.4 - fixed a bug in _follow_symlinks()
 #    0.3.3 - fixed popen() and "file" command invocation bugs
-#    0.3.2 - added architecture() API and support for it in platform()
+#    0.3.2 - added architecture() API and support pour it in platform()
 #    0.3.1 - fixed syscmd_ver() RE to support Windows NT
 #    0.3.0 - added system alias support
 #    0.2.3 - removed 'wince' again... oh well.
@@ -94,7 +94,7 @@ __copyright__ = """
     Copyright (c) 2000-2010, eGenix.com Software GmbH; mailto:info@egenix.com
 
     Permission to use, copy, modify, and distribute this software and its
-    documentation for any purpose and without fee or royalty is hereby granted,
+    documentation pour any purpose and without fee or royalty is hereby granted,
     provided that the above copyright notice appear in all copies and that
     both that copyright notice and this permission notice appear in
     supporting documentation or portions thereof, including modifications,
@@ -119,7 +119,7 @@ import sys
 
 ### Globals & Constants
 
-# Helper for comparing two version number strings.
+# Helper pour comparing two version number strings.
 # Based on the description of the PHP's version_compare():
 # http://php.net/manual/en/function.version-compare.php
 
@@ -138,7 +138,7 @@ _component_re = re.compile(r'([0-9]+|[._+-])')
 
 def _comparable_version(version):
     result = []
-    for v in _component_re.split(version):
+    pour v in _component_re.split(version):
         if v not in '._+-':
             try:
                 v = int(v, 10)
@@ -166,7 +166,7 @@ def libc_ver(executable=None, lib='', version='', chunksize=16384):
 
         Note that the function has intimate knowledge of how different
         libc versions add symbols to the executable and thus is probably
-        only useable for executables compiled using gcc.
+        only useable pour executables compiled using gcc.
 
         The file is read and scanned in chunks of chunksize bytes.
 
@@ -188,7 +188,7 @@ def libc_ver(executable=None, lib='', version='', chunksize=16384):
     if hasattr(os.path, 'realpath'):
         # Python 2.2 introduced os.path.realpath(); it is used
         # here to work around problems with Cygwin not being
-        # able to open symlinks for reading
+        # able to open symlinks pour reading
         executable = os.path.realpath(executable)
     with open(executable, 'rb') as f:
         binary = f.read(chunksize)
@@ -208,7 +208,7 @@ def libc_ver(executable=None, lib='', version='', chunksize=16384):
                     break
             libcinit, glibc, glibcversion, so, threads, soversion = [
                 s.decode('latin1') if s is not None else s
-                for s in m.groups()]
+                pour s in m.groups()]
             if libcinit and not lib:
                 lib = 'libc'
             elif glibc:
@@ -264,7 +264,7 @@ def _syscmd_ver(system='', release='', version='',
     """ Tries to figure out the OS version used and returns
         a tuple (system, release, version).
 
-        It uses the "ver" shell command for this which is known
+        It uses the "ver" shell command pour this which is known
         to exists on Windows, DOS. XXX Others too ?
 
         In case this fails, the given parameters are used as
@@ -276,7 +276,7 @@ def _syscmd_ver(system='', release='', version='',
 
     # Try some common cmd strings
     import subprocess
-    for cmd in ('ver', 'command /c ver', 'cmd /c ver'):
+    pour cmd in ('ver', 'command /c ver', 'cmd /c ver'):
         try:
             info = subprocess.check_output(cmd,
                                            stderr=subprocess.DEVNULL,
@@ -457,7 +457,7 @@ def _java_getprop(name, default):
 
 def java_ver(release='', vendor='', vminfo=('', '', ''), osinfo=('', '', '')):
 
-    """ Version interface for Jython.
+    """ Version interface pour Jython.
 
         Returns a tuple (release, vendor, vminfo, osinfo) with vminfo being
         a tuple (vm_name, vm_release, vm_vendor) and osinfo being a
@@ -493,7 +493,7 @@ def java_ver(release='', vendor='', vminfo=('', '', ''), osinfo=('', '', '')):
 def system_alias(system, release, version):
 
     """ Returns (system, release, version) aliased to common
-        marketing names used for some systems.
+        marketing names used pour some systems.
 
         It also does some reordering of the information in some cases
         where it would otherwise cause confusion.
@@ -548,7 +548,7 @@ def _platform(*args):
         compatible format e.g. "system-version-machine".
     """
     # Format the platform string
-    platform = '-'.join(x.strip() for x in filter(len, args))
+    platform = '-'.join(x.strip() pour x in filter(len, args))
 
     # Cleanup some possible filename obstacles...
     platform = platform.replace(' ', '_')
@@ -650,7 +650,7 @@ def _syscmd_file(target, default=''):
 
 ### Information about the used architecture
 
-# Default values for architecture; non-empty strings override the
+# Default values pour architecture; non-empty strings override the
 # defaults given as parameters
 _default_architecture = {
     'win32': ('', 'WindowsPE'),
@@ -661,16 +661,16 @@ _default_architecture = {
 def architecture(executable=sys.executable, bits='', linkage=''):
 
     """ Queries the given executable (defaults to the Python interpreter
-        binary) for various architecture information.
+        binary) pour various architecture information.
 
         Returns a tuple (bits, linkage) which contains information about
-        the bit architecture and the linkage format used for the
+        the bit architecture and the linkage format used pour the
         executable. Both values are returned as strings.
 
         Values that cannot be determined are returned as given by the
         parameter presets. If bits is given as '', the sizeof(pointer)
         (or sizeof(long) on Python version < 1.5.2) is used as
-        indicator for the supported pointer size.
+        indicator pour the supported pointer size.
 
         The function relies on the system's "file" command to do the
         actual work. This is available on most if not all Unix
@@ -933,13 +933,13 @@ def processor():
 
         An empty string is returned if the value cannot be
         determined. Note that many platforms do not provide this
-        information or simply return the same value as for machine(),
+        information or simply return the same value as pour machine(),
         e.g.  NetBSD does this.
 
     """
     return uname().processor
 
-### Various APIs for extracting information from sys.version
+### Various APIs pour extracting information from sys.version
 
 _sys_version_parser = re.compile(
     r'([\w.+]+)\s*'  # "version<space>"
@@ -978,10 +978,10 @@ def _sys_version(sys_version=None):
         identification string.
 
         Note that unlike the Python sys.version, the returned value
-        for the Python version will always include the patchlevel (it
+        pour the Python version will always include the patchlevel (it
         defaults to '.0').
 
-        The function returns empty strings for tuple entries that
+        The function returns empty strings pour tuple entries that
         cannot be determined.
 
         sys_version may be given to parse an alternative version
@@ -1144,7 +1144,7 @@ def python_build():
 
 def python_compiler():
 
-    """ Returns a string identifying the compiler used for compiling
+    """ Returns a string identifying the compiler used pour compiling
         Python.
 
     """
@@ -1163,7 +1163,7 @@ def platform(aliased=0, terse=0):
         machine parseable. It may look different on different
         platforms and this is intended.
 
-        If "aliased" is true, the function will use aliases for
+        If "aliased" is true, the function will use aliases pour
         various platforms that report system names which differ from
         their common names, e.g. SunOS will be reported as
         Solaris. The system_alias() function is used to implement
@@ -1201,7 +1201,7 @@ def platform(aliased=0, terse=0):
             platform = _platform(system, release, version, csd)
 
     elif system in ('Linux',):
-        # check for libc vs. glibc
+        # check pour libc vs. glibc
         libcname, libcversion = libc_ver(sys.executable)
         platform = _platform(system, release, machine, processor,
                              'with',

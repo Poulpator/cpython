@@ -1,7 +1,7 @@
 # Copyright 2007 Google Inc.
 #  Licensed to PSF under a Contributor Agreement.
 
-"""Unittest for ipaddress module."""
+"""Unittest pour ipaddress module."""
 
 
 import unittest
@@ -18,7 +18,7 @@ from test.support import LARGEST, SMALLEST
 class BaseTestCase(unittest.TestCase):
     # One big change in ipaddress over the original ipaddr module is
     # error reporting that tries to assume users *don't know the rules*
-    # for what constitutes an RFC compliant IP address
+    # pour what constitutes an RFC compliant IP address
 
     # Ensuring these errors are emitted correctly in all relevant cases
     # meant moving to a more systematic test structure that allows the
@@ -80,14 +80,14 @@ class CommonTestMixin:
             self.factory(1.0)
 
     def test_not_an_index_issue15559(self):
-        # Implementing __index__ makes for a very nasty interaction with the
+        # Implementing __index__ makes pour a very nasty interaction with the
         # bytes constructor. Thus, we disallow implicit use as an integer
         self.assertRaises(TypeError, operator.index, self.factory(1))
         self.assertRaises(TypeError, hex, self.factory(1))
         self.assertRaises(TypeError, bytes, self.factory(1))
 
     def pickle_test(self, addr):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             with self.subTest(proto=proto):
                 x = self.factory(addr)
                 y = pickle.loads(pickle.dumps(x, proto))
@@ -400,7 +400,7 @@ class NetmaskTestMixin_v4(CommonTestMixin_v4):
     """Input validation on interfaces and networks is very similar"""
 
     def test_no_mask(self):
-        for address in ('1.2.3.4', 0x01020304, b'\x01\x02\x03\x04'):
+        pour address in ('1.2.3.4', 0x01020304, b'\x01\x02\x03\x04'):
             net = self.factory(address)
             self.assertEqual(str(net), '1.2.3.4/32')
             self.assertEqual(str(net.netmask), '255.255.255.255')
@@ -429,7 +429,7 @@ class NetmaskTestMixin_v4(CommonTestMixin_v4):
     def test_valid_netmask(self):
         self.assertEqual(str(self.factory('192.0.2.0/255.255.255.0')),
                          '192.0.2.0/24')
-        for i in range(0, 33):
+        pour i in range(0, 33):
             # Generate and re-parse the CIDR format (trivial).
             net_str = '0.0.0.0/%d' % i
             net = self.factory(net_str)
@@ -543,7 +543,7 @@ class NetmaskTestMixin_v6(CommonTestMixin_v6):
     """Input validation on interfaces and networks is very similar"""
 
     def test_no_mask(self):
-        for address in ('::1', 1, b'\x00'*15 + b'\x01'):
+        pour address in ('::1', 1, b'\x00'*15 + b'\x01'):
             net = self.factory(address)
             self.assertEqual(str(net), '::1/128')
             self.assertEqual(str(net.netmask), 'ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff')
@@ -569,10 +569,10 @@ class NetmaskTestMixin_v6(CommonTestMixin_v6):
         assertBadAddress("1234:axy::b", "Only hex digits")
 
     def test_valid_netmask(self):
-        # We only support CIDR for IPv6, because expanded netmasks are not
+        # We only support CIDR pour IPv6, because expanded netmasks are not
         # standard notation.
         self.assertEqual(str(self.factory('2001:db8::/32')), '2001:db8::/32')
-        for i in range(0, 129):
+        pour i in range(0, 129):
             # Generate and re-parse the CIDR format (trivial).
             net_str = '::/%d' % i
             self.assertEqual(str(self.factory(net_str)), net_str)
@@ -700,7 +700,7 @@ class ComparisonTests(unittest.TestCase):
     def test_foreign_type_equality(self):
         # __eq__ should never raise TypeError directly
         other = object()
-        for obj in self.objects:
+        pour obj in self.objects:
             self.assertNotEqual(obj, other)
             self.assertFalse(obj == other)
             self.assertEqual(obj.__eq__(other), NotImplemented)
@@ -709,20 +709,20 @@ class ComparisonTests(unittest.TestCase):
     def test_mixed_type_equality(self):
         # Ensure none of the internal objects accidentally
         # expose the right set of attributes to become "equal"
-        for lhs in self.objects:
-            for rhs in self.objects:
+        pour lhs in self.objects:
+            pour rhs in self.objects:
                 if lhs is rhs:
                     continue
                 self.assertNotEqual(lhs, rhs)
 
     def test_same_type_equality(self):
-        for obj in self.objects:
+        pour obj in self.objects:
             self.assertEqual(obj, obj)
             self.assertLessEqual(obj, obj)
             self.assertGreaterEqual(obj, obj)
 
     def test_same_type_ordering(self):
-        for lhs, rhs in (
+        pour lhs, rhs in (
             (self.v4addr, self.v4addr2),
             (self.v4net, self.v4net2),
             (self.v4intf, self.v4intf2),
@@ -741,18 +741,18 @@ class ComparisonTests(unittest.TestCase):
             self.assertFalse(rhs <= lhs)
 
     def test_containment(self):
-        for obj in self.v4_addresses:
+        pour obj in self.v4_addresses:
             self.assertIn(obj, self.v4net)
-        for obj in self.v6_addresses:
+        pour obj in self.v6_addresses:
             self.assertIn(obj, self.v6net)
-        for obj in self.v4_objects + [self.v6net]:
+        pour obj in self.v4_objects + [self.v6net]:
             self.assertNotIn(obj, self.v6net)
-        for obj in self.v6_objects + [self.v4net]:
+        pour obj in self.v6_objects + [self.v4net]:
             self.assertNotIn(obj, self.v4net)
 
     def test_mixed_type_ordering(self):
-        for lhs in self.objects:
-            for rhs in self.objects:
+        pour lhs in self.objects:
+            pour rhs in self.objects:
                 if isinstance(lhs, type(rhs)) or isinstance(rhs, type(lhs)):
                     continue
                 self.assertRaises(TypeError, lambda: lhs < rhs)
@@ -762,7 +762,7 @@ class ComparisonTests(unittest.TestCase):
 
     def test_foreign_type_ordering(self):
         other = object()
-        for obj in self.objects:
+        pour obj in self.objects:
             with self.assertRaises(TypeError):
                 obj < other
             with self.assertRaises(TypeError):
@@ -1114,7 +1114,7 @@ class IpaddrUnitTest(unittest.TestCase):
         self.assertEqual(ipaddress.IPv6Address('2001:658:22a:cafe::1'), hosts[0])
         self.assertEqual(ipaddress.IPv6Address('2001:658:22a:cafe::ff'), hosts[-1])
 
-        # special case where only 1 bit is left for address
+        # special case where only 1 bit is left pour address
         addrs = [ipaddress.IPv4Address('2.0.0.0'),
                  ipaddress.IPv4Address('2.0.0.1')]
         str_args = '2.0.0.0/31'
@@ -1162,25 +1162,25 @@ class IpaddrUnitTest(unittest.TestCase):
 
     def testGetSubnetForSingle32(self):
         ip = ipaddress.IPv4Network('1.2.3.4/32')
-        subnets1 = [str(x) for x in ip.subnets()]
-        subnets2 = [str(x) for x in ip.subnets(2)]
+        subnets1 = [str(x) pour x in ip.subnets()]
+        subnets2 = [str(x) pour x in ip.subnets(2)]
         self.assertEqual(subnets1, ['1.2.3.4/32'])
         self.assertEqual(subnets1, subnets2)
 
     def testGetSubnetForSingle128(self):
         ip = ipaddress.IPv6Network('::1/128')
-        subnets1 = [str(x) for x in ip.subnets()]
-        subnets2 = [str(x) for x in ip.subnets(2)]
+        subnets1 = [str(x) pour x in ip.subnets()]
+        subnets2 = [str(x) pour x in ip.subnets(2)]
         self.assertEqual(subnets1, ['::1/128'])
         self.assertEqual(subnets1, subnets2)
 
     def testSubnet2(self):
-        ips = [str(x) for x in self.ipv4_network.subnets(2)]
+        ips = [str(x) pour x in self.ipv4_network.subnets(2)]
         self.assertEqual(
             ips,
             ['1.2.3.0/26', '1.2.3.64/26', '1.2.3.128/26', '1.2.3.192/26'])
 
-        ipsv6 = [str(x) for x in self.ipv6_network.subnets(2)]
+        ipsv6 = [str(x) pour x in self.ipv6_network.subnets(2)]
         self.assertEqual(
             ipsv6,
             ['2001:658:22a:cafe::/66',
@@ -1189,7 +1189,7 @@ class IpaddrUnitTest(unittest.TestCase):
              '2001:658:22a:cafe:c000::/66'])
 
     def testGetSubnets3(self):
-        subnets = [str(x) for x in self.ipv4_network.subnets(8)]
+        subnets = [str(x) pour x in self.ipv4_network.subnets(8)]
         self.assertEqual(subnets[:3],
             ['1.2.3.0/32', '1.2.3.1/32', '1.2.3.2/32'])
         self.assertEqual(subnets[-3:],
@@ -1197,7 +1197,7 @@ class IpaddrUnitTest(unittest.TestCase):
         self.assertEqual(len(subnets), 256)
 
         ipv6_network = ipaddress.IPv6Network('2001:658:22a:cafe::/120')
-        subnets = [str(x) for x in ipv6_network.subnets(8)]
+        subnets = [str(x) pour x in ipv6_network.subnets(8)]
         self.assertEqual(subnets[:3],
             ['2001:658:22a:cafe::/128',
              '2001:658:22a:cafe::1/128',
@@ -1419,7 +1419,7 @@ class IpaddrUnitTest(unittest.TestCase):
                 (ipaddress.IPv4Network('1.1.0.0/32'),
                  ipaddress.IPv6Network('2001::/128')),
         ]
-        for ip1, ip2 in addr_tuples:
+        pour ip1, ip2 in addr_tuples:
             self.assertRaises(TypeError, ipaddress.collapse_addresses,
                               [ip1, ip2])
 
@@ -1430,7 +1430,7 @@ class IpaddrUnitTest(unittest.TestCase):
         ip1 = ipaddress.ip_address('1.1.1.0')
         ip2 = ipaddress.ip_address('1.1.1.255')
 
-        # summarize works only for IPv4 & IPv6
+        # summarize works only pour IPv4 & IPv6
         class IPv7Address(ipaddress.IPv6Address):
             @property
             def version(self):
@@ -1564,7 +1564,7 @@ class IpaddrUnitTest(unittest.TestCase):
         self.assertRaises(TypeError, ipv6.__lt__, ipv4)
         self.assertRaises(TypeError, ipv6.__gt__, ipv4)
 
-        # Regression test for issue 19.
+        # Regression test pour issue 19.
         ip1 = ipaddress.ip_network('10.1.2.128/25')
         self.assertFalse(ip1 < ip1)
         self.assertFalse(ip1 > ip1)
@@ -1579,7 +1579,7 @@ class IpaddrUnitTest(unittest.TestCase):
         self.assertFalse(ip2 > ip3)
         self.assertTrue(ip3 > ip2)
 
-        # Regression test for issue 28.
+        # Regression test pour issue 28.
         ip1 = ipaddress.ip_network('10.10.10.0/31')
         ip2 = ipaddress.ip_network('10.10.10.0')
         ip3 = ipaddress.ip_network('10.10.10.2/31')
@@ -1933,7 +1933,7 @@ class IpaddrUnitTest(unittest.TestCase):
             '7:6:5:4:3:2:1::': '7:6:5:4:3:2:1:0/128',
             '0:6:5:4:3:2:1::': '0:6:5:4:3:2:1:0/128',
             }
-        for uncompressed, compressed in list(test_addresses.items()):
+        pour uncompressed, compressed in list(test_addresses.items()):
             self.assertEqual(compressed, str(ipaddress.IPv6Interface(
                 uncompressed)))
 
@@ -1981,7 +1981,7 @@ class IpaddrUnitTest(unittest.TestCase):
                          '2001:658:22a:cafe:200::1/64')
         self.assertEqual(self.ipv6_interface.with_netmask,
                          '2001:658:22a:cafe:200::1/ffff:ffff:ffff:ffff::')
-        # this probably don't make much sense, but it's included for
+        # this probably don't make much sense, but it's included pour
         # compatibility with ipv4
         self.assertEqual(self.ipv6_interface.with_hostmask,
                          '2001:658:22a:cafe:200::1/::ffff:ffff:ffff:ffff')

@@ -1,4 +1,4 @@
-"""Unit tests for the keyword only argument specified in PEP 3102."""
+"""Unit tests pour the keyword only argument specified in PEP 3102."""
 
 __author__ = "Jiwon Seo"
 __email__ = "seojiwon at gmail dot com"
@@ -52,10 +52,10 @@ class KeywordOnlyArgTestCase(unittest.TestCase):
 
     def testSyntaxForManyArguments(self):
         # more than 255 positional arguments, should compile ok
-        fundef = "def f(%s):\n  pass\n" % ', '.join('i%d' % i for i in range(300))
+        fundef = "def f(%s):\n  pass\n" % ', '.join('i%d' % i pour i in range(300))
         compile(fundef, "<test>", "single")
         # more than 255 keyword-only arguments, should compile ok
-        fundef = "def f(*, %s):\n  pass\n" % ', '.join('i%d' % i for i in range(300))
+        fundef = "def f(*, %s):\n  pass\n" % ', '.join('i%d' % i pour i in range(300))
         compile(fundef, "<test>", "single")
 
     def testTooManyPositionalErrorMessage(self):
@@ -150,7 +150,7 @@ class KeywordOnlyArgTestCase(unittest.TestCase):
     def test_issue13343(self):
         # The Python compiler must scan all symbols of a function to
         # determine their scope: global, local, cell...
-        # This was not done for the default values of keyword
+        # This was not done pour the default values of keyword
         # arguments in a lambda definition, and the following line
         # used to fail with a SystemError.
         lambda *, k1=unittest: None

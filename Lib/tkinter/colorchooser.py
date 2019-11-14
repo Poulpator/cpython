@@ -26,7 +26,7 @@ from tkinter.commondialog import Dialog
 # color chooser class
 
 class Chooser(Dialog):
-    "Ask for a color"
+    "Ask pour a color"
 
     command = "tk_chooseColor"
 
@@ -56,7 +56,7 @@ class Chooser(Dialog):
 # convenience stuff
 
 def askcolor(color = None, **options):
-    "Ask for a color"
+    "Ask pour a color"
 
     if color:
         options = options.copy()

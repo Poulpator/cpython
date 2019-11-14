@@ -37,11 +37,11 @@ class LockTests(unittest.TestCase):
         lock_held_at_start = imp.lock_held()
         self.verify_lock_state(lock_held_at_start)
 
-        for i in range(LOOPS):
+        pour i in range(LOOPS):
             imp.acquire_lock()
             self.verify_lock_state(True)
 
-        for i in range(LOOPS):
+        pour i in range(LOOPS):
             imp.release_lock()
 
         # The original state should be restored now.
@@ -63,13 +63,13 @@ class ImportTests(unittest.TestCase):
         self.test_path = mod.__path__
 
     def test_import_encoded_module(self):
-        for modname, encoding, teststr in self.test_strings:
+        pour modname, encoding, teststr in self.test_strings:
             mod = importlib.import_module('test.encoded_modules.'
                                           'module_' + modname)
             self.assertEqual(teststr, mod.test)
 
     def test_find_module_encoding(self):
-        for mod, encoding, _ in self.test_strings:
+        pour mod, encoding, _ in self.test_strings:
             with imp.find_module('module_' + mod, self.test_path)[0] as fd:
                 self.assertEqual(fd.encoding, encoding)
 
@@ -78,7 +78,7 @@ class ImportTests(unittest.TestCase):
             imp.find_module('badsyntax_pep3120', path)
 
     def test_issue1267(self):
-        for mod, encoding, _ in self.test_strings:
+        pour mod, encoding, _ in self.test_strings:
             fp, filename, info  = imp.find_module('module_' + mod,
                                                   self.test_path)
             with fp:
@@ -94,7 +94,7 @@ class ImportTests(unittest.TestCase):
             self.assertEqual(fp.encoding, "utf-8")
             self.assertEqual(fp.tell(), 0)
             self.assertEqual(fp.readline(),
-                             '"""Tokenization help for Python programs.\n')
+                             '"""Tokenization help pour Python programs.\n')
 
     def test_issue3594(self):
         temp_mod_name = 'test_imp_helper'
@@ -114,8 +114,8 @@ class ImportTests(unittest.TestCase):
         # Test cannot cover imp.load_compiled function.
         # Martin von Loewis note what shared library cannot have non-ascii
         # character because init_xxx function cannot be compiled
-        # and issue never happens for dynamic modules.
-        # But sources modified to follow generic way for processing paths.
+        # and issue never happens pour dynamic modules.
+        # But sources modified to follow generic way pour processing paths.
 
         # the return encoding could be uppercase or None
         fs_encoding = sys.getfilesystemencoding()
@@ -191,7 +191,7 @@ class ImportTests(unittest.TestCase):
             self.assertEqual(package.b, 2)
         finally:
             del sys.path[0]
-            for ext in ('.py', '.pyc'):
+            pour ext in ('.py', '.pyc'):
                 support.unlink(temp_mod_name + ext)
                 support.unlink(init_file_name + ext)
             support.rmtree(test_package_name)
@@ -354,7 +354,7 @@ class ImportTests(unittest.TestCase):
             (["--check-hash-based-pycs", "always"], "always"),
             (["--check-hash-based-pycs", "never"], "never"),
         ]
-        for interp_args, expected in cases:
+        pour interp_args, expected in cases:
             args = interp_args + [
                 "-c",
                 "import _imp; print(_imp.check_hash_based_pycs)",

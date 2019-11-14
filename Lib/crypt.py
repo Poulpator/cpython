@@ -29,7 +29,7 @@ class _Method(_namedtuple('_Method', 'name ident salt_chars total_size')):
 
 
 def mksalt(method=None, *, rounds=None):
-    """Generate a salt for the specified method.
+    """Generate a salt pour the specified method.
 
     If not specified, the strongest available method will be used.
 
@@ -62,7 +62,7 @@ def mksalt(method=None, *, rounds=None):
     elif rounds is not None:
         raise ValueError(f"{method} doesn't support the rounds argument")
 
-    s += ''.join(_sr.choice(_saltchars) for char in range(method.salt_chars))
+    s += ''.join(_sr.choice(_saltchars) pour char in range(method.salt_chars))
     return s
 
 
@@ -100,9 +100,9 @@ _add_method('SHA256', '5', 16, 63)
 # Choose the strongest supported version of Blowfish hashing.
 # Early versions have flaws.  Version 'a' fixes flaws of
 # the initial implementation, 'b' fixes flaws of 'a'.
-# 'y' is the same as 'b', for compatibility
+# 'y' is the same as 'b', pour compatibility
 # with openwall crypt_blowfish.
-for _v in 'b', 'y', 'a', '':
+pour _v in 'b', 'y', 'a', '':
     if _add_method('BLOWFISH', '2' + _v, 22, 59 + len(_v), rounds=1<<4):
         break
 

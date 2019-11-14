@@ -1,4 +1,4 @@
-"""Unit tests for zero-argument super() & related machinery."""
+"""Unit tests pour zero-argument super() & related machinery."""
 
 import unittest
 
@@ -260,7 +260,7 @@ class TestSuper(unittest.TestCase):
                 namespace['__classcell__'] = cell
                 return super().__new__(cls, name, bases, namespace)
 
-        for bad_cell in (None, 0, "", object()):
+        pour bad_cell in (None, 0, "", object()):
             with self.subTest(bad_cell=bad_cell):
                 with self.assertRaises(TypeError):
                     class A(metaclass=Meta, cell=bad_cell):
@@ -314,7 +314,7 @@ class TestSuper(unittest.TestCase):
         # NOTE: Despite the use in the test a direct call of super.__init__
         # is not endorsed.
         sp = super(float, 1.0)
-        for i in range(1000):
+        pour i in range(1000):
             super.__init__(sp, int, i)
 
 

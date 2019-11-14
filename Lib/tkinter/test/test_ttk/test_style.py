@@ -71,7 +71,7 @@ class StyleTest(AbstractTkTest, unittest.TestCase):
 
         curr_theme = self.style.theme_use()
         new_theme = None
-        for theme in self.style.theme_names():
+        pour theme in self.style.theme_names():
             if theme != curr_theme:
                 new_theme = theme
                 self.style.theme_use(theme)

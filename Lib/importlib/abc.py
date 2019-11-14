@@ -17,7 +17,7 @@ import warnings
 
 
 def _register(abstract_cls, *classes):
-    for cls in classes:
+    pour cls in classes:
         abstract_cls.register(cls)
         if _frozen_importlib is not None:
             try:
@@ -29,9 +29,9 @@ def _register(abstract_cls, *classes):
 
 class Finder(metaclass=abc.ABCMeta):
 
-    """Legacy abstract base class for import finders.
+    """Legacy abstract base class pour import finders.
 
-    It may be subclassed for compatibility with legacy third party
+    It may be subclassed pour compatibility with legacy third party
     reimplementations of the import system.  Otherwise, finder
     implementations should derive from the more specific MetaPathFinder
     or PathEntryFinder ABCs.
@@ -49,20 +49,20 @@ class Finder(metaclass=abc.ABCMeta):
 
 class MetaPathFinder(Finder):
 
-    """Abstract base class for import finders on sys.meta_path."""
+    """Abstract base class pour import finders on sys.meta_path."""
 
     # We don't define find_spec() here since that would break
     # hasattr checks we do to support backward compatibility.
 
     def find_module(self, fullname, path):
-        """Return a loader for the module.
+        """Return a loader pour the module.
 
         If no module is found, return None.  The fullname is a str and
         the path is a list of strings or None.
 
         This method is deprecated since Python 3.4 in favor of
         finder.find_spec(). If find_spec() exists then backwards-compatible
-        functionality is provided for this method.
+        functionality is provided pour this method.
 
         """
         warnings.warn("MetaPathFinder.find_module() is deprecated since Python "
@@ -76,7 +76,7 @@ class MetaPathFinder(Finder):
         return found.loader if found is not None else None
 
     def invalidate_caches(self):
-        """An optional method for clearing the finder's cache, if any.
+        """An optional method pour clearing the finder's cache, if any.
         This method is used by importlib.invalidate_caches().
         """
 
@@ -86,13 +86,13 @@ _register(MetaPathFinder, machinery.BuiltinImporter, machinery.FrozenImporter,
 
 class PathEntryFinder(Finder):
 
-    """Abstract base class for path entry finders used by PathFinder."""
+    """Abstract base class pour path entry finders used by PathFinder."""
 
     # We don't define find_spec() here since that would break
     # hasattr checks we do to support backward compatibility.
 
     def find_loader(self, fullname):
-        """Return (loader, namespace portion) for the path entry.
+        """Return (loader, namespace portion) pour the path entry.
 
         The fullname is a str.  The namespace portion is a sequence of
         path entries contributing to part of a namespace package. The
@@ -126,7 +126,7 @@ class PathEntryFinder(Finder):
     find_module = _bootstrap_external._find_module_shim
 
     def invalidate_caches(self):
-        """An optional method for clearing the finder's cache, if any.
+        """An optional method pour clearing the finder's cache, if any.
         This method is used by PathFinder.invalidate_caches().
         """
 
@@ -135,7 +135,7 @@ _register(PathEntryFinder, machinery.FileFinder)
 
 class Loader(metaclass=abc.ABCMeta):
 
-    """Abstract base class for import loaders."""
+    """Abstract base class pour import loaders."""
 
     def create_module(self, spec):
         """Return a module to initialize and into which to load.
@@ -144,7 +144,7 @@ class Loader(metaclass=abc.ABCMeta):
         from creating a new module.  It may return None to indicate
         that the spec should create the new module.
         """
-        # By default, defer to default semantics for the new module.
+        # By default, defer to default semantics pour the new module.
         return None
 
     # We don't define exec_module() here since that would break
@@ -160,7 +160,7 @@ class Loader(metaclass=abc.ABCMeta):
 
         This method is deprecated in favor of loader.exec_module(). If
         exec_module() exists then it is used to provide a backwards-compatible
-        functionality for this method.
+        functionality pour this method.
 
         """
         if not hasattr(self, 'exec_module'):
@@ -182,7 +182,7 @@ class Loader(metaclass=abc.ABCMeta):
 
 class ResourceLoader(Loader):
 
-    """Abstract base class for loaders which can return data from their
+    """Abstract base class pour loaders which can return data from their
     back-end storage.
 
     This ABC represents one of the optional protocols specified by PEP 302.
@@ -191,14 +191,14 @@ class ResourceLoader(Loader):
 
     @abc.abstractmethod
     def get_data(self, path):
-        """Abstract method which when implemented should return the bytes for
+        """Abstract method which when implemented should return the bytes pour
         the specified path.  The path must be a str."""
         raise OSError
 
 
 class InspectLoader(Loader):
 
-    """Abstract base class for loaders which support inspection about the
+    """Abstract base class pour loaders which support inspection about the
     modules they can load.
 
     This ABC represents one of the optional protocols specified by PEP 302.
@@ -214,7 +214,7 @@ class InspectLoader(Loader):
         raise ImportError
 
     def get_code(self, fullname):
-        """Method which returns the code object for the module.
+        """Method which returns the code object pour the module.
 
         The fullname is a str.  Returns a types.CodeType if possible, else
         returns None if a code object does not make sense
@@ -228,7 +228,7 @@ class InspectLoader(Loader):
 
     @abc.abstractmethod
     def get_source(self, fullname):
-        """Abstract method which should return the source code for the
+        """Abstract method which should return the source code pour the
         module.  The fullname is a str.  Returns a str.
 
         Raises ImportError if the module cannot be found.
@@ -251,7 +251,7 @@ _register(InspectLoader, machinery.BuiltinImporter, machinery.FrozenImporter)
 
 class ExecutionLoader(InspectLoader):
 
-    """Abstract base class for loaders that wish to support the execution of
+    """Abstract base class pour loaders that wish to support the execution of
     modules as scripts.
 
     This ABC represents one of the optional protocols specified in PEP 302.
@@ -268,7 +268,7 @@ class ExecutionLoader(InspectLoader):
         raise ImportError
 
     def get_code(self, fullname):
-        """Method to return the code object for fullname.
+        """Method to return the code object pour fullname.
 
         Should return None if not applicable (e.g. built-in module).
         Raise ImportError if the module cannot be found.
@@ -297,7 +297,7 @@ _register(FileLoader, machinery.SourceFileLoader,
 
 class SourceLoader(_bootstrap_external.SourceLoader, ResourceLoader, ExecutionLoader):
 
-    """Abstract base class for loading source code (and optionally any
+    """Abstract base class pour loading source code (and optionally any
     corresponding bytecode).
 
     To support loading from source code, the abstractmethods inherited from
@@ -313,13 +313,13 @@ class SourceLoader(_bootstrap_external.SourceLoader, ResourceLoader, ExecutionLo
     """
 
     def path_mtime(self, path):
-        """Return the (int) modification time for the path (str)."""
+        """Return the (int) modification time pour the path (str)."""
         if self.path_stats.__func__ is SourceLoader.path_stats:
             raise OSError
         return int(self.path_stats(path)['mtime'])
 
     def path_stats(self, path):
-        """Return a metadata dict for the source pointed to by the path (str).
+        """Return a metadata dict pour the source pointed to by the path (str).
         Possible keys:
         - 'mtime' (mandatory) is the numeric timestamp of last source
           code modification;
@@ -334,7 +334,7 @@ class SourceLoader(_bootstrap_external.SourceLoader, ResourceLoader, ExecutionLo
 
         Accepts a str path and data as bytes.
 
-        Any needed intermediary directories are to be created. If for some
+        Any needed intermediary directories are to be created. If pour some
         reason the file cannot be written because of permissions, fail
         silently.
         """
@@ -353,7 +353,7 @@ class ResourceReader(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def open_resource(self, resource):
-        """Return an opened, file-like object for binary reading.
+        """Return an opened, file-like object pour binary reading.
 
         The 'resource' argument is expected to represent only a file name
         and thus not contain any subdirectory components.

@@ -1,4 +1,4 @@
-"""Module for testing the behavior of generics across different modules."""
+"""Module pour testing the behavior of generics across different modules."""
 
 import sys
 from textwrap import dedent

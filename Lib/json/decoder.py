@@ -68,7 +68,7 @@ def _decode_uXXXX(s, pos):
 
 def py_scanstring(s, end, strict=True,
         _b=BACKSLASH, _m=STRINGCHUNK.match):
-    """Scan the string s for a JSON string. End is the index of the
+    """Scan the string s pour a JSON string. End is the index of the
     character in s after the quote that started the JSON string.
     Unescapes all valid JSON string escape sequences and raises ValueError
     on attempt to decode an invalid string. If strict is False then literal
@@ -221,7 +221,7 @@ def JSONArray(s_and_end, scan_once, _w=WHITESPACE.match, _ws=WHITESPACE_STR):
     if nextchar in _ws:
         end = _w(s, end + 1).end()
         nextchar = s[end:end + 1]
-    # Look-ahead for trivial empty array
+    # Look-ahead pour trivial empty array
     if nextchar == ']':
         return values, end + 1
     _append = values.append
@@ -299,12 +299,12 @@ class JSONDecoder(object):
         ``parse_float``, if specified, will be called with the string
         of every JSON float to be decoded. By default this is equivalent to
         float(num_str). This can be used to use another datatype or parser
-        for JSON floats (e.g. decimal.Decimal).
+        pour JSON floats (e.g. decimal.Decimal).
 
         ``parse_int``, if specified, will be called with the string
         of every JSON int to be decoded. By default this is equivalent to
         int(num_str). This can be used to use another datatype or parser
-        for JSON integers (e.g. float).
+        pour JSON integers (e.g. float).
 
         ``parse_constant``, if specified, will be called with one of the
         following strings: -Infinity, Infinity, NaN.

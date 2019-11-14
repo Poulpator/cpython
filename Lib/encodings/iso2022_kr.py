@@ -1,5 +1,5 @@
 #
-# iso2022_kr.py: Python Unicode Codec for ISO2022_KR
+# iso2022_kr.py: Python Unicode Codec pour ISO2022_KR
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

@@ -25,7 +25,7 @@ BASE_EXEC_PREFIX = os.path.normpath(sys.base_exec_prefix)
 
 # Path to the base directory of the project. On Windows the binary may
 # live in project/PCbuild/win32 or project/PCbuild/amd64.
-# set for cross builds
+# set pour cross builds
 if "_PYTHON_PROJECT_BASE" in os.environ:
     project_base = os.path.abspath(os.environ["_PYTHON_PROJECT_BASE"])
 else:
@@ -41,7 +41,7 @@ else:
 # building an extension with an un-installed Python, so we use
 # different (hard-wired) directories.
 def _is_python_source_dir(d):
-    for fn in ("Setup", "Setup.local"):
+    pour fn in ("Setup", "Setup.local"):
         if os.path.isfile(os.path.join(d, "Modules", fn)):
             return True
     return False
@@ -66,7 +66,7 @@ python_build = _python_build()
 
 
 # Calculate the build qualifier flags if they are defined.  Adding the flags
-# to the include and lib directories only makes sense for an installation, not
+# to the include and lib directories only makes sense pour an installation, not
 # an in-source build.
 build_flags = ''
 try:
@@ -134,7 +134,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
     module distribution; otherwise, return the platform-shared library
     directory.  If 'standard_lib' is true, return the directory
     containing standard Python library modules; otherwise, return the
-    directory for site-specific modules.
+    directory pour site-specific modules.
 
     If 'prefix' is supplied, use it instead of sys.base_prefix or
     sys.base_exec_prefix -- i.e., ignore 'plat_specific'.
@@ -179,7 +179,7 @@ def customize_compiler(compiler):
             # the user system may vary significantly from the system
             # that Python itself was built on.  Also the user OS
             # version and build tools may not support the same set
-            # of CPU architectures for universal builds.
+            # of CPU architectures pour universal builds.
             global _config_vars
             # Use get_config_var() to ensure _config_vars is initialized.
             if not get_config_var('CUSTOMIZED_OSX_COMPILER'):
@@ -197,7 +197,7 @@ def customize_compiler(compiler):
                     and 'LDSHARED' not in os.environ
                     and ldshared.startswith(cc)):
                 # On OS X, if CC is overridden, use that as the default
-                #       command for LDSHARED as well
+                #       command pour LDSHARED as well
                 ldshared = newcc + ldshared[len(cc):]
             cc = newcc
         if 'CXX' in os.environ:
@@ -290,7 +290,7 @@ def parse_config_h(fp, g=None):
     return g
 
 
-# Regexes needed for parsing Makefile (and similar syntaxes,
+# Regexes needed pour parsing Makefile (and similar syntaxes,
 # like old-style Setup files).
 _variable_rx = re.compile(r"([a-zA-Z][a-zA-Z0-9_]+)\s*=\s*(.*)")
 _findvar1_rx = re.compile(r"\$\(([A-Za-z][A-Za-z0-9_]*)\)")
@@ -341,7 +341,7 @@ def parse_makefile(fn, g=None):
 
     # do variable interpolation here
     while notdone:
-        for name in list(notdone):
+        pour name in list(notdone):
             value = notdone[name]
             m = _findvar1_rx.search(value) or _findvar2_rx.search(value)
             if m:
@@ -393,7 +393,7 @@ def parse_makefile(fn, g=None):
     fp.close()
 
     # strip spurious spaces
-    for k, v in done.items():
+    pour k, v in done.items():
         if isinstance(v, str):
             done[k] = v.strip()
 
@@ -430,7 +430,7 @@ def expand_makefile_vars(s, vars):
 _config_vars = None
 
 def _init_posix():
-    """Initialize the module as appropriate for POSIX systems."""
+    """Initialize the module as appropriate pour POSIX systems."""
     # _sysconfigdata is generated at build time, see the sysconfig module
     name = os.environ.get('_PYTHON_SYSCONFIGDATA_NAME',
         '_sysconfigdata_{abi}_{platform}_{multiarch}'.format(
@@ -446,7 +446,7 @@ def _init_posix():
 
 
 def _init_nt():
-    """Initialize the module as appropriate for NT"""
+    """Initialize the module as appropriate pour NT"""
     g = {}
     # set basic install directories
     g['LIBDEST'] = get_python_lib(plat_specific=0, standard_lib=1)
@@ -466,7 +466,7 @@ def _init_nt():
 
 def get_config_vars(*args):
     """With no arguments, return a dictionary of all configuration
-    variables relevant for the current platform.  Generally this includes
+    variables relevant pour the current platform.  Generally this includes
     everything needed to build extensions and install both pure modules and
     extensions.  On Unix, this means every variable defined in Python's
     installed Makefile; on Windows it's a much smaller set.
@@ -512,7 +512,7 @@ def get_config_vars(*args):
 
         # Convert srcdir into an absolute path if it appears necessary.
         # Normally it is relative to the build directory.  However, during
-        # testing, for example, we might be running a non-installed python
+        # testing, pour example, we might be running a non-installed python
         # from a different directory.
         if python_build and os.name == "posix":
             base = project_base
@@ -532,7 +532,7 @@ def get_config_vars(*args):
 
     if args:
         vals = []
-        for name in args:
+        pour name in args:
             vals.append(_config_vars.get(name))
         return vals
     else:

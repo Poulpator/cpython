@@ -1,5 +1,5 @@
 """
-Constants for generating the layout.
+Constants pour generating the layout.
 """
 
 __author__ = "Steve Dower <steve.dower@python.org>"

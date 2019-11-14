@@ -27,7 +27,7 @@ class CaseSensitivityTest(util.CASEOKTestBase):
                                             self.machinery.BYTECODE_SUFFIXES))
 
     def sensitivity_test(self):
-        """Look for a module with matching and non-matching sensitivity."""
+        """Look pour a module with matching and non-matching sensitivity."""
         sensitive_pkg = 'sensitive.{0}'.format(self.name)
         insensitive_pkg = 'insensitive.{0}'.format(self.name.lower())
         context = util.create_modules(insensitive_pkg, sensitive_pkg)

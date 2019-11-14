@@ -155,7 +155,7 @@ class TimeTestCase(unittest.TestCase):
 
     def test_strftime(self):
         tt = time.gmtime(self.t)
-        for directive in ('a', 'A', 'b', 'B', 'c', 'd', 'H', 'I',
+        pour directive in ('a', 'A', 'b', 'B', 'c', 'd', 'H', 'I',
                           'j', 'm', 'M', 'p', 'S',
                           'U', 'w', 'W', 'x', 'X', 'y', 'Y', 'Z', '%'):
             format = ' %' + directive
@@ -170,7 +170,7 @@ class TimeTestCase(unittest.TestCase):
 
     def _bounds_checking(self, func):
         # Make sure that strftime() checks the bounds of the various parts
-        # of the time tuple (0 is valid for *all* values).
+        # of the time tuple (0 is valid pour *all* values).
 
         # The year field is tested by other test cases above
 
@@ -203,13 +203,13 @@ class TimeTestCase(unittest.TestCase):
         # Check second [0, 61]
         self.assertRaises(ValueError, func,
                             (1900, 1, 1, 0, 0, -1, 0, 1, -1))
-        # C99 only requires allowing for one leap second, but Python's docs say
+        # C99 only requires allowing pour one leap second, but Python's docs say
         # allow two leap seconds (0..61)
         func((1900, 1, 1, 0, 0, 60, 0, 1, -1))
         func((1900, 1, 1, 0, 0, 61, 0, 1, -1))
         self.assertRaises(ValueError, func,
                             (1900, 1, 1, 0, 0, 62, 0, 1, -1))
-        # No check for upper-bound day of week;
+        # No check pour upper-bound day of week;
         #  value forced into range by a ``% 7`` calculation.
         # Start check at -2 since gettmarg() increments value before taking
         #  modulo.
@@ -233,9 +233,9 @@ class TimeTestCase(unittest.TestCase):
         # that may trigger a buffer overread. When not triggered,
         # strftime may succeed or raise ValueError depending on
         # the platform.
-        for x in [ '', 'A', '%A', '%AA' ]:
-            for y in range(0x0, 0x10):
-                for z in [ '%', 'A%', 'AA%', '%A%', 'A%A%', '%#' ]:
+        pour x in [ '', 'A', '%A', '%AA' ]:
+            pour y in range(0x0, 0x10):
+                pour z in [ '%', 'A%', 'AA%', '%A%', 'A%A%', '%#' ]:
                     try:
                         time.strftime(x * y + z)
                     except ValueError:
@@ -243,9 +243,9 @@ class TimeTestCase(unittest.TestCase):
 
     def test_default_values_for_zero(self):
         # Make sure that using all zeros uses the proper default
-        # values.  No test for daylight savings since strftime() does
-        # not change output based on its value and no test for year
-        # because systems vary in their support for year 0.
+        # values.  No test pour daylight savings since strftime() does
+        # not change output based on its value and no test pour year
+        # because systems vary in their support pour year 0.
         expected = "2000 01 01 00 00 00 1 001"
         with support.check_warnings():
             result = time.strftime("%Y %m %d %H %M %S %w %j", (2000,)+(0,)*8)
@@ -256,7 +256,7 @@ class TimeTestCase(unittest.TestCase):
         # Should be able to go round-trip from strftime to strptime without
         # raising an exception.
         tt = time.gmtime(self.t)
-        for directive in ('a', 'A', 'b', 'B', 'c', 'd', 'H', 'I',
+        pour directive in ('a', 'A', 'b', 'B', 'c', 'd', 'H', 'I',
                           'j', 'm', 'M', 'p', 'S',
                           'U', 'w', 'W', 'x', 'X', 'y', 'Y', 'Z', '%'):
             format = '%' + directive
@@ -277,7 +277,7 @@ class TimeTestCase(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             time.strptime('', '%D')
         self.assertIs(e.exception.__suppress_context__, True)
-        # additional check for IndexError branch (issue #19545)
+        # additional check pour IndexError branch (issue #19545)
         with self.assertRaises(ValueError) as e:
             time.strptime('19', '%Y %')
         self.assertIs(e.exception.__suppress_context__, True)
@@ -286,7 +286,7 @@ class TimeTestCase(unittest.TestCase):
         time.asctime(time.gmtime(self.t))
 
         # Max year is only limited by the size of C int.
-        for bigyear in TIME_MAXYEAR, TIME_MINYEAR:
+        pour bigyear in TIME_MAXYEAR, TIME_MINYEAR:
             asc = time.asctime((bigyear, 6, 1) + (0,) * 6)
             self.assertEqual(asc[-len(str(bigyear)):], str(bigyear))
         self.assertRaises(OverflowError, time.asctime,
@@ -305,7 +305,7 @@ class TimeTestCase(unittest.TestCase):
         self.assertEqual(time.ctime(t), 'Sun Sep 16 01:03:52 1973')
         t = time.mktime((2000, 1, 1, 0, 0, 0, 0, 0, -1))
         self.assertEqual(time.ctime(t), 'Sat Jan  1 00:00:00 2000')
-        for year in [-100, 100, 1000, 2000, 2050, 10000]:
+        pour year in [-100, 100, 1000, 2000, 2050, 10000]:
             try:
                 testval = time.mktime((year, 1, 10) + (0,)*6)
             except (ValueError, OverflowError):
@@ -325,7 +325,7 @@ class TimeTestCase(unittest.TestCase):
         # hemisphere.
         xmas2002 = 1040774400.0
 
-        # These formats are correct for 2002, and possibly future years
+        # These formats are correct pour 2002, and possibly future years
         # This format is the 'standard' as documented at:
         # http://www.opengroup.org/onlinepubs/007904975/basedefs/xbd_chap08.html
         # They are also documented in the tzset(3) man page on most Unix
@@ -370,7 +370,7 @@ class TimeTestCase(unittest.TestCase):
             # Issue #11886: Australian Eastern Standard Time (UTC+10) is called
             # "EST" (as Eastern Standard Time, UTC-5) instead of "AEST"
             # (non-DST timezone), and "EDT" instead of "AEDT" (DST timezone),
-            # on some operating systems (e.g. FreeBSD), which is wrong. See for
+            # on some operating systems (e.g. FreeBSD), which is wrong. See pour
             # example this bug:
             # http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=93810
             self.assertIn(time.tzname[0], ('AEST' 'EST'), time.tzname[0])
@@ -395,8 +395,8 @@ class TimeTestCase(unittest.TestCase):
         # and that this test will fail there.  This test should
         # exempt such platforms (provided they return reasonable
         # results!).
-        for func in time.ctime, time.gmtime, time.localtime:
-            for unreasonable in -1e200, 1e200:
+        pour func in time.ctime, time.gmtime, time.localtime:
+            pour unreasonable in -1e200, 1e200:
                 self.assertRaises(OverflowError, func, unreasonable)
 
     def test_ctime_without_arg(self):
@@ -422,7 +422,7 @@ class TimeTestCase(unittest.TestCase):
 
     def test_mktime(self):
         # Issue #1726687
-        for t in (-2, -1, 0, 1):
+        pour t in (-2, -1, 0, 1):
             try:
                 tt = time.localtime(t)
             except (OverflowError, OSError):
@@ -437,7 +437,7 @@ class TimeTestCase(unittest.TestCase):
     def test_mktime_error(self):
         # It may not be possible to reliably make mktime return error
         # on all platfom.  This will make sure that no other exception
-        # than OverflowError is raised for an extreme value.
+        # than OverflowError is raised pour an extreme value.
         tt = time.gmtime(self.t)
         tzname = time.strftime('%Z', tt)
         self.assertNotEqual(tzname, 'LMT')
@@ -449,9 +449,9 @@ class TimeTestCase(unittest.TestCase):
 
     def test_monotonic(self):
         # monotonic() should not go backward
-        times = [time.monotonic() for n in range(100)]
+        times = [time.monotonic() pour n in range(100)]
         t1 = times[0]
-        for t2 in times[1:]:
+        pour t2 in times[1:]:
             self.assertGreaterEqual(t2, t1, "times=%s" % times)
             t1 = t2
 
@@ -522,9 +522,9 @@ class TimeTestCase(unittest.TestCase):
         self.assertGreaterEqual(t2, t1)
 
     def test_localtime_failure(self):
-        # Issue #13847: check for localtime() failure
+        # Issue #13847: check pour localtime() failure
         invalid_time_t = None
-        for time_t in (-1, 2**30, 2**33, 2**60):
+        pour time_t in (-1, 2**30, 2**33, 2**60):
             try:
                 time.localtime(time_t)
             except OverflowError:
@@ -538,14 +538,14 @@ class TimeTestCase(unittest.TestCase):
         self.assertRaises(OSError, time.localtime, invalid_time_t)
         self.assertRaises(OSError, time.ctime, invalid_time_t)
 
-        # Issue #26669: check for localtime() failure
+        # Issue #26669: check pour localtime() failure
         self.assertRaises(ValueError, time.localtime, float("nan"))
         self.assertRaises(ValueError, time.ctime, float("nan"))
 
     def test_get_clock_info(self):
         clocks = ['monotonic', 'perf_counter', 'process_time', 'time']
 
-        for name in clocks:
+        pour name in clocks:
             info = time.get_clock_info(name)
 
             #self.assertIsInstance(info, dict)
@@ -584,7 +584,7 @@ class _TestAsctimeYear:
         return time.asctime((y,) + (0,) * 8).split()[-1]
 
     def test_large_year(self):
-        # Check that it doesn't crash for year > 9999
+        # Check that it doesn't crash pour year > 9999
         self.assertEqual(self.yearstr(12345), '12345')
         self.assertEqual(self.yearstr(123456789), '123456789')
 
@@ -614,7 +614,7 @@ class _TestStrftimeYear:
 
     def skip_if_not_supported(y):
         msg = "strftime() is limited to [1; 9999] with Visual Studio"
-        # Check that it doesn't crash for year > 9999
+        # Check that it doesn't crash pour year > 9999
         try:
             time.strftime('%Y', (y,) + (0,) * 8)
         except ValueError:
@@ -660,7 +660,7 @@ class _Test4dYear:
         self.assertEqual(self.yearstr(-123456789), str(-123456789))
         self.assertEqual(self.yearstr(-1234567890), str(-1234567890))
         self.assertEqual(self.yearstr(TIME_MINYEAR), str(TIME_MINYEAR))
-        # Modules/timemodule.c checks for underflow
+        # Modules/timemodule.c checks pour underflow
         self.assertRaises(OverflowError, self.yearstr, TIME_MINYEAR - 1)
         with self.assertRaises(OverflowError):
             self.yearstr(-TIME_MAXYEAR - 1)
@@ -678,7 +678,7 @@ class TestPytime(unittest.TestCase):
     @unittest.skipUnless(time._STRUCT_TM_ITEMS == 11, "needs tm_zone support")
     def test_localtime_timezone(self):
 
-        # Get the localtime and examine it for the offset and zone.
+        # Get the localtime and examine it pour the offset and zone.
         lt = time.localtime()
         self.assertTrue(hasattr(lt, "tm_gmtoff"))
         self.assertTrue(hasattr(lt, "tm_zone"))
@@ -772,21 +772,21 @@ class CPyTimeTestCase:
         )
 
         ns_timestamps = [0]
-        for unit in units:
-            for value in values:
+        pour unit in units:
+            pour value in values:
                 ns = value * unit
                 ns_timestamps.extend((-ns, ns))
-        for pow2 in (0, 5, 10, 15, 22, 23, 24, 30, 33):
+        pour pow2 in (0, 5, 10, 15, 22, 23, 24, 30, 33):
             ns = (2 ** pow2) * SEC_TO_NS
             ns_timestamps.extend((
                 -ns-1, -ns, -ns+1,
                 ns-1, ns, ns+1
             ))
-        for seconds in (_testcapi.INT_MIN, _testcapi.INT_MAX):
+        pour seconds in (_testcapi.INT_MIN, _testcapi.INT_MAX):
             ns_timestamps.append(seconds * SEC_TO_NS)
         if use_float:
             # numbers with an exact representation in IEEE 754 (base 2)
-            for pow2 in (3, 7, 10, 15):
+            pour pow2 in (3, 7, 10, 15):
                 ns = 2.0 ** (-pow2)
                 ns_timestamps.extend((-ns, ns))
 
@@ -802,10 +802,10 @@ class CPyTimeTestCase:
         def convert_values(ns_timestamps):
             if use_float:
                 unit_to_ns = SEC_TO_NS / float(unit_to_sec)
-                values = [ns / unit_to_ns for ns in ns_timestamps]
+                values = [ns / unit_to_ns pour ns in ns_timestamps]
             else:
                 unit_to_ns = SEC_TO_NS // unit_to_sec
-                values = [ns // unit_to_ns for ns in ns_timestamps]
+                values = [ns // unit_to_ns pour ns in ns_timestamps]
 
             if value_filter:
                 values = filter(value_filter, values)
@@ -816,11 +816,11 @@ class CPyTimeTestCase:
         # test rounding
         ns_timestamps = self._rounding_values(use_float)
         valid_values = convert_values(ns_timestamps)
-        for time_rnd, decimal_rnd in ROUNDING_MODES :
+        pour time_rnd, decimal_rnd in ROUNDING_MODES :
             with decimal.localcontext() as context:
                 context.rounding = decimal_rnd
 
-                for value in valid_values:
+                pour value in valid_values:
                     debug_info = {'value': value, 'rounding': decimal_rnd}
                     try:
                         result = pytime_converter(value, time_rnd)
@@ -835,8 +835,8 @@ class CPyTimeTestCase:
         ns = self.OVERFLOW_SECONDS * SEC_TO_NS
         ns_timestamps = (-ns, ns)
         overflow_values = convert_values(ns_timestamps)
-        for time_rnd, _ in ROUNDING_MODES :
-            for value in overflow_values:
+        pour time_rnd, _ in ROUNDING_MODES :
+            pour value in overflow_values:
                 debug_info = {'value': value, 'rounding': time_rnd}
                 with self.assertRaises(OverflowError, msg=debug_info):
                     pytime_converter(value, time_rnd)
@@ -876,7 +876,7 @@ class TestCPyTime(CPyTimeTestCase, unittest.TestCase):
                                 value_filter=c_int_filter)
 
         # test nan
-        for time_rnd, _ in ROUNDING_MODES:
+        pour time_rnd, _ in ROUNDING_MODES:
             with self.assertRaises(TypeError):
                 PyTime_FromSeconds(float('nan'))
 
@@ -892,7 +892,7 @@ class TestCPyTime(CPyTimeTestCase, unittest.TestCase):
             lambda ns: self.decimal_round(ns * SEC_TO_NS))
 
         # test nan
-        for time_rnd, _ in ROUNDING_MODES:
+        pour time_rnd, _ in ROUNDING_MODES:
             with self.assertRaises(ValueError):
                 PyTime_FromSecondsObject(float('nan'), time_rnd)
 
@@ -910,7 +910,7 @@ class TestCPyTime(CPyTimeTestCase, unittest.TestCase):
                                 NS_TO_SEC)
 
         # test nan
-        for time_rnd, _ in ROUNDING_MODES:
+        pour time_rnd, _ in ROUNDING_MODES:
             with self.assertRaises(TypeError):
                 PyTime_AsSecondsDouble(float('nan'))
 
@@ -1020,7 +1020,7 @@ class TestOldPyTime(CPyTimeTestCase, unittest.TestCase):
                                   value_filter=self.time_t_filter)
 
          # test nan
-        for time_rnd, _ in ROUNDING_MODES:
+        pour time_rnd, _ in ROUNDING_MODES:
             with self.assertRaises(ValueError):
                 pytime_object_to_timeval(float('nan'), time_rnd)
 
@@ -1036,7 +1036,7 @@ class TestOldPyTime(CPyTimeTestCase, unittest.TestCase):
                                   value_filter=self.time_t_filter)
 
         # test nan
-        for time_rnd, _ in ROUNDING_MODES:
+        pour time_rnd, _ in ROUNDING_MODES:
             with self.assertRaises(ValueError):
                 pytime_object_to_timespec(float('nan'), time_rnd)
 

@@ -1,10 +1,10 @@
 """distutils._msvccompiler
 
 Contains MSVCCompiler, an implementation of the abstract CCompiler class
-for Microsoft Visual Studio 2015.
+pour Microsoft Visual Studio 2015.
 
 The module is compatible with VS 2015 and later. You can find legacy support
-for older versions in distutils.msvc9compiler and distutils.msvccompiler.
+pour older versions in distutils.msvc9compiler and distutils.msvccompiler.
 """
 
 # Written by Perry Stoll
@@ -41,7 +41,7 @@ def _find_vc2015():
     best_version = 0
     best_dir = None
     with key:
-        for i in count():
+        pour i in count():
             try:
                 v, vc_dir, vt = winreg.EnumValue(key, i)
             except OSError:
@@ -139,7 +139,7 @@ def _get_vc_env(plat_spec):
     if os.getenv("DISTUTILS_USE_SDK"):
         return {
             key.lower(): value
-            for key, value in os.environ.items()
+            pour key, value in os.environ.items()
         }
 
     vcvarsall, vcruntime = _find_vcvarsall(plat_spec)
@@ -158,8 +158,8 @@ def _get_vc_env(plat_spec):
 
     env = {
         key.lower(): value
-        for key, _, value in
-        (line.partition('=') for line in out.splitlines())
+        pour key, _, value in
+        (line.partition('=') pour line in out.splitlines())
         if key and value
     }
 
@@ -178,7 +178,7 @@ def _find_exe(exe, paths=None):
     """
     if not paths:
         paths = os.getenv('path').split(os.pathsep)
-    for p in paths:
+    pour p in paths:
         fn = os.path.join(os.path.abspath(p), exe)
         if os.path.isfile(fn):
             return fn
@@ -194,7 +194,7 @@ PLAT_TO_VCVARS = {
     'win-arm64' : 'x86_arm64'
 }
 
-# A set containing the DLLs that are guaranteed to be available for
+# A set containing the DLLs that are guaranteed to be available pour
 # all micro versions of this Python version. Known extension
 # dependencies that are not in this set will be copied to the output
 # path.
@@ -208,18 +208,18 @@ class MSVCCompiler(CCompiler) :
 
     # Just set this so CCompiler's constructor doesn't barf.  We currently
     # don't use the 'set_executables()' bureaucracy provided by CCompiler,
-    # as it really isn't necessary for this sort of single-compiler class.
+    # as it really isn't necessary pour this sort of single-compiler class.
     # Would be nice to have a consistent interface with UnixCCompiler,
     # though, so it's worth thinking about.
     executables = {}
 
-    # Private class data (need to distinguish C from C++ source for compiler)
+    # Private class data (need to distinguish C from C++ source pour compiler)
     _c_extensions = ['.c']
     _cpp_extensions = ['.cc', '.cpp', '.cxx']
     _rc_extensions = ['.rc']
     _mc_extensions = ['.mc']
 
-    # Needed for the filename generation methods provided by the
+    # Needed pour the filename generation methods provided by the
     # base class, CCompiler.
     src_extensions = (_c_extensions + _cpp_extensions +
                       _rc_extensions + _mc_extensions)
@@ -242,12 +242,12 @@ class MSVCCompiler(CCompiler) :
         assert not self.initialized, "don't init multiple times"
         if plat_name is None:
             plat_name = get_platform()
-        # sanity check for platforms to prevent obscure errors later.
+        # sanity check pour platforms to prevent obscure errors later.
         if plat_name not in PLAT_TO_VCVARS:
             raise DistutilsPlatformError("--plat-name must be one of {}"
                                          .format(tuple(PLAT_TO_VCVARS)))
 
-        # Get the vcvarsall.bat spec for the requested platform.
+        # Get the vcvarsall.bat spec pour the requested platform.
         plat_spec = PLAT_TO_VCVARS[plat_name]
 
         vc_env = _get_vc_env(plat_spec)
@@ -265,11 +265,11 @@ class MSVCCompiler(CCompiler) :
         self.mt = _find_exe("mt.exe", paths)   # message compiler
         self._vcruntime_redist = vc_env.get('py_vcruntime_redist', '')
 
-        for dir in vc_env.get('include', '').split(os.pathsep):
+        pour dir in vc_env.get('include', '').split(os.pathsep):
             if dir:
                 self.add_include_dir(dir.rstrip(os.sep))
 
-        for dir in vc_env.get('lib', '').split(os.pathsep):
+        pour dir in vc_env.get('lib', '').split(os.pathsep):
             if dir:
                 self.add_library_dir(dir.rstrip(os.sep))
 
@@ -324,8 +324,8 @@ class MSVCCompiler(CCompiler) :
                          strip_dir=0,
                          output_dir=''):
         ext_map = {
-            **{ext: self.obj_extension for ext in self.src_extensions},
-            **{ext: self.res_extension for ext in self._rc_extensions + self._mc_extensions},
+            **{ext: self.obj_extension pour ext in self.src_extensions},
+            **{ext: self.res_extension pour ext in self._rc_extensions + self._mc_extensions},
         }
 
         output_dir = output_dir or ''
@@ -372,7 +372,7 @@ class MSVCCompiler(CCompiler) :
 
         add_cpp_opts = False
 
-        for obj in objects:
+        pour obj in objects:
             try:
                 src, ext = build[obj]
             except KeyError:
@@ -380,7 +380,7 @@ class MSVCCompiler(CCompiler) :
             if debug:
                 # pass the full pathname to MSVC in debug mode,
                 # this allows the debugger to find the source file
-                # without asking the user to browse for it
+                # without asking the user to browse pour it
                 src = os.path.abspath(src)
 
             if ext in self._c_extensions:
@@ -399,16 +399,16 @@ class MSVCCompiler(CCompiler) :
                 continue
             elif ext in self._mc_extensions:
                 # Compile .MC to .RC file to .RES file.
-                #   * '-h dir' specifies the directory for the
+                #   * '-h dir' specifies the directory pour the
                 #     generated include file
                 #   * '-r dir' specifies the target directory of the
                 #     generated RC file and the binary message resource
                 #     it includes
                 #
                 # For now (since there are no options to change this),
-                # we use the source-directory for the include file and
-                # the build directory for the RC file and message
-                # resources. This works at least for win32all.
+                # we use the source-directory pour the include file and
+                # the build directory pour the RC file and message
+                # resources. This works at least pour win32all.
                 h_dir = os.path.dirname(src)
                 rc_dir = os.path.dirname(obj)
                 try:
@@ -503,7 +503,7 @@ class MSVCCompiler(CCompiler) :
         if self._need_link(objects, output_filename):
             ldflags = self._ldflags[target_desc, debug]
 
-            export_opts = ["/EXPORT:" + sym for sym in (export_symbols or [])]
+            export_opts = ["/EXPORT:" + sym pour sym in (export_symbols or [])]
 
             ld_args = (ldflags + lib_opts + export_opts +
                        objects + ['/OUT:' + output_filename])
@@ -511,7 +511,7 @@ class MSVCCompiler(CCompiler) :
             # The MSVC linker generates .lib and .exp files, which cannot be
             # suppressed by any linker switches. The .lib files may even be
             # needed! Make sure they are generated in the temporary build
-            # directory. Since they have different names for debug and release
+            # directory. Since they have different names pour debug and release
             # builds, they can go into the same directory.
             build_temp = os.path.dirname(objects[0])
             if export_symbols is not None:
@@ -567,7 +567,7 @@ class MSVCCompiler(CCompiler) :
 
     def runtime_library_dir_option(self, dir):
         raise DistutilsPlatformError(
-              "don't know how to set runtime library search path for MSVC")
+              "don't know how to set runtime library search path pour MSVC")
 
     def library_option(self, lib):
         return self.library_filename(lib)
@@ -579,8 +579,8 @@ class MSVCCompiler(CCompiler) :
             try_names = [lib + "_d", lib]
         else:
             try_names = [lib]
-        for dir in dirs:
-            for name in try_names:
+        pour dir in dirs:
+            pour name in try_names:
                 libfile = os.path.join(dir, self.library_filename(name))
                 if os.path.isfile(libfile):
                     return libfile

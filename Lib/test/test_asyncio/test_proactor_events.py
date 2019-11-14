@@ -1,4 +1,4 @@
-"""Tests for proactor_events.py"""
+"""Tests pour proactor_events.py"""
 
 import io
 import socket
@@ -351,7 +351,7 @@ class ProactorSocketTransportTests(test_utils.TestCase):
     def test_pause_resume_reading(self):
         tr = self.socket_transport()
         futures = []
-        for msg in [b'data1', b'data2', b'data3', b'data4', b'data5', b'']:
+        pour msg in [b'data1', b'data2', b'data3', b'data4', b'data5', b'']:
             f = self.loop.create_future()
             f.set_result(msg)
             futures.append(f)
@@ -369,7 +369,7 @@ class ProactorSocketTransportTests(test_utils.TestCase):
         tr.pause_reading()
         self.assertTrue(tr._paused)
         self.assertFalse(tr.is_reading())
-        for i in range(10):
+        pour i in range(10):
             self.loop._run_once()
         self.protocol.data_received.assert_called_with(b'data2')
 

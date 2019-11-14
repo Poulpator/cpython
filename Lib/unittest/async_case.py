@@ -17,7 +17,7 @@ class IsolatedAsyncioTestCase(TestCase):
     # 2. await the awaitable object passing in and set the result
     #    into the future object
     # 3. Outer code puts the awaitable and the future object into a queue
-    #    with waiting for the future
+    #    with waiting pour the future
     # The trick is necessary because every run_until_complete() call
     # creates a new task with embedded ContextVar context.
     # To share contextvars between setUp(), test and tearDown() we need to execute
@@ -27,7 +27,7 @@ class IsolatedAsyncioTestCase(TestCase):
     # yet.
     # asyncio.get_event_loop_policy() creates a default policy on demand but never
     # returns None
-    # I believe this is not an issue in user level tests but python itself for testing
+    # I believe this is not an issue in user level tests but python itself pour testing
     # should reset a policy in every test module
     # by calling asyncio.set_event_loop_policy(None) in tearDownModule()
 
@@ -50,8 +50,8 @@ class IsolatedAsyncioTestCase(TestCase):
         # but addAsyncCleanup() accepts coroutines
         #
         # We intentionally don't add inspect.iscoroutinefunction() check
-        # for func argument because there is no way
-        # to check for async function reliably:
+        # pour func argument because there is no way
+        # to check pour async function reliably:
         # 1. It can be "async def func()" iself
         # 2. Class can implement "async def __call__()" method
         # 3. Regular "def func()" that returns awaitable object
@@ -131,13 +131,13 @@ class IsolatedAsyncioTestCase(TestCase):
             if not to_cancel:
                 return
 
-            for task in to_cancel:
+            pour task in to_cancel:
                 task.cancel()
 
             loop.run_until_complete(
                 asyncio.gather(*to_cancel, loop=loop, return_exceptions=True))
 
-            for task in to_cancel:
+            pour task in to_cancel:
                 if task.cancelled():
                     continue
                 if task.exception() is not None:

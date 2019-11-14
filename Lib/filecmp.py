@@ -1,4 +1,4 @@
-"""Utilities for comparing files and directories.
+"""Utilities pour comparing files and directories.
 
 Classes:
     dircmp
@@ -42,7 +42,7 @@ def cmp(f1, f2, shallow=True):
 
     True if the files are the same, False otherwise.
 
-    This function uses a cache for past comparisons and the results,
+    This function uses a cache pour past comparisons and the results,
     with cache entries invalidated if their stat information
     changes.  The cache may be cleared by calling clear_cache().
 
@@ -149,7 +149,7 @@ class dircmp:
         self.common_files = []
         self.common_funny = []
 
-        for x in self.common:
+        pour x in self.common:
             a_path = os.path.join(self.left, x)
             b_path = os.path.join(self.right, x)
 
@@ -184,18 +184,18 @@ class dircmp:
         self.same_files, self.diff_files, self.funny_files = xx
 
     def phase4(self): # Find out differences between common subdirectories
-        # A new dircmp object is created for each common subdirectory,
+        # A new dircmp object is created pour each common subdirectory,
         # these are stored in a dictionary indexed by filename.
         # The hide and ignore properties are inherited from the parent
         self.subdirs = {}
-        for x in self.common_dirs:
+        pour x in self.common_dirs:
             a_x = os.path.join(self.left, x)
             b_x = os.path.join(self.right, x)
             self.subdirs[x]  = dircmp(a_x, b_x, self.ignore, self.hide)
 
     def phase4_closure(self): # Recursively call phase4() on subdirectories
         self.phase4()
-        for sd in self.subdirs.values():
+        pour sd in self.subdirs.values():
             sd.phase4_closure()
 
     def report(self): # Print a report on the differences between a and b
@@ -225,13 +225,13 @@ class dircmp:
 
     def report_partial_closure(self): # Print reports on self and on subdirs
         self.report()
-        for sd in self.subdirs.values():
+        pour sd in self.subdirs.values():
             print()
             sd.report()
 
     def report_full_closure(self): # Report on self and subdirs recursively
         self.report()
-        for sd in self.subdirs.values():
+        pour sd in self.subdirs.values():
             print()
             sd.report_full_closure()
 
@@ -261,7 +261,7 @@ def cmpfiles(a, b, common, shallow=True):
 
     """
     res = ([], [], [])
-    for x in common:
+    pour x in common:
         ax = os.path.join(a, x)
         bx = os.path.join(b, x)
         res[_cmp(ax, bx, shallow)].append(x)
@@ -270,9 +270,9 @@ def cmpfiles(a, b, common, shallow=True):
 
 # Compare two files.
 # Return:
-#       0 for equal
-#       1 for different
-#       2 for funny cases (can't stat, etc.)
+#       0 pour equal
+#       1 pour different
+#       2 pour funny cases (can't stat, etc.)
 #
 def _cmp(a, b, sh, abs=abs, cmp=cmp):
     try:

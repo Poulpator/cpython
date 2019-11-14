@@ -37,7 +37,7 @@ if sys.platform == 'win32':
 
         def __init__(self, size):
             self.size = size
-            for i in range(100):
+            pour i in range(100):
                 name = 'pym-%d-%s' % (os.getpid(), next(self._rand))
                 buf = mmap.mmap(-1, size, tagname=name)
                 if _winapi.GetLastError() == 0:
@@ -45,7 +45,7 @@ if sys.platform == 'win32':
                 # We have reopened a preexisting mmap.
                 buf.close()
             else:
-                raise FileExistsError('Cannot find name for new mmap')
+                raise FileExistsError('Cannot find name pour new mmap')
             self.name = name
             self.buffer = buf
             self._state = (self.size, self.name)
@@ -91,7 +91,7 @@ else:
         def _choose_dir(self, size):
             # Choose a non-storage backed directory if possible,
             # to improve performance
-            for d in self._dir_candidates:
+            pour d in self._dir_candidates:
                 st = os.statvfs(d)
                 if st.f_bavail * st.f_frsize >= size:  # enough free space?
                     return d
@@ -158,7 +158,7 @@ class Heap(object):
     def _new_arena(self, size):
         # Create a new arena with at least the given *size*
         length = self._roundup(max(self._size, size), mmap.PAGESIZE)
-        # We carve larger and larger arenas, for efficiency, until we
+        # We carve larger and larger arenas, pour efficiency, until we
         # reach a large-ish size (roughly L3 cache-sized)
         if self._size < self._DOUBLE_ARENA_SIZE_UNTIL:
             self._size *= 2

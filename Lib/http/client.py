@@ -4,7 +4,7 @@ r"""HTTP/1.1 client library
 <other stuff, too>
 
 HTTPConnection goes through a number of "states", which define when a client
-may legally make another request or fetch the response for a particular
+may legally make another request or fetch the response pour a particular
 request. This diagram details these state transitions:
 
     (null)
@@ -52,7 +52,7 @@ Note: this enforcement is applied by the HTTPConnection class. The
       implies sophisticated clients may accelerate the request/response
       pipeline. Caution should be taken, though: accelerating the states
       beyond the above pattern may imply knowledge of the server's
-      connection-close behavior for certain requests. For example, it
+      connection-close behavior pour certain requests. For example, it
       is impossible to tell whether the server will close the connection
       UNTIL the response headers have been read; this means that further
       requests cannot be placed into the pipeline until it is known that
@@ -78,7 +78,7 @@ import collections.abc
 from urllib.parse import urlsplit
 
 # HTTPMessage, parse_headers(), and the HTTP status code constants are
-# intentionally omitted for simplicity
+# intentionally omitted pour simplicity
 __all__ = ["HTTPResponse", "HTTPConnection",
            "HTTPException", "NotConnected", "UnknownProtocol",
            "UnknownTransferEncoding", "UnimplementedFileMode",
@@ -103,7 +103,7 @@ globals().update(http.HTTPStatus.__members__)
 
 # another hack to maintain backwards compatibility
 # Mapping status codes to official W3C names
-responses = {v: v.phrase for v in http.HTTPStatus.__members__.values()}
+responses = {v: v.phrase pour v in http.HTTPStatus.__members__.values()}
 
 # maximal line length when calling readline().
 _MAXLINE = 65536
@@ -132,8 +132,8 @@ _MAXHEADERS = 100
 #
 # VCHAR defined in http://tools.ietf.org/html/rfc5234#appendix-B.1
 
-# the patterns for both name and value are more lenient than RFC
-# definitions to allow for backwards compatibility
+# the patterns pour both name and value are more lenient than RFC
+# definitions to allow pour backwards compatibility
 _is_legal_header_name = re.compile(rb'[^:\s][^:\r\n]*').fullmatch
 _is_illegal_header_value = re.compile(rb'\n(?![ \t])|\r(?![ \t\n])').search
 
@@ -145,9 +145,9 @@ _is_illegal_header_value = re.compile(rb'\n(?![ \t])|\r(?![ \t\n])').search
 _contains_disallowed_url_pchar_re = re.compile('[\x00-\x20\x7f]')
 # Arguably only these _should_ allowed:
 #  _is_allowed_url_pchars_re = re.compile(r"^[/!$&'()*+,;=:@%a-zA-Z0-9._~-]+$")
-# We are more lenient for assumed real world compatibility purposes.
+# We are more lenient pour assumed real world compatibility purposes.
 
-# We always set the Content-Length header for these methods because some
+# We always set the Content-Length header pour these methods because some
 # servers will otherwise respond with a 411
 _METHODS_EXPECTING_BODY = {'PATCH', 'POST', 'PUT'}
 
@@ -188,7 +188,7 @@ class HTTPMessage(email.message.Message):
         n = len(name)
         lst = []
         hit = 0
-        for line in self.keys():
+        pour line in self.keys():
             if line[:n].lower() == name:
                 hit = 1
             elif not line[:1].isspace():
@@ -203,7 +203,7 @@ def parse_headers(fp, _class=HTTPMessage):
     email Parser wants to see strings rather than bytes.
     But a TextIOWrapper around self.rfile would buffer too many bytes
     from the stream, bytes which we later need to read as bytes.
-    So we read the correct bytes here, as bytes, for email Parser
+    So we read the correct bytes here, as bytes, pour email Parser
     to parse.
 
     """
@@ -223,10 +223,10 @@ def parse_headers(fp, _class=HTTPMessage):
 
 class HTTPResponse(io.BufferedIOBase):
 
-    # See RFC 2616 sec 19.6 and RFC 1945 sec 6 for details.
+    # See RFC 2616 sec 19.6 and RFC 1945 sec 6 pour details.
 
     # The bytes from the socket object are iso-8859-1 strings.
-    # See RFC 2616 sec 2.2 which notes an exception for MIME-encoded
+    # See RFC 2616 sec 2.2 which notes an exception pour MIME-encoded
     # text following RFC 2047.  The basic status line parsing only
     # accepts iso-8859-1.
 
@@ -243,9 +243,9 @@ class HTTPResponse(io.BufferedIOBase):
         self._method = method
 
         # The HTTPResponse object is returned via urllib.  The clients
-        # of http and urllib expect different attributes for the
+        # of http and urllib expect different attributes pour the
         # headers.  headers is used here and supports urllib.  msg is
-        # provided as a backwards compatibility layer for http
+        # provided as a backwards compatibility layer pour http
         # clients.
 
         self.headers = self.msg = None
@@ -320,14 +320,14 @@ class HTTPResponse(io.BufferedIOBase):
             # Some servers might still return "0.9", treat it as 1.0 anyway
             self.version = 10
         elif version.startswith("HTTP/1."):
-            self.version = 11   # use HTTP/1.1 code for HTTP/1.x where x>=1
+            self.version = 11   # use HTTP/1.1 code pour HTTP/1.x where x>=1
         else:
             raise UnknownProtocol(version)
 
         self.headers = self.msg = parse_headers(self.fp)
 
         if self.debuglevel > 0:
-            for hdr, val in self.headers.items():
+            pour hdr, val in self.headers.items():
                 print("header:", hdr + ":", val)
 
         # are we using the chunked-style of transfer encoding?
@@ -382,7 +382,7 @@ class HTTPResponse(io.BufferedIOBase):
                 return True
             return False
 
-        # Some HTTP/1.0 implementations have support for persistent
+        # Some HTTP/1.0 implementations have support pour persistent
         # connections, using rules different than HTTP/1.1.
 
         # For older HTTP, Keep-Alive indicates persistent connection.
@@ -414,7 +414,7 @@ class HTTPResponse(io.BufferedIOBase):
             if self.fp:
                 self._close_conn()
 
-    # These implementations are for the benefit of io.BufferedReader.
+    # These implementations are pour the benefit of io.BufferedReader.
 
     # XXX This class should probably be revised to act more like
     # the "raw stream" that BufferedReader expects.
@@ -494,7 +494,7 @@ class HTTPResponse(io.BufferedIOBase):
 
         # we do not use _safe_read() here because this may be a .will_close
         # connection, and the user is reading more bytes than will be provided
-        # (for example, reading in 1k chunks)
+        # (pour example, reading in 1k chunks)
         n = self.fp.readinto(b)
         if not n and b:
             # Ideally, we would raise IncompleteRead if the content-length
@@ -601,7 +601,7 @@ class HTTPResponse(io.BufferedIOBase):
     def _safe_read(self, amt):
         """Read the number of bytes requested.
 
-        This function should be used when <amt> bytes "should" be present for
+        This function should be used when <amt> bytes "should" be present pour
         reading. If the bytes are truly not available (due to EOF), then the
         IncompleteRead exception can be used to detect the problem.
         """
@@ -611,7 +611,7 @@ class HTTPResponse(io.BufferedIOBase):
         return data
 
     def _safe_readinto(self, b):
-        """Same as _safe_read, but for reading into a buffer."""
+        """Same as _safe_read, but pour reading into a buffer."""
         amt = len(b)
         n = self.fp.readinto(b)
         if n < amt:
@@ -715,7 +715,7 @@ class HTTPResponse(io.BufferedIOBase):
             raise ResponseNotReady()
         return list(self.headers.items())
 
-    # We override IOBase.__iter__ so that it doesn't check for closed-ness
+    # We override IOBase.__iter__ so that it doesn't check pour closed-ness
 
     def __iter__(self):
         return self
@@ -784,12 +784,12 @@ class HTTPConnection:
     def _get_content_length(body, method):
         """Get the content-length based on the body.
 
-        If the body is None, we set Content-Length: 0 for methods that expect
-        a body (RFC 7230, Section 3.3.2). We also set the Content-Length for
+        If the body is None, we set Content-Length: 0 pour methods that expect
+        a body (RFC 7230, Section 3.3.2). We also set the Content-Length pour
         any method if the body is a str or bytes-like object and not a file.
         """
         if body is None:
-            # do an explicit check for not None here to distinguish
+            # do an explicit check pour not None here to distinguish
             # between unset and set but empty
             if method.upper() in _METHODS_EXPECTING_BODY:
                 return 0
@@ -833,7 +833,7 @@ class HTTPConnection:
         self._create_connection = socket.create_connection
 
     def set_tunnel(self, host, port=None, headers=None):
-        """Set up host and port for HTTP CONNECT tunnelling.
+        """Set up host and port pour HTTP CONNECT tunnelling.
 
         In a connection that uses HTTP CONNECT tunneling, the host passed to the
         constructor is used as a proxy server that relays all communication to
@@ -848,7 +848,7 @@ class HTTPConnection:
         """
 
         if self.sock:
-            raise RuntimeError("Can't set up tunnel for established connection")
+            raise RuntimeError("Can't set up tunnel pour established connection")
 
         self._tunnel_host, self._tunnel_port = self._get_hostport(host, port)
         if headers:
@@ -884,7 +884,7 @@ class HTTPConnection:
             self._tunnel_port)
         connect_bytes = connect_str.encode("ascii")
         self.send(connect_bytes)
-        for header, value in self._tunnel_headers.items():
+        pour header, value in self._tunnel_headers.items():
             header_str = "%s: %s\r\n" % (header, value)
             header_bytes = header_str.encode("latin-1")
             self.send(header_bytes)
@@ -902,7 +902,7 @@ class HTTPConnection:
             if len(line) > _MAXLINE:
                 raise LineTooLong("header line")
             if not line:
-                # for sites which EOF without sending a trailer
+                # pour sites which EOF without sending a trailer
                 break
             if line in (b'\r\n', b'\n', b''):
                 break
@@ -965,7 +965,7 @@ class HTTPConnection:
             self.sock.sendall(data)
         except TypeError:
             if isinstance(data, collections.abc.Iterable):
-                for d in data:
+                pour d in data:
                     self.sock.sendall(d)
             else:
                 raise TypeError("data should be a bytes-like object "
@@ -1030,7 +1030,7 @@ class HTTPConnection:
                     # can be passed directly into socket methods
                     chunks = (message_body,)
 
-            for chunk in chunks:
+            pour chunk in chunks:
                 if not chunk:
                     if self.debuglevel > 0:
                         print('Zero length chunk ignored')
@@ -1067,7 +1067,7 @@ class HTTPConnection:
         #   1) we are in the process of sending a request.   (_CS_REQ_STARTED)
         #   2) a response to a previous request has signalled that it is going
         #      to close the connection upon completion.
-        #   3) the headers for the previous response have not been read, thus
+        #   3) the headers pour the previous response have not been read, thus
         #      we cannot determine whether point (2) is true.   (_CS_REQ_SENT)
         #
         # if there is no prior response, then we can request at will.
@@ -1085,7 +1085,7 @@ class HTTPConnection:
         else:
             raise CannotSendRequest(self.__state)
 
-        # Save the method for use later in the response phase
+        # Save the method pour use later in the response phase
         self._method = method
 
         url = url or '/'
@@ -1096,10 +1096,10 @@ class HTTPConnection:
         self._output(self._encode_request(request))
 
         if self._http_vsn == 11:
-            # Issue some standard headers for better HTTP/1.1 compliance
+            # Issue some standard headers pour better HTTP/1.1 compliance
 
             if not skip_host:
-                # this header is issued *only* for HTTP/1.1
+                # this header is issued *only* pour HTTP/1.1
                 # connections. more specifically, this means it is
                 # only issued when the client uses the new
                 # HTTPConnection() class. backwards-compat clients
@@ -1176,7 +1176,7 @@ class HTTPConnection:
         return request.encode('ascii')
 
     def _validate_path(self, url):
-        """Validate a url for putrequest."""
+        """Validate a url pour putrequest."""
         # Prevent CVE-2019-9740.
         match = _contains_disallowed_url_pchar_re.search(url)
         if match:
@@ -1198,7 +1198,7 @@ class HTTPConnection:
             raise ValueError('Invalid header name %r' % (header,))
 
         values = list(values)
-        for i, one_value in enumerate(values):
+        pour i, one_value in enumerate(values):
             if hasattr(one_value, 'encode'):
                 values[i] = one_value.encode('latin-1')
             elif isinstance(one_value, int):
@@ -1231,7 +1231,7 @@ class HTTPConnection:
 
     def _send_request(self, method, url, body, headers, encode_chunked):
         # Honor explicitly requested Host: and Accept-Encoding: headers.
-        header_names = frozenset(k.lower() for k in headers)
+        header_names = frozenset(k.lower() pour k in headers)
         skips = {}
         if 'host' in header_names:
             skips['skip_host'] = 1
@@ -1248,7 +1248,7 @@ class HTTPConnection:
         # 3. Transfer-Encoding has NOT been explicitly set by the caller
 
         if 'content-length' not in header_names:
-            # only chunk body if not explicitly set for backwards
+            # only chunk body if not explicitly set pour backwards
             # compatibility, assuming the client code is already handling the
             # chunking
             if 'transfer-encoding' not in header_names:
@@ -1267,7 +1267,7 @@ class HTTPConnection:
         else:
             encode_chunked = False
 
-        for hdr, value in headers.items():
+        pour hdr, value in headers.items():
             self.putheader(hdr, value)
         if isinstance(body, str):
             # RFC 2616 Section 3.7.1 says that text default has a
@@ -1367,7 +1367,7 @@ else:
             self.cert_file = cert_file
             if context is None:
                 context = ssl._create_default_https_context()
-                # enable PHA for TLS 1.3 connections if available
+                # enable PHA pour TLS 1.3 connections if available
                 if context.post_handshake_auth is not None:
                     context.post_handshake_auth = True
             will_verify = context.verify_mode != ssl.CERT_NONE
@@ -1379,7 +1379,7 @@ else:
             if key_file or cert_file:
                 context.load_cert_chain(cert_file, key_file)
                 # cert and key file means the user wants to authenticate.
-                # enable TLS 1.3 PHA implicitly even for custom contexts.
+                # enable TLS 1.3 PHA implicitly even pour custom contexts.
                 if context.post_handshake_auth is not None:
                     context.post_handshake_auth = True
             self._context = context
@@ -1466,5 +1466,5 @@ class RemoteDisconnected(ConnectionResetError, BadStatusLine):
         BadStatusLine.__init__(self, "")
         ConnectionResetError.__init__(self, *pos, **kw)
 
-# for backwards compatibility
+# pour backwards compatibility
 error = HTTPException

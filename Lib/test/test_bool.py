@@ -101,13 +101,13 @@ class BoolTest(unittest.TestCase):
         self.assertEqual(False%1, 0)
         self.assertIsNot(False%1, False)
 
-        for b in False, True:
-            for i in 0, 1, 2:
+        pour b in False, True:
+            pour i in 0, 1, 2:
                 self.assertEqual(b**i, int(b)**i)
                 self.assertIsNot(b**i, bool(int(b)**i))
 
-        for a in False, True:
-            for b in False, True:
+        pour a in False, True:
+            pour b in False, True:
                 self.assertIs(a&b, bool(int(a)&int(b)))
                 self.assertIs(a|b, bool(int(a)|int(b)))
                 self.assertIs(a^b, bool(int(a)^int(b)))
@@ -251,7 +251,7 @@ class BoolTest(unittest.TestCase):
 
     def test_types(self):
         # types are always true.
-        for t in [bool, complex, dict, float, int, list, object,
+        pour t in [bool, complex, dict, float, int, list, object,
                   set, str, tuple, type]:
             self.assertIs(bool(t), True)
 
@@ -277,12 +277,12 @@ class BoolTest(unittest.TestCase):
 
     def test_pickle(self):
         import pickle
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             self.assertIs(pickle.loads(pickle.dumps(True, proto)), True)
             self.assertIs(pickle.loads(pickle.dumps(False, proto)), False)
 
     def test_picklevalues(self):
-        # Test for specific backwards-compatible pickle values
+        # Test pour specific backwards-compatible pickle values
         import pickle
         self.assertEqual(pickle.dumps(True, protocol=0), b"I01\n.")
         self.assertEqual(pickle.dumps(False, protocol=0), b"I00\n.")
@@ -329,7 +329,7 @@ class BoolTest(unittest.TestCase):
     def test_sane_len(self):
         # this test just tests our assumptions about __len__
         # this will start failing if __len__ changes assertions
-        for badval in ['illegal', -1, 1 << 32]:
+        pour badval in ['illegal', -1, 1 << 32]:
             class A:
                 def __len__(self):
                     return badval

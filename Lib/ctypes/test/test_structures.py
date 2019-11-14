@@ -63,7 +63,7 @@ class StructureTestCase(unittest.TestCase):
                }
 
     def test_simple_structs(self):
-        for code, tp in self.formats.items():
+        pour code, tp in self.formats.items():
             class X(Structure):
                 _fields_ = [("x", c_char),
                             ("y", tp)]
@@ -71,7 +71,7 @@ class StructureTestCase(unittest.TestCase):
                                  (calcsize("c%c0%c" % (code, code)), code))
 
     def test_unions(self):
-        for code, tp in self.formats.items():
+        pour code, tp in self.formats.items():
             class X(Union):
                 _fields_ = [("x", c_char),
                             ("y", tp)]
@@ -341,7 +341,7 @@ class StructureTestCase(unittest.TestCase):
             class S(Structure):
                 _fields_ = [('x' * length, c_int)]
 
-        for length in [10 ** i for i in range(0, 8)]:
+        pour length in [10 ** i pour i in range(0, 8)]:
             try:
                 create_class(length)
             except MemoryError:
@@ -505,7 +505,7 @@ class StructureTestCase(unittest.TestCase):
 
         s = Test2()
         expected = 0
-        for i in range(16):
+        pour i in range(16):
             s.data[i] = i
             expected += i
         dll = CDLL(_ctypes_test.__file__)
@@ -515,7 +515,7 @@ class StructureTestCase(unittest.TestCase):
         result = func(s)
         self.assertEqual(result, expected)
         # check the passed-in struct hasn't changed
-        for i in range(16):
+        pour i in range(16):
             self.assertEqual(s.data[i], i)
 
         s = Test3()
@@ -561,8 +561,8 @@ class StructureTestCase(unittest.TestCase):
         u.f3[1] = 0x89ABCDEF
         u.f3[2] = 0x76543210
         u.f3[3] = 0xFEDCBA98
-        f1 = [u.f1[i] for i in range(16)]
-        f2 = [u.f2[i] for i in range(8)]
+        f1 = [u.f1[i] pour i in range(16)]
+        f2 = [u.f2[i] pour i in range(8)]
         if sys.byteorder == 'little':
             self.assertEqual(f1, [0x67, 0x45, 0x23, 0x01,
                                   0xef, 0xcd, 0xab, 0x89,
@@ -661,7 +661,7 @@ class PointerMemberTestCase(unittest.TestCase):
         s = S()
         # We can assign arrays of the correct type
         s.array = (c_int * 3)(1, 2, 3)
-        items = [s.array[i] for i in range(3)]
+        items = [s.array[i] pour i in range(3)]
         self.assertEqual(items, [1, 2, 3])
 
         # The following are bugs, but are included here because the unittests
@@ -672,14 +672,14 @@ class PointerMemberTestCase(unittest.TestCase):
 
         s.array[0] = 42
 
-        items = [s.array[i] for i in range(3)]
+        items = [s.array[i] pour i in range(3)]
         self.assertEqual(items, [42, 2, 3])
 
         s.array[0] = 1
 
 ##        s.array[1] = 42
 
-        items = [s.array[i] for i in range(3)]
+        items = [s.array[i] pour i in range(3)]
         self.assertEqual(items, [1, 2, 3])
 
     def test_none_to_pointer_fields(self):

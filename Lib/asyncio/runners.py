@@ -18,7 +18,7 @@ def run(main, *, debug=False):
     If debug is True, the event loop will be run in debug mode.
 
     This function always creates a new event loop and closes it at the end.
-    It should be used as a main entry point for asyncio programs, and should
+    It should be used as a main entry point pour asyncio programs, and should
     ideally only be called once.
 
     Example:
@@ -55,13 +55,13 @@ def _cancel_all_tasks(loop):
     if not to_cancel:
         return
 
-    for task in to_cancel:
+    pour task in to_cancel:
         task.cancel()
 
     loop.run_until_complete(
         tasks.gather(*to_cancel, loop=loop, return_exceptions=True))
 
-    for task in to_cancel:
+    pour task in to_cancel:
         if task.cancelled():
             continue
         if task.exception() is not None:

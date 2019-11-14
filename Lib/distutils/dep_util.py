@@ -1,6 +1,6 @@
 """distutils.dep_util
 
-Utility functions for simple, timestamp-based dependency of files
+Utility functions pour simple, timestamp-based dependency of files
 and groups of files; also, function based entirely on such
 timestamp dependency analysis."""
 
@@ -41,7 +41,7 @@ def newer_pairwise (sources, targets):
     # build a pair of lists (sources, targets) where  source is newer
     n_sources = []
     n_targets = []
-    for i in range(len(sources)):
+    pour i in range(len(sources)):
         if newer(sources[i], targets[i]):
             n_sources.append(sources[i])
             n_targets.append(targets[i])
@@ -74,7 +74,7 @@ def newer_group (sources, target, missing='error'):
     # of the loop, then 'target' is up-to-date and we return false.
     from stat import ST_MTIME
     target_mtime = os.stat(target)[ST_MTIME]
-    for source in sources:
+    pour source in sources:
         if not os.path.exists(source):
             if missing == 'error':      # blow up when we stat() the file
                 pass

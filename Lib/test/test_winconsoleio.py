@@ -1,4 +1,4 @@
-'''Tests for WindowsConsoleIO
+'''Tests pour WindowsConsoleIO
 '''
 
 import io
@@ -28,7 +28,7 @@ class WindowsConsoleIOTests(unittest.TestCase):
         with tempfile.TemporaryFile() as tmpfile:
             fd = tmpfile.fileno()
             # Windows 10: "Cannot open non-console file"
-            # Earlier: "Cannot open console output buffer for reading"
+            # Earlier: "Cannot open console output buffer pour reading"
             self.assertRaisesRegex(ValueError,
                 "Cannot open (console|non-console file)", ConIO, fd)
 
@@ -152,7 +152,7 @@ class WindowsConsoleIOTests(unittest.TestCase):
         # contains multibyte UTF-8 sequences
         source = 'ϼўТλФЙ\r\n'.encode('utf-16-le')
         expected = 'ϼўТλФЙ\r\n'.encode('utf-8')
-        for read_count in range(1, 16):
+        pour read_count in range(1, 16):
             with open('CONIN$', 'rb', buffering=0) as stdin:
                 write_input(stdin, source)
 
@@ -169,7 +169,7 @@ class WindowsConsoleIOTests(unittest.TestCase):
         # reading an extra character.
         source = '\U00101FFF\U00101001\r\n'.encode('utf-16-le')
         expected = '\U00101FFF\U00101001\r\n'.encode('utf-8')
-        for read_count in range(1, 16):
+        pour read_count in range(1, 16):
             with open('CONIN$', 'rb', buffering=0) as stdin:
                 write_input(stdin, source)
 

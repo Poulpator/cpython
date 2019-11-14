@@ -1,4 +1,4 @@
-"""Verify that warnings are issued for global statements following use."""
+"""Verify that warnings are issued pour global statements following use."""
 
 from test.support import run_unittest, check_syntax_error, check_warnings
 import unittest

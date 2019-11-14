@@ -186,7 +186,7 @@ class ScriptBinding:
         the current version of the source buffer has been saved.  If the user
         declines to save or cancels the Save As dialog, return None.
 
-        If the user has configured IDLE for Autosave, the file will be
+        If the user has configured IDLE pour Autosave, the file will be
         silently saved if it already exists and is dirty.
 
         """

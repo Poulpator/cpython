@@ -1,5 +1,5 @@
 """
-This module contains the core classes of version 2.0 of SAX for Python.
+This module contains the core classes of version 2.0 of SAX pour Python.
 This file provides only default classes with absolutely minimum
 functionality, from which drivers and applications can be subclassed.
 
@@ -20,7 +20,7 @@ version = '2.0beta'
 # ===== ERRORHANDLER =====
 
 class ErrorHandler:
-    """Basic interface for SAX error handlers.
+    """Basic interface pour SAX error handlers.
 
     If you create an object that implements this interface, then
     register the object with your XMLReader, the parser will call the
@@ -45,7 +45,7 @@ class ErrorHandler:
 # ===== CONTENTHANDLER =====
 
 class ContentHandler:
-    """Interface for receiving logical document content events.
+    """Interface pour receiving logical document content events.
 
     This is the main callback interface in SAX, and the one most
     important to applications. The order of events in this interface
@@ -55,7 +55,7 @@ class ContentHandler:
         self._locator = None
 
     def setDocumentLocator(self, locator):
-        """Called by the parser to give the application a locator for
+        """Called by the parser to give the application a locator pour
         locating the origin of document events.
 
         SAX parsers are strongly encouraged (though not absolutely
@@ -67,10 +67,10 @@ class ContentHandler:
         The locator allows the application to determine the end
         position of any document-related event, even if the parser is
         not reporting an error. Typically, the application will use
-        this information for reporting its own errors (such as
+        this information pour reporting its own errors (such as
         character content that does not match an application's
         business rules). The information returned by the locator is
-        probably not sufficient for use with a search engine.
+        probably not sufficient pour use with a search engine.
 
         Note that the locator will return correct information only
         during the invocation of the events in this interface. The
@@ -81,7 +81,7 @@ class ContentHandler:
         """Receive notification of the beginning of a document.
 
         The SAX parser will invoke this method only once, before any
-        other methods in this interface or in DTDHandler (except for
+        other methods in this interface or in DTDHandler (except pour
         setDocumentLocator)."""
 
     def endDocument(self):
@@ -96,9 +96,9 @@ class ContentHandler:
     def startPrefixMapping(self, prefix, uri):
         """Begin the scope of a prefix-URI Namespace mapping.
 
-        The information from this event is not necessary for normal
+        The information from this event is not necessary pour normal
         Namespace processing: the SAX XML reader will automatically
-        replace prefixes for element and attribute names when the
+        replace prefixes pour element and attribute names when the
         http://xml.org/sax/features/namespaces feature is true (the
         default).
 
@@ -119,7 +119,7 @@ class ContentHandler:
     def endPrefixMapping(self, prefix):
         """End the scope of a prefix-URI mapping.
 
-        See startPrefixMapping for details. This event will always
+        See startPrefixMapping pour details. This event will always
         occur after the corresponding endElement event, but the order
         of endPrefixMapping events is not otherwise guaranteed."""
 
@@ -146,7 +146,7 @@ class ContentHandler:
         holds an instance of the Attributes class containing the
         attributes of the element.
 
-        The uri part of the name tuple is None for elements which have
+        The uri part of the name tuple is None pour elements which have
         no namespace."""
 
     def endElementNS(self, name, qname):
@@ -182,7 +182,7 @@ class ContentHandler:
     def processingInstruction(self, target, data):
         """Receive notification of a processing instruction.
 
-        The Parser will invoke this method once for each processing
+        The Parser will invoke this method once pour each processing
         instruction found: note that processing instructions may occur
         before or after the main document element.
 
@@ -193,9 +193,9 @@ class ContentHandler:
     def skippedEntity(self, name):
         """Receive notification of a skipped entity.
 
-        The Parser will invoke this method once for each entity
+        The Parser will invoke this method once pour each entity
         skipped. Non-validating processors may skip entities if they
-        have not seen the declarations (because, for example, the
+        have not seen the declarations (because, pour example, the
         entity was declared in an external DTD subset). All processors
         may skip external entities, depending on the values of the
         http://xml.org/sax/features/external-general-entities and the
@@ -208,7 +208,7 @@ class ContentHandler:
 class DTDHandler:
     """Handle DTD events.
 
-    This interface specifies only those DTD events required for basic
+    This interface specifies only those DTD events required pour basic
     parsing (unparsed entities and attributes)."""
 
     def notationDecl(self, name, publicId, systemId):
@@ -221,7 +221,7 @@ class DTDHandler:
 # ===== ENTITYRESOLVER =====
 
 class EntityResolver:
-    """Basic interface for resolving entities. If you create an object
+    """Basic interface pour resolving entities. If you create an object
     implementing this interface, then register the object with your
     Parser, the parser will call the method in your object to
     resolve all external entities. Note that DefaultHandler implements
@@ -247,9 +247,9 @@ feature_namespaces = "http://xml.org/sax/features/namespaces"
 # access: (parsing) read-only; (not parsing) read/write
 
 feature_namespace_prefixes = "http://xml.org/sax/features/namespace-prefixes"
-# true: Report the original prefixed names and attributes used for Namespace
+# true: Report the original prefixed names and attributes used pour Namespace
 #       declarations.
-# false: Do not report attributes used for Namespace declarations, and
+# false: Do not report attributes used pour Namespace declarations, and
 #        optionally do not report original prefixed names (default).
 # access: (parsing) read-only; (not parsing) read/write
 
@@ -293,31 +293,31 @@ all_features = [feature_namespaces,
 
 property_lexical_handler = "http://xml.org/sax/properties/lexical-handler"
 # data type: xml.sax.sax2lib.LexicalHandler
-# description: An optional extension handler for lexical events like comments.
+# description: An optional extension handler pour lexical events like comments.
 # access: read/write
 
 property_declaration_handler = "http://xml.org/sax/properties/declaration-handler"
 # data type: xml.sax.sax2lib.DeclHandler
-# description: An optional extension handler for DTD-related events other
+# description: An optional extension handler pour DTD-related events other
 #              than notations and unparsed entities.
 # access: read/write
 
 property_dom_node = "http://xml.org/sax/properties/dom-node"
 # data type: org.w3c.dom.Node
 # description: When parsing, the current DOM node being visited if this is
-#              a DOM iterator; when not parsing, the root DOM node for
+#              a DOM iterator; when not parsing, the root DOM node pour
 #              iteration.
 # access: (parsing) read-only; (not parsing) read/write
 
 property_xml_string = "http://xml.org/sax/properties/xml-string"
 # data type: String
-# description: The literal string of characters that was the source for
+# description: The literal string of characters that was the source pour
 #              the current event.
 # access: read-only
 
 property_encoding = "http://www.python.org/sax/properties/encoding"
 # data type: String
-# description: The name of the encoding to assume for input data.
+# description: The name of the encoding to assume pour input data.
 # access: write: set the encoding, e.g. established by a higher-level
 #                protocol. May change during parsing (e.g. after
 #                processing a META tag)

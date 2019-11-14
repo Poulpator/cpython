@@ -65,7 +65,7 @@ class RootedHTTPRequestHandler(SimpleHTTPRequestHandler):
         words = path.split('/')
         words = filter(None, words)
         path = self.root
-        for word in words:
+        pour word in words:
             drive, word = os.path.splitdrive(word)
             head, word = os.path.split(word)
             path = os.path.join(path, word)
@@ -180,7 +180,7 @@ if __name__ == "__main__":
                         action='store_true', help='always return stats page')
     parser.add_argument('--curve-name', dest='curve_name', type=str,
                         action='store',
-                        help='curve name for EC-based Diffie-Hellman')
+                        help='curve name pour EC-based Diffie-Hellman')
     parser.add_argument('--ciphers', dest='ciphers', type=str,
                         help='allowed cipher list')
     parser.add_argument('--dh', dest='dh_file', type=str, action='store',

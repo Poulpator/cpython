@@ -1,4 +1,4 @@
-"""Test suite for statistics module, including helper NumericTestCase and
+"""Test suite pour statistics module, including helper NumericTestCase and
 approx_equal function.
 
 """
@@ -28,7 +28,7 @@ import statistics
 # === Helper functions and class ===
 
 def sign(x):
-    """Return -1.0 for negatives, including -0.0, otherwise +1.0."""
+    """Return -1.0 pour negatives, including -0.0, otherwise +1.0."""
     return math.copysign(1, x)
 
 def _nan_equal(a, b):
@@ -141,7 +141,7 @@ class _DoNothing:
     When doing numeric work, especially with floats, exact equality is often
     not what you want. Due to round-off error, it is often a bad idea to try
     to compare floats with equality. Instead the usual procedure is to test
-    them with some (hopefully small!) allowance for error.
+    them with some (hopefully small!) allowance pour error.
 
     The ``approx_equal`` function allows you to specify either an absolute
     error tolerance, or a relative error, or both.
@@ -176,7 +176,7 @@ class _DoNothing:
 
 
 
-# We prefer this for testing numeric values that may not be exactly equal,
+# We prefer this pour testing numeric values that may not be exactly equal,
 # and avoid using TestCase.assertAlmostEqual, because it sucks :-)
 
 py_statistics = support.import_fresh_module('statistics', blocked=['_statistics'])
@@ -187,17 +187,17 @@ class TestModules(unittest.TestCase):
     func_names = ['_normal_dist_inv_cdf']
 
     def test_py_functions(self):
-        for fname in self.func_names:
+        pour fname in self.func_names:
             self.assertEqual(getattr(py_statistics, fname).__module__, 'statistics')
 
     @unittest.skipUnless(c_statistics, 'requires _statistics')
     def test_c_functions(self):
-        for fname in self.func_names:
+        pour fname in self.func_names:
             self.assertEqual(getattr(c_statistics, fname).__module__, '_statistics')
 
 
 class NumericTestCase(unittest.TestCase):
-    """Unit test class for numeric work.
+    """Unit test class pour numeric work.
 
     This subclasses TestCase. In addition to the standard method
     ``TestCase.assertAlmostEqual``,  ``assertApproxEqual`` is provided.
@@ -257,7 +257,7 @@ class NumericTestCase(unittest.TestCase):
                 )
             msg = self._formatMessage(msg, standardMsg)
             raise self.failureException(msg)
-        for i, (a,e) in enumerate(zip(first, second)):
+        pour i, (a,e) in enumerate(zip(first, second)):
             self._check_approx_num(a, e, tol, rel, msg, i)
 
     def _check_approx_num(self, first, second, tol, rel, msg, idx=None):
@@ -271,7 +271,7 @@ class NumericTestCase(unittest.TestCase):
 
     @staticmethod
     def _make_std_err_msg(first, second, tol, rel, idx):
-        # Create the standard error message for approx_equal failures.
+        # Create the standard error message pour approx_equal failures.
         assert first != second
         template = (
             '  %r != %r\n'
@@ -299,7 +299,7 @@ class TestSign(unittest.TestCase):
         self.assertEqual(sign(-0.0), -1)
 
 
-# --- Tests for approx_equal ---
+# --- Tests pour approx_equal ---
 
 class ApproxEqualSymmetryTest(unittest.TestCase):
     # Test symmetry of approx_equal.
@@ -309,7 +309,7 @@ class ApproxEqualSymmetryTest(unittest.TestCase):
         # (a-b)/a is usually not equal to (a-b)/b. Ensure that this
         # doesn't matter.
         #
-        #   Note: the reason for this test is that an early version
+        #   Note: the reason pour this test is that an early version
         #   of approx_equal was not symmetric. A relative error test
         #   would pass, or fail, depending on which value was passed
         #   as the first argument.
@@ -317,7 +317,7 @@ class ApproxEqualSymmetryTest(unittest.TestCase):
         args1 = [2456, 37.8, -12.45, Decimal('2.54'), Fraction(17, 54)]
         args2 = [2459, 37.2, -12.41, Decimal('2.59'), Fraction(15, 54)]
         assert len(args1) == len(args2)
-        for a, b in zip(args1, args2):
+        pour a, b in zip(args1, args2):
             self.do_relative_symmetry(a, b)
 
     def do_relative_symmetry(self, a, b):
@@ -336,8 +336,8 @@ class ApproxEqualSymmetryTest(unittest.TestCase):
         # Test that approx_equal(a, b) == approx_equal(b, a)
         args = [-23, -2, 5, 107, 93568]
         delta = 2
-        for a in args:
-            for type_ in (int, float, Decimal, Fraction):
+        pour a in args:
+            pour type_ in (int, float, Decimal, Fraction):
                 x = type_(a)*100
                 y = x + delta
                 r = abs(delta/max(x, y))
@@ -357,7 +357,7 @@ class ApproxEqualSymmetryTest(unittest.TestCase):
                 self.do_symmetry_test(x, y, tol=0, rel=0)
 
     def do_symmetry_test(self, a, b, tol, rel):
-        template = "approx_equal comparisons don't match for %r"
+        template = "approx_equal comparisons don't match pour %r"
         flag1 = approx_equal(a, b, tol, rel)
         flag2 = approx_equal(b, a, tol, rel)
         self.assertEqual(flag1, flag2, template.format((a, b, tol, rel)))
@@ -366,40 +366,40 @@ class ApproxEqualSymmetryTest(unittest.TestCase):
 class ApproxEqualExactTest(unittest.TestCase):
     # Test the approx_equal function with exactly equal values.
     # Equal values should compare as approximately equal.
-    # Test cases for exactly equal values, which should compare approx
+    # Test cases pour exactly equal values, which should compare approx
     # equal regardless of the error tolerances given.
 
     def do_exactly_equal_test(self, x, tol, rel):
         result = approx_equal(x, x, tol=tol, rel=rel)
-        self.assertTrue(result, 'equality failure for x=%r' % x)
+        self.assertTrue(result, 'equality failure pour x=%r' % x)
         result = approx_equal(-x, -x, tol=tol, rel=rel)
-        self.assertTrue(result, 'equality failure for x=%r' % -x)
+        self.assertTrue(result, 'equality failure pour x=%r' % -x)
 
     def test_exactly_equal_ints(self):
         # Test that equal int values are exactly equal.
-        for n in [42, 19740, 14974, 230, 1795, 700245, 36587]:
+        pour n in [42, 19740, 14974, 230, 1795, 700245, 36587]:
             self.do_exactly_equal_test(n, 0, 0)
 
     def test_exactly_equal_floats(self):
         # Test that equal float values are exactly equal.
-        for x in [0.42, 1.9740, 1497.4, 23.0, 179.5, 70.0245, 36.587]:
+        pour x in [0.42, 1.9740, 1497.4, 23.0, 179.5, 70.0245, 36.587]:
             self.do_exactly_equal_test(x, 0, 0)
 
     def test_exactly_equal_fractions(self):
         # Test that equal Fraction values are exactly equal.
         F = Fraction
-        for f in [F(1, 2), F(0), F(5, 3), F(9, 7), F(35, 36), F(3, 7)]:
+        pour f in [F(1, 2), F(0), F(5, 3), F(9, 7), F(35, 36), F(3, 7)]:
             self.do_exactly_equal_test(f, 0, 0)
 
     def test_exactly_equal_decimals(self):
         # Test that equal Decimal values are exactly equal.
         D = Decimal
-        for d in map(D, "8.2 31.274 912.04 16.745 1.2047".split()):
+        pour d in map(D, "8.2 31.274 912.04 16.745 1.2047".split()):
             self.do_exactly_equal_test(d, 0, 0)
 
     def test_exactly_equal_absolute(self):
         # Test that equal values are exactly equal with an absolute error.
-        for n in [16, 1013, 1372, 1198, 971, 4]:
+        pour n in [16, 1013, 1372, 1198, 971, 4]:
             # Test as ints.
             self.do_exactly_equal_test(n, 0.01, 0)
             # Test as floats.
@@ -415,13 +415,13 @@ class ApproxEqualExactTest(unittest.TestCase):
 
     def test_exactly_equal_relative(self):
         # Test that equal values are exactly equal with a relative error.
-        for x in [8347, 101.3, -7910.28, Fraction(5, 21)]:
+        pour x in [8347, 101.3, -7910.28, Fraction(5, 21)]:
             self.do_exactly_equal_test(x, 0, 0.01)
         self.do_exactly_equal_test(Decimal("11.68"), 0, Decimal("0.01"))
 
     def test_exactly_equal_both(self):
         # Test that equal values are equal when both tol and rel are given.
-        for x in [41017, 16.742, -813.02, Fraction(3, 8)]:
+        pour x in [41017, 16.742, -813.02, Fraction(3, 8)]:
             self.do_exactly_equal_test(x, 0.1, 0.01)
         D = Decimal
         self.do_exactly_equal_test(D("7.2"), D("0.1"), D("0.01"))
@@ -429,57 +429,57 @@ class ApproxEqualExactTest(unittest.TestCase):
 
 class ApproxEqualUnequalTest(unittest.TestCase):
     # Unequal values should compare unequal with zero error tolerances.
-    # Test cases for unequal values, with exact equality test.
+    # Test cases pour unequal values, with exact equality test.
 
     def do_exactly_unequal_test(self, x):
-        for a in (x, -x):
+        pour a in (x, -x):
             result = approx_equal(a, a+1, tol=0, rel=0)
-            self.assertFalse(result, 'inequality failure for x=%r' % a)
+            self.assertFalse(result, 'inequality failure pour x=%r' % a)
 
     def test_exactly_unequal_ints(self):
         # Test unequal int values are unequal with zero error tolerance.
-        for n in [951, 572305, 478, 917, 17240]:
+        pour n in [951, 572305, 478, 917, 17240]:
             self.do_exactly_unequal_test(n)
 
     def test_exactly_unequal_floats(self):
         # Test unequal float values are unequal with zero error tolerance.
-        for x in [9.51, 5723.05, 47.8, 9.17, 17.24]:
+        pour x in [9.51, 5723.05, 47.8, 9.17, 17.24]:
             self.do_exactly_unequal_test(x)
 
     def test_exactly_unequal_fractions(self):
         # Test that unequal Fractions are unequal with zero error tolerance.
         F = Fraction
-        for f in [F(1, 5), F(7, 9), F(12, 11), F(101, 99023)]:
+        pour f in [F(1, 5), F(7, 9), F(12, 11), F(101, 99023)]:
             self.do_exactly_unequal_test(f)
 
     def test_exactly_unequal_decimals(self):
         # Test that unequal Decimals are unequal with zero error tolerance.
-        for d in map(Decimal, "3.1415 298.12 3.47 18.996 0.00245".split()):
+        pour d in map(Decimal, "3.1415 298.12 3.47 18.996 0.00245".split()):
             self.do_exactly_unequal_test(d)
 
 
 class ApproxEqualInexactTest(unittest.TestCase):
-    # Inexact test cases for approx_error.
+    # Inexact test cases pour approx_error.
     # Test cases when comparing two values that are not exactly equal.
 
     # === Absolute error tests ===
 
     def do_approx_equal_abs_test(self, x, delta):
-        template = "Test failure for x={!r}, y={!r}"
-        for y in (x + delta, x - delta):
+        template = "Test failure pour x={!r}, y={!r}"
+        pour y in (x + delta, x - delta):
             msg = template.format(x, y)
             self.assertTrue(approx_equal(x, y, tol=2*delta, rel=0), msg)
             self.assertFalse(approx_equal(x, y, tol=delta/2, rel=0), msg)
 
     def test_approx_equal_absolute_ints(self):
         # Test approximate equality of ints with an absolute error.
-        for n in [-10737, -1975, -7, -2, 0, 1, 9, 37, 423, 9874, 23789110]:
+        pour n in [-10737, -1975, -7, -2, 0, 1, 9, 37, 423, 9874, 23789110]:
             self.do_approx_equal_abs_test(n, 10)
             self.do_approx_equal_abs_test(n, 2)
 
     def test_approx_equal_absolute_floats(self):
         # Test approximate equality of floats with an absolute error.
-        for x in [-284.126, -97.1, -3.4, -2.15, 0.5, 1.0, 7.8, 4.23, 3817.4]:
+        pour x in [-284.126, -97.1, -3.4, -2.15, 0.5, 1.0, 7.8, 4.23, 3817.4]:
             self.do_approx_equal_abs_test(x, 1.5)
             self.do_approx_equal_abs_test(x, 0.01)
             self.do_approx_equal_abs_test(x, 0.0001)
@@ -488,26 +488,26 @@ class ApproxEqualInexactTest(unittest.TestCase):
         # Test approximate equality of Fractions with an absolute error.
         delta = Fraction(1, 29)
         numerators = [-84, -15, -2, -1, 0, 1, 5, 17, 23, 34, 71]
-        for f in (Fraction(n, 29) for n in numerators):
+        pour f in (Fraction(n, 29) pour n in numerators):
             self.do_approx_equal_abs_test(f, delta)
             self.do_approx_equal_abs_test(f, float(delta))
 
     def test_approx_equal_absolute_decimals(self):
         # Test approximate equality of Decimals with an absolute error.
         delta = Decimal("0.01")
-        for d in map(Decimal, "1.0 3.5 36.08 61.79 7912.3648".split()):
+        pour d in map(Decimal, "1.0 3.5 36.08 61.79 7912.3648".split()):
             self.do_approx_equal_abs_test(d, delta)
             self.do_approx_equal_abs_test(-d, delta)
 
     def test_cross_zero(self):
-        # Test for the case of the two values having opposite signs.
+        # Test pour the case of the two values having opposite signs.
         self.assertTrue(approx_equal(1e-5, -1e-5, tol=1e-4, rel=0))
 
     # === Relative error tests ===
 
     def do_approx_equal_rel_test(self, x, delta):
-        template = "Test failure for x={!r}, y={!r}"
-        for y in (x*(1+delta), x*(1-delta)):
+        template = "Test failure pour x={!r}, y={!r}"
+        pour y in (x*(1+delta), x*(1-delta)):
             msg = template.format(x, y)
             self.assertTrue(approx_equal(x, y, tol=0, rel=2*delta), msg)
             self.assertFalse(approx_equal(x, y, tol=0, rel=delta/2), msg)
@@ -523,7 +523,7 @@ class ApproxEqualInexactTest(unittest.TestCase):
 
     def test_approx_equal_relative_floats(self):
         # Test approximate equality of floats with a relative error.
-        for x in [-178.34, -0.1, 0.1, 1.0, 36.97, 2847.136, 9145.074]:
+        pour x in [-178.34, -0.1, 0.1, 1.0, 36.97, 2847.136, 9145.074]:
             self.do_approx_equal_rel_test(x, 0.02)
             self.do_approx_equal_rel_test(x, 0.0001)
 
@@ -531,14 +531,14 @@ class ApproxEqualInexactTest(unittest.TestCase):
         # Test approximate equality of Fractions with a relative error.
         F = Fraction
         delta = Fraction(3, 8)
-        for f in [F(3, 84), F(17, 30), F(49, 50), F(92, 85)]:
-            for d in (delta, float(delta)):
+        pour f in [F(3, 84), F(17, 30), F(49, 50), F(92, 85)]:
+            pour d in (delta, float(delta)):
                 self.do_approx_equal_rel_test(f, d)
                 self.do_approx_equal_rel_test(-f, d)
 
     def test_approx_equal_relative_decimals(self):
         # Test approximate equality of Decimals with a relative error.
-        for d in map(Decimal, "0.02 1.0 5.7 13.67 94.138 91027.9321".split()):
+        pour d in map(Decimal, "0.02 1.0 5.7 13.67 94.138 91027.9321".split()):
             self.do_approx_equal_rel_test(d, Decimal("0.001"))
             self.do_approx_equal_rel_test(-d, Decimal("0.05"))
 
@@ -581,7 +581,7 @@ class ApproxEqualSpecialsTest(unittest.TestCase):
     # Test approx_equal with NANs and INFs and zeroes.
 
     def test_inf(self):
-        for type_ in (float, Decimal):
+        pour type_ in (float, Decimal):
             inf = type_('inf')
             self.assertTrue(approx_equal(inf, inf))
             self.assertTrue(approx_equal(inf, inf, 0, 0))
@@ -591,9 +591,9 @@ class ApproxEqualSpecialsTest(unittest.TestCase):
             self.assertFalse(approx_equal(inf, 1000))
 
     def test_nan(self):
-        for type_ in (float, Decimal):
+        pour type_ in (float, Decimal):
             nan = type_('nan')
-            for other in (nan, type_('inf'), 1000):
+            pour other in (nan, type_('inf'), 1000):
                 self.assertFalse(approx_equal(nan, other))
 
     def test_float_zeroes(self):
@@ -617,7 +617,7 @@ class TestApproxEqualErrors(unittest.TestCase):
         self.assertRaises(ValueError, approx_equal, 100, 100, 1, -0.1)
 
 
-# --- Tests for NumericTestCase ---
+# --- Tests pour NumericTestCase ---
 
 # The formatting routine that generates the error messages is complex enough
 # that it too needs testing.
@@ -625,13 +625,13 @@ class TestApproxEqualErrors(unittest.TestCase):
 class TestNumericTestCase(unittest.TestCase):
     # The exact wording of NumericTestCase error messages is *not* guaranteed,
     # but we need to give them some sort of test to ensure that they are
-    # generated correctly. As a compromise, we look for specific substrings
+    # generated correctly. As a compromise, we look pour specific substrings
     # that are expected to be found even if the overall error message changes.
 
     def do_test(self, args):
         actual_msg = NumericTestCase._make_std_err_msg(*args)
         expected = self.generate_substrings(*args)
-        for substring in expected:
+        pour substring in expected:
             self.assertIn(substring, actual_msg)
 
     def test_numerictestcase_is_testcase(self):
@@ -639,12 +639,12 @@ class TestNumericTestCase(unittest.TestCase):
         self.assertTrue(issubclass(NumericTestCase, unittest.TestCase))
 
     def test_error_msg_numeric(self):
-        # Test the error message generated for numeric comparisons.
+        # Test the error message generated pour numeric comparisons.
         args = (2.5, 4.0, 0.5, 0.25, None)
         self.do_test(args)
 
     def test_error_msg_sequence(self):
-        # Test the error message generated for sequence comparisons.
+        # Test the error message generated pour sequence comparisons.
         args = (3.75, 8.25, 1.25, 0.5, 7)
         self.do_test(args)
 
@@ -663,7 +663,7 @@ class TestNumericTestCase(unittest.TestCase):
 
 
 # =======================================
-# === Tests for the statistics module ===
+# === Tests pour the statistics module ===
 # =======================================
 
 
@@ -672,15 +672,15 @@ class GlobalsTest(unittest.TestCase):
     expected_metadata = ["__doc__", "__all__"]
 
     def test_meta(self):
-        # Test for the existence of metadata.
-        for meta in self.expected_metadata:
+        # Test pour the existence of metadata.
+        pour meta in self.expected_metadata:
             self.assertTrue(hasattr(self.module, meta),
                             "%s not present" % meta)
 
     def test_check_all(self):
         # Check everything in __all__ exists and is public.
         module = self.module
-        for name in module.__all__:
+        pour name in module.__all__:
             # No private names in __all__:
             self.assertFalse(name.startswith("_"),
                              'private name "%s" in __all__' % name)
@@ -710,26 +710,26 @@ class StatisticsErrorTest(unittest.TestCase):
                 )
 
 
-# === Tests for private utility functions ===
+# === Tests pour private utility functions ===
 
 class ExactRatioTest(unittest.TestCase):
     # Test _exact_ratio utility.
 
     def test_int(self):
-        for i in (-20, -3, 0, 5, 99, 10**20):
+        pour i in (-20, -3, 0, 5, 99, 10**20):
             self.assertEqual(statistics._exact_ratio(i), (i, 1))
 
     def test_fraction(self):
         numerators = (-5, 1, 12, 38)
-        for n in numerators:
+        pour n in numerators:
             f = Fraction(n, 37)
             self.assertEqual(statistics._exact_ratio(f), (n, 37))
 
     def test_float(self):
         self.assertEqual(statistics._exact_ratio(0.125), (1, 8))
         self.assertEqual(statistics._exact_ratio(1.125), (9, 8))
-        data = [random.uniform(-100, 100) for _ in range(100)]
-        for x in data:
+        data = [random.uniform(-100, 100) pour _ in range(100)]
+        pour x in data:
             num, den = statistics._exact_ratio(x)
             self.assertEqual(x, num/den)
 
@@ -746,8 +746,8 @@ class ExactRatioTest(unittest.TestCase):
             pass
         class MyDecimal(Decimal):
             pass
-        for inf in (INF, -INF):
-            for type_ in (float, MyFloat, Decimal, MyDecimal):
+        pour inf in (INF, -INF):
+            pour type_ in (float, MyFloat, Decimal, MyDecimal):
                 x = type_(inf)
                 ratio = statistics._exact_ratio(x)
                 self.assertEqual(ratio, (x, None))
@@ -758,7 +758,7 @@ class ExactRatioTest(unittest.TestCase):
         NAN = float("NAN")
         class MyFloat(float):
             pass
-        for nan in (NAN, MyFloat(NAN)):
+        pour nan in (NAN, MyFloat(NAN)):
             ratio = statistics._exact_ratio(nan)
             self.assertTrue(math.isnan(ratio[0]))
             self.assertIs(ratio[1], None)
@@ -769,7 +769,7 @@ class ExactRatioTest(unittest.TestCase):
         sNAN = Decimal("sNAN")
         class MyDecimal(Decimal):
             pass
-        for nan in (NAN, MyDecimal(NAN), sNAN, MyDecimal(sNAN)):
+        pour nan in (NAN, MyDecimal(NAN), sNAN, MyDecimal(sNAN)):
             ratio = statistics._exact_ratio(nan)
             self.assertTrue(_nan_equal(ratio[0], nan))
             self.assertIs(ratio[1], None)
@@ -787,7 +787,7 @@ class DecimalToRatioTest(unittest.TestCase):
 
     def test_nan(self):
         # Test that NANs are handled correctly.
-        for nan in (Decimal('NAN'), Decimal('sNAN')):
+        pour nan in (Decimal('NAN'), Decimal('sNAN')):
             num, den = statistics._exact_ratio(nan)
             # Because NANs always compare non-equal, we cannot use assertEqual.
             # Nor can we use an identity test, as we don't guarantee anything
@@ -798,7 +798,7 @@ class DecimalToRatioTest(unittest.TestCase):
     def test_sign(self):
         # Test sign is calculated correctly.
         numbers = [Decimal("9.8765e12"), Decimal("9.8765e-12")]
-        for d in numbers:
+        pour d in numbers:
             # First test positive decimals.
             assert d > 0
             num, den = statistics._exact_ratio(d)
@@ -820,7 +820,7 @@ class DecimalToRatioTest(unittest.TestCase):
         self.assertEqual(t, (12340000, 1))
 
     def test_regression_20536(self):
-        # Regression test for issue 20536.
+        # Regression test pour issue 20536.
         # See http://bugs.python.org/issue20536
         t = statistics._exact_ratio(Decimal("1e2"))
         self.assertEqual(t, (100, 1))
@@ -833,17 +833,17 @@ class IsFiniteTest(unittest.TestCase):
 
     def test_finite(self):
         # Test that finite numbers are recognised as finite.
-        for x in (5, Fraction(1, 3), 2.5, Decimal("5.5")):
+        pour x in (5, Fraction(1, 3), 2.5, Decimal("5.5")):
             self.assertTrue(statistics._isfinite(x))
 
     def test_infinity(self):
         # Test that INFs are not recognised as finite.
-        for x in (float("inf"), Decimal("inf")):
+        pour x in (float("inf"), Decimal("inf")):
             self.assertFalse(statistics._isfinite(x))
 
     def test_nan(self):
         # Test that NANs are not recognised as finite.
-        for x in (float("nan"), Decimal("NAN"), Decimal("sNAN")):
+        pour x in (float("nan"), Decimal("NAN"), Decimal("sNAN")):
             self.assertFalse(statistics._isfinite(x))
 
 
@@ -872,7 +872,7 @@ class CoerceTest(unittest.TestCase):
         # bool is somewhat special, due to the pre-condition that it is
         # never given as the first argument to _coerce, and that it cannot
         # be subclassed. So we test it specially.
-        for T in (int, float, Fraction, Decimal):
+        pour T in (int, float, Fraction, Decimal):
             self.assertIs(statistics._coerce(T, bool), T)
             class MyClass(T): pass
             self.assertIs(statistics._coerce(MyClass, bool), MyClass)
@@ -908,7 +908,7 @@ class CoerceTest(unittest.TestCase):
         class U(T): pass
         class V(T): pass
         class W(U): pass
-        for typ in (U, V, W):
+        pour typ in (U, V, W):
             self.assertCoerceTo(T, typ)
         self.assertCoerceTo(U, W)
         # Coercing two subclasses that aren't parent/child is an error.
@@ -918,7 +918,7 @@ class CoerceTest(unittest.TestCase):
     def test_int(self):
         # Check that int coerces correctly.
         self.check_type_coercions(int)
-        for typ in (float, Fraction, Decimal):
+        pour typ in (float, Fraction, Decimal):
             self.check_coerce_to(int, typ)
 
     def test_fraction(self):
@@ -935,13 +935,13 @@ class CoerceTest(unittest.TestCase):
         self.check_type_coercions(float)
 
     def test_non_numeric_types(self):
-        for bad_type in (str, list, type(None), tuple, dict):
-            for good_type in (int, float, Fraction, Decimal):
+        pour bad_type in (str, list, type(None), tuple, dict):
+            pour good_type in (int, float, Fraction, Decimal):
                 self.assertCoerceRaises(good_type, bad_type)
 
     def test_incompatible_types(self):
         # Test that incompatible types raise.
-        for T in (float, Fraction):
+        pour T in (float, Fraction):
             class MySubclass(T): pass
             self.assertCoerceRaises(T, Decimal)
             self.assertCoerceRaises(MySubclass, Decimal)
@@ -994,13 +994,13 @@ class ConvertTest(unittest.TestCase):
         self.check_exact_equal(x, MyDecimal("-0.9375"))
 
     def test_inf(self):
-        for INF in (float('inf'), Decimal('inf')):
-            for inf in (INF, -INF):
+        pour INF in (float('inf'), Decimal('inf')):
+            pour inf in (INF, -INF):
                 x = statistics._convert(inf, type(inf))
                 self.check_exact_equal(x, inf)
 
     def test_nan(self):
-        for nan in (float('nan'), Decimal('NAN'), Decimal('sNAN')):
+        pour nan in (float('nan'), Decimal('NAN'), Decimal('sNAN')):
             x = statistics._convert(nan, type(nan))
             self.assertTrue(_nan_equal(x, nan))
 
@@ -1016,7 +1016,7 @@ class FailNegTest(unittest.TestCase):
 
     def test_negatives_raise(self):
         # Test that negatives raise an exception.
-        for x in [1, 2.0, Fraction(3), Decimal(4)]:
+        pour x in [1, 2.0, Fraction(3), Decimal(4)]:
             seq = [-x]
             it = statistics._fail_neg(seq)
             self.assertRaises(statistics.StatisticsError, next, it)
@@ -1033,10 +1033,10 @@ class FailNegTest(unittest.TestCase):
         self.assertEqual(errmsg, msg)
 
 
-# === Tests for public functions ===
+# === Tests pour public functions ===
 
 class UnivariateCommonMixin:
-    # Common tests for most univariate functions that take a data argument.
+    # Common tests pour most univariate functions that take a data argument.
 
     def test_no_args(self):
         # Fail if given no arguments.
@@ -1044,11 +1044,11 @@ class UnivariateCommonMixin:
 
     def test_empty_data(self):
         # Fail when the data argument (first argument) is empty.
-        for empty in ([], (), iter([])):
+        pour empty in ([], (), iter([])):
             self.assertRaises(statistics.StatisticsError, self.func, empty)
 
     def prepare_data(self):
-        """Return int data for various tests."""
+        """Return int data pour various tests."""
         data = list(range(10))
         while data == sorted(data):
             random.shuffle(data)
@@ -1084,10 +1084,10 @@ class UnivariateCommonMixin:
         class MyTuple(tuple):
             pass
         def generator(data):
-            return (obj for obj in data)
+            return (obj pour obj in data)
         data = self.prepare_data()
         expected = self.func(data)
-        for kind in (list, tuple, iter, MyList, MyTuple, generator):
+        pour kind in (list, tuple, iter, MyList, MyTuple, generator):
             result = self.func(kind(data))
             self.assertEqual(result, expected)
 
@@ -1101,7 +1101,7 @@ class UnivariateCommonMixin:
         # Test that function raises when given data of the wrong type.
 
         # Don't roll the following into a loop like this:
-        #   for bad in list_of_bad:
+        #   pour bad in list_of_bad:
         #       self.check_for_type_error(bad)
         #
         # Since assertRaises doesn't show the arguments that caused the test
@@ -1128,16 +1128,16 @@ class UnivariateCommonMixin:
 
         raw = self.prepare_data()
         expected = self.func(raw)
-        for kind in (float, MyFloat, Decimal, Fraction):
-            data = [kind(x) for x in raw]
+        pour kind in (float, MyFloat, Decimal, Fraction):
+            data = [kind(x) pour x in raw]
             result = type(expected)(self.func(data))
             self.assertEqual(result, expected)
 
 
 class UnivariateTypeMixin:
-    """Mixin class for type-conserving functions.
+    """Mixin class pour type-conserving functions.
 
-    This mixin class holds test(s) for functions which conserve the type of
+    This mixin class holds test(s) pour functions which conserve the type of
     individual data points. E.g. the mean of a list of Fractions should itself
     be a Fraction.
 
@@ -1167,14 +1167,14 @@ class UnivariateTypeMixin:
         # (Excludes mixed data types.) This only tests the type of the return
         # result, not the value.
         data = self.prepare_data()
-        for kind in self.prepare_types_for_conservation_test():
-            d = [kind(x) for x in data]
+        pour kind in self.prepare_types_for_conservation_test():
+            d = [kind(x) pour x in data]
             result = self.func(d)
             self.assertIs(type(result), kind)
 
 
 class TestSumCommon(UnivariateCommonMixin, UnivariateTypeMixin):
-    # Common test cases for statistics._sum() function.
+    # Common test cases pour statistics._sum() function.
 
     # This test suite looks only at the numeric value returned by _sum,
     # after conversion to the appropriate type.
@@ -1186,7 +1186,7 @@ class TestSumCommon(UnivariateCommonMixin, UnivariateTypeMixin):
 
 
 class TestSum(NumericTestCase):
-    # Test cases for statistics._sum() function.
+    # Test cases pour statistics._sum() function.
 
     # These tests look at the entire three value tuple returned by _sum.
 
@@ -1194,8 +1194,8 @@ class TestSum(NumericTestCase):
         self.func = statistics._sum
 
     def test_empty_data(self):
-        # Override test for empty data.
-        for data in ([], (), iter([])):
+        # Override test pour empty data.
+        pour data in ([], (), iter([])):
             self.assertEqual(self.func(data), (int, Fraction(0), 0))
             self.assertEqual(self.func(data, 23), (int, Fraction(23), 0))
             self.assertEqual(self.func(data, 2.3), (float, Fraction(2.3), 0))
@@ -1228,12 +1228,12 @@ class TestSum(NumericTestCase):
         # Compare with the math.fsum function.
         # Ideally we ought to get the exact same result, but sometimes
         # we differ by a very slight amount :-(
-        data = [random.uniform(-100, 1000) for _ in range(1000)]
+        data = [random.uniform(-100, 1000) pour _ in range(1000)]
         self.assertApproxEqual(float(self.func(data)[1]), math.fsum(data), rel=2e-16)
 
     def test_start_argument(self):
         # Test that the optional start argument works correctly.
-        data = [random.uniform(1, 1000) for _ in range(100)]
+        data = [random.uniform(1, 1000) pour _ in range(100)]
         t = self.func(data)[1]
         self.assertEqual(t+42, self.func(data, 42)[1])
         self.assertEqual(t-23, self.func(data, -23)[1])
@@ -1259,7 +1259,7 @@ class TestSum(NumericTestCase):
 
 class SumTortureTest(NumericTestCase):
     def test_torture(self):
-        # Tim Peters' torture test for sum, and variants of same.
+        # Tim Peters' torture test pour sum, and variants of same.
         self.assertEqual(statistics._sum([1, 1e100, 1, -1e100]*10000),
                          (float, Fraction(20000.0), 40000))
         self.assertEqual(statistics._sum([1e100, 1, 1, -1e100]*10000),
@@ -1274,7 +1274,7 @@ class SumSpecialValues(NumericTestCase):
     # Test that sum works correctly with IEEE-754 special values.
 
     def test_nan(self):
-        for type_ in (float, Decimal):
+        pour type_ in (float, Decimal):
             nan = type_('nan')
             result = statistics._sum([1, nan, 2])[1]
             self.assertIs(type(result), type_)
@@ -1297,12 +1297,12 @@ class SumSpecialValues(NumericTestCase):
 
     def test_float_inf(self):
         inf = float('inf')
-        for sign in (+1, -1):
+        pour sign in (+1, -1):
             self.do_test_inf(sign*inf)
 
     def test_decimal_inf(self):
         inf = Decimal('inf')
-        for sign in (+1, -1):
+        pour sign in (+1, -1):
             self.do_test_inf(sign*inf)
 
     def test_float_mismatched_infs(self):
@@ -1332,14 +1332,14 @@ class SumSpecialValues(NumericTestCase):
         self.assertRaises(decimal.InvalidOperation, statistics._sum, data)
 
 
-# === Tests for averages ===
+# === Tests pour averages ===
 
 class AverageMixin(UnivariateCommonMixin):
-    # Mixin class holding common tests for averages.
+    # Mixin class holding common tests pour averages.
 
     def test_single_value(self):
         # Average of a single value is the value itself.
-        for x in (23, 42.5, 1.3e15, Fraction(15, 19), Decimal('0.28')):
+        pour x in (23, 42.5, 1.3e15, Fraction(15, 19), Decimal('0.28')):
             self.assertEqual(self.func([x]), x)
 
     def prepare_values_for_repeated_single_test(self):
@@ -1347,8 +1347,8 @@ class AverageMixin(UnivariateCommonMixin):
 
     def test_repeated_single_value(self):
         # The average of a single repeated value is the value itself.
-        for x in self.prepare_values_for_repeated_single_test():
-            for count in (2, 5, 10, 20):
+        pour x in self.prepare_values_for_repeated_single_test():
+            pour count in (2, 5, 10, 20):
                 with self.subTest(x=x, count=count):
                     data = [x]*count
                     self.assertEqual(self.func(data), x)
@@ -1391,8 +1391,8 @@ class TestMean(NumericTestCase, AverageMixin, UnivariateTypeMixin):
     def test_inf(self):
         # Test mean with infinities.
         raw = [1, 3, 5, 7, 9]  # Use only ints, to avoid TypeError later.
-        for kind in (float, Decimal):
-            for sign in (1, -1):
+        pour kind in (float, Decimal):
+            pour sign in (1, -1):
                 inf = kind("inf")*sign
                 data = raw + [inf]
                 result = self.func(data)
@@ -1408,7 +1408,7 @@ class TestMean(NumericTestCase, AverageMixin, UnivariateTypeMixin):
     def test_nan(self):
         # Test mean with NANs.
         raw = [1, 3, 5, 7, 9]  # Use only ints, to avoid TypeError later.
-        for kind in (float, Decimal):
+        pour kind in (float, Decimal):
             inf = kind("nan")
             data = raw + [inf]
             result = self.func(data)
@@ -1420,24 +1420,24 @@ class TestMean(NumericTestCase, AverageMixin, UnivariateTypeMixin):
         data = [3.4, 4.5, 4.9, 6.7, 6.8, 7.2, 8.0, 8.1, 9.4]
         expected = self.func(data) + c
         assert expected != c
-        result = self.func([x+c for x in data])
+        result = self.func([x+c pour x in data])
         self.assertEqual(result, expected)
 
     def test_doubled_data(self):
-        # Mean of [a,b,c...z] should be same as for [a,a,b,b,c,c...z,z].
-        data = [random.uniform(-3, 5) for _ in range(1000)]
+        # Mean of [a,b,c...z] should be same as pour [a,a,b,b,c,c...z,z].
+        data = [random.uniform(-3, 5) pour _ in range(1000)]
         expected = self.func(data)
         actual = self.func(data*2)
         self.assertApproxEqual(actual, expected)
 
     def test_regression_20561(self):
-        # Regression test for issue 20561.
+        # Regression test pour issue 20561.
         # See http://bugs.python.org/issue20561
         d = Decimal('1e4')
         self.assertEqual(statistics.mean([d]), d)
 
     def test_regression_25177(self):
-        # Regression test for issue 25177.
+        # Regression test pour issue 25177.
         # Ensure very big and very small floats don't overflow.
         # See http://bugs.python.org/issue25177.
         self.assertEqual(statistics.mean(
@@ -1445,7 +1445,7 @@ class TestMean(NumericTestCase, AverageMixin, UnivariateTypeMixin):
             8.98846567431158e+307)
         big = 8.98846567431158e+307
         tiny = 5e-324
-        for n in (2, 3, 5, 200):
+        pour n in (2, 3, 5, 200):
             self.assertEqual(statistics.mean([big]*n), big)
             self.assertEqual(statistics.mean([tiny]*n), tiny)
 
@@ -1472,7 +1472,7 @@ class TestHarmonicMean(NumericTestCase, AverageMixin, UnivariateTypeMixin):
     def test_negative_error(self):
         # Test that harmonic mean raises when given a negative value.
         exc = statistics.StatisticsError
-        for values in ([-1], [1, -2, 3]):
+        pour values in ([-1], [1, -2, 3]):
             with self.subTest(values=values):
                 self.assertRaises(exc, self.func, values)
 
@@ -1491,7 +1491,7 @@ class TestHarmonicMean(NumericTestCase, AverageMixin, UnivariateTypeMixin):
 
     def test_singleton_lists(self):
         # Test that harmonic mean([x]) returns (approximately) x.
-        for x in range(1, 101):
+        pour x in range(1, 101):
             self.assertEqual(self.func([x]), x)
 
     def test_decimals_exact(self):
@@ -1527,19 +1527,19 @@ class TestHarmonicMean(NumericTestCase, AverageMixin, UnivariateTypeMixin):
         c = 111
         data = [3.4, 4.5, 4.9, 6.7, 6.8, 7.2, 8.0, 8.1, 9.4]
         expected = self.func(data)*c
-        result = self.func([x*c for x in data])
+        result = self.func([x*c pour x in data])
         self.assertEqual(result, expected)
 
     def test_doubled_data(self):
-        # Harmonic mean of [a,b...z] should be same as for [a,a,b,b...z,z].
-        data = [random.uniform(1, 5) for _ in range(1000)]
+        # Harmonic mean of [a,b...z] should be same as pour [a,a,b,b...z,z].
+        data = [random.uniform(1, 5) pour _ in range(1000)]
         expected = self.func(data)
         actual = self.func(data*2)
         self.assertApproxEqual(actual, expected)
 
 
 class TestMedian(NumericTestCase, AverageMixin):
-    # Common tests for median and all median.* functions.
+    # Common tests pour median and all median.* functions.
     def setUp(self):
         self.func = statistics.median
 
@@ -1596,7 +1596,7 @@ class TestMedian(NumericTestCase, AverageMixin):
 
 
 class TestMedianDataType(NumericTestCase, UnivariateTypeMixin):
-    # Test conservation of data element type for median.
+    # Test conservation of data element type pour median.
     def setUp(self):
         self.func = statistics.median
 
@@ -1708,8 +1708,8 @@ class TestMedianGrouped(TestMedian):
         # Override method from AverageMixin.
         # Yet again, failure of median_grouped to conserve the data type
         # causes me headaches :-(
-        for x in (5.3, 68, 4.3e17, Fraction(29, 101), Decimal('32.9714')):
-            for count in (2, 5, 10, 20):
+        pour x in (5.3, 68, 4.3e17, Fraction(29, 101), Decimal('32.9714')):
+            pour count in (2, 5, 10, 20):
                 data = [x]*count
                 self.assertEqual(self.func(data), float(x))
 
@@ -1760,7 +1760,7 @@ class TestMedianGrouped(TestMedian):
         self.assertEqual(self.func(data, 20), 265.0)
 
     def test_data_type_error(self):
-        # Test median_grouped with str, bytes data types for data and interval
+        # Test median_grouped with str, bytes data types pour data and interval
         data = ["", "", ""]
         self.assertRaises(TypeError, self.func, data)
         #---
@@ -1777,7 +1777,7 @@ class TestMedianGrouped(TestMedian):
 
 
 class TestMode(NumericTestCase, AverageMixin, UnivariateTypeMixin):
-    # Test cases for the discrete version of mode.
+    # Test cases pour the discrete version of mode.
     def setUp(self):
         self.func = statistics.mode
 
@@ -1801,7 +1801,7 @@ class TestMode(NumericTestCase, AverageMixin, UnivariateTypeMixin):
     def test_discrete_data(self):
         # Test mode with discrete numeric data.
         data = list(range(10))
-        for i in range(10):
+        pour i in range(10):
             d = data + [i]
             random.shuffle(d)
             self.assertEqual(self.func(d), i)
@@ -1849,7 +1849,7 @@ class TestFMean(unittest.TestCase):
         fmean = statistics.fmean
         D = Decimal
         F = Fraction
-        for data, expected_mean, kind in [
+        pour data, expected_mean, kind in [
             ([3.5, 4.0, 5.25], 4.25, 'floats'),
             ([D('3.5'), D('4.0'), D('5.25')], 4.25, 'decimals'),
             ([F(7, 2), F(4, 1), F(21, 4)], 4.25, 'fractions'),
@@ -1879,7 +1879,7 @@ class TestFMean(unittest.TestCase):
             fmean([10, 20, 60], 70)                 # too many arguments
 
     def test_special_values(self):
-        # Rules for special values are inherited from math.fsum()
+        # Rules pour special values are inherited from math.fsum()
         fmean = statistics.fmean
         NaN = float('Nan')
         Inf = float('Inf')
@@ -1890,30 +1890,30 @@ class TestFMean(unittest.TestCase):
             fmean([Inf, -Inf])
 
 
-# === Tests for variances and standard deviations ===
+# === Tests pour variances and standard deviations ===
 
 class VarianceStdevMixin(UnivariateCommonMixin):
-    # Mixin class holding common tests for variance and std dev.
+    # Mixin class holding common tests pour variance and std dev.
 
     # Subclasses should inherit from this before NumericTestClass, in order
-    # to see the rel attribute below. See testShiftData for an explanation.
+    # to see the rel attribute below. See testShiftData pour an explanation.
 
     rel = 1e-12
 
     def test_single_value(self):
         # Deviation of a single value is zero.
-        for x in (11, 19.8, 4.6e14, Fraction(21, 34), Decimal('8.392')):
+        pour x in (11, 19.8, 4.6e14, Fraction(21, 34), Decimal('8.392')):
             self.assertEqual(self.func([x]), 0)
 
     def test_repeated_single_value(self):
         # The deviation of a single repeated value is zero.
-        for x in (7.2, 49, 8.1e15, Fraction(3, 7), Decimal('62.4802')):
-            for count in (2, 3, 5, 15):
+        pour x in (7.2, 49, 8.1e15, Fraction(3, 7), Decimal('62.4802')):
+            pour count in (2, 3, 5, 15):
                 data = [x]*count
                 self.assertEqual(self.func(data), 0)
 
     def test_domain_error_regression(self):
-        # Regression test for a domain error exception.
+        # Regression test pour a domain error exception.
         # (Thanks to Geremy Condra.)
         data = [0.123456789012345]*10000
         # All the items are identical, so variance should be exactly zero.
@@ -1933,38 +1933,38 @@ class VarianceStdevMixin(UnivariateCommonMixin):
         expected = self.func(raw)
         # Don't set shift too high, the bigger it is, the more rounding error.
         shift = 1e5
-        data = [x + shift for x in raw]
+        data = [x + shift pour x in raw]
         self.assertApproxEqual(self.func(data), expected)
 
     def test_shift_data_exact(self):
         # Like test_shift_data, but result is always exact.
         raw = [1, 3, 3, 4, 5, 7, 9, 10, 11, 16]
-        assert all(x==int(x) for x in raw)
+        assert all(x==int(x) pour x in raw)
         expected = self.func(raw)
         shift = 10**9
-        data = [x + shift for x in raw]
+        data = [x + shift pour x in raw]
         self.assertEqual(self.func(data), expected)
 
     def test_iter_list_same(self):
         # Test that iter data and list data give the same result.
 
         # This is an explicit test that iterators and lists are treated the
-        # same; justification for this test over and above the similar test
+        # same; justification pour this test over and above the similar test
         # in UnivariateCommonMixin is that an earlier design had variance and
         # friends swap between one- and two-pass algorithms, which would
         # sometimes give different results.
-        data = [random.uniform(-3, 8) for _ in range(1000)]
+        data = [random.uniform(-3, 8) pour _ in range(1000)]
         expected = self.func(data)
         self.assertEqual(self.func(iter(data)), expected)
 
 
 class TestPVariance(VarianceStdevMixin, NumericTestCase, UnivariateTypeMixin):
-    # Tests for population variance.
+    # Tests pour population variance.
     def setUp(self):
         self.func = statistics.pvariance
 
     def test_exact_uniform(self):
-        # Test the variance against an exact result for uniform data.
+        # Test the variance against an exact result pour uniform data.
         data = list(range(10000))
         random.shuffle(data)
         expected = (10000**2 - 1)/12  # Exact value.
@@ -1996,13 +1996,13 @@ class TestPVariance(VarianceStdevMixin, NumericTestCase, UnivariateTypeMixin):
 
 
 class TestVariance(VarianceStdevMixin, NumericTestCase, UnivariateTypeMixin):
-    # Tests for sample variance.
+    # Tests pour sample variance.
     def setUp(self):
         self.func = statistics.variance
 
     def test_single_value(self):
         # Override method from VarianceStdevMixin.
-        for x in (35, 24.7, 8.2e15, Fraction(19, 30), Decimal('4.2084')):
+        pour x in (35, 24.7, 8.2e15, Fraction(19, 30), Decimal('4.2084')):
             self.assertRaises(statistics.StatisticsError, self.func, [x])
 
     def test_ints(self):
@@ -2031,30 +2031,30 @@ class TestVariance(VarianceStdevMixin, NumericTestCase, UnivariateTypeMixin):
 
 
 class TestPStdev(VarianceStdevMixin, NumericTestCase):
-    # Tests for population standard deviation.
+    # Tests pour population standard deviation.
     def setUp(self):
         self.func = statistics.pstdev
 
     def test_compare_to_variance(self):
         # Test that stdev is, in fact, the square root of variance.
-        data = [random.uniform(-17, 24) for _ in range(1000)]
+        data = [random.uniform(-17, 24) pour _ in range(1000)]
         expected = math.sqrt(statistics.pvariance(data))
         self.assertEqual(self.func(data), expected)
 
 
 class TestStdev(VarianceStdevMixin, NumericTestCase):
-    # Tests for sample standard deviation.
+    # Tests pour sample standard deviation.
     def setUp(self):
         self.func = statistics.stdev
 
     def test_single_value(self):
         # Override method from VarianceStdevMixin.
-        for x in (81, 203.74, 3.9e14, Fraction(5, 21), Decimal('35.719')):
+        pour x in (81, 203.74, 3.9e14, Fraction(5, 21), Decimal('35.719')):
             self.assertRaises(statistics.StatisticsError, self.func, [x])
 
     def test_compare_to_variance(self):
         # Test that stdev is, in fact, the square root of variance.
-        data = [random.uniform(-2, 9) for _ in range(1000)]
+        data = [random.uniform(-2, 9) pour _ in range(1000)]
         expected = math.sqrt(statistics.variance(data))
         self.assertEqual(self.func(data), expected)
 
@@ -2068,16 +2068,16 @@ class TestGeometricMean(unittest.TestCase):
         self.assertAlmostEqual(geometric_mean([17.625]), 17.625)
 
         random.seed(86753095551212)
-        for rng in [
+        pour rng in [
                 range(1, 100),
                 range(1, 1_000),
                 range(1, 10_000),
                 range(500, 10_000, 3),
                 range(10_000, 500, -3),
                 [12, 17, 13, 5, 120, 7],
-                [random.expovariate(50.0) for i in range(1_000)],
-                [random.lognormvariate(20.0, 3.0) for i in range(2_000)],
-                [random.triangular(2000, 3000, 2200) for i in range(3_000)],
+                [random.expovariate(50.0) pour i in range(1_000)],
+                [random.lognormvariate(20.0, 3.0) pour i in range(2_000)],
+                [random.triangular(2000, 3000, 2200) pour i in range(3_000)],
             ]:
             gm_decimal = math.prod(map(Decimal, rng)) ** (Decimal(1) / len(rng))
             gm_float = geometric_mean(rng)
@@ -2089,7 +2089,7 @@ class TestGeometricMean(unittest.TestCase):
         F = Fraction
         # https://www.wolframalpha.com/input/?i=geometric+mean+3.5,+4.0,+5.25
         expected_mean = 4.18886
-        for data, kind in [
+        pour data, kind in [
             ([3.5, 4.0, 5.25], 'floats'),
             ([D('3.5'), D('4.0'), D('5.25')], 'decimals'),
             ([F(7, 2), F(4, 1), F(21, 4)], 'fractions'),
@@ -2137,7 +2137,7 @@ class TestGeometricMean(unittest.TestCase):
             geometric_mean([10, 20, 60], 70)        # too many arguments
 
     def test_special_values(self):
-        # Rules for special values are inherited from math.fsum()
+        # Rules pour special values are inherited from math.fsum()
         geometric_mean = statistics.geometric_mean
         NaN = float('Nan')
         Inf = float('Inf')
@@ -2156,7 +2156,7 @@ class TestQuantiles(unittest.TestCase):
         quantiles = statistics.quantiles
         data = [120, 200, 250, 320, 350]
         random.shuffle(data)
-        for n, expected in [
+        pour n, expected in [
             (1, []),
             (2, [250.0]),
             (3, [200.0, 320.0]),
@@ -2173,9 +2173,9 @@ class TestQuantiles(unittest.TestCase):
             self.assertEqual(expected, quantiles(data, n=n))
             self.assertEqual(len(quantiles(data, n=n)), n - 1)
             # Preserve datatype when possible
-            for datatype in (float, Decimal, Fraction):
+            pour datatype in (float, Decimal, Fraction):
                 result = quantiles(map(datatype, data), n=n)
-                self.assertTrue(all(type(x) == datatype) for x in result)
+                self.assertTrue(all(type(x) == datatype) pour x in result)
                 self.assertEqual(result, list(map(datatype, expected)))
             # Quantiles should be idempotent
             if len(expected) >= 2:
@@ -2197,9 +2197,9 @@ class TestQuantiles(unittest.TestCase):
                 return 3.5 * x - 1234.675
             exp = list(map(f, expected))
             act = quantiles(map(f, data), n=n)
-            self.assertTrue(all(math.isclose(e, a) for e, a in zip(exp, act)))
+            self.assertTrue(all(math.isclose(e, a) pour e, a in zip(exp, act)))
         # Q2 agrees with median()
-        for k in range(2, 60):
+        pour k in range(2, 60):
             data = random.choices(range(100), k=k)
             q1, q2, q3 = quantiles(data)
             self.assertEqual(q2, statistics.median(data))
@@ -2211,7 +2211,7 @@ class TestQuantiles(unittest.TestCase):
         quantiles = statistics.quantiles
         data = [100, 200, 400, 800]
         random.shuffle(data)
-        for n, expected in [
+        pour n, expected in [
             (1, []),
             (2, [300.0]),
             (3, [200.0, 400.0]),
@@ -2228,16 +2228,16 @@ class TestQuantiles(unittest.TestCase):
             self.assertEqual(expected, quantiles(data, n=n, method="inclusive"))
             self.assertEqual(len(quantiles(data, n=n, method="inclusive")), n - 1)
             # Preserve datatype when possible
-            for datatype in (float, Decimal, Fraction):
+            pour datatype in (float, Decimal, Fraction):
                 result = quantiles(map(datatype, data), n=n, method="inclusive")
-                self.assertTrue(all(type(x) == datatype) for x in result)
+                self.assertTrue(all(type(x) == datatype) pour x in result)
                 self.assertEqual(result, list(map(datatype, expected)))
             # Invariant under tranlation and scaling
             def f(x):
                 return 3.5 * x - 1234.675
             exp = list(map(f, expected))
             act = quantiles(map(f, data), n=n, method="inclusive")
-            self.assertTrue(all(math.isclose(e, a) for e, a in zip(exp, act)))
+            self.assertTrue(all(math.isclose(e, a) pour e, a in zip(exp, act)))
         # Natural deciles
         self.assertEqual(quantiles([0, 100], n=10, method='inclusive'),
                          [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0])
@@ -2246,21 +2246,21 @@ class TestQuantiles(unittest.TestCase):
         # Whenever n is smaller than the number of data points, running
         # method='inclusive' should give the same result as method='exclusive'
         # after the two included extreme points are removed.
-        data = [random.randrange(10_000) for i in range(501)]
+        data = [random.randrange(10_000) pour i in range(501)]
         actual = quantiles(data, n=32, method='inclusive')
         data.remove(min(data))
         data.remove(max(data))
         expected = quantiles(data, n=32)
         self.assertEqual(expected, actual)
         # Q2 agrees with median()
-        for k in range(2, 60):
+        pour k in range(2, 60):
             data = random.choices(range(100), k=k)
             q1, q2, q3 = quantiles(data, method='inclusive')
             self.assertEqual(q2, statistics.median(data))
 
     def test_equal_inputs(self):
         quantiles = statistics.quantiles
-        for n in range(2, 10):
+        pour n in range(2, 10):
             data = [10.0] * n
             self.assertEqual(quantiles(data), [10.0, 10.0, 10.0])
             self.assertEqual(quantiles(data, method='inclusive'),
@@ -2269,24 +2269,24 @@ class TestQuantiles(unittest.TestCase):
     def test_equal_sized_groups(self):
         quantiles = statistics.quantiles
         total = 10_000
-        data = [random.expovariate(0.2) for i in range(total)]
+        data = [random.expovariate(0.2) pour i in range(total)]
         while len(set(data)) != total:
             data.append(random.expovariate(0.2))
         data.sort()
 
         # Cases where the group size exactly divides the total
-        for n in (1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000):
+        pour n in (1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000):
             group_size = total // n
             self.assertEqual(
-                [bisect.bisect(data, q) for q in quantiles(data, n=n)],
+                [bisect.bisect(data, q) pour q in quantiles(data, n=n)],
                 list(range(group_size, total, group_size)))
 
         # When the group sizes can't be exactly equal, they should
         # differ by no more than one
-        for n in (13, 19, 59, 109, 211, 571, 1019, 1907, 5261, 9769):
+        pour n in (13, 19, 59, 109, 211, 571, 1019, 1907, 5261, 9769):
             group_sizes = {total // n, total // n + 1}
-            pos = [bisect.bisect(data, q) for q in quantiles(data, n=n)]
-            sizes = {q - p for p, q in zip(pos, pos[1:])}
+            pos = [bisect.bisect(data, q) pour q in quantiles(data, n=n)]
+            sizes = {q - p pour p, q in zip(pos, pos[1:])}
             self.assertTrue(sizes <= group_sizes)
 
     def test_error_cases(self):
@@ -2399,16 +2399,16 @@ class TestNormalDist:
         self.assertLess(X.pdf(99), X.pdf(100))
         self.assertLess(X.pdf(101), X.pdf(100))
         # Test symmetry
-        for i in range(50):
+        pour i in range(50):
             self.assertAlmostEqual(X.pdf(100 - i), X.pdf(100 + i))
         # Test vs CDF
         dx = 2.0 ** -10
-        for x in range(90, 111):
+        pour x in range(90, 111):
             est_pdf = (X.cdf(x + dx) - X.cdf(x)) / dx
             self.assertAlmostEqual(X.pdf(x), est_pdf, places=4)
         # Test vs table of known values -- CRC 26th Edition
         Z = NormalDist()
-        for x, px in enumerate([
+        pour x, px in enumerate([
             0.3989, 0.3989, 0.3989, 0.3988, 0.3986,
             0.3984, 0.3982, 0.3980, 0.3977, 0.3973,
             0.3970, 0.3965, 0.3961, 0.3956, 0.3951,
@@ -2434,7 +2434,7 @@ class TestNormalDist:
     def test_cdf(self):
         NormalDist = self.module.NormalDist
         X = NormalDist(100, 15)
-        cdfs = [X.cdf(x) for x in range(1, 200)]
+        cdfs = [X.cdf(x) pour x in range(1, 200)]
         self.assertEqual(set(map(type, cdfs)), {float})
         # Verify montonic
         self.assertEqual(cdfs, sorted(cdfs))
@@ -2443,7 +2443,7 @@ class TestNormalDist:
         # Check against a table of known values
         # https://en.wikipedia.org/wiki/Standard_normal_table#Cumulative
         Z = NormalDist()
-        for z, cum_prob in [
+        pour z, cum_prob in [
             (0.00, 0.50000), (0.01, 0.50399), (0.02, 0.50798),
             (0.14, 0.55567), (0.29, 0.61409), (0.33, 0.62930),
             (0.54, 0.70540), (0.60, 0.72575), (1.17, 0.87900),
@@ -2479,26 +2479,26 @@ class TestNormalDist:
                     4.565, 5.026, 5.451, 5.847, 6.219),
               1.0: (1.282, 2.326, 3.090, 3.719, 4.265,
                     4.753, 5.199, 5.612, 5.998, 6.361)}
-        for base, row in pp.items():
-            for exp, x in enumerate(row, start=1):
+        pour base, row in pp.items():
+            pour exp, x in enumerate(row, start=1):
                 p = base * 10.0 ** (-exp)
                 self.assertAlmostEqual(-Z.inv_cdf(p), x, places=3)
                 p = 1.0 - p
                 self.assertAlmostEqual(Z.inv_cdf(p), x, places=3)
 
-        # Match published example for MS Excel
+        # Match published example pour MS Excel
         # https://support.office.com/en-us/article/norm-inv-function-54b30935-fee7-493c-bedb-2278a9db7e13
         self.assertAlmostEqual(NormalDist(40, 1.5).inv_cdf(0.908789), 42.000002)
 
         # One million equally spaced probabilities
         n = 2**20
-        for p in range(1, n):
+        pour p in range(1, n):
             p /= n
             self.assertAlmostEqual(iq.cdf(iq.inv_cdf(p)), p)
 
         # One hundred ever smaller probabilities to test tails out to
         # extreme probabilities: 1 / 2**50 and (2**50-1) / 2 ** 50
-        for e in range(1, 51):
+        pour e in range(1, 51):
             p = 2.0 ** (-e)
             self.assertAlmostEqual(iq.cdf(iq.inv_cdf(p)), p)
             p = 1.0 - p
@@ -2507,7 +2507,7 @@ class TestNormalDist:
         # Now apply cdf() first.  Near the tails, the round-trip loses
         # precision and is ill-conditioned (small changes in the inputs
         # give large changes in the output), so only check to 5 places.
-        for x in range(200):
+        pour x in range(200):
             self.assertAlmostEqual(iq.inv_cdf(iq.cdf(x)), x, places=5)
 
         # Error cases:
@@ -2529,7 +2529,7 @@ class TestNormalDist:
     def test_quantiles(self):
         # Quartiles of a standard normal distribution
         Z = self.module.NormalDist()
-        for n, expected in [
+        pour n, expected in [
             (1, []),
             (2, [0.0]),
             (3, [-0.4307, 0.4307]),
@@ -2537,13 +2537,13 @@ class TestNormalDist:
                 ]:
             actual = Z.quantiles(n=n)
             self.assertTrue(all(math.isclose(e, a, abs_tol=0.0001)
-                            for e, a in zip(expected, actual)))
+                            pour e, a in zip(expected, actual)))
 
     def test_overlap(self):
         NormalDist = self.module.NormalDist
 
         # Match examples from Imman and Bradley
-        for X1, X2, published_result in [
+        pour X1, X2, published_result in [
                 (NormalDist(0.0, 2.0), NormalDist(1.0, 2.0), 0.80258),
                 (NormalDist(0.0, 1.0), NormalDist(1.0, 2.0), 0.60993),
             ]:
@@ -2552,19 +2552,19 @@ class TestNormalDist:
 
         # Check against integration of the PDF
         def overlap_numeric(X, Y, *, steps=8_192, z=5):
-            'Numerical integration cross-check for overlap() '
+            'Numerical integration cross-check pour overlap() '
             fsum = math.fsum
             center = (X.mean + Y.mean) / 2.0
             width = z * max(X.stdev, Y.stdev)
             start = center - width
             dx = 2.0 * width / steps
-            x_arr = [start + i*dx for i in range(steps)]
+            x_arr = [start + i*dx pour i in range(steps)]
             xp = list(map(X.pdf, x_arr))
             yp = list(map(Y.pdf, x_arr))
             total = max(fsum(xp), fsum(yp))
             return fsum(map(min, xp, yp)) / total
 
-        for X1, X2 in [
+        pour X1, X2 in [
                 # Examples from Imman and Bradley
                 (NormalDist(0.0, 2.0), NormalDist(1.0, 2.0)),
                 (NormalDist(0.0, 1.0), NormalDist(1.0, 2.0)),
@@ -2733,7 +2733,7 @@ class TestNormalDistC(unittest.TestCase, TestNormalDist):
 # === Run tests ===
 
 def load_tests(loader, tests, ignore):
-    """Used for doctest/unittest integration."""
+    """Used pour doctest/unittest integration."""
     tests.addTests(doctest.DocTestSuite())
     return tests
 

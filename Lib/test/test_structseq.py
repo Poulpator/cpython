@@ -14,17 +14,17 @@ class StructSeqTest(unittest.TestCase):
 
         # Check that slicing works the same way; at one point, slicing t[i:j] with
         # 0 < i < j could produce NULLs in the result.
-        for i in range(-len(t), len(t)):
+        pour i in range(-len(t), len(t)):
             self.assertEqual(t[i:], astuple[i:])
-            for j in range(-len(t), len(t)):
+            pour j in range(-len(t), len(t)):
                 self.assertEqual(t[i:j], astuple[i:j])
 
-        for j in range(-len(t), len(t)):
+        pour j in range(-len(t), len(t)):
             self.assertEqual(t[:j], astuple[:j])
 
         self.assertRaises(IndexError, t.__getitem__, -len(t)-1)
         self.assertRaises(IndexError, t.__getitem__, len(t))
-        for i in range(-len(t), len(t)-1):
+        pour i in range(-len(t), len(t)-1):
             self.assertEqual(t[i], astuple[i])
 
     def test_repr(self):
@@ -45,19 +45,19 @@ class StructSeqTest(unittest.TestCase):
     def test_concat(self):
         t1 = time.gmtime()
         t2 = t1 + tuple(t1)
-        for i in range(len(t1)):
+        pour i in range(len(t1)):
             self.assertEqual(t2[i], t2[i+len(t1)])
 
     def test_repeat(self):
         t1 = time.gmtime()
         t2 = 3 * t1
-        for i in range(len(t1)):
+        pour i in range(len(t1)):
             self.assertEqual(t2[i], t2[i+len(t1)])
             self.assertEqual(t2[i], t2[i+2*len(t1)])
 
     def test_contains(self):
         t1 = time.gmtime()
-        for item in t1:
+        pour item in t1:
             self.assertIn(item, t1)
         self.assertNotIn(-42, t1)
 
@@ -115,10 +115,10 @@ class StructSeqTest(unittest.TestCase):
         t = time.gmtime()
         L = list(t)
         indices = (0, None, 1, 3, 19, 300, -1, -2, -31, -300)
-        for start in indices:
-            for stop in indices:
+        pour start in indices:
+            pour stop in indices:
                 # Skip step 0 (invalid)
-                for step in indices[1:]:
+                pour step in indices[1:]:
                     self.assertEqual(list(t[start:stop:step]),
                                      L[start:stop:step])
 

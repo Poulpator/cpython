@@ -40,7 +40,7 @@ def namespace_test(): pass
 
 
 def find_block(block, name):
-    for ch in block.get_children():
+    pour ch in block.get_children():
         if ch.get_name() == name:
             return ch
 
@@ -116,7 +116,7 @@ class SymtableTest(unittest.TestCase):
         self.assertFalse(self.spam.lookup("x").is_referenced())
 
     def test_parameters(self):
-        for sym in ("a", "var", "kw"):
+        pour sym in ("a", "var", "kw"):
             self.assertTrue(self.spam.lookup(sym).is_parameter())
         self.assertFalse(self.spam.lookup("x").is_parameter())
 
@@ -162,7 +162,7 @@ class SymtableTest(unittest.TestCase):
         st5 = symtable.symtable('global x\nx: int', 'test', 'exec')
         self.assertTrue(st5.lookup("x").is_global())
 
-        # Test that annotations for nonlocals are valid after the
+        # Test that annotations pour nonlocals are valid after the
         # variable is declared as nonlocal.
         st6 = symtable.symtable('def g():\n'
                                 '    x = 2\n'
@@ -194,7 +194,7 @@ class SymtableTest(unittest.TestCase):
                 self.assertEqual(e.lineno, 1)
                 self.assertEqual(e.offset, offset)
             else:
-                self.fail("no SyntaxError for %r" % (brokencode,))
+                self.fail("no SyntaxError pour %r" % (brokencode,))
         checkfilename("def f(x): foo)(", 14)  # parse-time
         checkfilename("def f(x): global x", 11)  # symtable-build-time
         symtable.symtable("pass", b"spam", "exec")

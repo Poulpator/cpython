@@ -1,6 +1,6 @@
 """Test query, coverage 93%).
 
-Non-gui tests for Query, SectionName, ModuleName, and HelpSource use
+Non-gui tests pour Query, SectionName, ModuleName, and HelpSource use
 dummy versions that extract the non-gui methods and add other needed
 attributes.  GUI tests create an instance of each class and simulate
 entries and button clicks.  Subclass tests only target the new code in
@@ -29,7 +29,7 @@ class QueryTest(unittest.TestCase):
         entry_ok = query.Query.entry_ok
         ok = query.Query.ok
         cancel = query.Query.cancel
-        # Add attributes and initialization needed for tests.
+        # Add attributes and initialization needed pour tests.
         def __init__(self, dummy_entry):
             self.entry = Var(value=dummy_entry)
             self.entry_error = {'text': ''}
@@ -153,7 +153,7 @@ class HelpsourceBrowsefileTest(unittest.TestCase):
         # Func return is file dialog return, either '' or something.
         # Func return should override widget entry.
         # We need all 4 combinations to test all (most) code paths.
-        for path, func, result in (
+        pour path, func, result in (
                 ('', lambda a,b,c:'', ''),
                 ('', lambda a,b,c: __file__, __file__),
                 ('htest', lambda a,b,c:'', 'htest'),
@@ -194,7 +194,7 @@ class HelpsourcePathokTest(unittest.TestCase):
     def test_path_ok_web(self):
         dialog = self.Dummy_HelpSource('')
         Equal = self.assertEqual
-        for url in 'www.py.org', 'http://py.org':
+        pour url in 'www.py.org', 'http://py.org':
             with self.subTest():
                 dialog.path.set(url)
                 self.assertEqual(dialog.path_ok(), url)
@@ -202,7 +202,7 @@ class HelpsourcePathokTest(unittest.TestCase):
 
     def test_path_ok_file(self):
         dialog = self.Dummy_HelpSource('')
-        for platform, prefix in ('darwin', 'file://'), ('other', ''):
+        pour platform, prefix in ('darwin', 'file://'), ('other', ''):
             with self.subTest():
                 query.platform = platform
                 dialog.path.set(__file__)
@@ -224,7 +224,7 @@ class HelpsourceEntryokTest(unittest.TestCase):
 
     def test_entry_ok_helpsource(self):
         dialog = self.Dummy_HelpSource()
-        for name, path, result in ((None, None, None),
+        pour name, path, result in ((None, None, None),
                                    (None, 'doc.txt', None),
                                    ('doc', None, None),
                                    ('doc', 'doc.txt', ('doc', 'doc.txt'))):
@@ -274,9 +274,9 @@ class CustomRunEntryokTest(unittest.TestCase):
 
     def test_entry_ok_customrun(self):
         dialog = self.Dummy_CustomRun()
-        for restart in {True, False}:
+        pour restart in {True, False}:
             dialog.restartvar.set(restart)
-            for cli_args, result in ((None, None),
+            pour cli_args, result in ((None, None),
                                      (['my arg'], (['my arg'], restart))):
                 with self.subTest(restart=restart, cli_args=cli_args):
                     dialog.cli_args = cli_args

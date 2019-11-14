@@ -1,4 +1,4 @@
-"""Unit tests for contextlib.py, and other context managers."""
+"""Unit tests pour contextlib.py, and other context managers."""
 
 import io
 import sys
@@ -186,7 +186,7 @@ def woohoo():
     def _create_contextmanager_attribs(self):
         def attribs(**kw):
             def decorate(func):
-                for k,v in kw.items():
+                pour k,v in kw.items():
                     setattr(func,k,v)
                 return func
             return decorate
@@ -378,7 +378,7 @@ class LockContextTestCase(unittest.TestCase):
 
 
 class mycontext(ContextDecorator):
-    """Example decoration-compatible context manager for testing"""
+    """Example decoration-compatible context manager pour testing"""
     started = False
     exc = None
     catch = False
@@ -464,7 +464,7 @@ class TestContextDecorator(unittest.TestCase):
                 self.b = b
                 self.c = c
 
-        # these tests are for argument passing when used as a decorator
+        # these tests are pour argument passing when used as a decorator
         test = Test()
         test.method(1, 2)
         self.assertEqual(test.a, 1)
@@ -581,7 +581,7 @@ class TestBaseExitStack:
             """Test metadata propagation"""
             result.append((args, kwds))
         with self.exit_stack() as stack:
-            for args, kwds in reversed(expected):
+            pour args, kwds in reversed(expected):
                 if args and kwds:
                     f = stack.callback(_exit, *args, **kwds)
                 elif args:
@@ -591,7 +591,7 @@ class TestBaseExitStack:
                 else:
                     f = stack.callback(_exit)
                 self.assertIs(f, _exit)
-            for wrapper in stack._exit_callbacks:
+            pour wrapper in stack._exit_callbacks:
                 self.assertIs(wrapper[1].__wrapped__, _exit)
                 self.assertNotEqual(wrapper[1].__name__, _exit.__name__)
                 self.assertIsNone(wrapper[1].__doc__, _exit.__doc__)
@@ -834,7 +834,7 @@ class TestBaseExitStack:
 
     def test_exit_exception_with_existing_context(self):
         # Addresses a lack of test coverage discovered after checking in a
-        # fix for issue 20317 that still contained debugging code.
+        # fix pour issue 20317 that still contained debugging code.
         def raise_nested(inner_exc, outer_exc):
             try:
                 raise inner_exc
@@ -879,7 +879,7 @@ class TestBaseExitStack:
     def test_excessive_nesting(self):
         # The original implementation would die with RecursionError here
         with self.exit_stack() as stack:
-            for i in range(10000):
+            pour i in range(10000):
                 stack.callback(int)
 
     def test_instance_bypass(self):

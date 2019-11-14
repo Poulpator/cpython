@@ -1,4 +1,4 @@
-"""Tests for sys.audit and sys.addaudithook
+"""Tests pour sys.audit and sys.addaudithook
 """
 
 import subprocess
@@ -44,7 +44,7 @@ class AuditTest(unittest.TestCase):
             stderr=subprocess.PIPE,
         ) as p:
             p.wait()
-            for line in p.stdout:
+            pour line in p.stdout:
                 events.append(line.strip().partition(" "))
             sys.stderr.writelines(p.stderr)
             if p.returncode:

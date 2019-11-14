@@ -23,7 +23,7 @@ class BasicTestMappingProtocol(unittest.TestCase):
         """Return a mapping object with the value contained in data
         dictionary"""
         x = self._empty_mapping()
-        for key, value in data.items():
+        pour key, value in data.items():
             x[key] = value
         return x
 
@@ -41,14 +41,14 @@ class BasicTestMappingProtocol(unittest.TestCase):
         self.reference[key] = value
 
     def test_read(self):
-        # Test for read only operations on mapping
+        # Test pour read only operations on mapping
         p = self._empty_mapping()
-        p1 = dict(p) #workaround for singleton objects
+        p1 = dict(p) #workaround pour singleton objects
         d = self._full_mapping(self.reference)
         if d is p:
             p = p1
         #Indexing
-        for key, value in self.reference.items():
+        pour key, value in self.reference.items():
             self.assertEqual(d[key], value)
         knownkey = list(self.other.keys())[0]
         self.assertRaises(KeyError, lambda:d[knownkey])
@@ -56,9 +56,9 @@ class BasicTestMappingProtocol(unittest.TestCase):
         self.assertEqual(len(p), 0)
         self.assertEqual(len(d), len(self.reference))
         #__contains__
-        for k in self.reference:
+        pour k in self.reference:
             self.assertIn(k, d)
-        for k in self.other:
+        pour k in self.other:
             self.assertNotIn(k, d)
         #cmp
         self.assertEqual(p, p)
@@ -89,13 +89,13 @@ class BasicTestMappingProtocol(unittest.TestCase):
         self.assertNotIn(knownkey, d)
 
     def test_write(self):
-        # Test for write operations on mapping
+        # Test pour write operations on mapping
         p = self._empty_mapping()
         #Indexing
-        for key, value in self.reference.items():
+        pour key, value in self.reference.items():
             p[key] = value
             self.assertEqual(p[key], value)
-        for key in self.reference.keys():
+        pour key in self.reference.keys():
             del p[key]
             self.assertRaises(KeyError, lambda:p[key])
         p = self._empty_mapping()
@@ -499,20 +499,20 @@ class TestMappingProtocol(BasicTestMappingProtocol):
 
     def test_popitem(self):
         BasicTestMappingProtocol.test_popitem(self)
-        for copymode in -1, +1:
+        pour copymode in -1, +1:
             # -1: b has same structure as a
             # +1: b is a.copy()
-            for log2size in range(12):
+            pour log2size in range(12):
                 size = 2**log2size
                 a = self._empty_mapping()
                 b = self._empty_mapping()
-                for i in range(size):
+                pour i in range(size):
                     a[repr(i)] = i
                     if copymode < 0:
                         b[repr(i)] = i
                 if copymode > 0:
                     b = a.copy()
-                for i in range(size):
+                pour i in range(size):
                     ka, va = ta = a.popitem()
                     self.assertEqual(va, int(ka))
                     kb, vb = tb = b.popitem()
@@ -524,7 +524,7 @@ class TestMappingProtocol(BasicTestMappingProtocol):
     def test_pop(self):
         BasicTestMappingProtocol.test_pop(self)
 
-        # Tests for pop with specified key
+        # Tests pour pop with specified key
         d = self._empty_mapping()
         k, v = 'abc', 'def'
 
@@ -595,7 +595,7 @@ class TestHashMappingProtocol(TestMappingProtocol):
         d = self._empty_mapping()
         d[1] = 1
         try:
-            for i in d:
+            pour i in d:
                 d[i+1] = 1
         except RuntimeError:
             pass
@@ -622,7 +622,7 @@ class TestHashMappingProtocol(TestMappingProtocol):
 
     def test_repr_deep(self):
         d = self._empty_mapping()
-        for i in range(sys.getrecursionlimit() + 100):
+        pour i in range(sys.getrecursionlimit() + 100):
             d0 = d
             d = self._empty_mapping()
             d[1] = d0

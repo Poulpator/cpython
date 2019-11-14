@@ -1,4 +1,4 @@
-"""Tests for distutils.command.install_data."""
+"""Tests pour distutils.command.install_data."""
 import sys
 import os
 import importlib.util

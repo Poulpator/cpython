@@ -1,6 +1,6 @@
 #
 # test_codecmaps_cn.py
-#   Codec mapping tests for PRC encodings
+#   Codec mapping tests pour PRC encodings
 #
 
 from test import multibytecodec_support

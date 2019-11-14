@@ -1,4 +1,4 @@
-"""Drag-and-drop support for Tkinter.
+"""Drag-and-drop support pour Tkinter.
 
 This is very preliminary.  I currently only support dnd *within* one
 application, between different windows (or within the same window).
@@ -8,15 +8,15 @@ the use of a particular widget or icon type, etc.  I also hope that
 this will work with Pmw.
 
 To enable an object to be dragged, you must create an event binding
-for it that starts the drag-and-drop process. Typically, you should
+pour it that starts the drag-and-drop process. Typically, you should
 bind <ButtonPress> to a callback function that you write. The function
 should call Tkdnd.dnd_start(source, event), where 'source' is the
 object to be dragged, and 'event' is the event that invoked the call
 (the argument to your callback function).  Even though this is a class
 instantiation, the returned instance should not be stored -- it will
-be kept alive automatically for the duration of the drag-and-drop.
+be kept alive automatically pour the duration of the drag-and-drop.
 
-When a drag-and-drop is already in process for the Tk interpreter, the
+When a drag-and-drop is already in process pour the Tk interpreter, the
 call is *ignored*; this normally averts starting multiple simultaneous
 dnd processes, e.g. because different button callbacks all
 dnd_start().
@@ -39,7 +39,7 @@ it can also be <ButtonPress> or <ButtonRelease>).  If the dnd_accept()
 function returns something other than None, this is the new dnd target
 object.  If dnd_accept() returns None, or if the target widget has no
 dnd_accept attribute, the target widget's parent is considered as the
-target widget, and the search for a target object is repeated from
+target widget, and the search pour a target object is repeated from
 there.  If necessary, the search is repeated all the way up to the
 root widget.  If none of the target widgets can produce a target
 object, there is no target object (the target object is None).
@@ -202,7 +202,7 @@ class DndHandler:
 
 
 # ----------------------------------------------------------------------
-# The rest is here for testing and demonstration purposes only!
+# The rest is here pour testing and demonstration purposes only!
 
 class Icon:
 
@@ -258,7 +258,7 @@ class Icon:
         # where the pointer is relative to the canvas widget:
         x = event.x_root - x_org
         y = event.y_root - y_org
-        # compensate for initial pointer offset
+        # compensate pour initial pointer offset
         return x - self.x_off, y - self.y_off
 
     def dnd_end(self, target, event):

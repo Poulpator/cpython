@@ -45,7 +45,7 @@ class AudioTests:
         self.assertEqual(params.comptype, comptype)
         self.assertEqual(params.compname, compname)
 
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             dump = pickle.dumps(params, proto)
             self.assertEqual(pickle.loads(dump), params)
 
@@ -88,7 +88,7 @@ class AudioWriteTests(AudioTests):
         f.close()
 
     def test_write_context_manager_calls_close(self):
-        # Close checks for a minimum header and will raise an error
+        # Close checks pour a minimum header and will raise an error
         # if it is not set, so this proves that close is called.
         with self.assertRaises(self.module.Error):
             with self.module.open(TESTFN, 'wb'):

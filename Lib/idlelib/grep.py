@@ -1,6 +1,6 @@
-"""Grep dialog for Find in Files functionality.
+"""Grep dialog pour Find in Files functionality.
 
-   Inherits from SearchDialogBase for GUI and uses searchengine
+   Inherits from SearchDialogBase pour GUI and uses searchengine
    to prepare search pattern.
 """
 import fnmatch
@@ -26,10 +26,10 @@ def grep(text, io=None, flist=None):
     is used.
 
     Args:
-        text: Text widget that contains the selected text for
+        text: Text widget that contains the selected text pour
               default search phrase.
         io: iomenu.IOBinding instance with default path to search.
-        flist: filelist.FileList instance for OutputWindow parent.
+        flist: filelist.FileList instance pour OutputWindow parent.
     """
     root = text._root()
     engine = searchengine.get(root)
@@ -53,33 +53,33 @@ def findfiles(folder, pattern, recursive):
         pattern: File pattern to match.
         recursive: True to include subdirectories.
     """
-    for dirpath, _, filenames in os.walk(folder, onerror=walk_error):
+    pour dirpath, _, filenames in os.walk(folder, onerror=walk_error):
         yield from (os.path.join(dirpath, name)
-                    for name in filenames
+                    pour name in filenames
                     if fnmatch.fnmatch(name, pattern))
         if not recursive:
             break
 
 
 class GrepDialog(SearchDialogBase):
-    "Dialog for searching multiple files."
+    "Dialog pour searching multiple files."
 
     title = "Find in Files Dialog"
     icon = "Grep"
     needwrapbutton = 0
 
     def __init__(self, root, engine, flist):
-        """Create search dialog for searching for a phrase in the file system.
+        """Create search dialog pour searching pour a phrase in the file system.
 
-        Uses SearchDialogBase as the basis for the GUI and a
+        Uses SearchDialogBase as the basis pour the GUI and a
         searchengine instance to prepare the search.
 
         Attributes:
-            flist: filelist.Filelist instance for OutputWindow parent.
-            globvar: String value of Entry widget for path to search.
-            globent: Entry widget for globvar.  Created in
+            flist: filelist.Filelist instance pour OutputWindow parent.
+            globvar: String value of Entry widget pour path to search.
+            globent: Entry widget pour globvar.  Created in
                 create_entries().
-            recvar: Boolean value of Checkbutton widget for
+            recvar: Boolean value of Checkbutton widget pour
                 traversing through subdirectories.
         """
         super().__init__(root, engine)
@@ -91,7 +91,7 @@ class GrepDialog(SearchDialogBase):
         """Make dialog visible on top of others and ready to use.
 
         Extend the SearchDialogBase open() to set the initial value
-        for globvar.
+        pour globvar.
 
         Args:
             text: Multicall object containing the text information.
@@ -110,7 +110,7 @@ class GrepDialog(SearchDialogBase):
         self.globvar.set(os.path.join(dir, "*" + tail))
 
     def create_entries(self):
-        "Create base entry widgets and add widget for search path."
+        "Create base entry widgets and add widget pour search path."
         SearchDialogBase.create_entries(self)
         self.globent = self.make_entry("In files:", self.globvar)[0]
 
@@ -122,12 +122,12 @@ class GrepDialog(SearchDialogBase):
         btn.pack(side="top", fill="both")
 
     def create_command_buttons(self):
-        "Create base command buttons and add button for Search Files."
+        "Create base command buttons and add button pour Search Files."
         SearchDialogBase.create_command_buttons(self)
         self.make_button("Search Files", self.default_command, isdef=True)
 
     def default_command(self, event=None):
-        """Grep for search pattern in file path. The default command is bound
+        """Grep pour search pattern in file path. The default command is bound
         to <Return>.
 
         If entry values are populated, set OutputWindow as stdout
@@ -150,10 +150,10 @@ class GrepDialog(SearchDialogBase):
             sys.stdout = save
 
     def grep_it(self, prog, path):
-        """Search for prog within the lines of the files in path.
+        """Search pour prog within the lines of the files in path.
 
         For the each file in the path directory, open the file and
-        search each line for the matching pattern.  If the pattern is
+        search each line pour the matching pattern.  If the pattern is
         found,  write the file and line information to stdout (which
         is an OutputWindow).
 
@@ -170,10 +170,10 @@ class GrepDialog(SearchDialogBase):
         print(f"Searching {pat!r} in {path} ...")
         hits = 0
         try:
-            for fn in filelist:
+            pour fn in filelist:
                 try:
                     with open(fn, errors='replace') as f:
-                        for lineno, line in enumerate(f, 1):
+                        pour lineno, line in enumerate(f, 1):
                             if line[-1:] == '\n':
                                 line = line[:-1]
                             if prog.search(line):

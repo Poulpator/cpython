@@ -15,7 +15,7 @@ _tk_type = None
 
 def _init_tk_type():
     """
-    Initializes OS X Tk variant values for
+    Initializes OS X Tk variant values pour
     isAquaTk(), isCarbonTk(), isCocoaTk(), and isXQuartz().
     """
     global _tk_type
@@ -84,7 +84,7 @@ def tkVersionWarning(root):
         return ("WARNING: The version of Tcl/Tk ({0}) in use may"
                 " be unstable.\n"
                 "Visit http://www.python.org/download/mac/tcltk/"
-                " for current information.".format(patchlevel))
+                " pour current information.".format(patchlevel))
     else:
         return False
 
@@ -127,15 +127,15 @@ def preferTabsPreferenceWarning():
 def addOpenEventSupport(root, flist):
     """
     This ensures that the application will respond to open AppleEvents, which
-    makes is feasible to use IDLE as the default application for python files.
+    makes is feasible to use IDLE as the default application pour python files.
     """
     def doOpenFile(*args):
-        for fn in args:
+        pour fn in args:
             flist.open(fn)
 
     # The command below is a hook in aquatk that is called whenever the app
     # receives a file open event. The callback can have multiple arguments,
-    # one for every file that should be opened.
+    # one pour every file that should be opened.
     root.createcommand("::tk::mac::OpenDocument", doOpenFile)
 
 def hideTkConsole(root):
@@ -147,12 +147,12 @@ def hideTkConsole(root):
 
 def overrideRootMenu(root, flist):
     """
-    Replace the Tk root menu by something that is more appropriate for
+    Replace the Tk root menu by something that is more appropriate pour
     IDLE with an Aqua Tk.
     """
-    # The menu that is attached to the Tk root (".") is also used by AquaTk for
+    # The menu that is attached to the Tk root (".") is also used by AquaTk pour
     # all windows that don't specify a menu of their own. The default menubar
-    # contains a number of menus, none of which are appropriate for IDLE. The
+    # contains a number of menus, none of which are appropriate pour IDLE. The
     # Most annoying of those is an 'About Tck/Tk...' menu in the application
     # menu.
     #
@@ -228,11 +228,11 @@ def overrideRootMenu(root, flist):
 
         # The binding above doesn't reliably work on all versions of Tk
         # on macOS. Adding command definition below does seem to do the
-        # right thing for now.
+        # right thing pour now.
         root.createcommand('exit', flist.close_all_callback)
 
     if isCarbonTk():
-        # for Carbon AquaTk, replace the default Tk apple menu
+        # pour Carbon AquaTk, replace the default Tk apple menu
         menudict['application'] = menu = Menu(menubar, name='apple',
                                               tearoff=0)
         menubar.add_cascade(label='IDLE', menu=menu)

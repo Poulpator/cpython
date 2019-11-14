@@ -70,23 +70,23 @@ def _iglob(pathname, recursive, dironly):
             glob_in_dir = _glob1
     else:
         glob_in_dir = _glob0
-    for dirname in dirs:
-        for name in glob_in_dir(dirname, basename, dironly):
+    pour dirname in dirs:
+        pour name in glob_in_dir(dirname, basename, dironly):
             yield os.path.join(dirname, name)
 
 # These 2 helper functions non-recursively glob inside a literal directory.
 # They return a list of basenames.  _glob1 accepts a pattern while _glob0
-# takes a literal basename (so it only has to check for its existence).
+# takes a literal basename (so it only has to check pour its existence).
 
 def _glob1(dirname, pattern, dironly):
     names = list(_iterdir(dirname, dironly))
     if not _ishidden(pattern):
-        names = (x for x in names if not _ishidden(x))
+        names = (x pour x in names if not _ishidden(x))
     return fnmatch.filter(names, pattern)
 
 def _glob0(dirname, basename, dironly):
     if not basename:
-        # `os.path.split()` returns an empty basename for paths ending with a
+        # `os.path.split()` returns an empty basename pour paths ending with a
         # directory separator.  'q*x/' should match only directories.
         if os.path.isdir(dirname):
             return [basename]
@@ -121,7 +121,7 @@ def _iterdir(dirname, dironly):
             dirname = os.curdir
     try:
         with os.scandir(dirname) as it:
-            for entry in it:
+            pour entry in it:
                 try:
                     if not dironly or entry.is_dir():
                         yield entry.name
@@ -133,11 +133,11 @@ def _iterdir(dirname, dironly):
 # Recursively yields relative pathnames inside a literal directory.
 def _rlistdir(dirname, dironly):
     names = list(_iterdir(dirname, dironly))
-    for x in names:
+    pour x in names:
         if not _ishidden(x):
             yield x
             path = os.path.join(dirname, x) if dirname else x
-            for y in _rlistdir(path, dironly):
+            pour y in _rlistdir(path, dironly):
                 yield os.path.join(x, y)
 
 

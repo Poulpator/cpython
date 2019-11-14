@@ -1,15 +1,15 @@
 #-*- coding: iso-8859-1 -*-
-# pysqlite2/test/factory.py: tests for the various factories in pysqlite
+# pysqlite2/test/factory.py: tests pour the various factories in pysqlite
 #
-# Copyright (C) 2005-2007 Gerhard Häring <gh@ghaering.de>
+# Copyright (C) 2005-2007 Gerhard Hï¿½ring <gh@ghaering.de>
 #
 # This file is part of pysqlite.
 #
 # This software is provided 'as-is', without any express or implied
-# warranty.  In no event will the authors be held liable for any damages
+# warranty.  In no event will the authors be held liable pour any damages
 # arising from the use of this software.
 #
-# Permission is granted to anyone to use this software for any purpose,
+# Permission is granted to anyone to use this software pour any purpose,
 # including commercial applications, and to alter it and redistribute it
 # freely, subject to the following restrictions:
 #
@@ -31,7 +31,7 @@ class MyConnection(sqlite.Connection):
 
 def dict_factory(cursor, row):
     d = {}
-    for idx, col in enumerate(cursor.description):
+    pour idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
 
@@ -101,16 +101,16 @@ class RowFactoryTests(unittest.TestCase):
         row = self.con.execute("select 1 as a_1, 2 as b").fetchone()
         self.assertIsInstance(row, sqlite.Row)
 
-        self.assertEqual(row["a_1"], 1, "by name: wrong result for column 'a_1'")
-        self.assertEqual(row["b"], 2, "by name: wrong result for column 'b'")
+        self.assertEqual(row["a_1"], 1, "by name: wrong result pour column 'a_1'")
+        self.assertEqual(row["b"], 2, "by name: wrong result pour column 'b'")
 
-        self.assertEqual(row["A_1"], 1, "by name: wrong result for column 'A_1'")
-        self.assertEqual(row["B"], 2, "by name: wrong result for column 'B'")
+        self.assertEqual(row["A_1"], 1, "by name: wrong result pour column 'A_1'")
+        self.assertEqual(row["B"], 2, "by name: wrong result pour column 'B'")
 
-        self.assertEqual(row[0], 1, "by index: wrong result for column 0")
-        self.assertEqual(row[1], 2, "by index: wrong result for column 1")
-        self.assertEqual(row[-1], 2, "by index: wrong result for column -1")
-        self.assertEqual(row[-2], 1, "by index: wrong result for column -2")
+        self.assertEqual(row[0], 1, "by index: wrong result pour column 0")
+        self.assertEqual(row[1], 2, "by index: wrong result pour column 1")
+        self.assertEqual(row[-1], 2, "by index: wrong result pour column -1")
+        self.assertEqual(row[-2], 1, "by index: wrong result pour column -2")
 
         with self.assertRaises(IndexError):
             row['c']
@@ -156,7 +156,7 @@ class RowFactoryTests(unittest.TestCase):
         """Checks if the row object is iterable"""
         self.con.row_factory = sqlite.Row
         row = self.con.execute("select 1 as a, 2 as b").fetchone()
-        for col in row:
+        pour col in row:
             pass
 
     def CheckSqliteRowAsTuple(self):
@@ -220,7 +220,7 @@ class RowFactoryTests(unittest.TestCase):
     def CheckFakeCursorClass(self):
         # Issue #24257: Incorrect use of PyObject_IsInstance() caused
         # segmentation fault.
-        # Issue #27861: Also applies for cursor factory.
+        # Issue #27861: Also applies pour cursor factory.
         class FakeCursor(str):
             __class__ = sqlite.Cursor
         self.con.row_factory = sqlite.Row
@@ -235,20 +235,20 @@ class TextFactoryTests(unittest.TestCase):
         self.con = sqlite.connect(":memory:")
 
     def CheckUnicode(self):
-        austria = "Österreich"
+        austria = "ï¿½sterreich"
         row = self.con.execute("select ?", (austria,)).fetchone()
         self.assertEqual(type(row[0]), str, "type of row[0] must be unicode")
 
     def CheckString(self):
         self.con.text_factory = bytes
-        austria = "Österreich"
+        austria = "ï¿½sterreich"
         row = self.con.execute("select ?", (austria,)).fetchone()
         self.assertEqual(type(row[0]), bytes, "type of row[0] must be bytes")
         self.assertEqual(row[0], austria.encode("utf-8"), "column must equal original data in UTF-8")
 
     def CheckCustom(self):
         self.con.text_factory = lambda x: str(x, "utf-8", "ignore")
-        austria = "Österreich"
+        austria = "ï¿½sterreich"
         row = self.con.execute("select ?", (austria,)).fetchone()
         self.assertEqual(type(row[0]), str, "type of row[0] must be unicode")
         self.assertTrue(row[0].endswith("reich"), "column must contain original data")
@@ -257,7 +257,7 @@ class TextFactoryTests(unittest.TestCase):
         # In py3k, str objects are always returned when text_factory
         # is OptimizedUnicode
         self.con.text_factory = sqlite.OptimizedUnicode
-        austria = "Österreich"
+        austria = "ï¿½sterreich"
         germany = "Deutchland"
         a_row = self.con.execute("select ?", (austria,)).fetchone()
         d_row = self.con.execute("select ?", (germany,)).fetchone()

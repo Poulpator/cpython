@@ -1,9 +1,9 @@
 # Copyright 2007 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Fixer for removing uses of the types module.
+"""Fixer pour removing uses of the types module.
 
-These work for only the known names in the types module.  The forms above
+These work pour only the known names in the types module.  The forms above
 can include types. or not.  ie, It is assumed the module is imported either as:
 
     import types
@@ -48,7 +48,7 @@ _TYPE_MAPPING = {
         'XRangeType' : 'range',
     }
 
-_pats = ["power< 'types' trailer< '.' name='%s' > >" % t for t in _TYPE_MAPPING]
+_pats = ["power< 'types' trailer< '.' name='%s' > >" % t pour t in _TYPE_MAPPING]
 
 class FixTypes(fixer_base.BaseFix):
     BM_compatible = True

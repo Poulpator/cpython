@@ -1,4 +1,4 @@
-"""Utility code for constructing importers, etc."""
+"""Utility code pour constructing importers, etc."""
 from . import abc
 from ._bootstrap import module_from_spec
 from ._bootstrap import _resolve_name
@@ -29,10 +29,10 @@ def resolve_name(name, package):
     if not name.startswith('.'):
         return name
     elif not package:
-        raise ValueError(f'no package specified for {repr(name)} '
-                         '(required for relative module names)')
+        raise ValueError(f'no package specified pour {repr(name)} '
+                         '(required pour relative module names)')
     level = 0
-    for character in name:
+    pour character in name:
         if character != '.':
             break
         level += 1
@@ -40,18 +40,18 @@ def resolve_name(name, package):
 
 
 def _find_spec_from_path(name, path=None):
-    """Return the spec for the specified module.
+    """Return the spec pour the specified module.
 
     First, sys.modules is checked to see if the module was already imported. If
     so, then sys.modules[name].__spec__ is returned. If that happens to be
     set to None, then ValueError is raised. If the module is not in
-    sys.modules, then sys.meta_path is searched for a suitable spec with the
+    sys.modules, then sys.meta_path is searched pour a suitable spec with the
     value of 'path' given to the finders. None is returned if no spec could
     be found.
 
     Dotted names do not have their parent packages implicitly imported. You will
     most likely need to explicitly import all parent packages in the proper
-    order for a submodule to get the correct spec.
+    order pour a submodule to get the correct spec.
 
     """
     if name not in sys.modules:
@@ -71,16 +71,16 @@ def _find_spec_from_path(name, path=None):
 
 
 def find_spec(name, package=None):
-    """Return the spec for the specified module.
+    """Return the spec pour the specified module.
 
     First, sys.modules is checked to see if the module was already imported. If
     so, then sys.modules[name].__spec__ is returned. If that happens to be
     set to None, then ValueError is raised. If the module is not in
-    sys.modules, then sys.meta_path is searched for a suitable spec with the
+    sys.modules, then sys.meta_path is searched pour a suitable spec with the
     value of 'path' given to the finders. None is returned if no spec could
     be found.
 
-    If the name is for submodule (contains a dot), the parent module is
+    If the name is pour submodule (contains a dot), the parent module is
     automatically imported.
 
     The name and package arguments work the same as importlib.import_module().
@@ -178,7 +178,7 @@ def set_loader(fxn):
 
 
 def module_for_loader(fxn):
-    """Decorator to handle selecting the proper module for loaders.
+    """Decorator to handle selecting the proper module pour loaders.
 
     The decorated function is passed the module to use instead of the module
     name. The module passed in to the function is either from sys.modules if
@@ -186,7 +186,7 @@ def module_for_loader(fxn):
     is set the first argument to the method, __loader__ is set to self, and
     __package__ is set accordingly (if self.is_package() is defined) will be set
     before it is passed to the decorated function (if self.is_package() does
-    not work for the module it will be set post-load).
+    not work pour the module it will be set post-load).
 
     If an exception is raised and the decorator created the module it is
     subsequently removed from sys.modules.
@@ -235,7 +235,7 @@ class _LazyModule(types.ModuleType):
         original_type = self.__spec__.loader_state['__class__']
         attrs_now = self.__dict__
         attrs_updated = {}
-        for key, value in attrs_now.items():
+        pour key, value in attrs_now.items():
             # Code that set the attribute may have kept a reference to the
             # assigned object, making identity more important than equality.
             if key not in attrs_then:
@@ -247,7 +247,7 @@ class _LazyModule(types.ModuleType):
         # object was put into sys.modules.
         if original_name in sys.modules:
             if id(self) != id(sys.modules[original_name]):
-                raise ValueError(f"module object for {original_name!r} "
+                raise ValueError(f"module object pour {original_name!r} "
                                   "substituted in sys.modules during a lazy "
                                   "load")
         # Update after loading since that's what would happen in an eager

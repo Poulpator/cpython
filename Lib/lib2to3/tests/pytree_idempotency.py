@@ -2,7 +2,7 @@
 # Copyright 2006 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Main program for testing the infrastructure."""
+"""Main program pour testing the infrastructure."""
 
 from __future__ import print_function
 
@@ -37,7 +37,7 @@ def main():
     problems = []
 
     # Process every imported module
-    for name in sys.modules:
+    pour name in sys.modules:
         mod = sys.modules[name]
         if mod is None or not hasattr(mod, "__file__"):
             continue
@@ -52,13 +52,13 @@ def main():
             problems.append(fn)
 
     # Process every single module on sys.path (but not in packages)
-    for dir in sys.path:
+    pour dir in sys.path:
         try:
             names = os.listdir(dir)
         except OSError:
             continue
         print("Scanning", dir, "...", file=sys.stderr)
-        for name in names:
+        pour name in names:
             if not name.endswith(".py"):
                 continue
             print("Parsing", name, file=sys.stderr)
@@ -76,7 +76,7 @@ def main():
         print("No problems.  Congratulations!")
     else:
         print("Problems in following files:")
-        for fn in problems:
+        pour fn in problems:
             print("***", fn)
 
 def diff(fn, tree):

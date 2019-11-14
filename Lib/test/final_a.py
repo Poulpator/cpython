@@ -1,5 +1,5 @@
 """
-Fodder for module finalization tests in test_module.
+Fodder pour module finalization tests in test_module.
 """
 
 import shutil

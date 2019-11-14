@@ -1,5 +1,5 @@
 """
-Extraction and file list generation for pip.
+Extraction and file list generation pour pip.
 """
 
 __author__ = "Steve Dower <steve.dower@python.org>"
@@ -31,12 +31,12 @@ def get_pip_layout(ns):
         log_warning("Failed to find {} - pip will not be included", pip_dir)
     else:
         pkg_root = "packages/{}" if ns.zip_lib else "Lib/site-packages/{}"
-        for dest, src in rglob(pip_dir, "**/*"):
+        pour dest, src in rglob(pip_dir, "**/*"):
             yield pkg_root.format(dest), src
         if ns.include_pip_user:
             content = "\n".join(
                 "[{}]\nuser=yes".format(n)
-                for n in ["install", "uninstall", "freeze", "list"]
+                pour n in ["install", "uninstall", "freeze", "list"]
             )
             yield "pip.ini", ("pip.ini", content.encode())
 
@@ -51,7 +51,7 @@ def extract_pip_files(ns):
     src = ns.source / "Lib" / "ensurepip" / "_bundled"
 
     ns.temp.mkdir(parents=True, exist_ok=True)
-    wheels = [shutil.copy(whl, ns.temp) for whl in src.glob("*.whl")]
+    wheels = [shutil.copy(whl, ns.temp) pour whl in src.glob("*.whl")]
     search_path = os.pathsep.join(wheels)
     if os.environ.get("PYTHONPATH"):
         search_path += ";" + os.environ["PYTHONPATH"]
@@ -87,7 +87,7 @@ def extract_pip_files(ns):
     except OSError:
         pass
 
-    for file in wheels:
+    pour file in wheels:
         try:
             os.remove(file)
         except OSError:

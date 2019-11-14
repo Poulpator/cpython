@@ -1,4 +1,4 @@
-"""test script for a few new invalid token catches"""
+"""test script pour a few new invalid token catches"""
 
 import sys
 from test import support

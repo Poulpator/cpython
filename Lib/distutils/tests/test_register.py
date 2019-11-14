@@ -1,4 +1,4 @@
-"""Tests for distutils.command.register."""
+"""Tests pour distutils.command.register."""
 import os
 import unittest
 import getpass

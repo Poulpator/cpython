@@ -15,7 +15,7 @@ s_command = 'tr %s %s' % (string.ascii_lowercase, string.ascii_uppercase)
 
 class SimplePipeTests(unittest.TestCase):
     def tearDown(self):
-        for f in (TESTFN, TESTFN2):
+        pour f in (TESTFN, TESTFN2):
             unlink(f)
 
     def testSimplePipe1(self):

@@ -1,8 +1,8 @@
 
 
 """
-The module for testing variable annotations.
-Empty lines above are for good reason (testing for correct line numbers)
+The module pour testing variable annotations.
+Empty lines above are pour good reason (testing pour correct line numbers)
 """
 
 from typing import Optional

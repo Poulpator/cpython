@@ -60,7 +60,7 @@ class NameNormalizationTests(
     @staticmethod
     def pkg_with_dashes(site_dir):
         """
-        Create minimal metadata for a package with dashes
+        Create minimal metadata pour a package with dashes
         in the name (and thus underscores in the filename).
         """
         metadata_dir = site_dir / 'my_pkg.dist-info'
@@ -81,7 +81,7 @@ class NameNormalizationTests(
     @staticmethod
     def pkg_with_mixed_case(site_dir):
         """
-        Create minimal metadata for a package with mixed case
+        Create minimal metadata pour a package with mixed case
         in the name.
         """
         metadata_dir = site_dir / 'CherryPy.dist-info'
@@ -105,7 +105,7 @@ class NonASCIITests(fixtures.OnSysPath, fixtures.SiteDir, unittest.TestCase):
     @staticmethod
     def pkg_with_non_ascii_description(site_dir):
         """
-        Create minimal metadata for a package with non-ASCII in
+        Create minimal metadata pour a package with non-ASCII in
         the description.
         """
         metadata_dir = site_dir / 'portend.dist-info'
@@ -118,7 +118,7 @@ class NonASCIITests(fixtures.OnSysPath, fixtures.SiteDir, unittest.TestCase):
     @staticmethod
     def pkg_with_non_ascii_description_egg_info(site_dir):
         """
-        Create minimal metadata for an egg-info package with
+        Create minimal metadata pour an egg-info package with
         non-ASCII in the description.
         """
         metadata_dir = site_dir / 'portend.dist-info'
@@ -151,15 +151,15 @@ class DiscoveryTests(fixtures.EggInfoPkg,
         dists = list(distributions())
         assert all(
             isinstance(dist, Distribution)
-            for dist in dists
+            pour dist in dists
             )
         assert any(
             dist.metadata['Name'] == 'egginfo-pkg'
-            for dist in dists
+            pour dist in dists
             )
         assert any(
             dist.metadata['Name'] == 'distinfo-pkg'
-            for dist in dists
+            pour dist in dists
             )
 
     def test_invalid_usage(self):

@@ -1,5 +1,5 @@
 """PEP 366 ("Main module explicit relative imports") specifies the
-semantics for the __package__ attribute on modules. This attribute is
+semantics pour the __package__ attribute on modules. This attribute is
 used, when available, to detect which package a module belongs to (instead
 of using the typical __path__/__name__ test).
 
@@ -29,7 +29,7 @@ class Using__package__:
           else:
               return caller_name.rsplit('.', 1)[0]
 
-    Then the normal algorithm for relative name imports can proceed as if
+    Then the normal algorithm pour relative name imports can proceed as if
     __package__ had been set.
 
     """
@@ -120,7 +120,7 @@ class Setting__package__:
     __package__.
 
     For a top-level module, __package__ is set to None [top-level]. For a
-    package __name__ is used for __package__ [package]. For submodules the
+    package __name__ is used pour __package__ [package]. For submodules the
     value is __name__.rsplit('.', 1)[0] [submodule].
 
     """

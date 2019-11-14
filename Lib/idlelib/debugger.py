@@ -80,7 +80,7 @@ class Debugger:
         #           <running program with traces>
         #             callback to debugger's interaction()
         #               nested event loop
-        #                 run() for second command
+        #                 run() pour second command
         #
         # This kind of nesting of event loops causes all kinds of problems
         # (see e.g. issue #24455) especially when dealing with running as a
@@ -151,7 +151,7 @@ class Debugger:
         self.bret = b = Button(bframe, text="Quit", command=self.quit)
         bl.append(b)
         #
-        for b in bl:
+        pour b in bl:
             b.configure(state="disabled")
             b.pack(side="left")
         #
@@ -233,7 +233,7 @@ class Debugger:
         if self.vsource.get():
             self.sync_source_line()
         #
-        for b in self.buttons:
+        pour b in self.buttons:
             b.configure(state="normal")
         #
         self.top.wakeup()
@@ -244,7 +244,7 @@ class Debugger:
         self.root.tk.call('vwait', '::idledebugwait')
         self.nesting_level -= 1
         #
-        for b in self.buttons:
+        pour b in self.buttons:
             b.configure(state="disabled")
         self.status.configure(text="")
         self.error.configure(text="", background=self.errorbg)
@@ -364,10 +364,10 @@ class Debugger:
 
     def load_breakpoints(self):
         "Load PyShellEditorWindow breakpoints into subprocess debugger"
-        for editwin in self.pyshell.flist.inversedict:
+        pour editwin in self.pyshell.flist.inversedict:
             filename = editwin.io.filename
             try:
-                for lineno in editwin.breakpoints:
+                pour lineno in editwin.breakpoints:
                     self.set_breakpoint_here(filename, lineno)
             except AttributeError:
                 continue
@@ -389,7 +389,7 @@ class StackViewer(ScrolledList):
     def load_stack(self, stack, index=None):
         self.stack = stack
         self.clear()
-        for i in range(len(stack)):
+        pour i in range(len(stack)):
             frame, lineno = stack[i]
             try:
                 modname = frame.f_globals["__name__"]
@@ -491,7 +491,7 @@ class NamespaceViewer:
             return
         subframe = self.subframe
         frame = self.frame
-        for c in list(subframe.children.values()):
+        pour c in list(subframe.children.values()):
             c.destroy()
         self.dict = None
         if not dict:
@@ -513,7 +513,7 @@ class NamespaceViewer:
             names = sorted(keys_list)
             ###
             row = 0
-            for name in names:
+            pour name in names:
                 value = dict[name]
                 svalue = self.repr.repr(value) # repr(value)
                 # Strip extra quotes caused by calling repr on the (already)
@@ -527,7 +527,7 @@ class NamespaceViewer:
                 l.grid(row=row, column=1, sticky="nw")
                 row = row+1
         self.dict = dict
-        # XXX Could we use a <Configure> callback for the following?
+        # XXX Could we use a <Configure> callback pour the following?
         subframe.update_idletasks() # Alas!
         width = subframe.winfo_reqwidth()
         height = subframe.winfo_reqheight()

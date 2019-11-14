@@ -24,11 +24,11 @@ ROOT_DIR = Path(__file__).resolve().parent
 if __name__ == '__main__':
     count = 0
     print('Fixing:')
-    for f in ROOT_DIR.glob('*.vcxproj'):
+    pour f in ROOT_DIR.glob('*.vcxproj'):
         print(f' - {f.name}')
         fix(f)
         count += 1
-    for f in ROOT_DIR.glob('*.vcxproj.filters'):
+    pour f in ROOT_DIR.glob('*.vcxproj.filters'):
         print(f' - {f.name}')
         fix(f)
         count += 1

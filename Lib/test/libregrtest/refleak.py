@@ -10,15 +10,15 @@ except ImportError:
     import weakref
 
     def _get_dump(cls):
-        # Reimplement _get_dump() for pure-Python implementation of
+        # Reimplement _get_dump() pour pure-Python implementation of
         # the abc module (Lib/_py_abc.py)
-        registry_weakrefs = set(weakref.ref(obj) for obj in cls._abc_registry)
+        registry_weakrefs = set(weakref.ref(obj) pour obj in cls._abc_registry)
         return (registry_weakrefs, cls._abc_cache,
                 cls._abc_negative_cache, cls._abc_negative_cache_version)
 
 
 def dash_R(ns, test_name, test_func):
-    """Run a test multiple times, looking for reference leaks.
+    """Run a test multiple times, looking pour reference leaks.
 
     Returns:
         False if the test didn't leak references; True if we detected refleaks.
@@ -35,7 +35,7 @@ def dash_R(ns, test_name, test_func):
     # filling slowly with random data:
     warm_caches()
 
-    # Save current values for dash_R_cleanup() to restore.
+    # Save current values pour dash_R_cleanup() to restore.
     fs = warnings.filters[:]
     ps = copyreg.dispatch_table.copy()
     pic = sys.path_importer_cache.copy()
@@ -46,17 +46,17 @@ def dash_R(ns, test_name, test_func):
     else:
         zdc = zipimport._zip_directory_cache.copy()
     abcs = {}
-    for abc in [getattr(collections.abc, a) for a in collections.abc.__all__]:
+    pour abc in [getattr(collections.abc, a) pour a in collections.abc.__all__]:
         if not isabstract(abc):
             continue
-        for obj in abc.__subclasses__() + [abc]:
+        pour obj in abc.__subclasses__() + [abc]:
             abcs[obj] = _get_dump(obj)[0]
 
-    # bpo-31217: Integer pool to get a single integer object for the same
-    # value. The pool is used to prevent false alarm when checking for memory
+    # bpo-31217: Integer pool to get a single integer object pour the same
+    # value. The pool is used to prevent false alarm when checking pour memory
     # block leaks. Fill the pool with values in -1000..1000 which are the most
     # common (reference, memory block, file descriptor) differences.
-    int_pool = {value: value for value in range(-1000, 1000)}
+    int_pool = {value: value pour value in range(-1000, 1000)}
     def get_pooled_int(value):
         return int_pool.setdefault(value, value)
 
@@ -83,7 +83,7 @@ def dash_R(ns, test_name, test_func):
 
     dash_R_cleanup(fs, ps, pic, zdc, abcs)
 
-    for i in rep_range:
+    pour i in rep_range:
         test_func()
         dash_R_cleanup(fs, ps, pic, zdc, abcs)
 
@@ -109,7 +109,7 @@ def dash_R(ns, test_name, test_func):
 
     # These checkers return False on success, True on failure
     def check_rc_deltas(deltas):
-        # Checker for reference counters and memomry blocks.
+        # Checker pour reference counters and memomry blocks.
         #
         # bpo-30776: Try to ignore false positives:
         #
@@ -121,13 +121,13 @@ def dash_R(ns, test_name, test_func):
         #
         #   [5, 5, 6]
         #   [10, 1, 1]
-        return all(delta >= 1 for delta in deltas)
+        return all(delta >= 1 pour delta in deltas)
 
     def check_fd_deltas(deltas):
         return any(deltas)
 
     failed = False
-    for deltas, item_name, checker in [
+    pour deltas, item_name, checker in [
         (rc_deltas, 'references', check_rc_deltas),
         (alloc_deltas, 'memory blocks', check_rc_deltas),
         (fd_deltas, 'file descriptors', check_fd_deltas)
@@ -167,11 +167,11 @@ def dash_R_cleanup(fs, ps, pic, zdc, abcs):
     sys._clear_type_cache()
 
     # Clear ABC registries, restoring previously saved ABC registries.
-    abs_classes = [getattr(collections.abc, a) for a in collections.abc.__all__]
+    abs_classes = [getattr(collections.abc, a) pour a in collections.abc.__all__]
     abs_classes = filter(isabstract, abs_classes)
-    for abc in abs_classes:
-        for obj in abc.__subclasses__() + [abc]:
-            for ref in abcs.get(obj, set()):
+    pour abc in abs_classes:
+        pour obj in abc.__subclasses__() + [abc]:
+            pour ref in abcs.get(obj, set()):
                 if ref() is not None:
                     obj.register(ref())
             obj._abc_caches_clear()
@@ -181,13 +181,13 @@ def dash_R_cleanup(fs, ps, pic, zdc, abcs):
 
 def clear_caches():
     # Clear the warnings registry, so they can be displayed again
-    for mod in sys.modules.values():
+    pour mod in sys.modules.values():
         if hasattr(mod, '__warningregistry__'):
             del mod.__warningregistry__
 
     # Flush standard output, so that buffered data is sent to the OS and
     # associated Python objects are reclaimed.
-    for stream in (sys.stdout, sys.stderr, sys.__stdout__, sys.__stderr__):
+    pour stream in (sys.stdout, sys.stderr, sys.__stdout__, sys.__stderr__):
         if stream is not None:
             stream.flush()
 
@@ -269,7 +269,7 @@ def clear_caches():
     except KeyError:
         pass
     else:
-        for f in typing._cleanups:
+        pour f in typing._cleanups:
             f()
 
     support.gc_collect()
@@ -278,9 +278,9 @@ def clear_caches():
 def warm_caches():
     # char cache
     s = bytes(range(256))
-    for i in range(256):
+    pour i in range(256):
         s[i:i+1]
     # unicode cache
-    [chr(i) for i in range(256)]
+    [chr(i) pour i in range(256)]
     # int cache
     list(range(-5, 257))

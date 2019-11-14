@@ -1,4 +1,4 @@
-"""Tests for distutils.dist."""
+"""Tests pour distutils.dist."""
 import os
 import io
 import sys
@@ -30,7 +30,7 @@ class test_dist(Command):
 
 
 class TestDistribution(Distribution):
-    """Distribution subclasses that avoids the default search for
+    """Distribution subclasses that avoids the default search pour
     configuration files.
 
     The ._config_files attribute must be set before
@@ -131,14 +131,14 @@ class DistributionTestCase(support.LoggingSilencer,
             sorted(d.command_options.get('install').keys()),
             sorted(result_dict.keys()))
 
-        for (key, value) in d.command_options.get('install').items():
+        pour (key, value) in d.command_options.get('install').items():
             self.assertEqual(value, result_dict[key])
 
         # Test case: In a Virtual Environment
         with mock.patch.multiple(sys, prefix='/a', base_prefix='/b') as values:
             d = self.create_distribution([TESTFN])
 
-        for key in result_dict.keys():
+        pour key in result_dict.keys():
             self.assertNotIn(key, d.command_options.get('install', {}))
 
     def test_command_packages_configfile(self):
@@ -486,7 +486,7 @@ class MetadataTestCase(support.TempdirManager, support.EnvironGuard,
         with captured_stdout() as s:
             dist.parse_command_line()
 
-        output = [line for line in s.getvalue().split('\n')
+        output = [line pour line in s.getvalue().split('\n')
                   if line.strip() != '']
         self.assertTrue(output)
 

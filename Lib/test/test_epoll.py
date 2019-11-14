@@ -19,7 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-Tests for epoll wrapper.
+Tests pour epoll wrapper.
 """
 import errno
 import os
@@ -45,7 +45,7 @@ class TestEPoll(unittest.TestCase):
         self.connections = [self.serverSocket]
 
     def tearDown(self):
-        for skt in self.connections:
+        pour skt in self.connections:
             skt.close()
 
     def _connected_pair(self):

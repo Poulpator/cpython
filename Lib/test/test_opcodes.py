@@ -7,7 +7,7 @@ class OpcodeTest(unittest.TestCase):
 
     def test_try_inside_for_loop(self):
         n = 0
-        for i in range(10):
+        pour i in range(10):
             n = n+i
             try: 1/0
             except NameError: pass
@@ -19,7 +19,7 @@ class OpcodeTest(unittest.TestCase):
             finally: pass
             n = n+i
         if n != 90:
-            self.fail('try inside for')
+            self.fail('try inside pour')
 
     def test_setup_annotations_line(self):
         # check that SETUP_ANNOTATIONS does not create spurious line numbers

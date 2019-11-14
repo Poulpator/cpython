@@ -1,4 +1,4 @@
-"""Fix "for x in f.xreadlines()" -> "for x in f".
+"""Fix "pour x in f.xreadlines()" -> "pour x in f".
 
 This fixer will also convert g(f.xreadlines) into g(f.__iter__)."""
 # Author: Collin Winter
@@ -22,4 +22,4 @@ class FixXreadlines(fixer_base.BaseFix):
         if no_call:
             no_call.replace(Name("__iter__", prefix=no_call.prefix))
         else:
-            node.replace([x.clone() for x in results["call"]])
+            node.replace([x.clone() pour x in results["call"]])

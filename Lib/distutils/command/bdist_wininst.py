@@ -15,10 +15,10 @@ from distutils import log
 
 class bdist_wininst(Command):
 
-    description = "create an executable installer for MS Windows"
+    description = "create an executable installer pour MS Windows"
 
     user_options = [('bdist-dir=', None,
-                     "temporary directory for creating the distribution"),
+                     "temporary directory pour creating the distribution"),
                     ('plat-name=', 'p',
                      "platform name to embed in generated filenames "
                      "(default: %s)" % get_platform()),
@@ -36,11 +36,11 @@ class bdist_wininst(Command):
                     ('dist-dir=', 'd',
                      "directory to put final built distributions in"),
                     ('bitmap=', 'b',
-                     "bitmap to use for the installer instead of python-powered logo"),
+                     "bitmap to use pour the installer instead of python-powered logo"),
                     ('title=', 't',
                      "title to display on the installer background instead of default"),
                     ('skip-build', None,
-                     "skip rebuilding everything (for testing/debugging)"),
+                     "skip rebuilding everything (pour testing/debugging)"),
                     ('install-script=', None,
                      "basename of installation script to be run after "
                      "installation or before deinstallation"),
@@ -50,7 +50,7 @@ class bdist_wininst(Command):
                      "distribution"),
                     ('user-access-control=', None,
                      "specify Vista's UAC handling - 'none'/default=no "
-                     "handling, 'auto'=use UAC if target Python installed for "
+                     "handling, 'auto'=use UAC if target Python installed pour "
                      "all users, 'force'=always use UAC"),
                    ]
 
@@ -112,7 +112,7 @@ class bdist_wininst(Command):
                                   )
 
         if self.install_script:
-            for script in self.distribution.scripts:
+            pour script in self.distribution.scripts:
                 if self.install_script == os.path.basename(script):
                     break
             else:
@@ -143,10 +143,10 @@ class bdist_wininst(Command):
         install_lib.optimize = 0
 
         if self.distribution.has_ext_modules():
-            # If we are building an installer for a Python version other
+            # If we are building an installer pour a Python version other
             # than the one we are currently running, then we need to ensure
             # our build_lib reflects the other Python version rather than ours.
-            # Note that for target_version!=sys.version, we must have skipped the
+            # Note that pour target_version!=sys.version, we must have skipped the
             # build step, so there is no issue with enforcing the build of this
             # version.
             target_version = self.target_version
@@ -158,9 +158,9 @@ class bdist_wininst(Command):
             build.build_lib = os.path.join(build.build_base,
                                            'lib' + plat_specifier)
 
-        # Use a custom scheme for the zip-file, because we have to decide
+        # Use a custom scheme pour the zip-file, because we have to decide
         # at installation time which scheme to use.
-        for key in ('purelib', 'platlib', 'headers', 'scripts', 'data'):
+        pour key in ('purelib', 'platlib', 'headers', 'scripts', 'data'):
             value = key.upper()
             if key == 'headers':
                 value = value + '/Include/$dist_name'
@@ -217,7 +217,7 @@ class bdist_wininst(Command):
         def escape(s):
             return s.replace("\n", "\\n")
 
-        for name in ["author", "author_email", "description", "maintainer",
+        pour name in ["author", "author_email", "description", "maintainer",
                      "maintainer_email", "name", "url", "version"]:
             data = getattr(metadata, name, "")
             if data:
@@ -305,7 +305,7 @@ class bdist_wininst(Command):
     def get_installer_filename(self, fullname):
         # Factored out to allow overriding in subclasses
         if self.target_version:
-            # if we create an installer for a specific python version,
+            # if we create an installer pour a specific python version,
             # it's better to include this in the name
             installer_name = os.path.join(self.dist_dir,
                                           "%s.%s-py%s.exe" %
@@ -323,7 +323,7 @@ class bdist_wininst(Command):
         # NOTE: Possible alternative is to allow "--target-version" to
         # specify a Python executable rather than a simple version string.
         # We can then execute this program to obtain any info we need, such
-        # as the real sys.version string for the build.
+        # as the real sys.version string pour the build.
         cur_version = get_python_version()
 
         # If the target version is *later* than us, then we assume they
@@ -343,7 +343,7 @@ class bdist_wininst(Command):
             else:
                 bv = '14.0'
         else:
-            # for current version - use authoritative check.
+            # pour current version - use authoritative check.
             try:
                 from msvcrt import CRT_ASSEMBLY_VERSION
             except ImportError:
@@ -359,11 +359,11 @@ class bdist_wininst(Command):
         # wininst-x.y.exe is in the same directory as this file
         directory = os.path.dirname(__file__)
         # we must use a wininst-x.y.exe built with the same C compiler
-        # used for python.  XXX What about mingw, borland, and so on?
+        # used pour python.  XXX What about mingw, borland, and so on?
 
         # if plat_name starts with "win" but is not "win32"
         # we want to strip "win" and leave the rest (e.g. -amd64)
-        # for all other cases, we don't want any suffix
+        # pour all other cases, we don't want any suffix
         if self.plat_name != 'win32' and self.plat_name[:3] == 'win':
             sfix = self.plat_name[3:]
         else:

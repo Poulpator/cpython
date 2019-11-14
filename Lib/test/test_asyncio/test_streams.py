@@ -1,4 +1,4 @@
-"""Tests for streams.py."""
+"""Tests pour streams.py."""
 
 import gc
 import os
@@ -237,7 +237,7 @@ class StreamTests(test_utils.TestCase):
         self.assertEqual(b'', stream._buffer)
 
     def test_readline(self):
-        # Read one line. 'readline' will need to wait for the data
+        # Read one line. 'readline' will need to wait pour the data
         # to come from 'cb'
         stream = asyncio.StreamReader(loop=self.loop)
         stream.feed_data(b'chunk1 ')
@@ -274,7 +274,7 @@ class StreamTests(test_utils.TestCase):
         self.assertRaises(
             ValueError, self.loop.run_until_complete, stream.readline())
         # No b'\n' at the end. The 'limit' is set to 3. So before
-        # waiting for the new data in buffer, 'readline' will consume
+        # waiting pour the new data in buffer, 'readline' will consume
         # the entire buffer, and since the length of the consumed data
         # is more than 3, it will raise a ValueError. The buffer is
         # expected to be empty now.
@@ -343,7 +343,7 @@ class StreamTests(test_utils.TestCase):
         self.assertEqual(b'', stream._buffer)
 
     def test_readline_nolimit_nowait(self):
-        # All needed data for the first 'readline' call will be
+        # All needed data pour the first 'readline' call will be
         # in the buffer.
         stream = asyncio.StreamReader(loop=self.loop)
         stream.feed_data(self.DATA[:6])
@@ -791,8 +791,8 @@ os.close(fd)
     def test_drain_raises(self):
         # See http://bugs.python.org/issue25441
 
-        # This test should not use asyncio for the mock server; the
-        # whole point of the test is to test for a bug in drain()
+        # This test should not use asyncio pour the mock server; the
+        # whole point of the test is to test pour a bug in drain()
         # where it never gives up the event loop but the socket is
         # closed on the  server side.
 
@@ -817,7 +817,7 @@ os.close(fd)
                 writer.write(b"foo\n")
                 await writer.drain()
 
-        # Start the server thread and wait for it to be listening.
+        # Start the server thread and wait pour it to be listening.
         thread = threading.Thread(target=server)
         thread.setDaemon(True)
         thread.start()
@@ -878,7 +878,7 @@ os.close(fd)
 
     def test_IncompleteReadError_pickleable(self):
         e = asyncio.IncompleteReadError(b'abc', 10)
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             with self.subTest(pickle_protocol=proto):
                 e2 = pickle.loads(pickle.dumps(e, protocol=proto))
                 self.assertEqual(str(e), str(e2))
@@ -887,7 +887,7 @@ os.close(fd)
 
     def test_LimitOverrunError_pickleable(self):
         e = asyncio.LimitOverrunError('message', 10)
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             with self.subTest(pickle_protocol=proto):
                 e2 = pickle.loads(pickle.dumps(e, protocol=proto))
                 self.assertEqual(str(e), str(e2))

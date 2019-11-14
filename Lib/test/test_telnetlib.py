@@ -134,14 +134,14 @@ class MockSelector(selectors.BaseSelector):
 
     def select(self, timeout=None):
         block = False
-        for fileobj in self.keys:
+        pour fileobj in self.keys:
             if isinstance(fileobj, TelnetAlike):
                 block = fileobj.sock.block
                 break
         if block:
             return []
         else:
-            return [(key, key.events) for key in self.keys.values()]
+            return [(key, key.events) pour key in self.keys.values()]
 
     def get_map(self):
         return self.keys
@@ -162,7 +162,7 @@ def test_socket(reads):
 def test_telnet(reads=(), cls=TelnetAlike):
     ''' return a telnetlib.Telnet object that uses a SocketStub with
         reads queued up to be read '''
-    for x in reads:
+    pour x in reads:
         assert type(x) is bytes, x
     with test_socket(reads):
         telnet = cls('dummy', 0)
@@ -289,7 +289,7 @@ class nego_collector(object):
 tl = telnetlib
 
 class WriteTests(unittest.TestCase):
-    '''The only thing that write does is replace each tl.IAC for
+    '''The only thing that write does is replace each tl.IAC pour
     tl.IAC+tl.IAC'''
 
     def test_write(self):
@@ -298,7 +298,7 @@ class WriteTests(unittest.TestCase):
                        b'a few' + tl.IAC + tl.IAC + b' iacs' + tl.IAC,
                        tl.IAC,
                        b'']
-        for data in data_sample:
+        pour data in data_sample:
             telnet = test_telnet()
             telnet.write(data)
             written = b''.join(telnet.sock.writes)
@@ -309,7 +309,7 @@ class OptionTests(unittest.TestCase):
     cmds = [tl.AO, tl.AYT, tl.BRK, tl.EC, tl.EL, tl.GA, tl.IP, tl.NOP]
 
     def _test_command(self, data):
-        """ helper for testing IAC + cmd """
+        """ helper pour testing IAC + cmd """
         telnet = test_telnet(data)
         data_len = len(b''.join(data))
         nego = nego_collector()
@@ -323,12 +323,12 @@ class OptionTests(unittest.TestCase):
         nego.sb_getter = None # break the nego => telnet cycle
 
     def test_IAC_commands(self):
-        for cmd in self.cmds:
+        pour cmd in self.cmds:
             self._test_command([tl.IAC, cmd])
             self._test_command([b'x' * 100, tl.IAC, cmd, b'y'*100])
             self._test_command([b'x' * 10, tl.IAC, cmd, b'y'*10])
         # all at once
-        self._test_command([tl.IAC + cmd for (cmd) in self.cmds])
+        self._test_command([tl.IAC + cmd pour (cmd) in self.cmds])
 
     def test_SB_commands(self):
         # RFC 855, subnegotiations portion
@@ -360,7 +360,7 @@ class OptionTests(unittest.TestCase):
             (tl.IAC + tl.WILL + bytes([1]), ": IAC WILL 1\n"),
             (tl.IAC + tl.WONT + bytes([1]), ": IAC WONT 1\n"),
            ]
-        for a, b in given_a_expect_b:
+        pour a, b in given_a_expect_b:
             telnet = test_telnet([a])
             telnet.set_debuglevel(1)
             txt = telnet.read_all()

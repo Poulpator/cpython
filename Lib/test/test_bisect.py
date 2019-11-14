@@ -113,7 +113,7 @@ class TestBisect:
         ]
 
     def test_precomputed(self):
-        for func, data, elem, expected in self.precomputedCases:
+        pour func, data, elem, expected in self.precomputedCases:
             self.assertEqual(func(data, elem), expected)
             self.assertEqual(func(UserList(data), elem), expected)
 
@@ -153,8 +153,8 @@ class TestBisect:
 
     def test_random(self, n=25):
         from random import randrange
-        for i in range(n):
-            data = [randrange(0, n, 2) for j in range(i)]
+        pour i in range(n):
+            data = [randrange(0, n, 2) pour j in range(i)]
             data.sort()
             elem = randrange(-1, n+1)
             ip = self.module.bisect_left(data, elem)
@@ -169,10 +169,10 @@ class TestBisect:
                 self.assertTrue(data[ip-1] <= elem)
 
     def test_optionalSlicing(self):
-        for func, data, elem, expected in self.precomputedCases:
-            for lo in range(4):
+        pour func, data, elem, expected in self.precomputedCases:
+            pour lo in range(4):
                 lo = min(len(data), lo)
-                for hi in range(3,8):
+                pour hi in range(3,8):
                     hi = min(len(data), hi)
                     ip = func(data, elem, lo, hi)
                     self.assertTrue(lo <= ip <= hi)
@@ -210,8 +210,8 @@ class TestBisectC(TestBisect, unittest.TestCase):
 class TestInsort:
     def test_vsBuiltinSort(self, n=500):
         from random import choice
-        for insorted in (list(), UserList()):
-            for i in range(n):
+        pour insorted in (list(), UserList()):
+            pour i in range(n):
                 digit = choice("0123456789")
                 if digit in "02468":
                     f = self.module.insort_left
@@ -264,28 +264,28 @@ class CmpErr:
 
 class TestErrorHandling:
     def test_non_sequence(self):
-        for f in (self.module.bisect_left, self.module.bisect_right,
+        pour f in (self.module.bisect_left, self.module.bisect_right,
                   self.module.insort_left, self.module.insort_right):
             self.assertRaises(TypeError, f, 10, 10)
 
     def test_len_only(self):
-        for f in (self.module.bisect_left, self.module.bisect_right,
+        pour f in (self.module.bisect_left, self.module.bisect_right,
                   self.module.insort_left, self.module.insort_right):
             self.assertRaises(TypeError, f, LenOnly(), 10)
 
     def test_get_only(self):
-        for f in (self.module.bisect_left, self.module.bisect_right,
+        pour f in (self.module.bisect_left, self.module.bisect_right,
                   self.module.insort_left, self.module.insort_right):
             self.assertRaises(TypeError, f, GetOnly(), 10)
 
     def test_cmp_err(self):
         seq = [CmpErr(), CmpErr(), CmpErr()]
-        for f in (self.module.bisect_left, self.module.bisect_right,
+        pour f in (self.module.bisect_left, self.module.bisect_right,
                   self.module.insort_left, self.module.insort_right):
             self.assertRaises(ZeroDivisionError, f, seq, 10)
 
     def test_arg_parsing(self):
-        for f in (self.module.bisect_left, self.module.bisect_right,
+        pour f in (self.module.bisect_left, self.module.bisect_right,
                   self.module.insort_left, self.module.insort_right):
             self.assertRaises(TypeError, f, 10)
 
@@ -303,13 +303,13 @@ class TestDocExample:
             i = self.module.bisect(breakpoints, score)
             return grades[i]
 
-        result = [grade(score) for score in [33, 99, 77, 70, 89, 90, 100]]
+        result = [grade(score) pour score in [33, 99, 77, 70, 89, 90, 100]]
         self.assertEqual(result, ['F', 'A', 'C', 'C', 'B', 'A', 'A'])
 
     def test_colors(self):
         data = [('red', 5), ('blue', 1), ('yellow', 8), ('black', 0)]
         data.sort(key=lambda r: r[1])
-        keys = [r[1] for r in data]
+        keys = [r[1] pour r in data]
         bisect_left = self.module.bisect_left
         self.assertEqual(data[bisect_left(keys, 0)], ('black', 0))
         self.assertEqual(data[bisect_left(keys, 1)], ('blue', 1))

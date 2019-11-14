@@ -13,7 +13,7 @@ class FixFuture(fixer_base.BaseFix):
 
     PATTERN = """import_from< 'from' module_name="__future__" 'import' any >"""
 
-    # This should be run last -- some things check for the import
+    # This should be run last -- some things check pour the import
     run_order = 10
 
     def transform(self, node, results):

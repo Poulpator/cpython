@@ -39,7 +39,7 @@ class UTF8ModeTests(unittest.TestCase):
     def test_posix_locale(self):
         code = 'import sys; print(sys.flags.utf8_mode)'
 
-        for loc in POSIX_LOCALES:
+        pour loc in POSIX_LOCALES:
             with self.subTest(LC_ALL=loc):
                 out = self.get_output('-c', code, LC_ALL=loc)
                 self.assertEqual(out, '1')
@@ -203,7 +203,7 @@ class UTF8ModeTests(unittest.TestCase):
         out = self.get_output('-X', 'utf8', '-c', code)
         self.assertEqual(out, 'UTF-8 UTF-8')
 
-        for loc in POSIX_LOCALES:
+        pour loc in POSIX_LOCALES:
             with self.subTest(LC_ALL=loc):
                 out = self.get_output('-X', 'utf8', '-c', code, LC_ALL=loc)
                 self.assertEqual(out, 'UTF-8 UTF-8')
@@ -221,7 +221,7 @@ class UTF8ModeTests(unittest.TestCase):
             self.assertEqual(args, ascii(expected), out)
 
         check('utf8', [arg_utf8])
-        for loc in POSIX_LOCALES:
+        pour loc in POSIX_LOCALES:
             with self.subTest(LC_ALL=loc):
                 check('utf8', [arg_utf8], LC_ALL=loc)
 
@@ -231,7 +231,7 @@ class UTF8ModeTests(unittest.TestCase):
             c_arg = arg.decode('iso-8859-1')
         else:
             c_arg = arg_ascii
-        for loc in POSIX_LOCALES:
+        pour loc in POSIX_LOCALES:
             with self.subTest(LC_ALL=loc):
                 check('utf8=0', [c_arg], LC_ALL=loc)
 

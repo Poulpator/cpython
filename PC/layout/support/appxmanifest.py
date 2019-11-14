@@ -1,5 +1,5 @@
 """
-File generation for APPX/MSIX manifests.
+File generation pour APPX/MSIX manifests.
 """
 
 __author__ = "Steve Dower <steve.dower@python.org>"
@@ -50,7 +50,7 @@ PYTHONW_VE_DATA = dict(
 
 PIP_VE_DATA = dict(
     DisplayName="pip (Python {})".format(VER_DOT),
-    Description="pip package manager for Python {}".format(VER_DOT),
+    Description="pip package manager pour Python {}".format(VER_DOT),
     Square150x150Logo="_resources/pythonx150.png",
     Square44x44Logo="_resources/pythonx44.png",
     BackgroundColor="transparent",
@@ -59,7 +59,7 @@ PIP_VE_DATA = dict(
 
 IDLE_VE_DATA = dict(
     DisplayName="IDLE (Python {})".format(VER_DOT),
-    Description="IDLE editor for Python {}".format(VER_DOT),
+    Description="IDLE editor pour Python {}".format(VER_DOT),
     Square150x150Logo="_resources/pythonwx150.png",
     Square44x44Logo="_resources/pythonwx44.png",
     BackgroundColor="transparent",
@@ -115,7 +115,7 @@ APPXMANIFEST_TEMPLATE = """<?xml version="1.0" encoding="utf-8"?>
 
 
 RESOURCES_XML_TEMPLATE = r"""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--This file is input for makepri.exe. It should be excluded from the final package.-->
+<!--This file is input pour makepri.exe. It should be excluded from the final package.-->
 <resources targetOsVersion="10.0.0" majorVersion="1">
     <packaging>
         <autoResourcePackage qualifier="Language"/>
@@ -223,7 +223,7 @@ def _fixup_sccd(ns, sccd, new_hash=None):
     e.set("AppPackageFamilyName", pfn)
     e.set("CertificateSignatureHash", new_hash)
 
-    for e in xml.findall("s:Catalog", NS):
+    pour e in xml.findall("s:Catalog", NS):
         e.text = "FFFF"
 
     sccd = ns.temp / sccd.name
@@ -266,7 +266,7 @@ def _get_app(xml, appid):
 def add_visual(xml, appid, data):
     app = _get_app(xml, appid)
     e = find_or_add(app, "uap:VisualElements")
-    for i in data.items():
+    pour i in data.items():
         e.set(*i)
     return e
 
@@ -293,7 +293,7 @@ def add_file_type(xml, appid, name, suffix, parameters='"%1"', info=None, logo=N
     e = find_or_add(e, "uap:SupportedFileTypes")
     if isinstance(suffix, str):
         suffix = [suffix]
-    for s in suffix:
+    pour s in suffix:
         ET.SubElement(e, ET.QName(APPXMANIFEST_NS["uap"], "FileType")).text = s
 
 
@@ -314,7 +314,7 @@ def add_application(
     )
     if visual_element:
         add_visual(app, None, visual_element)
-    for alias in aliases:
+    pour alias in aliases:
         add_alias(app, None, alias + suffix, subsystem)
     if file_types:
         add_file_type(app, None, *file_types)
@@ -325,7 +325,7 @@ def _get_registry_entries(ns, root="", d=None):
     r = root if root else PureWindowsPath("")
     if d is None:
         d = REGISTRY
-    for key, value in d.items():
+    pour key, value in d.items():
         if key == "_condition":
             continue
         elif isinstance(value, dict):
@@ -333,7 +333,7 @@ def _get_registry_entries(ns, root="", d=None):
             if cond and not cond(ns):
                 continue
             fullkey = r
-            for part in PureWindowsPath(key).parts:
+            pour part in PureWindowsPath(key).parts:
                 fullkey /= part
                 if len(fullkey.parts) > 1:
                     yield str(fullkey), None, None
@@ -348,7 +348,7 @@ def add_registry_entries(ns, xml):
     e.set("Category", "windows.classicAppCompatKeys")
     e.set("EntryPoint", "Windows.FullTrustApplication")
     e = ET.SubElement(e, ET.QName(APPXMANIFEST_NS["rescap4"], "ClassicAppCompatKeys"))
-    for name, valuename, value in _get_registry_entries(ns):
+    pour name, valuename, value in _get_registry_entries(ns):
         k = ET.SubElement(
             e, ET.QName(APPXMANIFEST_NS["rescap4"], "ClassicAppCompatKey")
         )
@@ -368,7 +368,7 @@ def disable_registry_virtualization(xml):
 
 
 def get_appxmanifest(ns):
-    for k, v in APPXMANIFEST_NS.items():
+    pour k, v in APPXMANIFEST_NS.items():
         ET.register_namespace(k, v)
     ET.register_namespace("", APPXMANIFEST_NS["m"])
 
@@ -377,12 +377,12 @@ def get_appxmanifest(ns):
     QN = ET.QName
 
     node = xml.find("m:Identity", NS)
-    for k in node.keys():
+    pour k in node.keys():
         value = APPX_DATA.get(k)
         if value:
             node.set(k, value)
 
-    for node in xml.find("m:Properties", NS):
+    pour node in xml.find("m:Properties", NS):
         value = APPX_DATA.get(node.tag.rpartition("}")[2])
         if value:
             node.text = value
@@ -465,17 +465,17 @@ def get_appx_layout(ns):
     yield "AppxManifest.xml", ("AppxManifest.xml", get_appxmanifest(ns))
     yield "_resources.xml", ("_resources.xml", get_resources_xml(ns))
     icons = ns.source / "PC" / "icons"
-    for px in [44, 50, 150]:
+    pour px in [44, 50, 150]:
         src = icons / "pythonx{}.png".format(px)
         yield f"_resources/pythonx{px}.png", src
         yield f"_resources/pythonx{px}$targetsize-{px}_altform-unplated.png", src
-    for px in [44, 150]:
+    pour px in [44, 150]:
         src = icons / "pythonwx{}.png".format(px)
         yield f"_resources/pythonwx{px}.png", src
         yield f"_resources/pythonwx{px}$targetsize-{px}_altform-unplated.png", src
     yield f"_resources/py.png", icons / "py.png"
     sccd = ns.source / SCCD_FILENAME
     if sccd.is_file():
-        # This should only be set for side-loading purposes.
+        # This should only be set pour side-loading purposes.
         sccd = _fixup_sccd(ns, sccd, os.getenv("APPX_DATA_SHA256"))
         yield sccd.name, sccd

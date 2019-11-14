@@ -26,13 +26,13 @@ class BaseRobotTest:
         return self.agent, url
 
     def test_good_urls(self):
-        for url in self.good:
+        pour url in self.good:
             agent, url = self.get_agent_and_url(url)
             with self.subTest(url=url, agent=agent):
                 self.assertTrue(self.parser.can_fetch(agent, url))
 
     def test_bad_urls(self):
-        for url in self.bad:
+        pour url in self.bad:
             agent, url = self.get_agent_and_url(url)
             with self.subTest(url=url, agent=agent):
                 self.assertFalse(self.parser.can_fetch(agent, url))
@@ -54,7 +54,7 @@ Disallow: /foo.html
 
 class CrawlDelayAndCustomAgentTest(BaseRobotTest, unittest.TestCase):
     robots_txt = """\
-# robots.txt for http://www.example.com/
+# robots.txt pour http://www.example.com/
 
 User-agent: *
 Crawl-delay: 1
@@ -71,7 +71,7 @@ Disallow:
 
 class SitemapTest(BaseRobotTest, unittest.TestCase):
     robots_txt = """\
-# robots.txt for http://www.example.com/
+# robots.txt pour http://www.example.com/
 
 User-agent: *
 Sitemap: http://www.gstatic.com/s2/sitemaps/profiles-sitemap.xml
@@ -102,7 +102,7 @@ class BaseRequestRateTest(BaseRobotTest):
 
     def test_request_rate(self):
         parser = self.parser
-        for url in self.good + self.bad:
+        pour url in self.good + self.bad:
             agent, url = self.get_agent_and_url(url)
             with self.subTest(url=url, agent=agent):
                 self.assertEqual(parser.crawl_delay(agent), self.crawl_delay)
@@ -225,7 +225,7 @@ Disallow: /folder1/
 
 
 class DisallowQueryStringTest(BaseRobotTest, unittest.TestCase):
-    # see issue #6325 for details
+    # see issue #6325 pour details
     robots_txt = """\
 User-agent: *
 Disallow: /some/path?name=value

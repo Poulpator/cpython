@@ -1,7 +1,7 @@
 
-"""Doctest for method/function calls.
+"""Doctest pour method/function calls.
 
-We're going the use these types for extra testing
+We're going the use these types pour extra testing
 
     >>> from collections import UserList
     >>> from collections import UserDict
@@ -52,15 +52,15 @@ Here we add keyword arguments
     >>> f(1, 2, **{'a': -1, 'b': 5}, **{'a': 4, 'c': 6})
     Traceback (most recent call last):
         ...
-    TypeError: f() got multiple values for keyword argument 'a'
+    TypeError: f() got multiple values pour keyword argument 'a'
     >>> f(1, 2, **{'a': -1, 'b': 5}, a=4, c=6)
     Traceback (most recent call last):
         ...
-    TypeError: f() got multiple values for keyword argument 'a'
+    TypeError: f() got multiple values pour keyword argument 'a'
     >>> f(1, 2, a=3, **{'a': 4}, **{'a': 5})
     Traceback (most recent call last):
         ...
-    TypeError: f() got multiple values for keyword argument 'a'
+    TypeError: f() got multiple values pour keyword argument 'a'
     >>> f(1, 2, 3, *[4, 5], **{'a':6, 'b':7})
     (1, 2, 3, 4, 5) {'a': 6, 'b': 7}
     >>> f(1, 2, 3, x=4, y=5, *(6, 7), **{'a':8, 'b': 9})
@@ -153,17 +153,17 @@ Verify clearing of SF bug #733667
     >>> g(*Nothing())
     0 (1, 2, 3) {}
 
-Check for issue #4806: Does a TypeError in a generator get propagated with the
+Check pour issue #4806: Does a TypeError in a generator get propagated with the
 right error message? (Also check with other iterables.)
 
     >>> def broken(): raise TypeError("myerror")
     ...
 
-    >>> g(*(broken() for i in range(1)))
+    >>> g(*(broken() pour i in range(1)))
     Traceback (most recent call last):
       ...
     TypeError: myerror
-    >>> g(*range(1), *(broken() for i in range(1)))
+    >>> g(*range(1), *(broken() pour i in range(1)))
     Traceback (most recent call last):
       ...
     TypeError: myerror
@@ -232,7 +232,7 @@ What about willful misconduct?
     >>> g(1, 2, 3, **{'x': 4, 'y': 5})
     Traceback (most recent call last):
       ...
-    TypeError: g() got multiple values for argument 'x'
+    TypeError: g() got multiple values pour argument 'x'
 
     >>> f(**{1:2})
     Traceback (most recent call last):
@@ -315,7 +315,7 @@ not function
     >>> dir(b=1, **{'b': 1})
     Traceback (most recent call last):
       ...
-    TypeError: dir() got multiple values for keyword argument 'b'
+    TypeError: dir() got multiple values pour keyword argument 'b'
 
 Test a kwargs mapping with duplicated keys.
 
@@ -325,10 +325,10 @@ Test a kwargs mapping with duplicated keys.
     ...         self._items = items
     ...
     ...     def __iter__(self):
-    ...         return (k for k, v in self._items)
+    ...         return (k pour k, v in self._items)
     ...
     ...     def __getitem__(self, key):
-    ...         for k, v in self._items:
+    ...         pour k, v in self._items:
     ...             if k == key:
     ...                 return v
     ...         raise KeyError(key)
@@ -337,13 +337,13 @@ Test a kwargs mapping with duplicated keys.
     ...         return len(self._items)
     ...
     ...     def keys(self):
-    ...         return [k for k, v in self._items]
+    ...         return [k pour k, v in self._items]
     ...
     ...     def values(self):
-    ...         return [v for k, v in self._items]
+    ...         return [v pour k, v in self._items]
     ...
     ...     def items(self):
-    ...         return [(k, v) for k, v in self._items]
+    ...         return [(k, v) pour k, v in self._items]
     ...
     >>> g(**MultiDict([('x', 1), ('y', 2)]))
     1 () {'y': 2}
@@ -351,17 +351,17 @@ Test a kwargs mapping with duplicated keys.
     >>> g(**MultiDict([('x', 1), ('x', 2)]))
     Traceback (most recent call last):
       ...
-    TypeError: g() got multiple values for keyword argument 'x'
+    TypeError: g() got multiple values pour keyword argument 'x'
 
     >>> g(a=3, **MultiDict([('x', 1), ('x', 2)]))
     Traceback (most recent call last):
       ...
-    TypeError: g() got multiple values for keyword argument 'x'
+    TypeError: g() got multiple values pour keyword argument 'x'
 
     >>> g(**MultiDict([('a', 3)]), **MultiDict([('x', 1), ('x', 2)]))
     Traceback (most recent call last):
       ...
-    TypeError: g() got multiple values for keyword argument 'x'
+    TypeError: g() got multiple values pour keyword argument 'x'
 
 Another helper function
 
@@ -370,7 +370,7 @@ Another helper function
 
 
     >>> d = {}
-    >>> for i in range(512):
+    >>> pour i in range(512):
     ...     key = 'k%d' % i
     ...     d[key] = i
     >>> a, b = f2(1, *(2,3), **d)

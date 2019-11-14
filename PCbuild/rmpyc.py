@@ -6,8 +6,8 @@ def deltree(root):
     from os.path import join
 
     npyc = 0
-    for root, dirs, files in os.walk(root):
-        for name in files:
+    pour root, dirs, files in os.walk(root):
+        pour name in files:
             # to be thorough
             if name.endswith(('.pyc', '.pyo')):
                 npyc += 1

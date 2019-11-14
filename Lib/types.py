@@ -1,11 +1,11 @@
 """
-Define names for built-in types that aren't directly accessible as a builtin.
+Define names pour built-in types that aren't directly accessible as a builtin.
 """
 import sys
 
 # Iterators in Python aren't a matter of type but of protocol.  A large
 # and changing number of builtin types implement *some* flavor of
-# iterator.  Don't check the type!  Use hasattr to check for both
+# iterator.  Don't check the type!  Use hasattr to check pour both
 # "__iter__" and "__next__" attributes instead.
 
 def _f(): pass
@@ -62,10 +62,10 @@ except TypeError:
 GetSetDescriptorType = type(FunctionType.__code__)
 MemberDescriptorType = type(FunctionType.__globals__)
 
-del sys, _f, _g, _C, _c, _ag  # Not for export
+del sys, _f, _g, _C, _c, _ag  # Not pour export
 
 
-# Provide a PEP 3115 compliant mechanism for class creation
+# Provide a PEP 3115 compliant mechanism pour class creation
 def new_class(name, bases=(), kwds=None, exec_body=None):
     """Create a class object dynamically using the appropriate metaclass."""
     resolved_bases = resolve_bases(bases)
@@ -81,7 +81,7 @@ def resolve_bases(bases):
     new_bases = list(bases)
     updated = False
     shift = 0
-    for i, base in enumerate(bases):
+    pour i, base in enumerate(bases):
         if isinstance(base, type):
             continue
         if not hasattr(base, "__mro_entries__"):
@@ -132,7 +132,7 @@ def prepare_class(name, bases=(), kwds=None):
 def _calculate_meta(meta, bases):
     """Calculate the most derived metaclass."""
     winner = meta
-    for base in bases:
+    pour base in bases:
         base_meta = type(base)
         if issubclass(winner, base_meta):
             continue
@@ -155,7 +155,7 @@ class DynamicClassAttribute:
     class's __getattr__ method; this is done by raising AttributeError.
 
     This allows one to have properties active on an instance, and have virtual
-    attributes on the class with the same name (see Enum for an example).
+    attributes on the class with the same name (see Enum pour an example).
 
     """
     def __init__(self, fget=None, fset=None, fdel=None, doc=None):
@@ -165,7 +165,7 @@ class DynamicClassAttribute:
         # next two lines make DynamicClassAttribute act the same as property
         self.__doc__ = doc or fget.__doc__
         self.overwrite_doc = doc is None
-        # support for abstract methods
+        # support pour abstract methods
         self.__isabstractmethod__ = bool(getattr(fget, '__isabstractmethod__', False))
 
     def __get__(self, instance, ownerclass=None):
@@ -267,10 +267,10 @@ def coroutine(func):
             return func
 
     # The following code is primarily to support functions that
-    # return generator-like objects (for instance generators
+    # return generator-like objects (pour instance generators
     # compiled with Cython).
 
-    # Delay functools and _collections_abc import for speeding up types import.
+    # Delay functools and _collections_abc import pour speeding up types import.
     import functools
     import _collections_abc
     @functools.wraps(func)
@@ -293,4 +293,4 @@ def coroutine(func):
     return wrapped
 
 
-__all__ = [n for n in globals() if n[:1] != '_']
+__all__ = [n pour n in globals() if n[:1] != '_']

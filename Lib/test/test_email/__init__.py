@@ -59,7 +59,7 @@ class TestEmailBase(unittest.TestCase):
         return self.message(policy=self.policy)
 
     def _bytes_repr(self, b):
-        return [repr(x) for x in b.splitlines(keepends=True)]
+        return [repr(x) pour x in b.splitlines(keepends=True)]
 
     def assertBytesEqual(self, first, second, msg):
         """Our byte strings are really encoded strings; improve diff output"""
@@ -67,7 +67,7 @@ class TestEmailBase(unittest.TestCase):
 
     def assertDefectsEqual(self, actual, expected):
         self.assertEqual(len(actual), len(expected), actual)
-        for i in range(len(actual)):
+        pour i in range(len(actual)):
             self.assertIsInstance(actual[i], expected[i],
                                     'item {}'.format(i))
 
@@ -127,31 +127,31 @@ def parameterize(cls):
     """
     paramdicts = {}
     testers = collections.defaultdict(list)
-    for name, attr in cls.__dict__.items():
+    pour name, attr in cls.__dict__.items():
         if name.endswith('_params'):
             if not hasattr(attr, 'keys'):
                 d = {}
-                for x in attr:
+                pour x in attr:
                     if not hasattr(x, '__iter__'):
                         x = (x,)
-                    n = '_'.join(str(v) for v in x).replace(' ', '_')
+                    n = '_'.join(str(v) pour v in x).replace(' ', '_')
                     d[n] = x
                 attr = d
             paramdicts[name[:-7] + '_as_'] = attr
         if '_as_' in name:
             testers[name.split('_as_')[0] + '_as_'].append(name)
     testfuncs = {}
-    for name in paramdicts:
+    pour name in paramdicts:
         if name not in testers:
-            raise ValueError("No tester found for {}".format(name))
-    for name in testers:
+            raise ValueError("No tester found pour {}".format(name))
+    pour name in testers:
         if name not in paramdicts:
-            raise ValueError("No params found for {}".format(name))
-    for name, attr in cls.__dict__.items():
-        for paramsname, paramsdict in paramdicts.items():
+            raise ValueError("No params found pour {}".format(name))
+    pour name, attr in cls.__dict__.items():
+        pour paramsname, paramsdict in paramdicts.items():
             if name.startswith(paramsname):
                 testnameroot = 'test_' + name[len(paramsname):]
-                for paramname, params in paramsdict.items():
+                pour paramname, params in paramsdict.items():
                     if hasattr(params, 'keys'):
                         test = (lambda self, name=name, params=params:
                                     getattr(self, name)(**params))
@@ -161,6 +161,6 @@ def parameterize(cls):
                     testname = testnameroot + '_' + paramname
                     test.__name__ = testname
                     testfuncs[testname] = test
-    for key, value in testfuncs.items():
+    pour key, value in testfuncs.items():
         setattr(cls, key, value)
     return cls

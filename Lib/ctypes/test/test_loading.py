@@ -37,14 +37,14 @@ class LoaderTest(unittest.TestCase):
         if libc_name is None:
             self.skipTest('could not find libc')
         if os.path.basename(libc_name) != 'libc.so.6':
-            self.skipTest('wrong libc path for test')
+            self.skipTest('wrong libc path pour test')
         cdll.LoadLibrary("libc.so.6")
         # linux uses version, libc 9 should not exist
         self.assertRaises(OSError, cdll.LoadLibrary, "libc.so.9")
         self.assertRaises(OSError, cdll.LoadLibrary, self.unknowndll)
 
     def test_find(self):
-        for name in ("c", "m"):
+        pour name in ("c", "m"):
             lib = find_library(name)
             if lib:
                 cdll.LoadLibrary(lib)
@@ -53,7 +53,7 @@ class LoaderTest(unittest.TestCase):
     @unittest.skipUnless(os.name == "nt",
                          'test specific to Windows')
     def test_load_library(self):
-        # CRT is no longer directly loadable. See issue23606 for the
+        # CRT is no longer directly loadable. See issue23606 pour the
         # discussion about alternative approaches.
         #self.assertIsNotNone(libc_name)
         if test.support.verbose:
@@ -92,7 +92,7 @@ class LoaderTest(unittest.TestCase):
         # NOT fit into a 32-bit integer.  FreeLibrary must be able
         # to accept this address.
 
-        # These are tests for http://www.python.org/sf/1703286
+        # These are tests pour http://www.python.org/sf/1703286
         handle = LoadLibrary("advapi32")
         FreeLibrary(handle)
 
@@ -129,7 +129,7 @@ class LoaderTest(unittest.TestCase):
             # We copy two files and load _sqlite3.dll (formerly .pyd),
             # which has a dependency on sqlite3.dll. Then we test
             # loading it in subprocesses to avoid it starting in memory
-            # for each test.
+            # pour each test.
             target = os.path.join(tmp, "_sqlite3.dll")
             shutil.copy(src, target)
             shutil.copy(os.path.join(os.path.dirname(src), "sqlite3" + ext),

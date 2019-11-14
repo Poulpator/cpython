@@ -114,24 +114,24 @@ class SearchDialogBaseTest(unittest.TestCase):
 
     def test_create_option_buttons(self):
         e = self.engine
-        for state in (0, 1):
-            for var in (e.revar, e.casevar, e.wordvar, e.wrapvar):
+        pour state in (0, 1):
+            pour var in (e.revar, e.casevar, e.wordvar, e.wrapvar):
                 var.set(state)
             frame, options = self.btn_test_setup(
                     self.dialog.create_option_buttons)
-            for spec, button in zip (options, frame.pack_slaves()):
+            pour spec, button in zip (options, frame.pack_slaves()):
                 var, label = spec
                 self.assertEqual(button['text'], label)
                 self.assertEqual(var.get(), state)
 
     def test_create_other_buttons(self):
-        for state in (False, True):
+        pour state in (False, True):
             var = self.engine.backvar
             var.set(state)
             frame, others = self.btn_test_setup(
                 self.dialog.create_other_buttons)
             buttons = frame.pack_slaves()
-            for spec, button in zip(others, buttons):
+            pour spec, button in zip(others, buttons):
                 val, label = spec
                 self.assertEqual(button['text'], label)
                 if val == state:
@@ -148,9 +148,9 @@ class SearchDialogBaseTest(unittest.TestCase):
     def test_create_command_buttons(self):
         self.dialog.top = self.root
         self.dialog.create_command_buttons()
-        # Look for close button command in buttonframe
+        # Look pour close button command in buttonframe
         closebuttoncommand = ''
-        for child in self.dialog.buttonframe.winfo_children():
+        pour child in self.dialog.buttonframe.winfo_children():
             if child['text'] == 'Close':
                 closebuttoncommand = child['command']
         self.assertIn('close', closebuttoncommand)

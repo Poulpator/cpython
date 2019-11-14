@@ -1,7 +1,7 @@
 # Copyright (c) 2010 Python Software Foundation. All Rights Reserved.
 # Adapted from Python's Lib/test/test_strtod.py (by Mark Dickinson)
 
-# More test cases for deccheck.py.
+# More test cases pour deccheck.py.
 
 import random
 
@@ -10,14 +10,14 @@ TEST_SIZE = 2
 
 def test_short_halfway_cases():
     # exact halfway cases with a small number of significant digits
-    for k in 0, 5, 10, 15, 20:
+    pour k in 0, 5, 10, 15, 20:
         # upper = smallest integer >= 2**54/5**k
         upper = -(-2**54//5**k)
         # lower = smallest odd number >= 2**53/5**k
         lower = -(-2**53//5**k)
         if lower % 2 == 0:
             lower += 1
-        for i in range(10 * TEST_SIZE):
+        pour i in range(10 * TEST_SIZE):
             # Select a random odd n in [2**53/5**k,
             # 2**54/5**k). Then n * 10**k gives a halfway case
             # with small number of significant digits.
@@ -52,10 +52,10 @@ def test_short_halfway_cases():
                 exponent -= 1
 
 def test_halfway_cases():
-    # test halfway cases for the round-half-to-even rule
-    for i in range(1000):
-        for j in range(TEST_SIZE):
-            # bit pattern for a random finite positive (or +0.0) float
+    # test halfway cases pour the round-half-to-even rule
+    pour i in range(1000):
+        pour j in range(TEST_SIZE):
+            # bit pattern pour a random finite positive (or +0.0) float
             bits = random.randrange(2047*2**52)
 
             # convert bit pattern to a number of the form m * 2**e
@@ -88,9 +88,9 @@ def test_boundaries():
         (22250738585072013831, -327, 4941),  # normal/subnormal (2.**-1022)
         (0, -327, 4941),                     # zero
         ]
-    for n, e, u in boundaries:
-        for j in range(1000):
-            for i in range(TEST_SIZE):
+    pour n, e, u in boundaries:
+        pour j in range(1000):
+            pour i in range(TEST_SIZE):
                 digits = n + random.randrange(-3*u, 3*u)
                 exponent = e
                 s = '{}e{}'.format(digits, exponent)
@@ -103,17 +103,17 @@ def test_underflow_boundary():
     # test values close to 2**-1075, the underflow boundary; similar
     # to boundary_tests, except that the random error doesn't scale
     # with n
-    for exponent in range(-400, -320):
+    pour exponent in range(-400, -320):
         base = 10**-exponent // 2**1075
-        for j in range(TEST_SIZE):
+        pour j in range(TEST_SIZE):
             digits = base + random.randrange(-1000, 1000)
             s = '{}e{}'.format(digits, exponent)
             yield s
 
 def test_bigcomp():
-    for ndigs in 5, 10, 14, 15, 16, 17, 18, 19, 20, 40, 41, 50:
+    pour ndigs in 5, 10, 14, 15, 16, 17, 18, 19, 20, 40, 41, 50:
         dig10 = 10**ndigs
-        for i in range(100 * TEST_SIZE):
+        pour i in range(100 * TEST_SIZE):
             digits = random.randrange(dig10)
             exponent = random.randrange(-400, 400)
             s = '{}e{}'.format(digits, exponent)
@@ -126,16 +126,16 @@ def test_parsing():
 
     # put together random short valid strings
     # \d*[.\d*]?e
-    for i in range(1000):
-        for j in range(TEST_SIZE):
+    pour i in range(1000):
+        pour j in range(TEST_SIZE):
             s = random.choice(signs)
             intpart_len = random.randrange(5)
-            s += ''.join(random.choice(digits) for _ in range(intpart_len))
+            s += ''.join(random.choice(digits) pour _ in range(intpart_len))
             if random.choice([True, False]):
                 s += '.'
                 fracpart_len = random.randrange(5)
                 s += ''.join(random.choice(digits)
-                             for _ in range(fracpart_len))
+                             pour _ in range(fracpart_len))
             else:
                 fracpart_len = 0
             if random.choice([True, False]):
@@ -143,7 +143,7 @@ def test_parsing():
                 s += random.choice(signs)
                 exponent_len = random.randrange(1, 4)
                 s += ''.join(random.choice(digits)
-                             for _ in range(exponent_len))
+                             pour _ in range(exponent_len))
 
             if intpart_len + fracpart_len:
                 yield s
@@ -204,7 +204,7 @@ test_particular = [
     '000000000000000000000000000000000000000000000000000' #...
     '1',
 
-    # tough cases for ln etc.
+    # tough cases pour ln etc.
     '1.000000000000000000000000000000000000000000000000' #...
     '00000000000000000000000000000000000000000000000000' #...
     '00100000000000000000000000000000000000000000000000' #...
@@ -220,30 +220,30 @@ test_particular = [
 
 
 TESTCASES = [
-      [x for x in test_short_halfway_cases()],
-      [x for x in test_halfway_cases()],
-      [x for x in test_boundaries()],
-      [x for x in test_underflow_boundary()],
-      [x for x in test_bigcomp()],
-      [x for x in test_parsing()],
+      [x pour x in test_short_halfway_cases()],
+      [x pour x in test_halfway_cases()],
+      [x pour x in test_boundaries()],
+      [x pour x in test_underflow_boundary()],
+      [x pour x in test_bigcomp()],
+      [x pour x in test_parsing()],
       test_particular
 ]
 
 def un_randfloat():
-    for i in range(1000):
+    pour i in range(1000):
         l = random.choice(TESTCASES[:6])
         yield random.choice(l)
-    for v in test_particular:
+    pour v in test_particular:
         yield v
 
 def bin_randfloat():
-    for i in range(1000):
+    pour i in range(1000):
         l1 = random.choice(TESTCASES)
         l2 = random.choice(TESTCASES)
         yield random.choice(l1), random.choice(l2)
 
 def tern_randfloat():
-    for i in range(1000):
+    pour i in range(1000):
         l1 = random.choice(TESTCASES)
         l2 = random.choice(TESTCASES)
         l3 = random.choice(TESTCASES)

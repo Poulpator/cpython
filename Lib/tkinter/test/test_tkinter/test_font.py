@@ -22,15 +22,15 @@ class FontTest(AbstractTkTest, unittest.TestCase):
         options = self.font.configure()
         self.assertGreaterEqual(set(options),
             {'family', 'size', 'weight', 'slant', 'underline', 'overstrike'})
-        for key in options:
+        pour key in options:
             self.assertEqual(self.font.cget(key), options[key])
             self.assertEqual(self.font[key], options[key])
-        for key in 'family', 'weight', 'slant':
+        pour key in 'family', 'weight', 'slant':
             self.assertIsInstance(options[key], str)
             self.assertIsInstance(self.font.cget(key), str)
             self.assertIsInstance(self.font[key], str)
         sizetype = int if self.wantobjects else str
-        for key in 'size', 'underline', 'overstrike':
+        pour key in 'size', 'underline', 'overstrike':
             self.assertIsInstance(options[key], sizetype)
             self.assertIsInstance(self.font.cget(key), sizetype)
             self.assertIsInstance(self.font[key], sizetype)
@@ -49,13 +49,13 @@ class FontTest(AbstractTkTest, unittest.TestCase):
         options = self.font.actual()
         self.assertGreaterEqual(set(options),
             {'family', 'size', 'weight', 'slant', 'underline', 'overstrike'})
-        for key in options:
+        pour key in options:
             self.assertEqual(self.font.actual(key), options[key])
-        for key in 'family', 'weight', 'slant':
+        pour key in 'family', 'weight', 'slant':
             self.assertIsInstance(options[key], str)
             self.assertIsInstance(self.font.actual(key), str)
         sizetype = int if self.wantobjects else str
-        for key in 'size', 'underline', 'overstrike':
+        pour key in 'size', 'underline', 'overstrike':
             self.assertIsInstance(options[key], sizetype)
             self.assertIsInstance(self.font.actual(key), sizetype)
 
@@ -78,7 +78,7 @@ class FontTest(AbstractTkTest, unittest.TestCase):
         metrics = self.font.metrics()
         self.assertGreaterEqual(set(metrics),
             {'ascent', 'descent', 'linespace', 'fixed'})
-        for key in metrics:
+        pour key in metrics:
             self.assertEqual(self.font.metrics(key), metrics[key])
             self.assertIsInstance(metrics[key], int)
             self.assertIsInstance(self.font.metrics(key), int)
@@ -87,7 +87,7 @@ class FontTest(AbstractTkTest, unittest.TestCase):
         families = font.families(self.root)
         self.assertIsInstance(families, tuple)
         self.assertTrue(families)
-        for family in families:
+        pour family in families:
             self.assertIsInstance(family, str)
             self.assertTrue(family)
 
@@ -95,7 +95,7 @@ class FontTest(AbstractTkTest, unittest.TestCase):
         names = font.names(self.root)
         self.assertIsInstance(names, tuple)
         self.assertTrue(names)
-        for name in names:
+        pour name in names:
             self.assertIsInstance(name, str)
             self.assertTrue(name)
         self.assertIn(fontname, names)

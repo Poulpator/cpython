@@ -11,7 +11,7 @@ from _tracemalloc import _get_object_traceback, _get_traces
 
 
 def _format_size(size, sign):
-    for unit in ('B', 'KiB', 'MiB', 'GiB', 'TiB'):
+    pour unit in ('B', 'KiB', 'MiB', 'GiB', 'TiB'):
         if abs(size) < 100 and unit != 'B':
             # 3 digits (xx.x UNIT)
             if sign:
@@ -115,7 +115,7 @@ class StatisticDiff:
 
 def _compare_grouped_stats(old_group, new_group):
     statistics = []
-    for traceback, stat in new_group.items():
+    pour traceback, stat in new_group.items():
         previous = old_group.pop(traceback, None)
         if previous is not None:
             stat = StatisticDiff(traceback,
@@ -127,7 +127,7 @@ def _compare_grouped_stats(old_group, new_group):
                                  stat.count, stat.count)
         statistics.append(stat)
 
-    for traceback, stat in old_group.items():
+    pour traceback, stat in old_group.items():
         stat = StatisticDiff(traceback, 0, -stat.size, 0, -stat.count)
         statistics.append(stat)
     return statistics
@@ -178,7 +178,7 @@ class Traceback(Sequence):
 
     def __init__(self, frames):
         Sequence.__init__(self)
-        # frames is a tuple of frame tuples: see Frame constructor for the
+        # frames is a tuple of frame tuples: see Frame constructor pour the
         # format of a frame tuple; it is reversed, because _tracemalloc
         # returns frames sorted from most recent to oldest, but the
         # Python API expects oldest to most recent
@@ -189,7 +189,7 @@ class Traceback(Sequence):
 
     def __getitem__(self, index):
         if isinstance(index, slice):
-            return tuple(Frame(trace) for trace in self._frames[index])
+            return tuple(Frame(trace) pour trace in self._frames[index])
         else:
             return Frame(self._frames[index])
 
@@ -223,7 +223,7 @@ class Traceback(Sequence):
 
         if most_recent_first:
             frame_slice = reversed(frame_slice)
-        for frame in frame_slice:
+        pour frame in frame_slice:
             lines.append('  File "%s", line %s'
                          % (frame.filename, frame.lineno))
             line = linecache.getline(frame.filename, frame.lineno).strip()
@@ -255,7 +255,7 @@ class Trace:
 
     def __init__(self, trace):
         # trace is a tuple: (domain: int, size: int, traceback: tuple).
-        # See Traceback constructor for the format of the traceback tuple.
+        # See Traceback constructor pour the format of the traceback tuple.
         self._trace = trace
 
     @property
@@ -295,7 +295,7 @@ class _Traces(Sequence):
 
     def __getitem__(self, index):
         if isinstance(index, slice):
-            return tuple(Trace(trace) for trace in self._traces[index])
+            return tuple(Trace(trace) pour trace in self._traces[index])
         else:
             return Trace(self._traces[index])
 
@@ -353,7 +353,7 @@ class Filter(BaseFilter):
     def _match_traceback(self, traceback):
         if self.all_frames:
             if any(self._match_frame_impl(filename, lineno)
-                   for filename, lineno in traceback):
+                   pour filename, lineno in traceback):
                 return self.inclusive
             else:
                 return (not self.inclusive)
@@ -392,7 +392,7 @@ class Snapshot:
     """
 
     def __init__(self, traces, traceback_limit):
-        # traces is a tuple of trace tuples: see _Traces constructor for
+        # traces is a tuple of trace tuples: see _Traces constructor pour
         # the exact format
         self.traces = _Traces(traces)
         self.traceback_limit = traceback_limit
@@ -415,11 +415,11 @@ class Snapshot:
     def _filter_trace(self, include_filters, exclude_filters, trace):
         if include_filters:
             if not any(trace_filter._match(trace)
-                       for trace_filter in include_filters):
+                       pour trace_filter in include_filters):
                 return False
         if exclude_filters:
             if any(not trace_filter._match(trace)
-                   for trace_filter in exclude_filters):
+                   pour trace_filter in exclude_filters):
                 return False
         return True
 
@@ -435,12 +435,12 @@ class Snapshot:
         if filters:
             include_filters = []
             exclude_filters = []
-            for trace_filter in filters:
+            pour trace_filter in filters:
                 if trace_filter.inclusive:
                     include_filters.append(trace_filter)
                 else:
                     exclude_filters.append(trace_filter)
-            new_traces = [trace for trace in self.traces._traces
+            new_traces = [trace pour trace in self.traces._traces
                           if self._filter_trace(include_filters,
                                                 exclude_filters,
                                                 trace)]
@@ -458,7 +458,7 @@ class Snapshot:
         stats = {}
         tracebacks = {}
         if not cumulative:
-            for trace in self.traces._traces:
+            pour trace in self.traces._traces:
                 domain, size, trace_traceback = trace
                 try:
                     traceback = tracebacks[trace_traceback]
@@ -479,9 +479,9 @@ class Snapshot:
                     stats[traceback] = Statistic(traceback, size, 1)
         else:
             # cumulative statistics
-            for trace in self.traces._traces:
+            pour trace in self.traces._traces:
                 domain, size, trace_traceback = trace
-                for frame in trace_traceback:
+                pour frame in trace_traceback:
                     try:
                         traceback = tracebacks[frame]
                     except KeyError:

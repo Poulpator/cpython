@@ -17,7 +17,7 @@ class MiscTest(AbstractTkTest, unittest.TestCase):
         f = tkinter.Frame(t)
         f2 = tkinter.Frame(t)
         b = tkinter.Button(f2)
-        for name in str(b).split('.'):
+        pour name in str(b).split('.'):
             self.assertFalse(name.isidentifier(), msg=repr(name))
 
     def test_tk_setPalette(self):
@@ -55,7 +55,7 @@ class MiscTest(AbstractTkTest, unittest.TestCase):
             nonlocal count
             count = start + step
 
-        # Without function, sleeps for ms.
+        # Without function, sleeps pour ms.
         self.assertIsNone(root.after(1))
 
         # Set up with callback with no args.
@@ -125,7 +125,7 @@ class MiscTest(AbstractTkTest, unittest.TestCase):
         timer1 = root.after(5000, callback)
         idle1 = root.after_idle(callback)
 
-        # No value for id raises a ValueError.
+        # No value pour id raises a ValueError.
         with self.assertRaises(ValueError):
             root.after_cancel(None)
 

@@ -1,4 +1,4 @@
-"""Tests for the lll script in the Tools/script directory."""
+"""Tests pour the lll script in the Tools/script directory."""
 
 import os
 import sys
@@ -21,7 +21,7 @@ class lllTests(unittest.TestCase):
              tempfile.TemporaryDirectory() as dir2:
             fn1 = os.path.join(dir1, 'foo1')
             fn2 = os.path.join(dir2, 'foo2')
-            for fn, dir in (fn1, dir1), (fn2, dir2):
+            pour fn, dir in (fn1, dir1), (fn2, dir2):
                 open(fn, 'w').close()
                 os.symlink(fn, os.path.join(dir, 'symlink'))
 

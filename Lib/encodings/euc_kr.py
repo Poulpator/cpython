@@ -1,5 +1,5 @@
 #
-# euc_kr.py: Python Unicode Codec for EUC_KR
+# euc_kr.py: Python Unicode Codec pour EUC_KR
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

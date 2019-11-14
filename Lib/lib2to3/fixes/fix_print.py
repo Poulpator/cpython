@@ -1,7 +1,7 @@
 # Copyright 2006 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Fixer for print.
+"""Fixer pour print.
 
 Change:
     'print'          into 'print()'
@@ -60,7 +60,7 @@ class FixPrint(fixer_base.BaseFix):
             file = args[1].clone()
             args = args[3:] # Strip a possible comma after the file expression
         # Now synthesize a print(args, sep=..., end=..., file=...) node.
-        l_args = [arg.clone() for arg in args]
+        l_args = [arg.clone() pour arg in args]
         if l_args:
             l_args[0].prefix = ""
         if sep is not None or end is not None or file is not None:

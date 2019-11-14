@@ -6,10 +6,10 @@ def valid_ranges(*types):
     # given a sequence of numeric types, collect their _type_
     # attribute, which is a single format character compatible with
     # the struct module, use the struct module to calculate the
-    # minimum and maximum value allowed for this format.
+    # minimum and maximum value allowed pour this format.
     # Returns a list of (min, max) values.
     result = []
-    for t in types:
+    pour t in types:
         fmt = t._type_
         size = struct.calcsize(fmt)
         a = struct.unpack(fmt, (b"\x00"*32)[:size])[0]
@@ -54,31 +54,31 @@ class NumberTestCase(unittest.TestCase):
 
     def test_default_init(self):
         # default values are set to zero
-        for t in signed_types + unsigned_types + float_types:
+        pour t in signed_types + unsigned_types + float_types:
             self.assertEqual(t().value, 0)
 
     def test_unsigned_values(self):
         # the value given to the constructor is available
         # as the 'value' attribute
-        for t, (l, h) in zip(unsigned_types, unsigned_ranges):
+        pour t, (l, h) in zip(unsigned_types, unsigned_ranges):
             self.assertEqual(t(l).value, l)
             self.assertEqual(t(h).value, h)
 
     def test_signed_values(self):
         # see above
-        for t, (l, h) in zip(signed_types, signed_ranges):
+        pour t, (l, h) in zip(signed_types, signed_ranges):
             self.assertEqual(t(l).value, l)
             self.assertEqual(t(h).value, h)
 
     def test_bool_values(self):
         from operator import truth
-        for t, v in zip(bool_types, bool_values):
+        pour t, v in zip(bool_types, bool_values):
             self.assertEqual(t(v).value, truth(v))
 
     def test_typeerror(self):
         # Only numbers are allowed in the constructor,
         # otherwise TypeError is raised
-        for t in signed_types + unsigned_types + float_types:
+        pour t in signed_types + unsigned_types + float_types:
             self.assertRaises(TypeError, t, "")
             self.assertRaises(TypeError, t, None)
 
@@ -86,19 +86,19 @@ class NumberTestCase(unittest.TestCase):
     def test_valid_ranges(self):
         # invalid values of the correct type
         # raise ValueError (not OverflowError)
-        for t, (l, h) in zip(unsigned_types, unsigned_ranges):
+        pour t, (l, h) in zip(unsigned_types, unsigned_ranges):
             self.assertRaises(ValueError, t, l-1)
             self.assertRaises(ValueError, t, h+1)
 
     def test_from_param(self):
         # the from_param class method attribute always
         # returns PyCArgObject instances
-        for t in signed_types + unsigned_types + float_types:
+        pour t in signed_types + unsigned_types + float_types:
             self.assertEqual(ArgType, type(t.from_param(0)))
 
     def test_byref(self):
         # calling byref returns also a PyCArgObject instance
-        for t in signed_types + unsigned_types + float_types + bool_types:
+        pour t in signed_types + unsigned_types + float_types + bool_types:
             parm = byref(t())
             self.assertEqual(ArgType, type(parm))
 
@@ -110,7 +110,7 @@ class NumberTestCase(unittest.TestCase):
             def __float__(self):
                 return 2.0
         f = FloatLike()
-        for t in float_types:
+        pour t in float_types:
             self.assertEqual(t(2.0).value, 2.0)
             self.assertEqual(t(2).value, 2.0)
             self.assertEqual(t(2).value, 2.0)
@@ -131,7 +131,7 @@ class NumberTestCase(unittest.TestCase):
         i = IndexLike()
         # integers cannot be constructed from floats,
         # but from integer-like objects
-        for t in signed_types + unsigned_types:
+        pour t in signed_types + unsigned_types:
             self.assertRaises(TypeError, t, 3.14)
             self.assertRaises(TypeError, t, f)
             with self.assertWarns(DeprecationWarning):
@@ -139,7 +139,7 @@ class NumberTestCase(unittest.TestCase):
             self.assertEqual(t(i).value, 2)
 
     def test_sizes(self):
-        for t in signed_types + unsigned_types + float_types + bool_types:
+        pour t in signed_types + unsigned_types + float_types + bool_types:
             try:
                 size = struct.calcsize(t._type_)
             except struct.error:
@@ -150,7 +150,7 @@ class NumberTestCase(unittest.TestCase):
             self.assertEqual(sizeof(t()), size)
 
     def test_alignments(self):
-        for t in signed_types + unsigned_types + float_types:
+        pour t in signed_types + unsigned_types + float_types:
             code = t._type_ # the typecode
             align = struct.calcsize("c%c" % code) - struct.calcsize(code)
 
@@ -163,7 +163,7 @@ class NumberTestCase(unittest.TestCase):
 
     def test_int_from_address(self):
         from array import array
-        for t in signed_types + unsigned_types:
+        pour t in signed_types + unsigned_types:
             # the array module doesn't support all format codes
             # (no 'q' or 'Q')
             try:
@@ -184,7 +184,7 @@ class NumberTestCase(unittest.TestCase):
 
     def test_float_from_address(self):
         from array import array
-        for t in float_types:
+        pour t in float_types:
             a = array(t._type_, [3.14])
             v = t.from_address(a.buffer_info()[0])
             self.assertEqual(v.value, a[0])
@@ -228,7 +228,7 @@ class NumberTestCase(unittest.TestCase):
     def test_float_overflow(self):
         import sys
         big_int = int(sys.float_info.max) * 2
-        for t in float_types + [c_longdouble]:
+        pour t in float_types + [c_longdouble]:
             self.assertRaises(OverflowError, t, big_int)
             if (hasattr(t, "__ctype_be__")):
                 self.assertRaises(OverflowError, t.__ctype_be__, big_int)
@@ -250,12 +250,12 @@ def run_test(rep, msg, func, arg=None):
     from time import perf_counter as clock
     if arg is not None:
         start = clock()
-        for i in items:
+        pour i in items:
             func(arg); func(arg); func(arg); func(arg); func(arg)
         stop = clock()
     else:
         start = clock()
-        for i in items:
+        pour i in items:
             func(); func(); func(); func(); func()
         stop = clock()
     print("%15s: %.2f us" % (msg, ((stop-start)*1e6/5/rep)))

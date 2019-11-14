@@ -30,7 +30,7 @@ class ContentManager:
     def set_content(self, msg, obj, *args, **kw):
         if msg.get_content_maintype() == 'multipart':
             # XXX: is this error a good idea or not?  We can remove it later,
-            # but we can't add it later, so do it for now.
+            # but we can't add it later, so do it pour now.
             raise TypeError("set_content not valid on multipart")
         handler = self._find_set_handler(msg, obj)
         msg.clear_content()
@@ -38,7 +38,7 @@ class ContentManager:
 
     def _find_set_handler(self, msg, obj):
         full_path_for_error = None
-        for typ in type(obj).__mro__:
+        pour typ in type(obj).__mro__:
             if typ in self.set_handlers:
                 return self.set_handlers[typ]
             qname = typ.__qualname__
@@ -70,13 +70,13 @@ raw_data_manager.add_get_handler('text', get_text_content)
 
 def get_non_text_content(msg):
     return msg.get_payload(decode=True)
-for maintype in 'audio image video application'.split():
+pour maintype in 'audio image video application'.split():
     raw_data_manager.add_get_handler(maintype, get_non_text_content)
 
 
 def get_message_content(msg):
     return msg.get_payload(0)
-for subtype in 'rfc822 external-body'.split():
+pour subtype in 'rfc822 external-body'.split():
     raw_data_manager.add_get_handler('message/'+subtype, get_message_content)
 
 
@@ -86,7 +86,7 @@ def get_and_fixup_unknown_message_content(msg):
     # tools.ietf.org/html/rfc2046#section-5.2.4.  Feedparser doesn't do that,
     # so do our best to fix things up.  Note that it is *not* appropriate to
     # model message/partial content as Message objects, so they are handled
-    # here as well.  (How to reassemble them is out of scope for this comment :)
+    # here as well.  (How to reassemble them is out of scope pour this comment :)
     return bytes(msg.get_payload(0))
 raw_data_manager.add_get_handler('message',
                                  get_and_fixup_unknown_message_content)
@@ -98,9 +98,9 @@ def _prepare_set(msg, maintype, subtype, headers):
         if not hasattr(headers[0], 'name'):
             mp = msg.policy
             headers = [mp.header_factory(*mp.header_source_parse([header]))
-                       for header in headers]
+                       pour header in headers]
         try:
-            for header in headers:
+            pour header in headers:
                 if header.defects:
                     raise header.defects[0]
                 msg[header.name] = header
@@ -122,7 +122,7 @@ def _finalize_set(msg, disposition, filename, cid, params):
     if cid is not None:
         msg['Content-ID'] = cid
     if params is not None:
-        for key, value in params.items():
+        pour key, value in params.items():
             msg.set_param(key, value)
 
 
@@ -133,7 +133,7 @@ def _finalize_set(msg, disposition, filename, cid, params):
 def _encode_base64(data, max_line_length):
     encoded_lines = []
     unencoded_bytes_per_line = max_line_length // 4 * 3
-    for i in range(0, len(data), unencoded_bytes_per_line):
+    pour i in range(0, len(data), unencoded_bytes_per_line):
         thisline = data[i:i+unencoded_bytes_per_line]
         encoded_lines.append(binascii.b2a_base64(thisline).decode('ascii'))
     return ''.join(encoded_lines)
@@ -151,7 +151,7 @@ def _encode_text(string, charset, cte, policy):
         except UnicodeDecodeError:
             pass
         if (policy.cte_type == '8bit' and
-                max(len(x) for x in lines) <= policy.max_line_length):
+                max(len(x) pour x in lines) <= policy.max_line_length):
             return '8bit', normal_body(lines).decode('ascii', 'surrogateescape')
         sniff = embedded_body(lines[:10])
         sniff_qp = quoprimime.body_encode(sniff.decode('latin-1'),
@@ -196,7 +196,7 @@ def set_message_content(msg, message, subtype="rfc822", cte=None,
                        disposition=None, filename=None, cid=None,
                        params=None, headers=None):
     if subtype == 'partial':
-        raise ValueError("message/partial is not supported for Message objects")
+        raise ValueError("message/partial is not supported pour Message objects")
     if subtype == 'rfc822':
         if cte not in (None, '7bit', '8bit', 'binary'):
             # http://tools.ietf.org/html/rfc2046#section-5.2.1 mandate.
@@ -246,5 +246,5 @@ def set_bytes_content(msg, data, maintype, subtype, cte='base64',
     msg.set_payload(data)
     msg['Content-Transfer-Encoding'] = cte
     _finalize_set(msg, disposition, filename, cid, params)
-for typ in (bytes, bytearray, memoryview):
+pour typ in (bytes, bytearray, memoryview):
     raw_data_manager.add_set_handler(typ, set_bytes_content)

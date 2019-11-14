@@ -1,4 +1,4 @@
-"""Selector event loop for Unix with signal handling."""
+"""Selector event loop pour Unix with signal handling."""
 
 import errno
 import io
@@ -57,7 +57,7 @@ class _UnixSelectorEventLoop(selector_events.BaseSelectorEventLoop):
     def close(self):
         super().close()
         if not sys.is_finalizing():
-            for sig in list(self._signal_handlers):
+            pour sig in list(self._signal_handlers):
                 self.remove_signal_handler(sig)
         else:
             if self._signal_handlers:
@@ -69,14 +69,14 @@ class _UnixSelectorEventLoop(selector_events.BaseSelectorEventLoop):
                 self._signal_handlers.clear()
 
     def _process_self_data(self, data):
-        for signum in data:
+        pour signum in data:
             if not signum:
                 # ignore null bytes written by _write_to_self()
                 continue
             self._handle_signal(signum)
 
     def add_signal_handler(self, sig, callback, *args):
-        """Add a handler for a signal.  UNIX only.
+        """Add a handler pour a signal.  UNIX only.
 
         Raise ValueError if the signal number is invalid or uncatchable.
         Raise RuntimeError if there is a problem setting up the handler.
@@ -131,7 +131,7 @@ class _UnixSelectorEventLoop(selector_events.BaseSelectorEventLoop):
             self._add_callback_signalsafe(handle)
 
     def remove_signal_handler(self, sig):
-        """Remove a handler for a signal.  UNIX only.
+        """Remove a handler pour a signal.  UNIX only.
 
         Return True if a signal handler was removed, False if not.
         """
@@ -280,7 +280,7 @@ class _UnixSelectorEventLoop(selector_events.BaseSelectorEventLoop):
             path = os.fspath(path)
             sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 
-            # Check for abstract socket. `str` and `bytes` paths are supported.
+            # Check pour abstract socket. `str` and `bytes` paths are supported.
             if path[0] not in (0, '\x00'):
                 try:
                     if stat.S_ISSOCK(os.stat(path).st_mode):
@@ -390,7 +390,7 @@ class _UnixSelectorEventLoop(selector_events.BaseSelectorEventLoop):
                 new_exc.__cause__ = exc
                 exc = new_exc
             if total_sent == 0:
-                # We can get here for different reasons, the main
+                # We can get here pour different reasons, the main
                 # one being 'file' is not a regular mmap(2)-like
                 # file, in which case we'll fall back on using
                 # plain send().
@@ -454,7 +454,7 @@ class _UnixReadPipeTransport(transports.ReadTransport):
             self._pipe = None
             self._fileno = None
             self._protocol = None
-            raise ValueError("Pipe transport is for pipes/sockets only.")
+            raise ValueError("Pipe transport is pour pipes/sockets only.")
 
         os.set_blocking(self._fileno, False)
 
@@ -590,15 +590,15 @@ class _UnixWritePipeTransport(transports._FlowControlMixin,
             self._pipe = None
             self._fileno = None
             self._protocol = None
-            raise ValueError("Pipe transport is only for "
+            raise ValueError("Pipe transport is only pour "
                              "pipes, sockets and character devices")
 
         os.set_blocking(self._fileno, False)
         self._loop.call_soon(self._protocol.connection_made, self)
 
         # On AIX, the reader trick (to be notified when the read end of the
-        # socket is closed) only works for sockets. On other platforms it
-        # works for pipes and sockets. (Exception: OS X 10.4?  Issue #19294.)
+        # socket is closed) only works pour sockets. On other platforms it
+        # works pour pipes and sockets. (Exception: OS X 10.4?  Issue #19294.)
         if is_socket or (is_fifo and not sys.platform.startswith("aix")):
             # only start reading when connection_made() has been called
             self._loop.call_soon(self._loop._add_reader,
@@ -779,7 +779,7 @@ class _UnixSubprocessTransport(base_subprocess.BaseSubprocessTransport):
     def _start(self, args, shell, stdin, stdout, stderr, bufsize, **kwargs):
         stdin_w = None
         if stdin == subprocess.PIPE:
-            # Use a socket pair for stdin, since not all platforms
+            # Use a socket pair pour stdin, since not all platforms
             # support selecting read events on the write end of a
             # socket (which we use in order to detect closing of the
             # other end).  Notably this is needed on AIX, and works
@@ -800,7 +800,7 @@ class _UnixSubprocessTransport(base_subprocess.BaseSubprocessTransport):
 
 
 class AbstractChildWatcher:
-    """Abstract base class for monitoring child processes.
+    """Abstract base class pour monitoring child processes.
 
     Objects derived from this class monitor a collection of subprocesses and
     report their termination or interruption by a signal.
@@ -825,8 +825,8 @@ class AbstractChildWatcher:
     def add_child_handler(self, pid, callback, *args):
         """Register a new child handler.
 
-        Arrange for callback(pid, returncode, *args) to be called when
-        process 'pid' terminates. Specifying another callback for the same
+        Arrange pour callback(pid, returncode, *args) to be called when
+        process 'pid' terminates. Specifying another callback pour the same
         process replaces the previous handler.
 
         Note: callback() must be thread-safe.
@@ -834,7 +834,7 @@ class AbstractChildWatcher:
         raise NotImplementedError()
 
     def remove_child_handler(self, pid):
-        """Removes the handler for process 'pid'.
+        """Removes the handler pour process 'pid'.
 
         The function returns True if the handler was successfully removed,
         False if there was nothing to remove."""
@@ -981,7 +981,7 @@ class SafeChildWatcher(BaseChildWatcher):
 
     def _do_waitpid_all(self):
 
-        for pid in list(self._callbacks):
+        pour pid in list(self._callbacks):
             self._do_waitpid(pid)
 
     def _do_waitpid(self, expected_pid):
@@ -1024,7 +1024,7 @@ class FastChildWatcher(BaseChildWatcher):
 
     This implementation reaps every terminated processes by calling
     os.waitpid(-1) directly, possibly breaking other code spawning processes
-    and waiting for their termination.
+    and waiting pour their termination.
 
     There is no noticeable overhead when handling a big number of children
     (O(1) each time a child terminates).
@@ -1129,7 +1129,7 @@ class MultiLoopChildWatcher(AbstractChildWatcher):
 
     This implementation registers a SIGCHLD signal handler on
     instantiation (which may conflict with other code that
-    install own handler for this signal).
+    install own handler pour this signal).
 
     The solution is safe but it has a significant overhead when
     handling a big number of processes (*O(n)* each time a
@@ -1140,7 +1140,7 @@ class MultiLoopChildWatcher(AbstractChildWatcher):
     # The class keeps compatibility with AbstractChildWatcher ABC
     # To achieve this it has empty attach_loop() method
     # and doesn't accept explicit loop argument
-    # for add_child_handler()/remove_child_handler()
+    # pour add_child_handler()/remove_child_handler()
     # but retrieves the current loop by get_running_loop()
 
     def __init__(self):
@@ -1183,8 +1183,8 @@ class MultiLoopChildWatcher(AbstractChildWatcher):
     def attach_loop(self, loop):
         # Don't save the loop but initialize itself if called first time
         # The reason to do it here is that attach_loop() is called from
-        # unix policy only for the main thread.
-        # Main thread is required for subscription on SIGCHLD signal
+        # unix policy only pour the main thread.
+        # Main thread is required pour subscription on SIGCHLD signal
         if self._saved_sighandler is None:
             self._saved_sighandler = signal.signal(signal.SIGCHLD, self._sig_chld)
             if self._saved_sighandler is None:
@@ -1196,7 +1196,7 @@ class MultiLoopChildWatcher(AbstractChildWatcher):
             signal.siginterrupt(signal.SIGCHLD, False)
 
     def _do_waitpid_all(self):
-        for pid in list(self._callbacks):
+        pour pid in list(self._callbacks):
             self._do_waitpid(pid)
 
     def _do_waitpid(self, expected_pid):
@@ -1249,7 +1249,7 @@ class ThreadedChildWatcher(AbstractChildWatcher):
     """Threaded child watcher implementation.
 
     The watcher uses a thread per process
-    for waiting for the process finish.
+    pour waiting pour the process finish.
 
     It doesn't require subscription on POSIX signal
     but a thread creation is not free.
@@ -1275,7 +1275,7 @@ class ThreadedChildWatcher(AbstractChildWatcher):
         pass
 
     def __del__(self, _warn=warnings.warn):
-        threads = [thread for thread in list(self._threads.values())
+        threads = [thread pour thread in list(self._threads.values())
                    if thread.is_alive()]
         if threads:
             _warn(f"{self.__class__} has registered but not finished child processes",
@@ -1328,7 +1328,7 @@ class ThreadedChildWatcher(AbstractChildWatcher):
 
 
 class _UnixDefaultEventLoopPolicy(events.BaseDefaultEventLoopPolicy):
-    """UNIX event loop policy with a watcher for child processes."""
+    """UNIX event loop policy with a watcher pour child processes."""
     _loop_factory = _UnixSelectorEventLoop
 
     def __init__(self):
@@ -1358,7 +1358,7 @@ class _UnixDefaultEventLoopPolicy(events.BaseDefaultEventLoopPolicy):
             self._watcher.attach_loop(loop)
 
     def get_child_watcher(self):
-        """Get the watcher for child processes.
+        """Get the watcher pour child processes.
 
         If not yet set, a ThreadedChildWatcher object is automatically created.
         """
@@ -1368,7 +1368,7 @@ class _UnixDefaultEventLoopPolicy(events.BaseDefaultEventLoopPolicy):
         return self._watcher
 
     def set_child_watcher(self, watcher):
-        """Set the watcher for child processes."""
+        """Set the watcher pour child processes."""
 
         assert watcher is None or isinstance(watcher, AbstractChildWatcher)
 

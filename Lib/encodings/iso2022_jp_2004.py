@@ -1,5 +1,5 @@
 #
-# iso2022_jp_2004.py: Python Unicode Codec for ISO2022_JP_2004
+# iso2022_jp_2004.py: Python Unicode Codec pour ISO2022_JP_2004
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

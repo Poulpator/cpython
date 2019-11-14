@@ -20,13 +20,13 @@ class NisTests(unittest.TestCase):
             pass
 
         done = 0
-        for nismap in maps:
+        pour nismap in maps:
             mapping = nis.cat(nismap)
-            for k, v in mapping.items():
+            pour k, v in mapping.items():
                 if not k:
                     continue
                 if nis.match(k, nismap) != v:
-                    self.fail("NIS match failed for key `%s' in map `%s'" % (k, nismap))
+                    self.fail("NIS match failed pour key `%s' in map `%s'" % (k, nismap))
                 else:
                     # just test the one key, otherwise this test could take a
                     # very long time

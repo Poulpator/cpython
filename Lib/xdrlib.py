@@ -12,10 +12,10 @@ __all__ = ["Error", "Packer", "Unpacker", "ConversionError"]
 
 # exceptions
 class Error(Exception):
-    """Exception class for this module. Use:
+    """Exception class pour this module. Use:
 
     except xdrlib.Error as var:
-        # var has the Error instance for the exception
+        # var has the Error instance pour the exception
 
     Public ivars:
         msg -- contains the message
@@ -111,7 +111,7 @@ class Packer:
     pack_bytes = pack_string
 
     def pack_list(self, list, pack_item):
-        for item in list:
+        pour item in list:
             self.pack_uint(1)
             pack_item(item)
         self.pack_uint(0)
@@ -119,7 +119,7 @@ class Packer:
     def pack_farray(self, n, list, pack_item):
         if len(list) != n:
             raise ValueError('wrong array size')
-        for item in list:
+        pour item in list:
             pack_item(item)
 
     def pack_array(self, list, pack_item):
@@ -232,7 +232,7 @@ class Unpacker:
 
     def unpack_farray(self, n, unpack_item):
         list = []
-        for i in range(n):
+        pour i in range(n):
             list.append(unpack_item())
         return list
 

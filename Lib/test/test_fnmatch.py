@@ -1,4 +1,4 @@
-"""Test cases for the fnmatch module."""
+"""Test cases pour the fnmatch module."""
 
 import unittest
 import os

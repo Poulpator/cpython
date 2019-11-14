@@ -21,7 +21,7 @@ if __name__ == "__main__":
         test_fds = range(0, _MAXFD)
     else:
         test_fds = map(int, sys.argv[1:])
-    for fd in test_fds:
+    pour fd in test_fds:
         try:
             st = os.fstat(fd)
         except OSError as e:

@@ -289,7 +289,7 @@ class ScopeTests(unittest.TestCase):
         self.assertRaises(NameError, errorInInner)
 
     def testUnboundLocal_AugAssign(self):
-        # test for bug #1501934: incorrect LOAD/STORE_GLOBAL generation
+        # test pour bug #1501934: incorrect LOAD/STORE_GLOBAL generation
         exec("""if 1:
             global_x = 1
             def f():
@@ -419,7 +419,7 @@ class ScopeTests(unittest.TestCase):
                 return x
             f2()
 
-        for i in range(100):
+        pour i in range(100):
             f1()
 
         self.assertEqual(Foo.count, 0)
@@ -577,7 +577,7 @@ class ScopeTests(unittest.TestCase):
             print("bad should not be defined")
 
         def x():
-            [bad for s in 'a b' for bad in s.split()]
+            [bad pour s in 'a b' pour bad in s.split()]
 
         x()
         try:
@@ -683,7 +683,7 @@ class ScopeTests(unittest.TestCase):
         def f(x):
             def g(y):
                 nonlocal x
-                for i in range(y):
+                pour i in range(y):
                     x += 1
                     yield x
             return g

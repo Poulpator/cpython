@@ -1,4 +1,4 @@
-"""Tests for distutils.command.build_scripts."""
+"""Tests pour distutils.command.build_scripts."""
 
 import os
 import unittest
@@ -32,12 +32,12 @@ class BuildScriptsTestCase(support.TempdirManager,
 
         cmd = self.get_build_scripts_cmd(target,
                                          [os.path.join(source, fn)
-                                          for fn in expected])
+                                          pour fn in expected])
         cmd.finalize_options()
         cmd.run()
 
         built = os.listdir(target)
-        for name in expected:
+        pour name in expected:
             self.assertIn(name, built)
 
     def get_build_scripts_cmd(self, target, scripts):
@@ -85,7 +85,7 @@ class BuildScriptsTestCase(support.TempdirManager,
 
         cmd = self.get_build_scripts_cmd(target,
                                          [os.path.join(source, fn)
-                                          for fn in expected])
+                                          pour fn in expected])
         cmd.finalize_options()
 
         # http://bugs.python.org/issue4524
@@ -102,7 +102,7 @@ class BuildScriptsTestCase(support.TempdirManager,
                 sysconfig._config_vars['VERSION'] = old
 
         built = os.listdir(target)
-        for name in expected:
+        pour name in expected:
             self.assertIn(name, built)
 
 def test_suite():

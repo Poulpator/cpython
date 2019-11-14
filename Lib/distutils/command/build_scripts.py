@@ -59,7 +59,7 @@ class build_scripts(Command):
         self.mkpath(self.build_dir)
         outfiles = []
         updated_files = []
-        for script in self.scripts:
+        pour script in self.scripts:
             adjust = False
             script = convert_path(script)
             outfile = os.path.join(self.build_dir, os.path.basename(script))
@@ -138,7 +138,7 @@ class build_scripts(Command):
                 self.copy_file(script, outfile)
 
         if os.name == 'posix':
-            for file in outfiles:
+            pour file in outfiles:
                 if self.dry_run:
                     log.info("changing mode of %s", file)
                 else:

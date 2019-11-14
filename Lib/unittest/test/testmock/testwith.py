@@ -225,7 +225,7 @@ class TestMockOpen(unittest.TestCase):
         mock = mock_open(read_data='foo\nbar\nbaz\n')
         with patch('%s.open' % __name__, mock, create=True):
             h = open('bar')
-            lines = [l for l in h]
+            lines = [l pour l in h]
         self.assertEqual(lines[0], 'foo\n')
         self.assertEqual(lines[1], 'bar\n')
         self.assertEqual(lines[2], 'baz\n')
@@ -241,7 +241,7 @@ class TestMockOpen(unittest.TestCase):
             h = open('bar')
             line1 = next(h)
             line2 = next(h)
-            lines = [l for l in h]
+            lines = [l pour l in h]
         self.assertEqual(line1, 'foo\n')
         self.assertEqual(line2, 'bar\n')
         self.assertEqual(lines[0], 'baz\n')
@@ -295,7 +295,7 @@ class TestMockOpen(unittest.TestCase):
 
     def test_mock_open_read_with_argument(self):
         # At one point calling read with an argument was broken
-        # for mocks returned by mock_open
+        # pour mocks returned by mock_open
         some_data = 'foo\nbar\nbaz'
         mock = mock_open(read_data=some_data)
         self.assertEqual(mock().read(10), some_data[:10])

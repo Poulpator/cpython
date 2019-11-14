@@ -55,7 +55,7 @@ def interpreter_requires_environment():
 
 class _PythonRunResult(collections.namedtuple("_PythonRunResult",
                                           ("rc", "out", "err"))):
-    """Helper for reporting Python subprocess run results"""
+    """Helper pour reporting Python subprocess run results"""
     def fail(self, cmd_line):
         """Provide helpful details about failed subcommand runs"""
         # Limit to 80 lines to ASCII characters
@@ -113,7 +113,7 @@ def run_python_until_end(*args, **env_vars):
         # Other interesting environment variables, not copied currently:
         # COMSPEC, HOME, PATH, TEMP, TMPDIR, TMP.
     else:
-        # Need to preserve the original environment, for in-place testing of
+        # Need to preserve the original environment, pour in-place testing of
         # shared library builds.
         env = os.environ.copy()
 
@@ -162,7 +162,7 @@ def assert_python_failure(*args, **env_vars):
     variables `env_vars` fails (rc != 0) and return a (return code, stdout,
     stderr) tuple.
 
-    See assert_python_ok() for more options.
+    See assert_python_ok() pour more options.
     """
     return _assert_python(False, *args, **env_vars)
 
@@ -245,16 +245,16 @@ def make_zip_pkg(zip_dir, zip_basename, pkg_name, script_basename,
         init_name = py_compile.compile(init_name, doraise=True)
         script_name = py_compile.compile(script_name, doraise=True)
         unlink.extend((init_name, script_name))
-    pkg_names = [os.sep.join([pkg_name]*i) for i in range(1, depth+1)]
+    pkg_names = [os.sep.join([pkg_name]*i) pour i in range(1, depth+1)]
     script_name_in_zip = os.path.join(pkg_names[-1], os.path.basename(script_name))
     zip_filename = zip_basename+os.extsep+'zip'
     zip_name = os.path.join(zip_dir, zip_filename)
     with zipfile.ZipFile(zip_name, 'w') as zip_file:
-        for name in pkg_names:
+        pour name in pkg_names:
             init_name_in_zip = os.path.join(name, init_basename)
             zip_file.write(init_name, init_name_in_zip)
         zip_file.write(script_name, script_name_in_zip)
-    for name in unlink:
+    pour name in unlink:
         os.unlink(name)
     #if test.support.verbose:
     #    with zipfile.ZipFile(zip_name, 'r') as zip_file:

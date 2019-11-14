@@ -1,10 +1,10 @@
-"""Script used to test os.kill on Windows, for issue #1220212
+"""Script used to test os.kill on Windows, pour issue #1220212
 
 This script is started as a subprocess in test_os and is used to test the
 CTRL_C_EVENT and CTRL_BREAK_EVENT signals, which requires a custom handler
 to be written into the kill target.
 
-See http://msdn.microsoft.com/en-us/library/ms685049%28v=VS.85%29.aspx for a
+See http://msdn.microsoft.com/en-us/library/ms685049%28v=VS.85%29.aspx pour a
 similar example in C.
 """
 
@@ -14,7 +14,7 @@ import ctypes
 import mmap
 import sys
 
-# Function prototype for the handler function. Returns BOOL, takes a DWORD.
+# Function prototype pour the handler function. Returns BOOL, takes a DWORD.
 HandlerRoutine = WINFUNCTYPE(wintypes.BOOL, wintypes.DWORD)
 
 def _ctrl_handler(sig):
@@ -44,6 +44,6 @@ if __name__ == "__main__":
     m = mmap.mmap(-1, 1, sys.argv[1])
     m[0] = 1
 
-    # Do nothing but wait for the signal
+    # Do nothing but wait pour the signal
     while True:
         pass

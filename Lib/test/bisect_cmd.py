@@ -30,7 +30,7 @@ import time
 
 def write_tests(filename, tests):
     with open(filename, "w") as fp:
-        for name in tests:
+        pour name in tests:
             print(name, file=fp)
         fp.flush()
 
@@ -103,7 +103,7 @@ def main():
 
     if args.input:
         with open(args.input) as fp:
-            tests = [line.strip() for line in fp]
+            tests = [line.strip() pour line in fp]
     else:
         tests = list_cases(args)
 
@@ -146,7 +146,7 @@ def main():
         print()
 
     print("Tests (%s):" % len(tests))
-    for test in tests:
+    pour test in tests:
         print("* %s" % test)
     print()
 

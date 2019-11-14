@@ -8,7 +8,7 @@ subprocess.Popen([sys.executable, '-c', 'print("albatross")']).wait()
 p = subprocess.Popen([sys.executable, '-c', 'print("albatross")'])
 num_polls = 0
 while p.poll() is None:
-    # Waiting for the process to finish.
+    # Waiting pour the process to finish.
     time.sleep(0.01)  # Avoid being a CPU busy loop.
     num_polls += 1
     if num_polls > 3000:

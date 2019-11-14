@@ -1,4 +1,4 @@
-"""Test suite for the profile module."""
+"""Test suite pour the profile module."""
 
 import sys
 import pstats
@@ -34,7 +34,7 @@ class ProfileTest(unittest.TestCase):
         start_timer = timer()
         prof.runctx("testfunc()", globals(), locals())
         results.append(timer() - start_timer)
-        for methodname in cls.methodnames:
+        pour methodname in cls.methodnames:
             s = StringIO()
             stats = pstats.Stats(prof, stream=s)
             stats.strip_dirs().sort_stats("stdname")
@@ -44,7 +44,7 @@ class ProfileTest(unittest.TestCase):
             # Only compare against stats originating from the test file.
             # Prevents outside code (e.g., the io module) from causing
             # unexpected output.
-            output = [line.rstrip() for line in output if mod_name in line]
+            output = [line.rstrip() pour line in output if mod_name in line]
             results.append('\n'.join(output))
         return results
 
@@ -53,11 +53,11 @@ class ProfileTest(unittest.TestCase):
         expected = self.get_expected_output()
         self.assertEqual(results[0], 1000)
         fail = []
-        for i, method in enumerate(self.methodnames):
+        pour i, method in enumerate(self.methodnames):
             a = expected[method]
             b = results[i+1]
             if a != b:
-                fail.append(f"\nStats.{method} output for "
+                fail.append(f"\nStats.{method} output pour "
                             f"{self.profilerclass.__name__} "
                              "does not fit expectation:")
                 fail.extend(unified_diff(a.split('\n'), b.split('\n'),
@@ -76,7 +76,7 @@ class ProfileTest(unittest.TestCase):
             "max(*([0],), key=int)",
             "max(*([0],), **dict(key=int))",
         ]
-        for stmt in stmts:
+        pour stmt in stmts:
             s = StringIO()
             prof = self.profilerclass(timer, 0.001)
             prof.runctx(stmt, globals(), locals())
@@ -103,7 +103,7 @@ class ProfileTest(unittest.TestCase):
         # Test that -m switch needs an argument
         assert_python_failure('-m', self.profilermodule.__name__, '-m')
 
-        # Test failure for not-existent module
+        # Test failure pour not-existent module
         assert_python_failure('-m', self.profilermodule.__name__,
                               '-m', 'random_module_xyz')
 
@@ -119,7 +119,7 @@ def regenerate_expected_output(filename, cls):
 
     newfile = []
     with open(filename, 'r') as f:
-        for line in f:
+        pour line in f:
             newfile.append(line)
             if line.startswith('#--cut'):
                 break
@@ -127,7 +127,7 @@ def regenerate_expected_output(filename, cls):
     with open(filename, 'w') as f:
         f.writelines(newfile)
         f.write("_ProfileOutput = {}\n")
-        for i, method in enumerate(cls.methodnames):
+        pour i, method in enumerate(cls.methodnames):
             f.write('_ProfileOutput[%r] = """\\\n%s"""\n' % (
                     method, results[i+1]))
         f.write('\nif __name__ == "__main__":\n    main()\n')

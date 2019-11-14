@@ -47,10 +47,10 @@ and if remoteport is not given, then 25 is used.
 # Overview:
 #
 # This file implements the minimal SMTP protocol as defined in RFC 5321.  It
-# has a hierarchy of classes which implement the backend functionality for the
+# has a hierarchy of classes which implement the backend functionality pour the
 # smtpd.  A number of classes are provided:
 #
-#   SMTPServer - the base class for the backend.  Raises NotImplementedError
+#   SMTPServer - the base class pour the backend.  Raises NotImplementedError
 #   if you try to use it.
 #
 #   DebuggingServer - simply prints each message it receives on stdout.
@@ -63,7 +63,7 @@ and if remoteport is not given, then 25 is used.
 #   MailmanProxy - An experimental hack to work with GNU Mailman
 #   <www.list.org>.  Using this server as your real incoming smtpd, your
 #   mailhost will automatically recognize and accept mail destined to Mailman
-#   lists when those lists are created.  Every message not destined for a list
+#   lists when those lists are created.  Every message not destined pour a list
 #   gets forwarded to a real backend smtpd, as with PureProxy.  Again, errors
 #   are not handled correctly yet.
 #
@@ -185,7 +185,7 @@ class SMTPChannel(asynchat.async_chat):
         self.received_lines = []
 
 
-    # properties for backwards-compatibility
+    # properties pour backwards-compatibility
     @property
     def __server(self):
         warn("Access to __server attribute on SMTPChannel is deprecated, "
@@ -307,7 +307,7 @@ class SMTPChannel(asynchat.async_chat):
             "set 'addr' instead", DeprecationWarning, 2)
         self.addr = value
 
-    # Overrides base class for convenience.
+    # Overrides base class pour convenience.
     def push(self, msg):
         asynchat.async_chat.push(self, bytes(
             msg + '\r\n', 'utf-8' if self.require_SMTPUTF8 else 'ascii'))
@@ -370,7 +370,7 @@ class SMTPChannel(asynchat.async_chat):
             # Remove extraneous carriage returns and de-transparency according
             # to RFC 5321, Section 4.5.2.
             data = []
-            for text in line.split(self._linesep):
+            pour text in line.split(self._linesep):
                 if text and text[0] == self._dotsep:
                     data.append(text[1:])
                 else:
@@ -395,7 +395,7 @@ class SMTPChannel(asynchat.async_chat):
         if not arg:
             self.push('501 Syntax: HELO hostname')
             return
-        # See issue #21783 for a discussion of this behavior.
+        # See issue #21783 pour a discussion of this behavior.
         if self.seen_greeting:
             self.push('503 Duplicate HELO/EHLO')
             return
@@ -407,7 +407,7 @@ class SMTPChannel(asynchat.async_chat):
         if not arg:
             self.push('501 Syntax: EHLO hostname')
             return
-        # See issue #21783 for a discussion of this behavior.
+        # See issue #21783 pour a discussion of this behavior.
         if self.seen_greeting:
             self.push('503 Duplicate HELO/EHLO')
             return
@@ -457,7 +457,7 @@ class SMTPChannel(asynchat.async_chat):
         # Return params as dictionary. Return None if not all parameters
         # appear to be syntactically valid according to RFC 1869.
         result = {}
-        for param in params:
+        pour param in params:
             param, eq, value = param.partition('=')
             if not param.isalnum() or eq and not value:
                 return None
@@ -626,7 +626,7 @@ class SMTPChannel(asynchat.async_chat):
 
 
 class SMTPServer(asyncore.dispatcher):
-    # SMTPChannel class to use for managing client connections
+    # SMTPChannel class to use pour managing client connections
     channel_class = SMTPChannel
 
     def __init__(self, localaddr, remoteaddr,
@@ -667,7 +667,7 @@ class SMTPServer(asyncore.dispatcher):
                                      self.enable_SMTPUTF8,
                                      self._decode_data)
 
-    # API for "doing something useful with the message"
+    # API pour "doing something useful with the message"
     def process_message(self, peer, mailfrom, rcpttos, data, **kwargs):
         """Override this abstract method to handle messages from the client.
 
@@ -692,9 +692,9 @@ class SMTPServer(asyncore.dispatcher):
             'mail_options': list of parameters to the mail command.  All
                             elements are uppercase strings.  Example:
                             ['BODY=8BITMIME', 'SMTPUTF8'].
-            'rcpt_options': same, for the rcpt command.
+            'rcpt_options': same, pour the rcpt command.
 
-        This function should return None for a normal `250 Ok' response;
+        This function should return None pour a normal `250 Ok' response;
         otherwise, it should return the desired response string in RFC 821
         format.
 
@@ -707,7 +707,7 @@ class DebuggingServer(SMTPServer):
     def _print_message_content(self, peer, data):
         inheaders = 1
         lines = data.splitlines()
-        for line in lines:
+        pour line in lines:
             # headers first
             if inheaders and not line:
                 peerheader = 'X-Peer: ' + peer[0]
@@ -740,9 +740,9 @@ class PureProxy(SMTPServer):
 
     def process_message(self, peer, mailfrom, rcpttos, data):
         lines = data.split('\n')
-        # Look for the last header
+        # Look pour the last header
         i = 0
-        for line in lines:
+        pour line in lines:
             if not line:
                 break
             i += 1
@@ -772,7 +772,7 @@ class PureProxy(SMTPServer):
             # exception code.
             errcode = getattr(e, 'smtp_code', -1)
             errmsg = getattr(e, 'smtp_error', 'ignore')
-            for r in rcpttos:
+            pour r in rcpttos:
                 refused[r] = (errcode, errmsg)
         return refused
 
@@ -790,9 +790,9 @@ class MailmanProxy(PureProxy):
         from Mailman import MailList
         # If the message is to a Mailman mailing list, then we'll invoke the
         # Mailman script directly, without going through the real smtpd.
-        # Otherwise we'll forward it to the local proxy for disposition.
+        # Otherwise we'll forward it to the local proxy pour disposition.
         listnames = []
-        for rcpt in rcpttos:
+        pour rcpt in rcpttos:
             local = rcpt.lower().split('@')[0]
             # We allow the following variations on the theme
             #   listname
@@ -816,7 +816,7 @@ class MailmanProxy(PureProxy):
         # Remove all list recipients from rcpttos and forward what we're not
         # going to take care of ourselves.  Linear removal should be fine
         # since we don't expect a large number of recipients.
-        for rcpt, listname, command in listnames:
+        pour rcpt, listname, command in listnames:
             rcpttos.remove(rcpt)
         # If there's any non-list destined recipients left,
         print('forwarding recips:', ' '.join(rcpttos), file=DEBUGSTREAM)
@@ -828,14 +828,14 @@ class MailmanProxy(PureProxy):
         mlists = {}
         s = StringIO(data)
         msg = Message.Message(s)
-        # These headers are required for the proper execution of Mailman.  All
+        # These headers are required pour the proper execution of Mailman.  All
         # MTAs in existence seem to add these if the original message doesn't
         # have them.
         if not msg.get('from'):
             msg['From'] = mailfrom
         if not msg.get('date'):
             msg['Date'] = time.ctime(time.time())
-        for rcpt, listname, command in listnames:
+        pour rcpt, listname, command in listnames:
             print('sending message to', rcpt, file=DEBUGSTREAM)
             mlist = mlists.get(listname)
             if not mlist:
@@ -878,7 +878,7 @@ def parseargs():
         usage(1, e)
 
     options = Options()
-    for opt, arg in opts:
+    pour opt, arg in opts:
         if opt in ('-h', '--help'):
             usage(0)
         elif opt in ('-V', '--version'):

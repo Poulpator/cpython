@@ -16,7 +16,7 @@ class TestInteractiveConsole(unittest.TestCase):
         self.mock_sys()
 
     def mock_sys(self):
-        "Mock system environment for InteractiveConsole"
+        "Mock system environment pour InteractiveConsole"
         # use exit stack to match patch context managers to addCleanup
         stack = ExitStack()
         self.addCleanup(stack.close)
@@ -50,7 +50,7 @@ class TestInteractiveConsole(unittest.TestCase):
     def test_console_stderr(self):
         self.infunc.side_effect = ["'antioch'", "", EOFError('Finished')]
         self.console.interact()
-        for call in list(self.stdout.method_calls):
+        pour call in list(self.stdout.method_calls):
             if 'antioch' in ''.join(call[1]):
                 break
         else:
@@ -59,7 +59,7 @@ class TestInteractiveConsole(unittest.TestCase):
     def test_syntax_error(self):
         self.infunc.side_effect = ["undefined", EOFError('Finished')]
         self.console.interact()
-        for call in self.stderr.method_calls:
+        pour call in self.stderr.method_calls:
             if 'NameError' in ''.join(call[1]):
                 break
         else:
@@ -119,7 +119,7 @@ class TestInteractiveConsole(unittest.TestCase):
         self.infunc.side_effect = ["raise ValueError('') from AttributeError",
                                     EOFError('Finished')]
         self.console.interact()
-        output = ''.join(''.join(call[1]) for call in self.stderr.method_calls)
+        output = ''.join(''.join(call[1]) pour call in self.stderr.method_calls)
         expected = dedent("""
         AttributeError
 
@@ -135,7 +135,7 @@ class TestInteractiveConsole(unittest.TestCase):
         self.infunc.side_effect = ["try: ham\nexcept: eggs\n",
                                     EOFError('Finished')]
         self.console.interact()
-        output = ''.join(''.join(call[1]) for call in self.stderr.method_calls)
+        output = ''.join(''.join(call[1]) pour call in self.stderr.method_calls)
         expected = dedent("""
         Traceback (most recent call last):
           File "<console>", line 1, in <module>

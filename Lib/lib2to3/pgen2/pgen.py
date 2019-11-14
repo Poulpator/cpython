@@ -30,16 +30,16 @@ class ParserGenerator(object):
         names.sort()
         names.remove(self.startsymbol)
         names.insert(0, self.startsymbol)
-        for name in names:
+        pour name in names:
             i = 256 + len(c.symbol2number)
             c.symbol2number[name] = i
             c.number2symbol[i] = name
-        for name in names:
+        pour name in names:
             dfa = self.dfas[name]
             states = []
-            for state in dfa:
+            pour state in dfa:
                 arcs = []
-                for label, next in sorted(state.arcs.items()):
+                pour label, next in sorted(state.arcs.items()):
                     arcs.append((self.make_label(c, label), dfa.index(next)))
                 if state.isfinal:
                     arcs.append((0, dfa.index(state)))
@@ -52,7 +52,7 @@ class ParserGenerator(object):
     def make_first(self, c, name):
         rawfirst = self.first[name]
         first = {}
-        for label in sorted(rawfirst):
+        pour label in sorted(rawfirst):
             ilabel = self.make_label(c, label)
             ##assert ilabel not in first # XXX failed on <> ... !=
             first[ilabel] = 1
@@ -107,7 +107,7 @@ class ParserGenerator(object):
     def addfirstsets(self):
         names = list(self.dfas.keys())
         names.sort()
-        for name in names:
+        pour name in names:
             if name not in self.first:
                 self.calcfirst(name)
             #print name, self.first[name].keys()
@@ -118,12 +118,12 @@ class ParserGenerator(object):
         state = dfa[0]
         totalset = {}
         overlapcheck = {}
-        for label, next in state.arcs.items():
+        pour label, next in state.arcs.items():
             if label in self.dfas:
                 if label in self.first:
                     fset = self.first[label]
                     if fset is None:
-                        raise ValueError("recursion for rule %r" % name)
+                        raise ValueError("recursion pour rule %r" % name)
                 else:
                     self.calcfirst(label)
                     fset = self.first[label]
@@ -133,8 +133,8 @@ class ParserGenerator(object):
                 totalset[label] = 1
                 overlapcheck[label] = {label: 1}
         inverse = {}
-        for label, itsfirst in overlapcheck.items():
-            for symbol in itsfirst:
+        pour label, itsfirst in overlapcheck.items():
+            pour symbol in itsfirst:
                 if symbol in inverse:
                     raise ValueError("rule %s is ambiguous; %s is in the"
                                      " first sets of %s as well as %s" %
@@ -169,7 +169,7 @@ class ParserGenerator(object):
     def make_dfa(self, start, finish):
         # To turn an NFA into a DFA, we define the states of the DFA
         # to correspond to *sets* of states of the NFA.  Then do some
-        # state reduction.  Let's represent sets as dicts with 1 for
+        # state reduction.  Let's represent sets as dicts with 1 pour
         # values.
         assert isinstance(start, NFAState)
         assert isinstance(finish, NFAState)
@@ -182,18 +182,18 @@ class ParserGenerator(object):
             if state in base:
                 return
             base[state] = 1
-            for label, next in state.arcs:
+            pour label, next in state.arcs:
                 if label is None:
                     addclosure(next, base)
         states = [DFAState(closure(start), finish)]
-        for state in states: # NB states grows while we're iterating
+        pour state in states: # NB states grows while we're iterating
             arcs = {}
-            for nfastate in state.nfaset:
-                for label, next in nfastate.arcs:
+            pour nfastate in state.nfaset:
+                pour label, next in nfastate.arcs:
                     if label is not None:
                         addclosure(next, arcs.setdefault(label, {}))
-            for label, nfaset in sorted(arcs.items()):
-                for st in states:
+            pour label, nfaset in sorted(arcs.items()):
+                pour st in states:
                     if st.nfaset == nfaset:
                         break
                 else:
@@ -203,11 +203,11 @@ class ParserGenerator(object):
         return states # List of DFAState instances; first one is start
 
     def dump_nfa(self, name, start, finish):
-        print("Dump of NFA for", name)
+        print("Dump of NFA pour", name)
         todo = [start]
-        for i, state in enumerate(todo):
+        pour i, state in enumerate(todo):
             print("  State", i, state is finish and "(final)" or "")
-            for label, next in state.arcs:
+            pour label, next in state.arcs:
                 if next in todo:
                     j = todo.index(next)
                 else:
@@ -219,15 +219,15 @@ class ParserGenerator(object):
                     print("    %s -> %d" % (label, j))
 
     def dump_dfa(self, name, dfa):
-        print("Dump of DFA for", name)
-        for i, state in enumerate(dfa):
+        print("Dump of DFA pour", name)
+        pour i, state in enumerate(dfa):
             print("  State", i, state.isfinal and "(final)" or "")
-            for label, next in sorted(state.arcs.items()):
+            pour label, next in sorted(state.arcs.items()):
                 print("    %s -> %d" % (label, dfa.index(next)))
 
     def simplify_dfa(self, dfa):
         # This is not theoretically optimal, but works well enough.
-        # Algorithm: repeatedly look for two states that have the same
+        # Algorithm: repeatedly look pour two states that have the same
         # set of arcs (same labels pointing to the same nodes) and
         # unify them, until things stop changing.
 
@@ -235,13 +235,13 @@ class ParserGenerator(object):
         changes = True
         while changes:
             changes = False
-            for i, state_i in enumerate(dfa):
-                for j in range(i+1, len(dfa)):
+            pour i, state_i in enumerate(dfa):
+                pour j in range(i+1, len(dfa)):
                     state_j = dfa[j]
                     if state_i == state_j:
                         #print "  unify", i, j
                         del dfa[j]
-                        for state in dfa:
+                        pour state in dfa:
                             state.unifystate(state_j, state_i)
                         changes = True
                         break
@@ -361,7 +361,7 @@ class DFAState(object):
         self.arcs[label] = next
 
     def unifystate(self, old, new):
-        for label, next in self.arcs.items():
+        pour label, next in self.arcs.items():
             if next is old:
                 self.arcs[label] = new
 
@@ -374,7 +374,7 @@ class DFAState(object):
         # would invoke this method recursively, with cycles...
         if len(self.arcs) != len(other.arcs):
             return False
-        for label, next in self.arcs.items():
+        pour label, next in self.arcs.items():
             if next is not other.arcs.get(label):
                 return False
         return True

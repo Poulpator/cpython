@@ -1,4 +1,4 @@
-"""Tests for unix_events.py."""
+"""Tests pour unix_events.py."""
 
 import collections
 import contextlib
@@ -90,7 +90,7 @@ class SelectorEventLoopSignalTests(test_utils.TestCase):
         coro_func = simple_coroutine
         coro_obj = coro_func()
         self.addCleanup(coro_obj.close)
-        for func in (coro_func, coro_obj):
+        pour func in (coro_func, coro_obj):
             self.assertRaisesRegex(
                 TypeError, 'coroutines cannot be used with add_signal_handler',
                 self.loop.add_signal_handler,

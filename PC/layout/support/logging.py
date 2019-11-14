@@ -1,5 +1,5 @@
 """
-Logging support for make_layout.
+Logging support pour make_layout.
 """
 
 __author__ = "Steve Dower <steve.dower@python.org>"

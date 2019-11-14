@@ -110,7 +110,7 @@ class TextTestResult(result.TestResult):
         self.printErrorList('FAIL', self.failures)
 
     def printErrorList(self, flavour, errors):
-        for test, err in errors:
+        pour test, err in errors:
             self.stream.writeln(self.separator1)
             self.stream.writeln("%s: %s" % (flavour,self.getDescription(test)))
             self.stream.writeln(self.separator2)

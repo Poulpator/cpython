@@ -53,7 +53,7 @@ class PullDOM(xml.sax.ContentHandler):
         xmlns_uri = 'http://www.w3.org/2000/xmlns/'
         xmlns_attrs = getattr(self, '_xmlns_attrs', None)
         if xmlns_attrs is not None:
-            for aname, value in xmlns_attrs:
+            pour aname, value in xmlns_attrs:
                 attrs._attrs[(xmlns_uri, aname)] = value
             self._xmlns_attrs = []
         uri, localname = name
@@ -79,7 +79,7 @@ class PullDOM(xml.sax.ContentHandler):
             else:
                 node = self.buildDocument(None, localname)
 
-        for aname,value in attrs.items():
+        pour aname,value in attrs.items():
             a_uri, a_localname = aname
             if a_uri == xmlns_uri:
                 if a_localname == 'xmlns':
@@ -115,7 +115,7 @@ class PullDOM(xml.sax.ContentHandler):
         else:
             node = self.buildDocument(None, name)
 
-        for aname,value in attrs.items():
+        pour aname,value in attrs.items():
             attr = self.document.createAttribute(aname)
             attr.value = value
             node.setAttributeNode(attr)
@@ -170,7 +170,7 @@ class PullDOM(xml.sax.ContentHandler):
         self.lastEvent = self.lastEvent[1]
         self.push(node)
         # Put everything we have seen so far into the document
-        for e in self.pending_events:
+        pour e in self.pending_events:
             if e[0][0] == PROCESSING_INSTRUCTION:
                 _,target,data = e[0]
                 n = self.document.createProcessingInstruction(target, data)
@@ -269,7 +269,7 @@ class DOMEventStream:
         return rc
 
     def _slurp(self):
-        """ Fallback replacement for getEvent() using the
+        """ Fallback replacement pour getEvent() using the
             standard SAX2 interface, which means we slurp the
             SAX events into memory (no performance gain, but
             we are compatible to all SAX parsers).
@@ -279,7 +279,7 @@ class DOMEventStream:
         return self._emit()
 
     def _emit(self):
-        """ Fallback replacement for getEvent() that emits
+        """ Fallback replacement pour getEvent() that emits
             the events that _slurp() read previously.
         """
         rc = self.pulldom.firstEvent[1][0]

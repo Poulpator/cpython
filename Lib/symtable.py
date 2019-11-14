@@ -48,9 +48,9 @@ class SymbolTable(object):
             kind = "%s " % self.__class__.__name__
 
         if self._table.name == "global":
-            return "<{0}SymbolTable for module {1}>".format(kind, self._filename)
+            return "<{0}SymbolTable pour module {1}>".format(kind, self._filename)
         else:
-            return "<{0}SymbolTable for {1} in {2}>".format(kind,
+            return "<{0}SymbolTable pour {1} in {2}>".format(kind,
                                                             self._table.name,
                                                             self._filename)
 
@@ -98,21 +98,21 @@ class SymbolTable(object):
         return sym
 
     def get_symbols(self):
-        return [self.lookup(ident) for ident in self.get_identifiers()]
+        return [self.lookup(ident) pour ident in self.get_identifiers()]
 
     def __check_children(self, name):
         return [_newSymbolTable(st, self._filename)
-                for st in self._table.children
+                pour st in self._table.children
                 if st.name == name]
 
     def get_children(self):
         return [_newSymbolTable(st, self._filename)
-                for st in self._table.children]
+                pour st in self._table.children]
 
 
 class Function(SymbolTable):
 
-    # Default values for instance variables
+    # Default values pour instance variables
     __params = None
     __locals = None
     __frees = None
@@ -120,7 +120,7 @@ class Function(SymbolTable):
     __nonlocals = None
 
     def __idents_matching(self, test_func):
-        return tuple(ident for ident in self.get_identifiers()
+        return tuple(ident pour ident in self.get_identifiers()
                      if test_func(self._table.symbols[ident]))
 
     def get_parameters(self):
@@ -161,7 +161,7 @@ class Class(SymbolTable):
     def get_methods(self):
         if self.__methods is None:
             d = {}
-            for st in self._table.children:
+            pour st in self._table.children:
                 d[st.name] = 1
             self.__methods = tuple(d)
         return self.__methods
@@ -242,6 +242,6 @@ if __name__ == "__main__":
     with open(sys.argv[0]) as f:
         src = f.read()
     mod = symtable(src, os.path.split(sys.argv[0])[1], "exec")
-    for ident in mod.get_identifiers():
+    pour ident in mod.get_identifiers():
         info = mod.lookup(ident)
         print(info, info.is_local(), info.is_namespace())

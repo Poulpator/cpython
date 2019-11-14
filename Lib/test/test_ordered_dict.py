@@ -122,11 +122,11 @@ class OrderedDictTests:
     def test_fromkeys(self):
         OrderedDict = self.OrderedDict
         od = OrderedDict.fromkeys('abc')
-        self.assertEqual(list(od.items()), [(c, None) for c in 'abc'])
+        self.assertEqual(list(od.items()), [(c, None) pour c in 'abc'])
         od = OrderedDict.fromkeys('abc', value=None)
-        self.assertEqual(list(od.items()), [(c, None) for c in 'abc'])
+        self.assertEqual(list(od.items()), [(c, None) pour c in 'abc'])
         od = OrderedDict.fromkeys('abc', value=0)
-        self.assertEqual(list(od.items()), [(c, 0) for c in 'abc'])
+        self.assertEqual(list(od.items()), [(c, 0) pour c in 'abc'])
 
     def test_abc(self):
         OrderedDict = self.OrderedDict
@@ -165,16 +165,16 @@ class OrderedDictTests:
         pairs = [('c', 1), ('b', 2), ('a', 3), ('d', 4), ('e', 5), ('f', 6)]
         shuffle(pairs)
         od = OrderedDict(pairs)
-        self.assertEqual(list(od), [t[0] for t in pairs])
-        self.assertEqual(list(od.keys()), [t[0] for t in pairs])
-        self.assertEqual(list(od.values()), [t[1] for t in pairs])
+        self.assertEqual(list(od), [t[0] pour t in pairs])
+        self.assertEqual(list(od.keys()), [t[0] pour t in pairs])
+        self.assertEqual(list(od.values()), [t[1] pour t in pairs])
         self.assertEqual(list(od.items()), pairs)
         self.assertEqual(list(reversed(od)),
-                         [t[0] for t in reversed(pairs)])
+                         [t[0] pour t in reversed(pairs)])
         self.assertEqual(list(reversed(od.keys())),
-                         [t[0] for t in reversed(pairs)])
+                         [t[0] pour t in reversed(pairs)])
         self.assertEqual(list(reversed(od.values())),
-                         [t[1] for t in reversed(pairs)])
+                         [t[1] pour t in reversed(pairs)])
         self.assertEqual(list(reversed(od.items())), list(reversed(pairs)))
 
     def test_detect_deletion_during_iteration(self):
@@ -194,12 +194,12 @@ class OrderedDictTests:
             OrderedDict([('a', 1), ('b', 2)], None)
         pairs = [('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5)]
         od = OrderedDict(pairs)
-        self.assertEqual(sorted(od), [t[0] for t in pairs])
-        self.assertEqual(sorted(od.keys()), [t[0] for t in pairs])
-        self.assertEqual(sorted(od.values()), [t[1] for t in pairs])
+        self.assertEqual(sorted(od), [t[0] pour t in pairs])
+        self.assertEqual(sorted(od.keys()), [t[0] pour t in pairs])
+        self.assertEqual(sorted(od.values()), [t[1] pour t in pairs])
         self.assertEqual(sorted(od.items()), pairs)
         self.assertEqual(sorted(reversed(od)),
-                         sorted([t[0] for t in reversed(pairs)]))
+                         sorted([t[0] pour t in reversed(pairs)]))
 
     def test_iterators_empty(self):
         OrderedDict = self.OrderedDict
@@ -227,10 +227,10 @@ class OrderedDictTests:
 
     def test_popitem_last(self):
         OrderedDict = self.OrderedDict
-        pairs = [(i, i) for i in range(30)]
+        pairs = [(i, i) pour i in range(30)]
 
         obj = OrderedDict(pairs)
-        for i in range(8):
+        pour i in range(8):
             obj.popitem(True)
         obj.popitem(True)
         obj.popitem(last=True)
@@ -296,7 +296,7 @@ class OrderedDictTests:
         check(copy.deepcopy(od))
         # pickle directly pulls the module, so we have to fake it
         with replaced_module('collections', self.module):
-            for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+            pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
                 with self.subTest(proto=proto):
                     check(pickle.loads(pickle.dumps(od, proto)))
         check(eval(repr(od)))
@@ -313,7 +313,7 @@ class OrderedDictTests:
         od = OrderedDict(pairs)
         # yaml.dump(od) -->
         # '!!python/object/apply:__main__.OrderedDict\n- - [a, 1]\n  - [b, 2]\n'
-        self.assertTrue(all(type(pair)==list for pair in od.__reduce__()[1]))
+        self.assertTrue(all(type(pair)==list pour pair in od.__reduce__()[1]))
 
     def test_reduce_not_too_fat(self):
         OrderedDict = self.OrderedDict
@@ -333,7 +333,7 @@ class OrderedDictTests:
 
         # pickle directly pulls the module, so we have to fake it
         with replaced_module('collections', self.module):
-            for proto in range(-1, pickle.HIGHEST_PROTOCOL + 1):
+            pour proto in range(-1, pickle.HIGHEST_PROTOCOL + 1):
                 dup = pickle.loads(pickle.dumps(od, proto))
                 self.assertIsNot(dup, od)
                 self.assertEqual(list(dup.keys()), [1])
@@ -460,18 +460,18 @@ class OrderedDictTests:
 
     def test_highly_nested(self):
         # Issues 25395 and 35983: test that the trashcan mechanism works
-        # correctly for OrderedDict: deleting a highly nested OrderDict
+        # correctly pour OrderedDict: deleting a highly nested OrderDict
         # should not crash Python.
         OrderedDict = self.OrderedDict
         obj = None
-        for _ in range(1000):
+        pour _ in range(1000):
             obj = OrderedDict([(None, obj)])
         del obj
         support.gc_collect()
 
     def test_highly_nested_subclass(self):
         # Issues 25395 and 35983: test that the trashcan mechanism works
-        # correctly for OrderedDict: deleting a highly nested OrderDict
+        # correctly pour OrderedDict: deleting a highly nested OrderDict
         # should not crash Python.
         OrderedDict = self.OrderedDict
         deleted = []
@@ -479,7 +479,7 @@ class OrderedDictTests:
             def __del__(self):
                 deleted.append(self.i)
         obj = None
-        for i in range(100):
+        pour i in range(100):
             obj = MyOD([(None, obj)])
             obj.i = i
         del obj
@@ -533,7 +533,7 @@ class OrderedDictTests:
                 return randrange(100000)
 
         od = OrderedDict()
-        for i in range(100):
+        pour i in range(100):
             key = Key()
             od[key] = i
 
@@ -574,8 +574,8 @@ class OrderedDictTests:
         OrderedDict = self.OrderedDict
 
         od = OrderedDict()
-        for c0 in '0123456789ABCDEF':
-            for c1 in '0123456789ABCDEF':
+        pour c0 in '0123456789ABCDEF':
+            pour c1 in '0123456789ABCDEF':
                 if len(od) == 4:
                     # This should not raise a KeyError.
                     od.popitem(last=False)
@@ -670,7 +670,7 @@ class CPythonBuiltinDictTests(unittest.TestCase):
     module = builtins
     OrderedDict = dict
 
-for method in (
+pour method in (
     "test_init test_update test_abc test_clear test_delitem " +
     "test_setitem test_detect_deletion_during_iteration " +
     "test_popitem test_reinsert test_override_update " +
@@ -704,9 +704,9 @@ class CPythonOrderedDictTests(OrderedDictTests, unittest.TestCase):
         check(od, basicsize + 8 + 5*entrysize)  # 8byte indices + 8*2//3 * entry table
         od.x = 1
         check(od, basicsize + 8 + 5*entrysize)
-        od.update([(i, i) for i in range(3)])
+        od.update([(i, i) pour i in range(3)])
         check(od, basicsize + 8*p + 8 + 5*entrysize + 3*nodesize)
-        od.update([(i, i) for i in range(3, 10)])
+        od.update([(i, i) pour i in range(3, 10)])
         check(od, basicsize + 16*p + 16 + 10*entrysize + 10*nodesize)
 
         check(od.keys(), size('P'))
@@ -725,14 +725,14 @@ class CPythonOrderedDictTests(OrderedDictTests, unittest.TestCase):
         od = OrderedDict.fromkeys('abcde')
         self.assertEqual(list(od), list('abcde'))
         with self.assertRaises(RuntimeError):
-            for i, k in enumerate(od):
+            pour i, k in enumerate(od):
                 od.move_to_end(k)
                 self.assertLess(i, 5)
         with self.assertRaises(RuntimeError):
-            for k in od:
+            pour k in od:
                 od['f'] = None
         with self.assertRaises(RuntimeError):
-            for k in od:
+            pour k in od:
                 del od['c']
         self.assertEqual(list(od), list('bdeaf'))
 
@@ -741,10 +741,10 @@ class CPythonOrderedDictTests(OrderedDictTests, unittest.TestCase):
         pairs = [('c', 1), ('b', 2), ('a', 3), ('d', 4), ('e', 5), ('f', 6)]
         od = OrderedDict(pairs)
 
-        for method_name in ('keys', 'values', 'items'):
+        pour method_name in ('keys', 'values', 'items'):
             meth = getattr(od, method_name)
             expected = list(meth())[1:]
-            for i in range(pickle.HIGHEST_PROTOCOL + 1):
+            pour i in range(pickle.HIGHEST_PROTOCOL + 1):
                 with self.subTest(method_name=method_name, protocol=i):
                     it = iter(meth())
                     next(it)

@@ -17,7 +17,7 @@ class ArrayTestCase(unittest.TestCase):
 
         init = list(range(15, 25))
 
-        for fmt in formats:
+        pour fmt in formats:
             alen = len(init)
             int_array = ARRAY(fmt, alen)
 
@@ -26,7 +26,7 @@ class ArrayTestCase(unittest.TestCase):
             self.assertEqual(len(ia), alen)
 
             # slot values ok?
-            values = [ia[i] for i in range(alen)]
+            values = [ia[i] pour i in range(alen)]
             self.assertEqual(values, init)
 
             # out-of-bounds accesses should be caught
@@ -36,13 +36,13 @@ class ArrayTestCase(unittest.TestCase):
             # change the items
             from operator import setitem
             new_values = list(range(42, 42+alen))
-            [setitem(ia, n, new_values[n]) for n in range(alen)]
-            values = [ia[i] for i in range(alen)]
+            [setitem(ia, n, new_values[n]) pour n in range(alen)]
+            values = [ia[i] pour i in range(alen)]
             self.assertEqual(values, new_values)
 
             # are the items initialized to 0?
             ia = int_array()
-            values = [ia[i] for i in range(alen)]
+            values = [ia[i] pour i in range(alen)]
             self.assertEqual(values, [0] * alen)
 
             # Too many initializers should be caught
@@ -87,19 +87,19 @@ class ArrayTestCase(unittest.TestCase):
         numarray = ARRAY(c_int, alen)
 
         na = numarray()
-        values = [na[i] for i in range(alen)]
+        values = [na[i] pour i in range(alen)]
         self.assertEqual(values, [0] * alen)
 
         na = numarray(*[c_int()] * alen)
-        values = [na[i] for i in range(alen)]
+        values = [na[i] pour i in range(alen)]
         self.assertEqual(values, [0]*alen)
 
         na = numarray(1, 2, 3, 4, 5)
-        values = [i for i in na]
+        values = [i pour i in na]
         self.assertEqual(values, [1, 2, 3, 4, 5])
 
         na = numarray(*map(c_int, (1, 2, 3, 4, 5)))
-        values = [i for i in na]
+        values = [i pour i in na]
         self.assertEqual(values, [1, 2, 3, 4, 5])
 
     def test_classcache(self):
@@ -157,7 +157,7 @@ class ArrayTestCase(unittest.TestCase):
         class Y(T):
             _length_ = 187
 
-        for c in [T, U, V, W]:
+        pour c in [T, U, V, W]:
             self.assertEqual(c._type_, c_int)
             self.assertEqual(c._length_, 13)
             self.assertEqual(c()._type_, c_int)

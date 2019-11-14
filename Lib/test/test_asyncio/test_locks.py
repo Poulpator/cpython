@@ -1,4 +1,4 @@
-"""Tests for lock.py"""
+"""Tests pour lock.py"""
 
 import unittest
 from unittest import mock
@@ -98,7 +98,7 @@ class LockTests(test_utils.TestCase):
                         self.assertTrue(lock.locked())
                     self.assertFalse(lock.locked())
 
-        for primitive in primitives:
+        pour primitive in primitives:
             loop.run_until_complete(test(primitive))
             self.assertFalse(primitive.locked())
 
@@ -991,7 +991,7 @@ class SemaphoreTests(test_utils.TestCase):
         self.assertTrue(t1.done())
         self.assertTrue(t1.result())
         race_tasks = [t2, t3, t4]
-        done_tasks = [t for t in race_tasks if t.done() and t.result()]
+        done_tasks = [t pour t in race_tasks if t.done() and t.result()]
         self.assertTrue(2, len(done_tasks))
 
         # cleanup locked semaphore
@@ -1009,7 +1009,7 @@ class SemaphoreTests(test_utils.TestCase):
             asyncio.CancelledError,
             self.loop.run_until_complete, acquire)
         self.assertTrue((not sem._waiters) or
-                        all(waiter.done() for waiter in sem._waiters))
+                        all(waiter.done() pour waiter in sem._waiters))
 
     def test_acquire_cancel_before_awoken(self):
         with self.assertWarns(DeprecationWarning):
@@ -1027,7 +1027,7 @@ class SemaphoreTests(test_utils.TestCase):
         t2.cancel()
 
         test_utils.run_briefly(self.loop)
-        num_done = sum(t.done() for t in [t3, t4])
+        num_done = sum(t.done() pour t in [t3, t4])
         self.assertEqual(num_done, 1)
 
         t3.cancel()

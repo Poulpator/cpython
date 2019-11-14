@@ -1,5 +1,5 @@
 # It's intended that this script be run by hand.  It runs speed tests on
-# hashlib functions; it does not test for correctness.
+# hashlib functions; it does not test pour correctness.
 
 import sys
 import time
@@ -15,7 +15,7 @@ def test_scaled_msg(scale, name):
 
     localCF = creatorFunc
     start = time.perf_counter()
-    for f in range(iterations):
+    pour f in range(iterations):
         x = localCF(longStr).digest()
     end = time.perf_counter()
 
@@ -23,7 +23,7 @@ def test_scaled_msg(scale, name):
 
 def test_create():
     start = time.perf_counter()
-    for f in range(20000):
+    pour f in range(20000):
         d = creatorFunc()
     end = time.perf_counter()
 
@@ -31,7 +31,7 @@ def test_create():
 
 def test_zero():
     start = time.perf_counter()
-    for f in range(20000):
+    pour f in range(20000):
         x = creatorFunc().digest()
     end = time.perf_counter()
 

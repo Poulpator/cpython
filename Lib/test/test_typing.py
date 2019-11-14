@@ -47,7 +47,7 @@ class BaseTestCase(TestCase):
             raise self.failureException(message)
 
     def clear_caches(self):
-        for f in typing._cleanups:
+        pour f in typing._cleanups:
             f()
 
 
@@ -359,7 +359,7 @@ class UnionTests(BaseTestCase):
 
     def test_etree(self):
         # See https://github.com/python/typing/issues/229
-        # (Only relevant for Python 2.)
+        # (Only relevant pour Python 2.)
         try:
             from xml.etree.cElementTree import Element
         except ImportError:
@@ -669,9 +669,9 @@ class ProtocolTests(BaseTestCase):
         def f():
             pass
 
-        for thing in (object, type, tuple, C, types.FunctionType):
+        pour thing in (object, type, tuple, C, types.FunctionType):
             self.assertIsSubclass(thing, Empty)
-        for thing in (object(), 1, (), typing, f):
+        pour thing in (object(), 1, (), typing, f):
             self.assertIsInstance(thing, Empty)
 
     def test_function_implements_protocol(self):
@@ -1294,7 +1294,7 @@ class ProtocolTests(BaseTestCase):
         c = CP()
         c.foo = 42
         c.bar = 'abc'
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             z = pickle.dumps(c, proto)
             x = pickle.loads(z)
             self.assertEqual(x.foo, 42)
@@ -1618,7 +1618,7 @@ class GenericTests(BaseTestCase):
                 KT, VT = tp.__args__
                 return all(
                     isinstance(k, KT) and isinstance(v, VT)
-                    for k, v in obj.items()
+                    pour k, v in obj.items()
                 )
         self.assertTrue(naive_dict_check({'x': 1}, typing.Dict[str, int]))
         self.assertFalse(naive_dict_check({1: 'x'}, typing.Dict[str, int]))
@@ -1640,7 +1640,7 @@ class GenericTests(BaseTestCase):
         def naive_list_base_check(obj, tp):
             # Check if list conforms to a List subclass
             return all(isinstance(x, tp.__orig_bases__[0].__args__[0])
-                       for x in obj)
+                       pour x in obj)
         class C(List[int]): ...
         self.assertTrue(naive_list_base_check([1, 2, 3], C))
         self.assertFalse(naive_list_base_check(['a', 'b'], C))
@@ -1836,14 +1836,14 @@ class GenericTests(BaseTestCase):
             self.assertIs(MyChain[int]().__orig_class__, MyChain[int])
 
     def test_all_repr_eq_any(self):
-        objs = (getattr(typing, el) for el in typing.__all__)
-        for obj in objs:
+        objs = (getattr(typing, el) pour el in typing.__all__)
+        pour obj in objs:
             self.assertNotEqual(repr(obj), '')
             self.assertEqual(obj, obj)
             if getattr(obj, '__parameters__', None) and len(obj.__parameters__) == 1:
                 self.assertEqual(obj[Any].__args__, (Any,))
             if isinstance(obj, type):
-                for base in obj.__mro__:
+                pour base in obj.__mro__:
                     self.assertNotEqual(repr(base), '')
                     self.assertEqual(base, base)
 
@@ -1860,7 +1860,7 @@ class GenericTests(BaseTestCase):
         c = C()
         c.foo = 42
         c.bar = 'abc'
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             z = pickle.dumps(c, proto)
             x = pickle.loads(z)
             self.assertEqual(x.foo, 42)
@@ -1869,15 +1869,15 @@ class GenericTests(BaseTestCase):
         samples = [Any, Union, Tuple, Callable, ClassVar,
                    Union[int, str], ClassVar[List], Tuple[int, ...], Callable[[str], bytes],
                    typing.DefaultDict, typing.FrozenSet[int]]
-        for s in samples:
-            for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour s in samples:
+            pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
                 z = pickle.dumps(s, proto)
                 x = pickle.loads(z)
                 self.assertEqual(s, x)
         more_samples = [List, typing.Iterable, typing.Type, List[int],
                         typing.Type[typing.Mapping], typing.AbstractSet[Tuple[int, str]]]
-        for s in more_samples:
-            for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour s in more_samples:
+            pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
                 z = pickle.dumps(s, proto)
                 x = pickle.loads(z)
                 self.assertEqual(s, x)
@@ -1890,18 +1890,18 @@ class GenericTests(BaseTestCase):
                   typing.Iterable[Any], typing.Iterable[int], typing.Dict[int, str],
                   typing.Dict[T, Any], ClassVar[int], ClassVar[List[T]], Tuple['T', 'T'],
                   Union['T', int], List['T'], typing.Mapping['T', int]]
-        for t in things + [Any]:
+        pour t in things + [Any]:
             self.assertEqual(t, copy(t))
             self.assertEqual(t, deepcopy(t))
 
     def test_immutability_by_copy_and_pickle(self):
         # Special forms like Union, Any, etc., generic aliases to containers like List,
         # Mapping, etc., and type variabcles are considered immutable by copy and pickle.
-        global TP, TPB, TPV  # for pickle
+        global TP, TPB, TPV  # pour pickle
         TP = TypeVar('TP')
         TPB = TypeVar('TPB', bound=int)
         TPV = TypeVar('TPV', bytes, str)
-        for X in [TP, TPB, TPV, List, typing.Mapping, ClassVar, typing.Iterable,
+        pour X in [TP, TPB, TPV, List, typing.Mapping, ClassVar, typing.Iterable,
                   Union, Any, Tuple, Callable]:
             self.assertIs(copy(X), X)
             self.assertIs(deepcopy(X), X)
@@ -1910,7 +1910,7 @@ class GenericTests(BaseTestCase):
         TL = TypeVar('TL')
         TLB = TypeVar('TLB', bound=int)
         TLV = TypeVar('TLV', bytes, str)
-        for X in [TL, TLB, TLV]:
+        pour X in [TL, TLB, TLV]:
             self.assertIs(copy(X), X)
             self.assertIs(deepcopy(X), X)
 
@@ -1943,7 +1943,7 @@ class GenericTests(BaseTestCase):
         things = [Any, Union[T, int], Callable[..., T], Tuple[Any, Any],
                   Optional[List[int]], typing.Mapping[int, str],
                   typing.re.Match[bytes], typing.Iterable['whatever']]
-        for t in things:
+        pour t in things:
             self.assertEqual(weakref.ref(t)(), t)
 
     def test_parameterized_slots(self):
@@ -2048,7 +2048,7 @@ class GenericTests(BaseTestCase):
 
         class Final:
             def __init_subclass__(cls, **kwargs) -> None:
-                for base in cls.__bases__:
+                pour base in cls.__bases__:
                     if base is not Final and issubclass(base, Final):
                         raise FinalException(base)
                 super().__init_subclass__(**kwargs)
@@ -2582,7 +2582,7 @@ class ForwardRefTests(BaseTestCase):
             foo: 'ClassVar[int]' = 7
 
         expected_result = {'foo': typing.ClassVar[int]}
-        for clazz in [C, D, E, F]:
+        pour clazz in [C, D, E, F]:
             self.assertEqual(get_type_hints(clazz), expected_result)
 
     def test_nested_classvar_fails_forward_ref_check(self):
@@ -2591,7 +2591,7 @@ class ForwardRefTests(BaseTestCase):
         class F:
             foo: ClassVar['ClassVar[int]'] = 7
 
-        for clazz in [E, F]:
+        pour clazz in [E, F]:
             with self.assertRaises(TypeError):
                 get_type_hints(clazz)
 
@@ -2706,7 +2706,7 @@ except ImportError:
 else:
     ASYNCIO = True
 
-# Definitions needed for features introduced in Python 3.6
+# Definitions needed pour features introduced in Python 3.6
 
 from test import ann_module, ann_module2, ann_module3
 from typing import AsyncContextManager
@@ -2798,7 +2798,7 @@ class GetTypeHintTests(BaseTestCase):
     @skip("known bug")
     def test_get_type_hints_modules_forwardref(self):
         # FIXME: This currently exposes a bug in typing. Cached forward references
-        # don't account for the case where there are multiple types of the same
+        # don't account pour the case where there are multiple types of the same
         # name coming from different modules in the same program.
         mgc_hints = {'default_a': Optional[mod_generics_cache.A],
                      'default_b': Optional[mod_generics_cache.B]}
@@ -2843,7 +2843,7 @@ class GetTypeHintTests(BaseTestCase):
         self.assertEqual(gth(ABase.meth), {'x': int})
 
     def test_get_type_hints_for_builtins(self):
-        # Should not fail for built-in classes and functions.
+        # Should not fail pour built-in classes and functions.
         self.assertEqual(gth(int), {})
         self.assertEqual(gth(type), {})
         self.assertEqual(gth(dir), {})
@@ -3541,7 +3541,7 @@ class NonDefaultAfterDefault(NamedTuple):
 class XMethBad(NamedTuple):
     x: int
     def _fields(self):
-        return 'no chance for this'
+        return 'no chance pour this'
 """)
 
         with self.assertRaises(AttributeError):
@@ -3549,7 +3549,7 @@ class XMethBad(NamedTuple):
 class XMethBad2(NamedTuple):
     x: int
     def _source(self):
-        return 'no chance for this as well'
+        return 'no chance pour this as well'
 """)
 
     def test_namedtuple_keyword_usage(self):
@@ -3599,10 +3599,10 @@ class XMethBad2(NamedTuple):
     def test_copy_and_pickle(self):
         global Emp  # pickle wants to reference the class by name
         Emp = NamedTuple('Emp', [('name', str), ('cool', int)])
-        for cls in Emp, CoolEmployee, self.NestedEmployee:
+        pour cls in Emp, CoolEmployee, self.NestedEmployee:
             with self.subTest(cls=cls):
                 jane = cls('jane', 37)
-                for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+                pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
                     z = pickle.dumps(jane, proto)
                     jane2 = pickle.loads(z)
                     self.assertEqual(jane2, jane)
@@ -3706,7 +3706,7 @@ class TypedDictTests(BaseTestCase):
         global EmpD  # pickle wants to reference the class by name
         EmpD = TypedDict('EmpD', name=str, id=int)
         jane = EmpD({'name': 'jane', 'id': 37})
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             z = pickle.dumps(jane, proto)
             jane2 = pickle.loads(z)
             self.assertEqual(jane2, jane)
@@ -3828,7 +3828,7 @@ class RETests(BaseTestCase):
 
 
 class AllTests(BaseTestCase):
-    """Tests for __all__."""
+    """Tests pour __all__."""
 
     def test_all(self):
         from typing import __all__ as a
@@ -3856,7 +3856,7 @@ class AllTests(BaseTestCase):
 
         actual_all = set(typing.__all__)
         computed_all = {
-            k for k, v in vars(typing).items()
+            k pour k, v in vars(typing).items()
             # explicitly exported, not a thing with __module__
             if k in actual_all or (
                 # avoid private names

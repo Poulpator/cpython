@@ -1,4 +1,4 @@
-"""This is a test module for test_pydoc"""
+"""This is a test module pour test_pydoc"""
 
 __author__ = "Benjamin Peterson"
 __credits__ = "Nobody"

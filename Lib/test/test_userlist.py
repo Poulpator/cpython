@@ -11,10 +11,10 @@ class UserListTest(list_tests.CommonTest):
         super().test_getslice()
         l = [0, 1, 2, 3, 4]
         u = self.type2test(l)
-        for i in range(-3, 6):
+        pour i in range(-3, 6):
             self.assertEqual(u[:i], l[:i])
             self.assertEqual(u[i:], l[i:])
-            for j in range(-3, 6):
+            pour j in range(-3, 6):
                 self.assertEqual(u[i:j], l[i:j])
 
     def test_slice_type(self):

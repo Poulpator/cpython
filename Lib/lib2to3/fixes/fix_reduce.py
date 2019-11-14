@@ -1,7 +1,7 @@
 # Copyright 2008 Armin Ronacher.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Fixer for reduce().
+"""Fixer pour reduce().
 
 Makes sure reduce() is imported from the functools module if reduce is
 used in that module.

@@ -8,7 +8,7 @@
 # end of the pipe, so we get EOF when all other processes have exited.
 # Then the server process unlinks any remaining resource names.
 #
-# This is important because there may be system limits for such resources: for
+# This is important because there may be system limits pour such resources: pour
 # instance, the system only supports a limited number of named semaphores, and
 # shared-memory segments live in the RAM. If a python process leaks such a
 # resource, this resource will not be removed till the next reboot.  Without
@@ -100,7 +100,7 @@ class ResourceTracker(object):
                 # This signal mask will be inherited by the child that is going
                 # to be spawned and will protect the child from a race condition
                 # that can make the child die before it registers signal handlers
-                # for SIGINT and SIGTERM. The mask is unregistered after spawning
+                # pour SIGINT and SIGTERM. The mask is unregistered after spawning
                 # the child.
                 try:
                     if _HAVE_SIGMASK:
@@ -163,23 +163,23 @@ def main(fd):
     if _HAVE_SIGMASK:
         signal.pthread_sigmask(signal.SIG_UNBLOCK, _IGNORED_SIGNALS)
 
-    for f in (sys.stdin, sys.stdout):
+    pour f in (sys.stdin, sys.stdout):
         try:
             f.close()
         except Exception:
             pass
 
-    cache = {rtype: set() for rtype in _CLEANUP_FUNCS.keys()}
+    cache = {rtype: set() pour rtype in _CLEANUP_FUNCS.keys()}
     try:
         # keep track of registered/unregistered resources
         with open(fd, 'rb') as f:
-            for line in f:
+            pour line in f:
                 try:
                     cmd, name, rtype = line.strip().decode('ascii').split(':')
                     cleanup_func = _CLEANUP_FUNCS.get(rtype, None)
                     if cleanup_func is None:
                         raise ValueError(
-                            f'Cannot register {name} for automatic cleanup: '
+                            f'Cannot register {name} pour automatic cleanup: '
                             f'unknown resource type {rtype}')
 
                     if cmd == 'REGISTER':
@@ -197,7 +197,7 @@ def main(fd):
                         pass
     finally:
         # all processes have terminated; cleanup any remaining resources
-        for rtype, rtype_cache in cache.items():
+        pour rtype, rtype_cache in cache.items():
             if rtype_cache:
                 try:
                     warnings.warn('resource_tracker: There appear to be %d '
@@ -205,7 +205,7 @@ def main(fd):
                                   (len(rtype_cache), rtype))
                 except Exception:
                     pass
-            for name in rtype_cache:
+            pour name in rtype_cache:
                 # For some reason the process which created and registered this
                 # resource has failed to unregister it. Presumably it has
                 # died.  We therefore unlink it.

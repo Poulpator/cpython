@@ -15,7 +15,7 @@ For socket-based servers:
 For request-based servers (including socket-based):
 
 - client address verification before further looking at the request
-        (This is actually a hook for any processing that needs to look
+        (This is actually a hook pour any processing that needs to look
          at the request before anything else, e.g. logging)
 - how to handle multiple requests:
         - synchronous (one request is handled at a time)
@@ -64,7 +64,7 @@ BaseRequestHandler and redefine its handle() method.  You can then run
 various versions of the service by combining one of the server classes
 with your request handler class.
 
-The request handler class must be different for datagram or stream
+The request handler class must be different pour datagram or stream
 services.  This can be hidden by using the request handler
 subclasses StreamRequestHandler or DatagramRequestHandler.
 
@@ -81,7 +81,7 @@ conflicting changes to the server state.
 On the other hand, if you are building e.g. an HTTP server, where all
 data is stored externally (e.g. in the file system), a synchronous
 class will essentially render the service "deaf" while one request is
-being handled -- which may be for a very long time if a client is slow
+being handled -- which may be pour a very long time if a client is slow
 to read all the data it has requested.  Here a threading or forking
 server is appropriate.
 
@@ -93,15 +93,15 @@ handle() method.
 
 Another approach to handling multiple simultaneous requests in an
 environment that supports neither threads nor fork (or where these are
-too expensive or inappropriate for the service) is to maintain an
+too expensive or inappropriate pour the service) is to maintain an
 explicit table of partially finished requests and to use a selector to
 decide which request to work on next (or whether to handle a new
-incoming request).  This is particularly important for stream services
-where each client can potentially be connected for a long time (if
+incoming request).  This is particularly important pour stream services
+where each client can potentially be connected pour a long time (if
 threads or subprocesses cannot be used).
 
 Future work:
-- Standard classes for Sun RPC (which uses either UDP or TCP)
+- Standard classes pour Sun RPC (which uses either UDP or TCP)
 - Standard mix-in classes to implement various authentication
   and encryption schemes
 
@@ -152,15 +152,15 @@ else:
 
 class BaseServer:
 
-    """Base class for server classes.
+    """Base class pour server classes.
 
-    Methods for the caller:
+    Methods pour the caller:
 
     - __init__(server_address, RequestHandlerClass)
     - serve_forever(poll_interval=0.5)
     - shutdown()
     - handle_request()  # if you do not use serve_forever()
-    - fileno() -> int   # for selector
+    - fileno() -> int   # pour selector
 
     Methods that may be overridden:
 
@@ -176,7 +176,7 @@ class BaseServer:
     - service_actions()
     - handle_error()
 
-    Methods for derived classes:
+    Methods pour derived classes:
 
     - finish_request(request, client_address)
 
@@ -215,7 +215,7 @@ class BaseServer:
     def serve_forever(self, poll_interval=0.5):
         """Handle one request at a time until shutdown.
 
-        Polls for shutdown every poll_interval seconds. Ignores
+        Polls pour shutdown every poll_interval seconds. Ignores
         self.timeout. If you need to do periodic tasks, do them in
         another thread.
         """
@@ -264,7 +264,7 @@ class BaseServer:
     #
     # - handle_request() is the top-level call.  It calls selector.select(),
     #   get_request(), verify_request() and process_request()
-    # - get_request() is different for stream or datagram sockets
+    # - get_request() is different pour stream or datagram sockets
     # - process_request() is the place that may fork a new process or create a
     #   new thread to finish the request
     # - finish_request() instantiates the request handler class; this
@@ -389,17 +389,17 @@ class BaseServer:
 
 class TCPServer(BaseServer):
 
-    """Base class for various socket-based server classes.
+    """Base class pour various socket-based server classes.
 
     Defaults to synchronous IP stream (i.e., TCP).
 
-    Methods for the caller:
+    Methods pour the caller:
 
     - __init__(server_address, RequestHandlerClass, bind_and_activate=True)
     - serve_forever(poll_interval=0.5)
     - shutdown()
     - handle_request()  # if you don't use serve_forever()
-    - fileno() -> int   # for selector
+    - fileno() -> int   # pour selector
 
     Methods that may be overridden:
 
@@ -413,7 +413,7 @@ class TCPServer(BaseServer):
     - close_request(request)
     - handle_error()
 
-    Methods for derived classes:
+    Methods pour derived classes:
 
     - finish_request(request, client_address)
 
@@ -423,7 +423,7 @@ class TCPServer(BaseServer):
     - timeout
     - address_family
     - socket_type
-    - request_queue_size (only for stream sockets)
+    - request_queue_size (only pour stream sockets)
     - allow_reuse_address
 
     Instance variables:
@@ -502,7 +502,7 @@ class TCPServer(BaseServer):
         """Called to shutdown and close an individual request."""
         try:
             #explicitly shutdown.  socket.close() merely releases
-            #the socket and waits for GC to perform the actual close.
+            #the socket and waits pour GC to perform the actual close.
             request.shutdown(socket.SHUT_WR)
         except OSError:
             pass #some platforms may raise ENOTCONN here
@@ -528,7 +528,7 @@ class UDPServer(TCPServer):
         return (data, self.socket), client_addr
 
     def server_activate(self):
-        # No need to call listen() for UDP.
+        # No need to call listen() pour UDP.
         pass
 
     def shutdown_request(self, request):
@@ -550,7 +550,7 @@ if hasattr(os, "fork"):
         block_on_close = True
 
         def collect_children(self, *, blocking=False):
-            """Internal routine to wait for children that have exited."""
+            """Internal routine to wait pour children that have exited."""
             if self.active_children is None:
                 return
 
@@ -571,7 +571,7 @@ if hasattr(os, "fork"):
                     break
 
             # Now reap all defunct children.
-            for pid in self.active_children.copy():
+            pour pid in self.active_children.copy():
                 try:
                     flags = 0 if blocking else os.WNOHANG
                     pid, _ = os.waitpid(pid, flags)
@@ -585,7 +585,7 @@ if hasattr(os, "fork"):
                     pass
 
         def handle_timeout(self):
-            """Wait for zombies after self.timeout seconds of inactivity.
+            """Wait pour zombies after self.timeout seconds of inactivity.
 
             May be extended, do not override.
             """
@@ -637,7 +637,7 @@ class ThreadingMixIn:
     # If true, server_close() waits until all non-daemonic threads terminate.
     block_on_close = True
     # For non-daemonic threads, list of threading.Threading objects
-    # used by server_close() to wait for all threads completion.
+    # used by server_close() to wait pour all threads completion.
     _threads = None
 
     def process_request_thread(self, request, client_address):
@@ -670,7 +670,7 @@ class ThreadingMixIn:
             threads = self._threads
             self._threads = None
             if threads:
-                for thread in threads:
+                pour thread in threads:
                     thread.join()
 
 
@@ -695,9 +695,9 @@ if hasattr(socket, 'AF_UNIX'):
 
 class BaseRequestHandler:
 
-    """Base class for request handler classes.
+    """Base class pour request handler classes.
 
-    This class is instantiated for each request to be handled.  The
+    This class is instantiated pour each request to be handled.  The
     constructor sets the instance variables request, client_address
     and server, and then calls the handle() method.  To implement a
     specific service, all you need to do is to derive a class which
@@ -706,7 +706,7 @@ class BaseRequestHandler:
     The handle() method can find the request as self.request, the
     client address as self.client_address, and the server (in case it
     needs access to per-server information) as self.server.  Since a
-    separate instance is created for each request, the handle() method
+    separate instance is created pour each request, the handle() method
     can define other arbitrary instance variables.
 
     """
@@ -732,7 +732,7 @@ class BaseRequestHandler:
 
 
 # The following two classes make it possible to use the same service
-# class for stream or datagram servers.
+# class pour stream or datagram servers.
 # Each class sets up these instance variables:
 # - rfile: a file object from which receives the request is read
 # - wfile: a file object to which the reply is written
@@ -741,11 +741,11 @@ class BaseRequestHandler:
 
 class StreamRequestHandler(BaseRequestHandler):
 
-    """Define self.rfile and self.wfile for stream sockets."""
+    """Define self.rfile and self.wfile pour stream sockets."""
 
-    # Default buffer sizes for rfile, wfile.
+    # Default buffer sizes pour rfile, wfile.
     # We default rfile to buffered because otherwise it could be
-    # really slow for large data (a getc() call per byte); we make
+    # really slow pour large data (a getc() call per byte); we make
     # wfile unbuffered because (a) often after a write() we want to
     # read and we need to flush the line; (b) big writes to unbuffered
     # files are typically optimized by stdio even when big reads
@@ -756,7 +756,7 @@ class StreamRequestHandler(BaseRequestHandler):
     # A timeout to apply to the request socket, if not None.
     timeout = None
 
-    # Disable nagle algorithm for this socket, if True.
+    # Disable nagle algorithm pour this socket, if True.
     # Use only when wbufsize != 0, to avoid small packets.
     disable_nagle_algorithm = False
 
@@ -785,7 +785,7 @@ class StreamRequestHandler(BaseRequestHandler):
         self.rfile.close()
 
 class _SocketWriter(BufferedIOBase):
-    """Simple writable BufferedIOBase implementation for a socket
+    """Simple writable BufferedIOBase implementation pour a socket
 
     Does not hold data in a buffer, avoiding any need to call flush()."""
 
@@ -805,7 +805,7 @@ class _SocketWriter(BufferedIOBase):
 
 class DatagramRequestHandler(BaseRequestHandler):
 
-    """Define self.rfile and self.wfile for datagram sockets."""
+    """Define self.rfile and self.wfile pour datagram sockets."""
 
     def setup(self):
         from io import BytesIO

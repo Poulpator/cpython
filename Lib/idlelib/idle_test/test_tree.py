@@ -48,7 +48,7 @@ class TestScrollEvent(unittest.TestCase):
                  (EventType.ButtonPress, -1, 5, 5))
 
         event = _Event()
-        for ty, delta, num, amount in tests:
+        pour ty, delta, num, amount in tests:
             event.type = ty
             event.delta = delta
             event.num = num

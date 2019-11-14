@@ -1,5 +1,5 @@
 """ !Changing this line will break Test_findfile.test_found!
-Non-gui unit tests for grep.GrepDialog methods.
+Non-gui unit tests pour grep.GrepDialog methods.
 dummy_command calls grep_it calls findfiles.
 An exception raised in one method will fail callers.
 Otherwise, tests are mostly independent.
@@ -68,20 +68,20 @@ class FindfilesTest(unittest.TestCase):
         ff = grep.findfiles
         readme = os.path.join(self.path, 'README.txt')
 
-        # Check for Python files in path where this file lives.
+        # Check pour Python files in path where this file lives.
         filelist = list(ff(self.path, '*.py', False))
         # This directory has many Python files.
         self.assertGreater(len(filelist), 10)
         self.assertIn(self.realpath, filelist)
         self.assertNotIn(readme, filelist)
 
-        # Look for .txt files in path where this file lives.
+        # Look pour .txt files in path where this file lives.
         filelist = list(ff(self.path, '*.txt', False))
         self.assertNotEqual(len(filelist), 0)
         self.assertNotIn(self.realpath, filelist)
         self.assertIn(readme, filelist)
 
-        # Look for non-matching pattern.
+        # Look pour non-matching pattern.
         filelist = list(ff(self.path, 'grep.*', False))
         self.assertEqual(len(filelist), 0)
         self.assertNotIn(self.realpath, filelist)

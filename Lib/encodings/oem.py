@@ -1,10 +1,10 @@
-""" Python 'oem' Codec for Windows
+""" Python 'oem' Codec pour Windows
 
 """
 # Import them explicitly to cause an ImportError
 # on non-Windows systems
 from codecs import oem_encode, oem_decode
-# for IncrementalDecoder, IncrementalEncoder, ...
+# pour IncrementalDecoder, IncrementalEncoder, ...
 import codecs
 
 ### Codec APIs

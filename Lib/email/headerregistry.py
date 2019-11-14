@@ -145,7 +145,7 @@ class Group:
             nameset = set(disp)
             if len(nameset) > len(nameset-parser.SPECIALS):
                 disp = parser.quote_string(disp)
-        adrstr = ", ".join(str(x) for x in self.addresses)
+        adrstr = ", ".join(str(x) pour x in self.addresses)
         adrstr = ' ' + adrstr if adrstr else adrstr
         return "{}:{};".format(disp, adrstr)
 
@@ -160,9 +160,9 @@ class Group:
 
 class BaseHeader(str):
 
-    """Base class for message headers.
+    """Base class pour message headers.
 
-    Implements generic behavior and provides tools for subclasses.
+    Implements generic behavior and provides tools pour subclasses.
 
     A subclass must define a classmethod named 'parse' that takes an unfolded
     value string and a dictionary as its arguments.  The dictionary will
@@ -176,8 +176,8 @@ class BaseHeader(str):
     The defects key is intended to collect parsing defects, which the message
     parser will subsequently dispose of as appropriate.  The parser should not,
     insofar as practical, raise any errors.  Defects should be added to the
-    list instead.  The standard header parsers register defects for RFC
-    compliance issues, for obsolete RFC syntax, and for unrecoverable parsing
+    list instead.  The standard header parsers register defects pour RFC
+    compliance issues, pour obsolete RFC syntax, and pour unrecoverable parsing
     errors.
 
     The parse method may add additional keys to the dictionary.  In this case
@@ -291,7 +291,7 @@ class DateHeader:
 
     max_count = None
 
-    # This is used only for folding, not for creating 'decoded'.
+    # This is used only pour folding, not pour creating 'decoded'.
     value_parser = staticmethod(parser.get_unstructured)
 
     @classmethod
@@ -339,12 +339,12 @@ class AddressHeader:
             # to our API language (group/address).
             kwds['parse_tree'] = address_list = cls.value_parser(value)
             groups = []
-            for addr in address_list.addresses:
+            pour addr in address_list.addresses:
                 groups.append(Group(addr.display_name,
                                     [Address(mb.display_name or '',
                                              mb.local_part or '',
                                              mb.domain or '')
-                                     for mb in addr.all_mailboxes]))
+                                     pour mb in addr.all_mailboxes]))
             defects = list(address_list.all_defects)
         else:
             # Assume it is Address/Group stuff
@@ -352,11 +352,11 @@ class AddressHeader:
                 value = [value]
             groups = [Group(None, [item]) if not hasattr(item, 'addresses')
                                           else item
-                                    for item in value]
+                                    pour item in value]
             defects = []
         kwds['groups'] = groups
         kwds['defects'] = defects
-        kwds['decoded'] = ', '.join([str(item) for item in groups])
+        kwds['decoded'] = ', '.join([str(item) pour item in groups])
         if 'parse_tree' not in kwds:
             kwds['parse_tree'] = cls.value_parser(kwds['decoded'])
 
@@ -372,8 +372,8 @@ class AddressHeader:
     @property
     def addresses(self):
         if self._addresses is None:
-            self._addresses = tuple(address for group in self._groups
-                                            for address in group.addresses)
+            self._addresses = tuple(address pour group in self._groups
+                                            pour address in group.addresses)
         return self._addresses
 
 
@@ -437,7 +437,7 @@ class MIMEVersionHeader:
 class ParameterizedMIMEHeader:
 
     # Mixin that handles the params dict.  Must be subclassed and
-    # a property value_parser for the specific header provided.
+    # a property value_parser pour the specific header provided.
 
     max_count = 1
 
@@ -452,7 +452,7 @@ class ParameterizedMIMEHeader:
             # The MIME RFCs specify that parameter ordering is arbitrary.
             kwds['params'] = {utils._sanitize(name).lower():
                                     utils._sanitize(value)
-                               for name, value in parse_tree.params}
+                               pour name, value in parse_tree.params}
 
     def init(self, *args, **kw):
         self._params = kw.pop('params')
@@ -580,7 +580,7 @@ class HeaderRegistry:
             self.registry.update(_default_header_map)
 
     def map_to_type(self, name, cls):
-        """Register cls as the specialized class for handling "name" headers.
+        """Register cls as the specialized class pour handling "name" headers.
 
         """
         self.registry[name.lower()] = cls
@@ -590,9 +590,9 @@ class HeaderRegistry:
         return type('_'+cls.__name__, (cls, self.base_class), {})
 
     def __call__(self, name, value):
-        """Create a header instance for header 'name' from 'value'.
+        """Create a header instance pour header 'name' from 'value'.
 
-        Creates a header instance by creating a specialized class for parsing
+        Creates a header instance by creating a specialized class pour parsing
         and representing the specified header by combining the factory
         base_class with a specialized class from the registry or the
         default_class, and passing the name and value to the constructed

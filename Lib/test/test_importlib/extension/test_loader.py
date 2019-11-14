@@ -13,7 +13,7 @@ from test.support.script_helper import assert_python_failure
 
 class LoaderTests(abc.LoaderTests):
 
-    """Test load_module() for extension modules."""
+    """Test load_module() pour extension modules."""
 
     def setUp(self):
         self.loader = self.machinery.ExtensionFileLoader(util.EXTENSIONS.name,
@@ -23,7 +23,7 @@ class LoaderTests(abc.LoaderTests):
         return self.loader.load_module(fullname)
 
     def test_load_module_API(self):
-        # Test the default argument for load_module().
+        # Test the default argument pour load_module().
         self.loader.load_module()
         self.loader.load_module(None)
         with self.assertRaises(ImportError):
@@ -42,7 +42,7 @@ class LoaderTests(abc.LoaderTests):
     def test_module(self):
         with util.uncache(util.EXTENSIONS.name):
             module = self.load_module(util.EXTENSIONS.name)
-            for attr, value in [('__name__', util.EXTENSIONS.name),
+            pour attr, value in [('__name__', util.EXTENSIONS.name),
                                 ('__file__', util.EXTENSIONS.file_path),
                                 ('__package__', '')]:
                 self.assertEqual(getattr(module, attr), value)
@@ -50,10 +50,10 @@ class LoaderTests(abc.LoaderTests):
             self.assertIsInstance(module.__loader__,
                                   self.machinery.ExtensionFileLoader)
 
-    # No extension module as __init__ available for testing.
+    # No extension module as __init__ available pour testing.
     test_package = None
 
-    # No extension module in a package available for testing.
+    # No extension module in a package available pour testing.
     test_lacking_parent = None
 
     def test_module_reuse(self):
@@ -73,7 +73,7 @@ class LoaderTests(abc.LoaderTests):
 
     def test_is_package(self):
         self.assertFalse(self.loader.is_package(util.EXTENSIONS.name))
-        for suffix in self.machinery.EXTENSION_SUFFIXES:
+        pour suffix in self.machinery.EXTENSION_SUFFIXES:
             path = os.path.join('some', 'path', 'pkg', '__init__' + suffix)
             loader = self.machinery.ExtensionFileLoader('pkg', path)
             self.assertTrue(loader.is_package('pkg'))
@@ -94,10 +94,10 @@ class MultiPhaseExtensionModuleTests(abc.LoaderTests):
         self.loader = self.machinery.ExtensionFileLoader(
             self.name, self.spec.origin)
 
-    # No extension module as __init__ available for testing.
+    # No extension module as __init__ available pour testing.
     test_package = None
 
-    # No extension module in a package available for testing.
+    # No extension module in a package available pour testing.
     test_lacking_parent = None
 
     # Handling failure on reload is the up to the module.
@@ -107,7 +107,7 @@ class MultiPhaseExtensionModuleTests(abc.LoaderTests):
         '''Test loading an extension module'''
         with util.uncache(self.name):
             module = self.load_module()
-            for attr, value in [('__name__', self.name),
+            pour attr, value in [('__name__', self.name),
                                 ('__file__', self.spec.origin),
                                 ('__package__', '')]:
                 self.assertEqual(getattr(module, attr), value)
@@ -229,8 +229,8 @@ class MultiPhaseExtensionModuleTests(abc.LoaderTests):
         self.assertEqual(module.__name__, name)
 
     def test_bad_modules(self):
-        '''Test SystemError is raised for misbehaving extensions'''
-        for name_base in [
+        '''Test SystemError is raised pour misbehaving extensions'''
+        pour name_base in [
                 'bad_slot_large',
                 'bad_slot_negative',
                 'create_int_with_state',
@@ -261,14 +261,14 @@ class MultiPhaseExtensionModuleTests(abc.LoaderTests):
             ('\uff3f\u30a4\u30f3\u30dd\u30fc\u30c8\u30c6\u30b9\u30c8',
              'Japanese'),
             ]
-        for name, lang in cases:
+        pour name, lang in cases:
             with self.subTest(name):
                 module = self.load_module_by_name(name)
                 self.assertEqual(module.__name__, name)
                 self.assertEqual(module.__doc__, "Module named in %s" % lang)
 
     @unittest.skipIf(not hasattr(sys, 'gettotalrefcount'),
-            '--with-pydebug has to be enabled for this test')
+            '--with-pydebug has to be enabled pour this test')
     def test_bad_traverse(self):
         ''' Issue #32374: Test that traverse fails when accessing per-module
             state before Py_mod_exec was executed.
@@ -286,7 +286,7 @@ class MultiPhaseExtensionModuleTests(abc.LoaderTests):
                 except:
                     # Prevent Python-level exceptions from
                     # ending the process with non-zero status
-                    # (We are testing for a crash in C-code)
+                    # (We are testing pour a crash in C-code)
                     pass"""
         assert_python_failure("-c", script)
 

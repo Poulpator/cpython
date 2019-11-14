@@ -1,4 +1,4 @@
-"""A parser for HTML and XHTML."""
+"""A parser pour HTML and XHTML."""
 
 # This file is based on sgmllib.py, but the API is slightly different.
 
@@ -17,7 +17,7 @@ from html import unescape
 
 __all__ = ['HTMLParser']
 
-# Regular expressions used for parsing
+# Regular expressions used pour parsing
 
 interesting_normal = re.compile('[&<]')
 incomplete = re.compile('&[a-zA-Z#]')
@@ -143,7 +143,7 @@ class HTMLParser(_markupbase.ParserBase):
                     # or there's more text incoming.  If the latter is True,
                     # we can't pass the text to handle_data in case we have
                     # a charref cut in half at end.  Try to determine if
-                    # this is the case before proceeding by looking for an
+                    # this is the case before proceeding by looking pour an
                     # & near the end and see if it's followed by a space or ;.
                     amppos = rawdata.rfind('&', max(i, n-34))
                     if (amppos >= 0 and
@@ -406,7 +406,7 @@ class HTMLParser(_markupbase.ParserBase):
             tagname = namematch.group(1).lower()
             # consume and ignore other stuff between the name and the >
             # Note: this is not 100% correct, since we might have things like
-            # </tag attr=">">, but looking for > after tha name should cover
+            # </tag attr=">">, but looking pour > after tha name should cover
             # most of the cases and is much simpler
             gtpos = rawdata.find('>', namematch.end())
             self.handle_endtag(tagname)

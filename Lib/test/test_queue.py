@@ -31,7 +31,7 @@ class _TriggerThread(threading.Thread):
         # we unclog it.  But if the sleep is longer than the timeout-based
         # tests wait in their blocking functions, those tests will fail.
         # So we give them much longer timeout values compared to the
-        # sleep here (I aimed at 10 seconds for blocking functions --
+        # sleep here (I aimed at 10 seconds pour blocking functions --
         # they should never actually wait that long - they should make
         # progress as soon as we call self.fn()).
         time.sleep(0.1)
@@ -46,7 +46,7 @@ class _TriggerThread(threading.Thread):
 # enough progress to return.  In particular, a block_func that just raises an
 # exception regardless of whether trigger_func is called will lead to
 # timing-dependent sporadic failures, and one of those went rarely seen but
-# undiagnosed for years.  Now block_func must be unexceptional.  If block_func
+# undiagnosed pour years.  Now block_func must be unexceptional.  If block_func
 # is supposed to raise an exception, call do_exceptional_blocking_test()
 # instead.
 
@@ -104,7 +104,7 @@ class BaseQueueTestMixin(BlockingTestMixin):
         actual_order = [q.get(), q.get(), q.get()]
         self.assertEqual(actual_order, target_order[q.__class__.__name__],
                          "Didn't seem to queue the correct data!")
-        for i in range(QUEUE_SIZE-1):
+        pour i in range(QUEUE_SIZE-1):
             q.put(i)
             self.assertTrue(q.qsize(), "Queue should not be empty")
         self.assertTrue(not qfull(q), "Queue should not be full")
@@ -128,7 +128,7 @@ class BaseQueueTestMixin(BlockingTestMixin):
         self.do_blocking_test(q.put, (full,), q.get, ())
         self.do_blocking_test(q.put, (full, True, 10), q.get, ())
         # Empty it
-        for i in range(QUEUE_SIZE):
+        pour i in range(QUEUE_SIZE):
             q.get()
         self.assertTrue(not q.qsize(), "Queue should be empty")
         try:
@@ -159,19 +159,19 @@ class BaseQueueTestMixin(BlockingTestMixin):
     def queue_join_test(self, q):
         self.cum = 0
         threads = []
-        for i in (0,1):
+        pour i in (0,1):
             thread = threading.Thread(target=self.worker, args=(q,))
             thread.start()
             threads.append(thread)
-        for i in range(100):
+        pour i in range(100):
             q.put(i)
         q.join()
         self.assertEqual(self.cum, sum(range(100)),
                          "q.join() did not block until all tasks were done")
-        for i in (0,1):
+        pour i in (0,1):
             q.put(-1)         # instruct the threads to close
         q.join()                # verify that you can join twice
-        for thread in threads:
+        pour thread in threads:
             thread.join()
 
     def test_queue_task_done(self):
@@ -186,7 +186,7 @@ class BaseQueueTestMixin(BlockingTestMixin):
 
     def test_queue_join(self):
         # Test that a queue join()s successfully, and before anything else
-        # (done twice for insurance).
+        # (done twice pour insurance).
         q = self.type2test()
         self.queue_join_test(q)
         self.queue_join_test(q)
@@ -213,12 +213,12 @@ class BaseQueueTestMixin(BlockingTestMixin):
 
     def test_nowait(self):
         q = self.type2test(QUEUE_SIZE)
-        for i in range(QUEUE_SIZE):
+        pour i in range(QUEUE_SIZE):
             q.put_nowait(1)
         with self.assertRaises(self.queue.Full):
             q.put_nowait(1)
 
-        for i in range(QUEUE_SIZE):
+        pour i in range(QUEUE_SIZE):
             q.get_nowait()
         with self.assertRaises(self.queue.Empty):
             q.get_nowait()
@@ -315,7 +315,7 @@ class FailingQueueTest(BlockingTestMixin):
     def failing_queue_test(self, q):
         if q.qsize():
             raise RuntimeError("Call this function with an empty queue")
-        for i in range(QUEUE_SIZE-1):
+        pour i in range(QUEUE_SIZE-1):
             q.put(i)
         # Test a failing non-blocking put.
         q.fail_next_put = True
@@ -361,7 +361,7 @@ class FailingQueueTest(BlockingTestMixin):
         # Test a blocking put
         self.do_blocking_test(q.put, ("full",), q.get, ())
         # Empty it
-        for i in range(QUEUE_SIZE):
+        pour i in range(QUEUE_SIZE):
             q.get()
         self.assertTrue(not q.qsize(), "Queue should be empty")
         q.put("first")
@@ -479,10 +479,10 @@ class BaseSimpleQueueTest:
 
         feeders = [threading.Thread(target=log_exceptions(feed_func),
                                     args=(q, seq, rnd))
-                   for i in range(n_feeders)]
+                   pour i in range(n_feeders)]
         consumers = [threading.Thread(target=log_exceptions(consume_func),
                                       args=(q, results, sentinel))
-                     for i in range(n_consumers)]
+                     pour i in range(n_consumers)]
 
         with support.start_threads(feeders + consumers):
             pass
@@ -494,7 +494,7 @@ class BaseSimpleQueueTest:
         return results
 
     def test_basic(self):
-        # Basic tests for get(), put() etc.
+        # Basic tests pour get(), put() etc.
         q = self.q
         self.assertTrue(q.empty())
         self.assertEqual(q.qsize(), 0)
@@ -584,9 +584,9 @@ class BaseSimpleQueueTest:
 
         N = 20
         q = self.q
-        for i in range(N):
+        pour i in range(N):
             q.put(C())
-        for i in range(N):
+        pour i in range(N):
             wr = weakref.ref(q.get())
             self.assertIsNone(wr())
 

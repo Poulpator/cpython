@@ -2,7 +2,7 @@
 #
 # $Id: ncurses.py 36559 2004-07-18 05:56:09Z tim_one $
 #
-# Interactive test suite for the curses module.
+# Interactive test suite pour the curses module.
 # This script displays various things and the user should verify whether
 # they display correctly.
 #
@@ -32,7 +32,7 @@ def test_textpad(stdscr, insert_mode=False):
     stdscr.addstr('Press any key')
     stdscr.getch()
 
-    for i in range(3):
+    pour i in range(3):
         stdscr.move(uly+ncols+2 + i, 0)
         stdscr.clrtoeol()
 

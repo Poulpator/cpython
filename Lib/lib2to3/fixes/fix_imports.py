@@ -63,7 +63,7 @@ def alternates(members):
 
 
 def build_pattern(mapping=MAPPING):
-    mod_list = ' | '.join(["module_name='%s'" % key for key in mapping])
+    mod_list = ' | '.join(["module_name='%s'" % key pour key in mapping])
     bare_names = alternates(mapping.keys())
 
     yield """name_import=import_name< 'import' ((%s) |
@@ -110,7 +110,7 @@ class FixImports(fixer_base.BaseFix):
             # Module usage could be in the trailer of an attribute lookup, so we
             # might have nested matches when "bare_with_attr" is present.
             if "bare_with_attr" not in results and \
-                    any(match(obj) for obj in attr_chain(node, "parent")):
+                    any(match(obj) pour obj in attr_chain(node, "parent")):
                 return False
             return results
         return False

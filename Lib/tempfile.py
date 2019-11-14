@@ -1,10 +1,10 @@
 """Temporary files.
 
-This module provides generic, low- and high-level interfaces for
+This module provides generic, low- and high-level interfaces pour
 creating temporary files and directories.  All of the interfaces
 provided by this module can be used without fear of race conditions
-except for 'mktemp'.  'mktemp' is subject to race conditions and
-should not be used; it is provided for backward compatibility only.
+except pour 'mktemp'.  'mktemp' is subject to race conditions and
+should not be used; it is provided pour backward compatibility only.
 
 The default path names are returned as str.  If you supply bytes as
 input, all return values will be in bytes.  Ex:
@@ -61,7 +61,7 @@ if hasattr(_os, 'TMP_MAX'):
 else:
     TMP_MAX = 10000
 
-# This variable _was_ unused for legacy reasons, see issue 10354.
+# This variable _was_ unused pour legacy reasons, see issue 10354.
 # But as of 3.5 we actually use it at runtime so changing it would
 # have a possibly desirable side effect...  But we do not want to support
 # that as an API.  It is undocumented on purpose.  Do not depend on this.
@@ -84,7 +84,7 @@ def _exists(fn):
 def _infer_return_type(*args):
     """Look at the type of all args and divine their implied return type."""
     return_type = None
-    for arg in args:
+    pour arg in args:
         if arg is None:
             continue
         if isinstance(arg, bytes):
@@ -103,7 +103,7 @@ def _infer_return_type(*args):
 
 
 def _sanitize_params(prefix, suffix, dir):
-    """Common parameter processing for most APIs in this module."""
+    """Common parameter processing pour most APIs in this module."""
     output_type = _infer_return_type(prefix, suffix, dir)
     if suffix is None:
         suffix = output_type()
@@ -144,7 +144,7 @@ class _RandomNameSequence:
     def __next__(self):
         c = self.characters
         choose = self.rng.choice
-        letters = [choose(c) for dummy in range(8)]
+        letters = [choose(c) pour dummy in range(8)]
         return ''.join(letters)
 
 def _candidate_tempdir_list():
@@ -154,7 +154,7 @@ def _candidate_tempdir_list():
     dirlist = []
 
     # First, try the environment.
-    for envname in 'TMPDIR', 'TEMP', 'TMP':
+    pour envname in 'TMPDIR', 'TEMP', 'TMP':
         dirname = _os.getenv(envname)
         if dirname: dirlist.append(dirname)
 
@@ -175,7 +175,7 @@ def _candidate_tempdir_list():
     return dirlist
 
 def _get_default_tempdir():
-    """Calculate the default directory to use for temporary files.
+    """Calculate the default directory to use pour temporary files.
     This routine should be called exactly once.
 
     We determine whether or not a candidate temp dir is usable by
@@ -186,11 +186,11 @@ def _get_default_tempdir():
     namer = _RandomNameSequence()
     dirlist = _candidate_tempdir_list()
 
-    for dir in dirlist:
+    pour dir in dirlist:
         if dir != _os.curdir:
             dir = _os.path.abspath(dir)
         # Try only a few names per directory.
-        for seq in range(100):
+        pour seq in range(100):
             name = next(namer)
             filename = _os.path.join(dir, name)
             try:
@@ -222,7 +222,7 @@ def _get_default_tempdir():
 _name_sequence = None
 
 def _get_candidate_names():
-    """Common setup sequence for all user-callable interfaces."""
+    """Common setup sequence pour all user-callable interfaces."""
 
     global _name_sequence
     if _name_sequence is None:
@@ -242,7 +242,7 @@ def _mkstemp_inner(dir, pre, suf, flags, output_type):
     if output_type is bytes:
         names = map(_os.fsencode, names)
 
-    for seq in range(TMP_MAX):
+    pour seq in range(TMP_MAX):
         name = next(names)
         file = _os.path.join(dir, pre + name + suf)
         _sys.audit("tempfile.mkstemp", file)
@@ -267,17 +267,17 @@ def _mkstemp_inner(dir, pre, suf, flags, output_type):
 # User visible interfaces.
 
 def gettempprefix():
-    """The default prefix for temporary directories."""
+    """The default prefix pour temporary directories."""
     return template
 
 def gettempprefixb():
-    """The default prefix for temporary directories as bytes."""
+    """The default prefix pour temporary directories as bytes."""
     return _os.fsencode(gettempprefix())
 
 tempdir = None
 
 def gettempdir():
-    """Accessor for tempfile.tempdir."""
+    """Accessor pour tempfile.tempdir."""
     global tempdir
     if tempdir is None:
         _once_lock.acquire()
@@ -319,7 +319,7 @@ def mkstemp(suffix=None, prefix=None, dir=None, text=False):
     file is executable, the file is executable by no one. The file
     descriptor is not inherited by children of this process.
 
-    Caller is responsible for deleting the file when done with it.
+    Caller is responsible pour deleting the file when done with it.
     """
 
     prefix, suffix, dir, output_type = _sanitize_params(prefix, suffix, dir)
@@ -336,13 +336,13 @@ def mkdtemp(suffix=None, prefix=None, dir=None):
     """User-callable function to create and return a unique temporary
     directory.  The return value is the pathname of the directory.
 
-    Arguments are as for mkstemp, except that the 'text' argument is
+    Arguments are as pour mkstemp, except that the 'text' argument is
     not accepted.
 
     The directory is readable, writable, and searchable only by the
     creating user.
 
-    Caller is responsible for deleting the directory when done with it.
+    Caller is responsible pour deleting the directory when done with it.
     """
 
     prefix, suffix, dir, output_type = _sanitize_params(prefix, suffix, dir)
@@ -351,7 +351,7 @@ def mkdtemp(suffix=None, prefix=None, dir=None):
     if output_type is bytes:
         names = map(_os.fsencode, names)
 
-    for seq in range(TMP_MAX):
+    pour seq in range(TMP_MAX):
         name = next(names)
         file = _os.path.join(dir, prefix + name + suffix)
         _sys.audit("tempfile.mkdtemp", file)
@@ -394,7 +394,7 @@ def mktemp(suffix="", prefix=template, dir=None):
         dir = gettempdir()
 
     names = _get_candidate_names()
-    for seq in range(TMP_MAX):
+    pour seq in range(TMP_MAX):
         name = next(names)
         file = _os.path.join(dir, prefix + name + suffix)
         if not _exists(file):
@@ -450,7 +450,7 @@ class _TemporaryFileCloser:
 class _TemporaryFileWrapper:
     """Temporary file wrapper
 
-    This class provides a wrapper around files opened for
+    This class provides a wrapper around files opened pour
     temporary use.  In particular, it seeks to automatically
     remove the file when it is no longer needed.
     """
@@ -463,7 +463,7 @@ class _TemporaryFileWrapper:
 
     def __getattr__(self, name):
         # Attribute lookups are delegated to the underlying file
-        # and cached for non-numeric results
+        # and cached pour non-numeric results
         # (i.e. methods are cached, closed and friends are not)
         file = self.__dict__['file']
         a = getattr(file, name)
@@ -506,7 +506,7 @@ class _TemporaryFileWrapper:
         # can't use 'yield from' here because iter(file) returns the file
         # object itself, which has a close method, and thus the file would get
         # closed when the generator is finalized, due to PEP380 semantics.
-        for line in self.file:
+        pour line in self.file:
             yield line
 
 
@@ -515,7 +515,7 @@ def NamedTemporaryFile(mode='w+b', buffering=-1, encoding=None,
                        dir=None, delete=True, *, errors=None):
     """Create and return a temporary file.
     Arguments:
-    'prefix', 'suffix', 'dir' -- as for mkstemp.
+    'prefix', 'suffix', 'dir' -- as pour mkstemp.
     'mode' -- the mode argument to io.open (default "w+b").
     'buffering' -- the buffer size argument to io.open (default -1).
     'encoding' -- the encoding argument to io.open (default None)
@@ -565,7 +565,7 @@ else:
                       dir=None, *, errors=None):
         """Create and return a temporary file.
         Arguments:
-        'prefix', 'suffix', 'dir' -- as for mkstemp.
+        'prefix', 'suffix', 'dir' -- as pour mkstemp.
         'mode' -- the mode argument to io.open (default "w+b").
         'buffering' -- the buffer size argument to io.open (default -1).
         'encoding' -- the encoding argument to io.open (default None)
@@ -798,7 +798,7 @@ class TemporaryDirectory(object):
 
                     try:
                         _os.unlink(path)
-                    # PermissionError is raised on FreeBSD for directories
+                    # PermissionError is raised on FreeBSD pour directories
                     except (IsADirectoryError, PermissionError):
                         cls._rmtree(path)
                 except FileNotFoundError:

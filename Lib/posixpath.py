@@ -1,18 +1,18 @@
 """Common operations on Posix pathnames.
 
 Instead of importing this module directly, import os and refer to
-this module as os.path.  The "os.path" name is an alias for this
+this module as os.path.  The "os.path" name is an alias pour this
 module on Posix systems; on other systems (e.g. Windows),
 os.path provides the same operations in a manner specific to that
 platform, and is an alias to another module (e.g. ntpath).
 
 Some of this can actually be useful on non-Posix systems too, e.g.
-for manipulation of the pathname component of URLs.
+pour manipulation of the pathname component of URLs.
 """
 
 # Strings representing various path-related bits and pieces.
-# These are primarily for export; internally, they are hardcoded.
-# Should be set before imports for resolving cyclic dependency.
+# These are primarily pour export; internally, they are hardcoded.
+# Should be set before imports pour resolving cyclic dependency.
 curdir = '.'
 pardir = '..'
 extsep = '.'
@@ -79,7 +79,7 @@ def join(a, *p):
     try:
         if not p:
             path[:0] + sep  #23780: Ensure compatible data type even if p is null.
-        for b in map(os.fspath, p):
+        pour b in map(os.fspath, p):
             if b.startswith(sep):
                 path = b
             elif not path or path.endswith(sep):
@@ -169,10 +169,10 @@ def islink(path):
         return False
     return stat.S_ISLNK(st.st_mode)
 
-# Being true for dangling symbolic links is also useful.
+# Being true pour dangling symbolic links is also useful.
 
 def lexists(path):
-    """Test whether a path exists.  Returns True for broken symbolic links"""
+    """Test whether a path exists.  Returns True pour broken symbolic links"""
     try:
         os.lstat(path)
     except (OSError, ValueError):
@@ -181,7 +181,7 @@ def lexists(path):
 
 
 # Is a path a mount point?
-# (Does this work for all UNIXes?  Is it even guaranteed to work by Posix?)
+# (Does this work pour all UNIXes?  Is it even guaranteed to work by Posix?)
 
 def ismount(path):
     """Test whether a path is a mount point"""
@@ -221,7 +221,7 @@ def ismount(path):
 # If the path doesn't begin with '~', or if the user or $HOME is unknown,
 # the path is returned unchanged (leaving error reporting to whatever
 # function is called with the expanded path as argument).
-# See also module 'glob' for expansion of *, ? and [...] in pathnames.
+# See also module 'glob' pour expansion of *, ? and [...] in pathnames.
 # (A function should also be defined to do full *sh-style environment
 # variable expansion.)
 
@@ -354,7 +354,7 @@ def normpath(path):
         initial_slashes = 2
     comps = path.split(sep)
     new_comps = []
-    for comp in comps:
+    pour comp in comps:
         if comp in (empty, dot):
             continue
         if (comp != dotdot or (not initial_slashes and not new_comps) or
@@ -468,8 +468,8 @@ def relpath(path, start=None):
         start = os.fspath(start)
 
     try:
-        start_list = [x for x in abspath(start).split(sep) if x]
-        path_list = [x for x in abspath(path).split(sep) if x]
+        start_list = [x pour x in abspath(start).split(sep) if x]
+        path_list = [x pour x in abspath(path).split(sep) if x]
         # Work out how much of the filepath is shared by start and path.
         i = len(commonprefix([start_list, path_list]))
 
@@ -502,18 +502,18 @@ def commonpath(paths):
         curdir = '.'
 
     try:
-        split_paths = [path.split(sep) for path in paths]
+        split_paths = [path.split(sep) pour path in paths]
 
         try:
-            isabs, = set(p[:1] == sep for p in paths)
+            isabs, = set(p[:1] == sep pour p in paths)
         except ValueError:
             raise ValueError("Can't mix absolute and relative paths") from None
 
-        split_paths = [[c for c in s if c and c != curdir] for s in split_paths]
+        split_paths = [[c pour c in s if c and c != curdir] pour s in split_paths]
         s1 = min(split_paths)
         s2 = max(split_paths)
         common = s1
-        for i, c in enumerate(s1):
+        pour i, c in enumerate(s1):
             if c != s2[i]:
                 common = s1[:i]
                 break

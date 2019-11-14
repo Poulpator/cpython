@@ -1,10 +1,10 @@
 # Copyright 2007 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-# Note: each test is run with Python and C versions of ABCMeta. Except for
+# Note: each test is run with Python and C versions of ABCMeta. Except pour
 # test_ABC_helper(), which assures that abc.ABC is an instance of abc.ABCMeta.
 
-"""Unit tests for abc.py."""
+"""Unit tests pour abc.py."""
 
 import unittest
 
@@ -150,7 +150,7 @@ def test_factory(abc_ABCMeta, abc_get_cache_token):
             self.assertEqual(D().foo(), 4)
 
         def test_abstractmethod_integration(self):
-            for abstractthing in [abc.abstractmethod, abc.abstractproperty,
+            pour abstractthing in [abc.abstractmethod, abc.abstractproperty,
                                   abc.abstractclassmethod,
                                   abc.abstractstaticmethod]:
                 class C(metaclass=abc_ABCMeta):
@@ -419,7 +419,7 @@ def test_factory(abc_ABCMeta, abc_get_cache_token):
                 lambda: [42],
             ]
 
-            for i, func in enumerate(bogus_subclasses):
+            pour i, func in enumerate(bogus_subclasses):
                 class S(metaclass=abc_ABCMeta):
                     __subclasses__ = func
 

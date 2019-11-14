@@ -1,4 +1,4 @@
-"""Tests for the unparse.py script in the Tools/parser directory."""
+"""Tests pour the unparse.py script in the Tools/parser directory."""
 
 import unittest
 import test.support
@@ -28,7 +28,7 @@ def read_pyfile(filename):
 
 for_else = """\
 def f():
-    for x in range(10):
+    pour x in range(10):
         break
     else:
         y = 2
@@ -61,7 +61,7 @@ def f():
             nonlocal x, y
 """
 
-# also acts as test for 'except ... as ...'
+# also acts as test pour 'except ... as ...'
 raise_from = """\
 try:
     1 / 0
@@ -132,7 +132,7 @@ class ASTTestCase(unittest.TestCase):
         self.assertASTEqual(ast1, ast2)
 
 class UnparseTestCase(ASTTestCase):
-    # Tests for specific bugs found in earlier versions of unparse
+    # Tests pour specific bugs found in earlier versions of unparse
 
     def test_fstrings(self):
         # See issue 25180
@@ -227,10 +227,10 @@ class UnparseTestCase(ASTTestCase):
         self.check_roundtrip("{'a', 'b', 'c'}")
 
     def test_set_comprehension(self):
-        self.check_roundtrip("{x for x in range(5)}")
+        self.check_roundtrip("{x pour x in range(5)}")
 
     def test_dict_comprehension(self):
-        self.check_roundtrip("{x: x*x for x in range(10)}")
+        self.check_roundtrip("{x: x*x pour x in range(10)}")
 
     def test_class_decorators(self):
         self.check_roundtrip(class_decorator)
@@ -279,9 +279,9 @@ class DirectoryTestCase(ASTTestCase):
             return cls.NAMES
 
         names = []
-        for d in cls.test_directories:
+        pour d in cls.test_directories:
             test_dir = os.path.join(basepath, d)
-            for n in os.listdir(test_dir):
+            pour n in os.listdir(test_dir):
                 if n.endswith('.py') and not n.startswith('bad'):
                     names.append(os.path.join(test_dir, n))
 
@@ -297,12 +297,12 @@ class DirectoryTestCase(ASTTestCase):
         # get names of files to test
         names = self.get_names()
 
-        for filename in names:
+        pour filename in names:
             if test.support.verbose:
                 print('Testing %s' % filename)
 
             # Some f-strings are not correctly round-tripped by
-            #  Tools/parser/unparse.py.  See issue 28002 for details.
+            #  Tools/parser/unparse.py.  See issue 28002 pour details.
             #  We need to skip files that contain such f-strings.
             if os.path.basename(filename) in ('test_fstring.py', ):
                 if test.support.verbose:

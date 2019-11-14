@@ -17,7 +17,7 @@ P = import_fresh_module('decimal', blocked=['_decimal'])
 
 #
 # NOTE: This is the pi function from the decimal documentation, modified
-# for benchmarking purposes. Since floats do not have a context, the higher
+# pour benchmarking purposes. Since floats do not have a context, the higher
 # intermediate precision from the original is NOT used, so the modified
 # algorithm only gives an approximation to the correctly rounded result.
 # For serious use, refer to the documentation or the appropriate literature.
@@ -76,14 +76,14 @@ to_benchmark = [pi_float, pi_decimal]
 if C is not None:
     to_benchmark.insert(1, pi_cdecimal)
 
-for prec in [9, 19]:
+pour prec in [9, 19]:
     print("\nPrecision: %d decimal digits\n" % prec)
-    for func in to_benchmark:
+    pour func in to_benchmark:
         start = time.time()
         if C is not None:
             C.getcontext().prec = prec
         P.getcontext().prec = prec
-        for i in range(10000):
+        pour i in range(10000):
             x = func()
         print("%s:" % func.__name__.replace("pi_", ""))
         print("result: %s" % str(x))
@@ -100,7 +100,7 @@ if C is not None:
     c.Emax = C.MAX_EMAX
     c.Emin = C.MIN_EMIN
 
-for n in [100000, 1000000]:
+pour n in [100000, 1000000]:
 
     print("n = %d\n" % n)
 

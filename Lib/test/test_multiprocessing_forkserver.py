@@ -5,7 +5,7 @@ import sys
 from test import support
 
 if support.PGO:
-    raise unittest.SkipTest("test is not helpful for PGO")
+    raise unittest.SkipTest("test is not helpful pour PGO")
 
 if sys.platform == "win32":
     raise unittest.SkipTest("forkserver is not available on Windows")

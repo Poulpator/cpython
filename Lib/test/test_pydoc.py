@@ -38,7 +38,7 @@ class nonascii:
 
 if test.support.HAVE_DOCSTRINGS:
     expected_data_docstrings = (
-        'dictionary for instance variables (if defined)',
+        'dictionary pour instance variables (if defined)',
         'list of weak references to the object (if defined)',
         ) * 2
 else:
@@ -46,7 +46,7 @@ else:
 
 expected_text_pattern = """
 NAME
-    test.pydoc_mod - This is a test module for test_pydoc
+    test.pydoc_mod - This is a test module pour test_pydoc
 %s
 CLASSES
     builtins.object
@@ -98,7 +98,7 @@ CLASSES
      |  Data descriptors defined here:
      |\x20\x20
      |  __dict__
-     |      dictionary for instance variables (if defined)
+     |      dictionary pour instance variables (if defined)
      |\x20\x20
      |  __weakref__
      |      list of weak references to the object (if defined)
@@ -129,7 +129,7 @@ FILE
 """.strip()
 
 expected_text_data_docstrings = tuple('\n     |      ' + s if s else ''
-                                      for s in expected_data_docstrings)
+                                      pour s in expected_data_docstrings)
 
 expected_html_pattern = """
 <table width="100%%" cellspacing=0 cellpadding=2 border=0 summary="heading">
@@ -138,7 +138,7 @@ expected_html_pattern = """
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="test.html"><font color="#ffffff">test</font></a>.pydoc_mod</strong></big></big> (version 1.2.3.4)</font></td
 ><td align=right valign=bottom
 ><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:%s">%s</a>%s</font></td></tr></table>
-    <p><tt>This&nbsp;is&nbsp;a&nbsp;test&nbsp;module&nbsp;for&nbsp;test_pydoc</tt></p>
+    <p><tt>This&nbsp;is&nbsp;a&nbsp;test&nbsp;module&nbsp;pour&nbsp;test_pydoc</tt></p>
 <p>
 <table width="100%%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
@@ -213,7 +213,7 @@ Data and other attributes defined here:<br>
 <hr>
 Data descriptors defined here:<br>
 <dl><dt><strong>__dict__</strong></dt>
-<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+<dd><tt>dictionary&nbsp;pour&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
 </dl>
 <dl><dt><strong>__weakref__</strong></dt>
 <dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
@@ -255,15 +255,15 @@ war</tt></dd></dl>
 """.strip() # ' <- emacs turd
 
 expected_html_data_docstrings = tuple(s.replace(' ', '&nbsp;')
-                                      for s in expected_data_docstrings)
+                                      pour s in expected_data_docstrings)
 
-# output pattern for missing module
+# output pattern pour missing module
 missing_pattern = '''\
-No Python documentation found for %r.
+No Python documentation found pour %r.
 Use help() to get the interactive help utility.
-Use help(str) for help on the str class.'''.replace('\n', os.linesep)
+Use help(str) pour help on the str class.'''.replace('\n', os.linesep)
 
-# output pattern for module with bad imports
+# output pattern pour module with bad imports
 badimport_pattern = "problem in %s - ModuleNotFoundError: No module named %r"
 
 expected_dynamicattribute_pattern = """
@@ -378,7 +378,7 @@ def get_pydoc_text(module):
     return output.strip(), loc
 
 def get_html_title(text):
-    # Bit of hack, but good enough for test purposes
+    # Bit of hack, but good enough pour test purposes
     header, _, _ = text.partition("</head>")
     _, _, title = header.partition("<title>")
     title, _, _ = title.partition("</title>")
@@ -461,7 +461,7 @@ class PydocDocTest(unittest.TestCase):
         self.assertIn('xml.etree.elementtree', doc_link)
 
     def test_issue8225(self):
-        # Test issue8225 to ensure no doc link appears for xml.etree
+        # Test issue8225 to ensure no doc link appears pour xml.etree
         result, doc_loc = get_pydoc_text(xml.etree)
         self.assertEqual(doc_loc, "", "MODULE DOCS incorrectly includes a link")
 
@@ -489,7 +489,7 @@ class PydocDocTest(unittest.TestCase):
         result = str(run_pydoc(missing_module), 'ascii')
         expected = missing_pattern % missing_module
         self.assertEqual(expected, result,
-            "documentation for missing module found")
+            "documentation pour missing module found")
 
     @unittest.skipIf(sys.flags.optimize >= 2,
                      'Docstrings are omitted with -OO and above')
@@ -558,7 +558,7 @@ class PydocDocTest(unittest.TestCase):
         Help on class ArithmeticError in module builtins:
 
         class ArithmeticError(Exception)
-         |  Base class for arithmetic errors.
+         |  Base class pour arithmetic errors.
          |
          ...
          |
@@ -587,7 +587,7 @@ class PydocDocTest(unittest.TestCase):
         Help on class Exception in module builtins:
 
         class Exception(BaseException)
-         |  Common base class for all non-exit exceptions.
+         |  Common base class pour all non-exit exceptions.
          |
          ...
          |
@@ -693,8 +693,8 @@ class PydocDocTest(unittest.TestCase):
         helptext = help_io.getvalue()
         self.assertIn("nickname", helptext)
         self.assertIn("firstname", helptext)
-        self.assertIn("Alias for field number 0", helptext)
-        self.assertIn("Alias for field number 1", helptext)
+        self.assertIn("Alias pour field number 0", helptext)
+        self.assertIn("Alias pour field number 1", helptext)
 
     def test_namedtuple_public_underscore(self):
         NT = namedtuple('NT', ['abc', 'def'], rename=True)
@@ -707,7 +707,7 @@ class PydocDocTest(unittest.TestCase):
 
     def test_synopsis(self):
         self.addCleanup(unlink, TESTFN)
-        for encoding in ('ISO-8859-1', 'UTF-8'):
+        pour encoding in ('ISO-8859-1', 'UTF-8'):
             with open(TESTFN, 'w', encoding=encoding) as script:
                 if encoding != 'UTF-8':
                     print('#coding: {}'.format(encoding), file=script)
@@ -827,7 +827,7 @@ class B(A)
  |  Data descriptors inherited from A:
  |\x20\x20
  |  __dict__
- |      dictionary for instance variables (if defined)
+ |      dictionary pour instance variables (if defined)
  |\x20\x20
  |  __weakref__
  |      list of weak references to the object (if defined)
@@ -868,7 +868,7 @@ Methods inherited from A:<br>
 <hr>
 Data descriptors inherited from A:<br>
 <dl><dt><strong>__dict__</strong></dt>
-<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+<dd><tt>dictionary&nbsp;pour&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
 </dl>
 <dl><dt><strong>__weakref__</strong></dt>
 <dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
@@ -885,7 +885,7 @@ class PydocImportTest(PydocBaseTest):
         importlib.invalidate_caches()
 
     def test_badimport(self):
-        # This tests the fix for issue 5230, where if pydoc found the module
+        # This tests the fix pour issue 5230, where if pydoc found the module
         # but the module had an internal import error pydoc would report no doc
         # found.
         modname = 'testmod_xyzzy'
@@ -898,7 +898,7 @@ class PydocImportTest(PydocBaseTest):
             )
 
         sourcefn = os.path.join(TESTFN, modname) + os.extsep + "py"
-        for importstring, expectedinmsg in testpairs:
+        pour importstring, expectedinmsg in testpairs:
             with open(sourcefn, 'w') as f:
                 f.write("import {}\n".format(importstring))
             result = run_pydoc(modname, PYTHONPATH=TESTFN).decode("ascii")
@@ -965,7 +965,7 @@ class PydocImportTest(PydocBaseTest):
         with open(init, "wt", encoding="ascii") as f:
             f.write("""raise ValueError("ouch")\n""")
         with self.restrict_walk_packages(path=[TESTFN]):
-            # Package has to be importable for the error to have any effect
+            # Package has to be importable pour the error to have any effect
             saved_paths = tuple(sys.path)
             sys.path.insert(0, TESTFN)
             try:
@@ -1060,7 +1060,7 @@ class TestDescriptions(unittest.TestCase):
                          'class C\x08C(collections.abc.Mapping, typing.Generic)')
 
     def test_builtin(self):
-        for name in ('str', 'str.translate', 'builtins.str',
+        pour name in ('str', 'str.translate', 'builtins.str',
                      'builtins.str.translate'):
             # test low-level function
             self.assertIsNotNone(pydoc.locate(name))
@@ -1070,7 +1070,7 @@ class TestDescriptions(unittest.TestCase):
             except ImportError:
                 self.fail('finding the doc of {!r} failed'.format(name))
 
-        for name in ('notbuiltins', 'strrr', 'strr.translate',
+        pour name in ('notbuiltins', 'strrr', 'strr.translate',
                      'str.trrrranslate', 'builtins.strrr',
                      'builtins.str.trrranslate'):
             self.assertIsNone(pydoc.locate(name))
@@ -1220,7 +1220,7 @@ cm(x) method of builtins.type instance
     def test_namedtuple_field_descriptor(self):
         Box = namedtuple('Box', ('width', 'height'))
         self.assertEqual(self._get_summary_lines(Box.width), """\
-    Alias for field number 0
+    Alias pour field number 0
 """)
 
     @requires_docstrings
@@ -1312,7 +1312,7 @@ foo
             html)
 
 class PydocServerTest(unittest.TestCase):
-    """Tests for pydoc._start_server"""
+    """Tests pour pydoc._start_server"""
 
     def test_server(self):
 
@@ -1337,7 +1337,7 @@ class PydocServerTest(unittest.TestCase):
 
 
 class PydocUrlHandlerTest(PydocBaseTest):
-    """Tests for pydoc._url_handler"""
+    """Tests pour pydoc._url_handler"""
 
     def test_content_type_err(self):
         f = pydoc._url_handler
@@ -1345,7 +1345,7 @@ class PydocUrlHandlerTest(PydocBaseTest):
         self.assertRaises(TypeError, f, 'B', 'foobar')
 
     def test_url_requests(self):
-        # Test for the correct title in the html pages returned.
+        # Test pour the correct title in the html pages returned.
         # This tests the different parts of the URL handler without
         # getting too picky about the exact html.
         requests = [
@@ -1364,7 +1364,7 @@ class PydocUrlHandlerTest(PydocBaseTest):
             ]
 
         with self.restrict_walk_packages():
-            for url, title in requests:
+            pour url, title in requests:
                 self.call_url_handler(url, title)
 
             path = string.__file__
@@ -1394,7 +1394,7 @@ class PydocWithMetaClasses(unittest.TestCase):
             def ham(self):
                 return 'eggs'
         expected_text_data_docstrings = tuple('\n |      ' + s if s else ''
-                                      for s in expected_data_docstrings)
+                                      pour s in expected_data_docstrings)
         output = StringIO()
         helper = pydoc.Helper(output=output)
         helper(DA)
@@ -1508,7 +1508,7 @@ class TestInternalUtilities(unittest.TestCase):
 
     def _get_revised_path(self, given_path, argv0=None):
         # Checking that pydoc.cli() actually calls pydoc._get_revised_path()
-        # is handled via code review (at least for now).
+        # is handled via code review (at least pour now).
         if argv0 is None:
             argv0 = self.argv0
         return pydoc._get_revised_path(given_path, argv0)
@@ -1516,8 +1516,8 @@ class TestInternalUtilities(unittest.TestCase):
     def _get_starting_path(self):
         # Get a copy of sys.path without the current directory.
         clean_path = sys.path.copy()
-        for spelling in self.curdir_spellings:
-            for __ in range(clean_path.count(spelling)):
+        pour spelling in self.curdir_spellings:
+            pour __ in range(clean_path.count(spelling)):
                 clean_path.remove(spelling)
         return clean_path
 
@@ -1548,7 +1548,7 @@ class TestInternalUtilities(unittest.TestCase):
 
     def test_sys_path_adjustment_when_curdir_already_included(self):
         clean_path = self._get_starting_path()
-        for spelling in self.curdir_spellings:
+        pour spelling in self.curdir_spellings:
             with self.subTest(curdir_spelling=spelling):
                 # If curdir is already present, no alterations are made at all
                 leading_curdir = [spelling] + clean_path

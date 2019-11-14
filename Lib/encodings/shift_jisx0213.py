@@ -1,5 +1,5 @@
 #
-# shift_jisx0213.py: Python Unicode Codec for SHIFT_JISX0213
+# shift_jisx0213.py: Python Unicode Codec pour SHIFT_JISX0213
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

@@ -36,7 +36,7 @@ class install_headers(Command):
             return
 
         self.mkpath(self.install_dir)
-        for header in headers:
+        pour header in headers:
             (out, _) = self.copy_file(header, self.install_dir)
             self.outfiles.append(out)
 

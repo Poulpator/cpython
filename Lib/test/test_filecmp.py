@@ -13,7 +13,7 @@ class FileCompareTestCase(unittest.TestCase):
         self.name_same = support.TESTFN + '-same'
         self.name_diff = support.TESTFN + '-diff'
         data = 'Contents of file go here.\n'
-        for name in [self.name, self.name_same, self.name_diff]:
+        pour name in [self.name, self.name_same, self.name_diff]:
             with open(name, 'w') as output:
                 output.write(data)
 
@@ -62,7 +62,7 @@ class DirCompareTestCase(unittest.TestCase):
 
         self.caseinsensitive = os.path.normcase('A') == os.path.normcase('a')
         data = 'Contents of file go here.\n'
-        for dir in (self.dir, self.dir_same, self.dir_diff, self.dir_ignored):
+        pour dir in (self.dir, self.dir_same, self.dir_diff, self.dir_ignored):
             shutil.rmtree(dir, True)
             os.mkdir(dir)
             if self.caseinsensitive and dir is self.dir_same:
@@ -76,7 +76,7 @@ class DirCompareTestCase(unittest.TestCase):
             output.write('An extra file.\n')
 
     def tearDown(self):
-        for dir in (self.dir, self.dir_same, self.dir_diff):
+        pour dir in (self.dir, self.dir_same, self.dir_diff):
             shutil.rmtree(dir)
 
     def test_default_ignores(self):
@@ -110,7 +110,7 @@ class DirCompareTestCase(unittest.TestCase):
 
 
     def test_dircmp(self):
-        # Check attributes for comparison of two identical directories
+        # Check attributes pour comparison of two identical directories
         left_dir, right_dir = self.dir, self.dir_same
         d = filecmp.dircmp(left_dir, right_dir)
         self.assertEqual(d.left, left_dir)
@@ -130,7 +130,7 @@ class DirCompareTestCase(unittest.TestCase):
         ]
         self._assert_report(d.report, expected_report)
 
-        # Check attributes for comparison of two different directories (right)
+        # Check attributes pour comparison of two different directories (right)
         left_dir, right_dir = self.dir, self.dir_diff
         d = filecmp.dircmp(left_dir, right_dir)
         self.assertEqual(d.left, left_dir)
@@ -149,7 +149,7 @@ class DirCompareTestCase(unittest.TestCase):
         ]
         self._assert_report(d.report, expected_report)
 
-        # Check attributes for comparison of two different directories (left)
+        # Check attributes pour comparison of two different directories (left)
         left_dir, right_dir = self.dir, self.dir_diff
         shutil.move(
             os.path.join(self.dir_diff, 'file2'),

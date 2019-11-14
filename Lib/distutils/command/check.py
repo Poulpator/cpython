@@ -47,7 +47,7 @@ class check(Command):
     boolean_options = ['metadata', 'restructuredtext', 'strict']
 
     def initialize_options(self):
-        """Sets default values for options."""
+        """Sets default values pour options."""
         self.restructuredtext = 0
         self.metadata = 1
         self.strict = 0
@@ -88,7 +88,7 @@ class check(Command):
         metadata = self.distribution.metadata
 
         missing = []
-        for attr in ('name', 'version', 'url'):
+        pour attr in ('name', 'version', 'url'):
             if not (hasattr(metadata, attr) and getattr(metadata, attr)):
                 missing.append(attr)
 
@@ -110,7 +110,7 @@ class check(Command):
     def check_restructuredtext(self):
         """Checks if the long string fields are reST-compliant."""
         data = self.distribution.get_long_description()
-        for warning in self._check_rst_data(data):
+        pour warning in self._check_rst_data(data):
             line = warning[-1].get('line')
             if line is None:
                 warning = warning[1]

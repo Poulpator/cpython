@@ -1,4 +1,4 @@
-""" Codec for the Punicode encoding, as specified in RFC 3492
+""" Codec pour the Punicode encoding, as specified in RFC 3492
 
 Written by Martin v. Löwis.
 """
@@ -11,7 +11,7 @@ def segregate(str):
     """3.1 Basic code point segregation"""
     base = bytearray()
     extended = set()
-    for c in str:
+    pour c in str:
         if ord(c) < 128:
             base.append(ord(c))
         else:
@@ -22,7 +22,7 @@ def segregate(str):
 def selective_len(str, max):
     """Return the length of str, considering only characters below max."""
     res = 0
-    for c in str:
+    pour c in str:
         if ord(c) < max:
             res += 1
     return res
@@ -50,7 +50,7 @@ def insertion_unsort(str, extended):
     oldchar = 0x80
     result = []
     oldindex = -1
-    for c in extended:
+    pour c in extended:
         index = pos = -1
         char = ord(c)
         curlen = selective_len(str, char)
@@ -108,7 +108,7 @@ def generate_integers(baselen, deltas):
     # Punycode parameters: initial bias = 72, damp = 700, skew = 38
     result = bytearray()
     bias = 72
-    for points, delta in enumerate(deltas):
+    pour points, delta in enumerate(deltas):
         s = generate_generalized_integer(delta, bias)
         result.extend(s)
         bias = adapt(delta, points==0, baselen+points+1)

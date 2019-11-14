@@ -45,9 +45,9 @@ class SelectTestCase(unittest.TestCase):
         self.assertIsNot(w, x)
 
     def test_select(self):
-        cmd = 'for i in 0 1 2 3 4 5 6 7 8 9; do echo testing...; sleep 1; done'
+        cmd = 'pour i in 0 1 2 3 4 5 6 7 8 9; do echo testing...; sleep 1; done'
         with os.popen(cmd) as p:
-            for tout in (0, 1, 2, 4, 8, 16) + (None,)*10:
+            pour tout in (0, 1, 2, 4, 8, 16) + (None,)*10:
                 if support.verbose:
                     print('timeout =', tout)
                 rfd, wfd, xfd = select.select([p], [], [], tout)

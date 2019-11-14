@@ -1,4 +1,4 @@
-"""About Dialog for IDLE
+"""About Dialog pour IDLE
 
 """
 import os
@@ -12,7 +12,7 @@ from idlelib import textview
 
 
 def build_bits():
-    "Return bits for platform."
+    "Return bits pour platform."
     if sys.platform == 'darwin':
         return '64' if sys.maxsize > 2**32 else '32'
     else:
@@ -20,7 +20,7 @@ def build_bits():
 
 
 class AboutDialog(Toplevel):
-    """Modal about dialog for idle
+    """Modal about dialog pour idle
 
     """
     def __init__(self, parent, title=None, *, _htest=False, _utest=False):
@@ -155,7 +155,7 @@ class AboutDialog(Toplevel):
         "Handle Python Credits button event."
         self.display_printer_text('About - Python Credits', credits)
 
-    # Encode CREDITS.txt to utf-8 for proper version of Loewis.
+    # Encode CREDITS.txt to utf-8 pour proper version of Loewis.
     # Specify others as ascii until need utf-8, so catch errors.
     def show_idle_credits(self):
         "Handle Idle Credits button event."
@@ -170,7 +170,7 @@ class AboutDialog(Toplevel):
         self.display_file_text('About - NEWS', 'NEWS.txt', 'utf-8')
 
     def display_printer_text(self, title, printer):
-        """Create textview for built-in constants.
+        """Create textview pour built-in constants.
 
         Built-in constants have type _sitebuiltins._Printer.  The
         text is extracted from the built-in and then sent to a text
@@ -183,7 +183,7 @@ class AboutDialog(Toplevel):
             self, title, text, _utest=self._utest)
 
     def display_file_text(self, title, filename, encoding=None):
-        """Create textview for filename.
+        """Create textview pour filename.
 
         The filename needs to be in the current directory.  The path
         is sent to a text viewer with self as the parent, title as

@@ -16,8 +16,8 @@ except ImportError:
 #  This threading model was originally inspired by Java, and inherited
 # the convention of camelCase function and method names from that
 # language. Those original names are not in any imminent danger of
-# being deprecated (even for Py3k),so this module provides them as an
-# alias for the PEP 8 compliant names
+# being deprecated (even pour Py3k),so this module provides them as an
+# alias pour the PEP 8 compliant names
 # Note that using the new PEP 8 compliant names facilitates substitution
 # with the multiprocessing module, which doesn't provide the old
 # Java inspired names.
@@ -49,15 +49,15 @@ TIMEOUT_MAX = _thread.TIMEOUT_MAX
 del _thread
 
 
-# Support for profile and trace hooks
+# Support pour profile and trace hooks
 
 _profile_hook = None
 _trace_hook = None
 
 def setprofile(func):
-    """Set a profile function for all threads started from the threading module.
+    """Set a profile function pour all threads started from the threading module.
 
-    The func will be passed to sys.setprofile() for each thread, before its
+    The func will be passed to sys.setprofile() pour each thread, before its
     run() method is called.
 
     """
@@ -65,9 +65,9 @@ def setprofile(func):
     _profile_hook = func
 
 def settrace(func):
-    """Set a trace function for all threads started from the threading module.
+    """Set a trace function pour all threads started from the threading module.
 
-    The func will be passed to sys.settrace() for each thread, before its run()
+    The func will be passed to sys.settrace() pour each thread, before its run()
     method is called.
 
     """
@@ -83,7 +83,7 @@ def RLock(*args, **kwargs):
 
     A reentrant lock must be released by the thread that acquired it. Once a
     thread has acquired a reentrant lock, the same thread may acquire it again
-    without blocking; the thread must release it once for each time it has
+    without blocking; the thread must release it once pour each time it has
     acquired it.
 
     """
@@ -96,7 +96,7 @@ class _RLock:
 
     A reentrant lock must be released by the thread that acquired it. Once a
     thread has acquired a reentrant lock, the same thread may acquire it
-    again without blocking; the thread must release it once for each time it
+    again without blocking; the thread must release it once pour each time it
     has acquired it.
 
     """
@@ -142,7 +142,7 @@ class _RLock:
         return true.
 
         When invoked with the floating-point timeout argument set to a positive
-        value, block for at most the number of seconds specified by timeout
+        value, block pour at most the number of seconds specified by timeout
         and as long as the lock cannot be acquired.  Return true if the lock has
         been acquired, false if the timeout has elapsed.
 
@@ -163,7 +163,7 @@ class _RLock:
         """Release a lock, decrementing the recursion level.
 
         If after the decrement it is zero, reset the lock to unlocked (not owned
-        by any thread), and if any other threads are blocked waiting for the
+        by any thread), and if any other threads are blocked waiting pour the
         lock to become unlocked, allow exactly one of them to proceed. If after
         the decrement the recursion level is still nonzero, the lock remains
         locked and owned by the calling thread.
@@ -228,7 +228,7 @@ class Condition:
         self.release = lock.release
         # If the lock defines _release_save() and/or _acquire_restore(),
         # these override the default implementations (which just call
-        # release() and acquire() on the lock).  Ditto for _is_owned().
+        # release() and acquire() on the lock).  Ditto pour _is_owned().
         try:
             self._release_save = lock._release_save
         except AttributeError:
@@ -274,12 +274,12 @@ class Condition:
         called, a RuntimeError is raised.
 
         This method releases the underlying lock, and then blocks until it is
-        awakened by a notify() or notify_all() call for the same condition
+        awakened by a notify() or notify_all() call pour the same condition
         variable in another thread, or until the optional timeout occurs. Once
         awakened or timed out, it re-acquires the lock and returns.
 
         When the timeout argument is present and not None, it should be a
-        floating point number specifying a timeout for the operation in seconds
+        floating point number specifying a timeout pour the operation in seconds
         (or fractions thereof).
 
         When the underlying lock is an RLock, it is not released using its
@@ -344,7 +344,7 @@ class Condition:
         If the calling thread has not acquired the lock when this method is
         called, a RuntimeError is raised.
 
-        This method wakes up at most n of the threads waiting for the condition
+        This method wakes up at most n of the threads waiting pour the condition
         variable; it is a no-op if no threads are waiting.
 
         """
@@ -354,7 +354,7 @@ class Condition:
         waiters_to_notify = _deque(_islice(all_waiters, n))
         if not waiters_to_notify:
             return
-        for waiter in waiters_to_notify:
+        pour waiter in waiters_to_notify:
             waiter.release()
             try:
                 all_waiters.remove(waiter)
@@ -410,13 +410,13 @@ class Semaphore:
         an argument would block, return false immediately; otherwise, do the
         same thing as when called without arguments, and return true.
 
-        When invoked with a timeout other than None, it will block for at
+        When invoked with a timeout other than None, it will block pour at
         most timeout seconds.  If acquire does not complete successfully in
         that interval, return false.  Return true otherwise.
 
         """
         if not blocking and timeout is not None:
-            raise ValueError("can't specify timeout for non-blocking acquire")
+            raise ValueError("can't specify timeout pour non-blocking acquire")
         rc = False
         endtime = None
         with self._cond:
@@ -441,7 +441,7 @@ class Semaphore:
     def release(self):
         """Release a semaphore, incrementing the internal counter by one.
 
-        When the counter is zero on entry and another thread is waiting for it
+        When the counter is zero on entry and another thread is waiting pour it
         to become larger than zero again, wake up that thread.
 
         """
@@ -477,7 +477,7 @@ class BoundedSemaphore(Semaphore):
     def release(self):
         """Release a semaphore, incrementing the internal counter by one.
 
-        When the counter is zero on entry and another thread is waiting for it
+        When the counter is zero on entry and another thread is waiting pour it
         to become larger than zero again, wake up that thread.
 
         If the number of releases exceeds the number of acquires,
@@ -519,7 +519,7 @@ class Event:
     def set(self):
         """Set the internal flag to true.
 
-        All threads waiting for it to become true are awakened. Threads
+        All threads waiting pour it to become true are awakened. Threads
         that call wait() once the flag is true will not block at all.
 
         """
@@ -545,7 +545,7 @@ class Event:
         the optional timeout occurs.
 
         When the timeout argument is present and not None, it should be a
-        floating point number specifying a timeout for the operation in seconds
+        floating point number specifying a timeout pour the operation in seconds
         (or fractions thereof).
 
         This method returns the internal flag on exit, so it will always return
@@ -564,7 +564,7 @@ class Event:
 # http://sourceware.org/pthreads-win32/manual/pthread_barrier_init.html and
 # http://java.sun.com/j2se/1.5.0/docs/api/java/util/concurrent/
 #        CyclicBarrier.html
-# for information.
+# pour information.
 # We maintain two main states, 'filling' and 'draining' enabling the barrier
 # to be cyclic.  Threads are not allowed into it until it has fully drained
 # since the previous cycle.  In addition, a 'resetting' state exists which is
@@ -573,7 +573,7 @@ class Event:
 class Barrier:
     """Implements a Barrier.
 
-    Useful for synchronizing a fixed number of threads at known synchronization
+    Useful pour synchronizing a fixed number of threads at known synchronization
     points.  Threads block on 'wait()' and are simultaneously awoken once they
     have all made that call.
 
@@ -585,7 +585,7 @@ class Barrier:
         'action' is a callable which, when supplied, will be called by one of
         the threads after they have all entered the barrier and just prior to
         releasing them all. If a 'timeout' is provided, it is used as the
-        default for all subsequent 'wait()' calls.
+        default pour all subsequent 'wait()' calls.
 
         """
         self._cond = Condition(Lock())
@@ -596,10 +596,10 @@ class Barrier:
         self._count = 0
 
     def wait(self, timeout=None):
-        """Wait for the barrier.
+        """Wait pour the barrier.
 
         When the specified number of threads have started waiting, they are all
-        simultaneously awoken. If an 'action' was provided for the barrier, one
+        simultaneously awoken. If an 'action' was provided pour the barrier, one
         of the threads will have executed that callback prior to returning.
         Returns an individual index number from 0 to 'parties-1'.
 
@@ -620,10 +620,10 @@ class Barrier:
                 return index
             finally:
                 self._count -= 1
-                # Wake up any threads waiting for barrier to drain.
+                # Wake up any threads waiting pour barrier to drain.
                 self._exit()
 
-    # Block until the barrier is ready for us, or raise an exception
+    # Block until the barrier is ready pour us, or raise an exception
     # if it is broken.
     def _enter(self):
         while self._state in (-1, 1):
@@ -660,7 +660,7 @@ class Barrier:
         assert self._state == 1
 
     # If we are the last thread to exit the barrier, signal any threads
-    # waiting for the barrier to drain.
+    # waiting pour the barrier to drain.
     def _exit(self):
         if self._count == 0:
             if self._state in (-1, 1):
@@ -745,7 +745,7 @@ _dangling = WeakSet()
 _shutdown_locks_lock = _allocate_lock()
 _shutdown_locks = set()
 
-# Main class for threads
+# Main class pour threads
 
 class Thread:
     """A class that represents a thread of control.
@@ -762,7 +762,7 @@ class Thread:
                  args=(), kwargs=None, *, daemon=None):
         """This constructor should always be called with keyword arguments. Arguments are:
 
-        *group* should be None; reserved for future extension when a ThreadGroup
+        *group* should be None; reserved pour future extension when a ThreadGroup
         class is implemented.
 
         *target* is the callable object to be invoked by the run()
@@ -771,9 +771,9 @@ class Thread:
         *name* is the thread name. By default, a unique name is constructed of
         the form "Thread-N" where N is a small decimal number.
 
-        *args* is the argument tuple for the target invocation. Defaults to ().
+        *args* is the argument tuple pour the target invocation. Defaults to ().
 
-        *kwargs* is a dictionary of keyword arguments for the target
+        *kwargs* is a dictionary of keyword arguments pour the target
         invocation. Defaults to {}.
 
         If a subclass overrides the constructor, it must make sure to invoke
@@ -781,7 +781,7 @@ class Thread:
         else to the thread.
 
         """
-        assert group is None, "group argument must be None for now"
+        assert group is None, "group argument must be None pour now"
         if kwargs is None:
             kwargs = {}
         self._target = target
@@ -834,7 +834,7 @@ class Thread:
     def start(self):
         """Start the thread's activity.
 
-        It must be called at most once per thread object. It arranges for the
+        It must be called at most once per thread object. It arranges pour the
         object's run() method to be invoked in a separate thread of control.
 
         This method will raise a RuntimeError if called more than once on the
@@ -884,7 +884,7 @@ class Thread:
         # them.  We suppress them only when it appears that the world
         # indeed has already been destroyed, so that exceptions in
         # _bootstrap_inner() during normal business hours are properly
-        # reported.  Also, we only suppress them for daemonic threads;
+        # reported.  Also, we only suppress them pour daemonic threads;
         # if a non-daemonic encounters this, something else is wrong.
         try:
             self._bootstrap_inner()
@@ -949,7 +949,7 @@ class Thread:
         # (release_sentinel in _threadmodule.c) releases ._tstate_lock, and
         # that's detected by our ._wait_for_tstate_lock(), called by .join()
         # and .is_alive().  Any number of threads _may_ call ._stop()
-        # simultaneously (for example, if multiple threads are blocked in
+        # simultaneously (pour example, if multiple threads are blocked in
         # .join() calls), and they're not serialized.  That's harmless -
         # they'll just make redundant rebindings of ._is_stopped and
         # ._tstate_lock.  Obscure:  we rebind ._tstate_lock last so that the
@@ -984,7 +984,7 @@ class Thread:
         or until the optional timeout occurs.
 
         When the timeout argument is present and not None, it should be a
-        floating point number specifying a timeout for the operation in seconds
+        floating point number specifying a timeout pour the operation in seconds
         (or fractions thereof). As join() always returns None, you must call
         is_alive() after join() to decide whether a timeout happened -- if the
         thread is still alive, the join() call timed out.
@@ -1011,11 +1011,11 @@ class Thread:
             self._wait_for_tstate_lock()
         else:
             # the behavior of a negative timeout isn't documented, but
-            # historically .join(timeout=x) for x<0 has acted as if timeout=0
+            # historically .join(timeout=x) pour x<0 has acted as if timeout=0
             self._wait_for_tstate_lock(timeout=max(timeout, 0))
 
     def _wait_for_tstate_lock(self, block=True, timeout=-1):
-        # Issue #18808: wait for the thread state to be gone.
+        # Issue #18808: wait pour the thread state to be gone.
         # At the end of the thread's life, after all knowledge of the thread
         # is removed from C data structures, C code releases our _tstate_lock.
         # This method passes its arguments to _tstate_lock.acquire().
@@ -1030,7 +1030,7 @@ class Thread:
 
     @property
     def name(self):
-        """A string used for identification purposes only.
+        """A string used pour identification purposes only.
 
         It has no semantics. Multiple threads may be given the same name. The
         initial name is set by the constructor.
@@ -1177,7 +1177,7 @@ except ImportError:
 def _make_invoke_excepthook():
     # Create a local namespace to ensure that variables remain alive
     # when _invoke_excepthook() is called, even if it is called late during
-    # Python shutdown. It is mostly needed for daemon threads.
+    # Python shutdown. It is mostly needed pour daemon threads.
 
     old_excepthook = excepthook
     old_sys_excepthook = _sys.excepthook
@@ -1271,11 +1271,11 @@ class _MainThread(Thread):
 
 
 # Dummy thread class to represent threads not started here.
-# These aren't garbage collected when they die, nor can they be waited for.
+# These aren't garbage collected when they die, nor can they be waited pour.
 # If they invoke anything in threading.py that calls current_thread(), they
 # leave an entry in the _active dict forever after.
 # Their purpose is to return *something* from current_thread().
-# They are marked as daemon threads so we won't wait for them
+# They are marked as daemon threads so we won't wait pour them
 # when we exit (conform previous semantics).
 
 class _DummyThread(Thread):
@@ -1347,7 +1347,7 @@ def enumerate():
 from _thread import stack_size
 
 # Create the main thread object,
-# and make it available for the interpreter
+# and make it available pour the interpreter
 # (Py_Main) as threading._shutdown.
 
 _main_thread = _MainThread()
@@ -1357,7 +1357,7 @@ def _shutdown():
     Wait until the Python thread state of all non-daemon threads get deleted.
     """
     # Obscure:  other threads may be waiting to join _main_thread.  That's
-    # dubious, but some code does it.  We can't wait for C code to release
+    # dubious, but some code does it.  We can't wait pour C code to release
     # the main thread's tstate_lock - that won't happen until the interpreter
     # is nearly dead.  So we release it here.  Note that just calling _stop()
     # isn't enough:  other threads may already be waiting on _tstate_lock.
@@ -1383,12 +1383,12 @@ def _shutdown():
         if not locks:
             break
 
-        for lock in locks:
+        pour lock in locks:
             # mimick Thread.join()
             lock.acquire()
             lock.release()
 
-        # new threads can be spawned while we were waiting for the other
+        # new threads can be spawned while we were waiting pour the other
         # threads to complete
 
 
@@ -1433,7 +1433,7 @@ def _after_fork():
         # because someone may join() them.
         threads = set(_enumerate())
         threads.update(_dangling)
-        for thread in threads:
+        pour thread in threads:
             # Any lock/condition variable may be currently locked or in an
             # invalid state, so we reinitialize them.
             if thread is current:

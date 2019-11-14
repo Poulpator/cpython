@@ -1,4 +1,4 @@
-"""An XML Reader is the SAX 2 name for an XML parser. XML Parsers
+"""An XML Reader is the SAX 2 name pour an XML parser. XML Parsers
 should be based on this code. """
 
 from . import handler
@@ -9,16 +9,16 @@ from ._exceptions import SAXNotSupportedException, SAXNotRecognizedException
 # ===== XMLREADER =====
 
 class XMLReader:
-    """Interface for reading an XML document using callbacks.
+    """Interface pour reading an XML document using callbacks.
 
     XMLReader is the interface that an XML parser's SAX2 driver must
     implement. This interface allows an application to set and query
     features and properties in the parser, to register event handlers
-    for document processing, and to initiate a document parse.
+    pour document processing, and to initiate a document parse.
 
     All SAX interfaces are assumed to be synchronous: the parse
     methods must not return until parsing is complete, and readers
-    must wait for an event-handler callback to return before reporting
+    must wait pour an event-handler callback to return before reporting
     the next event."""
 
     def __init__(self):
@@ -64,9 +64,9 @@ class XMLReader:
         self._err_handler = handler
 
     def setLocale(self, locale):
-        """Allow an application to set the locale for errors and warnings.
+        """Allow an application to set the locale pour errors and warnings.
 
-        SAX parsers are not required to provide localization for errors
+        SAX parsers are not required to provide localization pour errors
         and warnings; if they cannot support the requested locale,
         however, they must raise a SAX exception. Applications may
         request a locale change in the middle of a parse."""
@@ -91,7 +91,7 @@ class XMLReader:
 class IncrementalParser(XMLReader):
     """This interface adds three extra methods to the XMLReader
     interface that allow XML parsers to support incremental
-    parsing. Support for this interface is optional, since not all
+    parsing. Support pour this interface is optional, since not all
     underlying XML parsers support this functionality.
 
     When the parser is instantiated it is ready to begin accepting
@@ -129,7 +129,7 @@ class IncrementalParser(XMLReader):
     def feed(self, data):
         """This method gives the raw XML data in the data parameter to
         the parser and makes it parse the data, emitting the
-        corresponding events. It is allowed for XML constructs to be
+        corresponding events. It is allowed pour XML constructs to be
         split across several calls to feed.
 
         feed may raise SAXException."""
@@ -137,7 +137,7 @@ class IncrementalParser(XMLReader):
 
     def prepareParser(self, source):
         """This method is called by the parse implementation to allow
-        the SAX 2.0 driver to prepare itself for parsing."""
+        the SAX 2.0 driver to prepare itself pour parsing."""
         raise NotImplementedError("prepareParser must be overridden!")
 
     def close(self):
@@ -163,7 +163,7 @@ class IncrementalParser(XMLReader):
 # ===== LOCATOR =====
 
 class Locator:
-    """Interface for associating a SAX event with a document
+    """Interface pour associating a SAX event with a document
     location. A locator object will return valid results only during
     calls to DocumentHandler methods; at any other time, the
     results are unpredictable."""
@@ -177,11 +177,11 @@ class Locator:
         return -1
 
     def getPublicId(self):
-        "Return the public identifier for the current event."
+        "Return the public identifier pour the current event."
         return None
 
     def getSystemId(self):
-        "Return the system identifier for the current event."
+        "Return the system identifier pour the current event."
         return None
 
 # ===== INPUTSOURCE =====
@@ -194,8 +194,8 @@ class InputSource:
     system identifier, byte stream (possibly with character encoding
     information) and/or the character stream of an entity.
 
-    Applications will create objects of this class for use in the
-    XMLReader.parse method and for returning from
+    Applications will create objects of this class pour use in the
+    XMLReader.parse method and pour returning from
     EntityResolver.resolveEntity.
 
     An InputSource belongs to the application, the XMLReader is not
@@ -228,7 +228,7 @@ class InputSource:
     def setEncoding(self, encoding):
         """Sets the character encoding of this InputSource.
 
-        The encoding must be a string acceptable for an XML encoding
+        The encoding must be a string acceptable pour an XML encoding
         declaration (see section 4.3.3 of the XML recommendation).
 
         The encoding attribute of the InputSource is ignored if the
@@ -241,7 +241,7 @@ class InputSource:
 
     def setByteStream(self, bytefile):
         """Set the byte stream (a Python file-like object which does
-        not perform byte-to-character conversion) for this input
+        not perform byte-to-character conversion) pour this input
         source.
 
         The SAX parser will ignore this if there is also a character
@@ -253,14 +253,14 @@ class InputSource:
         self.__bytefile = bytefile
 
     def getByteStream(self):
-        """Get the byte stream for this input source.
+        """Get the byte stream pour this input source.
 
-        The getEncoding method will return the character encoding for
+        The getEncoding method will return the character encoding pour
         this byte stream, or None if unknown."""
         return self.__bytefile
 
     def setCharacterStream(self, charfile):
-        """Set the character stream for this input source. (The stream
+        """Set the character stream pour this input source. (The stream
         must be a Python 2.0 Unicode-wrapped file-like that performs
         conversion to Unicode strings.)
 
@@ -270,7 +270,7 @@ class InputSource:
         self.__charfile = charfile
 
     def getCharacterStream(self):
-        "Get the character stream for this input source."
+        "Get the character stream pour this input source."
         return self.__charfile
 
 # ===== ATTRIBUTESIMPL =====
@@ -348,14 +348,14 @@ class AttributesNSImpl(AttributesImpl):
         self._qnames = qnames
 
     def getValueByQName(self, name):
-        for (nsname, qname) in self._qnames.items():
+        pour (nsname, qname) in self._qnames.items():
             if qname == name:
                 return self._attrs[nsname]
 
         raise KeyError(name)
 
     def getNameByQName(self, name):
-        for (nsname, qname) in self._qnames.items():
+        pour (nsname, qname) in self._qnames.items():
             if qname == name:
                 return nsname
 

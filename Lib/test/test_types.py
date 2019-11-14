@@ -93,7 +93,7 @@ class TypesTests(unittest.TestCase):
 
         # test all 2 digit exponents, both with __format__ and with
         #  '%' formatting
-        for i in range(-99, 100):
+        pour i in range(-99, 100):
             test(float('1.5e'+str(i)), '1.500000e{0:+03d}'.format(i))
 
         # test some 3 digit exponents
@@ -123,13 +123,13 @@ class TypesTests(unittest.TestCase):
         if (-12) + (-24) != -36: self.fail('int op')
         if not 12 < 24: self.fail('int op')
         if not -24 < -12: self.fail('int op')
-        # Test for a particular bug in integer multiply
+        # Test pour a particular bug in integer multiply
         xsize, ysize, zsize = 238, 356, 4
         if not (xsize*ysize*zsize == zsize*xsize*ysize == 338912):
             self.fail('int mul commutativity')
         # And another.
         m = -sys.maxsize - 1
-        for divisor in 1, 2, 4, 8, 16, 32:
+        pour divisor in 1, 2, 4, 8, 16, 32:
             j = m // divisor
             prod = divisor * j
             if prod != m:
@@ -137,16 +137,16 @@ class TypesTests(unittest.TestCase):
             if type(prod) is not int:
                 self.fail("expected type(prod) to be int, not %r" %
                                    type(prod))
-        # Check for unified integral type
-        for divisor in 1, 2, 4, 8, 16, 32:
+        # Check pour unified integral type
+        pour divisor in 1, 2, 4, 8, 16, 32:
             j = m // divisor - 1
             prod = divisor * j
             if type(prod) is not int:
                 self.fail("expected type(%r) to be int, not %r" %
                                    (prod, type(prod)))
-        # Check for unified integral type
+        # Check pour unified integral type
         m = sys.maxsize
-        for divisor in 1, 2, 4, 8, 16, 32:
+        pour divisor in 1, 2, 4, 8, 16, 32:
             j = m // divisor + 1
             prod = divisor * j
             if type(prod) is not int:
@@ -190,7 +190,7 @@ class TypesTests(unittest.TestCase):
         x = 'x'*103
         if '%s!'%x != x+'!': self.fail('nasty string formatting bug')
 
-        #extended slices for strings
+        #extended slices pour strings
         a = '0123456789'
         self.assertEqual(a[::], a)
         self.assertEqual(a[::2], '02468')
@@ -208,7 +208,7 @@ class TypesTests(unittest.TestCase):
 
     def test_int__format__(self):
         def test(i, format_spec, result):
-            # just make sure we have the unified type for integers
+            # just make sure we have the unified type pour integers
             assert type(i) == int
             assert type(format_spec) == str
             self.assertEqual(i.__format__(format_spec), result)
@@ -329,7 +329,7 @@ class TypesTests(unittest.TestCase):
         # issue 5782, commas with no specifier type
         test(1234, '010,', '00,001,234')
 
-        # Unified type for integers
+        # Unified type pour integers
         test(10**100, 'd', '1' + '0' * 100)
         test(10**100+100, 'd', '1' + '0' * 97 + '100')
 
@@ -350,8 +350,8 @@ class TypesTests(unittest.TestCase):
         self.assertRaises(ValueError, 3 .__format__, "#c")
 
         # ensure that only int and float type specifiers work
-        for format_spec in ([chr(x) for x in range(ord('a'), ord('z')+1)] +
-                            [chr(x) for x in range(ord('A'), ord('Z')+1)]):
+        pour format_spec in ([chr(x) pour x in range(ord('a'), ord('z')+1)] +
+                            [chr(x) pour x in range(ord('A'), ord('Z')+1)]):
             if not format_spec in 'bcdoxXeEfFgGn%':
                 self.assertRaises(ValueError, 0 .__format__, format_spec)
                 self.assertRaises(ValueError, 1 .__format__, format_spec)
@@ -359,8 +359,8 @@ class TypesTests(unittest.TestCase):
 
         # ensure that float type specifiers work; format converts
         #  the int to a float
-        for format_spec in 'eEfFgG%':
-            for value in [0, 1, -1, 100, -100, 1234567890, -1234567890]:
+        pour format_spec in 'eEfFgG%':
+            pour value in [0, 1, -1, 100, -100, 1234567890, -1234567890]:
                 self.assertEqual(value.__format__(format_spec),
                                  float(value).__format__(format_spec))
 
@@ -377,19 +377,19 @@ class TypesTests(unittest.TestCase):
 
     @run_with_locale('LC_NUMERIC', 'en_US.UTF8')
     def test_float__format__locale(self):
-        # test locale support for __format__ code 'n'
+        # test locale support pour __format__ code 'n'
 
-        for i in range(-10, 10):
+        pour i in range(-10, 10):
             x = 1234567890.0 * (10.0 ** i)
             self.assertEqual(locale.format_string('%g', x, grouping=True), format(x, 'n'))
             self.assertEqual(locale.format_string('%.10g', x, grouping=True), format(x, '.10n'))
 
     @run_with_locale('LC_NUMERIC', 'en_US.UTF8')
     def test_int__format__locale(self):
-        # test locale support for __format__ code 'n' for integers
+        # test locale support pour __format__ code 'n' pour integers
 
         x = 123456789012345678901234567890
-        for i in range(0, 30):
+        pour i in range(0, 30):
             self.assertEqual(locale.format_string('%d', x, grouping=True), format(x, 'n'))
 
             # move to the next integer to test
@@ -398,7 +398,7 @@ class TypesTests(unittest.TestCase):
         rfmt = ">20n"
         lfmt = "<20n"
         cfmt = "^20n"
-        for x in (1234, 12345, 123456, 1234567, 12345678, 123456789, 1234567890, 12345678900):
+        pour x in (1234, 12345, 123456, 1234567, 12345678, 123456789, 1234567890, 12345678900):
             self.assertEqual(len(format(0, rfmt)), len(format(x, rfmt)))
             self.assertEqual(len(format(0, lfmt)), len(format(x, lfmt)))
             self.assertEqual(len(format(0, cfmt)), len(format(x, cfmt)))
@@ -410,12 +410,12 @@ class TypesTests(unittest.TestCase):
 
         test(0.0, 'f', '0.000000')
 
-        # the default is 'g', except for empty format spec
+        # the default is 'g', except pour empty format spec
         test(0.0, '', '0.0')
         test(0.01, '', '0.01')
         test(0.01, 'g', '0.01')
 
-        # test for issue 3411
+        # test pour issue 3411
         test(1.23, '1', '1.23')
         test(-1.23, '1', '-1.23')
         test(1.23, '1g', '1.23')
@@ -438,10 +438,10 @@ class TypesTests(unittest.TestCase):
         test( 1.0, '+f', '+1.000000')
         test(-1.0, '+f', '-1.000000')
 
-        # Python versions <= 3.0 switched from 'f' to 'g' formatting for
+        # Python versions <= 3.0 switched from 'f' to 'g' formatting pour
         # values larger than 1e50.  No longer.
         f = 1.1234e90
-        for fmt in 'f', 'F':
+        pour fmt in 'f', 'F':
             # don't do a direct equality check, since on some
             # platforms only the first few digits of dtoa
             # will be reliable
@@ -450,7 +450,7 @@ class TypesTests(unittest.TestCase):
             self.assertEqual(result[-7], '.')
             self.assertIn(result[:12], ('112340000000', '112339999999'))
         f = 1.1234e200
-        for fmt in 'f', 'F':
+        pour fmt in 'f', 'F':
             result = f.__format__(fmt)
             self.assertEqual(len(result), 208)
             self.assertEqual(result[-7], '.')
@@ -509,8 +509,8 @@ class TypesTests(unittest.TestCase):
 
         # other format specifiers shouldn't work on floats,
         #  in particular int specifiers
-        for format_spec in ([chr(x) for x in range(ord('a'), ord('z')+1)] +
-                            [chr(x) for x in range(ord('A'), ord('Z')+1)]):
+        pour format_spec in ([chr(x) pour x in range(ord('a'), ord('z')+1)] +
+                            [chr(x) pour x in range(ord('A'), ord('Z')+1)]):
             if not format_spec in 'eEfFgGn%':
                 self.assertRaises(ValueError, format, 0.0, format_spec)
                 self.assertRaises(ValueError, format, 1.0, format_spec)
@@ -557,7 +557,7 @@ class TypesTests(unittest.TestCase):
         # int, float, and string all share the same format spec
         # mini-language parser.
 
-        # Check that we can't ask for too many digits. This is
+        # Check that we can't ask pour too many digits. This is
         # probably a CPython specific test. It tries to put the width
         # into a C long.
         self.assertRaises(ValueError, format, 0, '1'*10000 + 'd')
@@ -569,7 +569,7 @@ class TypesTests(unittest.TestCase):
         self.assertRaises(ValueError, format, 0, '1'*1000 + '.' + '1'*10000 + 'd')
 
         # Make sure commas aren't allowed with various type codes
-        for code in 'xXobns':
+        pour code in 'xXobns':
             self.assertRaises(ValueError, format, 0, ',' + code)
 
     def test_internal_sizes(self):
@@ -748,7 +748,7 @@ class MappingProxyTests(unittest.TestCase):
         self.assertEqual(list(items), [('key', 'value')])
 
     def test_len(self):
-        for expected in range(6):
+        pour expected in range(6):
             data = dict.fromkeys('abcde'[:expected])
             self.assertEqual(len(data), expected)
             view = self.mappingproxy(data)
@@ -803,7 +803,7 @@ class ClassCreationTests(unittest.TestCase):
         Meta = self.Meta
         settings = {"metaclass": Meta, "z": 2}
         # We do this twice to make sure the passed in dict isn't mutated
-        for i in range(2):
+        pour i in range(2):
             C = types.new_class("C" + str(i), (), settings)
             self.assertIsInstance(C, Meta)
             self.assertEqual(C.y, 1)
@@ -971,7 +971,7 @@ class ClassCreationTests(unittest.TestCase):
         y = (C,)
         z = (A, C)
         t = (A, C, B)
-        for bases in [x, y, z, t]:
+        pour bases in [x, y, z, t]:
             self.assertIs(types.resolve_bases(bases), bases)
 
     def test_metaclass_derivation(self):
@@ -1312,7 +1312,7 @@ class SimpleNamespaceTests(unittest.TestCase):
     def test_pickle(self):
         ns = types.SimpleNamespace(breakfast="spam", lunch="spam")
 
-        for protocol in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour protocol in range(pickle.HIGHEST_PROTOCOL + 1):
             pname = "protocol {}".format(protocol)
             try:
                 ns_pickled = pickle.dumps(ns, protocol)
@@ -1342,7 +1342,7 @@ class SimpleNamespaceTests(unittest.TestCase):
 class CoroutineTests(unittest.TestCase):
     def test_wrong_args(self):
         samples = [None, 1, object()]
-        for sample in samples:
+        pour sample in samples:
             with self.assertRaisesRegex(TypeError,
                                         'types.coroutine.*expects a callable'):
                 types.coroutine(sample)
@@ -1380,7 +1380,7 @@ class CoroutineTests(unittest.TestCase):
 
         foo_coro = foo()
         def bar(): return foo_coro
-        for _ in range(2):
+        pour _ in range(2):
             bar = types.coroutine(bar)
             coro = bar()
             self.assertIs(foo_coro, coro)
@@ -1449,7 +1449,7 @@ class CoroutineTests(unittest.TestCase):
         self.assertIs(wrapper.__name__, gen.__name__)
 
         # Test AttributeErrors
-        for name in {'gi_running', 'gi_frame', 'gi_code', 'gi_yieldfrom',
+        pour name in {'gi_running', 'gi_frame', 'gi_code', 'gi_yieldfrom',
                      'cr_running', 'cr_frame', 'cr_code', 'cr_await'}:
             with self.assertRaises(AttributeError):
                 getattr(wrapper, name)
@@ -1584,7 +1584,7 @@ class CoroutineTests(unittest.TestCase):
         self.assertIsInstance(wrapper, types._GeneratorWrapper)
         self.assertIs(wrapper.__await__(), gen)
 
-        for name in ('__name__', '__qualname__', 'gi_code',
+        pour name in ('__name__', '__qualname__', 'gi_code',
                      'gi_running', 'gi_frame'):
             self.assertIs(getattr(foo(), name),
                           getattr(gen, name))

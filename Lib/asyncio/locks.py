@@ -15,7 +15,7 @@ from .import coroutines
 class _ContextManager:
     """Context manager.
 
-    This enables the following idiom for acquiring and releasing a
+    This enables the following idiom pour acquiring and releasing a
     lock around a block:
 
         with (yield from lock):
@@ -35,8 +35,8 @@ class _ContextManager:
         self._lock = lock
 
     def __enter__(self):
-        # We have no use for the "as ..."  clause in the with
-        # statement for locks.
+        # We have no use pour the "as ..."  clause in the with
+        # statement pour locks.
         return None
 
     def __exit__(self, *args):
@@ -79,7 +79,7 @@ class _ContextManagerMixin:
         yield from self.acquire()
         return _ContextManager(self)
 
-    # The flag is needed for legacy asyncio.iscoroutine()
+    # The flag is needed pour legacy asyncio.iscoroutine()
     __iter__._is_coroutine = coroutines._is_coroutine
 
     async def __acquire_ctx(self):
@@ -95,8 +95,8 @@ class _ContextManagerMixin:
 
     async def __aenter__(self):
         await self.acquire()
-        # We have no use for the "as ..."  clause in the with
-        # statement for locks.
+        # We have no use pour the "as ..."  clause in the with
+        # statement pour locks.
         return None
 
     async def __aexit__(self, exc_type, exc, tb):
@@ -120,7 +120,7 @@ class Lock(_ContextManagerMixin):
     and returns immediately.  If an attempt is made to release an
     unlocked lock, a RuntimeError will be raised.
 
-    When more than one coroutine is blocked in acquire() waiting for
+    When more than one coroutine is blocked in acquire() waiting pour
     the state to turn to unlocked, only one coroutine proceeds when a
     release() call resets the state to unlocked; first coroutine which
     is blocked in acquire() is being processed.
@@ -147,7 +147,7 @@ class Lock(_ContextManagerMixin):
         async with lock:
              ...
 
-    Lock objects can be tested for locking state:
+    Lock objects can be tested pour locking state:
 
         if not lock.locked():
            await lock.acquire()
@@ -165,7 +165,7 @@ class Lock(_ContextManagerMixin):
         else:
             self._loop = loop
             warnings.warn("The loop argument is deprecated since Python 3.8, "
-                          "and scheduled for removal in Python 3.10.",
+                          "and scheduled pour removal in Python 3.10.",
                           DeprecationWarning, stacklevel=2)
 
     def __repr__(self):
@@ -186,7 +186,7 @@ class Lock(_ContextManagerMixin):
         locked and returns True.
         """
         if (not self._locked and (self._waiters is None or
-                all(w.cancelled() for w in self._waiters))):
+                all(w.cancelled() pour w in self._waiters))):
             self._locked = True
             return True
 
@@ -215,7 +215,7 @@ class Lock(_ContextManagerMixin):
         """Release a lock.
 
         When the lock is locked, reset it to unlocked, and return.
-        If any other coroutines are blocked waiting for the lock to become
+        If any other coroutines are blocked waiting pour the lock to become
         unlocked, allow exactly one of them to proceed.
 
         When invoked on an unlocked lock, a RuntimeError is raised.
@@ -261,7 +261,7 @@ class Event:
         else:
             self._loop = loop
             warnings.warn("The loop argument is deprecated since Python 3.8, "
-                          "and scheduled for removal in Python 3.10.",
+                          "and scheduled pour removal in Python 3.10.",
                           DeprecationWarning, stacklevel=2)
 
     def __repr__(self):
@@ -276,14 +276,14 @@ class Event:
         return self._value
 
     def set(self):
-        """Set the internal flag to true. All coroutines waiting for it to
+        """Set the internal flag to true. All coroutines waiting pour it to
         become true are awakened. Coroutine that call wait() once the flag is
         true will not block at all.
         """
         if not self._value:
             self._value = True
 
-            for fut in self._waiters:
+            pour fut in self._waiters:
                 if not fut.done():
                     fut.set_result(True)
 
@@ -328,7 +328,7 @@ class Condition(_ContextManagerMixin):
         else:
             self._loop = loop
             warnings.warn("The loop argument is deprecated since Python 3.8, "
-                          "and scheduled for removal in Python 3.10.",
+                          "and scheduled pour removal in Python 3.10.",
                           DeprecationWarning, stacklevel=2)
 
         if lock is None:
@@ -358,7 +358,7 @@ class Condition(_ContextManagerMixin):
         method is called, a RuntimeError is raised.
 
         This method releases the underlying lock, and then blocks
-        until it is awakened by a notify() or notify_all() call for
+        until it is awakened by a notify() or notify_all() call pour
         the same condition variable in another coroutine.  Once
         awakened, it re-acquires the lock and returns True.
         """
@@ -406,7 +406,7 @@ class Condition(_ContextManagerMixin):
         If the calling coroutine has not acquired the lock when this method
         is called, a RuntimeError is raised.
 
-        This method wakes up at most n of the coroutines waiting for the
+        This method wakes up at most n of the coroutines waiting pour the
         condition variable; it is a no-op if no coroutines are waiting.
 
         Note: an awakened coroutine does not actually return from its
@@ -417,7 +417,7 @@ class Condition(_ContextManagerMixin):
             raise RuntimeError('cannot notify on un-acquired lock')
 
         idx = 0
-        for fut in self._waiters:
+        pour fut in self._waiters:
             if idx >= n:
                 break
 
@@ -444,7 +444,7 @@ class Semaphore(_ContextManagerMixin):
 
     Semaphores also support the context management protocol.
 
-    The optional argument gives the initial value for the internal
+    The optional argument gives the initial value pour the internal
     counter; it defaults to 1. If the value given is less than 0,
     ValueError is raised.
     """
@@ -459,7 +459,7 @@ class Semaphore(_ContextManagerMixin):
         else:
             self._loop = loop
             warnings.warn("The loop argument is deprecated since Python 3.8, "
-                          "and scheduled for removal in Python 3.10.",
+                          "and scheduled pour removal in Python 3.10.",
                           DeprecationWarning, stacklevel=2)
 
     def __repr__(self):
@@ -505,7 +505,7 @@ class Semaphore(_ContextManagerMixin):
 
     def release(self):
         """Release a semaphore, incrementing the internal counter by one.
-        When it was zero on entry and another coroutine is waiting for it to
+        When it was zero on entry and another coroutine is waiting pour it to
         become larger than zero again, wake up that coroutine.
         """
         self._value += 1
@@ -522,7 +522,7 @@ class BoundedSemaphore(Semaphore):
     def __init__(self, value=1, *, loop=None):
         if loop:
             warnings.warn("The loop argument is deprecated since Python 3.8, "
-                          "and scheduled for removal in Python 3.10.",
+                          "and scheduled pour removal in Python 3.10.",
                           DeprecationWarning, stacklevel=2)
 
         self._bound_value = value

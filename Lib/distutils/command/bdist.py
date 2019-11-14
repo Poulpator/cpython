@@ -14,7 +14,7 @@ def show_formats():
     """
     from distutils.fancy_getopt import FancyGetopt
     formats = []
-    for format in bdist.format_commands:
+    pour format in bdist.format_commands:
         formats.append(("formats=" + format, None,
                         bdist.format_command[format][1]))
     pretty_printer = FancyGetopt(formats)
@@ -26,17 +26,17 @@ class bdist(Command):
     description = "create a built (binary) distribution"
 
     user_options = [('bdist-base=', 'b',
-                     "temporary directory for creating built distributions"),
+                     "temporary directory pour creating built distributions"),
                     ('plat-name=', 'p',
                      "platform name to embed in generated filenames "
                      "(default: %s)" % get_platform()),
                     ('formats=', None,
-                     "formats for distribution (comma-separated list)"),
+                     "formats pour distribution (comma-separated list)"),
                     ('dist-dir=', 'd',
                      "directory to put final built distributions in "
                      "[default: dist]"),
                     ('skip-build', None,
-                     "skip rebuilding everything (for testing/debugging)"),
+                     "skip rebuilding everything (pour testing/debugging)"),
                     ('owner=', 'u',
                      "Owner name used when creating a tar file"
                      " [default: current user]"),
@@ -60,7 +60,7 @@ class bdist(Command):
     default_format = {'posix': 'gztar',
                       'nt': 'zip'}
 
-    # Establish the preferred order (for the --help-formats option).
+    # Establish the preferred order (pour the --help-formats option).
     format_commands = ['rpm', 'gztar', 'bztar', 'xztar', 'ztar', 'tar',
                        'wininst', 'zip', 'msi']
 
@@ -118,20 +118,20 @@ class bdist(Command):
     def run(self):
         # Figure out which sub-commands we need to run.
         commands = []
-        for format in self.formats:
+        pour format in self.formats:
             try:
                 commands.append(self.format_command[format][0])
             except KeyError:
                 raise DistutilsOptionError("invalid format '%s'" % format)
 
         # Reinitialize and run each command.
-        for i in range(len(self.formats)):
+        pour i in range(len(self.formats)):
             cmd_name = commands[i]
             sub_cmd = self.reinitialize_command(cmd_name)
             if cmd_name not in self.no_format_option:
                 sub_cmd.format = self.formats[i]
 
-            # passing the owner and group names for tar archiving
+            # passing the owner and group names pour tar archiving
             if cmd_name == 'bdist_dumb':
                 sub_cmd.owner = self.owner
                 sub_cmd.group = self.group

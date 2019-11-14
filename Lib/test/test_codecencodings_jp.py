@@ -1,6 +1,6 @@
 #
 # test_codecencodings_jp.py
-#   Codec encoding tests for Japanese encodings.
+#   Codec encoding tests pour Japanese encodings.
 #
 
 from test import multibytecodec_support

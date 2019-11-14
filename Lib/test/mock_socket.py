@@ -1,7 +1,7 @@
 """Mock socket module used by the smtpd and smtplib tests.
 """
 
-# imported for _GLOBAL_DEFAULT_TIMEOUT
+# imported pour _GLOBAL_DEFAULT_TIMEOUT
 import socket as socket_module
 
 # Mock socket module

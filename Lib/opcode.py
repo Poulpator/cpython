@@ -34,7 +34,7 @@ hasfree = []
 hasnargs = [] # unused
 
 opmap = {}
-opname = ['<%r>' % (op,) for op in range(256)]
+opname = ['<%r>' % (op,) pour op in range(256)]
 
 def def_op(name, op):
     opname[op] = name
@@ -52,7 +52,7 @@ def jabs_op(name, op):
     def_op(name, op)
     hasjabs.append(op)
 
-# Instruction opcodes for compiled code
+# Instruction opcodes pour compiled code
 # Blank lines correspond to available opcodes
 
 def_op('POP_TOP', 1)

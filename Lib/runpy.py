@@ -1,6 +1,6 @@
 """runpy.py - locating and running Python code using the module namespace
 
-Provides support for locating and running Python scripts using the Python
+Provides support pour locating and running Python scripts using the Python
 module namespace instead of the native filesystem.
 
 This allows Python code to play nicely with non-filesystem based PEP 302
@@ -98,7 +98,7 @@ def _run_module_code(code, init_globals=None,
     # may be cleared when the temporary module goes away
     return mod_globals.copy()
 
-# Helper to get the full name, spec and code for a module
+# Helper to get the full name, spec and code pour a module
 def _get_module_details(mod_name, error=ImportError):
     if mod_name.startswith("."):
         raise error("Relative module names not supported")
@@ -128,9 +128,9 @@ def _get_module_details(mod_name, error=ImportError):
         spec = importlib.util.find_spec(mod_name)
     except (ImportError, AttributeError, TypeError, ValueError) as ex:
         # This hack fixes an impedance mismatch between pkgutil and
-        # importlib, where the latter raises other errors for cases where
+        # importlib, where the latter raises other errors pour cases where
         # pkgutil previously raised ImportError
-        msg = "Error while finding module specification for {!r} ({}: {})"
+        msg = "Error while finding module specification pour {!r} ({}: {})"
         raise error(msg.format(mod_name, type(ex).__name__, ex)) from ex
     if spec is None:
         raise error("No module named %s" % mod_name)
@@ -154,7 +154,7 @@ def _get_module_details(mod_name, error=ImportError):
     except ImportError as e:
         raise error(format(e)) from e
     if code is None:
-        raise error("No code object available for %s" % mod_name)
+        raise error("No code object available pour %s" % mod_name)
     return mod_name, spec, code
 
 class _Error(Exception):
@@ -227,7 +227,7 @@ def _get_main_module_details(error=ImportError):
 
 
 def _get_code_from_file(run_name, fname):
-    # Check for a compiled file first
+    # Check pour a compiled file first
     with open(fname, "rb") as f:
         code = read_code(f)
     if code is None:
@@ -262,7 +262,7 @@ def run_path(path_name, init_globals=None, run_name=None):
         return _run_module_code(code, init_globals, run_name,
                                 pkg_name=pkg_name, script_name=fname)
     else:
-        # Finder is defined for path, so add it to
+        # Finder is defined pour path, so add it to
         # the start of sys.path
         sys.path.insert(0, path_name)
         try:
@@ -288,7 +288,7 @@ def run_path(path_name, init_globals=None, run_name=None):
 if __name__ == "__main__":
     # Run the module specified as the next command line argument
     if len(sys.argv) < 2:
-        print("No module specified for execution", file=sys.stderr)
+        print("No module specified pour execution", file=sys.stderr)
     else:
         del sys.argv[0] # Make the requested module sys.argv[0]
         _run_module_as_main(sys.argv[0])

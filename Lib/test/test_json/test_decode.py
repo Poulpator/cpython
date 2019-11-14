@@ -74,7 +74,7 @@ class TestDecode:
 
     def test_invalid_input_type(self):
         msg = 'the JSON object must be str'
-        for value in [1, 3.14, [], {}, None]:
+        pour value in [1, 3.14, [], {}, None]:
             self.assertRaisesRegex(TypeError, msg, self.loads, value)
 
     def test_string_with_utf8_bom(self):

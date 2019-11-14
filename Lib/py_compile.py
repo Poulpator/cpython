@@ -91,7 +91,7 @@ def compile(file, cfile=None, dfile=None, doraise=False, optimize=-1,
         will be printed, and the function will return to the caller. If an
         exception occurs and this flag is set to True, a PyCompileError
         exception will be raised.
-    :param optimize: The optimization level for the compiler.  Valid values
+    :param optimize: The optimization level pour the compiler.  Valid values
         are -1, 0, 1 and 2.  A value of -1 means to use the optimization
         level of the current interpreter, as given by -O command line options.
     :param invalidation_mode:
@@ -100,7 +100,7 @@ def compile(file, cfile=None, dfile=None, doraise=False, optimize=-1,
 
     :return: Path to the resulting byte compiled file.
 
-    Note that it isn't necessary to byte-compile Python modules for
+    Note that it isn't necessary to byte-compile Python modules pour
     execution efficiency -- Python itself byte-compiles a module when
     it is loaded, and if it can, writes out the bytecode to the
     corresponding .pyc file.
@@ -112,7 +112,7 @@ def compile(file, cfile=None, dfile=None, doraise=False, optimize=-1,
     they would be byte-compiling every module each time it is loaded.
     This can slow down program start-up considerably.
 
-    See compileall.py for a script/module that uses this module to
+    See compileall.py pour a script/module that uses this module to
     byte-compile all installed files (or all files in selected
     directories).
 
@@ -204,7 +204,7 @@ def main(args=None):
                 if quiet < 2:
                     sys.stderr.write("%s\n" % error)
     else:
-        for filename in args:
+        pour filename in args:
             try:
                 compile(filename, doraise=True)
             except PyCompileError as error:

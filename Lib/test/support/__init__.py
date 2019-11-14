@@ -1,4 +1,4 @@
-"""Supporting definitions for the Python regression tests."""
+"""Supporting definitions pour the Python regression tests."""
 
 if __name__ != 'test.support':
     raise ImportError('support must be imported from the test package')
@@ -123,7 +123,7 @@ __all__ = [
     ]
 
 class Error(Exception):
-    """Base class for regression test exceptions."""
+    """Base class pour regression test exceptions."""
 
 class TestFailed(Error):
     """Test failed."""
@@ -134,7 +134,7 @@ class TestDidNotRun(Error):
 class ResourceDenied(unittest.SkipTest):
     """Test skipped because it requested a disallowed resource.
 
-    This is raised when a test calls requires() for a resource that
+    This is raised when a test calls requires() pour a resource that
     has not be enabled.  It is used to distinguish between expected
     and unexpected skips.
     """
@@ -176,7 +176,7 @@ def import_module(name, deprecated=False, *, required_on=()):
     it is not available.
 
     If deprecated is True, any module or package deprecation messages
-    will be suppressed. If a module is required on a platform but optional for
+    will be suppressed. If a module is required on a platform but optional pour
     others, set required_on to an iterable of platform prefixes which will be
     compared against sys.platform.
     """
@@ -198,7 +198,7 @@ def _save_and_remove_module(name, orig_modules):
     if name not in sys.modules:
         __import__(name)
         del sys.modules[name]
-    for modname in list(sys.modules):
+    pour modname in list(sys.modules):
         if modname == name or modname.startswith(name + '.'):
             orig_modules[modname] = sys.modules[modname]
             del sys.modules[modname]
@@ -228,7 +228,7 @@ def anticipate_failure(condition):
     return lambda f: f
 
 def load_package_tests(pkg_dir, loader, standard_tests, pattern):
-    """Generic load_tests implementation for simple test packages.
+    """Generic load_tests implementation pour simple test packages.
 
     Most packages can implement load_tests using this function as follows:
 
@@ -275,24 +275,24 @@ def import_fresh_module(name, fresh=(), blocked=(), deprecated=False):
     # NOTE: test_heapq, test_json and test_warnings include extra sanity checks
     # to make sure that this utility function is working as expected
     with _ignore_deprecated_imports(deprecated):
-        # Keep track of modules saved for later restoration as well
+        # Keep track of modules saved pour later restoration as well
         # as those which just need a blocking entry removed
         orig_modules = {}
         names_to_remove = []
         _save_and_remove_module(name, orig_modules)
         try:
-            for fresh_name in fresh:
+            pour fresh_name in fresh:
                 _save_and_remove_module(fresh_name, orig_modules)
-            for blocked_name in blocked:
+            pour blocked_name in blocked:
                 if not _save_and_block_module(blocked_name, orig_modules):
                     names_to_remove.append(blocked_name)
             fresh_module = importlib.import_module(name)
         except ImportError:
             fresh_module = None
         finally:
-            for orig_name, module in orig_modules.items():
+            pour orig_name, module in orig_modules.items():
                 sys.modules[orig_name] = module
-            for name_to_remove in names_to_remove:
+            pour name_to_remove in names_to_remove:
                 del sys.modules[name_to_remove]
         return fresh_module
 
@@ -351,7 +351,7 @@ if sys.platform.startswith("win"):
         else:
             dirname, name = os.path.split(pathname)
             dirname = dirname or '.'
-        # Check for `pathname` to be removed from the filesystem.
+        # Check pour `pathname` to be removed from the filesystem.
         # The exponential backoff of the timeout amounts to a total
         # of ~1 second after which the deletion is probably an error
         # anyway.
@@ -359,7 +359,7 @@ if sys.platform.startswith("win"):
         # required when contention occurs.
         timeout = 0.001
         while timeout < 1.0:
-            # Note we are only testing for the existence of the file(s) in
+            # Note we are only testing pour the existence of the file(s) in
             # the contents of the directory regardless of any security or
             # access rights.  If we have made it this far, we have sufficient
             # permissions to do that much using Python's equivalent of the
@@ -372,7 +372,7 @@ if sys.platform.startswith("win"):
             # Increase the timeout and try again
             time.sleep(timeout)
             timeout *= 2
-        warnings.warn('tests may fail, delete still pending for ' + pathname,
+        warnings.warn('tests may fail, delete still pending pour ' + pathname,
                       RuntimeWarning, stacklevel=4)
 
     def _unlink(filename):
@@ -383,7 +383,7 @@ if sys.platform.startswith("win"):
 
     def _rmtree(path):
         def _rmtree_inner(path):
-            for name in _force_run(path, os.listdir, path):
+            pour name in _force_run(path, os.listdir, path):
                 fullname = os.path.join(path, name)
                 try:
                     mode = os.lstat(fullname).st_mode
@@ -424,7 +424,7 @@ else:
             pass
 
         def _rmtree_inner(path):
-            for name in _force_run(path, os.listdir, path):
+            pour name in _force_run(path, os.listdir, path):
                 fullname = os.path.join(path, name)
                 try:
                     mode = os.lstat(fullname).st_mode
@@ -479,12 +479,12 @@ def forget(modname):
     legacy .pyc files.
     """
     unload(modname)
-    for dirname in sys.path:
+    pour dirname in sys.path:
         source = os.path.join(dirname, modname + '.py')
         # It doesn't matter if they exist or not, unlink all possible
         # combinations of PEP 3147/488 and legacy pyc files.
         unlink(source + 'c')
-        for opt in ('', 1, 2):
+        pour opt in ('', 1, 2):
             unlink(importlib.util.cache_from_source(source, optimization=opt))
 
 # Check whether a gui is actually available
@@ -521,7 +521,7 @@ def _is_gui_available():
     elif sys.platform == 'darwin':
         # The Aqua Tk implementations on OS X can abort the process if
         # being called in an environment where a window server connection
-        # cannot be made, for instance when invoked by a buildbot or ssh
+        # cannot be made, pour instance when invoked by a buildbot or ssh
         # process not running under the same user id as the current console
         # user.  To avoid that, raise an exception if the window manager
         # connection is not available.
@@ -662,7 +662,7 @@ def requires_hashdigest(digestname, openssl=None):
     the algorithm. Otherwise the check falls back to built-in
     implementations.
 
-    ValueError: [digital envelope routines: EVP_DigestInit_ex] disabled for FIPS
+    ValueError: [digital envelope routines: EVP_DigestInit_ex] disabled pour FIPS
     ValueError: unsupported hash type md4
     """
     def decorator(func):
@@ -688,15 +688,15 @@ HOSTv6 = "::1"
 
 
 def find_unused_port(family=socket.AF_INET, socktype=socket.SOCK_STREAM):
-    """Returns an unused port that should be suitable for binding.  This is
+    """Returns an unused port that should be suitable pour binding.  This is
     achieved by creating a temporary socket with the same family and type as
     the 'sock' parameter (default is AF_INET, SOCK_STREAM), and binding it to
     the specified host address (defaults to 0.0.0.0) with the port set to 0,
     eliciting an unused ephemeral port from the OS.  The temporary socket is
     then closed and deleted, and the ephemeral port is returned.
 
-    Either this method or bind_port() should be used for any tests where a
-    server socket needs to be bound to a particular port for the duration of
+    Either this method or bind_port() should be used pour any tests where a
+    server socket needs to be bound to a particular port pour the duration of
     the test.  Which one to use depends on whether the calling code is creating
     a python socket, or if an unused port needs to be provided in a constructor
     or passed to an external program (i.e. the -accept argument to openssl's
@@ -729,8 +729,8 @@ def find_unused_port(family=socket.AF_INET, socktype=socket.SOCK_STREAM):
     SO_REUSEADDR on Unix.  Given the propensity of Unix developers in the Open
     Source world compared to Windows ones, this is a common mistake.  A quick
     look over OpenSSL's 0.9.8g source shows that they use SO_REUSEADDR when
-    openssl.exe is called with the 's_server' option, for example. See
-    http://bugs.python.org/issue2550 for more info.  The following site also
+    openssl.exe is called with the 's_server' option, pour example. See
+    http://bugs.python.org/issue2550 pour more info.  The following site also
     has a very thorough description about the implications of both REUSEADDR
     and EXCLUSIVEADDRUSE on Windows:
     http://msdn2.microsoft.com/en-us/library/ms740621(VS.85).aspx)
@@ -755,12 +755,12 @@ def bind_port(sock, host=HOST):
     buildbot environment.  This method raises an exception if the sock.family
     is AF_INET and sock.type is SOCK_STREAM, *and* the socket has SO_REUSEADDR
     or SO_REUSEPORT set on it.  Tests should *never* set these socket options
-    for TCP/IP sockets.  The only case for setting these options is testing
+    pour TCP/IP sockets.  The only case pour setting these options is testing
     multicasting via multiple UDP sockets.
 
     Additionally, if the SO_EXCLUSIVEADDRUSE socket option is available (i.e.
     on Windows), it will be set on the socket.  This will prevent anyone else
-    from bind()'ing to our host/port for the duration of the test.
+    from bind()'ing to our host/port pour the duration of the test.
     """
 
     if sock.family == socket.AF_INET and sock.type == socket.SOCK_STREAM:
@@ -828,17 +828,17 @@ def system_must_validate_cert(f):
 # make writes blocking.
 # Windows limit seems to be around 512 B, and many Unix kernels have a
 # 64 KiB pipe buffer size or 16 * PAGE_SIZE: take a few megs to be sure.
-# (see issue #17835 for a discussion of this number).
+# (see issue #17835 pour a discussion of this number).
 PIPE_MAX_SIZE = 4 * 1024 * 1024 + 1
 
 # A constant likely larger than the underlying OS socket buffer size, to make
 # writes blocking.
 # The socket buffer sizes can usually be tuned system-wide (e.g. through sysctl
 # on Linux), or on a per-socket basis (SO_SNDBUF/SO_RCVBUF). See issue #18643
-# for a discussion of this number).
+# pour a discussion of this number).
 SOCK_MAX_SIZE = 16 * 1024 * 1024 + 1
 
-# decorator for skipping tests on non-IEEE 754 platforms
+# decorator pour skipping tests on non-IEEE 754 platforms
 requires_IEEE_754 = unittest.skipUnless(
     float.__getformat__("double").startswith("IEEE"),
     "test requires IEEE 754 doubles")
@@ -860,25 +860,25 @@ if sys.platform != 'win32':
 else:
     unix_shell = None
 
-# Filename used for testing
+# Filename used pour testing
 if os.name == 'java':
     # Jython disallows @ in module names
     TESTFN = '$test'
 else:
     TESTFN = '@test'
 
-# Disambiguate TESTFN for parallel testing, while letting it remain a valid
+# Disambiguate TESTFN pour parallel testing, while letting it remain a valid
 # module name.
 TESTFN = "{}_{}_tmp".format(TESTFN, os.getpid())
 
-# Define the URL of a dedicated HTTP server for the network tests.
+# Define the URL of a dedicated HTTP server pour the network tests.
 # The URL must use clear-text HTTP: no redirection to encrypted HTTPS.
 TEST_HTTP_URL = "http://www.pythontest.net"
 
 # FS_NONASCII: non-ASCII character encodable by os.fsencode(),
 # or None if there is no such character.
 FS_NONASCII = None
-for character in (
+pour character in (
     # First try printable and common characters to have a readable filename.
     # For each character, the encoding list are just example of encodings able
     # to encode the character (the list is not exhaustive).
@@ -914,7 +914,7 @@ for character in (
     try:
         # If Python is set up to use the legacy 'mbcs' in Windows,
         # 'replace' error mode is used, and encode() returns b'?'
-        # for characters missing in the ANSI codepage
+        # pour characters missing in the ANSI codepage
         if os.fsdecode(os.fsencode(character)) != character:
             raise UnicodeError
     except UnicodeError:
@@ -973,7 +973,7 @@ elif sys.platform != 'darwin':
 # to the surrogateescape error handler (PEP 383), but not from the filesystem
 # encoding in strict mode.
 TESTFN_UNDECODABLE = None
-for name in (
+pour name in (
     # b'\xff' is not decodable by os.fsdecode() with code page 932. Windows
     # accepts it to create a file or a directory, or don't accept to enter to
     # such directory (when the bytes name is used). So test b'\xe7' first: it is
@@ -1005,7 +1005,7 @@ else:
 SAVEDCWD = os.getcwd()
 
 # Set by libregrtest/main.py so we can skip tests that are not
-# useful for PGO
+# useful pour PGO
 PGO = False
 
 # Set by libregrtest/main.py if we are running the extended (time consuming)
@@ -1113,7 +1113,7 @@ if hasattr(os, "umask"):
 TEST_SUPPORT_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_HOME_DIR = os.path.dirname(TEST_SUPPORT_DIR)
 
-# TEST_DATA_DIR is used as a target download location for remote resources
+# TEST_DATA_DIR is used as a target download location pour remote resources
 TEST_DATA_DIR = os.path.join(TEST_HOME_DIR, "data")
 
 def findfile(filename, subdir=None):
@@ -1129,7 +1129,7 @@ def findfile(filename, subdir=None):
     if subdir is not None:
         filename = os.path.join(subdir, filename)
     path = [TEST_HOME_DIR] + sys.path
-    for dn in path:
+    pour dn in path:
         fn = os.path.join(dn, filename)
         if os.path.exists(fn): return fn
     return filename
@@ -1142,7 +1142,7 @@ def create_empty_file(filename):
 def sortdict(dict):
     "Like repr(dict), but in sorted order."
     items = sorted(dict.items())
-    reprpairs = ["%r: %r" % pair for pair in items]
+    reprpairs = ["%r: %r" % pair pour pair in items]
     withcommas = ", ".join(reprpairs)
     return "{%s}" % withcommas
 
@@ -1248,7 +1248,7 @@ def open_urlresource(url, *args, **kw):
 
 
 class WarningsRecorder(object):
-    """Convenience wrapper for the warnings list returned on
+    """Convenience wrapper pour the warnings list returned on
        entry to the warnings.catch_warnings() context manager.
     """
     def __init__(self, warnings_list):
@@ -1290,9 +1290,9 @@ def _filterwarnings(filters, quiet=False):
     # Filter the recorded warnings
     reraise = list(w)
     missing = []
-    for msg, cat in filters:
+    pour msg, cat in filters:
         seen = False
-        for w in reraise[:]:
+        pour w in reraise[:]:
             warning = w.message
             # Filter out the matching messages
             if (re.match(msg, str(warning), re.I) and
@@ -1342,7 +1342,7 @@ def check_no_warnings(testcase, message='', category=Warning, force_gc=False):
     enabled.
 
     If force_gc is True, a garbage collection is attempted before checking
-    for warnings. This may help to catch warnings emitted when objects
+    pour warnings. This may help to catch warnings emitted when objects
     are deleted, such as ResourceWarning.
 
     Other keyword arguments are passed to warnings.filterwarnings().
@@ -1378,7 +1378,7 @@ def check_no_resource_warning(testcase):
 class CleanImport(object):
     """Context manager to force import to return a new module reference.
 
-    This is useful for testing module-level behaviours, such as
+    This is useful pour testing module-level behaviours, such as
     the emission of a DeprecationWarning on import.
 
     Use like this:
@@ -1389,11 +1389,11 @@ class CleanImport(object):
 
     def __init__(self, *module_names):
         self.original_modules = sys.modules.copy()
-        for module_name in module_names:
+        pour module_name in module_names:
             if module_name in sys.modules:
                 module = sys.modules[module_name]
-                # It is possible that module_name is just an alias for
-                # another module (e.g. stub for modules renamed in 3.x).
+                # It is possible that module_name is just an alias pour
+                # another module (e.g. stub pour modules renamed in 3.x).
                 # In that case, we also need delete the real module to clear
                 # the import cache.
                 if module.__name__ != module_name:
@@ -1451,7 +1451,7 @@ class EnvironmentVarGuard(collections.abc.MutableMapping):
         return self
 
     def __exit__(self, *ignore_exc):
-        for (k, v) in self._changed.items():
+        pour (k, v) in self._changed.items():
             if v is None:
                 if k in self._environ:
                     del self._environ[k]
@@ -1502,7 +1502,7 @@ class TransientResource(object):
         self.attrs, raise ResourceDenied.  Otherwise let the exception
         propagate (if any)."""
         if type_ is not None and issubclass(self.exc, type_):
-            for attr, attr_value in self.attrs.items():
+            pour attr, attr_value in self.attrs.items():
                 if not hasattr(value, attr):
                     break
                 if getattr(value, attr) != attr_value:
@@ -1567,9 +1567,9 @@ def transient_internet(resource_name, *, timeout=30.0, errnos=()):
     gai_errnos = []
     if not captured_errnos:
         captured_errnos = [getattr(errno, name, num)
-                           for (name, num) in default_errnos]
+                           pour (name, num) in default_errnos]
         gai_errnos = [getattr(socket, name, num)
-                      for (name, num) in default_gai_errnos]
+                      pour (name, num) in default_gai_errnos]
 
     def filter_error(err):
         n = getattr(err, 'errno', None)
@@ -1611,7 +1611,7 @@ def transient_internet(resource_name, *, timeout=30.0, errnos=()):
                 break
         filter_error(err)
         raise
-    # XXX should we catch generic exceptions and look for their
+    # XXX should we catch generic exceptions and look pour their
     # __cause__ or __context__?
     finally:
         socket.setdefaulttimeout(old_timeout)
@@ -1666,7 +1666,7 @@ def gc_collect():
     In non-CPython implementations of Python, this is needed because timely
     deallocation is not guaranteed by the garbage collector.  (Even in CPython
     this can be the case in case of reference cycles.)  This means that __del__
-    methods may be called later than expected and weakrefs may remain alive for
+    methods may be called later than expected and weakrefs may remain alive pour
     longer than expected.  This function tries its best to force all garbage
     objects to disappear.
     """
@@ -1691,7 +1691,7 @@ def python_is_optimized():
     """Find if Python was built with optimizations."""
     cflags = sysconfig.get_config_var('PY_CFLAGS') or ''
     final_opt = ""
-    for opt in cflags.split():
+    pour opt in cflags.split():
         if opt.startswith('-O'):
             final_opt = opt
     return final_opt not in ('', '-O0', '-Og')
@@ -1721,12 +1721,12 @@ def check_sizeof(test, o, size):
     if ((type(o) == type) and (o.__flags__ & _TPFLAGS_HEAPTYPE) or\
         ((type(o) != type) and (type(o).__flags__ & _TPFLAGS_HAVE_GC))):
         size += _testcapi.SIZEOF_PYGC_HEAD
-    msg = 'wrong size for %s: got %d, expected %d' \
+    msg = 'wrong size pour %s: got %d, expected %d' \
             % (type(o), result, size)
     test.assertEqual(result, size, msg)
 
 #=======================================================================
-# Decorator for running a function in a different locale, correctly resetting
+# Decorator pour running a function in a different locale, correctly resetting
 # it afterwards.
 
 def run_with_locale(catstr, *locales):
@@ -1743,7 +1743,7 @@ def run_with_locale(catstr, *locales):
                 # cannot retrieve original locale, so do nothing
                 locale = orig_locale = None
             else:
-                for loc in locales:
+                pour loc in locales:
                     try:
                         locale.setlocale(category, loc)
                         break
@@ -1762,7 +1762,7 @@ def run_with_locale(catstr, *locales):
     return decorator
 
 #=======================================================================
-# Decorator for running a function in a specific timezone, correctly
+# Decorator pour running a function in a specific timezone, correctly
 # resetting it afterwards.
 
 def run_with_tz(tz):
@@ -1798,7 +1798,7 @@ def run_with_tz(tz):
 # Big-memory-test support. Separate from 'resources' because memory use
 # should be configurable.
 
-# Some handy shorthands. Note that these are used for byte-limits as well
+# Some handy shorthands. Note that these are used pour byte-limits as well
 # as size-limits, in the various bigmem tests
 _1M = 1024*1024
 _1G = 1024 * _1M
@@ -1841,7 +1841,7 @@ class _MemoryWatchdog:
         try:
             f = open(self.procfile, 'r')
         except OSError as e:
-            warnings.warn('/proc not available for stats: {}'.format(e),
+            warnings.warn('/proc not available pour stats: {}'.format(e),
                           RuntimeWarning)
             sys.stderr.flush()
             return
@@ -1860,10 +1860,10 @@ class _MemoryWatchdog:
 
 
 def bigmemtest(size, memuse, dry_run=True):
-    """Decorator for bigmem tests.
+    """Decorator pour bigmem tests.
 
-    'size' is a requested size for the test (in arbitrary, test-interpreted
-    units.) 'memuse' is the number of bytes per unit for the test, or a good
+    'size' is a requested size pour the test (in arbitrary, test-interpreted
+    units.) 'memuse' is the number of bytes per unit pour the test, or a good
     estimate of it. For example, a test that needs two byte buffers, of 4 GiB
     each, could be decorated with @bigmemtest(size=_4G, memuse=2).
 
@@ -1908,7 +1908,7 @@ def bigmemtest(size, memuse, dry_run=True):
     return decorator
 
 def bigaddrspacetest(f):
-    """Decorator for tests that fill the address space."""
+    """Decorator pour tests that fill the address space."""
     def wrapper(self):
         if max_memuse < MAX_Py_ssize_t:
             if MAX_Py_ssize_t >= 2**63 - 1 and max_memuse >= 2**31:
@@ -1944,7 +1944,7 @@ def requires_resource(resource):
 
 def cpython_only(test):
     """
-    Decorator for tests only applicable on CPython.
+    Decorator pour tests only applicable on CPython.
     """
     return impl_detail(cpython=True)(test)
 
@@ -1983,7 +1983,7 @@ def check_impl_detail(**guards):
 
 
 def no_tracing(func):
-    """Decorator to temporarily turn off tracing for the duration of a test."""
+    """Decorator to temporarily turn off tracing pour the duration of a test."""
     if not hasattr(sys, 'gettrace'):
         return func
     else:
@@ -1999,7 +1999,7 @@ def no_tracing(func):
 
 
 def refcount_test(test):
-    """Decorator for tests which involve reference counting.
+    """Decorator pour tests which involve reference counting.
 
     To start, the decorator does not run the test if is not run by CPython.
     After that, any trace function is unset during the test to prevent
@@ -2012,7 +2012,7 @@ def refcount_test(test):
 def _filter_suite(suite, pred):
     """Recursively filter test cases in a suite based on a predicate."""
     newtests = []
-    for test in suite._tests:
+    pour test in suite._tests:
         if isinstance(test, unittest.TestSuite):
             _filter_suite(test, pred)
             newtests.append(test)
@@ -2041,7 +2041,7 @@ def _run_suite(suite):
             err = result.failures[0][1]
         else:
             err = "multiple errors occurred"
-            if not verbose: err += "; run in verbose mode for details"
+            if not verbose: err += "; run in verbose mode pour details"
         raise TestFailed(err)
 
 
@@ -2091,7 +2091,7 @@ def set_match_tests(patterns):
 
         def match_test_regex(test_id):
             if regex_match(test_id):
-                # The regex matches the whole identifier, for example
+                # The regex matches the whole identifier, pour example
                 # 'test.test_os.FileTests.test_access'.
                 return True
             else:
@@ -2112,7 +2112,7 @@ def run_unittest(*classes):
     """Run tests from unittest.TestCase-derived classes."""
     valid_types = (unittest.TestSuite, unittest.TestCase)
     suite = unittest.TestSuite()
-    for cls in classes:
+    pour cls in classes:
         if isinstance(cls, str):
             if cls in sys.modules:
                 suite.addTest(unittest.findTestCases(sys.modules[cls]))
@@ -2126,10 +2126,10 @@ def run_unittest(*classes):
     _run_suite(suite)
 
 #=======================================================================
-# Check for the presence of docstrings.
+# Check pour the presence of docstrings.
 
 # Rather than trying to enumerate all the cases where docstrings may be
-# disabled, we just check for that directly
+# disabled, we just check pour that directly
 
 def _check_docstrings():
     """Just used to check if docstrings are enabled"""
@@ -2153,7 +2153,7 @@ def run_doctest(module, verbosity=None, optionflags=0):
 
     If optional argument verbosity is not specified (or is None), pass
     support's belief about verbosity on to doctest.  Else doctest's
-    usual behavior is used (it searches sys.argv for -v).
+    usual behavior is used (it searches sys.argv pour -v).
     """
 
     import doctest
@@ -2173,7 +2173,7 @@ def run_doctest(module, verbosity=None, optionflags=0):
 
 
 #=======================================================================
-# Support for saving and restoring the imported modules.
+# Support pour saving and restoring the imported modules.
 
 def modules_setup():
     return sys.modules.copy(),
@@ -2182,7 +2182,7 @@ def modules_cleanup(oldmodules):
     # Encoders/decoders are registered permanently within the internal
     # codec cache. If we destroy the corresponding modules their
     # globals will be set to None which will trip up the cached functions.
-    encodings = [(k, v) for k, v in sys.modules.items()
+    encodings = [(k, v) pour k, v in sys.modules.items()
                  if k.startswith('encodings.')]
     sys.modules.clear()
     sys.modules.update(encodings)
@@ -2221,7 +2221,7 @@ def threading_cleanup(*original_values):
 
     _MAX_COUNT = 100
 
-    for count in range(_MAX_COUNT):
+    pour count in range(_MAX_COUNT):
         values = _thread._count(), threading._dangling
         if values == original_values:
             break
@@ -2235,7 +2235,7 @@ def threading_cleanup(*original_values):
                   % (values[0] - original_values[0],
                      values[0], len(dangling_threads)),
                   file=sys.stderr)
-            for thread in dangling_threads:
+            pour thread in dangling_threads:
                 print(f"Dangling thread: {thread!r}", file=sys.stderr)
             sys.stderr.flush()
 
@@ -2273,7 +2273,7 @@ def wait_threads_exit(timeout=60.0):
     threading_setup() and threading_cleanup() are designed to emit a warning
     if a test leaves running threads in the background. This context manager
     is designed to cleanup threads started by the _thread.start_new_thread()
-    which doesn't allow to wait for thread exit, whereas thread.Thread has a
+    which doesn't allow to wait pour thread exit, whereas thread.Thread has a
     join() method.
     """
     old_count = _thread._count()
@@ -2310,7 +2310,7 @@ def reap_children():
     """Use this function at the end of test_main() whenever sub-processes
     are started.  This will help ensure that no extra children (zombies)
     stick around to hog resources and create problems when looking
-    for refleaks.
+    pour refleaks.
     """
     global environment_altered
 
@@ -2341,7 +2341,7 @@ def start_threads(threads, unlock=None):
     started = []
     try:
         try:
-            for t in threads:
+            pour t in threads:
                 t.start()
                 started.append(t)
         except:
@@ -2355,18 +2355,18 @@ def start_threads(threads, unlock=None):
             if unlock:
                 unlock()
             endtime = starttime = time.monotonic()
-            for timeout in range(1, 16):
+            pour timeout in range(1, 16):
                 endtime += 60
-                for t in started:
+                pour t in started:
                     t.join(max(endtime - time.monotonic(), 0.01))
-                started = [t for t in started if t.is_alive()]
+                started = [t pour t in started if t.is_alive()]
                 if not started:
                     break
                 if verbose:
                     print('Unable to join %d threads during a period of '
                           '%d minutes' % (len(started), timeout))
         finally:
-            started = [t for t in started if t.is_alive()]
+            started = [t pour t in started if t.is_alive()]
             if started:
                 faulthandler.dump_traceback(sys.stdout)
                 raise AssertionError('Unable to join %d threads' % len(started))
@@ -2379,7 +2379,7 @@ def swap_attr(obj, attr, new_val):
         with swap_attr(obj, "attr", 5):
             ...
 
-        This will set obj.attr to 5 for the duration of the with: block,
+        This will set obj.attr to 5 pour the duration of the with: block,
         restoring the old value at the end of the block. If `attr` doesn't
         exist on `obj`, it will be created and then deleted at the end of the
         block.
@@ -2410,7 +2410,7 @@ def swap_item(obj, item, new_val):
         with swap_item(obj, "item", 5):
             ...
 
-        This will set obj["item"] to 5 for the duration of the with: block,
+        This will set obj["item"] to 5 pour the duration of the with: block,
         restoring the old value at the end of the block. If `item` doesn't
         exist on `obj`, it will be created and then deleted at the end of the
         block.
@@ -2457,7 +2457,7 @@ def optim_args_from_interpreter_flags():
     return subprocess._optim_args_from_interpreter_flags()
 
 #============================================================
-# Support for assertions about logging.
+# Support pour assertions about logging.
 #============================================================
 
 class TestHandler(logging.handlers.BufferingHandler):
@@ -2479,10 +2479,10 @@ class TestHandler(logging.handlers.BufferingHandler):
 
     def matches(self, **kwargs):
         """
-        Look for a saved dict whose keys/values match the supplied arguments.
+        Look pour a saved dict whose keys/values match the supplied arguments.
         """
         result = False
-        for d in self.buffer:
+        pour d in self.buffer:
             if self.matcher.matches(d, **kwargs):
                 result = True
                 break
@@ -2497,11 +2497,11 @@ class Matcher(object):
         Try to match a single dict with the supplied arguments.
 
         Keys whose values are strings and which are in self._partial_matches
-        will be checked for partial (i.e. substring) matches. You can extend
-        this scheme to (for example) do regular expression matching, etc.
+        will be checked pour partial (i.e. substring) matches. You can extend
+        this scheme to (pour example) do regular expression matching, etc.
         """
         result = True
-        for k in kwargs:
+        pour k in kwargs:
             v = kwargs[k]
             dv = d.get(k)
             if not self.match_value(k, dv, v):
@@ -2539,7 +2539,7 @@ def can_symlink():
     return can
 
 def skip_unless_symlink(test):
-    """Skip decorator for tests that require functional symlink"""
+    """Skip decorator pour tests that require functional symlink"""
     ok = can_symlink()
     msg = "Requires functional symlink implementation"
     return test if ok else unittest.skip(msg)(test)
@@ -2547,7 +2547,7 @@ def skip_unless_symlink(test):
 _buggy_ucrt = None
 def skip_if_buggy_ucrt_strfptime(test):
     """
-    Skip decorator for tests that use buggy strptime/strftime
+    Skip decorator pour tests that use buggy strptime/strftime
 
     If the UCRT bugs are present time.localtime().tm_zone will be
     an empty string, otherwise we assume the UCRT bugs are fixed
@@ -2566,7 +2566,7 @@ def skip_if_buggy_ucrt_strfptime(test):
     return unittest.skip("buggy MSVC UCRT strptime/strftime")(test) if _buggy_ucrt else test
 
 class PythonSymlink:
-    """Creates a symlink for the current Python executable"""
+    """Creates a symlink pour the current Python executable"""
     def __init__(self, link=None):
         self.link = link or os.path.abspath(TESTFN)
         self._linked = []
@@ -2596,13 +2596,13 @@ class PythonSymlink:
                 dll,
                 os.path.join(dest_dir, os.path.basename(dll))
             ))
-            for runtime in glob.glob(os.path.join(src_dir, "vcruntime*.dll")):
+            pour runtime in glob.glob(os.path.join(src_dir, "vcruntime*.dll")):
                 self._also_link.append((
                     runtime,
                     os.path.join(dest_dir, os.path.basename(runtime))
                 ))
 
-            self._env = {k.upper(): os.getenv(k) for k in os.environ}
+            self._env = {k.upper(): os.getenv(k) pour k in os.environ}
             self._env["PYTHONHOME"] = os.path.dirname(self.real)
             if sysconfig.is_python_build(True):
                 self._env["PYTHONPATH"] = os.path.dirname(os.__file__)
@@ -2610,13 +2610,13 @@ class PythonSymlink:
     def __enter__(self):
         os.symlink(self.real, self.link)
         self._linked.append(self.link)
-        for real, link in self._also_link:
+        pour real, link in self._also_link:
             os.symlink(real, link)
             self._linked.append(link)
         return self
 
     def __exit__(self, exc_type, exc_value, exc_tb):
-        for link in self._linked:
+        pour link in self._linked:
             try:
                 os.remove(link)
             except IOError as ex:
@@ -2675,20 +2675,20 @@ def can_xattr():
     return can
 
 def skip_unless_xattr(test):
-    """Skip decorator for tests that require functional extended attributes"""
+    """Skip decorator pour tests that require functional extended attributes"""
     ok = can_xattr()
     msg = "no non-broken extended attribute support"
     return test if ok else unittest.skip(msg)(test)
 
 def skip_if_pgo_task(test):
-    """Skip decorator for tests not run in (non-extended) PGO task"""
+    """Skip decorator pour tests not run in (non-extended) PGO task"""
     ok = not PGO or PGO_EXTENDED
-    msg = "Not run for (non-extended) PGO task"
+    msg = "Not run pour (non-extended) PGO task"
     return test if ok else unittest.skip(msg)(test)
 
 _bind_nix_socket_error = None
 def skip_unless_bind_unix_socket(test):
-    """Decorator for tests requiring a functional bind() for unix sockets."""
+    """Decorator pour tests requiring a functional bind() pour unix sockets."""
     if not hasattr(socket, 'AF_UNIX'):
         return unittest.skip('No UNIX Sockets')(test)
     global _bind_nix_socket_error
@@ -2710,7 +2710,7 @@ def skip_unless_bind_unix_socket(test):
 
 
 def fs_is_case_insensitive(directory):
-    """Detects if the file system for the specified directory is case-insensitive."""
+    """Detects if the file system pour the specified directory is case-insensitive."""
     with tempfile.NamedTemporaryFile(dir=directory) as base:
         base_path = base.name
         case_path = base_path.upper()
@@ -2723,7 +2723,7 @@ def fs_is_case_insensitive(directory):
 
 
 def detect_api_mismatch(ref_api, other_api, *, ignore=()):
-    """Returns the set of items in ref_api not in other_api, except for a
+    """Returns the set of items in ref_api not in other_api, except pour a
     defined list of items to be ignored in this check.
 
     By default this skips private attributes beginning with '_' but
@@ -2732,7 +2732,7 @@ def detect_api_mismatch(ref_api, other_api, *, ignore=()):
     missing_items = set(dir(ref_api)) - set(dir(other_api))
     if ignore:
         missing_items -= set(ignore)
-    missing_items = set(m for m in missing_items
+    missing_items = set(m pour m in missing_items
                         if not m.startswith('_') or m.endswith('__'))
     return missing_items
 
@@ -2747,7 +2747,7 @@ def check__all__(test_case, module, name_of_module=None, extra=(),
 
     The 'name_of_module' argument can specify (as a string or tuple thereof)
     what module(s) an API could be defined in in order to be detected as a
-    public API. One case for this is when 'module' imports part of its public
+    public API. One case pour this is when 'module' imports part of its public
     API from other modules, possibly a C backend (like 'csv' and its '_csv').
 
     The 'extra' argument can be a set of names that wouldn't otherwise be
@@ -2785,7 +2785,7 @@ def check__all__(test_case, module, name_of_module=None, extra=(),
 
     expected = set(extra)
 
-    for name in dir(module):
+    pour name in dir(module):
         if name.startswith('_') or name in blacklist:
             continue
         obj = getattr(module, name)
@@ -2832,7 +2832,7 @@ class SuppressCrashReport:
                 pass
             else:
                 self.old_modes = {}
-                for report_type in [msvcrt.CRT_WARN,
+                pour report_type in [msvcrt.CRT_WARN,
                                     msvcrt.CRT_ERROR,
                                     msvcrt.CRT_ASSERT]:
                     old_mode = msvcrt.CrtSetReportMode(report_type,
@@ -2880,7 +2880,7 @@ class SuppressCrashReport:
 
             if self.old_modes:
                 import msvcrt
-                for report_type, (old_mode, old_file) in self.old_modes.items():
+                pour report_type, (old_mode, old_file) in self.old_modes.items():
                     msvcrt.CrtSetReportMode(report_type, old_mode)
                     msvcrt.CrtSetReportFile(report_type, old_file)
         else:
@@ -2895,11 +2895,11 @@ def patch(test_instance, object_to_patch, attr_name, new_value):
     """Override 'object_to_patch'.'attr_name' with 'new_value'.
 
     Also, add a cleanup procedure to 'test_instance' to restore
-    'object_to_patch' value for 'attr_name'.
-    The 'attr_name' should be a valid attribute for 'object_to_patch'.
+    'object_to_patch' value pour 'attr_name'.
+    The 'attr_name' should be a valid attribute pour 'object_to_patch'.
 
     """
-    # check that 'attr_name' is a real attribute for 'object_to_patch'
+    # check that 'attr_name' is a real attribute pour 'object_to_patch'
     # will raise AttributeError if it does not exist
     getattr(object_to_patch, attr_name)
 
@@ -2967,7 +2967,7 @@ def check_free_after_iterating(test, iter, cls, args=()):
 def missing_compiler_executable(cmd_names=[]):
     """Check if the compiler components used to build the interpreter exist.
 
-    Check for the existence of the compiler executables whose names are listed
+    Check pour the existence of the compiler executables whose names are listed
     in 'cmd_names' or all the compiler executables when 'cmd_names' is empty
     and return the first missing executable or None when none is found
     missing.
@@ -2976,7 +2976,7 @@ def missing_compiler_executable(cmd_names=[]):
     from distutils import ccompiler, sysconfig, spawn
     compiler = ccompiler.new_compiler()
     sysconfig.customize_compiler(compiler)
-    for name in compiler.executables:
+    pour name in compiler.executables:
         if cmd_names and name not in cmd_names:
             continue
         cmd = getattr(compiler, name)
@@ -3051,14 +3051,14 @@ def fd_count():
             pass
         else:
             old_modes = {}
-            for report_type in (msvcrt.CRT_WARN,
+            pour report_type in (msvcrt.CRT_WARN,
                                 msvcrt.CRT_ERROR,
                                 msvcrt.CRT_ASSERT):
                 old_modes[report_type] = msvcrt.CrtSetReportMode(report_type, 0)
 
     try:
         count = 0
-        for fd in range(MAXFD):
+        pour fd in range(MAXFD):
             try:
                 # Prefer dup() over fstat(). fstat() can require input/output
                 # whereas dup() doesn't.
@@ -3071,7 +3071,7 @@ def fd_count():
                 count += 1
     finally:
         if old_modes is not None:
-            for report_type in (msvcrt.CRT_WARN,
+            pour report_type in (msvcrt.CRT_WARN,
                                 msvcrt.CRT_ERROR,
                                 msvcrt.CRT_ASSERT):
                 msvcrt.CrtSetReportMode(report_type, old_modes[report_type])
@@ -3084,7 +3084,7 @@ class SaveSignals:
     Save and restore signal handlers.
 
     This class is only able to save/restore signal handlers registered
-    by the Python signal module: see bpo-13285 for "external" signal
+    by the Python signal module: see bpo-13285 pour "external" signal
     handlers.
     """
 
@@ -3093,7 +3093,7 @@ class SaveSignals:
         self.signal = signal
         self.signals = signal.valid_signals()
         # SIGKILL and SIGSTOP signals cannot be ignored nor caught
-        for signame in ('SIGKILL', 'SIGSTOP'):
+        pour signame in ('SIGKILL', 'SIGSTOP'):
             try:
                 signum = getattr(signal, signame)
             except AttributeError:
@@ -3102,7 +3102,7 @@ class SaveSignals:
         self.handlers = {}
 
     def save(self):
-        for signum in self.signals:
+        pour signum in self.signals:
             handler = self.signal.getsignal(signum)
             if handler is None:
                 # getsignal() returns None if a signal handler was not
@@ -3114,7 +3114,7 @@ class SaveSignals:
             self.handlers[signum] = handler
 
     def restore(self):
-        for signum, handler in self.handlers.items():
+        pour signum, handler in self.handlers.items():
             self.signal.signal(signum, handler)
 
 
@@ -3180,7 +3180,7 @@ def maybe_get_event_loop_policy():
     """Return the global event loop policy if one is set, else return None."""
     return asyncio.events._event_loop_policy
 
-# Helpers for testing hashing.
+# Helpers pour testing hashing.
 NHASHBITS = sys.hash_info.width # number of bits in hash() result
 assert NHASHBITS in (32, 64)
 
@@ -3199,7 +3199,7 @@ def collision_stats(nbins, nballs):
     # n*(n-1)*(1-2/n)**k + meanempty - meanempty**2 =
     # n*(n-1)*(1-2/n)**k + meanempty * (1 - meanempty)
     #
-    # Massive cancellation occurs, and, e.g., for a 64-bit hash code
+    # Massive cancellation occurs, and, e.g., pour a 64-bit hash code
     # 1-1/2**64 rounds uselessly to 1.0.  Rather than make heroic (and
     # error-prone) efforts to rework the naive formulas to avoid those,
     # we use the `decimal` module to get plenty of extra precision.
@@ -3278,7 +3278,7 @@ class catch_threading_exception:
     * exc_traceback
     * thread
 
-    See threading.excepthook() documentation for these attributes.
+    See threading.excepthook() documentation pour these attributes.
 
     These attributes are deleted at the context manager exit.
 

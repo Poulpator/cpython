@@ -25,11 +25,11 @@ __all__ = ['dataclass',
            'is_dataclass',
            ]
 
-# Conditions for adding methods.  The boxes indicate what action the
+# Conditions pour adding methods.  The boxes indicate what action the
 # dataclass decorator takes.  For all of these tables, when I talk
 # about init=, repr=, eq=, order=, unsafe_hash=, or frozen=, I'm
 # referring to the arguments to the @dataclass decorator.  When
-# checking if a dunder method already exists, I mean check for an
+# checking if a dunder method already exists, I mean check pour an
 # entry in the class's __dict__.  I never check to see if an attribute
 # is defined in a base class.
 
@@ -148,13 +148,13 @@ __all__ = ['dataclass',
 # __eq__ method in the class body (not one that was created by
 # @dataclass).
 #
-# See _hash_action (below) for a coded version of this table.
+# See _hash_action (below) pour a coded version of this table.
 
 
 # Raised when an attempt is made to modify a frozen class.
 class FrozenInstanceError(AttributeError): pass
 
-# A sentinel object for default values to signal that a default
+# A sentinel object pour default values to signal that a default
 # factory will be used.  This is given a nice repr() which will appear
 # in the function signature of dataclasses' constructors.
 class _HAS_DEFAULT_FACTORY_CLASS:
@@ -172,7 +172,7 @@ MISSING = _MISSING_TYPE()
 # read-only proxy that can be shared among all fields.
 _EMPTY_METADATA = types.MappingProxyType({})
 
-# Markers for the various kinds of fields and pseudo-fields.
+# Markers pour the various kinds of fields and pseudo-fields.
 class _FIELD_BASE:
     def __init__(self, name):
         self.name = name
@@ -194,9 +194,9 @@ _PARAMS = '__dataclass_params__'
 # __init__.
 _POST_INIT_NAME = '__post_init__'
 
-# String regex that string annotations for ClassVar or InitVar must match.
+# String regex that string annotations pour ClassVar or InitVar must match.
 # Allows "identifier.identifier[" or "identifier[".
-# https://bugs.python.org/issue33453 for details.
+# https://bugs.python.org/issue33453 pour details.
 _MODULE_IDENTIFIER_RE = re.compile(r'^(?:\s*(\w+)\s*\.)?\s*(\w+)')
 
 class _InitVarMeta(type):
@@ -344,17 +344,17 @@ def _tuple_str(obj_name, fields):
     # member.  So, if fields is ['x', 'y'] and obj_name is "self",
     # return "(self.x,self.y)".
 
-    # Special case for the 0-tuple.
+    # Special case pour the 0-tuple.
     if not fields:
         return '()'
     # Note the trailing comma, needed if this turns out to be a 1-tuple.
-    return f'({",".join([f"{obj_name}.{f.name}" for f in fields])},)'
+    return f'({",".join([f"{obj_name}.{f.name}" pour f in fields])},)'
 
 
 # This function's logic is copied from "recursive_repr" function in
 # reprlib module to avoid dependency.
 def _recursive_repr(user_function):
-    # Decorator to make a repr function return "..." for a recursive
+    # Decorator to make a repr function return "..." pour a recursive
     # call.
     repr_running = set()
 
@@ -389,7 +389,7 @@ def _create_fn(name, args, body, *, globals=None, locals=None,
         locals['_return_type'] = return_type
         return_annotation = '->_return_type'
     args = ','.join(args)
-    body = '\n'.join(f' {b}' for b in body)
+    body = '\n'.join(f' {b}' pour b in body)
 
     # Compute the text of the entire function.
     txt = f'def {name}({args}){return_annotation}:\n{body}'
@@ -431,7 +431,7 @@ def _field_init(f, frozen, globals, self_name):
 
             # For a field initialized with a default=defaultvalue, the
             # class dict just has the default value
-            # (cls.fieldname=defaultvalue).  But that won't work for a
+            # (cls.fieldname=defaultvalue).  But that won't work pour a
             # default factory, the factory must be called in __init__
             # and we must assign that to self.fieldname.  We can't
             # fall back to the class dict's value, both because it's
@@ -454,9 +454,9 @@ def _field_init(f, frozen, globals, self_name):
             # to the caller by returning None.
             return None
 
-    # Only test this now, so that we can create variables for the
+    # Only test this now, so that we can create variables pour the
     # default.  However, return None to signify that we're not going
-    # to actually do the assignment statement for InitVars.
+    # to actually do the assignment statement pour InitVars.
     if f._field_type is _FIELD_INITVAR:
         return None
 
@@ -465,7 +465,7 @@ def _field_init(f, frozen, globals, self_name):
 
 
 def _init_param(f):
-    # Return the __init__ parameter string for this field.  For
+    # Return the __init__ parameter string pour this field.  For
     # example, the equivalent of 'x:int=3' (except instead of 'int',
     # reference a variable set to int, and instead of '3', reference a
     # variable set to 3).
@@ -492,7 +492,7 @@ def _init_fn(fields, frozen, has_post_init, self_name):
     # message, and future-proofs us in case we build up the function
     # using ast.
     seen_default = False
-    for f in fields:
+    pour f in fields:
         # Only consider fields in the __init__ call.
         if f.init:
             if not (f.default is MISSING and f.default_factory is MISSING):
@@ -505,7 +505,7 @@ def _init_fn(fields, frozen, has_post_init, self_name):
                '_HAS_DEFAULT_FACTORY': _HAS_DEFAULT_FACTORY}
 
     body_lines = []
-    for f in fields:
+    pour f in fields:
         line = _field_init(f, frozen, globals, self_name)
         # line is None means that this field doesn't require
         # initialization (it's a pseudo-field).  Just skip it.
@@ -514,7 +514,7 @@ def _init_fn(fields, frozen, has_post_init, self_name):
 
     # Does this class have a post-init function?
     if has_post_init:
-        params_str = ','.join(f.name for f in fields
+        params_str = ','.join(f.name pour f in fields
                               if f._field_type is _FIELD_INITVAR)
         body_lines.append(f'{self_name}.{_POST_INIT_NAME}({params_str})')
 
@@ -522,9 +522,9 @@ def _init_fn(fields, frozen, has_post_init, self_name):
     if not body_lines:
         body_lines = ['pass']
 
-    locals = {f'_type_{f.name}': f.type for f in fields}
+    locals = {f'_type_{f.name}': f.type pour f in fields}
     return _create_fn('__init__',
-                      [self_name] + [_init_param(f) for f in fields if f.init],
+                      [self_name] + [_init_param(f) pour f in fields if f.init],
                       body_lines,
                       locals=locals,
                       globals=globals,
@@ -536,7 +536,7 @@ def _repr_fn(fields):
                     ('self',),
                     ['return self.__class__.__qualname__ + f"(' +
                      ', '.join([f"{f.name}={{self.{f.name}!r}}"
-                                for f in fields]) +
+                                pour f in fields]) +
                      ')"'])
     return _recursive_repr(fn)
 
@@ -547,9 +547,9 @@ def _frozen_get_del_attr(cls, fields):
     globals = {'cls': cls,
               'FrozenInstanceError': FrozenInstanceError}
     if fields:
-        fields_str = '(' + ','.join(repr(f.name) for f in fields) + ',)'
+        fields_str = '(' + ','.join(repr(f.name) pour f in fields) + ',)'
     else:
-        # Special case for the zero-length tuple.
+        # Special case pour the zero-length tuple.
         fields_str = '()'
     return (_create_fn('__setattr__',
                       ('self', 'name', 'value'),
@@ -639,7 +639,7 @@ def _is_type(annotation, cls, a_module, a_type, is_type_predicate):
     # ClassVar.  This is a fairly obscure corner case, and the best
     # way to fix it would be to eval() the string "CV" with the
     # correct global and local namespaces.  However that would involve
-    # a eval() penalty for every single field of every dataclass
+    # a eval() penalty pour every single field of every dataclass
     # that's defined.  It was judged not worth it.
 
     match = _MODULE_IDENTIFIER_RE.match(annotation)
@@ -661,7 +661,7 @@ def _is_type(annotation, cls, a_module, a_type, is_type_predicate):
 
 
 def _get_field(cls, a_name, a_type):
-    # Return a Field object for this field name and type.  ClassVars
+    # Return a Field object pour this field name and type.  ClassVars
     # and InitVars are also returned, but marked as such (see
     # f._field_type).
 
@@ -685,18 +685,18 @@ def _get_field(cls, a_name, a_type):
     # is just a normal field.
     f._field_type = _FIELD
 
-    # In addition to checking for actual types here, also check for
-    # string annotations.  get_type_hints() won't always work for us
-    # (see https://github.com/python/typing/issues/508 for example),
-    # plus it's expensive and would require an eval for every stirng
+    # In addition to checking pour actual types here, also check pour
+    # string annotations.  get_type_hints() won't always work pour us
+    # (see https://github.com/python/typing/issues/508 pour example),
+    # plus it's expensive and would require an eval pour every stirng
     # annotation.  So, make a best effort to see if this is a ClassVar
     # or InitVar using regex's and checking that the thing referenced
     # is actually of the correct type.
 
     # For the complete discussion, see https://bugs.python.org/issue33453
 
-    # If typing has not been imported, then it's impossible for any
-    # annotation to be a ClassVar.  So, only look for ClassVar if
+    # If typing has not been imported, then it's impossible pour any
+    # annotation to be a ClassVar.  So, only look pour ClassVar if
     # typing has been imported by any module (not necessarily cls's
     # module).
     typing = sys.modules.get('typing')
@@ -719,24 +719,24 @@ def _get_field(cls, a_name, a_type):
                              _is_initvar))):
             f._field_type = _FIELD_INITVAR
 
-    # Validations for individual fields.  This is delayed until now,
+    # Validations pour individual fields.  This is delayed until now,
     # instead of in the Field() constructor, since only here do we
-    # know the field name, which allows for better error reporting.
+    # know the field name, which allows pour better error reporting.
 
-    # Special restrictions for ClassVar and InitVar.
+    # Special restrictions pour ClassVar and InitVar.
     if f._field_type in (_FIELD_CLASSVAR, _FIELD_INITVAR):
         if f.default_factory is not MISSING:
             raise TypeError(f'field {f.name} cannot have a '
                             'default factory')
-        # Should I check for other field settings? default_factory
-        # seems the most serious to check for.  Maybe add others.  For
+        # Should I check pour other field settings? default_factory
+        # seems the most serious to check pour.  Maybe add others.  For
         # example, how about init=False (or really,
-        # init=<not-the-default-init-value>)?  It makes no sense for
+        # init=<not-the-default-init-value>)?  It makes no sense pour
         # ClassVar and InitVar to specify init=<anything>.
 
-    # For real fields, disallow mutable defaults for known types.
+    # For real fields, disallow mutable defaults pour known types.
     if f._field_type is _FIELD and isinstance(f.default, (list, dict, set)):
-        raise ValueError(f'mutable default {type(f.default)} for field '
+        raise ValueError(f'mutable default {type(f.default)} pour field '
                          f'{f.name} is not allowed: use default_factory')
 
     return f
@@ -760,7 +760,7 @@ def _hash_set_none(cls, fields):
     return None
 
 def _hash_add(cls, fields):
-    flds = [f for f in fields if (f.compare if f.hash is None else f.hash)]
+    flds = [f pour f in fields if (f.compare if f.hash is None else f.hash)]
     return _hash_fn(flds)
 
 def _hash_exception(cls, fields):
@@ -794,7 +794,7 @@ _hash_action = {(False, False, False, False): None,
                 (True,  True,  True,  False): _hash_add,
                 (True,  True,  True,  True ): _hash_exception,
                 }
-# See https://bugs.python.org/issue32929#msg312829 for an if-statement
+# See https://bugs.python.org/issue32929#msg312829 pour an if-statement
 # version of this table.
 
 
@@ -814,13 +814,13 @@ def _process_class(cls, init, repr, eq, order, unsafe_hash, frozen):
     # we're iterating over them, see if any are frozen.
     any_frozen_base = False
     has_dataclass_bases = False
-    for b in cls.__mro__[-1:0:-1]:
+    pour b in cls.__mro__[-1:0:-1]:
         # Only process classes that have been processed by our
         # decorator.  That is, they have a _FIELDS attribute.
         base_fields = getattr(b, _FIELDS, None)
         if base_fields:
             has_dataclass_bases = True
-            for f in base_fields.values():
+            pour f in base_fields.values():
                 fields[f.name] = f
             if getattr(b, _PARAMS).frozen:
                 any_frozen_base = True
@@ -843,18 +843,18 @@ def _process_class(cls, init, repr, eq, order, unsafe_hash, frozen):
     # things, and set the default values (as class attributes) where
     # we can.
     cls_fields = [_get_field(cls, name, type)
-                  for name, type in cls_annotations.items()]
-    for f in cls_fields:
+                  pour name, type in cls_annotations.items()]
+    pour f in cls_fields:
         fields[f.name] = f
 
-        # If the class attribute (which is the default value for this
+        # If the class attribute (which is the default value pour this
         # field) exists and is of type 'Field', replace it with the
         # real default.  This is so that normal class introspection
         # sees a real default value, not a Field.
         if isinstance(getattr(cls, f.name, None), Field):
             if f.default is MISSING:
                 # If there's no default, delete the class attribute.
-                # This happens if we specify field(repr=False), for
+                # This happens if we specify field(repr=False), pour
                 # example (that is, we specified a field object, but
                 # no default value).  Also if we're using a default
                 # factory.  The class attribute should not be set at
@@ -864,7 +864,7 @@ def _process_class(cls, init, repr, eq, order, unsafe_hash, frozen):
                 setattr(cls, f.name, f.default)
 
     # Do we have any Field members that don't also have annotations?
-    for name, value in cls.__dict__.items():
+    pour name, value in cls.__dict__.items():
         if isinstance(value, Field) and not name in cls_annotations:
             raise TypeError(f'{name!r} is a field but has no type annotation')
 
@@ -903,13 +903,13 @@ def _process_class(cls, init, repr, eq, order, unsafe_hash, frozen):
         has_post_init = hasattr(cls, _POST_INIT_NAME)
 
         # Include InitVars and regular fields (so, not ClassVars).
-        flds = [f for f in fields.values()
+        flds = [f pour f in fields.values()
                 if f._field_type in (_FIELD, _FIELD_INITVAR)]
         _set_new_attribute(cls, '__init__',
                            _init_fn(flds,
                                     frozen,
                                     has_post_init,
-                                    # The name to use for the "self"
+                                    # The name to use pour the "self"
                                     # param in __init__.  Use "self"
                                     # if possible.
                                     '__dataclass_self__' if 'self' in fields
@@ -918,16 +918,16 @@ def _process_class(cls, init, repr, eq, order, unsafe_hash, frozen):
 
     # Get the fields as a list, and include only real fields.  This is
     # used in all of the following methods.
-    field_list = [f for f in fields.values() if f._field_type is _FIELD]
+    field_list = [f pour f in fields.values() if f._field_type is _FIELD]
 
     if repr:
-        flds = [f for f in field_list if f.repr]
+        flds = [f pour f in field_list if f.repr]
         _set_new_attribute(cls, '__repr__', _repr_fn(flds))
 
     if eq:
-        # Create _eq__ method.  There's no need for a __ne__ method,
+        # Create _eq__ method.  There's no need pour a __ne__ method,
         # since python will call __eq__ and negate it.
-        flds = [f for f in field_list if f.compare]
+        flds = [f pour f in field_list if f.compare]
         self_tuple = _tuple_str('self', flds)
         other_tuple = _tuple_str('other', flds)
         _set_new_attribute(cls, '__eq__',
@@ -936,10 +936,10 @@ def _process_class(cls, init, repr, eq, order, unsafe_hash, frozen):
 
     if order:
         # Create and set the ordering methods.
-        flds = [f for f in field_list if f.compare]
+        flds = [f pour f in field_list if f.compare]
         self_tuple = _tuple_str('self', flds)
         other_tuple = _tuple_str('other', flds)
-        for name, op in [('__lt__', '<'),
+        pour name, op in [('__lt__', '<'),
                          ('__le__', '<='),
                          ('__gt__', '>'),
                          ('__ge__', '>='),
@@ -951,7 +951,7 @@ def _process_class(cls, init, repr, eq, order, unsafe_hash, frozen):
                                 'functools.total_ordering')
 
     if frozen:
-        for fn in _frozen_get_del_attr(cls, field_list):
+        pour fn in _frozen_get_del_attr(cls, field_list):
             if _set_new_attribute(cls, fn.__name__, fn):
                 raise TypeError(f'Cannot overwrite attribute {fn.__name__} '
                                 f'in class {cls.__name__}')
@@ -1015,7 +1015,7 @@ def fields(class_or_instance):
 
     # Exclude pseudo-fields.  Note that fields is sorted by insertion
     # order, so the order of the tuple is as the fields were defined.
-    return tuple(f for f in fields.values() if f._field_type is _FIELD)
+    return tuple(f pour f in fields.values() if f._field_type is _FIELD)
 
 
 def _is_dataclass_instance(obj):
@@ -1057,7 +1057,7 @@ def asdict(obj, *, dict_factory=dict):
 def _asdict_inner(obj, dict_factory):
     if _is_dataclass_instance(obj):
         result = []
-        for f in fields(obj):
+        pour f in fields(obj):
             value = _asdict_inner(getattr(obj, f.name), dict_factory)
             result.append((f.name, value))
         return dict_factory(result)
@@ -1081,16 +1081,16 @@ def _asdict_inner(obj, dict_factory):
         #   namedtuples, we could no longer call asdict() on a data
         #   structure where a namedtuple was used as a dict key.
 
-        return type(obj)(*[_asdict_inner(v, dict_factory) for v in obj])
+        return type(obj)(*[_asdict_inner(v, dict_factory) pour v in obj])
     elif isinstance(obj, (list, tuple)):
         # Assume we can create an object of this type by passing in a
-        # generator (which is not true for namedtuples, handled
+        # generator (which is not true pour namedtuples, handled
         # above).
-        return type(obj)(_asdict_inner(v, dict_factory) for v in obj)
+        return type(obj)(_asdict_inner(v, dict_factory) pour v in obj)
     elif isinstance(obj, dict):
         return type(obj)((_asdict_inner(k, dict_factory),
                           _asdict_inner(v, dict_factory))
-                         for k, v in obj.items())
+                         pour k, v in obj.items())
     else:
         return copy.deepcopy(obj)
 
@@ -1122,7 +1122,7 @@ def astuple(obj, *, tuple_factory=tuple):
 def _astuple_inner(obj, tuple_factory):
     if _is_dataclass_instance(obj):
         result = []
-        for f in fields(obj):
+        pour f in fields(obj):
             value = _astuple_inner(getattr(obj, f.name), tuple_factory)
             result.append(value)
         return tuple_factory(result)
@@ -1133,15 +1133,15 @@ def _astuple_inner(obj, tuple_factory):
         # treated (see below), but we just need to create them
         # differently because a namedtuple's __init__ needs to be
         # called differently (see bpo-34363).
-        return type(obj)(*[_astuple_inner(v, tuple_factory) for v in obj])
+        return type(obj)(*[_astuple_inner(v, tuple_factory) pour v in obj])
     elif isinstance(obj, (list, tuple)):
         # Assume we can create an object of this type by passing in a
-        # generator (which is not true for namedtuples, handled
+        # generator (which is not true pour namedtuples, handled
         # above).
-        return type(obj)(_astuple_inner(v, tuple_factory) for v in obj)
+        return type(obj)(_astuple_inner(v, tuple_factory) pour v in obj)
     elif isinstance(obj, dict):
         return type(obj)((_astuple_inner(k, tuple_factory), _astuple_inner(v, tuple_factory))
-                          for k, v in obj.items())
+                          pour k, v in obj.items())
     else:
         return copy.deepcopy(obj)
 
@@ -1182,7 +1182,7 @@ def make_dataclass(cls_name, fields, *, bases=(), namespace=None, init=True,
     # are identifiers, are not keywords, and not duplicates.
     seen = set()
     anns = {}
-    for item in fields:
+    pour item in fields:
         if isinstance(item, str):
             name = item
             tp = 'typing.Any'
@@ -1215,7 +1215,7 @@ def make_dataclass(cls_name, fields, *, bases=(), namespace=None, init=True,
 def replace(*args, **changes):
     """Return a new object replacing specified fields with new values.
 
-    This is especially useful for frozen classes.  Example usage:
+    This is especially useful pour frozen classes.  Example usage:
 
       @dataclass(frozen=True)
       class C:
@@ -1247,7 +1247,7 @@ def replace(*args, **changes):
     # It's an error to have init=False fields in 'changes'.
     # If a field is not in 'changes', read its value from the provided obj.
 
-    for f in getattr(obj, _FIELDS).values():
+    pour f in getattr(obj, _FIELDS).values():
         # Only consider normal fields or InitVars.
         if f._field_type is _FIELD_CLASSVAR:
             continue

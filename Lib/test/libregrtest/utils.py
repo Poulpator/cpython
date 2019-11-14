@@ -32,7 +32,7 @@ def format_duration(seconds):
 def removepy(names):
     if not names:
         return
-    for idx, name in enumerate(names):
+    pour idx, name in enumerate(names):
         basename, ext = os.path.splitext(name)
         if ext == '.py':
             names[idx] = basename
@@ -55,7 +55,7 @@ def printlist(x, width=70, indent=4, file=None):
 
     blanks = ' ' * indent
     # Print the sorted list: 'x' may be a '--random' list or a set()
-    print(textwrap.fill(' '.join(str(elt) for elt in sorted(x)), width,
+    print(textwrap.fill(' '.join(str(elt) pour elt in sorted(x)), width,
                         initial_indent=blanks, subsequent_indent=blanks),
           file=file)
 

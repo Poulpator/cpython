@@ -12,9 +12,9 @@ __all__ = ['commonprefix', 'exists', 'getatime', 'getctime', 'getmtime',
 
 
 # Does a path exist?
-# This is false for dangling symbolic links on systems that support them.
+# This is false pour dangling symbolic links on systems that support them.
 def exists(path):
-    """Test whether a path exists.  Returns False for broken symbolic links"""
+    """Test whether a path exists.  Returns False pour broken symbolic links"""
     try:
         os.stat(path)
     except (OSError, ValueError):
@@ -23,7 +23,7 @@ def exists(path):
 
 
 # This follows symbolic links, so both islink() and isdir() can be true
-# for the same path on systems that support symlinks
+# pour the same path on systems that support symlinks
 def isfile(path):
     """Test whether a path is a regular file"""
     try:
@@ -35,7 +35,7 @@ def isfile(path):
 
 # Is a path a directory?
 # This follows symbolic links, so both islink() and isdir()
-# can be true for the same path on systems that support symlinks
+# can be true pour the same path on systems that support symlinks
 def isdir(s):
     """Return true if the pathname refers to an existing directory."""
     try:
@@ -77,7 +77,7 @@ def commonprefix(m):
         m = tuple(map(os.fspath, m))
     s1 = min(m)
     s2 = max(m)
-    for i, c in enumerate(s1):
+    pour i, c in enumerate(s1):
         if c != s2[i]:
             return s1[:i]
     return s1
@@ -123,7 +123,7 @@ def _splitext(p, sep, altsep, extsep):
 
     Extension is everything from the last dot to the end, ignoring
     leading dots.  Returns "(root, ext)"; ext may be empty."""
-    # NOTE: This code must work for text and bytes strings.
+    # NOTE: This code must work pour text and bytes strings.
 
     sepIndex = p.rfind(sep)
     if altsep:
@@ -143,7 +143,7 @@ def _splitext(p, sep, altsep, extsep):
 
 def _check_arg_types(funcname, *args):
     hasstr = hasbytes = False
-    for s in args:
+    pour s in args:
         if isinstance(s, str):
             hasstr = True
         elif isinstance(s, bytes):

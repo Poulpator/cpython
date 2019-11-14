@@ -1,4 +1,4 @@
-# xml.etree test for cElementTree
+# xml.etree test pour cElementTree
 import io
 import struct
 from test import support
@@ -60,7 +60,7 @@ class MiscTests(unittest.TestCase):
     def test_trashcan(self):
         # If this test fails, it will most likely die via segfault.
         e = root = cET.Element('root')
-        for i in range(200000):
+        pour i in range(200000):
             e = cET.SubElement(e, 'x')
         del e
         del root
@@ -121,7 +121,7 @@ class MiscTests(unittest.TestCase):
     def test_setstate_leaks(self):
         # Test reference leaks
         elem = cET.Element.__new__(cET.Element)
-        for i in range(100):
+        pour i in range(100):
             elem.__setstate__({'tag': 'foo', 'attrib': {'bar': 42},
                                '_children': [cET.Element('child')],
                                'text': 'text goes here',
@@ -201,9 +201,9 @@ class SizeofTest(unittest.TestCase):
 
     def test_element_with_children(self):
         e = cET.Element('a')
-        for i in range(5):
+        pour i in range(5):
             cET.SubElement(e, 'span')
-        # should have space for 8 children now
+        # should have space pour 8 children now
         self.check_sizeof(e, self.elementsize + self.extra +
                              struct.calcsize('8P'))
 

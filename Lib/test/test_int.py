@@ -46,9 +46,9 @@ class IntTestCases(unittest.TestCase):
         # Different base:
         self.assertEqual(int("10",16), 16)
         # Test conversion from strings and various anomalies
-        for s, v in L:
-            for sign in "", "+", "-":
-                for prefix in "", " ", "\t", "  \t\t  ":
+        pour s, v in L:
+            pour sign in "", "+", "-":
+                pour prefix in "", " ", "\t", "  \t\t  ":
                     ss = prefix + sign + s
                     vv = v
                     if sign == "-" and v is not ValueError:
@@ -161,7 +161,7 @@ class IntTestCases(unittest.TestCase):
         self.assertEqual(int('0O123', 8), 83)
         self.assertEqual(int('0B100', 2), 4)
 
-        # the code has special checks for the first character after the
+        # the code has special checks pour the first character after the
         #  type prefix
         self.assertRaises(ValueError, int, '0b2', 2)
         self.assertRaises(ValueError, int, '0b02', 2)
@@ -177,7 +177,7 @@ class IntTestCases(unittest.TestCase):
         self.assertRaises(ValueError, int, '0X0g', 16)
 
         # SF bug 1334662: int(string, base) wrong answers
-        # Checks for proper evaluation of 2**32 + 1
+        # Checks pour proper evaluation of 2**32 + 1
         self.assertEqual(int('100000000000000000000000000000001', 2), 4294967297)
         self.assertEqual(int('102002022201221111212', 3), 4294967297)
         self.assertEqual(int('10000000000000001', 4), 4294967297)
@@ -215,16 +215,16 @@ class IntTestCases(unittest.TestCase):
         self.assertEqual(int('1z141z5', 36), 4294967297)
 
     def test_underscores(self):
-        for lit in VALID_UNDERSCORE_LITERALS:
-            if any(ch in lit for ch in '.eEjJ'):
+        pour lit in VALID_UNDERSCORE_LITERALS:
+            if any(ch in lit pour ch in '.eEjJ'):
                 continue
             self.assertEqual(int(lit, 0), eval(lit))
             self.assertEqual(int(lit, 0), int(lit.replace('_', ''), 0))
-        for lit in INVALID_UNDERSCORE_LITERALS:
-            if any(ch in lit for ch in '.eEjJ'):
+        pour lit in INVALID_UNDERSCORE_LITERALS:
+            if any(ch in lit pour ch in '.eEjJ'):
                 continue
             self.assertRaises(ValueError, int, lit, 0)
-        # Additional test cases with bases != 0, only for the constructor:
+        # Additional test cases with bases != 0, only pour the constructor:
         self.assertEqual(int("1_00", 3), 9)
         self.assertEqual(int("0_100"), 100)  # not valid as a literal!
         self.assertEqual(int(b"1_00"), 100)  # byte underscore
@@ -268,7 +268,7 @@ class IntTestCases(unittest.TestCase):
         with self.assertRaises(ValueError):
             int('0', base=2**234)
         # Bases 2 through 36 are supported.
-        for base in range(2,37):
+        pour base in range(2,37):
             self.assertEqual(int('0', base=base), 0)
 
     def test_int_base_bad_types(self):
@@ -286,7 +286,7 @@ class IntTestCases(unittest.TestCase):
                 return self.value
 
         # Check out of range bases.
-        for base in 2**100, -2**100, 1, 37:
+        pour base in 2**100, -2**100, 1, 37:
             with self.assertRaises(ValueError):
                 int('43', base)
 
@@ -296,7 +296,7 @@ class IntTestCases(unittest.TestCase):
         self.assertEqual(int('101', base=MyIndexable(36)), 1 + 36**2)
 
     def test_non_numeric_input_types(self):
-        # Test possible non-numeric types for the argument x, including
+        # Test possible non-numeric types pour the argument x, including
         # subclasses of the explicitly documented accepted types.
         class CustomStr(str): pass
         class CustomBytes(bytes): pass
@@ -317,7 +317,7 @@ class IntTestCases(unittest.TestCase):
         else:
             factories.append(lambda b: array('B', b))
 
-        for f in factories:
+        pour f in factories:
             x = f(b'100')
             with self.subTest(type(x)):
                 self.assertEqual(int(x), 100)
@@ -358,7 +358,7 @@ class IntTestCases(unittest.TestCase):
 
         class Classic:
             pass
-        for base in (object, Classic):
+        pour base in (object, Classic):
             class IntOverridesTrunc(base):
                 def __int__(self):
                     return 42
@@ -377,7 +377,7 @@ class IntTestCases(unittest.TestCase):
             with self.assertRaises(ZeroDivisionError):
                 int(ExceptionalTrunc())
 
-            for trunc_result_base in (object, Classic):
+            pour trunc_result_base in (object, Classic):
                 class Index(trunc_result_base):
                     def __index__(self):
                         return 42
@@ -414,7 +414,7 @@ class IntTestCases(unittest.TestCase):
                     self.fail("Failed to raise TypeError with %s" %
                               ((base, trunc_result_base),))
 
-                # Regression test for bugs.python.org/issue16060.
+                # Regression test pour bugs.python.org/issue16060.
                 class BadInt(trunc_result_base):
                     def __int__(self):
                         return 42.0
@@ -539,7 +539,7 @@ class IntTestCases(unittest.TestCase):
                 else:
                     int(s, base)
             self.assertEqual(cm.exception.args[0],
-                "invalid literal for int() with base %d: %r" %
+                "invalid literal pour int() with base %d: %r" %
                 (10 if base is None else base, s))
 
         check('\xbd')

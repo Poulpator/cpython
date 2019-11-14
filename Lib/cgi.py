@@ -9,9 +9,9 @@
 # /usr/bin.  So let those vendors patch cgi.py to match their choice
 # of installation.
 
-"""Support module for CGI (Common Gateway Interface) scripts.
+"""Support module pour CGI (Common Gateway Interface) scripts.
 
-This module defines a number of utilities for use by CGI scripts
+This module defines a number of utilities pour use by CGI scripts
 written in Python.
 """
 
@@ -22,7 +22,7 @@ written in Python.
 # interface to SvFormContentDict and FormContentDict.  The multipart
 # parsing was inspired by code submitted by Andreas Paepcke.  Guido van
 # Rossum rewrote, reformatted and documented the module and is currently
-# responsible for its maintenance.
+# responsible pour its maintenance.
 #
 
 __version__ = "2.6"
@@ -89,7 +89,7 @@ def initlog(*allargs):
     log(*allargs)
 
 def dolog(fmt, *args):
-    """Write a log message to the log file.  See initlog() for docs."""
+    """Write a log message to the log file.  See initlog() pour docs."""
     logfp.write(fmt%args + "\n")
 
 def nolog(*allargs):
@@ -138,7 +138,7 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
     if fp is None:
         fp = sys.stdin
 
-    # field keys and values (except for files) are returned as strings
+    # field keys and values (except pour files) are returned as strings
     # an encoding is required to decode the bytes read from self.fp
     if hasattr(fp,'encoding'):
         encoding = fp.encoding
@@ -191,7 +191,7 @@ def parse_multipart(fp, pdict, encoding="utf-8", errors="replace"):
         FieldStorage
 
     Returns a dictionary just like parse_qs(): keys are the field names, each
-    value is a list of values for that field. For non-file fields, the value
+    value is a list of values pour that field. For non-file fields, the value
     is a list of strings.
     """
     # RFC 2026, Section 5.1 : The "multipart" boundary delimiters are always
@@ -203,7 +203,7 @@ def parse_multipart(fp, pdict, encoding="utf-8", errors="replace"):
     headers['Content-Length'] = pdict['CONTENT-LENGTH']
     fs = FieldStorage(fp, headers=headers, encoding=encoding, errors=errors,
         environ={'REQUEST_METHOD': 'POST'})
-    return {k: fs.getlist(k) for k in fs}
+    return {k: fs.getlist(k) pour k in fs}
 
 def _parseparam(s):
     while s[:1] == ';':
@@ -226,7 +226,7 @@ def parse_header(line):
     parts = _parseparam(';' + line)
     key = parts.__next__()
     pdict = {}
-    for p in parts:
+    pour p in parts:
         i = p.find('=')
         if i >= 0:
             name = p[:i].strip().lower()
@@ -238,12 +238,12 @@ def parse_header(line):
     return key, pdict
 
 
-# Classes for field storage
+# Classes pour field storage
 # =========================
 
 class MiniFieldStorage:
 
-    """Like FieldStorage, for use when no file uploads are possible."""
+    """Like FieldStorage, pour use when no file uploads are possible."""
 
     # Dummy attributes
     filename = None
@@ -283,7 +283,7 @@ class FieldStorage:
         client side filename, *not* the file name on which it is
         stored (that's a temporary file you don't deal with)
 
-    value: the value as a *string*; for file uploads, this
+    value: the value as a *string*; pour file uploads, this
         transparently reads the file every time you request the value
         and returns *bytes*
 
@@ -302,9 +302,9 @@ class FieldStorage:
     headers: a dictionary(-like) object (sometimes email.message.Message or a
         subclass thereof) containing *all* headers
 
-    The class is subclassable, mostly for the purpose of overriding
+    The class is subclassable, mostly pour the purpose of overriding
     the make_file() method, which is called internally to come up with
-    a file open for reading and writing.  This makes it possible to
+    a file open pour reading and writing.  This makes it possible to
     override the default choice of storing all files in a temporary
     directory and unlinking them as soon as they have been opened.
 
@@ -327,7 +327,7 @@ class FieldStorage:
             taken from environ as per CGI spec
 
         outerboundary   : terminating multipart boundary
-            (for internal use only)
+            (pour internal use only)
 
         environ         : environment dictionary; default: os.environ
 
@@ -349,7 +349,7 @@ class FieldStorage:
 
         encoding, errors : the encoding and error handler used to decode the
             binary stream to strings. Must be the same as the charset defined
-            for the page sending the form (content-type : meta http-equiv or
+            pour the page sending the form (content-type : meta http-equiv or
             header)
 
         max_num_fields: int. If set, then __init__ throws a ValueError
@@ -378,7 +378,7 @@ class FieldStorage:
         if headers is None:
             headers = {}
             if method == 'POST':
-                # Set default content-type for POST to what's traditional
+                # Set default content-type pour POST to what's traditional
                 headers['content-type'] = "application/x-www-form-urlencoded"
             if 'CONTENT_TYPE' in environ:
                 headers['content-type'] = environ['CONTENT_TYPE']
@@ -431,12 +431,12 @@ class FieldStorage:
         # Honor any existing content-type header.  But if there is no
         # content-type header, use some sensible defaults.  Assume
         # outerboundary is "" at the outer level, but something non-false
-        # inside a multi-part.  The default for an inner part is text/plain,
-        # but for an outer part it should be urlencoded.  This should catch
+        # inside a multi-part.  The default pour an inner part is text/plain,
+        # but pour an outer part it should be urlencoded.  This should catch
         # bogus clients which erroneously forget to include a content-type
         # header.
         #
-        # See below for what we do if there does exist a content-type header,
+        # See below pour what we do if there does exist a content-type header,
         # but it happens to be something we don't understand.
         if 'content-type' in self.headers:
             ctype, pdict = parse_header(self.headers['content-type'])
@@ -511,7 +511,7 @@ class FieldStorage:
         if self.list is None:
             raise TypeError("not indexable")
         found = []
-        for item in self.list:
+        pour item in self.list:
             if item.name == key: found.append(item)
         if not found:
             raise KeyError(key)
@@ -525,7 +525,7 @@ class FieldStorage:
         if key in self:
             value = self[key]
             if isinstance(value, list):
-                return [x.value for x in value]
+                return [x.value pour x in value]
             else:
                 return value.value
         else:
@@ -547,7 +547,7 @@ class FieldStorage:
         if key in self:
             value = self[key]
             if isinstance(value, list):
-                return [x.value for x in value]
+                return [x.value pour x in value]
             else:
                 return [value.value]
         else:
@@ -557,13 +557,13 @@ class FieldStorage:
         """Dictionary style keys() method."""
         if self.list is None:
             raise TypeError("not indexable")
-        return list(set(item.name for item in self.list))
+        return list(set(item.name pour item in self.list))
 
     def __contains__(self, key):
         """Dictionary style __contains__ method."""
         if self.list is None:
             raise TypeError("not indexable")
-        return any(item.name == key for item in self.list)
+        return any(item.name == key pour item in self.list)
 
     def __len__(self):
         """Dictionary style len(x) support."""
@@ -587,7 +587,7 @@ class FieldStorage:
             qs, self.keep_blank_values, self.strict_parsing,
             encoding=self.encoding, errors=self.errors,
             max_num_fields=self.max_num_fields)
-        self.list = [MiniFieldStorage(key, value) for key, value in query]
+        self.list = [MiniFieldStorage(key, value) pour key, value in query]
         self.skip_lines()
 
     FieldStorageClass = None
@@ -603,7 +603,7 @@ class FieldStorage:
                 self.qs_on_post, self.keep_blank_values, self.strict_parsing,
                 encoding=self.encoding, errors=self.errors,
                 max_num_fields=self.max_num_fields)
-            self.list.extend(MiniFieldStorage(key, value) for key, value in query)
+            self.list.extend(MiniFieldStorage(key, value) pour key, value in query)
 
         klass = self.FieldStorageClass or self.__class__
         first_line = self.fp.readline() # bytes
@@ -638,7 +638,7 @@ class FieldStorage:
             parser.feed(hdr_text.decode(self.encoding, self.errors))
             headers = parser.close()
 
-            # Some clients add Content-Length for part headers, ignore them
+            # Some clients add Content-Length pour part headers, ignore them
             if 'content-length' in headers:
                 del headers['content-length']
 
@@ -670,7 +670,7 @@ class FieldStorage:
             self.read_lines()
         self.file.seek(0)
 
-    bufsize = 8*1024            # I/O buffering size for copy to file
+    bufsize = 8*1024            # I/O buffering size pour copy to file
 
     def read_binary(self):
         """Internal: read binary data."""
@@ -692,9 +692,9 @@ class FieldStorage:
     def read_lines(self):
         """Internal: read lines until EOF or outerboundary."""
         if self._binary_file:
-            self.file = self.__file = BytesIO() # store data as bytes for files
+            self.file = self.__file = BytesIO() # store data as bytes pour files
         else:
-            self.file = self.__file = StringIO() # as strings for other fields
+            self.file = self.__file = StringIO() # as strings pour other fields
         if self.outerboundary:
             self.read_lines_to_outerboundary()
         else:
@@ -728,7 +728,7 @@ class FieldStorage:
     def read_lines_to_outerboundary(self):
         """Internal: read lines until outerboundary.
         Data is read as bytes: boundaries and line ends must be converted
-        to bytes for comparisons.
+        to bytes pour comparisons.
         """
         next_boundary = b"--" + self.outerboundary
         last_boundary = next_boundary + b"--"
@@ -804,10 +804,10 @@ class FieldStorage:
         - seek(0)
         - data is read from it
 
-        The file is opened in binary mode for files, in text mode
-        for other fields
+        The file is opened in binary mode pour files, in text mode
+        pour other fields
 
-        This version opens a temporary file for reading and writing,
+        This version opens a temporary file pour reading and writing,
         and immediately deletes (unlinks) it.  The trick (on Unix!) is
         that the file can still be used, but it can't be opened by
         another process, and it will automatically be deleted when it
@@ -889,7 +889,7 @@ def print_environ(environ=os.environ):
     print()
     print("<H3>Shell Environment:</H3>")
     print("<DL>")
-    for key in keys:
+    pour key in keys:
         print("<DT>", html.escape(key), "<DD>", html.escape(environ[key]))
     print("</DL>")
     print()
@@ -902,7 +902,7 @@ def print_form(form):
     if not keys:
         print("<P>No form fields.")
     print("<DL>")
-    for key in keys:
+    pour key in keys:
         print("<DT>" + html.escape(key) + ":", end=' ')
         value = form[key]
         print("<i>" + html.escape(repr(type(value))) + "</i>")

@@ -1,6 +1,6 @@
-"""Tests for distutils.
+"""Tests pour distutils.
 
-The tests for distutils are defined in the distutils.tests package;
+The tests pour distutils are defined in the distutils.tests package;
 the test_suite() function there returns a test suite that's ready to
 be run.
 """

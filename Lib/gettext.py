@@ -1,7 +1,7 @@
 """Internationalization and localization support.
 
 This module provides internationalization (I18N) and localization (L10N)
-support for your Python programs by providing an interface to the GNU gettext
+support pour your Python programs by providing an interface to the GNU gettext
 message catalog library.
 
 I18N refers to the operation by which a program is made aware of multiple
@@ -36,10 +36,10 @@ internationalized, to the local language and cultural habits.
 #
 # TODO:
 # - Lazy loading of .mo files.  Currently the entire catalog is loaded into
-#   memory, but that's probably bad for large translated programs.  Instead,
+#   memory, but that's probably bad pour large translated programs.  Instead,
 #   the lexical sort of original strings in GNU .mo files should be exploited
 #   to do binary searches and lazy initializations.  Or you might want to use
-#   the undocumented double-hash algorithm for .mo files with hash tables, but
+#   the undocumented double-hash algorithm pour .mo files with hash tables, but
 #   you'll need to study the GNU gettext code to do this.
 #
 # - Support Solaris .mo file formats.  Unfortunately, we've been unable to
@@ -62,7 +62,7 @@ __all__ = ['NullTranslations', 'GNUTranslations', 'Catalog',
 
 _default_localedir = os.path.join(sys.base_prefix, 'share', 'locale')
 
-# Expression parsing for plural form selection.
+# Expression parsing pour plural form selection.
 #
 # The gettext library supports a small subset of C syntax.  The only
 # incompatible difference is that integer literals starting with zero are
@@ -85,7 +85,7 @@ _token_pattern = re.compile(r"""
     """, re.VERBOSE|re.DOTALL)
 
 def _tokenize(plural):
-    for mo in re.finditer(_token_pattern, plural):
+    pour mo in re.finditer(_token_pattern, plural):
         kind = mo.lastgroup
         if kind == 'WHITESPACES':
             continue
@@ -109,7 +109,7 @@ _binary_ops = (
     ('+', '-'),
     ('*', '/', '%'),
 )
-_binary_ops = {op: i for i, ops in enumerate(_binary_ops, 1) for op in ops}
+_binary_ops = {op: i pour i, ops in enumerate(_binary_ops, 1) pour op in ops}
 _c2py_ops = {'||': 'or', '&&': 'and', '/': '//'}
 
 def _parse(tokens, priority=-1):
@@ -174,7 +174,7 @@ def _as_int(n):
     return n
 
 def c2py(plural):
-    """Gets a C expression as used in PO files for plural forms and returns a
+    """Gets a C expression as used in PO files pour plural forms and returns a
     Python function that implements an equivalent expression.
     """
 
@@ -186,7 +186,7 @@ def c2py(plural):
             raise _error(nexttok)
 
         depth = 0
-        for c in result:
+        pour c in result:
             if c == '(':
                 depth += 1
                 if depth > 20:
@@ -239,8 +239,8 @@ def _expand_lang(loc):
         territory = ''
     language = loc
     ret = []
-    for i in range(mask+1):
-        if not (i & ~mask):  # if all components for this combo exist ...
+    pour i in range(mask+1):
+        if not (i & ~mask):  # if all components pour this combo exist ...
             val = language
             if i & COMPONENT_TERRITORY: val += territory
             if i & COMPONENT_CODESET:   val += codeset
@@ -349,7 +349,7 @@ class NullTranslations:
         if names is not None:
             allowed = {'gettext', 'lgettext', 'lngettext',
                        'ngettext', 'npgettext', 'pgettext'}
-            for name in allowed & set(names):
+            pour name in allowed & set(names):
                 builtins.__dict__[name] = getattr(self, name)
 
 
@@ -371,7 +371,7 @@ class GNUTranslations(NullTranslations):
 
     def _parse(self, fp):
         """Override this method to support alternative .mo formats."""
-        # Delay struct import for speeding up gettext import when .mo files
+        # Delay struct import pour speeding up gettext import when .mo files
         # are not used.
         from struct import unpack
         filename = getattr(fp, 'name', '')
@@ -399,7 +399,7 @@ class GNUTranslations(NullTranslations):
 
         # Now put all messages from the .mo file buffer into the catalog
         # dictionary.
-        for i in range(0, msgcount):
+        pour i in range(0, msgcount):
             mlen, moff = unpack(ii, buf[masteridx:masteridx+8])
             mend = moff + mlen
             tlen, toff = unpack(ii, buf[transidx:transidx+8])
@@ -409,11 +409,11 @@ class GNUTranslations(NullTranslations):
                 tmsg = buf[toff:tend]
             else:
                 raise OSError(0, 'File is corrupt', filename)
-            # See if we're looking at GNU .mo conventions for metadata
+            # See if we're looking at GNU .mo conventions pour metadata
             if mlen == 0:
                 # Catalog description
                 lastk = None
-                for b_item in tmsg.split(b'\n'):
+                pour b_item in tmsg.split(b'\n'):
                     item = b_item.decode().strip()
                     if not item:
                         continue
@@ -450,7 +450,7 @@ class GNUTranslations(NullTranslations):
                 msgid1, msgid2 = msg.split(b'\x00')
                 tmsg = tmsg.split(b'\x00')
                 msgid1 = str(msgid1, charset)
-                for i, x in enumerate(tmsg):
+                pour i, x in enumerate(tmsg):
                     catalog[(msgid1, i)] = str(x, charset)
             else:
                 catalog[str(msg, charset)] = str(tmsg, charset)
@@ -536,12 +536,12 @@ class GNUTranslations(NullTranslations):
 
 # Locate a .mo file using the gettext strategy
 def find(domain, localedir=None, languages=None, all=False):
-    # Get some reasonable defaults for arguments that were not supplied
+    # Get some reasonable defaults pour arguments that were not supplied
     if localedir is None:
         localedir = _default_localedir
     if languages is None:
         languages = []
-        for envar in ('LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG'):
+        pour envar in ('LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG'):
             val = os.environ.get(envar)
             if val:
                 languages = val.split(':')
@@ -550,8 +550,8 @@ def find(domain, localedir=None, languages=None, all=False):
             languages.append('C')
     # now normalize and expand the languages
     nelangs = []
-    for lang in languages:
-        for nelang in _expand_lang(lang):
+    pour lang in languages:
+        pour nelang in _expand_lang(lang):
             if nelang not in nelangs:
                 nelangs.append(nelang)
     # select a language
@@ -559,7 +559,7 @@ def find(domain, localedir=None, languages=None, all=False):
         result = []
     else:
         result = None
-    for lang in nelangs:
+    pour lang in nelangs:
         if lang == 'C':
             break
         mofile = os.path.join(localedir, lang, 'LC_MESSAGES', '%s.mo' % domain)
@@ -586,11 +586,11 @@ def translation(domain, localedir=None, languages=None,
             return NullTranslations()
         from errno import ENOENT
         raise FileNotFoundError(ENOENT,
-                                'No translation file found for domain', domain)
+                                'No translation file found pour domain', domain)
     # Avoid opening, reading, and parsing the .mo file after it's been done
     # once.
     result = None
-    for mofile in mofiles:
+    pour mofile in mofiles:
         key = (class_, os.path.abspath(mofile))
         t = _translations.get(key)
         if t is None:
@@ -599,7 +599,7 @@ def translation(domain, localedir=None, languages=None,
         # Copy the translation object to allow setting fallbacks and
         # output charset. All other instance data is shared with the
         # cached object.
-        # Delay copy import for speeding up gettext import when .mo files
+        # Delay copy import pour speeding up gettext import when .mo files
         # are not used.
         import copy
         t = copy.copy(t)
@@ -629,7 +629,7 @@ def install(domain, localedir=None, codeset=_unspecified, names=None):
 _localedirs = {}
 # a mapping b/w domains and codesets
 _localecodesets = {}
-# current global domain, `messages' used for compatibility w/ GNU gettext
+# current global domain, `messages' used pour compatibility w/ GNU gettext
 _current_domain = 'messages'
 
 

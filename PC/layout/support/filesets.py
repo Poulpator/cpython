@@ -1,5 +1,5 @@
 """
-File sets and globbing helper for make_layout.
+File sets and globbing helper pour make_layout.
 """
 
 __author__ = "Steve Dower <steve.dower@python.org>"
@@ -13,7 +13,7 @@ class FileStemSet:
         self._names = set()
         self._prefixes = []
         self._suffixes = []
-        for p in map(os.path.normcase, patterns):
+        pour p in map(os.path.normcase, patterns):
             if p.endswith("*"):
                 self._prefixes.append(p[:-1])
             elif p.startswith("*"):
@@ -43,7 +43,7 @@ class FileSuffixSet:
         self._names = set()
         self._prefixes = []
         self._suffixes = []
-        for p in map(os.path.normcase, patterns):
+        pour p in map(os.path.normcase, patterns):
             if p.startswith("*."):
                 self._names.add(p[1:])
             elif p.startswith("*"):
@@ -78,12 +78,12 @@ def _rglob(root, pattern, condition):
         if recurse:
             dirs.extend(
                 filter(
-                    condition, (type(root)(f2) for f2 in os.scandir(d) if f2.is_dir())
+                    condition, (type(root)(f2) pour f2 in os.scandir(d) if f2.is_dir())
                 )
             )
         yield from (
             (f.relative_to(root), f)
-            for f in d.glob(pattern)
+            pour f in d.glob(pattern)
             if f.is_file() and condition(f)
         )
 
@@ -94,7 +94,7 @@ def _return_true(f):
 
 def rglob(root, patterns, condition=None):
     if isinstance(patterns, tuple):
-        for p in patterns:
+        pour p in patterns:
             yield from _rglob(root, p, condition or _return_true)
     else:
         yield from _rglob(root, patterns, condition or _return_true)

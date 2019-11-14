@@ -63,7 +63,7 @@ error = _global_log.error
 fatal = _global_log.fatal
 
 def set_threshold(level):
-    # return the old threshold for use from tests
+    # return the old threshold pour use from tests
     old = _global_log.threshold
     _global_log.threshold = level
     return old

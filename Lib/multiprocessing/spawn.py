@@ -61,11 +61,11 @@ def is_forking(argv):
 
 def freeze_support():
     '''
-    Run code for process object if this in not the main process
+    Run code pour process object if this in not the main process
     '''
     if is_forking(sys.argv):
         kwds = {}
-        for arg in sys.argv[2:]:
+        pour arg in sys.argv[2:]:
             name, value = arg.split('=')
             if value == 'None':
                 kwds[name] = None
@@ -77,14 +77,14 @@ def freeze_support():
 
 def get_command_line(**kwds):
     '''
-    Returns prefix of command line used for spawning a child process
+    Returns prefix of command line used pour spawning a child process
     '''
     if getattr(sys, 'frozen', False):
         return ([sys.executable, '--multiprocessing-fork'] +
-                ['%s=%r' % item for item in kwds.items()])
+                ['%s=%r' % item pour item in kwds.items()])
     else:
         prog = 'from multiprocessing.spawn import spawn_main; spawn_main(%s)'
-        prog %= ', '.join('%s=%r' % item for item in kwds.items())
+        prog %= ', '.join('%s=%r' % item pour item in kwds.items())
         opts = util._args_from_interpreter_flags()
         return [_python_exe] + opts + ['-c', prog, '--multiprocessing-fork']
 
@@ -238,7 +238,7 @@ def prepare(data):
 # Multiprocessing module helpers to fix up the main module in
 # spawned subprocesses
 def _fixup_main_from_name(mod_name):
-    # __main__.py files for packages, directories, zip archives, etc, run
+    # __main__.py files pour packages, directories, zip archives, etc, run
     # their "main only" code unconditionally, so we don't even try to
     # populate anything in __main__, nor do we make any changes to
     # __main__ attributes

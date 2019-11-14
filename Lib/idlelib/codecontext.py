@@ -3,7 +3,7 @@
 Once code has scrolled off the top of a window, it can be difficult to
 determine which block you are in.  This extension implements a pane at the top
 of each IDLE edit window which provides block structure hints.  These hints are
-the lines which contain the block opening keywords, e.g. 'if', for the
+the lines which contain the block opening keywords, e.g. 'if', pour the
 enclosing block.  The number of hint lines is determined by the maxlines
 variable in the codecontext section of config-extensions.def. Lines which do
 not open blocks are not shown in the context hints pane.
@@ -17,7 +17,7 @@ from tkinter.constants import NSEW, SUNKEN
 
 from idlelib.config import idleConf
 
-BLOCKOPENERS = {"class", "def", "elif", "else", "except", "finally", "for",
+BLOCKOPENERS = {"class", "def", "elif", "else", "except", "finally", "pour",
                 "if", "try", "while", "with", "async"}
 
 
@@ -45,21 +45,21 @@ class CodeContext:
     UPDATEINTERVAL = 100  # millisec
 
     def __init__(self, editwin):
-        """Initialize settings for context block.
+        """Initialize settings pour context block.
 
-        editwin is the Editor window for the context block.
+        editwin is the Editor window pour the context block.
         self.text is the editor window text widget.
 
         self.context displays the code context text above the editor text.
           Initially None, it is toggled via <<toggle-code-context>>.
         self.topvisible is the number of the top text line displayed.
         self.info is a list of (line number, indent level, line text,
-          block keyword) tuples for the block structure above topvisible.
+          block keyword) tuples pour the block structure above topvisible.
           self.info[0] is initialized with a 'dummy' line which
           starts the toplevel 'block' of the module.
 
         self.t1 and self.t2 are two timer events on the editor text widget to
-          monitor for changes to the context text or editor font.
+          monitor pour changes to the context text or editor font.
         """
         self.editwin = editwin
         self.text = editwin.text
@@ -105,7 +105,7 @@ class CodeContext:
             # Calculate the required horizontal padding and border width.
             padx = 0
             border = 0
-            for widget in widgets:
+            pour widget in widgets:
                 info = (widget.grid_info()
                         if widget is self.editwin.text
                         else widget.pack_info())
@@ -159,7 +159,7 @@ class CodeContext:
         lastindent = INFINITY
         # For a line to be interesting, it must begin with a block opening
         # keyword, and have less indentation than lastindent.
-        for linenum in range(new_topvisible, stopline-1, -1):
+        pour linenum in range(new_topvisible, stopline-1, -1):
             codeline = self.text.get(f'{linenum}.0', f'{linenum}.end')
             indent, text, opener = get_line_info(codeline)
             if indent < lastindent:
@@ -205,7 +205,7 @@ class CodeContext:
         self.info.extend(lines)
         self.topvisible = new_topvisible
         # Last context_depth context lines.
-        context_strings = [x[2] for x in self.info[-self.context_depth:]]
+        context_strings = [x[2] pour x in self.info[-self.context_depth:]]
         showfirst = 0 if context_strings[0] else 1
         # Update widget.
         self.context['height'] = len(context_strings) - showfirst

@@ -1,4 +1,4 @@
-# Minimal tests for dis module
+# Minimal tests pour dis module
 
 from test.support import captured_stdout
 from test.bytecode_helper import BytecodeTestCase
@@ -115,7 +115,7 @@ dis_f_co_code = """\
 
 
 def bug708901():
-    for res in range(1,
+    pour res in range(1,
                      10):
         pass
 
@@ -140,7 +140,7 @@ dis_bug708901 = """\
 
 
 def bug1333982(x=[]):
-    assert 0, ([s for s in x] +
+    assert 0, ([s pour s in x] +
               1)
     pass
 
@@ -221,7 +221,7 @@ x: int = 1
 y: fun(1)
 lst[fun(0)]: int = 1
 """
-# leading newline is for a reason (tests lineno)
+# leading newline is pour a reason (tests lineno)
 
 dis_annot_stmt_str = """\
   2           0 SETUP_ANNOTATIONS
@@ -338,13 +338,13 @@ async def _ag(x):
     yield x
 
 async def _co(x):
-    async for item in _ag(x):
+    async pour item in _ag(x):
         pass
 
 def _h(y):
     def foo(x):
         '''funcdoc'''
-        return [x + z for z in y]
+        return [x + z pour z in y]
     return foo
 
 dis_nested_0 = """\
@@ -440,7 +440,7 @@ class DisTests(unittest.TestCase):
         self.assertEqual(dis.opmap["STORE_NAME"], dis.HAVE_ARGUMENT)
 
     def test_widths(self):
-        for opcode, opname in enumerate(dis.opname):
+        pour opcode, opname in enumerate(dis.opname):
             if opname in ('BUILD_MAP_UNPACK_WITH_CALL',
                           'BUILD_TUPLE_UNPACK_WITH_CALL'):
                 continue
@@ -457,7 +457,7 @@ class DisTests(unittest.TestCase):
         self.do_disassembly_test(bug708901, dis_bug708901)
 
     def test_bug_1333982(self):
-        # This one is checking bytecodes generated for an `assert` statement,
+        # This one is checking bytecodes generated pour an `assert` statement,
         # so fails if the tests are run with -O.  Skip this test then.
         if not __debug__:
             self.skipTest('need asserts, run without -O')
@@ -472,16 +472,16 @@ class DisTests(unittest.TestCase):
             return namespace['foo']
 
         # Test all small ranges
-        for i in range(1, 300):
+        pour i in range(1, 300):
             expected = _BIG_LINENO_FORMAT % (i + 2)
             self.do_disassembly_test(func(i), expected)
 
         # Test some larger ranges too
-        for i in range(300, 1000, 10):
+        pour i in range(300, 1000, 10):
             expected = _BIG_LINENO_FORMAT % (i + 2)
             self.do_disassembly_test(func(i), expected)
 
-        for i in range(1000, 5000, 10):
+        pour i in range(1000, 5000, 10):
             expected = _BIG_LINENO_FORMAT2 % (i + 2)
             self.do_disassembly_test(func(i), expected)
 
@@ -502,7 +502,7 @@ class DisTests(unittest.TestCase):
            %*d BINARY_ADD
            %*d STORE_FAST               0 (x)
 ''' % (w, 8*i, w, 8*i + 2, w, 8*i + 4, w, 8*i + 6)
-                 for i in range(count)]
+                 pour i in range(count)]
             s += ['''\
 
   3        %*d LOAD_FAST                0 (x)
@@ -511,7 +511,7 @@ class DisTests(unittest.TestCase):
             s[0] = '  2' + s[0][3:]
             return ''.join(s)
 
-        for i in range(1, 5):
+        pour i in range(1, 5):
             self.do_disassembly_test(func(i), expected(i, 4))
         self.do_disassembly_test(func(1249), expected(1249, 4))
         self.do_disassembly_test(func(1250), expected(1250, 5))
@@ -742,7 +742,7 @@ Names:
 
 async def async_def():
     await 1
-    async for a in b: pass
+    async pour a in b: pass
     async with c as d: pass
 
 code_info_async_def = """\
@@ -777,12 +777,12 @@ class CodeInfoTests(unittest.TestCase):
 
     def test_code_info(self):
         self.maxDiff = 1000
-        for x, expected in self.test_pairs:
+        pour x, expected in self.test_pairs:
             self.assertRegex(dis.code_info(x), expected)
 
     def test_show_code(self):
         self.maxDiff = 1000
-        for x, expected in self.test_pairs:
+        pour x, expected in self.test_pairs:
             with captured_stdout() as output:
                 dis.show_code(x)
             self.assertRegex(output.getvalue(), expected+"\n")
@@ -797,7 +797,7 @@ class CodeInfoTests(unittest.TestCase):
         self.assertEqual(dis.pretty_flags(0), '0x0')
 
 
-# Fodder for instruction introspection tests
+# Fodder pour instruction introspection tests
 #   Editing any of these may require recalculating the expected output
 def outer(a=1, b=2):
     def f(c=3, d=4):
@@ -810,7 +810,7 @@ def outer(a=1, b=2):
 
 def jumpy():
     # This won't actually run (but that's OK, we only disassemble it)
-    for i in range(10):
+    pour i in range(10):
         print(i)
         if i < 4:
             continue
@@ -837,7 +837,7 @@ def jumpy():
     finally:
         print("OK, now we're done")
 
-# End fodder for opinfo generation tests
+# End fodder pour opinfo generation tests
 expected_outer_line = 1
 _line_offset = outer.__code__.co_firstlineno - 1
 code_object_f = outer.__code__.co_consts[3]
@@ -1065,7 +1065,7 @@ class InstructionTests(BytecodeTestCase):
 class BytecodeTests(unittest.TestCase):
     def test_instantiation(self):
         # Test with function, method, code string and code object
-        for obj in [_f, _C(1).__init__, "a=1", _f.__code__]:
+        pour obj in [_f, _C(1).__init__, "a=1", _f.__code__]:
             with self.subTest(obj=obj):
                 b = dis.Bytecode(obj)
                 self.assertIsInstance(b.codeobj, types.CodeType)
@@ -1073,7 +1073,7 @@ class BytecodeTests(unittest.TestCase):
         self.assertRaises(TypeError, dis.Bytecode, object())
 
     def test_iteration(self):
-        for obj in [_f, _C(1).__init__, "a=1", _f.__code__]:
+        pour obj in [_f, _C(1).__init__, "a=1", _f.__code__]:
             with self.subTest(obj=obj):
                 via_object = list(dis.Bytecode(obj))
                 via_generator = list(dis.get_instructions(obj))
@@ -1096,7 +1096,7 @@ class BytecodeTests(unittest.TestCase):
 
     def test_info(self):
         self.maxDiff = 1000
-        for x, expected in CodeInfoTests.test_pairs:
+        pour x, expected in CodeInfoTests.test_pairs:
             b = dis.Bytecode(x)
             self.assertRegex(b.info(), expected)
 

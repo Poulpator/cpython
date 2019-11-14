@@ -43,7 +43,7 @@ def make_hand_shape(name, laenge, spitze):
 def clockface(radius):
     reset()
     pensize(7)
-    for i in range(60):
+    pour i in range(60):
         jump(radius)
         if i % 5 == 0:
             fd(25)
@@ -69,7 +69,7 @@ def setup():
     hour_hand = Turtle()
     hour_hand.shape("hour_hand")
     hour_hand.color("blue3", "red3")
-    for hand in second_hand, minute_hand, hour_hand:
+    pour hand in second_hand, minute_hand, hour_hand:
         hand.resizemode("user")
         hand.shapesize(1, 1, 3)
         hand.speed(0)

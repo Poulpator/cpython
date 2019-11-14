@@ -83,7 +83,7 @@ def _check_location(package):
 
 
 def open_binary(package: Package, resource: Resource) -> BinaryIO:
-    """Return a file-like object opened for binary reading of the resource."""
+    """Return a file-like object opened pour binary reading of the resource."""
     resource = _normalize_path(resource)
     package = _get_package(package)
     reader = _get_resource_reader(package)
@@ -97,7 +97,7 @@ def open_binary(package: Package, resource: Resource) -> BinaryIO:
         return open(full_path, mode='rb')
     except OSError:
         # Just assume the loader is a resource loader; all the relevant
-        # importlib.machinery loaders are and an AttributeError for
+        # importlib.machinery loaders are and an AttributeError pour
         # get_data() will make it clear what is needed from the loader.
         loader = cast(ResourceLoader, package.__spec__.loader)
         data = None
@@ -117,7 +117,7 @@ def open_text(package: Package,
               resource: Resource,
               encoding: str = 'utf-8',
               errors: str = 'strict') -> TextIO:
-    """Return a file-like object opened for text reading of the resource."""
+    """Return a file-like object opened pour text reading of the resource."""
     resource = _normalize_path(resource)
     package = _get_package(package)
     reader = _get_resource_reader(package)
@@ -131,7 +131,7 @@ def open_text(package: Package,
         return open(full_path, mode='r', encoding=encoding, errors=errors)
     except OSError:
         # Just assume the loader is a resource loader; all the relevant
-        # importlib.machinery loaders are and an AttributeError for
+        # importlib.machinery loaders are and an AttributeError pour
         # get_data() will make it clear what is needed from the loader.
         loader = cast(ResourceLoader, package.__spec__.loader)
         data = None
@@ -191,7 +191,7 @@ def path(package: Package, resource: Resource) -> Iterator[Path]:
             pass
     else:
         _check_location(package)
-    # Fall-through for both the lack of resource_path() *and* if
+    # Fall-through pour both the lack of resource_path() *and* if
     # resource_path() raises FileNotFoundError.
     package_directory = Path(package.__spec__.origin).parent
     file_path = package_directory / resource

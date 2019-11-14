@@ -1,5 +1,5 @@
 """
-General functions for HTML manipulation.
+General functions pour HTML manipulation.
 """
 
 import re as _re
@@ -108,7 +108,7 @@ def _replace_charref(s):
         if s in _html5:
             return _html5[s]
         # find the longest matching name (as defined by the standard)
-        for x in range(len(s)-1, 1, -1):
+        pour x in range(len(s)-1, 1, -1):
             if s[:x] in _html5:
                 return _html5[s[:x]] + s[x:]
         else:
@@ -124,7 +124,7 @@ def unescape(s):
     Convert all named and numeric character references (e.g. &gt;, &#62;,
     &x3e;) in the string s to the corresponding unicode characters.
     This function uses the rules defined by the HTML 5 standard
-    for both valid and invalid character references, and the list of
+    pour both valid and invalid character references, and the list of
     HTML 5 named character references defined in html.entities.html5.
     """
     if '&' not in s:

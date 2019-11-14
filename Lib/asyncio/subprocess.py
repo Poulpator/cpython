@@ -17,7 +17,7 @@ DEVNULL = subprocess.DEVNULL
 
 class SubprocessStreamProtocol(streams.FlowControlMixin,
                                protocols.SubprocessProtocol):
-    """Like StreamReaderProtocol, but for a subprocess."""
+    """Like StreamReaderProtocol, but pour a subprocess."""
 
     def __init__(self, limit, loop):
         super().__init__(loop=loop)
@@ -206,7 +206,7 @@ async def create_subprocess_shell(cmd, stdin=None, stdout=None, stderr=None,
         loop = events.get_event_loop()
     else:
         warnings.warn("The loop argument is deprecated since Python 3.8 "
-                      "and scheduled for removal in Python 3.10.",
+                      "and scheduled pour removal in Python 3.10.",
                       DeprecationWarning,
                       stacklevel=2
         )
@@ -227,7 +227,7 @@ async def create_subprocess_exec(program, *args, stdin=None, stdout=None,
         loop = events.get_event_loop()
     else:
         warnings.warn("The loop argument is deprecated since Python 3.8 "
-                      "and scheduled for removal in Python 3.10.",
+                      "and scheduled pour removal in Python 3.10.",
                       DeprecationWarning,
                       stacklevel=2
         )

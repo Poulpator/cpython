@@ -90,7 +90,7 @@ user_ulong_t = u_int64_t
 user_time_t = int64_t
 syscall_arg_t = u_int64_t
 
-# values for unnamed enumeration
+# values pour unnamed enumeration
 class aes_key_st(Structure):
     pass
 aes_key_st._fields_ = [
@@ -1573,7 +1573,7 @@ ui_string_st._fields_ = [
 ]
 UI_STRING = ui_string_st
 
-# values for enumeration 'UI_string_types'
+# values pour enumeration 'UI_string_types'
 UI_string_types = c_int # enum
 class X509_objects_st(Structure):
     pass
@@ -2418,7 +2418,7 @@ pthread_key_t = __darwin_pthread_key_t
 fsblkcnt_t = __darwin_fsblkcnt_t
 fsfilcnt_t = __darwin_fsfilcnt_t
 
-# values for enumeration 'idtype_t'
+# values pour enumeration 'idtype_t'
 idtype_t = c_int # enum
 id_t = __darwin_id_t
 class wait(Union):

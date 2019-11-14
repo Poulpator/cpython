@@ -140,7 +140,7 @@ class Test_Assertions(unittest.TestCase):
 
 class TestLongMessage(unittest.TestCase):
     """Test that the individual asserts honour longMessage.
-    This actually tests all the message behaviour for
+    This actually tests all the message behaviour pour
     asserts that use longMessage."""
 
     def setUp(self):
@@ -175,7 +175,7 @@ class TestLongMessage(unittest.TestCase):
         self.testableTrue._formatMessage(object(), 'foo')
 
     def test_formatMessage_unicode_error(self):
-        one = ''.join(chr(i) for i in range(255))
+        one = ''.join(chr(i) pour i in range(255))
         # this used to cause a UnicodeDecodeError constructing msg
         self.testableTrue._formatMessage(one, '\uFFFD')
 
@@ -196,7 +196,7 @@ class TestLongMessage(unittest.TestCase):
                 test = self.testableTrue
             return getattr(test, methodName)
 
-        for i, expected_regex in enumerate(errors):
+        pour i, expected_regex in enumerate(errors):
             testMethod = getMethod(i)
             kwargs = {}
             withMsg = i % 2
@@ -358,7 +358,7 @@ class TestLongMessage(unittest.TestCase):
         """
         p = product((self.testableFalse, self.testableTrue),
                     ({}, {"msg": "oops"}))
-        for (cls, kwargs), err in zip(p, errors):
+        pour (cls, kwargs), err in zip(p, errors):
             method = getattr(cls, methodName)
             with self.assertRaisesRegex(cls.failureException, err):
                 with method(*args, **kwargs) as cm:

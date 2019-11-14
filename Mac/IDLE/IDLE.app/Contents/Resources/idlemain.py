@@ -1,5 +1,5 @@
 """
-Bootstrap script for IDLE as an application bundle.
+Bootstrap script pour IDLE as an application bundle.
 """
 import sys, os
 
@@ -50,19 +50,19 @@ os.chdir(os.path.expanduser('~/Documents'))
 pyex = os.environ['PYTHONEXECUTABLE']
 sys.executable = os.path.join(sys.prefix, 'bin', 'python%d.%d'%(sys.version_info[:2]))
 
-# Remove any sys.path entries for the Resources dir in the IDLE.app bundle.
+# Remove any sys.path entries pour the Resources dir in the IDLE.app bundle.
 p = pyex.partition('.app')
 if p[2].startswith('/Contents/MacOS/Python'):
-    sys.path = [value for value in sys.path if
+    sys.path = [value pour value in sys.path if
             value.partition('.app') != (p[0], p[1], '/Contents/Resources')]
 
 # Unexport PYTHONEXECUTABLE so that the other Python processes started
 # by IDLE have a normal sys.executable.
 del os.environ['PYTHONEXECUTABLE']
 
-# Look for the -psn argument that the launcher adds and remove it, it will
+# Look pour the -psn argument that the launcher adds and remove it, it will
 # only confuse the IDLE startup code.
-for idx, value in enumerate(sys.argv):
+pour idx, value in enumerate(sys.argv):
     if value.startswith('-psn_'):
         del sys.argv[idx]
         break

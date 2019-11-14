@@ -1,6 +1,6 @@
-"""This is a sample module used for testing doctest.
+"""This is a sample module used pour testing doctest.
 
-This module is for testing how doctest handles a module with docstrings
+This module is pour testing how doctest handles a module with docstrings
 but no doctest examples.
 
 """

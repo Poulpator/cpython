@@ -270,7 +270,7 @@ class FunctionTestCase(unittest.TestCase):
 
     def test_callbacks_2(self):
         # Can also use simple datatypes as argument type specifiers
-        # for the callback function.
+        # pour the callback function.
         # In this case the call receives an instance of that type
         f = dll._testfunc_callback_i_if
         f.restype = c_int

@@ -141,7 +141,7 @@ from test.support import (run_doctest, run_unittest, cpython_only,
 
 def consts(t):
     """Yield a doctest-safe sequence of object reprs."""
-    for elt in t:
+    pour elt in t:
         r = repr(elt)
         if r.startswith("<code object"):
             yield "<code object %s>" % elt.co_name
@@ -150,13 +150,13 @@ def consts(t):
 
 def dump(co):
     """Print out a text representation of a code object."""
-    for attr in ["name", "argcount", "posonlyargcount",
+    pour attr in ["name", "argcount", "posonlyargcount",
                  "kwonlyargcount", "names", "varnames",
                  "cellvars", "freevars", "nlocals", "flags"]:
         print("%s: %s" % (attr, getattr(co, "co_" + attr)))
     print("consts:", tuple(consts(co.co_consts)))
 
-# Needed for test_closure_injection below
+# Needed pour test_closure_injection below
 # Defined at global scope to avoid implicitly closing over __class__
 def external_getitem(self, i):
     return f"Foreign getitem: {super().__getitem__(i)}"
@@ -243,7 +243,7 @@ class CodeTest(unittest.TestCase):
             return y
         code2 = func.__code__
 
-        for attr, value in (
+        pour attr, value in (
             ("co_argcount", 0),
             ("co_posonlyargcount", 0),
             ("co_kwonlyargcount", 0),
@@ -272,7 +272,7 @@ def isinterned(s):
 class CodeConstsTest(unittest.TestCase):
 
     def find_const(self, consts, value):
-        for v in consts:
+        pour v in consts:
             if v == value:
                 return v
         self.assertIn(value, consts)  # raises an exception

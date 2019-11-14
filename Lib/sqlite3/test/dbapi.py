@@ -1,15 +1,15 @@
 #-*- coding: iso-8859-1 -*-
-# pysqlite2/test/dbapi.py: tests for DB-API compliance
+# pysqlite2/test/dbapi.py: tests pour DB-API compliance
 #
-# Copyright (C) 2004-2010 Gerhard Häring <gh@ghaering.de>
+# Copyright (C) 2004-2010 Gerhard Hï¿½ring <gh@ghaering.de>
 #
 # This file is part of pysqlite.
 #
 # This software is provided 'as-is', without any express or implied
-# warranty.  In no event will the authors be held liable for any damages
+# warranty.  In no event will the authors be held liable pour any damages
 # arising from the use of this software.
 #
-# Permission is granted to anyone to use this software for any purpose,
+# Permission is granted to anyone to use this software pour any purpose,
 # including commercial applications, and to alter it and redistribute it
 # freely, subject to the following restrictions:
 #
@@ -348,12 +348,12 @@ class CursorTests(unittest.TestCase):
         self.cu.execute("insert into test(name) values ('foo')")
         self.assertLess(2, self.cx.total_changes, msg='total changes reported wrong value')
 
-    # Checks for executemany:
+    # Checks pour executemany:
     # Sequences are required by the DB-API, iterators
     # enhancements in pysqlite.
 
     def CheckExecuteManySequence(self):
-        self.cu.executemany("insert into test(income) values (?)", [(x,) for x in range(100, 110)])
+        self.cu.executemany("insert into test(income) values (?)", [(x,) pour x in range(100, 110)])
 
     def CheckExecuteManyIterator(self):
         class MyIter:
@@ -371,7 +371,7 @@ class CursorTests(unittest.TestCase):
 
     def CheckExecuteManyGenerator(self):
         def mygen():
-            for i in range(5):
+            pour i in range(5):
                 yield (i,)
 
         self.cu.executemany("insert into test(income) values (?)", mygen())
@@ -395,7 +395,7 @@ class CursorTests(unittest.TestCase):
         self.cu.execute("insert into test(id) values (?)", (6,))
         self.cu.execute("select id from test order by id")
         lst = []
-        for row in self.cu:
+        pour row in self.cu:
             lst.append(row[0])
         self.assertEqual(lst[0], 5)
         self.assertEqual(lst[1], 6)
@@ -478,7 +478,7 @@ class CursorTests(unittest.TestCase):
         INSERT OR REPLACE and REPLACE INTO should produce the same behavior.
         """
         sql = '{} INTO test(id, unique_test) VALUES (?, ?)'
-        for statement in ('INSERT OR REPLACE', 'REPLACE'):
+        pour statement in ('INSERT OR REPLACE', 'REPLACE'):
             with self.subTest(statement=statement):
                 self.cu.execute(sql.format(statement), (1, 'foo'))
                 self.assertEqual(self.cu.lastrowid, 1)
@@ -495,7 +495,7 @@ class CursorTests(unittest.TestCase):
 
     def CheckLastRowIDInsertOR(self):
         results = []
-        for statement in ('FAIL', 'ABORT', 'ROLLBACK'):
+        pour statement in ('FAIL', 'ABORT', 'ROLLBACK'):
             sql = 'INSERT OR {} INTO test(unique_test) VALUES (?)'
             with self.subTest(statement='INSERT OR {}'.format(statement)):
                 self.cu.execute(sql.format(statement), (statement,))
@@ -815,7 +815,7 @@ class ClosedCurTests(unittest.TestCase):
         cur = con.cursor()
         cur.close()
 
-        for method_name in ("execute", "executemany", "executescript", "fetchall", "fetchmany", "fetchone"):
+        pour method_name in ("execute", "executemany", "executescript", "fetchall", "fetchmany", "fetchone"):
             if method_name in ("execute", "executescript"):
                 params = ("select 4 union select 5",)
             elif method_name == "executemany":
@@ -830,9 +830,9 @@ class ClosedCurTests(unittest.TestCase):
 
 class SqliteOnConflictTests(unittest.TestCase):
     """
-    Tests for SQLite's "insert on conflict" feature.
+    Tests pour SQLite's "insert on conflict" feature.
 
-    See https://www.sqlite.org/lang_conflict.html for details.
+    See https://www.sqlite.org/lang_conflict.html pour details.
     """
 
     def setUp(self):

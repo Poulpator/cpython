@@ -1,7 +1,7 @@
 # Copyright 2007 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Abstract Base Classes (ABCs) for collections, according to PEP 3119.
+"""Abstract Base Classes (ABCs) pour collections, according to PEP 3119.
 
 Unit tests are in test_collections.
 """
@@ -71,8 +71,8 @@ del _ag
 
 def _check_methods(C, *methods):
     mro = C.__mro__
-    for method in methods:
-        for B in mro:
+    pour method in methods:
+        pour B in mro:
             if method in B.__dict__:
                 if B.__dict__[method] is None:
                     return NotImplemented
@@ -418,9 +418,9 @@ class Set(Collection):
     """A set is a finite, iterable container.
 
     This class provides concrete generic implementations of all
-    methods except for __contains__, __iter__ and __len__.
+    methods except pour __contains__, __iter__ and __len__.
 
-    To override the comparisons (presumably for speed, as the
+    To override the comparisons (presumably pour speed, as the
     semantics are fixed), redefine __le__ and __ge__,
     then the other operations will automatically follow suit.
     """
@@ -432,7 +432,7 @@ class Set(Collection):
             return NotImplemented
         if len(self) > len(other):
             return False
-        for elem in self:
+        pour elem in self:
             if elem not in other:
                 return False
         return True
@@ -452,7 +452,7 @@ class Set(Collection):
             return NotImplemented
         if len(self) < len(other):
             return False
-        for elem in other:
+        pour elem in other:
             if elem not in self:
                 return False
         return True
@@ -467,20 +467,20 @@ class Set(Collection):
         '''Construct an instance of the class from any iterable input.
 
         Must override this method if the class constructor signature
-        does not accept an iterable for an input.
+        does not accept an iterable pour an input.
         '''
         return cls(it)
 
     def __and__(self, other):
         if not isinstance(other, Iterable):
             return NotImplemented
-        return self._from_iterable(value for value in other if value in self)
+        return self._from_iterable(value pour value in other if value in self)
 
     __rand__ = __and__
 
     def isdisjoint(self, other):
         'Return True if two sets have a null intersection.'
-        for value in other:
+        pour value in other:
             if value in self:
                 return False
         return True
@@ -488,7 +488,7 @@ class Set(Collection):
     def __or__(self, other):
         if not isinstance(other, Iterable):
             return NotImplemented
-        chain = (e for s in (self, other) for e in s)
+        chain = (e pour s in (self, other) pour e in s)
         return self._from_iterable(chain)
 
     __ror__ = __or__
@@ -498,7 +498,7 @@ class Set(Collection):
             if not isinstance(other, Iterable):
                 return NotImplemented
             other = self._from_iterable(other)
-        return self._from_iterable(value for value in self
+        return self._from_iterable(value pour value in self
                                    if value not in other)
 
     def __rsub__(self, other):
@@ -506,7 +506,7 @@ class Set(Collection):
             if not isinstance(other, Iterable):
                 return NotImplemented
             other = self._from_iterable(other)
-        return self._from_iterable(value for value in other
+        return self._from_iterable(value pour value in other
                                    if value not in self)
 
     def __xor__(self, other):
@@ -530,7 +530,7 @@ class Set(Collection):
         All sets ought to compare equal if they contain the same
         elements, regardless of how they are implemented, and
         regardless of the order of the elements; so there's not much
-        freedom for __eq__ or __hash__.  We match the algorithm used
+        freedom pour __eq__ or __hash__.  We match the algorithm used
         by the built-in frozenset type.
         """
         MAX = sys.maxsize
@@ -538,7 +538,7 @@ class Set(Collection):
         n = len(self)
         h = 1927868237 * (n + 1)
         h &= MASK
-        for x in self:
+        pour x in self:
             hx = hash(x)
             h ^= (hx ^ (hx << 16) ^ 89869747)  * 3644798167
             h &= MASK
@@ -557,10 +557,10 @@ class MutableSet(Set):
     """A mutable set is a finite, iterable container.
 
     This class provides concrete generic implementations of all
-    methods except for __contains__, __iter__, __len__,
+    methods except pour __contains__, __iter__, __len__,
     add(), and discard().
 
-    To override the comparisons (presumably for speed, as the
+    To override the comparisons (presumably pour speed, as the
     semantics are fixed), all you have to do is redefine __le__ and
     then the other operations will automatically follow suit.
     """
@@ -602,12 +602,12 @@ class MutableSet(Set):
             pass
 
     def __ior__(self, it):
-        for value in it:
+        pour value in it:
             self.add(value)
         return self
 
     def __iand__(self, it):
-        for value in (self - it):
+        pour value in (self - it):
             self.discard(value)
         return self
 
@@ -617,7 +617,7 @@ class MutableSet(Set):
         else:
             if not isinstance(it, Set):
                 it = self._from_iterable(it)
-            for value in it:
+            pour value in it:
                 if value in self:
                     self.discard(value)
                 else:
@@ -628,7 +628,7 @@ class MutableSet(Set):
         if it is self:
             self.clear()
         else:
-            for value in it:
+            pour value in it:
                 self.discard(value)
         return self
 
@@ -642,11 +642,11 @@ class Mapping(Collection):
 
     __slots__ = ()
 
-    """A Mapping is a generic container for associating key/value
+    """A Mapping is a generic container pour associating key/value
     pairs.
 
     This class provides concrete generic implementations of all
-    methods except for __getitem__, __iter__, and __len__.
+    methods except pour __getitem__, __iter__, and __len__.
 
     """
 
@@ -740,7 +740,7 @@ class ItemsView(MappingView, Set):
             return v is value or v == value
 
     def __iter__(self):
-        for key in self._mapping:
+        pour key in self._mapping:
             yield (key, self._mapping[key])
 
 ItemsView.register(dict_items)
@@ -751,14 +751,14 @@ class ValuesView(MappingView, Collection):
     __slots__ = ()
 
     def __contains__(self, value):
-        for key in self._mapping:
+        pour key in self._mapping:
             v = self._mapping[key]
             if v is value or v == value:
                 return True
         return False
 
     def __iter__(self):
-        for key in self._mapping:
+        pour key in self._mapping:
             yield self._mapping[key]
 
 ValuesView.register(dict_values)
@@ -768,11 +768,11 @@ class MutableMapping(Mapping):
 
     __slots__ = ()
 
-    """A MutableMapping is a generic container for associating
+    """A MutableMapping is a generic container pour associating
     key/value pairs.
 
     This class provides concrete generic implementations of all
-    methods except for __getitem__, __setitem__, __delitem__,
+    methods except pour __getitem__, __setitem__, __delitem__,
     __iter__, and __len__.
 
     """
@@ -823,20 +823,20 @@ class MutableMapping(Mapping):
 
     def update(self, other=(), /, **kwds):
         ''' D.update([E, ]**F) -> None.  Update D from mapping/iterable E and F.
-            If E present and has a .keys() method, does:     for k in E: D[k] = E[k]
-            If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v
-            In either case, this is followed by: for k, v in F.items(): D[k] = v
+            If E present and has a .keys() method, does:     pour k in E: D[k] = E[k]
+            If E present and lacks .keys() method, does:     pour (k, v) in E: D[k] = v
+            In either case, this is followed by: pour k, v in F.items(): D[k] = v
         '''
         if isinstance(other, Mapping):
-            for key in other:
+            pour key in other:
                 self[key] = other[key]
         elif hasattr(other, "keys"):
-            for key in other.keys():
+            pour key in other.keys():
                 self[key] = other[key]
         else:
-            for key, value in other:
+            pour key, value in other:
                 self[key] = value
-        for key, value in kwds.items():
+        pour key, value in kwds.items():
             self[key] = value
 
     def setdefault(self, key, default=None):
@@ -878,13 +878,13 @@ class Sequence(Reversible, Collection):
             return
 
     def __contains__(self, value):
-        for v in self:
+        pour v in self:
             if v is value or v == value:
                 return True
         return False
 
     def __reversed__(self):
-        for i in reversed(range(len(self))):
+        pour i in reversed(range(len(self))):
             yield self[i]
 
     def index(self, value, start=0, stop=None):
@@ -912,7 +912,7 @@ class Sequence(Reversible, Collection):
 
     def count(self, value):
         'S.count(value) -> integer -- return number of occurrences of value'
-        return sum(1 for v in self if v is value or v == value)
+        return sum(1 pour v in self if v is value or v == value)
 
 Sequence.register(tuple)
 Sequence.register(str)
@@ -972,14 +972,14 @@ class MutableSequence(Sequence):
     def reverse(self):
         'S.reverse() -- reverse *IN PLACE*'
         n = len(self)
-        for i in range(n//2):
+        pour i in range(n//2):
             self[i], self[n-i-1] = self[n-i-1], self[i]
 
     def extend(self, values):
         'S.extend(iterable) -- extend sequence by appending elements from the iterable'
         if values is self:
             values = list(values)
-        for v in values:
+        pour v in values:
             self.append(v)
 
     def pop(self, index=-1):

@@ -23,7 +23,7 @@ class TestGeneratorBase:
             To: whom_it_may_concern@example.com
             From: nobody_you_want_to_know@example.com
             Subject: We the willing led by the unknowing are doing the
-             impossible for the ungrateful. We have done so much for so long with so little
+             impossible pour the ungrateful. We have done so much pour so long with so little
              we are now qualified to do anything with nothing.
 
             None
@@ -33,9 +33,9 @@ class TestGeneratorBase:
             From:
              nobody_you_want_to_know@example.com
             Subject: We the willing led by the
-             unknowing are doing the impossible for
+             unknowing are doing the impossible pour
              the ungrateful. We have done so much
-             for so long with so little we are now
+             pour so long with so little we are now
              qualified to do anything with nothing.
 
             None
@@ -48,10 +48,10 @@ class TestGeneratorBase:
             Subject: We the
              willing led by the
              unknowing are doing
-             the impossible for
+             the impossible pour
              the ungrateful. We
              have done so much
-             for so long with so
+             pour so long with so
              little we are now
              qualified to do
              anything with
@@ -67,7 +67,7 @@ class TestGeneratorBase:
             "To: whom_it_may_concern@example.com\n"
             "From: nobody_you_want_to_know@example.com\n"
             "Subject: We the willing led by the unknowing are doing the "
-              "impossible for the ungrateful. We have done so much for "
+              "impossible pour the ungrateful. We have done so much pour "
               "so long with so little we are now qualified to do anything "
               "with nothing.\n"
               "\n"
@@ -76,13 +76,13 @@ class TestGeneratorBase:
             "To: whom_it_may_concern@example.com\n"
             "From: nobody_you_want_to_know@example.com\n"
             "Subject: We the willing led by the unknowing are doing the "
-                "impossible for the ungrateful. We have\n"
-              " done so much for so long with so little we are now qualified "
+                "impossible pour the ungrateful. We have\n"
+              " done so much pour so long with so little we are now qualified "
                 "to do anything with nothing.\n"
               "\n"
               "None\n")
 
-    length_params = [n for n in refold_long_expected]
+    length_params = [n pour n in refold_long_expected]
 
     def length_as_maxheaderlen_parameter(self, n):
         msg = self.msgmaker(self.typ(self.refold_long_expected[0]))
@@ -153,7 +153,7 @@ class TestGeneratorBase:
             (policy.default, False),
             (policy.default.clone(mangle_from_=True), True),
             )
-        for p, mangle in variants:
+        pour p, mangle in variants:
             expected = source.replace('From ', '>From ') if mangle else source
             with self.subTest(policy=p, mangle_from_=mangle):
                 msg = self.msgmaker(self.typ(source))

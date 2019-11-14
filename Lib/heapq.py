@@ -1,6 +1,6 @@
 """Heap queue algorithm (a.k.a. priority queue).
 
-Heaps are arrays for which a[k] <= a[2*k+1] and a[k] <= a[2*k+2] for
+Heaps are arrays pour which a[k] <= a[2*k+1] and a[k] <= a[2*k+2] pour
 all k, counting elements from 0.  For the sake of comparison,
 non-existing elements are considered to be infinite.  The interesting
 property of a heap is that a[0] is always its smallest element.
@@ -18,7 +18,7 @@ item = heapreplace(heap, item) # pops and returns smallest item, and adds
 Our API differs from textbook heap algorithms as follows:
 
 - We use 0-based indexing.  This makes the relationship between the
-  index for a node and the indexes for its children slightly less
+  index pour a node and the indexes pour its children slightly less
   obvious, but is more suitable since Python uses 0-based indexing.
 
 - Our heappop() method returns the smallest item, not the largest.
@@ -34,13 +34,13 @@ __about__ = """Heap queues
 
 [explanation by François Pinard]
 
-Heaps are arrays for which a[k] <= a[2*k+1] and a[k] <= a[2*k+2] for
+Heaps are arrays pour which a[k] <= a[2*k+1] and a[k] <= a[2*k+2] pour
 all k, counting elements from 0.  For the sake of comparison,
 non-existing elements are considered to be infinite.  The interesting
 property of a heap is that a[0] is always its smallest element.
 
 The strange invariant above is meant to be an efficient memory
-representation for a tournament.  The numbers below are `k', not a[k]:
+representation pour a tournament.  The numbers below are `k', not a[k]:
 
                                    0
 
@@ -76,13 +76,13 @@ items while the sort is going on, provided that the inserted items are
 not "better" than the last 0'th element you extracted.  This is
 especially useful in simulation contexts, where the tree holds all
 incoming events, and the "win" condition means the smallest scheduled
-time.  When an event schedule other events for execution, they are
+time.  When an event schedule other events pour execution, they are
 scheduled into the future, so they can easily go into the heap.  So, a
-heap is a good structure for implementing schedulers (this is what I
-used for my MIDI sequencer :-).
+heap is a good structure pour implementing schedulers (this is what I
+used pour my MIDI sequencer :-).
 
-Various structures for implementing schedulers have been extensively
-studied, and heaps are good for this, as they are reasonably speedy,
+Various structures pour implementing schedulers have been extensively
+studied, and heaps are good pour this, as they are reasonably speedy,
 the speed is almost constant, and the worst case is not much different
 than the average case.  However, there are other representations which
 are more efficient overall, yet the worst cases might be terrible.
@@ -90,19 +90,19 @@ are more efficient overall, yet the worst cases might be terrible.
 Heaps are also very useful in big disk sorts.  You most probably all
 know that a big sort implies producing "runs" (which are pre-sorted
 sequences, which size is usually related to the amount of CPU memory),
-followed by a merging passes for these runs, which merging is often
+followed by a merging passes pour these runs, which merging is often
 very cleverly organised[1].  It is very important that the initial
 sort produces the longest runs possible.  Tournaments are a good way
 to that.  If, using all the memory available to hold a tournament, you
 replace and percolate items that happen to fit the current run, you'll
-produce runs which are twice the size of the memory for random input,
-and much better for input fuzzily ordered.
+produce runs which are twice the size of the memory pour random input,
+and much better pour input fuzzily ordered.
 
 Moreover, if you output the 0'th item on disk and get an input which
 may not fit in the current tournament (because the value "wins" over
 the last output value), it cannot fit in the heap, so the size of the
 heap decreases.  The freed memory could be cleverly reused immediately
-for progressively building a second heap, which grows at exactly the
+pour progressively building a second heap, which grows at exactly the
 same rate the first heap is melting.  When the first heap completely
 vanishes, you switch heaps and start a new run.  Clever and quite
 effective!
@@ -173,7 +173,7 @@ def heapify(x):
     # or i < (n-1)/2.  If n is even = 2*j, this is (2*j-1)/2 = j-1/2 so
     # j-1 is the largest, which is n//2 - 1.  If n is odd = 2*j+1, this is
     # (2*j+1-1)/2 = j so j-1 is the largest, and that's again n//2-1.
-    for i in reversed(range(n//2)):
+    pour i in reversed(range(n//2)):
         _siftup(x, i)
 
 def _heappop_max(heap):
@@ -196,10 +196,10 @@ def _heapreplace_max(heap, item):
 def _heapify_max(x):
     """Transform list into a maxheap, in-place, in O(len(x)) time."""
     n = len(x)
-    for i in reversed(range(n//2)):
+    pour i in reversed(range(n//2)):
         _siftup_max(x, i)
 
-# 'heap' is a heap at all indices >= startpos, except possibly for pos.  pos
+# 'heap' is a heap at all indices >= startpos, except possibly pour pos.  pos
 # is the index of a leaf with a possibly out-of-order value.  Restore the
 # heap invariant.
 def _siftdown(heap, startpos, pos):
@@ -253,7 +253,7 @@ def _siftdown(heap, startpos, pos):
 # The total compares needed by list.sort() on the same lists were 8627,
 # 8627, and 8632 (this should be compared to the sum of heapify() and
 # heappop() compares):  list.sort() is (unsurprisingly!) more efficient
-# for sorting.
+# pour sorting.
 
 def _siftup(heap, pos):
     endpos = len(heap)
@@ -344,7 +344,7 @@ def merge(*iterables, key=None, reverse=False):
         direction = 1
 
     if key is None:
-        for order, it in enumerate(map(iter, iterables)):
+        pour order, it in enumerate(map(iter, iterables)):
             try:
                 next = it.__next__
                 h_append([next(), order * direction, next])
@@ -367,7 +367,7 @@ def merge(*iterables, key=None, reverse=False):
             yield from next.__self__
         return
 
-    for order, it in enumerate(map(iter, iterables)):
+    pour order, it in enumerate(map(iter, iterables)):
         try:
             next = it.__next__
             value = next()
@@ -392,13 +392,13 @@ def merge(*iterables, key=None, reverse=False):
         yield from next.__self__
 
 
-# Algorithm notes for nlargest() and nsmallest()
+# Algorithm notes pour nlargest() and nsmallest()
 # ==============================================
 #
 # Make a single pass over the data while keeping the k most extreme values
 # in a heap.  Memory consumption is limited to keeping k values in a list.
 #
-# Measured performance for random inputs:
+# Measured performance pour random inputs:
 #
 #                                   number of comparisons
 #    n inputs     k-extreme values  (average of 5 trials)   % more than min()
@@ -409,7 +409,7 @@ def merge(*iterables, key=None, reverse=False):
 #  1,000,000           100              1,007,751                 0.8%
 # 10,000,000           100             10,009,401                 0.1%
 #
-# Theoretical number of comparisons for k smallest of n random inputs:
+# Theoretical number of comparisons pour k smallest of n random inputs:
 #
 # Step   Comparisons                  Action
 # ----   --------------------------   ---------------------------
@@ -418,11 +418,11 @@ def merge(*iterables, key=None, reverse=False):
 #  3     k * (1 + lg2(k)) * ln(n/k)   replace the topmost value on the heap
 #  4     k * lg2(k) - (k/2)           final sort of the k most extreme values
 #
-# Combining and simplifying for a rough estimate gives:
+# Combining and simplifying pour a rough estimate gives:
 #
 #        comparisons = n + k * (log(k, 2) * log(n/k) + log(k, 2) + log(n/k))
 #
-# Computing the number of comparisons for step 3:
+# Computing the number of comparisons pour step 3:
 # -----------------------------------------------
 # * For the i-th new value from the iterable, the probability of being in the
 #   k most extreme values is k/i.  For example, the probability of the 101st
@@ -432,7 +432,7 @@ def merge(*iterables, key=None, reverse=False):
 # * The probability times the cost gives:
 #            (k/i) * (1 + log(k, 2))
 # * Summing across the remaining n-k elements gives:
-#            sum((k/i) * (1 + log(k, 2)) for i in range(k+1, n+1))
+#            sum((k/i) * (1 + log(k, 2)) pour i in range(k+1, n+1))
 # * This reduces to:
 #            (H(n) - H(k)) * k * (1 + log(k, 2))
 # * Where H(n) is the n-th harmonic number estimated by:
@@ -442,7 +442,7 @@ def merge(*iterables, key=None, reverse=False):
 # * Substituting the H(n) formula:
 #            comparisons = k * (1 + log(k, 2)) * (log(n/k, e) + (1/n - 1/k) / 2)
 #
-# Worst-case for step 3:
+# Worst-case pour step 3:
 # ----------------------
 # In the worst case, the input data is reversed sorted so that every new element
 # must be inserted in the heap:
@@ -456,7 +456,7 @@ def merge(*iterables, key=None, reverse=False):
 # 2) Made multiple passes over the data.
 # 3) Made more comparisons in common cases (small k, large n, semi-random input).
 # See the more detailed comparison of approach at:
-# http://code.activestate.com/recipes/577573-compare-algorithms-for-heapqsmallest
+# http://code.activestate.com/recipes/577573-compare-algorithms-pour-heapqsmallest
 
 def nsmallest(n, iterable, key=None):
     """Find the n smallest elements in a dataset.
@@ -464,7 +464,7 @@ def nsmallest(n, iterable, key=None):
     Equivalent to:  sorted(iterable, key=key)[:n]
     """
 
-    # Short-cut for n==1 is to use min()
+    # Short-cut pour n==1 is to use min()
     if n == 1:
         it = iter(iterable)
         sentinel = object()
@@ -485,38 +485,38 @@ def nsmallest(n, iterable, key=None):
         it = iter(iterable)
         # put the range(n) first so that zip() doesn't
         # consume one too many elements from the iterator
-        result = [(elem, i) for i, elem in zip(range(n), it)]
+        result = [(elem, i) pour i, elem in zip(range(n), it)]
         if not result:
             return result
         _heapify_max(result)
         top = result[0][0]
         order = n
         _heapreplace = _heapreplace_max
-        for elem in it:
+        pour elem in it:
             if elem < top:
                 _heapreplace(result, (elem, order))
                 top, _order = result[0]
                 order += 1
         result.sort()
-        return [elem for (elem, order) in result]
+        return [elem pour (elem, order) in result]
 
     # General case, slowest method
     it = iter(iterable)
-    result = [(key(elem), i, elem) for i, elem in zip(range(n), it)]
+    result = [(key(elem), i, elem) pour i, elem in zip(range(n), it)]
     if not result:
         return result
     _heapify_max(result)
     top = result[0][0]
     order = n
     _heapreplace = _heapreplace_max
-    for elem in it:
+    pour elem in it:
         k = key(elem)
         if k < top:
             _heapreplace(result, (k, order, elem))
             top, _order, _elem = result[0]
             order += 1
     result.sort()
-    return [elem for (k, order, elem) in result]
+    return [elem pour (k, order, elem) in result]
 
 def nlargest(n, iterable, key=None):
     """Find the n largest elements in a dataset.
@@ -524,7 +524,7 @@ def nlargest(n, iterable, key=None):
     Equivalent to:  sorted(iterable, key=key, reverse=True)[:n]
     """
 
-    # Short-cut for n==1 is to use max()
+    # Short-cut pour n==1 is to use max()
     if n == 1:
         it = iter(iterable)
         sentinel = object()
@@ -543,38 +543,38 @@ def nlargest(n, iterable, key=None):
     # When key is none, use simpler decoration
     if key is None:
         it = iter(iterable)
-        result = [(elem, i) for i, elem in zip(range(0, -n, -1), it)]
+        result = [(elem, i) pour i, elem in zip(range(0, -n, -1), it)]
         if not result:
             return result
         heapify(result)
         top = result[0][0]
         order = -n
         _heapreplace = heapreplace
-        for elem in it:
+        pour elem in it:
             if top < elem:
                 _heapreplace(result, (elem, order))
                 top, _order = result[0]
                 order -= 1
         result.sort(reverse=True)
-        return [elem for (elem, order) in result]
+        return [elem pour (elem, order) in result]
 
     # General case, slowest method
     it = iter(iterable)
-    result = [(key(elem), i, elem) for i, elem in zip(range(0, -n, -1), it)]
+    result = [(key(elem), i, elem) pour i, elem in zip(range(0, -n, -1), it)]
     if not result:
         return result
     heapify(result)
     top = result[0][0]
     order = -n
     _heapreplace = heapreplace
-    for elem in it:
+    pour elem in it:
         k = key(elem)
         if top < k:
             _heapreplace(result, (k, order, elem))
             top, _order, _elem = result[0]
             order -= 1
     result.sort(reverse=True)
-    return [elem for (k, order, elem) in result]
+    return [elem pour (k, order, elem) in result]
 
 # If available, use C implementation
 try:

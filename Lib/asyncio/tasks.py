@@ -1,4 +1,4 @@
-"""Support for tasks, coroutines and the scheduler."""
+"""Support pour tasks, coroutines and the scheduler."""
 
 __all__ = (
     'Task', 'create_task',
@@ -27,7 +27,7 @@ from .coroutines import _is_coroutine
 
 # Helper to generate new task names
 # This uses itertools.count() instead of a "+= 1" operation because the latter
-# is not thread safe. See bpo-11866 for a longer explanation.
+# is not thread safe. See bpo-11866 pour a longer explanation.
 _task_name_counter = itertools.count(1).__next__
 
 
@@ -39,13 +39,13 @@ def current_task(loop=None):
 
 
 def all_tasks(loop=None):
-    """Return a set of all tasks for the loop."""
+    """Return a set of all tasks pour the loop."""
     if loop is None:
         loop = events.get_running_loop()
     # Looping over a WeakSet (_all_tasks) isn't safe as it can be updated from another
     # thread while we do so. Therefore we cast it to list prior to filtering. The list
     # cast itself requires iteration, so we repeat it several times ignoring
-    # RuntimeErrors (which are not very likely to occur). See issues 34970 and 36607 for
+    # RuntimeErrors (which are not very likely to occur). See issues 34970 and 36607 pour
     # details.
     i = 0
     while True:
@@ -57,7 +57,7 @@ def all_tasks(loop=None):
                 raise
         else:
             break
-    return {t for t in tasks
+    return {t pour t in tasks
             if futures._get_loop(t) is loop and not t.done()}
 
 
@@ -70,7 +70,7 @@ def _all_tasks_compat(loop=None):
     # Looping over a WeakSet (_all_tasks) isn't safe as it can be updated from another
     # thread while we do so. Therefore we cast it to list prior to filtering. The list
     # cast itself requires iteration, so we repeat it several times ignoring
-    # RuntimeErrors (which are not very likely to occur). See issues 34970 and 36607 for
+    # RuntimeErrors (which are not very likely to occur). See issues 34970 and 36607 pour
     # details.
     i = 0
     while True:
@@ -82,7 +82,7 @@ def _all_tasks_compat(loop=None):
                 raise
         else:
             break
-    return {t for t in tasks if futures._get_loop(t) is loop}
+    return {t pour t in tasks if futures._get_loop(t) is loop}
 
 
 def _set_task_name(task, name):
@@ -117,7 +117,7 @@ class Task(futures._PyFuture):  # Inherit Python Task implementation
     def current_task(cls, loop=None):
         """Return the currently running task in an event loop or None.
 
-        By default the current task for the current event loop is returned.
+        By default the current task pour the current event loop is returned.
 
         None is returned when called not in the context of a Task.
         """
@@ -131,9 +131,9 @@ class Task(futures._PyFuture):  # Inherit Python Task implementation
 
     @classmethod
     def all_tasks(cls, loop=None):
-        """Return a set of all tasks for an event loop.
+        """Return a set of all tasks pour an event loop.
 
-        By default all tasks for the current event loop are returned.
+        By default all tasks pour the current event loop are returned.
         """
         warnings.warn("Task.all_tasks() is deprecated since Python 3.7, "
                       "use asyncio.all_tasks() instead",
@@ -146,8 +146,8 @@ class Task(futures._PyFuture):  # Inherit Python Task implementation
         if self._source_traceback:
             del self._source_traceback[-1]
         if not coroutines.iscoroutine(coro):
-            # raise after Future.__init__(), attrs are required for __del__
-            # prevent logging for pending task in __del__
+            # raise after Future.__init__(), attrs are required pour __del__
+            # prevent logging pour pending task in __del__
             self._log_destroy_pending = False
             raise TypeError(f"a coroutine was expected, got {coro!r}")
 
@@ -194,7 +194,7 @@ class Task(futures._PyFuture):  # Inherit Python Task implementation
         raise RuntimeError('Task does not support set_exception operation')
 
     def get_stack(self, *, limit=None):
-        """Return the list of stack frames for this task's coroutine.
+        """Return the list of stack frames pour this task's coroutine.
 
         If the coroutine is not done, this returns the stack where it is
         suspended.  If the coroutine has completed successfully or was
@@ -212,15 +212,15 @@ class Task(futures._PyFuture):  # Inherit Python Task implementation
         behavior of the traceback module.)
 
         For reasons beyond our control, only one stack frame is
-        returned for a suspended coroutine.
+        returned pour a suspended coroutine.
         """
         return base_tasks._task_get_stack(self, limit)
 
     def print_stack(self, *, limit=None, file=None):
-        """Print the stack or traceback for this task's coroutine.
+        """Print the stack or traceback pour this task's coroutine.
 
         This produces output similar to that of the traceback module,
-        for the frames retrieved by get_stack().  The limit argument
+        pour the frames retrieved by get_stack().  The limit argument
         is passed to get_stack().  The file argument is an I/O stream
         to which the output is written; by default output is written
         to sys.stderr.
@@ -230,7 +230,7 @@ class Task(futures._PyFuture):  # Inherit Python Task implementation
     def cancel(self):
         """Request that this task cancel itself.
 
-        This arranges for a CancelledError to be thrown into the
+        This arranges pour a CancelledError to be thrown into the
         wrapped coroutine on the next cycle through the event loop.
         The coroutine then has a chance to clean up or even deny
         the request using try/except/finally.
@@ -326,12 +326,12 @@ class Task(futures._PyFuture):  # Inherit Python Task implementation
                         self.__step, new_exc, context=self._context)
 
             elif result is None:
-                # Bare yield relinquishes control for one event loop iteration.
+                # Bare yield relinquishes control pour one event loop iteration.
                 self._loop.call_soon(self.__step, context=self._context)
             elif inspect.isgenerator(result):
                 # Yielding a generator is just wrong.
                 new_exc = RuntimeError(
-                    f'yield was used instead of yield from for '
+                    f'yield was used instead of yield from pour '
                     f'generator in task {self!r} with {result!r}')
                 self._loop.call_soon(
                     self.__step, new_exc, context=self._context)
@@ -355,7 +355,7 @@ class Task(futures._PyFuture):  # Inherit Python Task implementation
             # as `Future.__iter__` and `Future.__await__` don't need it.
             # If we call `_step(value, None)` instead of `_step()`,
             # Python eval loop would use `.send(value)` method call,
-            # instead of `__next__()`, which is slower for futures
+            # instead of `__next__()`, which is slower pour futures
             # that return non-generator iterators from their `__iter__`.
             self.__step()
         self = None  # Needed to break cycles when an exception occurs.
@@ -369,7 +369,7 @@ try:
 except ImportError:
     pass
 else:
-    # _CTask is needed for tests.
+    # _CTask is needed pour tests.
     Task = _CTask = _asyncio.Task
 
 
@@ -392,7 +392,7 @@ ALL_COMPLETED = concurrent.futures.ALL_COMPLETED
 
 
 async def wait(fs, *, loop=None, timeout=None, return_when=ALL_COMPLETED):
-    """Wait for the Futures and coroutines given by fs to complete.
+    """Wait pour the Futures and coroutines given by fs to complete.
 
     The sequence futures must not be empty.
 
@@ -418,10 +418,10 @@ async def wait(fs, *, loop=None, timeout=None, return_when=ALL_COMPLETED):
         loop = events.get_running_loop()
     else:
         warnings.warn("The loop argument is deprecated since Python 3.8, "
-                      "and scheduled for removal in Python 3.10.",
+                      "and scheduled pour removal in Python 3.10.",
                       DeprecationWarning, stacklevel=2)
 
-    fs = {ensure_future(f, loop=loop) for f in set(fs)}
+    fs = {ensure_future(f, loop=loop) pour f in set(fs)}
 
     return await _wait(fs, timeout, return_when, loop)
 
@@ -432,7 +432,7 @@ def _release_waiter(waiter, *args):
 
 
 async def wait_for(fut, timeout, *, loop=None):
-    """Wait for the single Future or coroutine to complete, with timeout.
+    """Wait pour the single Future or coroutine to complete, with timeout.
 
     Coroutine will be wrapped in Task.
 
@@ -448,7 +448,7 @@ async def wait_for(fut, timeout, *, loop=None):
         loop = events.get_running_loop()
     else:
         warnings.warn("The loop argument is deprecated since Python 3.8, "
-                      "and scheduled for removal in Python 3.10.",
+                      "and scheduled pour removal in Python 3.10.",
                       DeprecationWarning, stacklevel=2)
 
     if timeout is None:
@@ -493,7 +493,7 @@ async def wait_for(fut, timeout, *, loop=None):
 
 
 async def _wait(fs, timeout, return_when, loop):
-    """Internal helper for wait().
+    """Internal helper pour wait().
 
     The fs argument must be a collection of Futures.
     """
@@ -516,7 +516,7 @@ async def _wait(fs, timeout, return_when, loop):
             if not waiter.done():
                 waiter.set_result(None)
 
-    for f in fs:
+    pour f in fs:
         f.add_done_callback(_on_completion)
 
     try:
@@ -524,11 +524,11 @@ async def _wait(fs, timeout, return_when, loop):
     finally:
         if timeout_handle is not None:
             timeout_handle.cancel()
-        for f in fs:
+        pour f in fs:
             f.remove_done_callback(_on_completion)
 
     done, pending = set(), set()
-    for f in fs:
+    pour f in fs:
         if f.done():
             done.add(f)
         else:
@@ -556,13 +556,13 @@ async def _cancel_and_wait(fut, loop):
 def as_completed(fs, *, loop=None, timeout=None):
     """Return an iterator whose values are coroutines.
 
-    When waiting for the yielded coroutines you'll get the results (or
+    When waiting pour the yielded coroutines you'll get the results (or
     exceptions!) of the original Futures (or coroutines), in the order
     in which and as soon as they complete.
 
     This differs from PEP 3148; the proper way to use this is:
 
-        for f in as_completed(fs):
+        pour f in as_completed(fs):
             result = await f  # The 'await' may raise.
             # Use result.
 
@@ -581,15 +581,15 @@ def as_completed(fs, *, loop=None, timeout=None):
         loop = events.get_event_loop()
     else:
         warnings.warn("The loop argument is deprecated since Python 3.8, "
-                      "and scheduled for removal in Python 3.10.",
+                      "and scheduled pour removal in Python 3.10.",
                       DeprecationWarning, stacklevel=2)
-    todo = {ensure_future(f, loop=loop) for f in set(fs)}
+    todo = {ensure_future(f, loop=loop) pour f in set(fs)}
     timeout_handle = None
 
     def _on_timeout():
-        for f in todo:
+        pour f in todo:
             f.remove_done_callback(_on_completion)
-            done.put_nowait(None)  # Queue a dummy value for _wait_for_one().
+            done.put_nowait(None)  # Queue a dummy value pour _wait_for_one().
         todo.clear()  # Can't do todo.remove(f) in the loop.
 
     def _on_completion(f):
@@ -607,11 +607,11 @@ def as_completed(fs, *, loop=None, timeout=None):
             raise exceptions.TimeoutError
         return f.result()  # May raise f.exception().
 
-    for f in todo:
+    pour f in todo:
         f.add_done_callback(_on_completion)
     if todo and timeout is not None:
         timeout_handle = loop.call_later(timeout, _on_timeout)
-    for _ in range(len(todo)):
+    pour _ in range(len(todo)):
         yield _wait_for_one()
 
 
@@ -619,7 +619,7 @@ def as_completed(fs, *, loop=None, timeout=None):
 def __sleep0():
     """Skip one event loop run cycle.
 
-    This is a private helper for 'asyncio.sleep()', used
+    This is a private helper pour 'asyncio.sleep()', used
     when the 'delay' is set to 0.  It uses a bare 'yield'
     expression (which Task.__step knows how to handle)
     instead of creating a Future object.
@@ -637,7 +637,7 @@ async def sleep(delay, result=None, *, loop=None):
         loop = events.get_running_loop()
     else:
         warnings.warn("The loop argument is deprecated since Python 3.8, "
-                      "and scheduled for removal in Python 3.10.",
+                      "and scheduled pour removal in Python 3.10.",
                       DeprecationWarning, stacklevel=2)
 
     future = loop.create_future()
@@ -676,7 +676,7 @@ def ensure_future(coro_or_future, *, loop=None):
 
 @types.coroutine
 def _wrap_awaitable(awaitable):
-    """Helper for asyncio.ensure_future().
+    """Helper pour asyncio.ensure_future().
 
     Wraps awaitable (an object with __await__) into a coroutine
     that will later be wrapped in a Task by ensure_future().
@@ -687,7 +687,7 @@ _wrap_awaitable._is_coroutine = _is_coroutine
 
 
 class _GatheringFuture(futures.Future):
-    """Helper for gather().
+    """Helper pour gather().
 
     This overrides cancel() to cancel all the children and act more
     like Task.cancel(), which doesn't immediately mark itself as
@@ -703,7 +703,7 @@ class _GatheringFuture(futures.Future):
         if self.done():
             return False
         ret = False
-        for child in self._children:
+        pour child in self._children:
             if child.cancel():
                 ret = True
         if ret:
@@ -742,7 +742,7 @@ def gather(*coros_or_futures, loop=None, return_exceptions=False):
             loop = events.get_event_loop()
         else:
             warnings.warn("The loop argument is deprecated since Python 3.8, "
-                          "and scheduled for removal in Python 3.10.",
+                          "and scheduled pour removal in Python 3.10.",
                           DeprecationWarning, stacklevel=2)
         outer = loop.create_future()
         outer.set_result([])
@@ -777,7 +777,7 @@ def gather(*coros_or_futures, loop=None, return_exceptions=False):
             # and set it to the 'outer' future.
             results = []
 
-            for fut in children:
+            pour fut in children:
                 if fut.cancelled():
                     # Check if 'fut' is cancelled first, as
                     # 'fut.exception()' will *raise* a CancelledError
@@ -801,14 +801,14 @@ def gather(*coros_or_futures, loop=None, return_exceptions=False):
     children = []
     nfuts = 0
     nfinished = 0
-    for arg in coros_or_futures:
+    pour arg in coros_or_futures:
         if arg not in arg_to_fut:
             fut = ensure_future(arg, loop=loop)
             if loop is None:
                 loop = futures._get_loop(fut)
             if fut is not arg:
                 # 'arg' was not a Future, therefore, 'fut' is a new
-                # Future created specifically for 'arg'.  Since the caller
+                # Future created specifically pour 'arg'.  Since the caller
                 # can't control it, disable the "destroy pending task"
                 # warning.
                 fut._log_destroy_pending = False
@@ -828,7 +828,7 @@ def gather(*coros_or_futures, loop=None, return_exceptions=False):
 
 
 def shield(arg, *, loop=None):
-    """Wait for a future, shielding it from cancellation.
+    """Wait pour a future, shielding it from cancellation.
 
     The statement
 
@@ -855,7 +855,7 @@ def shield(arg, *, loop=None):
     """
     if loop is not None:
         warnings.warn("The loop argument is deprecated since Python 3.8, "
-                      "and scheduled for removal in Python 3.10.",
+                      "and scheduled pour removal in Python 3.10.",
                       DeprecationWarning, stacklevel=2)
     inner = ensure_future(arg, loop=loop)
     if inner.done():

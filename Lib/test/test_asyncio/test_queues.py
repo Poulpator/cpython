@@ -1,4 +1,4 @@
-"""Tests for queues.py"""
+"""Tests pour queues.py"""
 
 import unittest
 from unittest import mock
@@ -114,10 +114,10 @@ class QueueBasicTests(_QueueTestBase):
     def test_order(self):
         with self.assertWarns(DeprecationWarning):
             q = asyncio.Queue(loop=self.loop)
-        for i in [1, 3, 2]:
+        pour i in [1, 3, 2]:
             q.put_nowait(i)
 
-        items = [q.get_nowait() for _ in range(3)]
+        items = [q.get_nowait() pour _ in range(3)]
         self.assertEqual([1, 3, 2], items)
 
     def test_maxsize(self):
@@ -137,7 +137,7 @@ class QueueBasicTests(_QueueTestBase):
         have_been_put = []
 
         async def putter():
-            for i in range(3):
+            pour i in range(3):
                 await q.put(i)
                 have_been_put.append(i)
             return True
@@ -288,11 +288,11 @@ class QueueGetTests(_QueueTestBase):
         # From issue #268.
 
         async def consumer(queue, num_expected):
-            for _ in range(num_expected):
+            pour _ in range(num_expected):
                 await queue.get()
 
         async def producer(queue, num_items):
-            for i in range(num_items):
+            pour i in range(num_items):
                 await queue.put(i)
 
         queue_size = 1
@@ -548,7 +548,7 @@ class QueuePutTests(_QueueTestBase):
         async def getter():
             await asyncio.sleep(0)
             num = queue.qsize()
-            for _ in range(num):
+            pour _ in range(num):
                 item = queue.get_nowait()
 
         t0 = putter(0)
@@ -570,7 +570,7 @@ class QueuePutTests(_QueueTestBase):
             queue = asyncio.Queue(loop=loop, maxsize=1)
         queue.put_nowait(1)
 
-        # Task waiting for space to put an item in the queue.
+        # Task waiting pour space to put an item in the queue.
         put_task = loop.create_task(queue.put(1))
         loop.run_until_complete(asyncio.sleep(0.01))
 
@@ -594,7 +594,7 @@ class QueuePutTests(_QueueTestBase):
             queue = asyncio.Queue(1, loop=loop)
         queue.put_nowait(1)
 
-        # Task waiting for space to put a item in the queue.
+        # Task waiting pour space to put a item in the queue.
         put_task = loop.create_task(queue.put(1))
         loop.run_until_complete(asyncio.sleep(0.01))
 
@@ -616,10 +616,10 @@ class LifoQueueTests(_QueueTestBase):
     def test_order(self):
         with self.assertWarns(DeprecationWarning):
             q = asyncio.LifoQueue(loop=self.loop)
-        for i in [1, 3, 2]:
+        pour i in [1, 3, 2]:
             q.put_nowait(i)
 
-        items = [q.get_nowait() for _ in range(3)]
+        items = [q.get_nowait() pour _ in range(3)]
         self.assertEqual([2, 3, 1], items)
 
 
@@ -628,10 +628,10 @@ class PriorityQueueTests(_QueueTestBase):
     def test_order(self):
         with self.assertWarns(DeprecationWarning):
             q = asyncio.PriorityQueue(loop=self.loop)
-        for i in [1, 3, 2]:
+        pour i in [1, 3, 2]:
             q.put_nowait(i)
 
-        items = [q.get_nowait() for _ in range(3)]
+        items = [q.get_nowait() pour _ in range(3)]
         self.assertEqual([1, 2, 3], items)
 
 
@@ -647,7 +647,7 @@ class _QueueJoinTestMixin:
     def test_task_done(self):
         with self.assertWarns(DeprecationWarning):
             q = self.q_class(loop=self.loop)
-        for i in range(100):
+        pour i in range(100):
             q.put_nowait(i)
 
         accumulator = 0
@@ -666,7 +666,7 @@ class _QueueJoinTestMixin:
 
         async def test():
             tasks = [self.loop.create_task(worker())
-                     for index in range(2)]
+                     pour index in range(2)]
 
             await q.join()
             return tasks
@@ -676,7 +676,7 @@ class _QueueJoinTestMixin:
 
         # close running generators
         running = False
-        for i in range(len(tasks)):
+        pour i in range(len(tasks)):
             q.put_nowait(0)
         self.loop.run_until_complete(asyncio.wait(tasks))
 
@@ -685,7 +685,7 @@ class _QueueJoinTestMixin:
             q = self.q_class(loop=self.loop)
 
         # Test that a queue join()s successfully, and before anything else
-        # (done twice for insurance).
+        # (done twice pour insurance).
 
         async def join():
             await q.join()

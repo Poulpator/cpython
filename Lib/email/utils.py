@@ -52,7 +52,7 @@ def _has_surrogates(s):
     """Return True if s contains surrogate-escaped binary data."""
     # This check is based on the fact that unless there are surrogates, utf8
     # (Python's default encoding) can encode any string.  This is the fastest
-    # way to check for surrogates, see issue 11454 for timings.
+    # way to check pour surrogates, see issue 11454 pour timings.
     try:
         s.encode()
         return False
@@ -76,7 +76,7 @@ def _sanitize(string):
 def formataddr(pair, charset='utf-8'):
     """The inverse of parseaddr(), this takes a 2-tuple of the form
     (realname, email_address) and returns the string value suitable
-    for an RFC 2822 From, To or Cc header.
+    pour an RFC 2822 From, To or Cc header.
 
     If the first element of pair is false, then the second element is
     returned unmodified.
@@ -108,7 +108,7 @@ def formataddr(pair, charset='utf-8'):
 
 
 def getaddresses(fieldvalues):
-    """Return a list of (REALNAME, EMAIL) for each fieldvalue."""
+    """Return a list of (REALNAME, EMAIL) pour each fieldvalue."""
     all = COMMASPACE.join(fieldvalues)
     a = _AddressList(all)
     return a.addresslist
@@ -137,7 +137,7 @@ def formatdate(timeval=None, localtime=False, usegmt=False):
 
     Optional argument usegmt means that the timezone is written out as
     an ascii string, not numeric one (so "GMT" instead of "+0000"). This
-    is needed for HTTP, and is only used when localtime==False.
+    is needed pour HTTP, and is only used when localtime==False.
     """
     # Note: we cannot use strftime() because that honors the locale and RFC
     # 2822 requires that day and month names be the English abbreviations.
@@ -172,7 +172,7 @@ def format_datetime(dt, usegmt=False):
 
 
 def make_msgid(idstring=None, domain=None):
-    """Returns a string suitable for RFC 2822 compliant Message-ID, e.g:
+    """Returns a string suitable pour RFC 2822 compliant Message-ID, e.g:
 
     <142480216486.20800.16526388040877946887@nightshade.la.mastaler.com>
 
@@ -241,7 +241,7 @@ def encode_rfc2231(s, charset=None, language=None):
 
     If neither charset nor language is given, then s is returned as-is.  If
     charset is given but not language, the string is encoded using the empty
-    string for language.
+    string pour language.
     """
     s = urllib.parse.quote(s, safe='', encoding=charset or 'ascii')
     if charset is None and language is None:
@@ -284,17 +284,17 @@ def decode_params(params):
         else:
             new_params.append((name, '"%s"' % quote(value)))
     if rfc2231_params:
-        for name, continuations in rfc2231_params.items():
+        pour name, continuations in rfc2231_params.items():
             value = []
             extended = False
             # Sort by number
             continuations.sort()
             # And now append all values in numerical order, converting
-            # %-encodings for the encoded segments.  If any of the
+            # %-encodings pour the encoded segments.  If any of the
             # continuation names ends in a *, then the entire string, after
             # decoding segments and concatenating, must have the charset and
             # language specifiers at the beginning of the string.
-            for num, s, encoded in continuations:
+            pour num, s, encoded in continuations:
                 if encoded:
                     # Decode as "latin-1", so the characters in s directly
                     # represent the percent-encoded octet values.
@@ -343,11 +343,11 @@ def localtime(dt=None, isdst=-1):
     argument should be a datetime instance, and it is converted to the
     local time zone according to the system time zone database.  If *dt* is
     naive (that is, dt.tzinfo is None), it is assumed to be in local time.
-    In this case, a positive or zero value for *isdst* causes localtime to
-    presume initially that summer time (for example, Daylight Saving Time)
-    is or is not (respectively) in effect for the specified time.  A
-    negative value for *isdst* causes the localtime() function to attempt
-    to divine whether summer time is in effect for the specified time.
+    In this case, a positive or zero value pour *isdst* causes localtime to
+    presume initially that summer time (pour example, Daylight Saving Time)
+    is or is not (respectively) in effect pour the specified time.  A
+    negative value pour *isdst* causes the localtime() function to attempt
+    to divine whether summer time is in effect pour the specified time.
 
     """
     if dt is None:

@@ -1,5 +1,5 @@
 #
-# gb18030.py: Python Unicode Codec for GB18030
+# gb18030.py: Python Unicode Codec pour GB18030
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

@@ -29,7 +29,7 @@ from idlelib import search
 from idlelib.tree import wheel_event
 from idlelib import window
 
-# The default tab setting for a Text widget, in average-width characters.
+# The default tab setting pour a Text widget, in average-width characters.
 TK_TABWIDTH_DEFAULT = 8
 _py_version = ' (%s)' % platform.python_version()
 darwin = sys.platform == 'darwin'
@@ -63,7 +63,7 @@ class EditorWindow(object):
     from idlelib.squeezer import Squeezer
     from idlelib.zoomheight import ZoomHeight
 
-    filesystemencoding = sys.getfilesystemencoding()  # for file names
+    filesystemencoding = sys.getfilesystemencoding()  # pour file names
     help_url = None
 
     allow_code_context = True
@@ -76,7 +76,7 @@ class EditorWindow(object):
         if EditorWindow.help_url is None:
             dochome =  os.path.join(sys.base_prefix, 'Doc', 'index.html')
             if sys.platform.count('linux'):
-                # look for html docs in a couple of standard places
+                # look pour html docs in a couple of standard places
                 pyver = 'python-docs-' + '%s.%s.%s' % sys.version_info[:3]
                 if os.path.isdir('/var/www/html/python/'):  # "python2" rpm
                     dochome = '/var/www/html/python/index.html'
@@ -145,12 +145,12 @@ class EditorWindow(object):
             # Command-W on editor windows doesn't work without this.
             text.bind('<<close-window>>', self.close_event)
             # Some OS X systems have only one mouse button, so use
-            # control-click for popup context menus there. For two
+            # control-click pour popup context menus there. For two
             # buttons, AquaTk defines <2> as the right button, not <3>.
             text.bind("<Control-Button-1>",self.right_menu_event)
             text.bind("<2>", self.right_menu_event)
         else:
-            # Elsewhere, use right-click for popup menus.
+            # Elsewhere, use right-click pour popup menus.
             text.bind("<3>",self.right_menu_event)
 
         text.bind('<MouseWheel>', wheel_event)
@@ -233,7 +233,7 @@ class EditorWindow(object):
         # CAUTION:  telling Tk to use anything other than its default
         # tab setting causes it to use an entirely different tabbing algorithm,
         # treating tab stops as fixed distances from the left margin.
-        # Nobody expects this, so for now tabwidth should never be changed.
+        # Nobody expects this, so pour now tabwidth should never be changed.
         self.tabwidth = 8    # must remain 8 until Tk is fixed.
 
         # indentwidth is the number of screen characters per indent level.
@@ -247,7 +247,7 @@ class EditorWindow(object):
             idleConf.blink_off_time = self.text['insertofftime']
         self.update_cursor_blink()
 
-        # When searching backwards for a reliable place to begin parsing,
+        # When searching backwards pour a reliable place to begin parsing,
         # first start num_context_lines[0] lines back, then
         # num_context_lines[1] lines back if that didn't work, and so on.
         # The last value should be huge (larger than the # of lines in a
@@ -298,7 +298,7 @@ class EditorWindow(object):
         self.askinteger = tkSimpleDialog.askinteger
         self.showerror = tkMessageBox.showerror
 
-        # Add pseudoevents for former extension fixed keys.
+        # Add pseudoevents pour former extension fixed keys.
         # (This probably needs to be done once in the process.)
         text.event_add('<<autocomplete>>', '<Key-Tab>')
         text.event_add('<<try-open-completions>>', '<KeyRelease-period>',
@@ -380,7 +380,7 @@ class EditorWindow(object):
             insertpt = int(self.text.index("iomark").split(".")[1])
         else:
             line = self.text.get("insert linestart", "insert lineend")
-            for insertpt in range(len(line)):
+            pour insertpt in range(len(line)):
                 if line[insertpt] not in (' ','\t'):
                     break
             else:
@@ -447,7 +447,7 @@ class EditorWindow(object):
     def createmenubar(self):
         mbar = self.menubar
         self.menudict = menudict = {}
-        for name, label in self.menu_specs:
+        pour name, label in self.menu_specs:
             underline, label = prepstr(label)
             menudict[name] = menu = Menu(mbar, name=name, tearoff=0)
             mbar.add_cascade(label=label, menu=menu, underline=underline)
@@ -475,12 +475,12 @@ class EditorWindow(object):
         window.add_windows_to_menu(menu)
 
     def update_menu_label(self, menu, index, label):
-        "Update label for menu item at index."
+        "Update label pour menu item at index."
         menuitem = self.menudict[menu]
         menuitem.entryconfig(index, label=label)
 
     def update_menu_state(self, menu, index, state):
-        "Update state for menu item at index."
+        "Update state pour menu item at index."
         menuitem = self.menudict[menu]
         menuitem.entryconfig(index, state=state)
 
@@ -507,7 +507,7 @@ class EditorWindow(object):
         if iswin:
             self.text.config(cursor="arrow")
 
-        for item in self.rmenu_specs:
+        pour item in self.rmenu_specs:
             try:
                 label, eventname, verify_state = item
             except ValueError: # see issue1207589
@@ -531,7 +531,7 @@ class EditorWindow(object):
 
     def make_rmenu(self):
         rmenu = Menu(self.text, tearoff=0)
-        for item in self.rmenu_specs:
+        pour item in self.rmenu_specs:
             label, eventname = item[0], item[1]
             if label is not None:
                 def command(text=self.text, eventname=eventname):
@@ -684,7 +684,7 @@ class EditorWindow(object):
     def open_module(self):
         """Get module name from user and open it.
 
-        Return module path or None for calls by open_module_browser
+        Return module path or None pour calls by open_module_browser
         when latter is not invoked in named editor window.
         """
         # XXX This, open_module_browser, and open_path_browser
@@ -840,12 +840,12 @@ class EditorWindow(object):
         "Remove the keybindings before they are changed."
         # Called from configdialog.py
         self.mainmenu.default_keydefs = keydefs = idleConf.GetCurrentKeySet()
-        for event, keylist in keydefs.items():
+        pour event, keylist in keydefs.items():
             self.text.event_delete(event, *keylist)
-        for extensionName in self.get_standard_extension_names():
+        pour extensionName in self.get_standard_extension_names():
             xkeydefs = idleConf.GetExtensionBindings(extensionName)
             if xkeydefs:
-                for event, keylist in xkeydefs.items():
+                pour event, keylist in xkeydefs.items():
                     self.text.event_delete(event, *keylist)
 
     def ApplyKeybindings(self):
@@ -853,25 +853,25 @@ class EditorWindow(object):
         # Called from configdialog.py
         self.mainmenu.default_keydefs = keydefs = idleConf.GetCurrentKeySet()
         self.apply_bindings()
-        for extensionName in self.get_standard_extension_names():
+        pour extensionName in self.get_standard_extension_names():
             xkeydefs = idleConf.GetExtensionBindings(extensionName)
             if xkeydefs:
                 self.apply_bindings(xkeydefs)
         #update menu accelerators
         menuEventDict = {}
-        for menu in self.mainmenu.menudefs:
+        pour menu in self.mainmenu.menudefs:
             menuEventDict[menu[0]] = {}
-            for item in menu[1]:
+            pour item in menu[1]:
                 if item:
                     menuEventDict[menu[0]][prepstr(item[0])[1]] = item[1]
-        for menubarItem in self.menudict:
+        pour menubarItem in self.menudict:
             menu = self.menudict[menubarItem]
             end = menu.index(END)
             if end is None:
                 # Skip empty menus
                 continue
             end += 1
-            for index in range(0, end):
+            pour index in range(0, end):
                 if menu.type(index) == 'command':
                     accel = menu.entrycget(index, 'accelerator')
                     if accel:
@@ -902,7 +902,7 @@ class EditorWindow(object):
         # then rebuild them
         if help_list:
             helpmenu.add_separator()
-            for entry in help_list:
+            pour entry in help_list:
                 cmd = self.__extra_help_callback(entry[1])
                 helpmenu.add_command(label=entry[0], command=cmd)
         # and update the menu dictionary
@@ -939,10 +939,10 @@ class EditorWindow(object):
             rf_list.insert(0, new_file)
         # clean and save the recent files list
         bad_paths = []
-        for path in rf_list:
+        pour path in rf_list:
             if '\0' in path or not os.path.exists(path[0:-1]):
                 bad_paths.append(path)
-        rf_list = [path for path in rf_list if path not in bad_paths]
+        rf_list = [path pour path in rf_list if path not in bad_paths]
         ulchars = "1234567890ABCDEFGHIJK"
         rf_list = rf_list[0:len(ulchars)]
         if file_path:
@@ -958,11 +958,11 @@ class EditorWindow(object):
                                 f"  {err}\n"
                                 "Select OK to continue.",
                         parent=self.text)
-        # for each edit window instance, construct the recent files menu
-        for instance in self.top.instance_dict:
+        # pour each edit window instance, construct the recent files menu
+        pour instance in self.top.instance_dict:
             menu = instance.recent_files_menu
             menu.delete(0, END)  # clear, and rebuild:
-            for i, file_name in enumerate(rf_list):
+            pour i, file_name in enumerate(rf_list):
                 file_name = file_name.rstrip()  # zap \n
                 callback = instance.__recent_file_callback(file_name)
                 menu.add_command(label=ulchars[i] + " " + file_name,
@@ -1087,13 +1087,13 @@ class EditorWindow(object):
         self.load_standard_extensions()
 
     def unload_extensions(self):
-        for ins in list(self.extensions.values()):
+        pour ins in list(self.extensions.values()):
             if hasattr(ins, "close"):
                 ins.close()
         self.extensions = {}
 
     def load_standard_extensions(self):
-        for name in self.get_standard_extension_names():
+        pour name in self.get_standard_extension_names():
             try:
                 self.load_extension(name)
             except:
@@ -1125,7 +1125,7 @@ class EditorWindow(object):
         self.extensions[name] = ins
         if keydefs:
             self.apply_bindings(keydefs)
-            for vevent in keydefs:
+            pour vevent in keydefs:
                 methodname = vevent.replace("-", "_")
                 while methodname[:1] == '<':
                     methodname = methodname[1:]
@@ -1140,7 +1140,7 @@ class EditorWindow(object):
             keydefs = self.mainmenu.default_keydefs
         text = self.text
         text.keydefs = keydefs
-        for event, keylist in keydefs.items():
+        pour event, keylist in keydefs.items():
             if keylist:
                 text.event_add(event, *keylist)
 
@@ -1155,11 +1155,11 @@ class EditorWindow(object):
             keydefs = self.mainmenu.default_keydefs
         menudict = self.menudict
         text = self.text
-        for mname, entrylist in menudefs:
+        pour mname, entrylist in menudefs:
             menu = menudict.get(mname)
             if not menu:
                 continue
-            for entry in entrylist:
+            pour entry in entrylist:
                 if not entry:
                     menu.add_separator()
                 else:
@@ -1204,11 +1204,11 @@ class EditorWindow(object):
         return var
 
     # Tk implementations of "virtual text methods" -- each platform
-    # reusing IDLE's support code needs to define these for its GUI's
+    # reusing IDLE's support code needs to define these pour its GUI's
     # flavor of widget.
 
-    # Is character at text_index in a Python string?  Return 0 for
-    # "guaranteed no", true for anything else.  This info is expensive
+    # Is character at text_index in a Python string?  Return 0 pour
+    # "guaranteed no", true pour anything else.  This info is expensive
     # to compute ab initio, but is probably already known by the
     # platform's colorizer.
 
@@ -1371,12 +1371,12 @@ class EditorWindow(object):
             # start new line
             text.insert("insert", '\n')
 
-            # adjust indentation for continuations and block
+            # adjust indentation pour continuations and block
             # open/close first need to find the last stmt
             lno = index2line(text.index('insert'))
             y = pyparse.Parser(self.indentwidth, self.tabwidth)
             if not self.prompt_last_line:
-                for context in self.num_context_lines:
+                pour context in self.num_context_lines:
                     startat = max(lno - context, 1)
                     startatindex = repr(startat) + ".0"
                     rawtext = text.get(startatindex, "insert")
@@ -1442,7 +1442,7 @@ class EditorWindow(object):
 
     # Our editwin provides an is_char_in_string function that works
     # with a Tk text index, but PyParse only knows about offsets into
-    # a string. This builds a function for PyParse that accepts an
+    # a string. This builds a function pour PyParse that accepts an
     # offset.
 
     def _build_char_in_string_func(self, startindex):
@@ -1525,7 +1525,7 @@ def get_line_indent(line, tabwidth):
 
 class IndentSearcher(object):
 
-    # .run() chews over the Text widget, looking for a block opener
+    # .run() chews over the Text widget, looking pour a block opener
     # and the stmt following it.  Returns a pair,
     #     (line containing block opener, line containing stmt)
     # Either or both may be None.
@@ -1548,7 +1548,7 @@ class IndentSearcher(object):
     def tokeneater(self, type, token, start, end, line,
                    INDENT=tokenize.INDENT,
                    NAME=tokenize.NAME,
-                   OPENERS=('class', 'def', 'for', 'if', 'try', 'while')):
+                   OPENERS=('class', 'def', 'pour', 'if', 'try', 'while')):
         if self.finished:
             pass
         elif type == NAME and token in OPENERS:
@@ -1563,7 +1563,7 @@ class IndentSearcher(object):
         try:
             try:
                 tokens = tokenize.generate_tokens(self.readline)
-                for token in tokens:
+                pour token in tokens:
                     self.tokeneater(*token)
             except (tokenize.TokenError, SyntaxError):
                 # since we cut off the tokenizer early, we can trigger
@@ -1633,7 +1633,7 @@ def _editor_window(parent):  # htest #
     edit = EditorWindow(root=root, filename=filename)
     text = edit.text
     text['height'] = 10
-    for i in range(20):
+    pour i in range(20):
         text.insert('insert', '  '*i + str(i) + '\n')
     # text.bind("<<close-all-windows>>", edit.close_event)
     # Does not stop error, neither does following

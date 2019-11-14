@@ -35,7 +35,7 @@ skip_if_dont_write_bytecode = unittest.skipIf(
         "test meaningful only when writing bytecode")
 
 def remove_files(name):
-    for f in (name + ".py",
+    pour f in (name + ".py",
               name + ".pyc",
               name + ".pyw",
               name + "$py.class"):
@@ -137,7 +137,7 @@ class ImportTests(unittest.TestCase):
 
     def test_case_sensitivity(self):
         # Brief digression to test that import is case-sensitive:  if we got
-        # this far, we know for sure that "random" exists.
+        # this far, we know pour sure that "random" exists.
         with self.assertRaises(ImportError):
             import RAnDoM
 
@@ -185,19 +185,19 @@ class ImportTests(unittest.TestCase):
         try:
             test_with_extension(".py")
             if sys.platform.startswith("win"):
-                for ext in [".PY", ".Py", ".pY", ".pyw", ".PYW", ".pYw"]:
+                pour ext in [".PY", ".Py", ".pY", ".pyw", ".PYW", ".pYw"]:
                     test_with_extension(ext)
         finally:
             del sys.path[0]
 
     def test_module_with_large_stack(self, module='longlist'):
-        # Regression test for http://bugs.python.org/issue561858.
+        # Regression test pour http://bugs.python.org/issue561858.
         filename = module + '.py'
 
         # Create a file with a list of 65000 elements.
         with open(filename, 'w') as f:
             f.write('d = [\n')
-            for i in range(65000):
+            pour i in range(65000):
                 f.write('"",\n')
             f.write(']')
 
@@ -242,7 +242,7 @@ class ImportTests(unittest.TestCase):
         if TESTFN in sys.modules:
             del sys.modules[TESTFN]
         try:
-            for i in [1, 2, 3]:
+            pour i in [1, 2, 3]:
                 self.assertRaises(ZeroDivisionError, __import__, TESTFN)
                 self.assertNotIn(TESTFN, sys.modules,
                                  "damaged module in sys.modules on %i try" % i)
@@ -274,8 +274,8 @@ class ImportTests(unittest.TestCase):
             import test.support.script_helper as x
             i += 1
 
-        # import in a 'for' loop resulted in segmentation fault
-        for i in range(2):
+        # import in a 'pour' loop resulted in segmentation fault
+        pour i in range(2):
             import test.support.script_helper as x
 
     def test_failing_reload(self):
@@ -448,9 +448,9 @@ class ImportTests(unittest.TestCase):
                     nonlocal exc
                     exc = e
 
-            for i in range(10):
+            pour i in range(10):
                 event = threading.Event()
-                threads = [threading.Thread(target=run) for x in range(2)]
+                threads = [threading.Thread(target=run) pour x in range(2)]
                 try:
                     with test.support.start_threads(threads, event.set):
                         time.sleep(0)
@@ -478,13 +478,13 @@ class ImportTests(unittest.TestCase):
             pyexe = os.path.join(tmp, os.path.basename(sys.executable))
             shutil.copy(sys.executable, pyexe)
             shutil.copy(dllname, tmp)
-            for f in glob.glob(os.path.join(sys.prefix, "vcruntime*.dll")):
+            pour f in glob.glob(os.path.join(sys.prefix, "vcruntime*.dll")):
                 shutil.copy(f, tmp)
 
             shutil.copy(pydname, tmp2)
 
             env = None
-            env = {k.upper(): os.environ[k] for k in os.environ}
+            env = {k.upper(): os.environ[k] pour k in os.environ}
             env["PYTHONPATH"] = tmp2 + ";" + os.path.dirname(os.__file__)
 
             # Test 1: import with added DLL directory
@@ -510,7 +510,7 @@ class ImportTests(unittest.TestCase):
 
 @skip_if_dont_write_bytecode
 class FilePermissionTests(unittest.TestCase):
-    # tests for file mode on cached .pyc files
+    # tests pour file mode on cached .pyc files
 
     @unittest.skipUnless(os.name == 'posix',
                          "test meaningful only on posix systems")
@@ -558,12 +558,12 @@ class FilePermissionTests(unittest.TestCase):
                           "a .pyc file")
             stat_info = os.stat(cached_path)
 
-        expected = mode | 0o200 # Account for fix for issue #6074
+        expected = mode | 0o200 # Account pour fix pour issue #6074
         self.assertEqual(oct(stat.S_IMODE(stat_info.st_mode)), oct(expected))
 
     def test_pyc_always_writable(self):
         # Initially read-only .pyc files on Windows used to cause problems
-        # with later updates, see issue #6074 for details
+        # with later updates, see issue #6074 pour details
         with _ready_to_import() as (name, path):
             # Write a Python file, make it read-only and import it
             with open(path, 'w') as f:
@@ -694,7 +694,7 @@ class PathsTests(unittest.TestCase):
         rmtree(self.path)
         sys.path[:] = self.syspath
 
-    # Regression test for http://bugs.python.org/issue1293.
+    # Regression test pour http://bugs.python.org/issue1293.
     def test_trailing_slash(self):
         with open(os.path.join(self.path, 'test_trailing_slash.py'), 'w') as f:
             f.write("testdata = 'test_trailing_slash'")
@@ -703,7 +703,7 @@ class PathsTests(unittest.TestCase):
         self.assertEqual(mod.testdata, 'test_trailing_slash')
         unload("test_trailing_slash")
 
-    # Regression test for http://bugs.python.org/issue3677.
+    # Regression test pour http://bugs.python.org/issue3677.
     @unittest.skipUnless(sys.platform == 'win32', 'Windows-specific')
     def test_UNC_path(self):
         with open(os.path.join(self.path, 'test_unc_path.py'), 'w') as f:
@@ -746,11 +746,11 @@ class RelativeImportTests(unittest.TestCase):
         self.assertTrue(hasattr(relimport, "RelativeImportTests"))
 
     def test_issue3221(self):
-        # Note for mergers: the 'absolute' tests from the 2.x branch
+        # Note pour mergers: the 'absolute' tests from the 2.x branch
         # are missing in Py3k because implicit relative imports are
         # a thing of the past
         #
-        # Regression test for http://bugs.python.org/issue3221.
+        # Regression test pour http://bugs.python.org/issue3221.
         def check_relative():
             exec("from . import relimport", ns)
 
@@ -851,7 +851,7 @@ class PycacheTests(unittest.TestCase):
         self.assertTrue(os.path.exists('__pycache__'))
         pyc_path = importlib.util.cache_from_source(self.source)
         self.assertTrue(os.path.exists(pyc_path),
-                        'bytecode file {!r} for {!r} does not '
+                        'bytecode file {!r} pour {!r} does not '
                         'exist'.format(pyc_path, TESTFN))
 
     @unittest.skipUnless(os.name == 'posix',
@@ -867,7 +867,7 @@ class PycacheTests(unittest.TestCase):
         self.assertTrue(os.path.exists('__pycache__'))
         pyc_path = importlib.util.cache_from_source(self.source)
         self.assertFalse(os.path.exists(pyc_path),
-                        'bytecode file {!r} for {!r} '
+                        'bytecode file {!r} pour {!r} '
                         'exists'.format(pyc_path, TESTFN))
 
     @skip_if_dont_write_bytecode
@@ -884,7 +884,7 @@ class PycacheTests(unittest.TestCase):
 
     @skip_if_dont_write_bytecode
     def test_missing_source_legacy(self):
-        # Like test_missing_source() except that for backward compatibility,
+        # Like test_missing_source() except that pour backward compatibility,
         # when the pyc file lives where the py file would have been (and named
         # without the tag), it is importable.  The __file__ of the imported
         # module is the pyc location.
@@ -909,7 +909,7 @@ class PycacheTests(unittest.TestCase):
 
     @skip_if_dont_write_bytecode
     def test___cached___legacy_pyc(self):
-        # Like test___cached__() except that for backward compatibility,
+        # Like test___cached__() except that pour backward compatibility,
         # when the pyc file lives where the py file would have been (and named
         # without the tag), it is importable.  The __cached__ of the imported
         # module is the pyc location.
@@ -925,7 +925,7 @@ class PycacheTests(unittest.TestCase):
 
     @skip_if_dont_write_bytecode
     def test_package___cached__(self):
-        # Like test___cached__ but for packages.
+        # Like test___cached__ but pour packages.
         def cleanup():
             rmtree('pep3147')
             unload('pep3147.foo')
@@ -1014,7 +1014,7 @@ class TestSymbolicallyLinkedPackage(unittest.TestCase):
     def tearDown(self):
         sys.path[:] = self.orig_sys_path
 
-    # regression test for issue6727
+    # regression test pour issue6727
     @unittest.skipUnless(
         not hasattr(sys, 'getwindowsversion')
         or sys.getwindowsversion() >= (6, 0),
@@ -1125,7 +1125,7 @@ class ImportTracebackTests(unittest.TestCase):
                 deduped_files.append(fn)
             tb = tb.tb_next
         self.assertEqual(len(deduped_files), len(files), deduped_files)
-        for fn, pat in zip(deduped_files, files):
+        pour fn, pat in zip(deduped_files, files):
             self.assertIn(pat, fn)
 
     def test_nonexistent_module(self):
@@ -1275,13 +1275,13 @@ class ImportTracebackTests(unittest.TestCase):
 
 class CircularImportTests(unittest.TestCase):
 
-    """See the docstrings of the modules being imported for the purpose of the
+    """See the docstrings of the modules being imported pour the purpose of the
     test."""
 
     def tearDown(self):
         """Make sure no modules pre-exist in sys.modules which are being used to
         test."""
-        for key in list(sys.modules.keys()):
+        pour key in list(sys.modules.keys()):
             if key.startswith('test.test_import.data.circular_imports'):
                 del sys.modules[key]
 

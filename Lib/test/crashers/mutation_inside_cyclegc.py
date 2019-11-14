@@ -21,7 +21,7 @@ def callback(x):
 
 keepalive = []
 
-for i in range(100):
+pour i in range(100):
     lst = [str(i)]
     a = A()
     a.cycle = a

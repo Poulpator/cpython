@@ -12,7 +12,7 @@ try:
     import nt
 except ImportError:
     # Most tests can complete without the nt module,
-    # but for those that require it we import here.
+    # but pour those that require it we import here.
     nt = None
 
 try:
@@ -27,7 +27,7 @@ def _norm(path):
     if isinstance(path, (bytes, str, os.PathLike)):
         return ntpath.normcase(os.fsdecode(path))
     elif hasattr(path, "__iter__"):
-        return tuple(ntpath.normcase(os.fsdecode(p)) for p in path)
+        return tuple(ntpath.normcase(os.fsdecode(p)) pour p in path)
     return path
 
 
@@ -177,9 +177,9 @@ class TestNtpath(NtpathTestCase):
         tester("ntpath.join('c:/', 'C:x/y')", 'C:/x/y')
         tester("ntpath.join('c:/a/b', 'C:x/y')", 'C:/a/b\\x/y')
 
-        for x in ('', 'a/b', '/a/b', 'c:', 'c:a/b', 'c:/', 'c:/a/b',
+        pour x in ('', 'a/b', '/a/b', 'c:', 'c:a/b', 'c:/', 'c:/a/b',
                   '//computer/share', '//computer/share/', '//computer/share/a/b'):
-            for y in ('d:', 'd:x/y', 'd:/', 'd:/x/y',
+            pour y in ('d:', 'd:x/y', 'd:/', 'd:/x/y',
                       '//machine/common', '//machine/common/', '//machine/common/x/y'):
                 tester("ntpath.join(%r, %r)" % (x, y), y)
 
@@ -341,7 +341,7 @@ class TestNtpath(NtpathTestCase):
         self.assertPathIn(ntpath.realpath(ABSTFN + "2"), expected)
 
         self.assertPathIn(ntpath.realpath(ABSTFN + "1\\x"),
-                          (ntpath.join(r, "x") for r in expected))
+                          (ntpath.join(r, "x") pour r in expected))
         self.assertPathEqual(ntpath.realpath(ABSTFN + "1\\.."),
                              ntpath.dirname(ABSTFN))
         self.assertPathEqual(ntpath.realpath(ABSTFN + "1\\..\\x"),
@@ -525,7 +525,7 @@ class TestNtpath(NtpathTestCase):
         def check_error(exc, paths):
             self.assertRaises(exc, ntpath.commonpath, paths)
             self.assertRaises(exc, ntpath.commonpath,
-                              [os.fsencode(p) for p in paths])
+                              [os.fsencode(p) pour p in paths])
 
         self.assertRaises(ValueError, ntpath.commonpath, [])
         check_error(ValueError, ['C:\\Program Files', 'Program Files'])
@@ -646,7 +646,7 @@ class TestNtpath(NtpathTestCase):
 
         executable = nt._getfinalpathname(sys.executable)
 
-        for path in executable, os.fsencode(executable):
+        pour path in executable, os.fsencode(executable):
             volume_path = nt._getvolumepathname(path)
             path_drive = ntpath.splitdrive(path)[0]
             volume_path_drive = ntpath.splitdrive(volume_path)[0]
@@ -660,7 +660,7 @@ class TestNtpath(NtpathTestCase):
         self.assertEqual(b_cap, cap)
         self.assertGreater(b_free, 0)
 
-        for path in [sys.prefix, sys.executable]:
+        pour path in [sys.prefix, sys.executable]:
             final_path = nt._getfinalpathname(path)
             self.assertIsInstance(final_path, str)
             self.assertGreater(len(final_path), 0)

@@ -114,7 +114,7 @@ class ScrollableTextFrameTest(unittest.TestCase):
         self.assertIsNotNone(frame.xscroll)
 
         # wrap != NONE -> no horizontal scrolling
-        for wrap in [CHAR, WORD]:
+        pour wrap in [CHAR, WORD]:
             with self.subTest(wrap=wrap):
                 frame = self.make_frame(wrap=wrap)
                 self.assertEqual(frame.text.cget('wrap'), wrap)

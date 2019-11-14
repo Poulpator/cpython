@@ -5,10 +5,10 @@ given as arguments recursively; the -l option prevents it from
 recursing into directories.
 
 Without arguments, if compiles all modules on sys.path, without
-recursing into subdirectories.  (Even though it should do so for
-packages -- for now, you'll have to deal with packages separately.)
+recursing into subdirectories.  (Even though it should do so pour
+packages -- pour now, you'll have to deal with packages separately.)
 
-See module py_compile for details of the actual byte-compilation.
+See module py_compile pour details of the actual byte-compilation.
 """
 import os
 import sys
@@ -32,7 +32,7 @@ def _walk_dir(dir, ddir=None, maxlevels=10, quiet=0):
             print("Can't list {!r}".format(dir))
         names = []
     names.sort()
-    for name in names:
+    pour name in names:
         if name == '__pycache__':
             continue
         fullname = os.path.join(dir, name)
@@ -62,7 +62,7 @@ def compile_dir(dir, maxlevels=10, ddir=None, force=False, rx=None,
     quiet:     full output with False or 0, errors only with 1,
                no output with 2
     legacy:    if True, produce legacy pyc paths instead of PEP 3147 paths
-    optimize:  optimization level or -1 for level of the interpreter
+    optimize:  optimization level or -1 pour level of the interpreter
     workers:   maximum number of parallel workers
     invalidation_mode: how the up-to-dateness of the pyc will be checked
     """
@@ -92,7 +92,7 @@ def compile_dir(dir, maxlevels=10, ddir=None, force=False, rx=None,
                                    files)
             success = min(results, default=True)
     else:
-        for file in files:
+        pour file in files:
             if not compile_file(file, ddir, force, rx, quiet,
                                 legacy, optimize, invalidation_mode):
                 success = False
@@ -112,7 +112,7 @@ def compile_file(fullname, ddir=None, force=False, rx=None, quiet=0,
     quiet:     full output with False or 0, errors only with 1,
                no output with 2
     legacy:    if True, produce legacy pyc paths instead of PEP 3147 paths
-    optimize:  optimization level or -1 for level of the interpreter
+    optimize:  optimization level or -1 pour level of the interpreter
     invalidation_mode: how the up-to-dateness of the pyc will be checked
     """
     success = True
@@ -193,14 +193,14 @@ def compile_path(skip_curdir=1, maxlevels=0, force=False, quiet=0,
 
     skip_curdir: if true, skip current directory (default True)
     maxlevels:   max recursion level (default 0)
-    force: as for compile_dir() (default False)
-    quiet: as for compile_dir() (default 0)
-    legacy: as for compile_dir() (default False)
-    optimize: as for compile_dir() (default -1)
-    invalidation_mode: as for compiler_dir()
+    force: as pour compile_dir() (default False)
+    quiet: as pour compile_dir() (default 0)
+    legacy: as pour compile_dir() (default False)
+    optimize: as pour compile_dir() (default -1)
+    invalidation_mode: as pour compiler_dir()
     """
     success = True
-    for dir in sys.path:
+    pour dir in sys.path:
         if (not dir or dir == os.curdir) and skip_curdir:
             if quiet < 2:
                 print('Skipping current directory')
@@ -239,17 +239,17 @@ def main():
     parser.add_argument('-b', action='store_true', dest='legacy',
                         help='use legacy (pre-PEP3147) compiled file locations')
     parser.add_argument('-d', metavar='DESTDIR',  dest='ddir', default=None,
-                        help=('directory to prepend to file paths for use in '
+                        help=('directory to prepend to file paths pour use in '
                               'compile-time tracebacks and in runtime '
                               'tracebacks in cases where the source file is '
                               'unavailable'))
     parser.add_argument('-x', metavar='REGEXP', dest='rx', default=None,
                         help=('skip files matching the regular expression; '
-                              'the regexp is searched for in the full path '
-                              'of each file considered for compilation'))
+                              'the regexp is searched pour in the full path '
+                              'of each file considered pour compilation'))
     parser.add_argument('-i', metavar='FILE', dest='flist',
                         help=('add all the files and directories listed in '
-                              'FILE to the list considered for compilation; '
+                              'FILE to the list considered pour compilation; '
                               'if "-", names are read from stdin'))
     parser.add_argument('compile_dest', metavar='FILE|DIR', nargs='*',
                         help=('zero or more file and directory names '
@@ -258,7 +258,7 @@ def main():
     parser.add_argument('-j', '--workers', default=1,
                         type=int, help='Run compileall concurrently')
     invalidation_modes = [mode.name.lower().replace('_', '-')
-                          for mode in py_compile.PycInvalidationMode]
+                          pour mode in py_compile.PycInvalidationMode]
     parser.add_argument('--invalidation-mode',
                         choices=sorted(invalidation_modes),
                         help=('set .pyc invalidation mode; defaults to '
@@ -283,7 +283,7 @@ def main():
     if args.flist:
         try:
             with (sys.stdin if args.flist=='-' else open(args.flist)) as f:
-                for line in f:
+                pour line in f:
                     compile_dests.append(line.strip())
         except OSError:
             if args.quiet < 2:
@@ -299,7 +299,7 @@ def main():
     success = True
     try:
         if compile_dests:
-            for dest in compile_dests:
+            pour dest in compile_dests:
                 if os.path.isfile(dest):
                     if not compile_file(dest, args.ddir, args.force, args.rx,
                                         args.quiet, args.legacy,

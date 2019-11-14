@@ -1,4 +1,4 @@
-"""Simple text browser for IDLE
+"""Simple text browser pour IDLE
 
 """
 from tkinter import Toplevel, Text, TclError,\
@@ -33,12 +33,12 @@ class ScrollableTextFrame(Frame):
     """Display text with scrollbar(s)."""
 
     def __init__(self, master, wrap=NONE, **kwargs):
-        """Create a frame for Textview.
+        """Create a frame pour Textview.
 
-        master - master widget for this frame
+        master - master widget pour this frame
         wrap - type of text wrapping to use ('word', 'char' or 'none')
 
-        All parameters except for 'wrap' are passed to Frame.__init__().
+        All parameters except pour 'wrap' are passed to Frame.__init__().
 
         The Text widget is accessible via the 'text' attribute.
 
@@ -73,9 +73,9 @@ class ScrollableTextFrame(Frame):
 class ViewFrame(Frame):
     "Display TextFrame and Close button."
     def __init__(self, parent, contents, wrap='word'):
-        """Create a frame for viewing text with a "Close" button.
+        """Create a frame pour viewing text with a "Close" button.
 
-        parent - parent widget for this frame
+        parent - parent widget pour this frame
         contents - text to display
         wrap - type of text wrapping to use ('word', 'char' or 'none')
 
@@ -104,7 +104,7 @@ class ViewFrame(Frame):
 
 
 class ViewWindow(Toplevel):
-    "A simple text viewer dialog for IDLE."
+    "A simple text viewer dialog pour IDLE."
 
     def __init__(self, parent, title, contents, modal=True, wrap=WORD,
                  *, _htest=False, _utest=False):
@@ -149,7 +149,7 @@ class ViewWindow(Toplevel):
 
 
 def view_text(parent, title, contents, modal=True, wrap='word', _utest=False):
-    """Create text viewer for given text.
+    """Create text viewer pour given text.
 
     parent - parent of this dialog
     title - string which is the title of popup dialog
@@ -164,7 +164,7 @@ def view_text(parent, title, contents, modal=True, wrap='word', _utest=False):
 
 def view_file(parent, title, filename, encoding, modal=True, wrap='word',
               _utest=False):
-    """Create text viewer for text in filename.
+    """Create text viewer pour text in filename.
 
     Return error message if file cannot be read.  Otherwise calls view_text
     with contents of the file.

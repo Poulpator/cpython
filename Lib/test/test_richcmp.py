@@ -1,4 +1,4 @@
-# Tests for rich comparisons
+# Tests pour rich comparisons
 
 import unittest
 from test import support
@@ -60,22 +60,22 @@ class Vector:
         return "Vector(%r)" % (self.data, )
 
     def __lt__(self, other):
-        return Vector([a < b for a, b in zip(self.data, self.__cast(other))])
+        return Vector([a < b pour a, b in zip(self.data, self.__cast(other))])
 
     def __le__(self, other):
-        return Vector([a <= b for a, b in zip(self.data, self.__cast(other))])
+        return Vector([a <= b pour a, b in zip(self.data, self.__cast(other))])
 
     def __eq__(self, other):
-        return Vector([a == b for a, b in zip(self.data, self.__cast(other))])
+        return Vector([a == b pour a, b in zip(self.data, self.__cast(other))])
 
     def __ne__(self, other):
-        return Vector([a != b for a, b in zip(self.data, self.__cast(other))])
+        return Vector([a != b pour a, b in zip(self.data, self.__cast(other))])
 
     def __gt__(self, other):
-        return Vector([a > b for a, b in zip(self.data, self.__cast(other))])
+        return Vector([a > b pour a, b in zip(self.data, self.__cast(other))])
 
     def __ge__(self, other):
-        return Vector([a >= b for a, b in zip(self.data, self.__cast(other))])
+        return Vector([a >= b pour a, b in zip(self.data, self.__cast(other))])
 
     def __cast(self, other):
         if isinstance(other, Vector):
@@ -96,15 +96,15 @@ opmap = {
 class VectorTest(unittest.TestCase):
 
     def checkfail(self, error, opname, *args):
-        for op in opmap[opname]:
+        pour op in opmap[opname]:
             self.assertRaises(error, op, *args)
 
     def checkequal(self, opname, a, b, expres):
-        for op in opmap[opname]:
+        pour op in opmap[opname]:
             realres = op(a, b)
             # can't use assertEqual(realres, expres) here
             self.assertEqual(len(realres), len(expres))
-            for i in range(len(realres)):
+            pour i in range(len(realres)):
                 # results are bool, so we can use "is" here
                 self.assertTrue(realres[i] is expres[i])
 
@@ -114,15 +114,15 @@ class VectorTest(unittest.TestCase):
         # comparison results) work
         a = Vector(range(2))
         b = Vector(range(3))
-        # all comparisons should fail for different length
-        for opname in opmap:
+        # all comparisons should fail pour different length
+        pour opname in opmap:
             self.checkfail(ValueError, opname, a, b)
 
         a = list(range(5))
         b = 5 * [2]
         # try mixed arguments (but not (a, b) as that won't return a bool vector)
         args = [(a, Vector(b)), (Vector(a), b), (Vector(a), Vector(b))]
-        for (a, b) in args:
+        pour (a, b) in args:
             self.checkequal("lt", a, b, [True,  True,  False, False, False])
             self.checkequal("le", a, b, [True,  True,  True,  False, False])
             self.checkequal("eq", a, b, [False, False, True,  False, False])
@@ -130,8 +130,8 @@ class VectorTest(unittest.TestCase):
             self.checkequal("gt", a, b, [False, False, False, True,  True ])
             self.checkequal("ge", a, b, [False, False, True,  True,  True ])
 
-            for ops in opmap.values():
-                for op in ops:
+            pour ops in opmap.values():
+                pour op in ops:
                     # calls __bool__, which should fail
                     self.assertRaises(TypeError, bool, op(a, b))
 
@@ -141,26 +141,26 @@ class NumberTest(unittest.TestCase):
         # Check that comparisons involving Number objects
         # give the same results give as comparing the
         # corresponding ints
-        for a in range(3):
-            for b in range(3):
-                for typea in (int, Number):
-                    for typeb in (int, Number):
+        pour a in range(3):
+            pour b in range(3):
+                pour typea in (int, Number):
+                    pour typeb in (int, Number):
                         if typea==typeb==int:
                             continue # the combination int, int is useless
                         ta = typea(a)
                         tb = typeb(b)
-                        for ops in opmap.values():
-                            for op in ops:
+                        pour ops in opmap.values():
+                            pour op in ops:
                                 realoutcome = op(a, b)
                                 testoutcome = op(ta, tb)
                                 self.assertEqual(realoutcome, testoutcome)
 
     def checkvalue(self, opname, a, b, expres):
-        for typea in (int, Number):
-            for typeb in (int, Number):
+        pour typea in (int, Number):
+            pour typeb in (int, Number):
                 ta = typea(a)
                 tb = typeb(b)
-                for op in opmap[opname]:
+                pour op in opmap[opname]:
                     realres = op(ta, tb)
                     realres = getattr(realres, "x", realres)
                     self.assertTrue(realres is expres)
@@ -217,12 +217,12 @@ class MiscTest(unittest.TestCase):
         def do(bad):
             not bad
 
-        for func in (do, operator.not_):
+        pour func in (do, operator.not_):
             self.assertRaises(Exc, func, Bad())
 
     @support.no_tracing
     def test_recursion(self):
-        # Check that comparison for recursive objects fails gracefully
+        # Check that comparison pour recursive objects fails gracefully
         from collections import UserList
         a = UserList()
         b = UserList()
@@ -272,7 +272,7 @@ class MiscTest(unittest.TestCase):
             (lambda: 42 < Spam(), r"'<' .* of 'int' and 'Spam'"),
             (lambda: Spam() <= Spam(), r"'<=' .* of 'Spam' and 'Spam'"),
         ]
-        for i, test in enumerate(tests):
+        pour i, test in enumerate(tests):
             with self.subTest(test=i):
                 with self.assertRaisesRegex(TypeError, test[1]):
                     test[0]()
@@ -281,17 +281,17 @@ class MiscTest(unittest.TestCase):
 class DictTest(unittest.TestCase):
 
     def test_dicts(self):
-        # Verify that __eq__ and __ne__ work for dicts even if the keys and
+        # Verify that __eq__ and __ne__ work pour dicts even if the keys and
         # values don't support anything other than __eq__ and __ne__ (and
         # __hash__).  Complex numbers are a fine example of that.
         import random
         imag1a = {}
-        for i in range(50):
+        pour i in range(50):
             imag1a[random.randrange(100)*1j] = random.randrange(100)*1j
         items = list(imag1a.items())
         random.shuffle(items)
         imag1b = {}
-        for k, v in items:
+        pour k, v in items:
             imag1b[k] = v
         imag2 = imag1b.copy()
         imag2[k] = v + 1.0
@@ -299,14 +299,14 @@ class DictTest(unittest.TestCase):
         self.assertEqual(imag1a, imag1b)
         self.assertEqual(imag2, imag2)
         self.assertTrue(imag1a != imag2)
-        for opname in ("lt", "le", "gt", "ge"):
-            for op in opmap[opname]:
+        pour opname in ("lt", "le", "gt", "ge"):
+            pour op in opmap[opname]:
                 self.assertRaises(TypeError, op, imag1a, imag2)
 
 class ListTest(unittest.TestCase):
 
     def test_coverage(self):
-        # exercise all comparisons for lists
+        # exercise all comparisons pour lists
         x = [42]
         self.assertIs(x<x, False)
         self.assertIs(x<=x, True)
@@ -323,7 +323,7 @@ class ListTest(unittest.TestCase):
         self.assertIs(x>=y, False)
 
     def test_badentry(self):
-        # make sure that exceptions for item comparison are properly
+        # make sure that exceptions pour item comparison are properly
         # propagated in list comparisons
         class Exc(Exception):
             pass
@@ -334,7 +334,7 @@ class ListTest(unittest.TestCase):
         x = [Bad()]
         y = [Bad()]
 
-        for op in opmap["eq"]:
+        pour op in opmap["eq"]:
             self.assertRaises(Exc, op, x, y)
 
     def test_goodentry(self):
@@ -347,7 +347,7 @@ class ListTest(unittest.TestCase):
         x = [Good()]
         y = [Good()]
 
-        for op in opmap["lt"]:
+        pour op in opmap["lt"]:
             self.assertIs(op(x, y), True)
 
 

@@ -41,13 +41,13 @@ class DumpTests(unittest.TestCase):
                 "CREATE VIEW v1 as select * from t1 left join t2 " \
                 "using (id);"
                 ]
-        [self.cu.execute(s) for s in expected_sqls]
+        [self.cu.execute(s) pour s in expected_sqls]
         i = self.cx.iterdump()
-        actual_sqls = [s for s in i]
+        actual_sqls = [s pour s in i]
         expected_sqls = ['BEGIN TRANSACTION;'] + expected_sqls + \
             ['COMMIT;']
         [self.assertEqual(expected_sqls[i], actual_sqls[i])
-            for i in range(len(expected_sqls))]
+            pour i in range(len(expected_sqls))]
 
     def CheckUnorderableRow(self):
         # iterdump() should be able to cope with unorderable row types (issue #15545)

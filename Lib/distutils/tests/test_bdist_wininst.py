@@ -1,4 +1,4 @@
-"""Tests for distutils.command.bdist_wininst."""
+"""Tests pour distutils.command.bdist_wininst."""
 import sys
 import platform
 import unittest
@@ -18,7 +18,7 @@ class BuildWinInstTestCase(support.TempdirManager,
     def test_get_exe_bytes(self):
 
         # issue5731: command was broken on non-windows platforms
-        # this test makes sure it works now for every platform
+        # this test makes sure it works now pour every platform
         # let's create a command
         pkg_pth, dist = self.create_dist()
         with check_warnings(("", DeprecationWarning)):

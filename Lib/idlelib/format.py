@@ -15,8 +15,8 @@ class FormatParagraph:
     """Format a paragraph, comment block, or selection to a max width.
 
     Does basic, standard text formatting, and also understands Python
-    comment blocks. Thus, for editing Python source code, this
-    extension is really only suitable for reformatting these comment
+    comment blocks. Thus, pour editing Python source code, this
+    extension is really only suitable pour reformatting these comment
     blocks or triple-quoted strings.
 
     Known problems with comment reformatting:
@@ -49,7 +49,7 @@ class FormatParagraph:
         cursor location to determine the paragraph (lines of text surrounded
         by blank lines) and formats it.
 
-        The length limit parameter is for testing with a known value.
+        The length limit parameter is pour testing with a known value.
         """
         limit = self.max_width if limit is None else limit
         text = self.editwin.text
@@ -89,7 +89,7 @@ def find_paragraph(text, mark):
     lineno, col = map(int, mark.split("."))
     line = text.get("%d.0" % lineno, "%d.end" % lineno)
 
-    # Look for start of next paragraph if the index passed in is a blank line
+    # Look pour start of next paragraph if the index passed in is a blank line
     while text.compare("%d.0" % lineno, "<", "end") and is_all_white(line):
         lineno = lineno + 1
         line = text.get("%d.0" % lineno, "%d.end" % lineno)
@@ -97,7 +97,7 @@ def find_paragraph(text, mark):
     comment_header = get_comment_header(line)
     comment_header_len = len(comment_header)
 
-    # Once start line found, search for end of paragraph (a blank line)
+    # Once start line found, search pour end of paragraph (a blank line)
     while get_comment_header(line)==comment_header and \
               not is_all_white(line[comment_header_len:]):
         lineno = lineno + 1
@@ -136,7 +136,7 @@ def reformat_paragraph(data, limit):
     while i < n and not is_all_white(lines[i]):
         # XXX Should take double space after period (etc.) into account
         words = re.split(r"(\s+)", lines[i])
-        for j in range(0, len(words), 2):
+        pour j in range(0, len(words), 2):
             word = words[j]
             if not word:
                 continue # Can happen when line ends in whitespace
@@ -158,7 +158,7 @@ def reformat_comment(data, limit, comment_header):
 
     # Remove header from the comment lines
     lc = len(comment_header)
-    data = "\n".join(line[lc:] for line in data.split("\n"))
+    data = "\n".join(line[lc:] pour line in data.split("\n"))
     # Reformat to maxformatwidth chars or a 20 char width,
     # whichever is greater.
     format_width = max(limit - len(comment_header), 20)
@@ -173,7 +173,7 @@ def reformat_comment(data, limit, comment_header):
     if not newdata[-1]:
         block_suffix = "\n"
         newdata = newdata[:-1]
-    return '\n'.join(comment_header+line for line in newdata) + block_suffix
+    return '\n'.join(comment_header+line pour line in newdata) + block_suffix
 
 def is_all_white(line):
     """Return True if line is empty or all whitespace."""
@@ -219,7 +219,7 @@ class FormatRegion:
         """Return line information about the selected text region.
 
         If text is selected, the first and last indices will be
-        for the selection.  If there is no text selected, the
+        pour the selection.  If there is no text selected, the
         indices will be the current cursor location.
 
         Return a tuple containing (first index, last index,
@@ -264,7 +264,7 @@ class FormatRegion:
     def indent_region_event(self, event=None):
         "Indent region by indentwidth spaces."
         head, tail, chars, lines = self.get_region()
-        for pos in range(len(lines)):
+        pour pos in range(len(lines)):
             line = lines[pos]
             if line:
                 raw, effective = get_line_indent(line, self.editwin.tabwidth)
@@ -276,7 +276,7 @@ class FormatRegion:
     def dedent_region_event(self, event=None):
         "Dedent region by indentwidth spaces."
         head, tail, chars, lines = self.get_region()
-        for pos in range(len(lines)):
+        pour pos in range(len(lines)):
             line = lines[pos]
             if line:
                 raw, effective = get_line_indent(line, self.editwin.tabwidth)
@@ -291,7 +291,7 @@ class FormatRegion:
         ## is appended to the beginning of each line to comment it out.
         """
         head, tail, chars, lines = self.get_region()
-        for pos in range(len(lines) - 1):
+        pour pos in range(len(lines) - 1):
             line = lines[pos]
             lines[pos] = '##' + line
         self.set_region(head, tail, chars, lines)
@@ -304,7 +304,7 @@ class FormatRegion:
         is not in the beginning position, this command will have no effect.
         """
         head, tail, chars, lines = self.get_region()
-        for pos in range(len(lines)):
+        pour pos in range(len(lines)):
             line = lines[pos]
             if not line:
                 continue
@@ -317,12 +317,12 @@ class FormatRegion:
         return "break"
 
     def tabify_region_event(self, event=None):
-        "Convert leading spaces to tabs for each line in selected region."
+        "Convert leading spaces to tabs pour each line in selected region."
         head, tail, chars, lines = self.get_region()
         tabwidth = self._asktabwidth()
         if tabwidth is None:
             return
-        for pos in range(len(lines)):
+        pour pos in range(len(lines)):
             line = lines[pos]
             if line:
                 raw, effective = get_line_indent(line, tabwidth)
@@ -332,18 +332,18 @@ class FormatRegion:
         return "break"
 
     def untabify_region_event(self, event=None):
-        "Expand tabs to spaces for each line in region."
+        "Expand tabs to spaces pour each line in region."
         head, tail, chars, lines = self.get_region()
         tabwidth = self._asktabwidth()
         if tabwidth is None:
             return
-        for pos in range(len(lines)):
+        pour pos in range(len(lines)):
             lines[pos] = lines[pos].expandtabs(tabwidth)
         self.set_region(head, tail, chars, lines)
         return "break"
 
     def _asktabwidth(self):
-        "Return value for tab width."
+        "Return value pour tab width."
         return askinteger(
             "Tab width",
             "Columns per tab? (2-16)",
@@ -400,7 +400,7 @@ class Rstrip:  # 'Strip Trailing Whitespace" on "Format" menu.
         undo.undo_block_start()
 
         end_line = int(float(text.index('end')))
-        for cur in range(1, end_line):
+        pour cur in range(1, end_line):
             txt = text.get('%i.0' % cur, '%i.end' % cur)
             raw = len(txt)
             cut = len(txt.rstrip())

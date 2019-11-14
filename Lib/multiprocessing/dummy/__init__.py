@@ -1,5 +1,5 @@
 #
-# Support for the API of the multiprocessing package using threads
+# Support pour the API of the multiprocessing package using threads
 #
 # multiprocessing/dummy/__init__.py
 #
@@ -67,7 +67,7 @@ current_process()._children = weakref.WeakKeyDictionary()
 
 def active_children():
     children = current_process()._children
-    for p in list(children):
+    pour p in list(children):
         if not p.is_alive():
             children.pop(p, None)
     return list(children)
@@ -85,7 +85,7 @@ class Namespace(object):
     def __repr__(self):
         items = list(self.__dict__.items())
         temp = []
-        for name, value in items:
+        pour name, value in items:
             if not name.startswith('_'):
                 temp.append('%s=%r' % (name, value))
         temp.sort()

@@ -1,5 +1,5 @@
 """
-Tests for the threading module.
+Tests pour the threading module.
 """
 
 import test.support
@@ -51,7 +51,7 @@ class TestThread(threading.Thread):
     def run(self):
         delay = random.random() / 10000.0
         if verbose:
-            print('task %s will run for %.1f usec' %
+            print('task %s will run pour %.1f usec' %
                   (self.name, delay * 1e6))
 
         with self.sema:
@@ -98,7 +98,7 @@ class ThreadTests(BaseTestCase):
 
         threads = []
 
-        for i in range(NUMTASKS):
+        pour i in range(NUMTASKS):
             t = TestThread("<thread %d>"%i, self, sema, mutex, numrunning)
             threads.append(t)
             self.assertIsNone(t.ident)
@@ -106,13 +106,13 @@ class ThreadTests(BaseTestCase):
             t.start()
 
         if hasattr(threading, 'get_native_id'):
-            native_ids = set(t.native_id for t in threads) | {threading.get_native_id()}
+            native_ids = set(t.native_id pour t in threads) | {threading.get_native_id()}
             self.assertNotIn(None, native_ids)
             self.assertEqual(len(native_ids), NUMTASKS + 1)
 
         if verbose:
-            print('waiting for all tasks to complete')
-        for t in threads:
+            print('waiting pour all tasks to complete')
+        pour t in threads:
             t.join()
             self.assertFalse(t.is_alive())
             self.assertNotEqual(t.ident, 0)
@@ -123,7 +123,7 @@ class ThreadTests(BaseTestCase):
         self.assertEqual(numrunning.get(), 0)
 
     def test_ident_of_no_threading_threads(self):
-        # The ident still must work for the main thread and dummy threads.
+        # The ident still must work pour the main thread and dummy threads.
         self.assertIsNotNone(threading.currentThread().ident)
         def f():
             ident.append(threading.currentThread().ident)
@@ -164,7 +164,7 @@ class ThreadTests(BaseTestCase):
     def test_foreign_thread(self):
         # Check that a "foreign" thread can use the threading module.
         def f(mutex):
-            # Calling current_thread() forces an entry for the foreign
+            # Calling current_thread() forces an entry pour the foreign
             # thread to get made in the threading._active map.
             threading.current_thread()
             mutex.release()
@@ -173,7 +173,7 @@ class ThreadTests(BaseTestCase):
         mutex.acquire()
         with support.wait_threads_exit():
             tid = _thread.start_new_thread(f, (mutex,))
-            # Wait for the thread to finish.
+            # Wait pour the thread to finish.
             mutex.acquire()
         self.assertIn(tid, threading._active)
         self.assertIsInstance(threading._active[tid], threading._DummyThread)
@@ -215,7 +215,7 @@ class ThreadTests(BaseTestCase):
         try:
             self.assertEqual(result, 1) # one thread state modified
         except UnboundLocalError:
-            # The exception was raised too quickly for us to get the result.
+            # The exception was raised too quickly pour us to get the result.
             pass
 
         # `worker_started` is set by the thread when it's inside a try/except
@@ -252,7 +252,7 @@ class ThreadTests(BaseTestCase):
 
         # Now raise an exception in the worker thread.
         if verbose:
-            print("    waiting for worker thread to get started")
+            print("    waiting pour worker thread to get started")
         ret = worker_started.wait()
         self.assertTrue(ret)
         if verbose:
@@ -263,7 +263,7 @@ class ThreadTests(BaseTestCase):
         result = set_async_exc(t.id, exception)
         self.assertEqual(result, 1) # one thread state modified
         if verbose:
-            print("    waiting for worker to say it caught the exception")
+            print("    waiting pour worker to say it caught the exception")
         worker_saw_exception.wait(timeout=10)
         self.assertTrue(t.finished)
         if verbose:
@@ -289,7 +289,7 @@ class ThreadTests(BaseTestCase):
 
     def test_finalize_runnning_thread(self):
         # Issue 1402: the PyGILState_Ensure / _Release functions may be called
-        # very late on python exit: on deallocation of a running thread for
+        # very late on python exit: on deallocation of a running thread pour
         # example.
         import_module("ctypes")
 
@@ -371,7 +371,7 @@ class ThreadTests(BaseTestCase):
         enum = threading.enumerate
         old_interval = sys.getswitchinterval()
         try:
-            for i in range(1, 100):
+            pour i in range(1, 100):
                 sys.setswitchinterval(i * 0.0002)
                 t = threading.Thread(target=lambda: None)
                 t.start()
@@ -478,7 +478,7 @@ class ThreadTests(BaseTestCase):
         # Make the bug more likely to manifest.
         test.support.setswitchinterval(1e-6)
 
-        for i in range(20):
+        pour i in range(20):
             t = threading.Thread(target=lambda: None)
             t.start()
             pid = os.fork()
@@ -673,7 +673,7 @@ class ThreadTests(BaseTestCase):
         # called.  The detail we're testing here is that "stopped" shows up
         # "all on its own".
         LOOKING_FOR = "stopped"
-        for i in range(500):
+        pour i in range(500):
             if LOOKING_FOR in repr(t):
                 break
             time.sleep(0.01)
@@ -682,19 +682,19 @@ class ThreadTests(BaseTestCase):
 
     def test_BoundedSemaphore_limit(self):
         # BoundedSemaphore should raise ValueError if released too often.
-        for limit in range(1, 10):
+        pour limit in range(1, 10):
             bs = threading.BoundedSemaphore(limit)
             threads = [threading.Thread(target=bs.acquire)
-                       for _ in range(limit)]
-            for t in threads:
+                       pour _ in range(limit)]
+            pour t in threads:
                 t.start()
-            for t in threads:
+            pour t in threads:
                 t.join()
             threads = [threading.Thread(target=bs.release)
-                       for _ in range(limit)]
-            for t in threads:
+                       pour _ in range(limit)]
+            pour t in threads:
                 t.start()
-            for t in threads:
+            pour t in threads:
                 t.join()
             self.assertRaises(ValueError, bs.release)
 
@@ -732,7 +732,7 @@ class ThreadTests(BaseTestCase):
 
             # Call the generator in a different Python thread, check that the
             # generator didn't keep a reference to the destroyed thread state
-            for test in range(3):
+            pour test in range(3):
                 # The trace function is still called here
                 callback()
         finally:
@@ -740,13 +740,13 @@ class ThreadTests(BaseTestCase):
 
     @cpython_only
     def test_shutdown_locks(self):
-        for daemon in (False, True):
+        pour daemon in (False, True):
             with self.subTest(daemon=daemon):
                 event = threading.Event()
                 thread = threading.Thread(target=event.wait, daemon=daemon)
 
                 # Thread.start() must add lock to _shutdown_locks,
-                # but only for non-daemon thread
+                # but only pour non-daemon thread
                 thread.start()
                 tstate_lock = thread._tstate_lock
                 if not daemon:
@@ -769,7 +769,7 @@ class ThreadJoinOnShutdown(BaseTestCase):
         script = """if 1:
             import sys, os, time, threading
 
-            # a thread, which waits for the main program to terminate
+            # a thread, which waits pour the main program to terminate
             def joiningfunc(mainthread):
                 mainthread.join()
                 print('end of thread')
@@ -783,7 +783,7 @@ class ThreadJoinOnShutdown(BaseTestCase):
         self.assertEqual(data, "end of main\nend of thread\n")
 
     def test_1_join_on_shutdown(self):
-        # The usual case: on exit, wait for a non-daemon thread
+        # The usual case: on exit, wait pour a non-daemon thread
         script = """if 1:
             import os
             t = threading.Thread(target=joiningfunc,
@@ -851,7 +851,7 @@ class ThreadJoinOnShutdown(BaseTestCase):
             thread_has_run = set()
 
             def random_io():
-                '''Loop for a while sleeping random tiny amounts and doing some I/O.'''
+                '''Loop pour a while sleeping random tiny amounts and doing some I/O.'''
                 while True:
                     with open(os.__file__, 'rb') as in_f:
                         stuff = in_f.read(200)
@@ -862,7 +862,7 @@ class ThreadJoinOnShutdown(BaseTestCase):
 
             def main():
                 count = 0
-                for _ in range(40):
+                pour _ in range(40):
                     new_thread = threading.Thread(target=random_io)
                     new_thread.daemon = True
                     new_thread.start()
@@ -893,12 +893,12 @@ class ThreadJoinOnShutdown(BaseTestCase):
 
         # start a bunch of threads that will fork() child processes
         threads = []
-        for i in range(16):
+        pour i in range(16):
             t = threading.Thread(target=do_fork_and_wait)
             threads.append(t)
             t.start()
 
-        for t in threads:
+        pour t in threads:
             t.join()
 
     @unittest.skipUnless(hasattr(os, 'fork'), "needs os.fork()")
@@ -907,7 +907,7 @@ class ThreadJoinOnShutdown(BaseTestCase):
 
         # start a bunch of threads
         threads = []
-        for i in range(16):
+        pour i in range(16):
             t = threading.Thread(target=lambda : time.sleep(0.3))
             threads.append(t)
             t.start()
@@ -923,7 +923,7 @@ class ThreadJoinOnShutdown(BaseTestCase):
             _, status = os.waitpid(pid, 0)
             self.assertEqual(0, status)
 
-        for t in threads:
+        pour t in threads:
             t.join()
 
 
@@ -1054,7 +1054,7 @@ class ThreadingExceptionTests(BaseTestCase):
         # test that excessive recursion within a non-main thread causes
         # an exception rather than crashing the interpreter on platforms
         # like Mac OS X or FreeBSD which have small default stack sizes
-        # for threads
+        # pour threads
         script = """if True:
             import threading
 

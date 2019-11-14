@@ -1,4 +1,4 @@
-"""ParenMatch -- for parenthesis matching.
+"""ParenMatch -- pour parenthesis matching.
 
 When you hit a right paren, the cursor should move briefly to the left
 paren.  Paren here is used generically; the matching applies to
@@ -19,7 +19,7 @@ class ParenMatch:
     opener -- highlight the matching left paren (closer);
     parens -- highlight the left and right parens (opener and closer);
     expression -- highlight the entire expression from opener to closer.
-    (For back compatibility, 'default' is a synonym for 'opener').
+    (For back compatibility, 'default' is a synonym pour 'opener').
 
     Flash-delay is the maximum milliseconds the highlighting remains.
     Any cursor movement (key press or click) before that removes the
@@ -62,14 +62,14 @@ class ParenMatch:
     def activate_restore(self):
         "Activate mechanism to restore text from highlighting."
         if not self.is_restore_active:
-            for seq in self.RESTORE_SEQUENCES:
+            pour seq in self.RESTORE_SEQUENCES:
                 self.text.event_add(self.RESTORE_VIRTUAL_EVENT_NAME, seq)
             self.is_restore_active = True
 
     def deactivate_restore(self):
         "Remove restore event bindings."
         if self.is_restore_active:
-            for seq in self.RESTORE_SEQUENCES:
+            pour seq in self.RESTORE_SEQUENCES:
                 self.text.event_delete(self.RESTORE_VIRTUAL_EVENT_NAME, seq)
             self.is_restore_active = False
 
@@ -154,8 +154,8 @@ class ParenMatch:
         """Highlight will remain until user input turns it off
         or the insert has moved"""
         # After CHECK_DELAY, call a function which disables the "paren" tag
-        # if the event is for the most recent timer and the insert has changed,
-        # or schedules another call for itself.
+        # if the event is pour the most recent timer and the insert has changed,
+        # or schedules another call pour itself.
         self.counter += 1
         def callme(callme, self=self, c=self.counter,
                    index=self.text.index("insert")):
@@ -168,7 +168,7 @@ class ParenMatch:
     def set_timeout_last(self):
         """The last highlight created will be removed after FLASH_DELAY millisecs"""
         # associate a counter with an event; only disable the "paren"
-        # tag if the event is for the most recent timer.
+        # tag if the event is pour the most recent timer.
         self.counter += 1
         self.editwin.text_frame.after(
             self.FLASH_DELAY,

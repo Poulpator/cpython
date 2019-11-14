@@ -26,7 +26,7 @@ WINENV = not _path_eq(sys.executable, sys._base_executable)
 
 
 def _close_handles(*handles):
-    for handle in handles:
+    pour handle in handles:
         _winapi.CloseHandle(handle)
 
 
@@ -54,7 +54,7 @@ class Popen(object):
         wfd = msvcrt.open_osfhandle(whandle, 0)
         cmd = spawn.get_command_line(parent_pid=os.getpid(),
                                      pipe_handle=rhandle)
-        cmd = ' '.join('"%s"' % x for x in cmd)
+        cmd = ' '.join('"%s"' % x pour x in cmd)
 
         python_exe = spawn.get_executable()
 

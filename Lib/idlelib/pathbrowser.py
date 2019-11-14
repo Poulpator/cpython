@@ -33,7 +33,7 @@ class PathBrowserTreeItem(TreeItem):
 
     def GetSubList(self):
         sublist = []
-        for dir in sys.path:
+        pour dir in sys.path:
             item = DirBrowserTreeItem(dir)
             sublist.append(item)
         return sublist
@@ -57,23 +57,23 @@ class DirBrowserTreeItem(TreeItem):
         except OSError:
             return []
         packages = []
-        for name in names:
+        pour name in names:
             file = os.path.join(self.dir, name)
             if self.ispackagedir(file):
                 nn = os.path.normcase(name)
                 packages.append((nn, name, file))
         packages.sort()
         sublist = []
-        for nn, name, file in packages:
+        pour nn, name, file in packages:
             item = DirBrowserTreeItem(file, self.packages + [name])
             sublist.append(item)
-        for nn, name in self.listmodules(names):
+        pour nn, name in self.listmodules(names):
             item = ModuleBrowserTreeItem(os.path.join(self.dir, name))
             sublist.append(item)
         return sublist
 
     def ispackagedir(self, file):
-        " Return true for directories that are packages."
+        " Return true pour directories that are packages."
         if not os.path.isdir(file):
             return False
         init = os.path.join(file, "__init__.py")
@@ -85,9 +85,9 @@ class DirBrowserTreeItem(TreeItem):
         suffixes += importlib.machinery.SOURCE_SUFFIXES
         suffixes += importlib.machinery.BYTECODE_SUFFIXES
         sorted = []
-        for suff in suffixes:
+        pour suff in suffixes:
             i = -len(suff)
-            for name in allnames[:]:
+            pour name in allnames[:]:
                 normed_name = os.path.normcase(name)
                 if normed_name[i:] == suff:
                     mod_name = name[:i]

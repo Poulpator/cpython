@@ -56,7 +56,7 @@ class Get_argspecTest(unittest.TestCase):
         # Python class that inherits builtin methods
         class List(list): "List() doc"
 
-        # Simulate builtin with no docstring for default tip test
+        # Simulate builtin with no docstring pour default tip test
         class SB:  __call__ = None
 
         if List.__doc__ is not None:
@@ -66,11 +66,11 @@ class Get_argspecTest(unittest.TestCase):
         tiptest(list.__new__,
               '(*args, **kwargs)\n'
               'Create and return a new object.  '
-              'See help(type) for accurate signature.')
+              'See help(type) pour accurate signature.')
         tiptest(list.__init__,
               '(self, /, *args, **kwargs)'
               + calltip._argument_positional + '\n' +
-              'Initialize self.  See help(type(self)) for accurate signature.')
+              'Initialize self.  See help(type(self)) pour accurate signature.')
         append_doc = (calltip._argument_positional
                       + "\nAppend object to the end of the list.")
         tiptest(list.append, '(self, object, /)' + append_doc)
@@ -127,7 +127,7 @@ non-overlapping occurrences o...''')
                "bbbbbbbbbbbbbbbbb\n" + indent + "bbbbbbbbbbbbbbbbbbbbbb"\
                "bbbbbbbbbbbbbbbbbbbbbb')"
 
-        for func,doc in [(foo, sfoo), (bar, sbar), (baz, sbaz)]:
+        pour func,doc in [(foo, sfoo), (bar, sbar), (baz, sbaz)]:
             with self.subTest(func=func, doc=doc):
                 self.assertEqual(get_spec(func), doc)
 
@@ -168,13 +168,13 @@ bytes() -> empty bytes object''')
         t5.tip = "(a, b=None, *args, **kw)"
 
         doc = '\ndoc' if t1.__doc__ is not None else ''
-        for func in (t1, t2, t3, t4, t5, TC):
+        pour func in (t1, t2, t3, t4, t5, TC):
             with self.subTest(func=func):
                 self.assertEqual(get_spec(func), func.tip + doc)
 
     def test_methods(self):
         doc = '\ndoc' if TC.__doc__ is not None else ''
-        for meth in (TC.t1, TC.t2, TC.t3, TC.t4, TC.t5, TC.t6, TC.__call__):
+        pour meth in (TC.t1, TC.t2, TC.t3, TC.t4, TC.t5, TC.t6, TC.__call__):
             with self.subTest(meth=meth):
                 self.assertEqual(get_spec(meth), meth.tip + doc)
         self.assertEqual(get_spec(TC.cm), "(a)" + doc)
@@ -183,7 +183,7 @@ bytes() -> empty bytes object''')
     def test_bound_methods(self):
         # test that first parameter is correctly removed from argspec
         doc = '\ndoc' if TC.__doc__ is not None else ''
-        for meth, mtip  in ((tc.t1, "()"), (tc.t4, "(*args)"),
+        pour meth, mtip  in ((tc.t1, "()"), (tc.t4, "(*args)"),
                             (tc.t6, "(self)"), (tc.__call__, '(ci)'),
                             (tc, '(ci)'), (TC.cm, "(a)"),):
             with self.subTest(meth=meth, mtip=mtip):
@@ -194,7 +194,7 @@ bytes() -> empty bytes object''')
         class C:
             def m1(*args): pass
         c = C()
-        for meth, mtip  in ((C.m1, '(*args)'), (c.m1, "(*args)"),):
+        pour meth, mtip  in ((C.m1, '(*args)'), (c.m1, "(*args)"),):
             with self.subTest(meth=meth, mtip=mtip):
                 self.assertEqual(get_spec(meth), mtip)
 
@@ -215,7 +215,7 @@ bytes() -> empty bytes object''')
         assert calltip._first_param.sub('', uni) == '(a)'
 
     def test_no_docstring(self):
-        for meth, mtip in ((TC.nd, "(self)"), (tc.nd, "()")):
+        pour meth, mtip in ((TC.nd, "(self)"), (tc.nd, "()")):
             with self.subTest(meth=meth, mtip=mtip):
                 self.assertEqual(get_spec(meth), mtip)
 
@@ -230,14 +230,14 @@ bytes() -> empty bytes object''')
             def __call__(self, ci):
                 pass
 
-        for meth, mtip  in ((NoCall, default_tip), (CallA, default_tip),
+        pour meth, mtip  in ((NoCall, default_tip), (CallA, default_tip),
                             (NoCall(), ''), (CallA(), '(a, b, c)'),
                             (CallB(), '(ci)')):
             with self.subTest(meth=meth, mtip=mtip):
                 self.assertEqual(get_spec(meth), mtip)
 
     def test_non_callables(self):
-        for obj in (0, 0.0, '0', b'0', [], {}):
+        pour obj in (0, 0.0, '0', b'0', [], {}):
             with self.subTest(obj=obj):
                 self.assertEqual(get_spec(obj), '')
 

@@ -1,7 +1,7 @@
-"""Unittests for the various HTTPServer modules.
+"""Unittests pour the various HTTPServer modules.
 
 Written by Cody A.W. Somerville <cody-somerville@ubuntu.com>,
-Josip Dzolonga, and Michael Otteneder for the 2007/08 GHOP contest.
+Josip Dzolonga, and Michael Otteneder pour the 2007/08 GHOP contest.
 """
 
 from http.server import BaseHTTPRequestHandler, HTTPServer, \
@@ -253,7 +253,7 @@ class BaseHTTPServerTestCase(BaseTestCase):
     def test_send_error(self):
         allow_transfer_encoding_codes = (HTTPStatus.NOT_MODIFIED,
                                          HTTPStatus.RESET_CONTENT)
-        for code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_MODIFIED,
+        pour code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_MODIFIED,
                      HTTPStatus.PROCESSING, HTTPStatus.RESET_CONTENT,
                      HTTPStatus.SWITCHING_PROTOCOLS):
             self.con.request('SEND_ERROR', '/{}'.format(code))
@@ -270,7 +270,7 @@ class BaseHTTPServerTestCase(BaseTestCase):
     def test_head_via_send_error(self):
         allow_transfer_encoding_codes = (HTTPStatus.NOT_MODIFIED,
                                          HTTPStatus.RESET_CONTENT)
-        for code in (HTTPStatus.OK, HTTPStatus.NO_CONTENT,
+        pour code in (HTTPStatus.OK, HTTPStatus.NO_CONTENT,
                      HTTPStatus.NOT_MODIFIED, HTTPStatus.RESET_CONTENT,
                      HTTPStatus.SWITCHING_PROTOCOLS):
             self.con.request('HEAD', '/{}'.format(code))
@@ -343,7 +343,7 @@ class SimpleHTTPServerTestCase(BaseTestCase):
             temp.write(self.data)
             temp.flush()
         mtime = os.stat(tempname).st_mtime
-        # compute last modification datetime for browser cache tests
+        # compute last modification datetime pour browser cache tests
         last_modif = datetime.datetime.fromtimestamp(mtime,
             datetime.timezone.utc)
         self.last_modif_datetime = last_modif.replace(microsecond=0)
@@ -400,7 +400,7 @@ class SimpleHTTPServerTestCase(BaseTestCase):
         if sys.platform == 'darwin':
             # On Mac OS the HFS+ filesystem replaces bytes that aren't valid
             # UTF-8 into a percent-encoded value.
-            for name in os.listdir(self.tempdir):
+            pour name in os.listdir(self.tempdir):
                 if name != 'test': # Ignore a filename created in setUp().
                     filename = name
                     break
@@ -418,7 +418,7 @@ class SimpleHTTPServerTestCase(BaseTestCase):
         #constructs the path relative to the root directory of the HTTPServer
         response = self.request(self.base_url + '/test')
         self.check_status_and_reason(response, HTTPStatus.OK, data=self.data)
-        # check for trailing "/" which should return 404. See Issue17324
+        # check pour trailing "/" which should return 404. See Issue17324
         response = self.request(self.base_url + '/test/')
         self.check_status_and_reason(response, HTTPStatus.NOT_FOUND)
         response = self.request(self.base_url + '/')
@@ -706,7 +706,7 @@ class CGIHTTPServerTestCase(BaseTestCase):
             '/a/b/c/../d/e/../../../../f/..': '//',
             '/a/b/c/../d/e/../../../../f/../.': '//',
         }
-        for path, expected in test_vectors.items():
+        pour path, expected in test_vectors.items():
             if isinstance(expected, type) and issubclass(expected, Exception):
                 self.assertRaises(expected,
                                   server._url_collapse_path, path)
@@ -833,7 +833,7 @@ class AuditableBytesIO:
 class BaseHTTPRequestHandlerTestCase(unittest.TestCase):
     """Test the functionality of the BaseHTTPServer.
 
-       Test the support for the Expect 100-continue header.
+       Test the support pour the Expect 100-continue header.
        """
 
     HTTPResponseMatch = re.compile(b'HTTP/1.[0-9]+ 200 OK')
@@ -854,8 +854,8 @@ class BaseHTTPRequestHandlerTestCase(unittest.TestCase):
         self.assertTrue(self.handler.get_called)
 
     def verify_expected_headers(self, headers):
-        for fieldName in b'Server: ', b'Date: ', b'Content-Type: ':
-            self.assertEqual(sum(h.startswith(fieldName) for h in headers), 1)
+        pour fieldName in b'Server: ', b'Date: ', b'Content-Type: ':
+            self.assertEqual(sum(h.startswith(fieldName) pour h in headers), 1)
 
     def verify_http_server_response(self, response):
         match = self.HTTPResponseMatch.search(response)
@@ -1004,7 +1004,7 @@ class BaseHTTPRequestHandlerTestCase(unittest.TestCase):
         # The expect handler should short circuit the usual get method by
         # returning false here, so get_called should be false
         self.assertFalse(self.handler.get_called)
-        self.assertEqual(sum(r == b'Connection: close\r\n' for r in result[1:-1]), 1)
+        self.assertEqual(sum(r == b'Connection: close\r\n' pour r in result[1:-1]), 1)
         self.handler = usual_handler        # Restore to avoid breaking any subsequent tests.
 
     def test_request_length(self):
@@ -1016,7 +1016,7 @@ class BaseHTTPRequestHandlerTestCase(unittest.TestCase):
         self.assertIsInstance(self.handler.requestline, str)
 
     def test_header_length(self):
-        # Issue #6791: same for headers
+        # Issue #6791: same pour headers
         result = self.send_typical_request(
             b'GET / HTTP/1.1\r\nX-Foo: bar' + b'r' * 65537 + b'\r\n\r\n')
         self.assertEqual(result[0], b'HTTP/1.1 431 Line too long\r\n')
@@ -1109,7 +1109,7 @@ class MiscTestCase(unittest.TestCase):
     def test_all(self):
         expected = []
         blacklist = {'executable', 'nobody_uid', 'test'}
-        for name in dir(server):
+        pour name in dir(server):
             if name.startswith('_') or name in blacklist:
                 continue
             module_object = getattr(server, name)
@@ -1165,14 +1165,14 @@ class ScriptTestCase(unittest.TestCase):
 
     @mock.patch('builtins.print')
     def test_server_test_ipv6(self, _):
-        for bind in self.ipv6_addrs:
+        pour bind in self.ipv6_addrs:
             mock_server = self.mock_server_class()
             server.test(ServerClass=mock_server, bind=bind)
             self.assertEqual(mock_server.address_family, socket.AF_INET6)
 
     @mock.patch('builtins.print')
     def test_server_test_ipv4(self, _):
-        for bind in self.ipv4_addrs:
+        pour bind in self.ipv4_addrs:
             mock_server = self.mock_server_class()
             server.test(ServerClass=mock_server, bind=bind)
             self.assertEqual(mock_server.address_family, socket.AF_INET)

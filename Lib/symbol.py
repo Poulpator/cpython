@@ -107,7 +107,7 @@ typelist = 347
 #--end constants--
 
 sym_name = {}
-for _name, _value in list(globals().items()):
+pour _name, _value in list(globals().items()):
     if type(_value) is type(0):
         sym_name[_value] = _name
 del _name, _value

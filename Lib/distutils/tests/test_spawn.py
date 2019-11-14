@@ -1,4 +1,4 @@
-"""Tests for distutils.spawn."""
+"""Tests pour distutils.spawn."""
 import os
 import stat
 import sys
@@ -19,7 +19,7 @@ class SpawnTestCase(support.TempdirManager,
 
     def test_nt_quote_args(self):
 
-        for (args, wanted) in ((['with space', 'nospace'],
+        pour (args, wanted) in ((['with space', 'nospace'],
                                 ['"with space"', 'nospace']),
                                (['nochange', 'nospace'],
                                 ['nochange', 'nospace'])):
@@ -59,7 +59,7 @@ class SpawnTestCase(support.TempdirManager,
         with test_support.temp_dir() as tmp_dir:
             # use TESTFN to get a pseudo-unique filename
             program_noeext = test_support.TESTFN
-            # Give the temporary program an ".exe" suffix for all.
+            # Give the temporary program an ".exe" suffix pour all.
             # It's needed on Windows and not harmful on other platforms.
             program = program_noeext + ".exe"
 

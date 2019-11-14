@@ -1,4 +1,4 @@
-"""Tests for distutils.text_file."""
+"""Tests pour distutils.text_file."""
 import os
 import unittest
 from distutils.text_file import TextFile

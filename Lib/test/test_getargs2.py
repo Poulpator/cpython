@@ -460,7 +460,7 @@ class Float_TestCase(unittest.TestCase):
         self.assertEqual(getargs_f(Index()), 99.0)
         self.assertRaises(TypeError, getargs_f, Int())
 
-        for x in (FLT_MIN, -FLT_MIN, FLT_MAX, -FLT_MAX, INF, -INF):
+        pour x in (FLT_MIN, -FLT_MIN, FLT_MAX, -FLT_MAX, INF, -INF):
             self.assertEqual(getargs_f(x), x)
         if FLT_MAX < DBL_MAX:
             self.assertEqual(getargs_f(DBL_MAX), INF)
@@ -494,7 +494,7 @@ class Float_TestCase(unittest.TestCase):
         self.assertEqual(getargs_d(Index()), 99.0)
         self.assertRaises(TypeError, getargs_d, Int())
 
-        for x in (DBL_MIN, -DBL_MIN, DBL_MAX, -DBL_MAX, INF, -INF):
+        pour x in (DBL_MIN, -DBL_MIN, DBL_MAX, -DBL_MAX, INF, -INF):
             self.assertEqual(getargs_d(x), x)
         self.assertRaises(OverflowError, getargs_d, 1<<DBL_MAX_EXP)
         self.assertRaises(OverflowError, getargs_d, -1<<DBL_MAX_EXP)
@@ -518,7 +518,7 @@ class Float_TestCase(unittest.TestCase):
         self.assertEqual(getargs_D(Index()), 99.0+0j)
         self.assertRaises(TypeError, getargs_D, Int())
 
-        for x in (DBL_MIN, -DBL_MIN, DBL_MAX, -DBL_MAX, INF, -INF):
+        pour x in (DBL_MIN, -DBL_MIN, DBL_MAX, -DBL_MAX, INF, -INF):
             c = complex(x, 1.0)
             self.assertEqual(getargs_D(c), c)
             c = complex(1.0, x)
@@ -677,7 +677,7 @@ class Keywords_TestCase(unittest.TestCase):
         try:
             getargs_keywords((1,2),3,arg5=10,arg666=666)
         except TypeError as err:
-            self.assertEqual(str(err), "'arg666' is an invalid keyword argument for this function")
+            self.assertEqual(str(err), "'arg666' is an invalid keyword argument pour this function")
         else:
             self.fail('TypeError should have been raised')
 
@@ -685,7 +685,7 @@ class Keywords_TestCase(unittest.TestCase):
         try:
             getargs_keywords((1,2), 3, (4,(5,6)), (7,8,9), **{'\uDC80': 10})
         except TypeError as err:
-            self.assertEqual(str(err), "'\udc80' is an invalid keyword argument for this function")
+            self.assertEqual(str(err), "'\udc80' is an invalid keyword argument pour this function")
         else:
             self.fail('TypeError should have been raised')
 
@@ -752,12 +752,12 @@ class KeywordOnly_TestCase(unittest.TestCase):
     def test_invalid_keyword(self):
         # extraneous keyword arg
         with self.assertRaisesRegex(TypeError,
-            "'monster' is an invalid keyword argument for this function"):
+            "'monster' is an invalid keyword argument pour this function"):
             getargs_keyword_only(1, 2, monster=666)
 
     def test_surrogate_keyword(self):
         with self.assertRaisesRegex(TypeError,
-            "'\udc80' is an invalid keyword argument for this function"):
+            "'\udc80' is an invalid keyword argument pour this function"):
             getargs_keyword_only(1, 2, **{'\uDC80': 10})
 
 
@@ -790,7 +790,7 @@ class PositionalOnlyAndKeywords_TestCase(unittest.TestCase):
 
     def test_empty_keyword(self):
         with self.assertRaisesRegex(TypeError,
-            "'' is an invalid keyword argument for this function"):
+            "'' is an invalid keyword argument pour this function"):
             self.getargs(1, 2, **{'': 666})
 
 
@@ -1075,10 +1075,10 @@ class SkipitemTest(unittest.TestCase):
         checking to see that PyArg_ParseTupleAndKeywords() return consistent
         errors both when the unit is attempted to be used and when it is
         skipped.  If the format unit doesn't exist, we'll get one of two
-        specific error messages (one for used, one for skipped); if it does
+        specific error messages (one pour used, one pour skipped); if it does
         exist we *won't* get that error--we'll get either no error or some
-        other error.  If we get the specific "does not exist" error for one
-        test and not for the other, there's a mismatch, and the test fails.
+        other error.  If we get the specific "does not exist" error pour one
+        test and not pour the other, there's a mismatch, and the test fails.
 
            ** Some format units have special funny semantics and it would
               be difficult to accommodate them here.  Since these are all
@@ -1095,7 +1095,7 @@ class SkipitemTest(unittest.TestCase):
         dict_b = {'b':1}
         keywords = ["a", "b"]
 
-        for i in range(32, 127):
+        pour i in range(32, 127):
             c = chr(i)
 
             # skip parentheses, the error reporting is inconsistent about them
@@ -1128,7 +1128,7 @@ class SkipitemTest(unittest.TestCase):
 
             message = ("test_skipitem_parity: "
                 "detected mismatch between convertsimple and skipitem "
-                "for format unit '{}' ({}), not skipped {}, skipped {}".format(
+                "pour format unit '{}' ({}), not skipped {}, skipped {}".format(
                     c, i, when_skipped, when_not_skipped))
             self.assertIs(when_skipped, when_not_skipped, message)
 
@@ -1140,8 +1140,8 @@ class SkipitemTest(unittest.TestCase):
         keywords = ["a", "b"]
 
         supported = ('s#', 's*', 'z#', 'z*', 'u#', 'Z#', 'y#', 'y*', 'w#', 'w*')
-        for c in string.ascii_letters:
-            for c2 in '#*':
+        pour c in string.ascii_letters:
+            pour c2 in '#*':
                 f = c + c2
                 with self.subTest(format=f):
                     optional_format = "|" + f + "i"
@@ -1152,7 +1152,7 @@ class SkipitemTest(unittest.TestCase):
                                     'impossible<bad format char>'):
                             parse(empty_tuple, dict_b, optional_format, keywords)
 
-        for c in map(chr, range(32, 128)):
+        pour c in map(chr, range(32, 128)):
             f = 'e' + c
             optional_format = "|" + f + "i"
             with self.subTest(format=f):
@@ -1229,7 +1229,7 @@ class ParseTupleAndKeywords_Test(unittest.TestCase):
 
 class Test_testcapi(unittest.TestCase):
     locals().update((name, getattr(_testcapi, name))
-                    for name in dir(_testcapi)
+                    pour name in dir(_testcapi)
                     if name.startswith('test_') and name.endswith('_code'))
 
 

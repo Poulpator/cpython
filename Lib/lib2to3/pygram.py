@@ -22,10 +22,10 @@ class Symbols(object):
     def __init__(self, grammar):
         """Initializer.
 
-        Creates an attribute for each grammar symbol (nonterminal),
+        Creates an attribute pour each grammar symbol (nonterminal),
         whose value is the symbol's type (an int >= 256).
         """
-        for name, symbol in grammar.symbol2number.items():
+        pour name, symbol in grammar.symbol2number.items():
             setattr(self, name, symbol)
 
 

@@ -53,7 +53,7 @@ def _task_get_stack(task, limit):
 def _task_print_stack(task, limit, file):
     extracted_list = []
     checked = set()
-    for f in task.get_stack(limit=limit):
+    pour f in task.get_stack(limit=limit):
         lineno = f.f_lineno
         co = f.f_code
         filename = co.co_filename
@@ -66,13 +66,13 @@ def _task_print_stack(task, limit, file):
 
     exc = task._exception
     if not extracted_list:
-        print(f'No stack for {task!r}', file=file)
+        print(f'No stack pour {task!r}', file=file)
     elif exc is not None:
-        print(f'Traceback for {task!r} (most recent call last):', file=file)
+        print(f'Traceback pour {task!r} (most recent call last):', file=file)
     else:
-        print(f'Stack for {task!r} (most recent call last):', file=file)
+        print(f'Stack pour {task!r} (most recent call last):', file=file)
 
     traceback.print_list(extracted_list, file=file)
     if exc is not None:
-        for line in traceback.format_exception_only(exc.__class__, exc):
+        pour line in traceback.format_exception_only(exc.__class__, exc):
             print(line, file=file, end='')

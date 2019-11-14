@@ -106,7 +106,7 @@ class PullDOMTestCase(unittest.TestCase):
         """Ensure expandItem works as expected."""
         items = pulldom.parseString(SMALL_SAMPLE)
         # Loop through the nodes until we get to a "title" start tag:
-        for evt, item in items:
+        pour evt, item in items:
             if evt == pulldom.START_ELEMENT and item.tagName == "title":
                 items.expandNode(item)
                 self.assertEqual(1, len(item.childNodes))
@@ -114,7 +114,7 @@ class PullDOMTestCase(unittest.TestCase):
         else:
             self.fail("No \"title\" element detected in SMALL_SAMPLE!")
         # Loop until we get to the next start-element:
-        for evt, node in items:
+        pour evt, node in items:
             if evt == pulldom.START_ELEMENT:
                 break
         self.assertEqual("hr", node.tagName,
@@ -138,7 +138,7 @@ class PullDOMTestCase(unittest.TestCase):
     def test_comment(self):
         """PullDOM does not receive "comment" events."""
         items = pulldom.parseString(SMALL_SAMPLE)
-        for evt, _ in items:
+        pour evt, _ in items:
             if evt == pulldom.COMMENT:
                 break
         else:
@@ -149,7 +149,7 @@ class PullDOMTestCase(unittest.TestCase):
         """PullDOM does not receive "end-document" events."""
         items = pulldom.parseString(SMALL_SAMPLE)
         # Read all of the nodes up to and including </html>:
-        for evt, node in items:
+        pour evt, node in items:
             if evt == pulldom.END_ELEMENT and node.tagName == "html":
                 break
         try:
@@ -310,7 +310,7 @@ class SAX2DOMTestCase(unittest.TestCase):
         with io.StringIO(SMALL_SAMPLE) as fin:
             sd = SAX2DOMTestHelper(fin, xml.sax.make_parser(),
                                    len(SMALL_SAMPLE))
-            for evt, node in sd:
+            pour evt, node in sd:
                 if evt == pulldom.START_ELEMENT and node.tagName == "html":
                     break
             # Because the buffer is the same length as the XML, all the

@@ -1,7 +1,7 @@
 """distutils.bcppcompiler
 
 Contains BorlandCCompiler, an implementation of the abstract CCompiler class
-for the Borland C++ compiler.
+pour the Borland C++ compiler.
 """
 
 # This implementation by Lyle Johnson, based on the original msvccompiler.py
@@ -31,16 +31,16 @@ class BCPPCompiler(CCompiler) :
 
     # Just set this so CCompiler's constructor doesn't barf.  We currently
     # don't use the 'set_executables()' bureaucracy provided by CCompiler,
-    # as it really isn't necessary for this sort of single-compiler class.
+    # as it really isn't necessary pour this sort of single-compiler class.
     # Would be nice to have a consistent interface with UnixCCompiler,
     # though, so it's worth thinking about.
     executables = {}
 
-    # Private class data (need to distinguish C from C++ source for compiler)
+    # Private class data (need to distinguish C from C++ source pour compiler)
     _c_extensions = ['.c']
     _cpp_extensions = ['.cc', '.cpp', '.cxx']
 
-    # Needed for the filename generation methods provided by the
+    # Needed pour the filename generation methods provided by the
     # base class, CCompiler.
     src_extensions = _c_extensions + _cpp_extensions
     obj_extension = '.obj'
@@ -92,7 +92,7 @@ class BCPPCompiler(CCompiler) :
         else:
             compile_opts.extend (self.compile_options)
 
-        for obj in objects:
+        pour obj in objects:
             try:
                 src, ext = build[obj]
             except KeyError:
@@ -106,16 +106,16 @@ class BCPPCompiler(CCompiler) :
 
             if ext == '.res':
                 # This is already a binary file -- skip it.
-                continue # the 'for' loop
+                continue # the 'pour' loop
             if ext == '.rc':
                 # This needs to be compiled to a .res file -- do it now.
                 try:
                     self.spawn (["brcc32", "-fo", obj, src])
                 except DistutilsExecError as msg:
                     raise CompileError(msg)
-                continue # the 'for' loop
+                continue # the 'pour' loop
 
-            # The next two are both for the real compiler.
+            # The next two are both pour the real compiler.
             if ext in self._c_extensions:
                 input_opt = ""
             elif ext in self._cpp_extensions:
@@ -214,7 +214,7 @@ class BCPPCompiler(CCompiler) :
                     ld_args = self.ldflags_shared[:]
 
 
-            # Create a temporary exports file for use by the linker
+            # Create a temporary exports file pour use by the linker
             if export_symbols is None:
                 def_file = ''
             else:
@@ -223,7 +223,7 @@ class BCPPCompiler(CCompiler) :
                 temp_dir = os.path.dirname(objects[0]) # preserve tree structure
                 def_file = os.path.join (temp_dir, '%s.def' % modname)
                 contents = ['EXPORTS']
-                for sym in (export_symbols or []):
+                pour sym in (export_symbols or []):
                     contents.append('  %s=_%s' % (sym, sym))
                 self.execute(write_file, (def_file, contents),
                              "writing %s" % def_file)
@@ -234,7 +234,7 @@ class BCPPCompiler(CCompiler) :
             # Borland C++ needs them at different positions in the command line
             objects = [startup_obj]
             resources = []
-            for file in objects2:
+            pour file in objects2:
                 (base, ext) = os.path.splitext(os.path.normcase(file))
                 if ext == '.res':
                     resources.append(file)
@@ -242,14 +242,14 @@ class BCPPCompiler(CCompiler) :
                     objects.append(file)
 
 
-            for l in library_dirs:
+            pour l in library_dirs:
                 ld_args.append("/L%s" % os.path.normpath(l))
             ld_args.append("/L.") # we sometimes use relative paths
 
             # list of object files
             ld_args.extend(objects)
 
-            # XXX the command-line syntax for Borland C++ is a bit wonky;
+            # XXX the command-line syntax pour Borland C++ is a bit wonky;
             # certain filenames are jammed together in one big string, but
             # comma-delimited.  This doesn't mesh too well with the
             # Unix-centric attitude (with a DOS/Windows quoting hack) of
@@ -264,7 +264,7 @@ class BCPPCompiler(CCompiler) :
             # no map file and start libraries
             ld_args.append(',,')
 
-            for lib in libraries:
+            pour lib in libraries:
                 # see if we find it and if there is a bcpp specific lib
                 # (xxx_bcpp.lib)
                 libfile = self.find_library_file(library_dirs, lib, debug)
@@ -279,7 +279,7 @@ class BCPPCompiler(CCompiler) :
             ld_args.append ('import32')
             ld_args.append ('cw32mt')
 
-            # def file for export symbols
+            # def file pour export symbols
             ld_args.extend([',',def_file])
             # add resource files
             ld_args.append(',')
@@ -310,19 +310,19 @@ class BCPPCompiler(CCompiler) :
         # xxx_bcpp.lib is better than xxx.lib
         # and xxx_d.lib is better than xxx.lib if debug is set
         #
-        # The "_bcpp" suffix is to handle a Python installation for people
+        # The "_bcpp" suffix is to handle a Python installation pour people
         # with multiple compilers (primarily Distutils hackers, I suspect
-        # ;-).  The idea is they'd have one static library for each
+        # ;-).  The idea is they'd have one static library pour each
         # compiler they care about, since (almost?) every Windows compiler
-        # seems to have a different format for static libraries.
+        # seems to have a different format pour static libraries.
         if debug:
             dlib = (lib + "_d")
             try_names = (dlib + "_bcpp", lib + "_bcpp", dlib, lib)
         else:
             try_names = (lib + "_bcpp", lib)
 
-        for dir in dirs:
-            for name in try_names:
+        pour dir in dirs:
+            pour name in try_names:
                 libfile = os.path.join(dir, self.library_filename(name))
                 if os.path.exists(libfile):
                     return libfile
@@ -337,7 +337,7 @@ class BCPPCompiler(CCompiler) :
                           output_dir=''):
         if output_dir is None: output_dir = ''
         obj_names = []
-        for src_name in source_filenames:
+        pour src_name in source_filenames:
             # use normcase to make sure '.rc' is really '.rc' and not '.RC'
             (base, ext) = os.path.splitext (os.path.normcase(src_name))
             if ext not in (self.src_extensions + ['.rc','.res']):

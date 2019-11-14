@@ -1,5 +1,5 @@
 """
-Input for test_profile.py and test_cprofile.py.
+Input pour test_profile.py and test_cprofile.py.
 
 IMPORTANT: This stuff is touchy. If you modify anything above the
 test class you'll have to regenerate the stats by running the two
@@ -100,7 +100,7 @@ def subhelper():
     # 10 ticks total: 8 ticks local, 2 ticks in subfunctions
     global TICKS
     TICKS += 2
-    for i in range(2):                  # 0
+    pour i in range(2):                  # 0
         try:
             C().foo                     # 1 x 2
         except AttributeError:

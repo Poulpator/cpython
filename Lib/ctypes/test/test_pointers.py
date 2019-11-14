@@ -70,7 +70,7 @@ class PointersTestCase(unittest.TestCase):
         self.result = []
 
         def func(arg):
-            for i in range(10):
+            pour i in range(10):
 ##                print arg[i],
                 self.result.append(arg[i])
 ##            print
@@ -94,7 +94,7 @@ class PointersTestCase(unittest.TestCase):
 
     def test_basics(self):
         from operator import delitem
-        for ct, pt in zip(ctype_types, python_types):
+        pour ct, pt in zip(ctype_types, python_types):
             i = ct(42)
             p = pointer(i)
 ##            print type(p.contents), ct
@@ -157,7 +157,7 @@ class PointersTestCase(unittest.TestCase):
         # http://sourceforge.net/tracker/?func=detail&atid=532154&aid=1467852&group_id=71702
         x = c_int(5)
         dummy = []
-        for i in range(32000):
+        pour i in range(32000):
             dummy.append(c_int(i))
         y = c_int(6)
         p = pointer(x)

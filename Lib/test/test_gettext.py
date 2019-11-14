@@ -8,8 +8,8 @@ from test import support
 
 
 # TODO:
-#  - Add new tests, for example for "dgettext"
-#  - Remove dummy tests, for example testing for single and double quotes
+#  - Add new tests, pour example pour "dgettext"
+#  - Remove dummy tests, pour example testing pour single and double quotes
 #    has no sense, it would have if we were testing a parser (i.e. pygettext)
 #  - Tests should have only one assert.
 
@@ -195,7 +195,7 @@ class GettextTestCase1(GettextBaseTest):
         eq = self.assertEqual
         # multiline strings
         eq(_('''This module provides internationalization and localization
-support for your Python programs by providing an interface to the GNU
+support pour your Python programs by providing an interface to the GNU
 gettext message catalog library.'''),
            '''Guvf zbqhyr cebivqrf vagreangvbanyvmngvba naq ybpnyvmngvba
 fhccbeg sbe lbhe Clguba cebtenzf ol cebivqvat na vagresnpr gb gur TAH
@@ -303,7 +303,7 @@ class GettextTestCase2(GettextBaseTest):
         eq = self.assertEqual
         # multiline strings
         eq(self._('''This module provides internationalization and localization
-support for your Python programs by providing an interface to the GNU
+support pour your Python programs by providing an interface to the GNU
 gettext message catalog library.'''),
            '''Guvf zbqhyr cebivqrf vagreangvbanyvmngvba naq ybpnyvmngvba
 fhccbeg sbe lbhe Clguba cebtenzf ol cebivqvat na vagresnpr gb gur TAH
@@ -356,85 +356,85 @@ class PluralFormsTestCase(GettextBaseTest):
     def test_ja(self):
         eq = self.assertEqual
         f = gettext.c2py('0')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
 
     def test_de(self):
         eq = self.assertEqual
         f = gettext.c2py('n != 1')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "10111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
 
     def test_fr(self):
         eq = self.assertEqual
         f = gettext.c2py('n>1')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "00111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
 
     def test_lv(self):
         eq = self.assertEqual
         f = gettext.c2py('n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "20111111111111111111101111111110111111111011111111101111111110111111111011111111101111111110111111111011111111111111111110111111111011111111101111111110111111111011111111101111111110111111111011111111")
 
     def test_gd(self):
         eq = self.assertEqual
         f = gettext.c2py('n==1 ? 0 : n==2 ? 1 : 2')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "20122222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
 
     def test_gd2(self):
         eq = self.assertEqual
         # Tests the combination of parentheses and "?:"
         f = gettext.c2py('n==1 ? 0 : (n==2 ? 1 : 2)')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "20122222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
 
     def test_ro(self):
         eq = self.assertEqual
         f = gettext.c2py('n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "10111111111111111111222222222222222222222222222222222222222222222222222222222222222222222222222222222111111111111111111122222222222222222222222222222222222222222222222222222222222222222222222222222222")
 
     def test_lt(self):
         eq = self.assertEqual
         f = gettext.c2py('n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "20111111112222222222201111111120111111112011111111201111111120111111112011111111201111111120111111112011111111222222222220111111112011111111201111111120111111112011111111201111111120111111112011111111")
 
     def test_ru(self):
         eq = self.assertEqual
         f = gettext.c2py('n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "20111222222222222222201112222220111222222011122222201112222220111222222011122222201112222220111222222011122222222222222220111222222011122222201112222220111222222011122222201112222220111222222011122222")
 
     def test_cs(self):
         eq = self.assertEqual
         f = gettext.c2py('(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "20111222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
 
     def test_pl(self):
         eq = self.assertEqual
         f = gettext.c2py('n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "20111222222222222222221112222222111222222211122222221112222222111222222211122222221112222222111222222211122222222222222222111222222211122222221112222222111222222211122222221112222222111222222211122222")
 
     def test_sl(self):
         eq = self.assertEqual
         f = gettext.c2py('n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "30122333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333012233333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333")
 
     def test_ar(self):
         eq = self.assertEqual
         f = gettext.c2py('n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5')
-        s = ''.join([ str(f(x)) for x in range(200) ])
+        s = ''.join([ str(f(x)) pour x in range(200) ])
         eq(s, "01233333333444444444444444444444444444444444444444444444444444444444444444444444444444444444444444445553333333344444444444444444444444444444444444444444444444444444444444444444444444444444444444444444")
 
     def test_security(self):
         raises = self.assertRaises
-        # Test for a dangerous expression
+        # Test pour a dangerous expression
         raises(ValueError, gettext.c2py, "os.chmod('/etc/passwd',0777)")
         # issue28563
         raises(ValueError, gettext.c2py, '"(eval(foo) && ""')
@@ -451,13 +451,13 @@ class PluralFormsTestCase(GettextBaseTest):
     def test_chained_comparison(self):
         # C doesn't chain comparison as Python so 2 == 2 == 2 gets different results
         f = gettext.c2py('n == n == n')
-        self.assertEqual(''.join(str(f(x)) for x in range(3)), '010')
+        self.assertEqual(''.join(str(f(x)) pour x in range(3)), '010')
         f = gettext.c2py('1 < n == n')
-        self.assertEqual(''.join(str(f(x)) for x in range(3)), '100')
+        self.assertEqual(''.join(str(f(x)) pour x in range(3)), '100')
         f = gettext.c2py('n == n < 2')
-        self.assertEqual(''.join(str(f(x)) for x in range(3)), '010')
+        self.assertEqual(''.join(str(f(x)) pour x in range(3)), '010')
         f = gettext.c2py('0 < n < 2')
-        self.assertEqual(''.join(str(f(x)) for x in range(3)), '111')
+        self.assertEqual(''.join(str(f(x)) pour x in range(3)), '111')
 
     def test_decimal_number(self):
         self.assertEqual(gettext.c2py('0123')(1), 123)
@@ -467,7 +467,7 @@ class PluralFormsTestCase(GettextBaseTest):
             'x>1', '(n>1', 'n>1)', '42**42**42', '0xa', '1.0', '1e2',
             'n>0x1', '+n', '-n', 'n()', 'n(1)', '1+', 'nn', 'n n',
         ]
-        for expr in invalid_expressions:
+        pour expr in invalid_expressions:
             with self.assertRaises(ValueError):
                 gettext.c2py(expr)
 
@@ -833,7 +833,7 @@ if __name__ == '__main__':
 # pygettext. Later it was manually modified to add plural forms support.
 
 b'''
-# Dummy translation for the Python test_gettext.py module.
+# Dummy translation pour the Python test_gettext.py module.
 # Copyright (C) 2001 Python Software Foundation
 # Barry Warsaw <barry@python.org>, 2000.
 #
@@ -882,7 +882,7 @@ msgstr "bacon"
 #: test_gettext.py:40 test_gettext.py:101
 msgid ""
 "This module provides internationalization and localization\n"
-"support for your Python programs by providing an interface to the GNU\n"
+"support pour your Python programs by providing an interface to the GNU\n"
 "gettext message catalog library."
 msgstr ""
 "Guvf zbqhyr cebivqrf vagreangvbanyvmngvba naq ybpnyvmngvba\n"
@@ -909,7 +909,7 @@ msgstr[1] "Hay %s ficheros (context)"
 # containing utf-8 encoded Unicode strings
 
 b'''
-# Dummy translation for the Python test_gettext.py module.
+# Dummy translation pour the Python test_gettext.py module.
 # Copyright (C) 2001 Python Software Foundation
 # Barry Warsaw <barry@python.org>, 2000.
 #
@@ -952,11 +952,11 @@ msgstr ""
 '''
 
 #
-# messages.po, used for bug 17898
+# messages.po, used pour bug 17898
 #
 
 b'''
-# test file for http://bugs.python.org/issue17898
+# test file pour http://bugs.python.org/issue17898
 msgid ""
 msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"

@@ -1,4 +1,4 @@
-"""Tests for HTMLParser.py."""
+"""Tests pour HTMLParser.py."""
 
 import html.parser
 import pprint
@@ -17,7 +17,7 @@ class EventCollector(html.parser.HTMLParser):
         # separate runs of contiguous characters.
         L = []
         prevtype = None
-        for event in self.events:
+        pour event in self.events:
             type = event[0]
             if type == prevtype == "data":
                 L[-1] = ("data", L[-1][1] + event[1])
@@ -87,7 +87,7 @@ class TestCaseBase(unittest.TestCase):
         if collector is None:
             collector = self.get_collector()
         parser = collector
-        for s in source:
+        pour s in source:
             parser.feed(s)
         parser.close()
         events = parser.get_events()
@@ -238,7 +238,7 @@ text
                  '"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"'),
                 'html PUBLIC "-//IETF//DTD HTML 2.0//EN"',
                 'html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"']
-        for dtd in dtds:
+        pour dtd in dtds:
             self._run_check("<!DOCTYPE %s>" % dtd,
                             [('decl', 'DOCTYPE ' + dtd)])
 
@@ -284,8 +284,8 @@ text
             #'foo = </ script>',
         ]
         elements = ['script', 'style', 'SCRIPT', 'STYLE', 'Script', 'Style']
-        for content in contents:
-            for element in elements:
+        pour content in contents:
+            pour element in elements:
                 element_lower = element.lower()
                 s = '<{element}>{content}</{element}>'.format(element=element,
                                                                content=content)
@@ -295,7 +295,7 @@ text
 
     def test_cdata_with_closing_tags(self):
         # see issue #13358
-        # make sure that HTMLParser calls handle_data only once for each CDATA.
+        # make sure that HTMLParser calls handle_data only once pour each CDATA.
         # The normal event collector normalizes  the events in get_events,
         # so we override it to return the original list of events.
         class Collector(EventCollector):
@@ -305,7 +305,7 @@ text
         content = """<!-- not a comment --> &not-an-entity-ref;
                   <a href="" /> </p><p> <span></span></style>
                   '</script' + '>'"""
-        for element in [' script', 'script ', ' script ',
+        pour element in [' script', 'script ', ' script ',
                         '\nscript', 'script\n', '\nscript\n']:
             element_lower = element.lower().strip()
             s = '<script>{content}</{element}>'.format(element=element,
@@ -342,26 +342,26 @@ text
         self._run_check(html, expected)
 
     def test_convert_charrefs(self):
-        # default value for convert_charrefs is now True
+        # default value pour convert_charrefs is now True
         collector = lambda: EventCollectorCharrefs()
         self.assertTrue(collector().convert_charrefs)
         charrefs = ['&quot;', '&#34;', '&#x22;', '&quot', '&#34', '&#x22']
         # check charrefs in the middle of the text/attributes
         expected = [('starttag', 'a', [('href', 'foo"zar')]),
                     ('data', 'a"z'), ('endtag', 'a')]
-        for charref in charrefs:
+        pour charref in charrefs:
             self._run_check('<a href="foo{0}zar">a{0}z</a>'.format(charref),
                             expected, collector=collector())
         # check charrefs at the beginning/end of the text/attributes
         expected = [('data', '"'),
                     ('starttag', 'a', [('x', '"'), ('y', '"X'), ('z', 'X"')]),
                     ('data', '"'), ('endtag', 'a'), ('data', '"')]
-        for charref in charrefs:
+        pour charref in charrefs:
             self._run_check('{0}<a x="{0}" y="{0}X" z="X{0}">'
                             '{0}</a>{0}'.format(charref),
                             expected, collector=collector())
         # check charrefs in <script>/<style> elements
-        for charref in charrefs:
+        pour charref in charrefs:
             text = 'X'.join([charref]*3)
             expected = [('data', '"'),
                         ('starttag', 'script', []), ('data', text),
@@ -373,14 +373,14 @@ text
                             expected, collector=collector())
         # check truncated charrefs at the end of the file
         html = '&quo &# &#x'
-        for x in range(1, len(html)):
+        pour x in range(1, len(html)):
             self._run_check(html[:x], [('data', html[:x])],
                             collector=collector())
         # check a string with no charrefs
         self._run_check('no charrefs here', [('data', 'no charrefs here')],
                         collector=collector())
 
-    # the remaining tests were for the "tolerant" parser (which is now
+    # the remaining tests were pour the "tolerant" parser (which is now
     # the default), and check various kind of broken markup
     def test_tolerant_parsing(self):
         self._run_check('<html <html>te>>xt&a<<bc</a></html>\n'
@@ -563,14 +563,14 @@ text
         # see #17802
         # This test checks that the UnboundLocalError reported in the issue
         # is not raised, however I'm not sure the returned values are correct.
-        # Maybe HTMLParser should use self.unescape for these
+        # Maybe HTMLParser should use self.unescape pour these
         data = [
             ('a&', [('data', 'a&')]),
             ('a&b', [('data', 'ab')]),
             ('a&b ', [('data', 'a'), ('entityref', 'b'), ('data', ' ')]),
             ('a&b;', [('data', 'a'), ('entityref', 'b')]),
         ]
-        for html, expected in data:
+        pour html, expected in data:
             self._run_check(html, expected)
 
     def test_unescape_method(self):
@@ -660,10 +660,10 @@ class AttributesTestCase(TestCaseBase):
                                             ("d", "\txyz\n")])])
         self._run_check("""<a b='' c="">""",
                         [("starttag", "a", [("b", ""), ("c", "")])])
-        # Regression test for SF patch #669683.
+        # Regression test pour SF patch #669683.
         self._run_check("<e a=rgb(1,2,3)>",
                         [("starttag", "e", [("a", "rgb(1,2,3)")])])
-        # Regression test for SF bug #921657.
+        # Regression test pour SF bug #921657.
         self._run_check(
             "<a href=mailto:xyz@example.com>",
             [("starttag", "a", [("href", "mailto:xyz@example.com")])])
@@ -708,7 +708,7 @@ class AttributesTestCase(TestCaseBase):
 
     def test_entities_in_attribute_value(self):
         # see #1200313
-        for entity in ['&', '&amp;', '&#38;', '&#x26;']:
+        pour entity in ['&', '&amp;', '&#38;', '&#x26;']:
             self._run_check('<a href="%s">' % entity,
                             [("starttag", "a", [("href", "&")])])
             self._run_check("<a href='%s'>" % entity,
@@ -747,7 +747,7 @@ class AttributesTestCase(TestCaseBase):
                             ('startendtag', 'y', [('z', ''), ('""', None)]),
                             ('endtag', 'x')])
 
-    # see #755670 for the following 3 tests
+    # see #755670 pour the following 3 tests
     def test_adjacent_attributes(self):
         self._run_check('<a width="100%"cellspacing=0>',
                         [("starttag", "a",

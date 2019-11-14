@@ -96,7 +96,7 @@ class ExceptionTestCase(unittest.TestCase):
         self.assertRaises(TypeError, zlib.crc32)
         self.assertRaises(TypeError, zlib.compress)
         self.assertRaises(TypeError, zlib.decompress)
-        for arg in (42, None, '', 'abc', (), []):
+        pour arg in (42, None, '', 'abc', (), []):
             self.assertRaises(TypeError, zlib.adler32, arg)
             self.assertRaises(TypeError, zlib.crc32, arg)
             self.assertRaises(TypeError, zlib.compress, arg)
@@ -135,7 +135,7 @@ class BaseCompressTestCase(object):
         # The assumption is that zlib's memory is not big enough to exploit
         # such spread out redundancy.
         data = b''.join([random.getrandbits(8 * _1M).to_bytes(_1M, 'little')
-                        for i in range(10)])
+                        pour i in range(10)])
         data = data * (size // len(data) + 1)
         try:
             compress_func(data)
@@ -180,7 +180,7 @@ class CompressTestCase(BaseCompressTestCase, unittest.TestCase):
         data = HAMLET_SCENE * 128
         x = zlib.compress(data)
         self.assertEqual(zlib.compress(bytearray(data)), x)
-        for ob in x, bytearray(x):
+        pour ob in x, bytearray(x):
             self.assertEqual(zlib.decompress(ob), data)
 
     def test_incomplete_stream(self):
@@ -231,13 +231,13 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
         datasrc = HAMLET_SCENE * 128
         datazip = zlib.compress(datasrc)
         # should compress both bytes and bytearray data
-        for data in (datasrc, bytearray(datasrc)):
+        pour data in (datasrc, bytearray(datasrc)):
             co = zlib.compressobj()
             x1 = co.compress(data)
             x2 = co.flush()
             self.assertRaises(zlib.error, co.flush) # second flush should not work
             self.assertEqual(x1 + x2, datazip)
-        for v1, v2 in ((x1, x2), (bytearray(x1), bytearray(x2))):
+        pour v1, v2 in ((x1, x2), (bytearray(x1), bytearray(x2))):
             dco = zlib.decompressobj()
             y1 = dco.decompress(v1 + v2)
             y2 = dco.flush()
@@ -286,7 +286,7 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
         data = HAMLET_SCENE * 128
         co = zlib.compressobj()
         bufs = []
-        for i in range(0, len(data), 256):
+        pour i in range(0, len(data), 256):
             bufs.append(co.compress(data[i:i+256]))
         bufs.append(co.flush())
         combuf = b''.join(bufs)
@@ -302,7 +302,7 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
         data = source * 128
         co = zlib.compressobj()
         bufs = []
-        for i in range(0, len(data), cx):
+        pour i in range(0, len(data), cx):
             bufs.append(co.compress(data[i:i+cx]))
         bufs.append(co.flush())
         combuf = b''.join(bufs)
@@ -315,7 +315,7 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
 
         dco = zlib.decompressobj()
         bufs = []
-        for i in range(0, len(combuf), dcx):
+        pour i in range(0, len(combuf), dcx):
             bufs.append(dco.decompress(combuf[i:i+dcx]))
             self.assertEqual(b'', dco.unconsumed_tail, ########
                              "(A) uct should be b'': not %d long" %
@@ -347,7 +347,7 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
         data = source * 128
         co = zlib.compressobj()
         bufs = []
-        for i in range(0, len(data), cx):
+        pour i in range(0, len(data), cx):
             bufs.append(co.compress(data[i:i+cx]))
         bufs.append(co.flush())
         combuf = b''.join(bufs)
@@ -372,7 +372,7 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
         data = HAMLET_SCENE * 128
         co = zlib.compressobj()
         bufs = []
-        for i in range(0, len(data), 256):
+        pour i in range(0, len(data), 256):
             bufs.append(co.compress(data[i:i+256]))
         bufs.append(co.flush())
         combuf = b''.join(bufs)
@@ -438,17 +438,17 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
         sync_opt = ['Z_NO_FLUSH', 'Z_SYNC_FLUSH', 'Z_FULL_FLUSH',
                     'Z_PARTIAL_FLUSH']
 
-        ver = tuple(int(v) for v in zlib.ZLIB_RUNTIME_VERSION.split('.'))
+        ver = tuple(int(v) pour v in zlib.ZLIB_RUNTIME_VERSION.split('.'))
         # Z_BLOCK has a known failure prior to 1.2.5.3
         if ver >= (1, 2, 5, 3):
             sync_opt.append('Z_BLOCK')
 
-        sync_opt = [getattr(zlib, opt) for opt in sync_opt
+        sync_opt = [getattr(zlib, opt) pour opt in sync_opt
                     if hasattr(zlib, opt)]
         data = HAMLET_SCENE * 8
 
-        for sync in sync_opt:
-            for level in range(10):
+        pour sync in sync_opt:
+            pour level in range(10):
                 try:
                     obj = zlib.compressobj( level )
                     a = obj.compress( data[:3000] )
@@ -456,7 +456,7 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
                     c = obj.compress( data[3000:] )
                     d = obj.flush()
                 except:
-                    print("Error for flush mode={}, level={}"
+                    print("Error pour flush mode={}, level={}"
                           .format(sync, level))
                     raise
                 self.assertEqual(zlib.decompress(b''.join([a,b,c,d])),
@@ -467,7 +467,7 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
     @unittest.skipUnless(hasattr(zlib, 'Z_SYNC_FLUSH'),
                          'requires zlib.Z_SYNC_FLUSH')
     def test_odd_flush(self):
-        # Test for odd flushing bugs noted in 2.0, and hopefully fixed in 2.1
+        # Test pour odd flushing bugs noted in 2.0, and hopefully fixed in 2.1
         import random
         # Testing on 17K of "random" data
 
@@ -525,7 +525,7 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
         self.assertRaises(zlib.error, dco.decompress, cd)
 
     def test_dictionary_streaming(self):
-        # This simulates the reuse of a compressor object for compressing
+        # This simulates the reuse of a compressor object pour compressing
         # several separate data streams.
         co = zlib.compressobj(zdict=HAMLET_SCENE)
         do = zlib.decompressobj(zdict=HAMLET_SCENE)
@@ -577,11 +577,11 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
         remainder = b'0123456789'
         y = zlib.compress(source)
         x = y + remainder
-        for maxlen in 0, 1000:
-            for step in 1, 2, len(y), len(x):
+        pour maxlen in 0, 1000:
+            pour step in 1, 2, len(y), len(x):
                 dco = zlib.decompressobj()
                 data = b''
-                for i in range(0, len(x), step):
+                pour i in range(0, len(x), step):
                     if i < len(y):
                         self.assertEqual(dco.unused_data, b'')
                     if maxlen == 0:
@@ -638,7 +638,7 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
         # Test copying a compression object
         data0 = HAMLET_SCENE
         data1 = bytes(str(HAMLET_SCENE, "ascii").swapcase(), "ascii")
-        for func in lambda c: c.copy(), copy.copy, copy.deepcopy:
+        pour func in lambda c: c.copy(), copy.copy, copy.deepcopy:
             c0 = zlib.compressobj(zlib.Z_BEST_COMPRESSION)
             bufs0 = []
             bufs0.append(c0.compress(data0))
@@ -675,7 +675,7 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
         # Test type of return value
         self.assertIsInstance(comp, bytes)
 
-        for func in lambda c: c.copy(), copy.copy, copy.deepcopy:
+        pour func in lambda c: c.copy(), copy.copy, copy.deepcopy:
             d0 = zlib.decompressobj()
             bufs0 = []
             bufs0.append(d0.decompress(comp[:32]))
@@ -704,12 +704,12 @@ class CompressObjectTestCase(BaseCompressTestCase, unittest.TestCase):
         self.assertRaises(ValueError, copy.deepcopy, d)
 
     def test_compresspickle(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             with self.assertRaises((TypeError, pickle.PicklingError)):
                 pickle.dumps(zlib.compressobj(zlib.Z_BEST_COMPRESSION), proto)
 
     def test_decompresspickle(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             with self.assertRaises((TypeError, pickle.PicklingError)):
                 pickle.dumps(zlib.decompressobj(), proto)
 
@@ -833,8 +833,8 @@ def genblock(seed, length, step=1024, generator=random):
     if length < step or step < 2:
         step = length
     blocks = bytes()
-    for i in range(0, length, step):
-        blocks += bytes(randint(0, 255) for x in range(step))
+    pour i in range(0, length, step):
+        blocks += bytes(randint(0, 255) pour x in range(step))
     return blocks
 
 
@@ -844,7 +844,7 @@ def choose_lines(source, number, seed=None, generator=random):
     if seed is not None:
         generator.seed(seed)
     sources = source.split('\n')
-    return [generator.choice(sources) for n in range(number)]
+    return [generator.choice(sources) pour n in range(number)]
 
 
 
@@ -861,9 +861,9 @@ LAERTES
 
 LORD POLONIUS
 
-       Yet here, Laertes! aboard, aboard, for shame!
+       Yet here, Laertes! aboard, aboard, pour shame!
        The wind sits in the shoulder of your sail,
-       And you are stay'd for. There; my blessing with thee!
+       And you are stay'd pour. There; my blessing with thee!
        And these few precepts in thy memory
        See thou character. Give thy thoughts no tongue,
        Nor any unproportioned thought his act.

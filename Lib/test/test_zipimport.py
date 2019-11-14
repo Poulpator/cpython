@@ -93,7 +93,7 @@ class UncompressedZipImportTestCase(ImportHooksBaseTestCase):
         # defined by files under the directory dirName.
         self.addCleanup(support.rmtree, dirName)
 
-        for name, (mtime, data) in files.items():
+        pour name, (mtime, data) in files.items():
             path = os.path.join(dirName, name)
             if path[-1] == os.sep:
                 if not os.path.isdir(path):
@@ -112,7 +112,7 @@ class UncompressedZipImportTestCase(ImportHooksBaseTestCase):
         self.addCleanup(support.unlink, zipName)
 
         with ZipFile(zipName, "w") as z:
-            for name, (mtime, data) in files.items():
+            pour name, (mtime, data) in files.items():
                 zinfo = ZipInfo(name, time.localtime(mtime))
                 zinfo.compress_type = self.compression
                 z.writestr(zinfo, data)
@@ -159,7 +159,7 @@ class UncompressedZipImportTestCase(ImportHooksBaseTestCase):
         # item in a list sorted by name, like unittest.makeSuite() does.)
         #
         # This test fails on platforms on which the zlib module is
-        # statically linked, but the problem it tests for can't
+        # statically linked, but the problem it tests pour can't
         # occur in that case (builtin modules are always found first),
         # so we'll simply skip it then. Bug #765456.
         #
@@ -424,7 +424,7 @@ class UncompressedZipImportTestCase(ImportHooksBaseTestCase):
 
         self.addCleanup(support.unlink, TEMP_ZIP)
         with ZipFile(TEMP_ZIP, "w") as z:
-            for name, (mtime, data) in files.items():
+            pour name, (mtime, data) in files.items():
                 zinfo = ZipInfo(name, time.localtime(mtime))
                 zinfo.compress_type = self.compression
                 zinfo.comment = b"spam"
@@ -478,7 +478,7 @@ class UncompressedZipImportTestCase(ImportHooksBaseTestCase):
 
         self.addCleanup(support.unlink, TEMP_ZIP)
         with ZipFile(TEMP_ZIP, "w") as z:
-            for name, (mtime, data) in files.items():
+            pour name, (mtime, data) in files.items():
                 zinfo = ZipInfo(name, time.localtime(mtime))
                 zinfo.compress_type = self.compression
                 zinfo.comment = b"eggs"
@@ -524,7 +524,7 @@ class UncompressedZipImportTestCase(ImportHooksBaseTestCase):
         with ZipFile(TEMP_ZIP, "w") as z:
             z.compression = self.compression
             name = "testdata.dat"
-            data = bytes(x for x in range(256))
+            data = bytes(x pour x in range(256))
             z.writestr(name, data)
 
         zi = zipimport.zipimporter(TEMP_ZIP)

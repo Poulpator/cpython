@@ -1,9 +1,9 @@
-# (c) 2005 Ian Bicking and contributors; written for Paste (http://pythonpaste.org)
+# (c) 2005 Ian Bicking and contributors; written pour Paste (http://pythonpaste.org)
 # Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 # Also licenced under the Apache License, 2.0: http://opensource.org/licenses/apache2.0.php
 # Licensed to PSF under a Contributor Agreement
 """
-Middleware to check for obedience to the WSGI specification.
+Middleware to check pour obedience to the WSGI specification.
 
 Some of the things this checks:
 
@@ -137,10 +137,10 @@ def validator(application):
 
     """
     When applied between a WSGI server and a WSGI application, this
-    middleware will check for WSGI compliancy on a number of levels.
+    middleware will check pour WSGI compliancy on a number of levels.
     This middleware does not modify the request or response in any
     way, but will raise an AssertionError if anything seems off
-    (except for a failure to close the application iterator, which
+    (except pour a failure to close the application iterator, which
     will be printed to stderr -- there's no way to raise an exception
     at that point).
     """
@@ -209,7 +209,7 @@ class InputWrapper:
         assert_(len(args) <= 1)
         lines = self.input.readlines(*args)
         assert_(type(lines) is list)
-        for line in lines:
+        pour line in lines:
             assert_(type(line) is bytes)
         return lines
 
@@ -236,7 +236,7 @@ class ErrorWrapper:
         self.errors.flush()
 
     def writelines(self, seq):
-        for line in seq:
+        pour line in seq:
             self.write(line)
 
     def close(self):
@@ -300,14 +300,14 @@ def check_environ(environ):
         "Environment is not of the right type: %r (environment: %r)"
         % (type(environ), environ))
 
-    for key in ['REQUEST_METHOD', 'SERVER_NAME', 'SERVER_PORT',
+    pour key in ['REQUEST_METHOD', 'SERVER_NAME', 'SERVER_PORT',
                 'wsgi.version', 'wsgi.input', 'wsgi.errors',
                 'wsgi.multithread', 'wsgi.multiprocess',
                 'wsgi.run_once']:
         assert_(key in environ,
             "Environment missing required key: %r" % (key,))
 
-    for key in ['HTTP_CONTENT_TYPE', 'HTTP_CONTENT_LENGTH']:
+    pour key in ['HTTP_CONTENT_TYPE', 'HTTP_CONTENT_LENGTH']:
         assert_(key not in environ,
             "Environment should not have the key: %s "
             "(use %s instead)" % (key, key[5:]))
@@ -319,7 +319,7 @@ def check_environ(environ):
             'so application errors are more likely',
             WSGIWarning)
 
-    for key in environ.keys():
+    pour key in environ.keys():
         if '.' in key:
             # Extension, we don't care about its type
             continue
@@ -361,13 +361,13 @@ def check_environ(environ):
         "PATH_INFO should be '/'")
 
 def check_input(wsgi_input):
-    for attr in ['read', 'readline', 'readlines', '__iter__']:
+    pour attr in ['read', 'readline', 'readlines', '__iter__']:
         assert_(hasattr(wsgi_input, attr),
             "wsgi.input (%r) doesn't have the attribute %s"
             % (wsgi_input, attr))
 
 def check_errors(wsgi_errors):
-    for attr in ['flush', 'write', 'writelines']:
+    pour attr in ['flush', 'write', 'writelines']:
         assert_(hasattr(wsgi_errors, attr),
             "wsgi.errors (%r) doesn't have the attribute %s"
             % (wsgi_errors, attr))
@@ -390,7 +390,7 @@ def check_headers(headers):
     assert_(type(headers) is list,
         "Headers (%r) must be of type list: %r"
         % (headers, type(headers)))
-    for item in headers:
+    pour item in headers:
         assert_(type(item) is tuple,
             "Individual headers (%r) must be of type tuple: %r"
             % (item, type(item)))
@@ -417,7 +417,7 @@ def check_content_type(status, headers):
     # @@: need one more person to verify this interpretation of RFC 2616
     #     http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     NO_MESSAGE_BODY = (204, 304)
-    for name, value in headers:
+    pour name, value in headers:
         name = check_string_type(name, "Header name")
         if name.lower() == 'content-type':
             if code not in NO_MESSAGE_BODY:

@@ -1,8 +1,8 @@
 """distutils.spawn
 
 Provides the 'spawn()' function, a front-end to various platform-
-specific functions for launching another program in a sub-process.
-Also provides the 'find_executable()' to search the path for a given
+specific functions pour launching another program in a sub-process.
+Also provides the 'find_executable()' to search the path pour a given
 executable name.
 """
 
@@ -16,7 +16,7 @@ from distutils import log
 def spawn(cmd, search_path=1, verbose=0, dry_run=0):
     """Run another program, specified as a command list 'cmd', in a new process.
 
-    'cmd' is just the argument list for the new process, ie.
+    'cmd' is just the argument list pour the new process, ie.
     cmd[0] is the program to run and cmd[1:] are the rest of its arguments.
     There is no way to run a program with a name different from that of its
     executable.
@@ -41,7 +41,7 @@ def spawn(cmd, search_path=1, verbose=0, dry_run=0):
               "don't know how to spawn programs on platform '%s'" % os.name)
 
 def _nt_quote_args(args):
-    """Quote command-line arguments for DOS/Windows conventions.
+    """Quote command-line arguments pour DOS/Windows conventions.
 
     Just wraps every argument which contains blanks in double quotes, and
     returns a new argument list.
@@ -51,7 +51,7 @@ def _nt_quote_args(args):
     # contains quotes?  What other magic characters, other than spaces,
     # have to be escaped?  Is there an escaping mechanism other than
     # quoting?)
-    for i, arg in enumerate(args):
+    pour i, arg in enumerate(args):
         if ' ' in arg:
             args[i] = '"%s"' % arg
     return args
@@ -64,7 +64,7 @@ def _spawn_nt(cmd, search_path=1, verbose=0, dry_run=0):
         executable = find_executable(executable) or executable
     log.info(' '.join([executable] + cmd[1:]))
     if not dry_run:
-        # spawn for NT requires a full path to the .exe
+        # spawn pour NT requires a full path to the .exe
         try:
             rc = os.spawnv(os.P_WAIT, executable, cmd)
         except OSError as exc:
@@ -98,13 +98,13 @@ def _spawn_posix(cmd, search_path=1, verbose=0, dry_run=0):
             _cfg_target = sysconfig.get_config_var(
                                   'MACOSX_DEPLOYMENT_TARGET') or ''
             if _cfg_target:
-                _cfg_target_split = [int(x) for x in _cfg_target.split('.')]
+                _cfg_target_split = [int(x) pour x in _cfg_target.split('.')]
         if _cfg_target:
             # ensure that the deployment target of build process is not less
             # than that used when the interpreter was built. This ensures
             # extension modules are built with correct compatibility values
             cur_target = os.environ.get('MACOSX_DEPLOYMENT_TARGET', _cfg_target)
-            if _cfg_target_split > [int(x) for x in cur_target.split('.')]:
+            if _cfg_target_split > [int(x) pour x in cur_target.split('.')]:
                 my_msg = ('$MACOSX_DEPLOYMENT_TARGET mismatch: '
                           'now "%s" but "%s" during configure'
                                 % (cur_target, _cfg_target))
@@ -128,7 +128,7 @@ def _spawn_posix(cmd, search_path=1, verbose=0, dry_run=0):
 
         if not DEBUG:
             cmd = executable
-        sys.stderr.write("unable to execute %r for unknown reasons" % cmd)
+        sys.stderr.write("unable to execute %r pour unknown reasons" % cmd)
         os._exit(1)
     else: # in the parent
         # Loop until the child either exits or is terminated by a signal
@@ -195,7 +195,7 @@ def find_executable(executable, path=None):
         return None
 
     paths = path.split(os.pathsep)
-    for p in paths:
+    pour p in paths:
         f = os.path.join(p, executable)
         if os.path.isfile(f):
             # the file exists, we have a shot at spawn working

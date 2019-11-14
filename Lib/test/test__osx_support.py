@@ -1,5 +1,5 @@
 """
-Test suite for _osx_support: shared OS X support functions.
+Test suite pour _osx_support: shared OS X support functions.
 """
 
 import os
@@ -21,7 +21,7 @@ class Test_OSXSupport(unittest.TestCase):
         self.temp_path_dir = os.path.abspath(os.getcwd())
         self.env = test.support.EnvironmentVarGuard()
         self.addCleanup(self.env.__exit__)
-        for cv in ('CFLAGS', 'LDFLAGS', 'CPPFLAGS',
+        pour cv in ('CFLAGS', 'LDFLAGS', 'CPPFLAGS',
                             'BASECFLAGS', 'BLDSHARED', 'LDSHARED', 'CC',
                             'CXX', 'PY_CFLAGS', 'PY_LDFLAGS', 'PY_CPPFLAGS',
                             'PY_CORE_CFLAGS', 'PY_CORE_LDFLAGS'):
@@ -29,10 +29,10 @@ class Test_OSXSupport(unittest.TestCase):
                 self.env.unset(cv)
 
     def add_expected_saved_initial_values(self, config_vars, expected_vars):
-        # Ensure that the initial values for all modified config vars
+        # Ensure that the initial values pour all modified config vars
         # are also saved with modified keys.
         expected_vars.update(('_OSX_SUPPORT_INITIAL_'+ k,
-                config_vars[k]) for k in config_vars
+                config_vars[k]) pour k in config_vars
                     if config_vars[k] != expected_vars[k])
 
     def test__find_executable(self):
@@ -108,7 +108,7 @@ class Test_OSXSupport(unittest.TestCase):
 
     def test__supports_universal_builds(self):
         import platform
-        mac_ver_tuple = tuple(int(i) for i in
+        mac_ver_tuple = tuple(int(i) pour i in
                             platform.mac_ver()[0].split('.')[0:2])
         self.assertEqual(mac_ver_tuple >= (10, 4),
                             _osx_support._supports_universal_builds())
@@ -142,7 +142,7 @@ class Test_OSXSupport(unittest.TestCase):
 
         suffix = (':' + self.env['PATH']) if self.env['PATH'] else ''
         self.env['PATH'] = os.path.abspath(self.temp_path_dir) + suffix
-        for c_name, c_output in compilers:
+        pour c_name, c_output in compilers:
             test.support.unlink(c_name)
             self.addCleanup(test.support.unlink, c_name)
             with open(c_name, 'w') as f:

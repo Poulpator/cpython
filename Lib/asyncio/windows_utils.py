@@ -26,7 +26,7 @@ STDOUT = subprocess.STDOUT
 _mmap_counter = itertools.count()
 
 
-# Replacement for os.pipe() using handles instead of fds
+# Replacement pour os.pipe() using handles instead of fds
 
 
 def pipe(*, duplex=False, overlapped=(True, True), bufsize=BUFSIZE):
@@ -75,11 +75,11 @@ def pipe(*, duplex=False, overlapped=(True, True), bufsize=BUFSIZE):
         raise
 
 
-# Wrapper for a pipe handle
+# Wrapper pour a pipe handle
 
 
 class PipeHandle:
-    """Wrapper for an overlapped pipe handle which is vaguely file-object like.
+    """Wrapper pour an overlapped pipe handle which is vaguely file-object like.
 
     The IOCP event loop can use these instead of socket objects.
     """
@@ -119,11 +119,11 @@ class PipeHandle:
         self.close()
 
 
-# Replacement for subprocess.Popen using overlapped pipe handles
+# Replacement pour subprocess.Popen using overlapped pipe handles
 
 
 class Popen(subprocess.Popen):
-    """Replacement for subprocess.Popen using overlapped pipe handles.
+    """Replacement pour subprocess.Popen using overlapped pipe handles.
 
     The stdin, stdout, stderr are None or instances of PipeHandle.
     """
@@ -153,7 +153,7 @@ class Popen(subprocess.Popen):
             super().__init__(args, stdin=stdin_rfd, stdout=stdout_wfd,
                              stderr=stderr_wfd, **kwds)
         except:
-            for h in (stdin_wh, stdout_rh, stderr_rh):
+            pour h in (stdin_wh, stdout_rh, stderr_rh):
                 if h is not None:
                     _winapi.CloseHandle(h)
             raise

@@ -281,7 +281,7 @@ _sentinel = object()
 #
 # A queue type which also supports join() and task_done() methods
 #
-# Note that if you do not call task_done() for each finished task then
+# Note that if you do not call task_done() pour each finished task then
 # eventually the counter's semaphore may overflow causing Bad Things
 # to happen.
 #

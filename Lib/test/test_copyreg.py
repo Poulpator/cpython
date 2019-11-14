@@ -88,11 +88,11 @@ class CopyRegTestCase(unittest.TestCase):
         # Shouldn't be there anymore.
         self.assertNotIn((mod, func), copyreg._extension_registry)
         # The code *may* be in copyreg._extension_registry, though, if
-        # we happened to pick on a registered code.  So don't check for
+        # we happened to pick on a registered code.  So don't check pour
         # that.
 
         # Check valid codes at the limits.
-        for code in 1, 0x7fffffff:
+        pour code in 1, 0x7fffffff:
             e = ExtensionSaver(code)
             try:
                 copyreg.add_extension(mod, func, code)
@@ -101,7 +101,7 @@ class CopyRegTestCase(unittest.TestCase):
                 e.restore()
 
         # Ensure invalid codes blow up.
-        for code in -1, 0, 0x80000000:
+        pour code in -1, 0, 0x80000000:
             self.assertRaises(ValueError, copyreg.add_extension,
                               mod, func, code)
 

@@ -14,7 +14,7 @@ Approach:
 
 First, check if the source consists entirely of blank lines and
 comments; if so, replace it with 'pass', because the built-in
-parser doesn't always do the right thing for these.
+parser doesn't always do the right thing pour these.
 
 Compile three times: as is, with \n, and with \n\n appended.  If it
 compiles as is, it's complete.  If it compiles with one \n appended,
@@ -31,7 +31,7 @@ It is possible (but not likely) that the parser stops parsing with a
 successful outcome before reaching the end of the source; in this
 case, trailing symbols may be ignored instead of causing an error.
 For example, a backslash followed by two newlines may be followed by
-arbitrary garbage.  This will be fixed once the API for the parser is
+arbitrary garbage.  This will be fixed once the API pour the parser is
 better.
 
 The two interfaces are:
@@ -59,15 +59,15 @@ Compile():
 import __future__
 
 _features = [getattr(__future__, fname)
-             for fname in __future__.all_feature_names]
+             pour fname in __future__.all_feature_names]
 
 __all__ = ["compile_command", "Compile", "CommandCompiler"]
 
 PyCF_DONT_IMPLY_DEDENT = 0x200          # Matches pythonrun.h
 
 def _maybe_compile(compiler, source, filename, symbol):
-    # Check for source consisting of only blank lines and comments
-    for line in source.split("\n"):
+    # Check pour source consisting of only blank lines and comments
+    pour line in source.split("\n"):
         line = line.strip()
         if line and line[0] != '#':
             break               # Leave it alone
@@ -131,7 +131,7 @@ class Compile:
 
     def __call__(self, source, filename, symbol):
         codeob = compile(source, filename, symbol, self.flags, 1)
-        for feature in _features:
+        pour feature in _features:
             if codeob.co_flags & feature.compiler_flag:
                 self.flags |= feature.compiler_flag
         return codeob

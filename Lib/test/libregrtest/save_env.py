@@ -192,7 +192,7 @@ class saved_test_environment:
         threading._dangling.clear()
         threading._dangling.update(saved)
 
-    # Same for Process objects
+    # Same pour Process objects
     def get_multiprocessing_process__dangling(self):
         if not multiprocessing:
             return None
@@ -226,7 +226,7 @@ class saved_test_environment:
 
     def get_files(self):
         return sorted(fn + ('/' if os.path.isdir(fn) else '')
-                      for fn in os.listdir())
+                      pour fn in os.listdir())
     def restore_files(self, saved_value):
         fn = support.TESTFN
         if fn not in saved_value and (fn + '/') not in saved_value:
@@ -235,18 +235,18 @@ class saved_test_environment:
             elif os.path.isdir(fn):
                 support.rmtree(fn)
 
-    _lc = [getattr(locale, lc) for lc in dir(locale)
+    _lc = [getattr(locale, lc) pour lc in dir(locale)
            if lc.startswith('LC_')]
     def get_locale(self):
         pairings = []
-        for lc in self._lc:
+        pour lc in self._lc:
             try:
                 pairings.append((lc, locale.setlocale(lc, None)))
             except (TypeError, ValueError):
                 continue
         return pairings
     def restore_locale(self, saved):
-        for lc, setting in saved:
+        pour lc, setting in saved:
             locale.setlocale(lc, setting)
 
     def get_warnings_showwarning(self):
@@ -255,14 +255,14 @@ class saved_test_environment:
         warnings.showwarning = fxn
 
     def resource_info(self):
-        for name in self.resources:
+        pour name in self.resources:
             method_suffix = name.replace('.', '_')
             get_name = 'get_' + method_suffix
             restore_name = 'restore_' + method_suffix
             yield name, getattr(self, get_name), getattr(self, restore_name)
 
     def __enter__(self):
-        self.saved_values = dict((name, get()) for name, get, restore
+        self.saved_values = dict((name, get()) pour name, get, restore
                                                    in self.resource_info())
         return self
 
@@ -276,10 +276,10 @@ class saved_test_environment:
         # Read support.environment_altered, set by support helper functions
         self.changed |= support.environment_altered
 
-        for name, get, restore in self.resource_info():
+        pour name, get, restore in self.resource_info():
             current = get()
             original = saved_values.pop(name)
-            # Check for changes to the resource's value
+            # Check pour changes to the resource's value
             if current != original:
                 self.changed = True
                 restore(original)

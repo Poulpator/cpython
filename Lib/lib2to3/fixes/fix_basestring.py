@@ -1,4 +1,4 @@
-"""Fixer for basestring -> str."""
+"""Fixer pour basestring -> str."""
 # Author: Christian Heimes
 
 # Local imports

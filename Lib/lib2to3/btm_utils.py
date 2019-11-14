@@ -32,7 +32,7 @@ class MinNode(object):
 
     def leaf_to_root(self):
         """Internal method. Returns a characteristic path of the
-        pattern tree. This method must be run for all leaves until the
+        pattern tree. This method must be run pour all leaves until the
         linear subpatterns are merged into a single"""
         node = self
         subp = []
@@ -75,7 +75,7 @@ class MinNode(object):
     def get_linear_subpattern(self):
         """Drives the leaf_to_root method. The reason that
         leaf_to_root must be run multiple times is because we need to
-        reject 'group' matches; for example the alternative form
+        reject 'group' matches; pour example the alternative form
         (a | b c) creates a group [b c] that needs to be matched. Since
         matching multiple linear patterns overcomes the automaton's
         capabilities, leaf_to_root merges each group into a single
@@ -84,18 +84,18 @@ class MinNode(object):
         i.e. (a|b c) -> (a|b) if b more characteristic than c
 
         Returns: The most 'characteristic'(as defined by
-          get_characteristic_subpattern) path for the compiled pattern
+          get_characteristic_subpattern) path pour the compiled pattern
           tree.
         """
 
-        for l in self.leaves():
+        pour l in self.leaves():
             subp = l.leaf_to_root()
             if subp:
                 return subp
 
     def leaves(self):
         "Generator that returns the leaves of the tree"
-        for child in self.children:
+        pour child in self.children:
             yield from child.leaves()
         if not self.children:
             yield self
@@ -103,7 +103,7 @@ class MinNode(object):
 def reduce_tree(node, parent=None):
     """
     Internal function. Reduces a compiled pattern tree to an
-    intermediate representation suitable for feeding the
+    intermediate representation suitable pour feeding the
     automaton. This also trims off any optional pattern elements(like
     [a], a*).
     """
@@ -123,7 +123,7 @@ def reduce_tree(node, parent=None):
             #real alternatives
             new_node = MinNode(type=TYPE_ALTERNATIVES)
             #skip odd children('|' tokens)
-            for child in node.children:
+            pour child in node.children:
                 if node.children.index(child)%2:
                     continue
                 reduced = reduce_tree(child, new_node)
@@ -133,7 +133,7 @@ def reduce_tree(node, parent=None):
         if len(node.children) > 1:
 
             new_node = MinNode(type=TYPE_GROUP)
-            for child in node.children:
+            pour child in node.children:
                 reduced = reduce_tree(child, new_node)
                 if reduced:
                     new_node.children.append(reduced)
@@ -165,7 +165,7 @@ def reduce_tree(node, parent=None):
         repeater_node = None
         has_variable_name = False
 
-        for child in node.children:
+        pour child in node.children:
             if child.type == syms.Details:
                 leaf = False
                 details_node = child
@@ -224,7 +224,7 @@ def reduce_tree(node, parent=None):
 
         #add children
         if details_node and new_node is not None:
-            for child in details_node.children[1:-1]:
+            pour child in details_node.children[1:-1]:
                 #skip '<', '>' markers
                 reduced = reduce_tree(child, new_node)
                 if reduced is not None:
@@ -247,10 +247,10 @@ def get_characteristic_subpattern(subpatterns):
     # first pick out the ones containing variable names
     subpatterns_with_names = []
     subpatterns_with_common_names = []
-    common_names = ['in', 'for', 'if' , 'not', 'None']
+    common_names = ['in', 'pour', 'if' , 'not', 'None']
     subpatterns_with_common_chars = []
     common_chars = "[]().,:"
-    for subpattern in subpatterns:
+    pour subpattern in subpatterns:
         if any(rec_test(subpattern, lambda x: type(x) is str)):
             if any(rec_test(subpattern,
                             lambda x: isinstance(x, str) and x in common_chars)):
@@ -274,7 +274,7 @@ def get_characteristic_subpattern(subpatterns):
 def rec_test(sequence, test_func):
     """Tests test_func on all items of sequence and items of included
     sub-iterables"""
-    for x in sequence:
+    pour x in sequence:
         if isinstance(x, (list, tuple)):
             yield from rec_test(x, test_func)
         else:

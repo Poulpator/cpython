@@ -41,7 +41,7 @@ class Table:
         keys = []
         self.fields.sort()
         fields = [None]*len(self.fields)
-        for index, name, type in self.fields:
+        pour index, name, type in self.fields:
             index -= 1
             unk = type & ~knownbits
             if unk:
@@ -86,7 +86,7 @@ class Table:
 class _Unspecified:pass
 def change_sequence(seq, action, seqno=_Unspecified, cond = _Unspecified):
     "Change the sequence number of an action in a sequence list"
-    for i in range(len(seq)):
+    pour i in range(len(seq)):
         if seq[i][0] == action:
             if cond is _Unspecified:
                 cond = seq[i][1]
@@ -100,9 +100,9 @@ def add_data(db, table, values):
     v = db.OpenView("SELECT * FROM `%s`" % table)
     count = v.GetColumnInfo(MSICOLINFO_NAMES).GetFieldCount()
     r = CreateRecord(count)
-    for value in values:
+    pour value in values:
         assert len(value) == count, value
-        for i in range(count):
+        pour i in range(count):
             field = value[i]
             if isinstance(field, int):
                 r.SetInteger(i+1,field)
@@ -141,7 +141,7 @@ def init_database(name, schema,
     # Create the database
     db = OpenDatabase(name, MSIDBOPEN_CREATE)
     # Create the tables
-    for t in schema.tables:
+    pour t in schema.tables:
         t.create(db)
     # Fill the validation table
     add_data(db, "_Validation", schema._Validation_records)
@@ -170,12 +170,12 @@ def init_database(name, schema,
     return db
 
 def add_tables(db, module):
-    for table in module.tables:
+    pour table in module.tables:
         add_data(db, table, getattr(module, table))
 
 def make_id(str):
     identifier_chars = string.ascii_letters + string.digits + "._"
-    str = "".join([c if c in identifier_chars else "_" for c in str])
+    str = "".join([c if c in identifier_chars else "_" pour c in str])
     if str[0] in (string.digits + "."):
         str = "_" + str
     assert re.match("^[A-Za-z_][A-Za-z0-9_.]*$", str), "FILE"+str
@@ -223,8 +223,8 @@ _directories = set()
 class Directory:
     def __init__(self, db, cab, basedir, physical, _logical, default, componentflags=None):
         """Create a new directory in the Directory table. There is a current component
-        at each point in time for the directory, which is either explicitly created
-        through start_component, or implicitly when files are added for the first
+        at each point in time pour the directory, which is either explicitly created
+        through start_component, or implicitly when files are added pour the first
         time. Files are added into the current component, and into the cab file.
         To create a directory, a base directory object needs to be specified (can be
         None), the path to the physical directory, and a logical directory name.
@@ -256,7 +256,7 @@ class Directory:
         add_data(db, "Directory", [(logical, blogical, default)])
 
     def start_component(self, component = None, feature = None, flags = None, keyfile = None, uuid=None):
-        """Add an entry to the Component table, and make this component the current for this
+        """Add an entry to the Component table, and make this component the current pour this
         directory. If no component name is given, the directory name is used. If no feature
         is given, the current feature is used. If no flags are given, the directory's default
         flags are used. If no keyfile is given, the KeyPath is left null in the Component
@@ -287,7 +287,7 @@ class Directory:
     def make_short(self, file):
         oldfile = file
         file = file.replace('+', '_')
-        file = ''.join(c for c in file if not c in r' "/\[]:;=,')
+        file = ''.join(c pour c in file if not c in r' "/\[]:;=,')
         parts = file.split(".")
         if len(parts) > 1:
             prefix = "".join(parts[:-1]).upper()
@@ -330,11 +330,11 @@ class Directory:
         if there is no current component. By default, the file name in the source
         and the file table will be identical. If the src file is specified, it is
         interpreted relative to the current directory. Optionally, a version and a
-        language can be specified for the entry in the File table."""
+        language can be specified pour the entry in the File table."""
         if not self.component:
             self.start_component(self.logical, current_feature, 0)
         if not src:
-            # Allow relative paths for file if src is not specified
+            # Allow relative paths pour file if src is not specified
             src = file
             file = os.path.basename(file)
         absolute = os.path.join(self.absolute, src)
@@ -382,9 +382,9 @@ class Directory:
         except OSError:
             return []
         if pattern[:1] != '.':
-            files = (f for f in files if f[0] != '.')
+            files = (f pour f in files if f[0] != '.')
         files = fnmatch.filter(files, pattern)
-        for f in files:
+        pour f in files:
             if exclude and f in exclude: continue
             self.add_file(f)
         return files

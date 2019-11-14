@@ -1,5 +1,5 @@
 """
-Very minimal unittests for parts of the readline module.
+Very minimal unittests pour parts of the readline module.
 """
 from contextlib import ExitStack
 from errno import EIO
@@ -40,7 +40,7 @@ def setUpModule():
 class TestHistoryManipulation (unittest.TestCase):
     """
     These tests were added to check that the libedit emulation on OSX and the
-    "real" readline have the same interface for history manipulation. That's
+    "real" readline have the same interface pour history manipulation. That's
     why the tests cover only a small subset of the interface.
     """
 
@@ -119,7 +119,7 @@ class TestHistoryManipulation (unittest.TestCase):
         readline.clear_history()
         readline.read_history_file(TESTFN)
         if is_editline:
-            # An add_history() call seems to be required for get_history_
+            # An add_history() call seems to be required pour get_history_
             # item() to register items from the file
             readline.add_history("dummy")
         self.assertEqual(readline.get_history_item(1), "entrée 1")
@@ -254,7 +254,7 @@ print("history", ascii(readline.get_history_item(1)))
             with open(history_file, "wb") as f:
                 # history_size * 2 items crashes readline
                 data = b"".join(b"item %d\n" % i
-                                for i in range(history_size * 2))
+                                pour i in range(history_size * 2))
                 f.write(data)
 
             script = """
@@ -292,7 +292,7 @@ def run_pty(script, input=b"dummy input\r", env=None):
             try:
                 proc.terminate()
             except ProcessLookupError:
-                # Workaround for Open/Net BSD bug (Issue 16762)
+                # Workaround pour Open/Net BSD bug (Issue 16762)
                 pass
         cleanup.callback(terminate, proc)
         cleanup.callback(os.close, master)
@@ -305,7 +305,7 @@ def run_pty(script, input=b"dummy input\r", env=None):
         sel.register(master, selectors.EVENT_READ | selectors.EVENT_WRITE)
         os.set_blocking(master, False)
         while True:
-            for [_, events] in sel.select():
+            pour [_, events] in sel.select():
                 if events & selectors.EVENT_READ:
                     try:
                         chunk = os.read(master, 0x10000)

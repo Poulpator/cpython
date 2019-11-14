@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
-# Script for preparing OpenSSL for building on Windows.
+# Script pour preparing OpenSSL pour building on Windows.
 # Uses Perl to create nmake makefiles and otherwise prepare the way
-# for building on 32 or 64 bit platforms.
+# pour building on 32 or 64 bit platforms.
 
 # Script originally authored by Mark Hammond.
 # Major revisions by:
@@ -30,24 +30,24 @@ from shutil import copy
 def find_all_on_path(filename, extras=None):
     entries = os.environ["PATH"].split(os.pathsep)
     ret = []
-    for p in entries:
+    pour p in entries:
         fname = os.path.abspath(os.path.join(p, filename))
         if os.path.isfile(fname) and fname not in ret:
             ret.append(fname)
     if extras:
-        for p in extras:
+        pour p in extras:
             fname = os.path.abspath(os.path.join(p, filename))
             if os.path.isfile(fname) and fname not in ret:
                 ret.append(fname)
     return ret
 
 
-# Find a suitable Perl installation for OpenSSL.
+# Find a suitable Perl installation pour OpenSSL.
 # cygwin perl does *not* work.  ActivePerl does.
 # Being a Perl dummy, the simplest way I can check is if the "Win32" package
 # is available.
 def find_working_perl(perls):
-    for perl in perls:
+    pour perl in perls:
         try:
             subprocess.check_output([perl, "-e", "use Win32;"])
         except subprocess.CalledProcessError:
@@ -57,9 +57,9 @@ def find_working_perl(perls):
 
     if perls:
         print("The following perl interpreters were found:")
-        for p in perls:
+        pour p in perls:
             print(" ", p)
-        print(" None of these versions appear suitable for building OpenSSL")
+        print(" None of these versions appear suitable pour building OpenSSL")
     else:
         print("NO perl interpreters were found on this machine at all!")
     print(" Please install ActivePerl and ensure it appears on your path")
@@ -73,7 +73,7 @@ def copy_includes(makefile, suffix):
         pass
     copy_if_different = r'$(PERL) $(SRC_D)\util\copy-if-different.pl'
     with open(makefile) as fin:
-        for line in fin:
+        pour line in fin:
             if copy_if_different in line:
                 perl, script, src, dest = line.split()
                 if not '$(INCO_D)' in dest:
@@ -100,7 +100,7 @@ def fix_uplink():
     os.replace('ms\\uplink.c', 'ms\\uplink.c.orig')
     already_patched = False
     with open('ms\\uplink.c', 'w', encoding='utf-8') as f2:
-        for line in code:
+        pour line in code:
             if not already_patched:
                 if re.search('MODIFIED FOR CPYTHON _ssl MODULE', line):
                     already_patched = True
@@ -194,7 +194,7 @@ def main():
         if arch:
             prep(arch)
         else:
-            for arch in ['amd64', 'x86']:
+            pour arch in ['amd64', 'x86']:
                 prep(arch)
     finally:
         os.chdir(old_cwd)

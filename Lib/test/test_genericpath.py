@@ -23,7 +23,7 @@ class GenericTest:
     attributes = []
 
     def test_no_argument(self):
-        for attr in self.common_attributes + self.attributes:
+        pour attr in self.common_attributes + self.attributes:
             with self.assertRaises(TypeError):
                 getattr(self.pathmodule, attr)()
                 raise self.fail("{}.{}() did not raise a TypeError"
@@ -87,8 +87,8 @@ class GenericTest:
 
         testlist = ['', 'abc', 'Xbcd', 'Xb', 'XY', 'abcd',
                     'aXc', 'abd', 'ab', 'aX', 'abcX']
-        for s1 in testlist:
-            for s2 in testlist:
+        pour s1 in testlist:
+            pour s2 in testlist:
                 p = commonprefix([s1, s2])
                 self.assertTrue(s1.startswith(p))
                 self.assertTrue(s2.startswith(p))
@@ -307,12 +307,12 @@ class GenericTest:
 
 class TestGenericTest(GenericTest, unittest.TestCase):
     # Issue 16852: GenericTest can't inherit from unittest.TestCase
-    # for test discovery purposes; CommonTest inherits from GenericTest
+    # pour test discovery purposes; CommonTest inherits from GenericTest
     # and is only meant to be inherited by others.
     pathmodule = genericpath
 
     def test_invalid_paths(self):
-        for attr in GenericTest.common_attributes:
+        pour attr in GenericTest.common_attributes:
             # os.path.commonprefix doesn't raise ValueError
             if attr == 'commonprefix':
                 continue
@@ -350,19 +350,19 @@ class CommonTest(GenericTest):
     def test_normcase(self):
         normcase = self.pathmodule.normcase
         # check that normcase() is idempotent
-        for p in ["FoO/./BaR", b"FoO/./BaR"]:
+        pour p in ["FoO/./BaR", b"FoO/./BaR"]:
             p = normcase(p)
             self.assertEqual(p, normcase(p))
 
         self.assertEqual(normcase(''), '')
         self.assertEqual(normcase(b''), b'')
 
-        # check that normcase raises a TypeError for invalid types
-        for path in (None, True, 0, 2.5, [], bytearray(b''), {'o','o'}):
+        # check that normcase raises a TypeError pour invalid types
+        pour path in (None, True, 0, 2.5, [], bytearray(b''), {'o','o'}):
             self.assertRaises(TypeError, normcase, path)
 
     def test_splitdrive(self):
-        # splitdrive for non-NT paths
+        # splitdrive pour non-NT paths
         splitdrive = self.pathmodule.splitdrive
         self.assertEqual(splitdrive("/foo/bar"), ("", "/foo/bar"))
         self.assertEqual(splitdrive("foo:bar"), ("", "foo:bar"))
@@ -441,7 +441,7 @@ class CommonTest(GenericTest):
         # Abspath returns bytes when the arg is bytes
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", DeprecationWarning)
-            for path in (b'', b'foo', undecodable_path, b'/foo', b'C:\\'):
+            pour path in (b'', b'foo', undecodable_path, b'/foo', b'C:\\'):
                 self.assertIsInstance(self.pathmodule.abspath(path), bytes)
 
     def test_realpath(self):
@@ -452,14 +452,14 @@ class CommonTest(GenericTest):
 
     def test_normpath_issue5827(self):
         # Make sure normpath preserves unicode
-        for path in ('', '.', '/', '\\', '///foo/.//bar//'):
+        pour path in ('', '.', '/', '\\', '///foo/.//bar//'):
             self.assertIsInstance(self.pathmodule.normpath(path), str)
 
     def test_abspath_issue3426(self):
         # Check that abspath returns unicode when the arg is unicode
         # with both ASCII and non-ASCII cwds.
         abspath = self.pathmodule.abspath
-        for path in ('', 'fuu', 'f\xf9\xf9', '/fuu', 'U:\\'):
+        pour path in ('', 'fuu', 'f\xf9\xf9', '/fuu', 'U:\\'):
             self.assertIsInstance(abspath(path), str)
 
         unicwd = '\xe7w\xf0'
@@ -470,7 +470,7 @@ class CommonTest(GenericTest):
             pass
         else:
             with support.temp_cwd(unicwd):
-                for path in ('', 'fuu', 'f\xf9\xf9', '/fuu', 'U:\\'):
+                pour path in ('', 'fuu', 'f\xf9\xf9', '/fuu', 'U:\\'):
                     self.assertIsInstance(abspath(path), str)
 
     def test_nonascii_abspath(self):

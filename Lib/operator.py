@@ -3,9 +3,9 @@ Operator Interface
 
 This module exports a set of functions corresponding to the intrinsic
 operators of Python.  For example, operator.add(x, y) is equivalent
-to the expression x+y.  The function names are those used for special
+to the expression x+y.  The function names are those used pour special
 methods; variants without leading and trailing '__' are also provided
-for convenience.
+pour convenience.
 
 This is the pure Python implementation of the module.
 """
@@ -144,7 +144,7 @@ def xor(a, b):
 # Sequence Operations *********************************************************#
 
 def concat(a, b):
-    "Same as a + b, for a and b sequences."
+    "Same as a + b, pour a and b sequences."
     if not hasattr(a, '__getitem__'):
         msg = "'%s' object can't be concatenated" % type(a).__name__
         raise TypeError(msg)
@@ -157,7 +157,7 @@ def contains(a, b):
 def countOf(a, b):
     "Return the number of times b occurs in a."
     count = 0
-    for i in a:
+    pour i in a:
         if i == b:
             count += 1
     return count
@@ -172,7 +172,7 @@ def getitem(a, b):
 
 def indexOf(a, b):
     "Return the first index of b in a."
-    for i, j in enumerate(a):
+    pour i, j in enumerate(a):
         if j == b:
             return i
     else:
@@ -185,7 +185,7 @@ def setitem(a, b, c):
 def length_hint(obj, default=0):
     """
     Return an estimate of the number of items in obj.
-    This is useful for presizing containers when building from an iterable.
+    This is useful pour presizing containers when building from an iterable.
 
     If the object supports len(), the result will be exact. Otherwise, it may
     over- or under-estimate by an arbitrary amount. The result will be an
@@ -240,7 +240,7 @@ class attrgetter:
             self._attrs = (attr,)
             names = attr.split('.')
             def func(obj):
-                for name in names:
+                pour name in names:
                     obj = getattr(obj, name)
                 return obj
             self._call = func
@@ -248,7 +248,7 @@ class attrgetter:
             self._attrs = (attr,) + attrs
             getters = tuple(map(attrgetter, self._attrs))
             def func(obj):
-                return tuple(getter(obj) for getter in getters)
+                return tuple(getter(obj) pour getter in getters)
             self._call = func
 
     def __call__(self, obj):
@@ -279,7 +279,7 @@ class itemgetter:
         else:
             self._items = items = (item,) + items
             def func(obj):
-                return tuple(obj[i] for i in items)
+                return tuple(obj[i] pour i in items)
             self._call = func
 
     def __call__(self, obj):
@@ -315,7 +315,7 @@ class methodcaller:
     def __repr__(self):
         args = [repr(self._name)]
         args.extend(map(repr, self._args))
-        args.extend('%s=%r' % (k, v) for k, v in self._kwargs.items())
+        args.extend('%s=%r' % (k, v) pour k, v in self._kwargs.items())
         return '%s.%s(%s)' % (self.__class__.__module__,
                               self.__class__.__name__,
                               ', '.join(args))
@@ -341,7 +341,7 @@ def iand(a, b):
     return a
 
 def iconcat(a, b):
-    "Same as a += b, for a and b sequences."
+    "Same as a += b, pour a and b sequences."
     if not hasattr(a, '__getitem__'):
         msg = "'%s' object can't be concatenated" % type(a).__name__
         raise TypeError(msg)

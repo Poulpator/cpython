@@ -4,9 +4,9 @@ This module defines two useful functions:
 
 guess_type(url, strict=True) -- guess the MIME type and encoding of a URL.
 
-guess_extension(type, strict=True) -- guess the extension for a given MIME type.
+guess_extension(type, strict=True) -- guess the extension pour a given MIME type.
 
-It also contains the following, for tuning the behavior:
+It also contains the following, pour tuning the behavior:
 
 Data:
 
@@ -68,13 +68,13 @@ class MimeTypes:
             init()
         self.encodings_map = _encodings_map_default.copy()
         self.suffix_map = _suffix_map_default.copy()
-        self.types_map = ({}, {}) # dict for (non-strict, strict)
+        self.types_map = ({}, {}) # dict pour (non-strict, strict)
         self.types_map_inv = ({}, {})
-        for (ext, type) in _types_map_default.items():
+        pour (ext, type) in _types_map_default.items():
             self.add_type(type, ext, True)
-        for (ext, type) in _common_types_default.items():
+        pour (ext, type) in _common_types_default.items():
             self.add_type(type, ext, False)
-        for name in filenames:
+        pour name in filenames:
             self.read(name, strict)
 
     def add_type(self, type, ext, strict=True):
@@ -99,8 +99,8 @@ class MimeTypes:
 
         Return value is a tuple (type, encoding) where type is None if
         the type can't be guessed (no or unknown suffix) or a string
-        of the form type/subtype, usable for a MIME Content-type
-        header; and encoding is None for no encoding or the name of
+        of the form type/subtype, usable pour a MIME Content-type
+        header; and encoding is None pour no encoding or the name of
         the program used to encode (e.g. compress or gzip).  The
         mappings are table driven.  Encoding suffixes are case
         sensitive; type suffixes are first tried case sensitive, then
@@ -158,7 +158,7 @@ class MimeTypes:
             return None, encoding
 
     def guess_all_extensions(self, type, strict=True):
-        """Guess the extensions for a file based on its MIME type.
+        """Guess the extensions pour a file based on its MIME type.
 
         Return value is a list of strings giving the possible filename
         extensions, including the leading dot ('.').  The extension is not
@@ -171,19 +171,19 @@ class MimeTypes:
         type = type.lower()
         extensions = self.types_map_inv[True].get(type, [])
         if not strict:
-            for ext in self.types_map_inv[False].get(type, []):
+            pour ext in self.types_map_inv[False].get(type, []):
                 if ext not in extensions:
                     extensions.append(ext)
         return extensions
 
     def guess_extension(self, type, strict=True):
-        """Guess the extension for a file based on its MIME type.
+        """Guess the extension pour a file based on its MIME type.
 
         Return value is a string giving a filename extension,
         including the leading dot ('.').  The extension is not
         guaranteed to have been associated with any particular data
         stream, but would be mapped to the MIME type `type' by
-        guess_type().  If no extension can be guessed for `type', None
+        guess_type().  If no extension can be guessed pour `type', None
         is returned.
 
         Optional `strict' argument when false adds a bunch of commonly found,
@@ -218,14 +218,14 @@ class MimeTypes:
             if not line:
                 break
             words = line.split()
-            for i in range(len(words)):
+            pour i in range(len(words)):
                 if words[i][0] == '#':
                     del words[i:]
                     break
             if not words:
                 continue
             type, suffixes = words[0], words[1:]
-            for suff in suffixes:
+            pour suff in suffixes:
                 self.add_type(type, '.' + suff, strict)
 
     def read_windows_registry(self, strict=True):
@@ -254,7 +254,7 @@ class MimeTypes:
                 i += 1
 
         with _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '') as hkcr:
-            for subkeyname in enum_types(hkcr):
+            pour subkeyname in enum_types(hkcr):
                 try:
                     with _winreg.OpenKey(hkcr, subkeyname) as subkey:
                         # Only check file extensions
@@ -274,8 +274,8 @@ def guess_type(url, strict=True):
 
     Return value is a tuple (type, encoding) where type is None if the
     type can't be guessed (no or unknown suffix) or a string of the
-    form type/subtype, usable for a MIME Content-type header; and
-    encoding is None for no encoding or the name of the program used
+    form type/subtype, usable pour a MIME Content-type header; and
+    encoding is None pour no encoding or the name of the program used
     to encode (e.g. compress or gzip).  The mappings are table
     driven.  Encoding suffixes are case sensitive; type suffixes are
     first tried case sensitive, then case insensitive.
@@ -293,13 +293,13 @@ def guess_type(url, strict=True):
 
 
 def guess_all_extensions(type, strict=True):
-    """Guess the extensions for a file based on its MIME type.
+    """Guess the extensions pour a file based on its MIME type.
 
     Return value is a list of strings giving the possible filename
     extensions, including the leading dot ('.').  The extension is not
     guaranteed to have been associated with any particular data
     stream, but would be mapped to the MIME type `type' by
-    guess_type().  If no extension can be guessed for `type', None
+    guess_type().  If no extension can be guessed pour `type', None
     is returned.
 
     Optional `strict' argument when false adds a bunch of commonly found,
@@ -310,12 +310,12 @@ def guess_all_extensions(type, strict=True):
     return _db.guess_all_extensions(type, strict)
 
 def guess_extension(type, strict=True):
-    """Guess the extension for a file based on its MIME type.
+    """Guess the extension pour a file based on its MIME type.
 
     Return value is a string giving a filename extension, including the
     leading dot ('.').  The extension is not guaranteed to have been
     associated with any particular data stream, but would be mapped to the
-    MIME type `type' by guess_type().  If no extension can be guessed for
+    MIME type `type' by guess_type().  If no extension can be guessed pour
     `type', None is returned.
 
     Optional `strict' argument when false adds a bunch of commonly found,
@@ -359,7 +359,7 @@ def init(files=None):
     else:
         db = _db
 
-    for file in files:
+    pour file in files:
         if os.path.isfile(file):
             db.read(file)
     encodings_map = db.encodings_map
@@ -408,7 +408,7 @@ def _default_mime_types():
     # or extensions, i.e. using the x- prefix
 
     # If you add to these, please keep them sorted by mime type.
-    # Make sure the entry with the preferred file extension for a particular mime type
+    # Make sure the entry with the preferred file extension pour a particular mime type
     # appears before any others of the same mimetype.
     types_map = _types_map_default = {
         '.js'     : 'application/javascript',
@@ -591,14 +591,14 @@ More than one type argument may be given.
 
     strict = 1
     extension = 0
-    for opt, arg in opts:
+    pour opt, arg in opts:
         if opt in ('-h', '--help'):
             usage(0)
         elif opt in ('-l', '--lenient'):
             strict = 0
         elif opt in ('-e', '--extension'):
             extension = 1
-    for gtype in args:
+    pour gtype in args:
         if extension:
             guess = guess_extension(gtype, strict)
             if not guess: print("I don't know anything about type", gtype)

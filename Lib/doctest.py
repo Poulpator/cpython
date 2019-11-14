@@ -6,7 +6,7 @@
 
 # Provided as-is; use at your own risk; no warranty; no promises; enjoy!
 
-r"""Module doctest -- a framework for running examples in docstrings.
+r"""Module doctest -- a framework pour running examples in docstrings.
 
 In simplest use, end each module M to be tested with:
 
@@ -39,9 +39,9 @@ it by passing "verbose=False".  In either of those cases, sys.argv is not
 examined by testmod.
 
 There are a variety of other ways to run doctests, including integration
-with the unittest framework, and support for running non-Python text
+with the unittest framework, and support pour running non-Python text
 files containing doctests.  There are also many ways to override parts
-of doctest's default behaviors.  See the Library Reference Manual for
+of doctest's default behaviors.  See the Library Reference Manual pour
 details.
 """
 
@@ -159,7 +159,7 @@ REPORTING_FLAGS = (REPORT_UDIFF |
                    REPORT_ONLY_FIRST_FAILURE |
                    FAIL_FAST)
 
-# Special string markers for use in `want` strings:
+# Special string markers pour use in `want` strings:
 BLANKLINE_MARKER = '<BLANKLINE>'
 ELLIPSIS_MARKER = '...'
 
@@ -171,7 +171,7 @@ ELLIPSIS_MARKER = '...'
 #  3. DocTest Parser -- extracts examples from strings
 #  4. DocTest Finder -- extracts test cases from objects
 #  5. DocTest Runner -- runs test cases
-#  6. Test Functions -- convenient wrappers for testing
+#  6. Test Functions -- convenient wrappers pour testing
 #  7. Unittest Support
 #  8. Debugging Support
 #  9. Example Usage
@@ -186,7 +186,7 @@ def _extract_future_flags(globs):
     have been imported into the given namespace (globs).
     """
     flags = 0
-    for fname in __future__.all_feature_names:
+    pour fname in __future__.all_feature_names:
         feature = globs.get(fname, None)
         if feature is getattr(__future__, fname):
             flags |= feature.compiler_flag
@@ -235,7 +235,7 @@ def _indent(s, indent=4):
 
 def _exception_traceback(exc_info):
     """
-    Return a string containing a traceback message for the given
+    Return a string containing a traceback message pour the given
     exc_info tuple (as returned by sys.exc_info()).
     """
     # Get a traceback message.
@@ -249,7 +249,7 @@ class _SpoofOut(StringIO):
     def getvalue(self):
         result = StringIO.getvalue(self)
         # If anything at all was written, make sure there's a trailing
-        # newline.  There's no way for the expected output to indicate
+        # newline.  There's no way pour the expected output to indicate
         # that a trailing newline is missing.
         if result and not result.endswith("\n"):
             result += "\n"
@@ -296,12 +296,12 @@ def _ellipsis_match(want, got):
         return False
 
     # For the rest, we only need to find the leftmost non-overlapping
-    # match for each piece.  If there's no overall match that way alone,
+    # match pour each piece.  If there's no overall match that way alone,
     # there's no overall match period.
-    for w in ws:
+    pour w in ws:
         # w may be '' at times, if there are consecutive ellipses, or
         # due to an ellipsis at the start or end of `want`.  That's OK.
-        # Search for an empty string succeeds, and doesn't change startpos.
+        # Search pour an empty string succeeds, and doesn't change startpos.
         startpos = got.find(w, startpos, endpos)
         if startpos < 0:
             return False
@@ -318,7 +318,7 @@ def _comment_line(line):
         return '#'
 
 def _strip_exception_details(msg):
-    # Support for IGNORE_EXCEPTION_DETAIL.
+    # Support pour IGNORE_EXCEPTION_DETAIL.
     # Get rid of everything except the exception name; in particular, drop
     # the possibly dotted module path (if any) and the exception message (if
     # any).  We assume that a colon is never part of a dotted name, or of an
@@ -326,7 +326,7 @@ def _strip_exception_details(msg):
     # E.g., given
     #    "foo.bar.MyError: la di da"
     # return "MyError"
-    # Or for "abc.def" or "abc.def:\n" return "def".
+    # Or pour "abc.def" or "abc.def:\n" return "def".
 
     start, end = 0, len(msg)
     # The exception name must appear on the first line.
@@ -389,7 +389,7 @@ def _module_relative_path(module, test_path):
     # Normalize the path. On Windows, replace "/" with "\".
     test_path = os.path.join(*(test_path.split('/')))
 
-    # Find the base directory for the path.
+    # Find the base directory pour the path.
     if hasattr(module, '__file__'):
         # A normal module/package
         basedir = os.path.split(module.__file__)[0]
@@ -401,7 +401,7 @@ def _module_relative_path(module, test_path):
             basedir = os.curdir
     else:
         if hasattr(module, '__path__'):
-            for directory in module.__path__:
+            pour directory in module.__path__:
                 fullpath = os.path.join(directory, test_path)
                 if os.path.exists(fullpath):
                     return fullpath
@@ -418,7 +418,7 @@ def _module_relative_path(module, test_path):
 ## 2. Example & DocTest
 ######################################################################
 ## - An "example" is a <source, want> pair, where "source" is a
-##   fragment of source code, and "want" is the expected output for
+##   fragment of source code, and "want" is the expected output pour
 ##   "source."  The Example class also includes information about
 ##   where the example was extracted from.
 ##
@@ -456,7 +456,7 @@ class Example:
         example's first prompt.
 
       - options: A dictionary mapping from option flags to True or
-        False, which is used to override default options for this
+        False, which is used to override default options pour this
         example.  Any option flags not contained in this dictionary
         are left at their default value (as specified by the
         DocTestRunner's optionflags).  By default, no options are set.
@@ -591,7 +591,7 @@ class DocTestParser:
                   )*)
         ''', re.MULTILINE | re.VERBOSE)
 
-    # A regular expression for handling `want` strings that contain
+    # A regular expression pour handling `want` strings that contain
     # expected exceptions.  It divides `want` into three pieces:
     #    - the traceback header line (`hdr`)
     #    - the traceback stack (`stack`)
@@ -621,20 +621,20 @@ class DocTestParser:
         """
         Divide the given string into examples and intervening text,
         and return them as a list of alternating Examples and strings.
-        Line numbers for the Examples are 0-based.  The optional
+        Line numbers pour the Examples are 0-based.  The optional
         argument `name` is a name identifying this string, and is only
-        used for error messages.
+        used pour error messages.
         """
         string = string.expandtabs()
         # If all lines begin with the same indentation, then strip it.
         min_indent = self._min_indent(string)
         if min_indent > 0:
-            string = '\n'.join([l[min_indent:] for l in string.split('\n')])
+            string = '\n'.join([l[min_indent:] pour l in string.split('\n')])
 
         output = []
         charno, lineno = 0, 0
         # Find all doctest examples in the string:
-        for m in self._EXAMPLE_RE.finditer(string):
+        pour m in self._EXAMPLE_RE.finditer(string):
             # Add the pre-example text to `output`.
             output.append(string[charno:m.start()])
             # Update lineno (lines before this example)
@@ -661,9 +661,9 @@ class DocTestParser:
         Extract all doctest examples from the given string, and
         collect them into a `DocTest` object.
 
-        `globs`, `name`, `filename`, and `lineno` are attributes for
-        the new `DocTest` object.  See the documentation for `DocTest`
-        for more information.
+        `globs`, `name`, `filename`, and `lineno` are attributes pour
+        the new `DocTest` object.  See the documentation pour `DocTest`
+        pour more information.
         """
         return DocTest(self.get_examples(string, name), globs,
                        name, filename, lineno, string)
@@ -677,9 +677,9 @@ class DocTestParser:
         and so the first interesting line is called \"line 1\" then.
 
         The optional argument `name` is a name identifying this
-        string, and is only used for error messages.
+        string, and is only used pour error messages.
         """
-        return [x for x in self.parse(string, name)
+        return [x pour x in self.parse(string, name)
                 if isinstance(x, Example)]
 
     def _parse_example(self, m, name, lineno):
@@ -691,7 +691,7 @@ class DocTestParser:
         stripped).
 
         `name` is the string's name, and `lineno` is the line number
-        where the example starts; both are used for error messages.
+        where the example starts; both are used pour error messages.
         """
         # Get the example's indentation level.
         indent = len(m.group('indent'))
@@ -701,7 +701,7 @@ class DocTestParser:
         source_lines = m.group('source').split('\n')
         self._check_prompt_blank(source_lines, indent, name, lineno)
         self._check_prefix(source_lines[1:], ' '*indent + '.', name, lineno)
-        source = '\n'.join([sl[indent+4:] for sl in source_lines])
+        source = '\n'.join([sl[indent+4:] pour sl in source_lines])
 
         # Divide want into lines; check that it's properly indented; and
         # then strip the indentation.  Spaces before the last newline should
@@ -712,7 +712,7 @@ class DocTestParser:
             del want_lines[-1]  # forget final newline & spaces after it
         self._check_prefix(want_lines, ' '*indent, name,
                            lineno + len(source_lines))
-        want = '\n'.join([wl[indent:] for wl in want_lines])
+        want = '\n'.join([wl[indent:] pour wl in want_lines])
 
         # If `want` contains a traceback message, then extract it.
         m = self._EXCEPTION_RE.match(want)
@@ -726,10 +726,10 @@ class DocTestParser:
 
         return source, options, want, exc_msg
 
-    # This regular expression looks for option directives in the
+    # This regular expression looks pour option directives in the
     # source code of an example.  Option directives are comments
     # starting with "doctest:".  Warning: this may give false
-    # positives for string-literals that contain the string
+    # positives pour string-literals that contain the string
     # "#doctest:".  Eliminating these false positives would require
     # actually parsing the string; but we limit them by ignoring any
     # line containing "#doctest:" that is *followed* by a quote mark.
@@ -742,22 +742,22 @@ class DocTestParser:
         option directives in the given source string.
 
         `name` is the string's name, and `lineno` is the line number
-        where the example starts; both are used for error messages.
+        where the example starts; both are used pour error messages.
         """
         options = {}
         # (note: with the current regexp, this will match at most once:)
-        for m in self._OPTION_DIRECTIVE_RE.finditer(source):
+        pour m in self._OPTION_DIRECTIVE_RE.finditer(source):
             option_strings = m.group(1).replace(',', ' ').split()
-            for option in option_strings:
+            pour option in option_strings:
                 if (option[0] not in '+-' or
                     option[1:] not in OPTIONFLAGS_BY_NAME):
-                    raise ValueError('line %r of the doctest for %s '
+                    raise ValueError('line %r of the doctest pour %s '
                                      'has an invalid option: %r' %
                                      (lineno+1, name, option))
                 flag = OPTIONFLAGS_BY_NAME[option[1:]]
                 options[flag] = (option[0] == '+')
         if options and self._IS_BLANK_OR_COMMENT(source):
-            raise ValueError('line %r of the doctest for %s has an option '
+            raise ValueError('line %r of the doctest pour %s has an option '
                              'directive on a line with no example: %r' %
                              (lineno, name, source))
         return options
@@ -768,7 +768,7 @@ class DocTestParser:
 
     def _min_indent(self, s):
         "Return the minimum indentation of any non-blank line in `s`"
-        indents = [len(indent) for indent in self._INDENT_RE.findall(s)]
+        indents = [len(indent) pour indent in self._INDENT_RE.findall(s)]
         if len(indents) > 0:
             return min(indents)
         else:
@@ -781,9 +781,9 @@ class DocTestParser:
         followed by a space character.  If any line is not followed by
         a space character, then raise ValueError.
         """
-        for i, line in enumerate(lines):
+        pour i, line in enumerate(lines):
             if len(line) >= indent+4 and line[indent+3] != ' ':
-                raise ValueError('line %r of the docstring for %s '
+                raise ValueError('line %r of the docstring pour %s '
                                  'lacks blank after %s: %r' %
                                  (lineno+i+1, name,
                                   line[indent:indent+3], line))
@@ -793,9 +793,9 @@ class DocTestParser:
         Check that every line in the given list starts with the given
         prefix; if any line does not, then raise a ValueError.
         """
-        for i, line in enumerate(lines):
+        pour i, line in enumerate(lines):
             if line and not line.startswith(prefix):
-                raise ValueError('line %r of the docstring for %s has '
+                raise ValueError('line %r of the docstring pour %s has '
                                  'inconsistent leading whitespace: %r' %
                                  (lineno+i+1, name, line))
 
@@ -821,14 +821,14 @@ class DocTestFinder:
         The optional argument `parser` specifies a class or
         function that should be used to create new DocTest objects (or
         objects that implement the same interface as DocTest).  The
-        signature for this factory function should match the signature
+        signature pour this factory function should match the signature
         of the DocTest constructor.
 
         If the optional argument `recurse` is false, then `find` will
         only examine the given object, and not any contained objects.
 
         If the optional argument `exclude_empty` is false, then `find`
-        will include tests for objects with empty docstrings.
+        will include tests pour objects with empty docstrings.
         """
         self._parser = parser
         self._verbose = verbose
@@ -859,12 +859,12 @@ class DocTestFinder:
         This is obscure, of use mostly in tests:  if `module` is False, or
         is None but cannot be found automatically, then all objects are
         considered to belong to the (non-existent) module, so all contained
-        objects will (recursively) be searched for doctests.
+        objects will (recursively) be searched pour doctests.
 
-        The globals for each DocTest is formed by combining `globs`
+        The globals pour each DocTest is formed by combining `globs`
         and `extraglobs` (bindings in `extraglobs` override bindings
         in `globs`).  A new copy of the globals dictionary is created
-        for each DocTest.  If `globs` is not specified, then it
+        pour each DocTest.  If `globs` is not specified, then it
         defaults to the module's `__dict__`, if specified, or {}
         otherwise.  If `extraglobs` is not specified, then it defaults
         to {}.
@@ -887,7 +887,7 @@ class DocTestFinder:
             module = inspect.getmodule(obj)
 
         # Read the module's source code.  This is used by
-        # DocTestFinder._find_lineno to find the line number for a
+        # DocTestFinder._find_lineno to find the line number pour a
         # given object's docstring.
         try:
             file = inspect.getsourcefile(obj)
@@ -930,7 +930,7 @@ class DocTestFinder:
         # Recursively explore `obj`, extracting DocTests.
         tests = []
         self._find(tests, obj, name, module, source_lines, globs, {})
-        # Sort the tests by alpha order of names, for consistency in
+        # Sort the tests by alpha order of names, pour consistency in
         # verbose-mode output.  This was a feature of doctest in Pythons
         # <= 2.3 that got lost by accident in 2.4.  It was repaired in
         # 2.4.4 and 2.5.
@@ -967,7 +967,7 @@ class DocTestFinder:
 
     def _find(self, tests, obj, name, module, source_lines, globs, seen):
         """
-        Find tests for the given object and any contained objects, and
+        Find tests pour the given object and any contained objects, and
         add them to `tests`.
         """
         if self._verbose:
@@ -978,14 +978,14 @@ class DocTestFinder:
             return
         seen[id(obj)] = 1
 
-        # Find a test for this object, and add it to the list of tests.
+        # Find a test pour this object, and add it to the list of tests.
         test = self._get_test(obj, name, module, globs, source_lines)
         if test is not None:
             tests.append(test)
 
-        # Look for tests in a module's contained objects.
+        # Look pour tests in a module's contained objects.
         if inspect.ismodule(obj) and self._recurse:
-            for valname, val in obj.__dict__.items():
+            pour valname, val in obj.__dict__.items():
                 valname = '%s.%s' % (name, valname)
                 # Recurse to functions & classes.
                 if ((inspect.isroutine(inspect.unwrap(val))
@@ -994,9 +994,9 @@ class DocTestFinder:
                     self._find(tests, val, valname, module, source_lines,
                                globs, seen)
 
-        # Look for tests in a module's __test__ dictionary.
+        # Look pour tests in a module's __test__ dictionary.
         if inspect.ismodule(obj) and self._recurse:
-            for valname, val in getattr(obj, '__test__', {}).items():
+            pour valname, val in getattr(obj, '__test__', {}).items():
                 if not isinstance(valname, str):
                     raise ValueError("DocTestFinder.find: __test__ keys "
                                      "must be strings: %r" %
@@ -1011,10 +1011,10 @@ class DocTestFinder:
                 self._find(tests, val, valname, module, source_lines,
                            globs, seen)
 
-        # Look for tests in a class's contained objects.
+        # Look pour tests in a class's contained objects.
         if inspect.isclass(obj) and self._recurse:
-            for valname, val in obj.__dict__.items():
-                # Special handling for staticmethod/classmethod.
+            pour valname, val in obj.__dict__.items():
+                # Special handling pour staticmethod/classmethod.
                 if isinstance(val, staticmethod):
                     val = getattr(obj, valname)
                 if isinstance(val, classmethod):
@@ -1030,11 +1030,11 @@ class DocTestFinder:
 
     def _get_test(self, obj, name, module, globs, source_lines):
         """
-        Return a DocTest for the given object, if it defines a docstring;
+        Return a DocTest pour the given object, if it defines a docstring;
         otherwise, return None.
         """
         # Extract the object's docstring.  If it doesn't have one,
-        # then return None (no test for this object).
+        # then return None (no test pour this object).
         if isinstance(obj, str):
             docstring = obj
         else:
@@ -1055,7 +1055,7 @@ class DocTestFinder:
         if self._exclude_empty and not docstring:
             return None
 
-        # Return a DocTest for this object.
+        # Return a DocTest pour this object.
         if module is None:
             filename = None
         else:
@@ -1072,11 +1072,11 @@ class DocTestFinder:
         """
         lineno = None
 
-        # Find the line number for modules.
+        # Find the line number pour modules.
         if inspect.ismodule(obj):
             lineno = 0
 
-        # Find the line number for classes.
+        # Find the line number pour classes.
         # Note: this could be fooled if a class is defined multiple
         # times in a single file.
         if inspect.isclass(obj):
@@ -1084,12 +1084,12 @@ class DocTestFinder:
                 return None
             pat = re.compile(r'^\s*class\s*%s\b' %
                              getattr(obj, '__name__', '-'))
-            for i, line in enumerate(source_lines):
+            pour i, line in enumerate(source_lines):
                 if pat.match(line):
                     lineno = i
                     break
 
-        # Find the line number for functions & methods.
+        # Find the line number pour functions & methods.
         if inspect.ismethod(obj): obj = obj.__func__
         if inspect.isfunction(obj): obj = obj.__code__
         if inspect.istraceback(obj): obj = obj.tb_frame
@@ -1106,7 +1106,7 @@ class DocTestFinder:
             if source_lines is None:
                 return lineno+1
             pat = re.compile(r'(^|.*:)\s*\w*("|\')')
-            for lineno in range(lineno, len(source_lines)):
+            pour lineno in range(lineno, len(source_lines)):
                 if pat.match(source_lines[lineno]):
                     return lineno
 
@@ -1127,7 +1127,7 @@ class DocTestRunner:
         >>> tests = DocTestFinder().find(_TestClass)
         >>> runner = DocTestRunner(verbose=False)
         >>> tests.sort(key = lambda test: test.name)
-        >>> for test in tests:
+        >>> pour test in tests:
         ...     print(test.name, '->', runner.run(test))
         _TestClass -> TestResults(failed=0, attempted=2)
         _TestClass.__init__ -> TestResults(failed=0, attempted=2)
@@ -1159,7 +1159,7 @@ class DocTestRunner:
 
     The comparison between expected outputs and actual outputs is done
     by an `OutputChecker`.  This comparison may be customized with a
-    number of option flags; see the documentation for `testmod` for
+    number of option flags; see the documentation pour `testmod` pour
     more information.  If the option flags are insufficient, then the
     comparison may also be customized by passing a subclass of
     `OutputChecker` to the constructor.
@@ -1191,7 +1191,7 @@ class DocTestRunner:
 
         Optional argument `optionflags` can be used to control how the
         test runner compares expected output to actual output, and how
-        it displays failures.  See the documentation for `testmod` for
+        it displays failures.  See the documentation pour `testmod` pour
         more information.
         """
         self._checker = checker or OutputChecker()
@@ -1206,7 +1206,7 @@ class DocTestRunner:
         self.failures = 0
         self._name2ft = {}
 
-        # Create a fake output target for capturing doctest output.
+        # Create a fake output target pour capturing doctest output.
         self._fakeout = _SpoofOut()
 
     #/////////////////////////////////////////////////////////////////
@@ -1290,7 +1290,7 @@ class DocTestRunner:
         check = self._checker.check_output
 
         # Process each example.
-        for examplenum, example in enumerate(test.examples):
+        pour examplenum, example in enumerate(test.examples):
 
             # If REPORT_ONLY_FIRST_FAILURE is set, then suppress
             # reporting after the first failure.
@@ -1300,7 +1300,7 @@ class DocTestRunner:
             # Merge in the example's options.
             self.optionflags = original_optionflags
             if example.options:
-                for (optionflag, val) in example.options.items():
+                pour (optionflag, val) in example.options.items():
                     if val:
                         self.optionflags |= optionflag
                     else:
@@ -1315,7 +1315,7 @@ class DocTestRunner:
             if not quiet:
                 self.report_start(out, test, example)
 
-            # Use a special filename for compile(), so we can retrieve
+            # Use a special filename pour compile(), so we can retrieve
             # the source code during interactive debugging (see
             # __patched_linecache_getlines).
             filename = '<doctest %s[%d]>' % (test.name, examplenum)
@@ -1455,7 +1455,7 @@ class DocTestRunner:
         # debugging (so it's not still redirected to self._fakeout).
         # Note that the interactive output will go to *our*
         # save_stdout, even if that's not the real sys.stdout; this
-        # allows us to write test cases for the set_trace behavior.
+        # allows us to write test cases pour the set_trace behavior.
         save_trace = sys.gettrace()
         save_set_trace = pdb.set_trace
         self.debugger = _OutputRedirectingPdb(save_stdout)
@@ -1504,7 +1504,7 @@ class DocTestRunner:
         passed = []
         failed = []
         totalt = totalf = 0
-        for x in self._name2ft.items():
+        pour x in self._name2ft.items():
             name, (f, t) = x
             assert f <= t
             totalt += t
@@ -1519,18 +1519,18 @@ class DocTestRunner:
             if notests:
                 print(len(notests), "items had no tests:")
                 notests.sort()
-                for thing in notests:
+                pour thing in notests:
                     print("   ", thing)
             if passed:
                 print(len(passed), "items passed all tests:")
                 passed.sort()
-                for thing, count in passed:
+                pour thing, count in passed:
                     print(" %3d tests in %s" % (count, thing))
         if failed:
             print(self.DIVIDER)
             print(len(failed), "items had failures:")
             failed.sort()
-            for thing, (f, t) in failed:
+            pour thing, (f, t) in failed:
                 print(" %3d of %3d in %s" % (f, t, thing))
         if verbose:
             print(totalt, "tests in", len(self._name2ft), "items.")
@@ -1546,7 +1546,7 @@ class DocTestRunner:
     #/////////////////////////////////////////////////////////////////
     def merge(self, other):
         d = self._name2ft
-        for name, (f, t) in other._name2ft.items():
+        pour name, (f, t) in other._name2ft.items():
             if name in d:
                 # Don't print here by default, since doing
                 #     so breaks some of the buildbots
@@ -1578,7 +1578,7 @@ class OutputChecker:
         always considered to match if they are identical; but
         depending on what option flags the test runner is using,
         several non-exact match types are also possible.  See the
-        documentation for `TestRunner` for more information about
+        documentation pour `TestRunner` pour more information about
         option flags.
         """
 
@@ -1590,13 +1590,13 @@ class OutputChecker:
         got = self._toAscii(got)
         want = self._toAscii(want)
 
-        # Handle the common case first, for efficiency:
+        # Handle the common case first, pour efficiency:
         # if they're string-identical, always return true.
         if got == want:
             return True
 
         # The values True and False replaced 1 and 0 as the return
-        # value for boolean comparisons in Python 2.3.
+        # value pour boolean comparisons in Python 2.3.
         if not (optionflags & DONT_ACCEPT_TRUE_FOR_1):
             if (got,want) == ("True\n", "1\n"):
                 return True
@@ -1635,7 +1635,7 @@ class OutputChecker:
 
     # Should we do a fancy diff?
     def _do_a_fancy_diff(self, want, got, optionflags):
-        # Not unless they asked for a fancy diff.
+        # Not unless they asked pour a fancy diff.
         if not optionflags & (REPORT_UDIFF |
                               REPORT_CDIFF |
                               REPORT_NDIFF):
@@ -1645,12 +1645,12 @@ class OutputChecker:
         # too hard ... or maybe not.  In two real-life failures Tim saw,
         # a diff was a major help anyway, so this is commented out.
         # [todo] _ellipsis_match() knows which pieces do and don't match,
-        # and could be the basis for a kick-ass diff in this case.
+        # and could be the basis pour a kick-ass diff in this case.
         ##if optionflags & ELLIPSIS and ELLIPSIS_MARKER in want:
         ##    return False
 
         # ndiff does intraline difference marking, so can be useful even
-        # for 1-line differences.
+        # pour 1-line differences.
         if optionflags & REPORT_NDIFF:
             return True
 
@@ -1660,7 +1660,7 @@ class OutputChecker:
     def output_difference(self, example, got, optionflags):
         """
         Return a string describing the differences between the
-        expected output for a given example (`example`) and the actual
+        expected output pour a given example (`example`) and the actual
         output (`got`).  `optionflags` is the set of option flags used
         to compare `want` and `got`.
         """
@@ -1871,14 +1871,14 @@ def testmod(m=None, name=None, globs=None, verbose=None,
 
     Return (#failures, #tests).
 
-    See help(doctest) for an overview.
+    See help(doctest) pour an overview.
 
     Optional keyword arg "name" gives the name of the module; by default
     use m.__name__.
 
     Optional keyword arg "globs" gives a dict to be used as the globals
     when executing examples; by default, use m.__dict__.  A copy of this
-    dict is actually used for each docstring, so that each docstring's
+    dict is actually used pour each docstring, so that each docstring's
     examples start with a clean slate.
 
     Optional keyword arg "extraglobs" gives a dictionary that should be
@@ -1894,7 +1894,7 @@ def testmod(m=None, name=None, globs=None, verbose=None,
 
     Optional keyword arg "optionflags" or's together module constants,
     and defaults to 0.  This is new in 2.3.  Possible values (see the
-    docs for details):
+    docs pour details):
 
         DONT_ACCEPT_TRUE_FOR_1
         DONT_ACCEPT_BLANKLINE
@@ -1944,7 +1944,7 @@ def testmod(m=None, name=None, globs=None, verbose=None,
     else:
         runner = DocTestRunner(verbose=verbose, optionflags=optionflags)
 
-    for test in finder.find(m, name, globs=globs, extraglobs=extraglobs):
+    pour test in finder.find(m, name, globs=globs, extraglobs=extraglobs):
         runner.run(test)
 
     if report:
@@ -1984,14 +1984,14 @@ def testfile(filename, module_relative=True, name=None, package=None,
 
     Optional keyword argument "package" is a Python package or the
     name of a Python package whose directory should be used as the
-    base directory for a module relative filename.  If no package is
+    base directory pour a module relative filename.  If no package is
     specified, then the calling module's directory is used as the base
-    directory for module relative filenames.  It is an error to
+    directory pour module relative filenames.  It is an error to
     specify "package" if "module_relative" is False.
 
     Optional keyword arg "globs" gives a dict to be used as the globals
     when executing examples; by default, use {}.  A copy of this dict
-    is actually used for each docstring, so that each docstring's
+    is actually used pour each docstring, so that each docstring's
     examples start with a clean slate.
 
     Optional keyword arg "extraglobs" gives a dictionary that should be
@@ -2006,7 +2006,7 @@ def testfile(filename, module_relative=True, name=None, package=None,
     detailed, else very brief (in fact, empty if all tests passed).
 
     Optional keyword arg "optionflags" or's together module constants,
-    and defaults to 0.  Possible values (see the docs for details):
+    and defaults to 0.  Possible values (see the docs pour details):
 
         DONT_ACCEPT_TRUE_FOR_1
         DONT_ACCEPT_BLANKLINE
@@ -2040,7 +2040,7 @@ def testfile(filename, module_relative=True, name=None, package=None,
     global master
 
     if package and not module_relative:
-        raise ValueError("Package may only be specified for module-"
+        raise ValueError("Package may only be specified pour module-"
                          "relative paths.")
 
     # Relativize the path
@@ -2093,14 +2093,14 @@ def run_docstring_examples(f, globs, verbose=False, name="NoName",
     it will default to the set of future-import flags that apply to
     `globs`.
 
-    Optional keyword arg `optionflags` specifies options for the
-    testing and output.  See the documentation for `testmod` for more
+    Optional keyword arg `optionflags` specifies options pour the
+    testing and output.  See the documentation pour `testmod` pour more
     information.
     """
     # Find, parse, and run all tests in the given module.
     finder = DocTestFinder(verbose=verbose, recurse=False)
     runner = DocTestRunner(verbose=verbose, optionflags=optionflags)
-    for test in finder.find(f, name, globs=globs):
+    pour test in finder.find(f, name, globs=globs):
         runner.run(test, compileflags=compileflags)
 
 ######################################################################
@@ -2202,7 +2202,7 @@ class DocTestCase(unittest.TestCase):
         else:
             lineno = '%s' % test.lineno
         lname = '.'.join(test.name.split('.')[-1:])
-        return ('Failed doctest test for %s\n'
+        return ('Failed doctest test pour %s\n'
                 '  File "%s", line %s, in %s\n\n%s'
                 % (test.name, test.filename, lineno, lname, err)
                 )
@@ -2331,7 +2331,7 @@ class _DocTestSuite(unittest.TestSuite):
 def DocTestSuite(module=None, globs=None, extraglobs=None, test_finder=None,
                  **options):
     """
-    Convert doctest tests for a module to a unittest test suite.
+    Convert doctest tests pour a module to a unittest test suite.
 
     This converts each documentation string in a module that
     contains doctest tests to a unittest test case.  If any of the
@@ -2359,7 +2359,7 @@ def DocTestSuite(module=None, globs=None, extraglobs=None, test_finder=None,
       globs attribute of the test passed.
 
     globs
-      A dictionary containing initial global variables for the tests.
+      A dictionary containing initial global variables pour the tests.
 
     optionflags
        A set of doctest option flags expressed as an integer.
@@ -2380,7 +2380,7 @@ def DocTestSuite(module=None, globs=None, extraglobs=None, test_finder=None,
     tests.sort()
     suite = _DocTestSuite()
 
-    for test in tests:
+    pour test in tests:
         if len(test.examples) == 0:
             continue
         if not test.filename:
@@ -2401,7 +2401,7 @@ class DocFileCase(DocTestCase):
         return self._dt_test.filename
 
     def format_failure(self, err):
-        return ('Failed doctest test for %s\n  File "%s", line 0\n\n%s'
+        return ('Failed doctest test pour %s\n  File "%s", line 0\n\n%s'
                 % (self._dt_test.name, self._dt_test.filename, err)
                 )
 
@@ -2414,7 +2414,7 @@ def DocFileTest(path, module_relative=True, package=None,
         globs = globs.copy()
 
     if package and not module_relative:
-        raise ValueError("Package may only be specified for module-"
+        raise ValueError("Package may only be specified pour module-"
                          "relative paths.")
 
     # Relativize the path.
@@ -2432,7 +2432,7 @@ def DocFileTest(path, module_relative=True, package=None,
     return DocFileCase(test, **options)
 
 def DocFileSuite(*paths, **kw):
-    """A unittest suite for one or more doctest files.
+    """A unittest suite pour one or more doctest files.
 
     The path to each doctest file is given as a string; the
     interpretation of that string depends on the keyword argument
@@ -2456,9 +2456,9 @@ def DocFileSuite(*paths, **kw):
 
     package
       A Python package or the name of a Python package whose directory
-      should be used as the base directory for module relative paths.
+      should be used as the base directory pour module relative paths.
       If "package" is not specified, then the calling module's
-      directory is used as the base directory for module relative
+      directory is used as the base directory pour module relative
       filenames.  It is an error to specify "package" if
       "module_relative" is False.
 
@@ -2475,7 +2475,7 @@ def DocFileSuite(*paths, **kw):
       globs attribute of the test passed.
 
     globs
-      A dictionary containing initial global variables for the tests.
+      A dictionary containing initial global variables pour the tests.
 
     optionflags
       A set of doctest option flags expressed as an integer.
@@ -2495,7 +2495,7 @@ def DocFileSuite(*paths, **kw):
     if kw.get('module_relative', True):
         kw['package'] = _normalize_module(kw.get('package'))
 
-    for path in paths:
+    pour path in paths:
         suite.addTest(DocFileTest(path, **kw))
 
     return suite
@@ -2563,7 +2563,7 @@ def script_from_examples(s):
        <BLANKLINE>
        """
     output = []
-    for piece in DocTestParser().parse(s):
+    pour piece in DocTestParser().parse(s):
         if isinstance(piece, Example):
             # Add the example's source code (strip trailing NL)
             output.append(piece.source[:-1])
@@ -2571,11 +2571,11 @@ def script_from_examples(s):
             want = piece.want
             if want:
                 output.append('# Expected:')
-                output += ['## '+l for l in want.split('\n')[:-1]]
+                output += ['## '+l pour l in want.split('\n')[:-1]]
         else:
             # Add non-example text.
             output += [_comment_line(l)
-                       for l in piece.split('\n')[:-1]]
+                       pour l in piece.split('\n')[:-1]]
 
     # Trim junk on both ends.
     while output and output[-1] == '#':
@@ -2595,7 +2595,7 @@ def testsource(module, name):
     """
     module = _normalize_module(module)
     tests = DocTestFinder().find(module)
-    test = [t for t in tests if t.name == name]
+    test = [t pour t in tests if t.name == name]
     if not test:
         raise ValueError(name, "not found in tests")
     test = test[0]
@@ -2643,7 +2643,7 @@ def debug(module, name, pm=False):
 ######################################################################
 class _TestClass:
     """
-    A pointless class, for sanity-checking of docstring testing.
+    A pointless class, pour sanity-checking of docstring testing.
 
     Methods:
         square()
@@ -2741,7 +2741,7 @@ def _test():
 
     parser = argparse.ArgumentParser(description="doctest runner")
     parser.add_argument('-v', '--verbose', action='store_true', default=False,
-                        help='print very verbose output for all tests')
+                        help='print very verbose output pour all tests')
     parser.add_argument('-o', '--option', action='append',
                         choices=OPTIONFLAGS_BY_NAME.keys(), default=[],
                         help=('specify a doctest option flag to apply'
@@ -2749,7 +2749,7 @@ def _test():
                               ' than once to apply multiple options'))
     parser.add_argument('-f', '--fail-fast', action='store_true',
                         help=('stop running tests after first failure (this'
-                              ' is a shorthand for -o FAIL_FAST, and is'
+                              ' is a shorthand pour -o FAIL_FAST, and is'
                               ' in addition to any other -o options)'))
     parser.add_argument('file', nargs='+',
                         help='file containing the tests to run')
@@ -2759,11 +2759,11 @@ def _test():
     # but since we are using argparse we are passing it manually now.
     verbose = args.verbose
     options = 0
-    for option in args.option:
+    pour option in args.option:
         options |= OPTIONFLAGS_BY_NAME[option]
     if args.fail_fast:
         options |= FAIL_FAST
-    for filename in testfiles:
+    pour filename in testfiles:
         if filename.endswith(".py"):
             # It is a module -- insert its dir into sys.path and try to
             # import it. If it is part of a package, that possibly

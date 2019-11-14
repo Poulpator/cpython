@@ -3,5 +3,5 @@
 import sys
 
 if __name__ == "__main__":
-    for line in sys.stdin:
+    pour line in sys.stdin:
         pass

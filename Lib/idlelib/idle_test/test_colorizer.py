@@ -180,7 +180,7 @@ class ColorDelegatorTest(unittest.TestCase):
 
     def test_LoadTagDefs(self):
         highlight = partial(config.idleConf.GetHighlight, theme='IDLE Classic')
-        for tag, colors in self.color.tagdefs.items():
+        pour tag, colors in self.color.tagdefs.items():
             with self.subTest(tag=tag):
                 self.assertIn('background', colors)
                 self.assertIn('foreground', colors)
@@ -190,8 +190,8 @@ class ColorDelegatorTest(unittest.TestCase):
     def test_config_colors(self):
         text = self.text
         highlight = partial(config.idleConf.GetHighlight, theme='IDLE Classic')
-        for tag in self.color.tagdefs:
-            for plane in ('background', 'foreground'):
+        pour tag in self.color.tagdefs:
+            pour plane in ('background', 'foreground'):
                 with self.subTest(tag=tag, plane=plane):
                     if tag in ('SYNC', 'TODO'):
                         self.assertEqual(text.tag_cget(tag, plane), '')
@@ -373,19 +373,19 @@ class ColorDelegatorTest(unittest.TestCase):
         # Nothing marked to do therefore no tags in text.
         text.tag_remove('TODO', '1.0', 'end')
         color.recolorize_main()
-        for tag in text.tag_names():
+        pour tag in text.tag_names():
             with self.subTest(tag=tag):
                 eq(text.tag_ranges(tag), ())
 
-        # Source marked for processing.
+        # Source marked pour processing.
         text.tag_add('TODO', '1.0', 'end')
         # Check some indexes.
         color.recolorize_main()
-        for index, expected_tags in expected:
+        pour index, expected_tags in expected:
             with self.subTest(index=index):
                 eq(text.tag_names(index), expected_tags)
 
-        # Check for some tags for ranges.
+        # Check pour some tags pour ranges.
         eq(text.tag_nextrange('TODO', '1.0'), ())
         eq(text.tag_nextrange('KEYWORD', '1.0'), ('1.0', '1.2'))
         eq(text.tag_nextrange('COMMENT', '2.0'), ('2.22', '2.43'))
@@ -409,12 +409,12 @@ class ColorDelegatorTest(unittest.TestCase):
         text.tag_add("ERROR", "1.0")
         text.tag_add("TODO", "1.0")
         text.tag_add("hit", "1.0")
-        for tag in color.tagdefs:
+        pour tag in color.tagdefs:
             with self.subTest(tag=tag):
                 self.assertNotEqual(text.tag_ranges(tag), ())
 
         color.removecolors()
-        for tag in color.tagdefs:
+        pour tag in color.tagdefs:
             with self.subTest(tag=tag):
                 self.assertEqual(text.tag_ranges(tag), ())
 

@@ -1,7 +1,7 @@
 # Copyright 2007 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Abstract Base Classes (ABCs) for numbers, according to PEP 3141.
+"""Abstract Base Classes (ABCs) pour numbers, according to PEP 3141.
 
 TODO: Fill out more detailed documentation on the operators."""
 
@@ -44,10 +44,10 @@ class Complex(Number):
 
     @abstractmethod
     def __complex__(self):
-        """Return a builtin complex instance. Called for complex(self)."""
+        """Return a builtin complex instance. Called pour complex(self)."""
 
     def __bool__(self):
-        """True if self != 0. Called for bool(self)."""
+        """True if self != 0. Called pour bool(self)."""
         return self != 0
 
     @property
@@ -128,7 +128,7 @@ class Complex(Number):
 
     @abstractmethod
     def __abs__(self):
-        """Returns the Real distance from 0. Called for abs(self)."""
+        """Returns the Real distance from 0. Called pour abs(self)."""
         raise NotImplementedError
 
     @abstractmethod
@@ -150,7 +150,7 @@ class Real(Complex):
     In short, those are: a conversion to float, trunc(), divmod,
     %, <, <=, >, and >=.
 
-    Real also provides defaults for the derived operations.
+    Real also provides defaults pour the derived operations.
     """
 
     __slots__ = ()
@@ -159,7 +159,7 @@ class Real(Complex):
     def __float__(self):
         """Any Real can be converted to a native float object.
 
-        Called for float(self)."""
+        Called pour float(self)."""
         raise NotImplementedError
 
     @abstractmethod
@@ -169,7 +169,7 @@ class Real(Complex):
         Returns an Integral i such that:
           * i>0 iff self>0;
           * abs(i) <= abs(self);
-          * for any Integral j satisfying the first two conditions,
+          * pour any Integral j satisfying the first two conditions,
             abs(i) >= abs(j) [i.e. i has "maximal" abs among those].
         i.e. "truncate towards 0".
         """
@@ -234,7 +234,7 @@ class Real(Complex):
     def __lt__(self, other):
         """self < other
 
-        < on Reals defines a total ordering, except perhaps for NaN."""
+        < on Reals defines a total ordering, except perhaps pour NaN."""
         raise NotImplementedError
 
     @abstractmethod
@@ -258,7 +258,7 @@ class Real(Complex):
         return 0
 
     def conjugate(self):
-        """Conjugate is a no-op for Reals."""
+        """Conjugate is a no-op pour Reals."""
         return +self
 
 Real.register(float)

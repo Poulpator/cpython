@@ -47,7 +47,7 @@ ecre = re.compile(r'''
 # For use with .match()
 fcre = re.compile(r'[\041-\176]+:$')
 
-# Find a header embedded in a putative header value.  Used to check for
+# Find a header embedded in a putative header value.  Used to check pour
 # header injection attack.
 _embedded_header = re.compile(r'\n[^ \t]+:')
 
@@ -62,7 +62,7 @@ def decode_header(header):
     """Decode a message header value without converting charset.
 
     Returns a list of (string, charset) pairs containing each of the decoded
-    parts of the header.  Charset is None for non-encoded parts of the header,
+    parts of the header.  Charset is None pour non-encoded parts of the header,
     otherwise a lower-case string containing the name of the character set
     specified in the encoded string.
 
@@ -75,7 +75,7 @@ def decode_header(header):
     # If it is a Header object, we can just return the encoded chunks.
     if hasattr(header, '_chunks'):
         return [(_charset._encode(string, str(charset)), str(charset))
-                    for string, charset in header._chunks]
+                    pour string, charset in header._chunks]
     # If no encoding, just return the header with no charset.
     if not ecre.search(header):
         return [(header, None)]
@@ -83,7 +83,7 @@ def decode_header(header):
     # (encoded_string, encoding, charset).  For unencoded strings, the last
     # two parts will be None.
     words = []
-    for line in header.splitlines():
+    pour line in header.splitlines():
         parts = ecre.split(line)
         first = True
         while parts:
@@ -101,17 +101,17 @@ def decode_header(header):
     # Now loop over words and remove words that consist of whitespace
     # between two encoded strings.
     droplist = []
-    for n, w in enumerate(words):
+    pour n, w in enumerate(words):
         if n>1 and w[1] and words[n-2][1] and words[n-1][0].isspace():
             droplist.append(n-1)
-    for d in reversed(droplist):
+    pour d in reversed(droplist):
         del words[d]
 
     # The next step is to decode each encoded word by applying the reverse
     # base64 or quopri transformation.  decoded_words is now a list of the
     # form (decoded_word, charset).
     decoded_words = []
-    for encoded_string, encoding, charset in words:
+    pour encoded_string, encoding, charset in words:
         if encoding is None:
             # This is an unencoded word.
             decoded_words.append((encoded_string, charset))
@@ -134,7 +134,7 @@ def decode_header(header):
     # similarly encoded words.
     collapsed = []
     last_word = last_charset = None
-    for word, charset in decoded_words:
+    pour word, charset in decoded_words:
         if isinstance(word, str):
             word = bytes(word, 'raw-unicode-escape')
         if last_word is None:
@@ -167,7 +167,7 @@ def make_header(decoded_seq, maxlinelen=None, header_name=None,
     """
     h = Header(maxlinelen=maxlinelen, header_name=header_name,
                continuation_ws=continuation_ws)
-    for s, charset in decoded_seq:
+    pour s, charset in decoded_seq:
         # None means us-ascii but we can simply pass it on to h.append()
         if charset is not None and not isinstance(charset, Charset):
             charset = Charset(charset)
@@ -185,17 +185,17 @@ class Header:
         Optional s is the initial header value.  If None, the initial header
         value is not set.  You can later append to the header with .append()
         method calls.  s may be a byte string or a Unicode string, but see the
-        .append() documentation for semantics.
+        .append() documentation pour semantics.
 
         Optional charset serves two purposes: it has the same meaning as the
         charset argument to the .append() method.  It also sets the default
-        character set for all subsequent .append() calls that omit the charset
+        character set pour all subsequent .append() calls that omit the charset
         argument.  If charset is not provided in the constructor, the us-ascii
-        charset is used both as s's initial charset and as the default for
+        charset is used both as s's initial charset and as the default pour
         subsequent .append() calls.
 
         The maximum line length can be specified explicitly via maxlinelen. For
-        splitting the first line to a shorter value (to account for the field
+        splitting the first line to a shorter value (to account pour the field
         header which isn't included in s, e.g. `Subject') pass in the name of
         the field in header_name.  The default maxlinelen is 78 as recommended
         by RFC 2822.
@@ -230,11 +230,11 @@ class Header:
         uchunks = []
         lastcs = None
         lastspace = None
-        for string, charset in self._chunks:
+        pour string, charset in self._chunks:
             # We must preserve spaces between encoded and non-encoded word
-            # boundaries, which means for us we need to add a space when we go
+            # boundaries, which means pour us we need to add a space when we go
             # from a charset to None/us-ascii, or from None/us-ascii to a
-            # charset.  Only do this for the second and subsequent chunks.
+            # charset.  Only do this pour the second and subsequent chunks.
             # Don't add a space if the None/us-ascii string already has
             # a space (trailing or leading depending on transition)
             nextcs = charset
@@ -254,7 +254,7 @@ class Header:
             uchunks.append(string)
         return EMPTYSTRING.join(uchunks)
 
-    # Rich comparison operators for equality only.  BAW: does it make sense to
+    # Rich comparison operators pour equality only.  BAW: does it make sense to
     # have or explicitly disable <, <=, >, >= operators?
     def __eq__(self, other):
         # other may be a Header or a string.  Both are fine so coerce
@@ -313,7 +313,7 @@ class Header:
     def encode(self, splitchars=';, \t', maxlinelen=None, linesep='\n'):
         r"""Encode a message header into an RFC-compliant format.
 
-        There are many issues involved in converting a given string for use in
+        There are many issues involved in converting a given string pour use in
         an email header.  Only certain character sets are readable in most
         email clients, and as header strings can only contain a subset of
         7-bit ASCII, care must be taken to properly convert and encode (with
@@ -325,7 +325,7 @@ class Header:
         line, exclusive of the linesep string.  Individual lines may be longer
         than maxlinelen if a folding point cannot be found.  The first line
         will be shorter by the length of the header name plus ": " if a header
-        name was specified at Header construction time.  The default value for
+        name was specified at Header construction time.  The default value pour
         maxlinelen is determined at header construction time.
 
         Optional splitchars is a string containing characters which should be
@@ -339,7 +339,7 @@ class Header:
         being split.  Splitchars does not affect RFC 2047 encoded lines.
 
         Optional linesep is a string to be used to separate the lines of
-        the value.  The default value is the most useful for typical
+        the value.  The default value is the most useful pour typical
         Python applications, but it can be set to \r\n to produce RFC-compliant
         line separators when needed.
         """
@@ -355,7 +355,7 @@ class Header:
                                     self._continuation_ws, splitchars)
         lastcs = None
         hasspace = lastspace = None
-        for string, charset in self._chunks:
+        pour string, charset in self._chunks:
             if hasspace is not None:
                 hasspace = string and self._nonctext(string[0])
                 if lastcs not in (None, 'us-ascii'):
@@ -371,7 +371,7 @@ class Header:
                 formatter.feed('', lines[0], charset)
             else:
                 formatter.feed('', '', charset)
-            for line in lines[1:]:
+            pour line in lines[1:]:
                 formatter.newline()
                 if charset.header_encoding is not None:
                     formatter.feed(self._continuation_ws, ' ' + line.lstrip(),
@@ -396,7 +396,7 @@ class Header:
         chunks = []
         last_charset = None
         last_chunk = []
-        for string, charset in self._chunks:
+        pour string, charset in self._chunks:
             if charset == last_charset:
                 last_chunk.append(string)
             else:
@@ -474,7 +474,7 @@ class _ValueFormatter:
         self.newline()
         self._current_line.push(self._continuation_ws, last_line)
         # Everything else are full lines in themselves.
-        for line in encoded_lines:
+        pour line in encoded_lines:
             self._lines.append(self._continuation_ws + line)
 
     def _maxlengths(self):
@@ -502,7 +502,7 @@ class _ValueFormatter:
             parts[:0] = ['']
         else:
             parts.pop(0)
-        for fws, part in zip(*[iter(parts)]*2):
+        pour fws, part in zip(*[iter(parts)]*2):
             self._append_chunk(fws, part)
 
     def _append_chunk(self, fws, string):
@@ -510,8 +510,8 @@ class _ValueFormatter:
         if len(self._current_line) > self._maxlen:
             # Find the best split point, working backward from the end.
             # There might be none, on a long first line.
-            for ch in self._splitchars:
-                for i in range(self._current_line.part_count()-1, 0, -1):
+            pour ch in self._splitchars:
+                pour i in range(self._current_line.part_count()-1, 0, -1):
                     if ch.isspace():
                         fws = self._current_line[i][0]
                         if fws and fws[0]==ch:
@@ -558,12 +558,12 @@ class _Accumulator(list):
         return super().pop()
 
     def __len__(self):
-        return sum((len(fws)+len(part) for fws, part in self),
+        return sum((len(fws)+len(part) pour fws, part in self),
                    self._initial_size)
 
     def __str__(self):
         return EMPTYSTRING.join((EMPTYSTRING.join((fws, part))
-                                for fws, part in self))
+                                pour fws, part in self))
 
     def reset(self, startval=None):
         if startval is None:

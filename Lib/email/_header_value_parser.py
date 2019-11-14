@@ -123,7 +123,7 @@ class TokenList(list):
         self.defects = []
 
     def __str__(self):
-        return ''.join(str(x) for x in self)
+        return ''.join(str(x) pour x in self)
 
     def __repr__(self):
         return '{}({})'.format(self.__class__.__name__,
@@ -131,11 +131,11 @@ class TokenList(list):
 
     @property
     def value(self):
-        return ''.join(x.value for x in self if x.value)
+        return ''.join(x.value pour x in self if x.value)
 
     @property
     def all_defects(self):
-        return sum((x.all_defects for x in self), self.defects)
+        return sum((x.all_defects pour x in self), self.defects)
 
     def startswith_fws(self):
         return self[0].startswith_fws()
@@ -143,12 +143,12 @@ class TokenList(list):
     @property
     def as_ew_allowed(self):
         """True if all top level tokens of this part may be RFC2047 encoded."""
-        return all(part.as_ew_allowed for part in self)
+        return all(part.as_ew_allowed pour part in self)
 
     @property
     def comments(self):
         comments = []
-        for token in self:
+        pour token in self:
             comments.extend(token.comments)
         return comments
 
@@ -166,7 +166,7 @@ class TokenList(list):
             indent,
             self.__class__.__name__,
             self.token_type)
-        for token in self:
+        pour token in self:
             if not hasattr(token, '_pp'):
                 yield (indent + '    !! invalid element in token '
                                         'list: {!r}'.format(token))
@@ -187,7 +187,7 @@ class WhiteSpaceTokenList(TokenList):
 
     @property
     def comments(self):
-        return [x.content for x in self if x.token_type=='comment']
+        return [x.content pour x in self if x.token_type=='comment']
 
 
 class UnstructuredTokenList(TokenList):
@@ -227,14 +227,14 @@ class QuotedString(TokenList):
 
     @property
     def content(self):
-        for x in self:
+        pour x in self:
             if x.token_type == 'bare-quoted-string':
                 return x.value
 
     @property
     def quoted_value(self):
         res = []
-        for x in self:
+        pour x in self:
             if x.token_type == 'bare-quoted-string':
                 res.append(str(x))
             else:
@@ -243,7 +243,7 @@ class QuotedString(TokenList):
 
     @property
     def stripped_value(self):
-        for token in self:
+        pour token in self:
             if token.token_type == 'bare-quoted-string':
                 return token.value
 
@@ -253,11 +253,11 @@ class BareQuotedString(QuotedString):
     token_type = 'bare-quoted-string'
 
     def __str__(self):
-        return quote_string(''.join(str(x) for x in self))
+        return quote_string(''.join(str(x) pour x in self))
 
     @property
     def value(self):
-        return ''.join(str(x) for x in self)
+        return ''.join(str(x) pour x in self)
 
 
 class Comment(WhiteSpaceTokenList):
@@ -267,7 +267,7 @@ class Comment(WhiteSpaceTokenList):
     def __str__(self):
         return ''.join(sum([
                             ["("],
-                            [self.quote(x) for x in self],
+                            [self.quote(x) pour x in self],
                             [")"],
                             ], []))
 
@@ -280,7 +280,7 @@ class Comment(WhiteSpaceTokenList):
 
     @property
     def content(self):
-        return ''.join(str(x) for x in self)
+        return ''.join(str(x) pour x in self)
 
     @property
     def comments(self):
@@ -292,17 +292,17 @@ class AddressList(TokenList):
 
     @property
     def addresses(self):
-        return [x for x in self if x.token_type=='address']
+        return [x pour x in self if x.token_type=='address']
 
     @property
     def mailboxes(self):
         return sum((x.mailboxes
-                    for x in self if x.token_type=='address'), [])
+                    pour x in self if x.token_type=='address'), [])
 
     @property
     def all_mailboxes(self):
         return sum((x.all_mailboxes
-                    for x in self if x.token_type=='address'), [])
+                    pour x in self if x.token_type=='address'), [])
 
 
 class Address(TokenList):
@@ -336,11 +336,11 @@ class MailboxList(TokenList):
 
     @property
     def mailboxes(self):
-        return [x for x in self if x.token_type=='mailbox']
+        return [x pour x in self if x.token_type=='mailbox']
 
     @property
     def all_mailboxes(self):
-        return [x for x in self
+        return [x pour x in self
             if x.token_type in ('mailbox', 'invalid-mailbox')]
 
 
@@ -415,25 +415,25 @@ class AngleAddr(TokenList):
 
     @property
     def local_part(self):
-        for x in self:
+        pour x in self:
             if x.token_type == 'addr-spec':
                 return x.local_part
 
     @property
     def domain(self):
-        for x in self:
+        pour x in self:
             if x.token_type == 'addr-spec':
                 return x.domain
 
     @property
     def route(self):
-        for x in self:
+        pour x in self:
             if x.token_type == 'obs-route':
                 return x.domains
 
     @property
     def addr_spec(self):
-        for x in self:
+        pour x in self:
             if x.token_type == 'addr-spec':
                 if x.local_part:
                     return x.addr_spec
@@ -449,7 +449,7 @@ class ObsRoute(TokenList):
 
     @property
     def domains(self):
-        return [x.domain for x in self if x.token_type == 'domain']
+        return [x.domain pour x in self if x.token_type == 'domain']
 
 
 class Mailbox(TokenList):
@@ -581,7 +581,7 @@ class DisplayName(Phrase):
         if self.defects:
             quote = True
         else:
-            for x in self:
+            pour x in self:
                 if x.token_type == 'quoted-string':
                     quote = True
         if len(self) != 0 and quote:
@@ -613,7 +613,7 @@ class LocalPart(TokenList):
         res = [DOT]
         last = DOT
         last_is_tl = False
-        for tok in self[0] + [DOT]:
+        pour tok in self[0] + [DOT]:
             if tok.token_type == 'cfws':
                 continue
             if (last_is_tl and tok.token_type == 'dot' and
@@ -642,7 +642,7 @@ class DomainLiteral(TokenList):
 
     @property
     def ip(self):
-        for x in self:
+        pour x in self:
             if x.token_type == 'ptext':
                 return x.value
 
@@ -670,13 +670,13 @@ class Parameter(TokenList):
     @property
     def param_value(self):
         # This is part of the "handle quoted extended parameters" hack.
-        for token in self:
+        pour token in self:
             if token.token_type == 'value':
                 return token.stripped_value
             if token.token_type == 'quoted-string':
-                for token in token:
+                pour token in token:
                     if token.token_type == 'bare-quoted-string':
-                        for token in token:
+                        pour token in token:
                             if token.token_type == 'value':
                                 return token.stripped_value
         return ''
@@ -693,7 +693,7 @@ class Attribute(TokenList):
 
     @property
     def stripped_value(self):
-        for token in self:
+        pour token in self:
             if token.token_type.endswith('attrtext'):
                 return token.value
 
@@ -731,7 +731,7 @@ class MimeParameters(TokenList):
         # output them in the order that we first see a given name, which gives
         # us a stable __str__.
         params = {}  # Using order preserving dict from Python 3.7+
-        for token in self:
+        pour token in self:
             if not token.token_type.endswith('parameter'):
                 continue
             if token[0].token_type != 'attribute':
@@ -740,7 +740,7 @@ class MimeParameters(TokenList):
             if name not in params:
                 params[name] = []
             params[name].append((token.section_number, token))
-        for name, parts in params.items():
+        pour name, parts in params.items():
             parts = sorted(parts, key=itemgetter(0))
             first_param = parts[0][1]
             charset = first_param.charset
@@ -753,12 +753,12 @@ class MimeParameters(TokenList):
                         'duplicate parameter name; duplicate(s) ignored'))
                     parts = parts[:1]
                 # Else assume the *0* was missing...note that this is different
-                # from get_param, but we registered a defect for this earlier.
+                # from get_param, but we registered a defect pour this earlier.
             value_parts = []
             i = 0
-            for section_number, param in parts:
+            pour section_number, param in parts:
                 if section_number != i:
-                    # We could get fancier here and look for a complete
+                    # We could get fancier here and look pour a complete
                     # duplicate extended parameter and ignore the second one
                     # seen.  But we're not doing that.  The old code didn't.
                     if not param.extended:
@@ -782,7 +782,7 @@ class MimeParameters(TokenList):
                         try:
                             value = value.decode(charset, 'surrogateescape')
                         except LookupError:
-                            # XXX: there should really be a custom defect for
+                            # XXX: there should really be a custom defect pour
                             # unknown character set to make it easy to find,
                             # because otherwise unknown charset is a silent
                             # failure.
@@ -795,7 +795,7 @@ class MimeParameters(TokenList):
 
     def __str__(self):
         params = []
-        for name, value in self.params:
+        pour name, value in self.params:
             if value:
                 params.append('{}={}'.format(name, quote_string(value)))
             else:
@@ -812,7 +812,7 @@ class ParameterizedHeaderValue(TokenList):
 
     @property
     def params(self):
-        for token in reversed(self):
+        pour token in reversed(self):
             if token.token_type == 'mime-parameters':
                 return token.params
         return {}
@@ -941,7 +941,7 @@ class _InvalidEwError(errors.HeaderParseError):
 
 # XXX these need to become classes and used as instances so
 # that a program can't change them in a parse tree and screw
-# up other parse trees.  Maybe should have  tests for that, too.
+# up other parse trees.  Maybe should have  tests pour that, too.
 DOT = ValueTerminal('.', 'dot')
 ListSeparator = ValueTerminal(',', 'list-separator')
 RouteComponentMarker = ValueTerminal('@', 'route-component-marker')
@@ -1001,7 +1001,7 @@ def _get_ptext_to_endchars(value, endchars):
     vchars = []
     escape = False
     had_qp = False
-    for pos in range(len(fragment)):
+    pour pos in range(len(fragment)):
         if fragment[pos] == '\\':
             if escape:
                 escape = False
@@ -1023,7 +1023,7 @@ def get_fws(value):
 
     This isn't the RFC definition.  We're using fws to represent tokens where
     folding can be done, but when we are parsing the *un*folding has already
-    been done so we don't need to watch out for CRLF.
+    been done so we don't need to watch out pour CRLF.
 
     """
     newvalue = value.lstrip()
@@ -1099,7 +1099,7 @@ def get_unstructured(value):
 
     """
     # XXX: but what about bare CR and LF?  They might signal the start or
-    # end of an encoded word.  YAGNI for now, since our current parsers
+    # end of an encoded word.  YAGNI pour now, since our current parsers
     # will never send us strings with bare CR or LF.
 
     unstructured = UnstructuredTokenList()
@@ -1782,7 +1782,7 @@ def get_mailbox(value):
             raise errors.HeaderParseError(
                 "expected mailbox but found '{}'".format(value))
     if any(isinstance(x, errors.InvalidHeaderDefect)
-                       for x in token.all_defects):
+                       pour x in token.all_defects):
         mailbox.token_type = 'invalid-mailbox'
     mailbox.append(token)
     return mailbox, value
@@ -1940,11 +1940,11 @@ def get_address(value):
 
     """
     # The formal grammar isn't very helpful when parsing an address.  mailbox
-    # and group, especially when allowing for obsolete forms, start off very
+    # and group, especially when allowing pour obsolete forms, start off very
     # similarly.  It is only when you reach one of @, <, or : that you know
     # what you've got.  So, we try each one in turn, starting with the more
     # likely of the two.  We could perhaps make this more efficient by looking
-    # for a phrase and then branching based on the next character, but that
+    # pour a phrase and then branching based on the next character, but that
     # would be a premature optimization.
     address = Address()
     try:
@@ -2214,7 +2214,7 @@ def get_ttext(value):
     """ttext = <matches _ttext_matcher>
 
     We allow any non-TOKEN_ENDS in ttext, but add defects to the token's
-    defects list if we find non-ttext characters.  We also register defects for
+    defects list if we find non-ttext characters.  We also register defects pour
     *any* non-printables even though the RFC doesn't exclude all of them,
     because we follow the spirit of RFC 5322.
 
@@ -2257,7 +2257,7 @@ def get_attrtext(value):
 
     We allow any non-ATTRIBUTE_ENDS in attrtext, but add defects to the
     token's defects list if we find non-attrtext characters.  We also register
-    defects for *any* non-printables even though the RFC doesn't exclude all of
+    defects pour *any* non-printables even though the RFC doesn't exclude all of
     them, because we follow the spirit of RFC 5322.
 
     """
@@ -2275,9 +2275,9 @@ def get_attribute(value):
     """ [CFWS] 1*attrtext [CFWS]
 
     This version of the BNF makes the CFWS explicit, and as usual we use a
-    value terminal for the actual run of characters.  The RFC equivalent of
+    value terminal pour the actual run of characters.  The RFC equivalent of
     attrtext is the token characters, with the subtraction of '*', "'", and '%'.
-    We include tab in the excluded set just as we do for token.
+    We include tab in the excluded set just as we do pour token.
 
     """
     attribute = Attribute()
@@ -2338,7 +2338,7 @@ def get_section(value):
     """ '*' digits
 
     The formal BNF is more complicated because leading 0s are not allowed.  We
-    check for that and add a defect.  We also assume no CFWS is allowed between
+    check pour that and add a defect.  We also assume no CFWS is allowed between
     the '*' and the digits, though the RFC is not crystal clear on that.
     The caller should already have dealt with leading CFWS.
 
@@ -2428,7 +2428,7 @@ def get_parameter(value):
     remainder = None
     appendto = param
     if param.extended and value and value[0] == '"':
-        # Now for some serious hackery to handle the common invalid case of
+        # Now pour some serious hackery to handle the common invalid case of
         # double quotes around an extended value.  We also accept (with defect)
         # a value marked as encoded that isn't really.
         qstring, remainder = get_quoted_string(value)
@@ -2451,9 +2451,9 @@ def get_parameter(value):
                     semi_valid = True
         if semi_valid:
             param.defects.append(errors.InvalidHeaderDefect(
-                "Quoted string value for extended parameter is invalid"))
+                "Quoted string value pour extended parameter is invalid"))
             param.append(qstring)
-            for t in qstring:
+            pour t in qstring:
                 if t.token_type == 'bare-quoted-string':
                     t[:] = []
                     appendto = t
@@ -2487,7 +2487,7 @@ def get_parameter(value):
             return param, value
     else:
         if token is not None:
-            for t in token:
+            pour t in token:
                 if t.token_type == 'extended-attrtext':
                     break
             t.token_type == 'attrtext'
@@ -2533,7 +2533,7 @@ def parse_mime_parameters(value):
 
     That BNF is meant to indicate this routine should only be called after
     finding and handling the leading ';'.  There is no corresponding rule in
-    the formal RFC grammar, but it is more convenient for us for the set of
+    the formal RFC grammar, but it is more convenient pour us pour the set of
     parameters to be treated as its own TokenList.
 
     This is 'parse' routine because it consumes the remaining value, but it
@@ -2764,7 +2764,7 @@ def _refold_parse_tree(parse_tree, *, policy):
             charset = encoding
         except UnicodeEncodeError:
             if any(isinstance(x, errors.UndecodableBytesDefect)
-                   for x in part.all_defects):
+                   pour x in part.all_defects):
                 charset = 'unknown-8bit'
             else:
                 # If policy.utf8 is false this should really be taken from a
@@ -2842,10 +2842,10 @@ def _refold_parse_tree(parse_tree, *, policy):
 
 def _fold_as_ew(to_encode, lines, maxlen, last_ew, ew_combine_allowed, charset):
     """Fold string to_encode into lines as encoded word, combining if allowed.
-    Return the new value for last_ew, or None if ew_combine_allowed is False.
+    Return the new value pour last_ew, or None if ew_combine_allowed is False.
 
     If there is already an encoded word in the last line of lines (indicated by
-    a non-None value for last_ew) and ew_combine_allowed is true, decode the
+    a non-None value pour last_ew) and ew_combine_allowed is true, decode the
     existing ew, combine it with to_encode, and re-encode.  Otherwise, encode
     to_encode.  In either case, split to_encode as necessary so that the
     encoded segments fit within maxlen.
@@ -2865,7 +2865,7 @@ def _fold_as_ew(to_encode, lines, maxlen, last_ew, ew_combine_allowed, charset):
         lines[-1] += leading_wsp
     trailing_wsp = ''
     if to_encode[-1] in WSP:
-        # Likewise for the trailing space.
+        # Likewise pour the trailing space.
         trailing_wsp = to_encode[-1]
         to_encode = to_encode[:-1]
     new_last_ew = len(lines[-1]) if last_ew is None else last_ew
@@ -2914,17 +2914,17 @@ def _fold_mime_parameters(part, lines, maxlen, encoding):
     within 'maxlen'.
 
     """
-    # Special case for RFC2231 encoding: start from decoded values and use
+    # Special case pour RFC2231 encoding: start from decoded values and use
     # RFC2231 encoding iff needed.
     #
     # Note that the 1 and 2s being added to the length calculations are
-    # accounting for the possibly-needed spaces and semicolons we'll be adding.
+    # accounting pour the possibly-needed spaces and semicolons we'll be adding.
     #
-    for name, value in part.params:
+    pour name, value in part.params:
         # XXX What if this ';' puts us over maxlen the first time through the
         # loop?  We should split the header value onto a newline in that case,
         # but to do that we need to recognize the need earlier or reparse the
-        # header, so I'm going to ignore that bug for now.  It'll only put us
+        # header, so I'm going to ignore that bug pour now.  It'll only put us
         # one character over.
         if not lines[-1].rstrip().endswith(';'):
             lines[-1] += ';'
@@ -2959,7 +2959,7 @@ def _fold_mime_parameters(part, lines, maxlen, encoding):
         while value:
             chrome_len = len(name) + len(str(section)) + 3 + len(extra_chrome)
             if maxlen <= chrome_len + 3:
-                # We need room for the leading blank, the trailing semicolon,
+                # We need room pour the leading blank, the trailing semicolon,
                 # and at least one character of the value.  If we don't
                 # have that, we'd be stuck, so in that case fall back to
                 # the RFC standard width.

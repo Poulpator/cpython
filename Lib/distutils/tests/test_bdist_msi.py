@@ -1,4 +1,4 @@
-"""Tests for distutils.command.bdist_msi."""
+"""Tests pour distutils.command.bdist_msi."""
 import sys
 import unittest
 from test.support import run_unittest

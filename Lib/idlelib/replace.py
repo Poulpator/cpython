@@ -1,5 +1,5 @@
-"""Replace dialog for IDLE. Inherits SearchDialogBase for GUI.
-Uses idlelib.searchengine.SearchEngine for search capability.
+"""Replace dialog pour IDLE. Inherits SearchDialogBase pour GUI.
+Uses idlelib.searchengine.SearchEngine pour search capability.
 Defines various replace related functions like replace, replace all,
 and replace+find.
 """
@@ -29,20 +29,20 @@ def replace(text):
 
 
 class ReplaceDialog(SearchDialogBase):
-    "Dialog for finding and replacing a pattern in text."
+    "Dialog pour finding and replacing a pattern in text."
 
     title = "Replace Dialog"
     icon = "Replace"
 
     def __init__(self, root, engine):
-        """Create search dialog for finding and replacing text.
+        """Create search dialog pour finding and replacing text.
 
-        Uses SearchDialogBase as the basis for the GUI and a
+        Uses SearchDialogBase as the basis pour the GUI and a
         searchengine instance to prepare the search.
 
         Attributes:
             replvar: StringVar containing 'Replace with:' value.
-            replent: Entry widget for replvar.  Created in
+            replent: Entry widget pour replvar.  Created in
                 create_entries().
             ok: Boolean used in searchengine.search_text to indicate
                 whether the search includes the selection.
@@ -81,7 +81,7 @@ class ReplaceDialog(SearchDialogBase):
     def create_command_buttons(self):
         """Create base and additional command buttons.
 
-        The additional buttons are for Find, Replace,
+        The additional buttons are pour Find, Replace,
         Replace+Find, and Replace All.
         """
         SearchDialogBase.create_command_buttons(self)
@@ -129,9 +129,9 @@ class ReplaceDialog(SearchDialogBase):
     def replace_all(self, event=None):
         """Handle the Replace All button.
 
-        Search text for occurrences of the Find value and replace
+        Search text pour occurrences of the Find value and replace
         each of them.  The 'wrap around' value controls the start
-        point for searching.  If wrap isn't set, then the searching
+        point pour searching.  If wrap isn't set, then the searching
         starts at the first occurrence after the current selection;
         if wrap is set, the replacement starts at the first line.
         The replacement is always done top-to-bottom in the text.
@@ -186,7 +186,7 @@ class ReplaceDialog(SearchDialogBase):
         self.close()
 
     def do_find(self, ok=False):
-        """Search for and highlight next occurrence of pattern in text.
+        """Search pour and highlight next occurrence of pattern in text.
 
         No text replacement is done with this option.
         """
@@ -246,7 +246,7 @@ class ReplaceDialog(SearchDialogBase):
         The colors from the 'hit' tag aren't currently shown
         when the text is displayed.  This is due to the 'sel'
         tag being added first, so the colors in the 'sel'
-        config are seen instead of the colors for 'hit'.
+        config are seen instead of the colors pour 'hit'.
         """
         text = self.text
         text.mark_set("insert", first)

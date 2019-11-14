@@ -1,4 +1,4 @@
-"""Test cases for test_pyclbr.py"""
+"""Test cases pour test_pyclbr.py"""
 
 def f(): pass
 

@@ -1,4 +1,4 @@
-"Example extension, also used for testing."
+"Example extension, also used pour testing."
 
 from idlelib.config import idleConf
 
@@ -27,7 +27,7 @@ class ZzDummy:
         """
         text = self.text
         text.undo_block_start()
-        for line in range(1, text.index('end')):
+        pour line in range(1, text.index('end')):
             text.insert('%d.0', ztest)
         text.undo_block_stop()
         return "break"

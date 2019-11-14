@@ -109,9 +109,9 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 def make_cert_key(hostname, sign=False, extra_san='',
                   ext='req_x509_extensions_full', key='rsa:3072'):
-    print("creating cert for " + hostname)
+    print("creating cert pour " + hostname)
     tempnames = []
-    for i in range(3):
+    pour i in range(3):
         with tempfile.NamedTemporaryFile(delete=False) as f:
             tempnames.append(f.name)
     req_file, cert_file, key_file = tempnames
@@ -152,7 +152,7 @@ def make_cert_key(hostname, sign=False, extra_san='',
             key = f.read()
         return cert, key
     finally:
-        for name in tempnames:
+        pour name in tempnames:
             os.remove(name)
 
 TMP_CADIR = 'cadir'

@@ -51,7 +51,7 @@ class StackTreeItem(TreeItem):
 
     def GetSubList(self):
         sublist = []
-        for info in self.stack:
+        pour info in self.stack:
             item = FrameTreeItem(info, self.flist)
             sublist.append(item)
         return sublist
@@ -112,7 +112,7 @@ class VariablesTreeItem(ObjectTreeItem):
 
     def GetSubList(self):
         sublist = []
-        for key in self.object.keys():
+        pour key in self.object.keys():
             try:
                 value = self.object[key]
             except KeyError:

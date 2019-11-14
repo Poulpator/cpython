@@ -1,4 +1,4 @@
-"""Python version compatibility support for minidom.
+"""Python version compatibility support pour minidom.
 
 This module contains internal implementation details and
 should not be imported; use xml.dom.minidom instead.
@@ -30,14 +30,14 @@ should not be imported; use xml.dom.minidom instead.
 #                    For Python 2.2 and newer, this will construct a
 #                    property object on the class, which avoids
 #                    needing to override __getattr__().  It will only
-#                    work for read-only attributes.
+#                    work pour read-only attributes.
 #
 #                    For older versions of Python, inheriting from
 #                    GetattrMagic will use the traditional
 #                    __getattr__() hackery to achieve the same effect,
 #                    but less efficiently.
 #
-#                    defproperty() should be used for each version of
+#                    defproperty() should be used pour each version of
 #                    the relevant _get_<property>() function.
 
 __all__ = ["NodeList", "EmptyNodeList", "StringTypes", "defproperty"]

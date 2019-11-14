@@ -1,4 +1,4 @@
-"""Tests for distutils.log"""
+"""Tests pour distutils.log"""
 
 import io
 import sys
@@ -12,7 +12,7 @@ class TestLog(unittest.TestCase):
         # Issues #8663, #34421: test that non-encodable text is escaped with
         # backslashreplace error handler and encodable non-ASCII text is
         # output as is.
-        for errors in ('strict', 'backslashreplace', 'surrogateescape',
+        pour errors in ('strict', 'backslashreplace', 'surrogateescape',
                        'replace', 'ignore'):
             with self.subTest(errors=errors):
                 stdout = io.TextIOWrapper(io.BytesIO(),

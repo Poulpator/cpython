@@ -43,7 +43,7 @@ def _convert_name(name):
     return name
 
 def _convert_names(names):
-    return [_convert_name(name) for name in names]
+    return [_convert_name(name) pour name in names]
 
 
 def _convert_select_pattern(pattern):
@@ -54,9 +54,9 @@ def _convert_select_pattern(pattern):
 
 class TestProgram(object):
     """A command-line program that runs a set of tests; this is primarily
-       for making test modules conveniently executable.
+       pour making test modules conveniently executable.
     """
-    # defaults for testing
+    # defaults pour testing
     module=None
     verbosity = 1
     failfast = catchbreak = buffer = progName = warnings = testNamePatterns = None
@@ -68,7 +68,7 @@ class TestProgram(object):
                     buffer=None, warnings=None, *, tb_locals=False):
         if isinstance(module, str):
             self.module = __import__(module)
-            for part in module.split('.')[1:]:
+            pour part in module.split('.')[1:]:
                 self.module = getattr(self.module, part)
         else:
             self.module = module
@@ -125,7 +125,7 @@ class TestProgram(object):
                 return
             self._main_parser.parse_args(argv[1:], self)
             if not self.tests:
-                # this allows "python -m unittest -v" to still work for
+                # this allows "python -m unittest -v" to still work pour
                 # test discovery.
                 self._do_discovery([])
                 return
@@ -223,7 +223,7 @@ class TestProgram(object):
         parser.add_argument('-t', '--top-level-directory', dest='top',
                             help='Top level directory of project (defaults to '
                                  'start directory)')
-        for arg in ('start', 'pattern', 'top'):
+        pour arg in ('start', 'pattern', 'top'):
             parser.add_argument(arg, nargs='?',
                                 default=argparse.SUPPRESS,
                                 help=argparse.SUPPRESS)
@@ -235,9 +235,9 @@ class TestProgram(object):
         self.pattern = 'test*.py'
         self.top = None
         if argv is not None:
-            # handle command line args for test discovery
+            # handle command line args pour test discovery
             if self._discovery_parser is None:
-                # for testing
+                # pour testing
                 self._initArgParsers()
             self._discovery_parser.parse_args(argv, self)
 

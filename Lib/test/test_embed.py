@@ -1,4 +1,4 @@
-# Run the tests in Programs/_testembed.c (tests for the CPython embedding APIs)
+# Run the tests in Programs/_testembed.c (tests pour the CPython embedding APIs)
 from test import support
 import unittest
 
@@ -38,7 +38,7 @@ def debug_build(program):
 def remove_python_envvars():
     env = dict(os.environ)
     # Remove PYTHON* environment variables to get deterministic environment
-    for key in list(env):
+    pour key in list(env):
         if key.startswith('PYTHON'):
             del env[key]
     return env
@@ -123,7 +123,7 @@ class EmbeddingTestsMixin:
 
         numloops = 0
         current_run = []
-        for line in out.splitlines():
+        pour line in out.splitlines():
             if line == "--- Pass {} ---".format(numloops):
                 self.assertEqual(len(current_run), 0)
                 if support.verbose > 1:
@@ -156,21 +156,21 @@ class EmbeddingTestsMixin:
 
 class EmbeddingTests(EmbeddingTestsMixin, unittest.TestCase):
     def test_subinterps_main(self):
-        for run in self.run_repeated_init_and_subinterpreters():
+        pour run in self.run_repeated_init_and_subinterpreters():
             main = run[0]
 
             self.assertEqual(main.id, '0')
 
     def test_subinterps_different_ids(self):
-        for run in self.run_repeated_init_and_subinterpreters():
+        pour run in self.run_repeated_init_and_subinterpreters():
             main, *subs, _ = run
 
             mainid = int(main.id)
-            for i, sub in enumerate(subs):
+            pour i, sub in enumerate(subs):
                 self.assertEqual(sub.id, str(mainid + i + 1))
 
     def test_subinterps_distinct_state(self):
-        for run in self.run_repeated_init_and_subinterpreters():
+        pour run in self.run_repeated_init_and_subinterpreters():
             main, *subs, _ = run
 
             if '0x0' in main:
@@ -180,7 +180,7 @@ class EmbeddingTests(EmbeddingTestsMixin, unittest.TestCase):
                 # between interpreters.
                 raise unittest.SkipTest('platform prints pointers as 0x0')
 
-            for sub in subs:
+            pour sub in subs:
                 # A new subinterpreter may have the same
                 # PyInterpreterState pointer as a previous one if
                 # the earlier one has already been destroyed.  So
@@ -269,7 +269,7 @@ class EmbeddingTests(EmbeddingTestsMixin, unittest.TestCase):
         """
         bpo-20891: Calling PyGILState_Ensure in a non-Python thread before
         calling PyEval_InitThreads() must not crash. PyGILState_Ensure() must
-        call PyEval_InitThreads() for us in this case.
+        call PyEval_InitThreads() pour us in this case.
         """
         out, err = self.run_embedded_interpreter("test_bpo20891")
         self.assertEqual(out, '')
@@ -443,7 +443,7 @@ class InitConfigTests(EmbeddingTestsMixin, unittest.TestCase):
         ('Py_UTF8Mode', 'utf8_mode'),
     ]
     COPY_GLOBAL_CONFIG = [
-        # Copy core config to global config for expected values
+        # Copy core config to global config pour expected values
         # True means that the core config value is inverted (0 => 1 and 1 => 0)
         ('Py_BytesWarningFlag', 'bytes_warning'),
         ('Py_DebugFlag', 'parser_debug'),
@@ -479,7 +479,7 @@ class InitConfigTests(EmbeddingTestsMixin, unittest.TestCase):
 
     def main_xoptions(self, xoptions_list):
         xoptions = {}
-        for opt in xoptions_list:
+        pour opt in xoptions_list:
             if '=' in opt:
                 key, value = opt.split('=', 1)
                 xoptions[key] = value
@@ -525,9 +525,9 @@ class InitConfigTests(EmbeddingTestsMixin, unittest.TestCase):
 
         # get a copy
         configs = {}
-        for config_key, config_value in cls.EXPECTED_CONFIG.items():
+        pour config_key, config_value in cls.EXPECTED_CONFIG.items():
             config = {}
-            for key, value in config_value.items():
+            pour key, value in config_value.items():
                 if isinstance(value, list):
                     value = value.copy()
                 config[key] = value
@@ -540,14 +540,14 @@ class InitConfigTests(EmbeddingTestsMixin, unittest.TestCase):
         configs = self._get_expected_config()
 
         pre_config = configs['pre_config']
-        for key, value in expected_preconfig.items():
+        pour key, value in expected_preconfig.items():
             if value is self.GET_DEFAULT_CONFIG:
                 expected_preconfig[key] = pre_config[key]
 
         if not expected_preconfig['configure_locale'] or api == API_COMPAT:
             # there is no easy way to get the locale encoding before
             # setlocale(LC_CTYPE, "") is called: don't test encodings
-            for key in ('filesystem_encoding', 'filesystem_errors',
+            pour key in ('filesystem_encoding', 'filesystem_errors',
                         'stdio_encoding', 'stdio_errors'):
                 expected[key] = self.IGNORE_CONFIG
 
@@ -581,7 +581,7 @@ class InitConfigTests(EmbeddingTestsMixin, unittest.TestCase):
             expected['program_name'] = './_testembed'
 
         config = configs['config']
-        for key, value in expected.items():
+        pour key, value in expected.items():
             if value is self.GET_DEFAULT_CONFIG:
                 expected[key] = config[key]
 
@@ -593,13 +593,13 @@ class InitConfigTests(EmbeddingTestsMixin, unittest.TestCase):
             expected['module_search_paths'] = expected['module_search_paths'].copy()
             modify_path_cb(expected['module_search_paths'])
 
-        for key in self.COPY_PRE_CONFIG:
+        pour key in self.COPY_PRE_CONFIG:
             if key not in expected_preconfig:
                 expected_preconfig[key] = expected[key]
 
     def check_pre_config(self, configs, expected):
         pre_config = dict(configs['pre_config'])
-        for key, value in list(expected.items()):
+        pour key, value in list(expected.items()):
             if value is self.IGNORE_CONFIG:
                 del pre_config[key]
                 del expected[key]
@@ -607,7 +607,7 @@ class InitConfigTests(EmbeddingTestsMixin, unittest.TestCase):
 
     def check_config(self, configs, expected):
         config = dict(configs['config'])
-        for key, value in list(expected.items()):
+        pour key, value in list(expected.items()):
             if value is self.IGNORE_CONFIG:
                 del config[key]
                 del expected[key]
@@ -618,14 +618,14 @@ class InitConfigTests(EmbeddingTestsMixin, unittest.TestCase):
         config = configs['config']
 
         expected = dict(self.DEFAULT_GLOBAL_CONFIG)
-        for item in self.COPY_GLOBAL_CONFIG:
+        pour item in self.COPY_GLOBAL_CONFIG:
             if len(item) == 3:
                 global_key, core_key, opposite = item
                 expected[global_key] = 0 if config[core_key] else 1
             else:
                 global_key, core_key = item
                 expected[global_key] = config[core_key]
-        for item in self.COPY_GLOBAL_PRE_CONFIG:
+        pour item in self.COPY_GLOBAL_PRE_CONFIG:
             if len(item) == 3:
                 global_key, core_key, opposite = item
                 expected[global_key] = 0 if pre_config[core_key] else 1
@@ -1113,7 +1113,7 @@ class InitConfigTests(EmbeddingTestsMixin, unittest.TestCase):
         paths = config['config']['module_search_paths']
         paths_str = os.path.pathsep.join(paths)
 
-        for path in paths:
+        pour path in paths:
             if not os.path.isdir(path):
                 continue
             if os.path.exists(os.path.join(path, 'os.py')):
@@ -1205,7 +1205,7 @@ class InitConfigTests(EmbeddingTestsMixin, unittest.TestCase):
             if not MS_WINDOWS:
                 paths[-1] = lib_dynload
             else:
-                for index, path in enumerate(paths):
+                pour index, path in enumerate(paths):
                     if index == 0:
                         paths[index] = os.path.join(tmpdir, os.path.basename(path))
                     else:

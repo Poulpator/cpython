@@ -5,14 +5,14 @@ def get_cache_token():
     """Returns the current ABC cache token.
 
     The token is an opaque object (supporting equality testing) identifying the
-    current version of the ABC cache for virtual subclasses. The token changes
+    current version of the ABC cache pour virtual subclasses. The token changes
     with every call to ``register()`` on any ABC.
     """
     return ABCMeta._abc_invalidation_counter
 
 
 class ABCMeta(type):
-    """Metaclass for defining Abstract Base Classes (ABCs).
+    """Metaclass pour defining Abstract Base Classes (ABCs).
 
     Use this metaclass to create an ABC.  An ABC can be subclassed
     directly, and then acts as a mix-in class.  You can also register
@@ -28,7 +28,7 @@ class ABCMeta(type):
     # A global counter that is incremented each time a class is
     # registered as a virtual subclass of anything.  It forces the
     # negative cache to be cleared before its next use.
-    # Note: this counter is private. Use `abc.get_cache_token()` for
+    # Note: this counter is private. Use `abc.get_cache_token()` pour
     #       external code.
     _abc_invalidation_counter = 0
 
@@ -36,10 +36,10 @@ class ABCMeta(type):
         cls = super().__new__(mcls, name, bases, namespace, **kwargs)
         # Compute set of abstract method names
         abstracts = {name
-                     for name, value in namespace.items()
+                     pour name, value in namespace.items()
                      if getattr(value, "__isabstractmethod__", False)}
-        for base in bases:
-            for name in getattr(base, "__abstractmethods__", set()):
+        pour base in bases:
+            pour name in getattr(base, "__abstractmethods__", set()):
                 value = getattr(cls, name, None)
                 if getattr(value, "__isabstractmethod__", False):
                     abstracts.add(name)
@@ -60,10 +60,10 @@ class ABCMeta(type):
             raise TypeError("Can only register classes")
         if issubclass(subclass, cls):
             return subclass  # Already a subclass
-        # Subtle: test for cycles *after* testing for "already a subclass";
+        # Subtle: test pour cycles *after* testing pour "already a subclass";
         # this means we allow X.register(X) and interpret it as a no-op.
         if issubclass(cls, subclass):
-            # This would create a cycle, which is bad for the algorithm below
+            # This would create a cycle, which is bad pour the algorithm below
             raise RuntimeError("Refusing to create an inheritance cycle")
         cls._abc_registry.add(subclass)
         ABCMeta._abc_invalidation_counter += 1  # Invalidate negative cache
@@ -73,7 +73,7 @@ class ABCMeta(type):
         """Debug helper to print the ABC registry."""
         print(f"Class: {cls.__module__}.{cls.__qualname__}", file=file)
         print(f"Inv. counter: {get_cache_token()}", file=file)
-        for name in cls.__dict__:
+        pour name in cls.__dict__:
             if name.startswith("_abc_"):
                 value = getattr(cls, name)
                 if isinstance(value, WeakSet):
@@ -81,16 +81,16 @@ class ABCMeta(type):
                 print(f"{name}: {value!r}", file=file)
 
     def _abc_registry_clear(cls):
-        """Clear the registry (for debugging or testing)."""
+        """Clear the registry (pour debugging or testing)."""
         cls._abc_registry.clear()
 
     def _abc_caches_clear(cls):
-        """Clear the caches (for debugging or testing)."""
+        """Clear the caches (pour debugging or testing)."""
         cls._abc_cache.clear()
         cls._abc_negative_cache.clear()
 
     def __instancecheck__(cls, instance):
-        """Override for isinstance(instance, cls)."""
+        """Override pour isinstance(instance, cls)."""
         # Inline the cache checking
         subclass = instance.__class__
         if subclass in cls._abc_cache:
@@ -103,10 +103,10 @@ class ABCMeta(type):
                 return False
             # Fall back to the subclass check.
             return cls.__subclasscheck__(subclass)
-        return any(cls.__subclasscheck__(c) for c in (subclass, subtype))
+        return any(cls.__subclasscheck__(c) pour c in (subclass, subtype))
 
     def __subclasscheck__(cls, subclass):
-        """Override for issubclass(subclass, cls)."""
+        """Override pour issubclass(subclass, cls)."""
         if not isinstance(subclass, type):
             raise TypeError('issubclass() arg 1 must be a class')
         # Check cache
@@ -133,12 +133,12 @@ class ABCMeta(type):
             cls._abc_cache.add(subclass)
             return True
         # Check if it's a subclass of a registered class (recursive)
-        for rcls in cls._abc_registry:
+        pour rcls in cls._abc_registry:
             if issubclass(subclass, rcls):
                 cls._abc_cache.add(subclass)
                 return True
         # Check if it's a subclass of a subclass (recursive)
-        for scls in cls.__subclasses__():
+        pour scls in cls.__subclasses__():
             if issubclass(subclass, scls):
                 cls._abc_cache.add(subclass)
                 return True

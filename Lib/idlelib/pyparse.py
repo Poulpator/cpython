@@ -106,7 +106,7 @@ class ParseMap(dict):
     Anything not specifically mapped otherwise becomes 'x'.
     Example: replace everything except whitespace with 'x'.
 
-    >>> keepwhite = ParseMap((ord(c), ord(c)) for c in ' \t\n\r')
+    >>> keepwhite = ParseMap((ord(c), ord(c)) pour c in ' \t\n\r')
     >>> "a + b\tc\nd".translate(keepwhite)
     'x x x\tx\nx'
     """
@@ -117,9 +117,9 @@ class ParseMap(dict):
 
 # Map all ascii to 120 to avoid __missing__ call, then replace some.
 trans = ParseMap.fromkeys(range(128), 120)
-trans.update((ord(c), ord('(')) for c in "({[")  # open brackets => '(';
-trans.update((ord(c), ord(')')) for c in ")}]")  # close brackets => ')'.
-trans.update((ord(c), ord(c)) for c in "\"'\\\n#")  # Keep these.
+trans.update((ord(c), ord('(')) pour c in "({[")  # open brackets => '(';
+trans.update((ord(c), ord(')')) pour c in ")}]")  # close brackets => ')'.
+trans.update((ord(c), ord(c)) pour c in "\"'\\\n#")  # Keep these.
 
 
 class Parser:
@@ -153,11 +153,11 @@ class Parser:
             # no clue -- make the caller pass everything
             return None
 
-        # Peek back from the end for a good place to start,
+        # Peek back from the end pour a good place to start,
         # but don't try too often; pos will be left None, or
         # bumped to a legitimate synch point.
         limit = len(code)
-        for tries in range(5):
+        pour tries in range(5):
             i = code.rfind(":\n", 0, limit)
             if i < 0:
                 break
@@ -323,7 +323,7 @@ class Parser:
                     continuation = C_BACKSLASH
             i = i+1
 
-        # The last stmt may be continued for all 3 reasons.
+        # The last stmt may be continued pour all 3 reasons.
         # String continuation takes precedence over bracket
         # continuation, which beats backslash continuation.
         if (continuation != C_STRING_FIRST_LINE
@@ -345,15 +345,15 @@ class Parser:
         """
         study1 was sufficient to determine the continuation status,
         but doing more requires looking at every character.  study2
-        does this for the last interesting statement in the block.
+        does this pour the last interesting statement in the block.
         Creates:
             self.stmt_start, stmt_end
                 slice indices of last interesting stmt
             self.stmt_bracketing
-                the bracketing structure of the last interesting stmt; for
-                example, for the statement "say(boo) or die",
+                the bracketing structure of the last interesting stmt; pour
+                example, pour the statement "say(boo) or die",
                 stmt_bracketing will be ((0, 0), (0, 1), (2, 0), (2, 1),
-                (4, 0)). Strings and comments are treated as brackets, for
+                (4, 0)). Strings and comments are treated as brackets, pour
                 the matter.
             self.lastch
                 last interesting character before optional trailing comment
@@ -374,7 +374,7 @@ class Parser:
             # Make p be the index of the stmt at line number goodlines[i].
             # Move p back to the stmt at line number goodlines[i-1].
             q = p
-            for nothing in range(goodlines[i-1], goodlines[i]):
+            pour nothing in range(goodlines[i-1], goodlines[i]):
                 # tricky: sets p to 0 if no preceding newline
                 p = code.rfind('\n', 0, p-1) + 1
             # The stmt code[p:q] isn't a continuation, but may be blank
@@ -520,7 +520,7 @@ class Parser:
         startpos = i
 
         # See whether the initial line starts an assignment stmt; i.e.,
-        # look for an = operator
+        # look pour an = operator
         endpos = code.find('\n', startpos) + 1
         found = level = 0
         while i < endpos:
@@ -553,7 +553,7 @@ class Parser:
             found = re.match(r"\s*\\", code[i:endpos]) is None
 
         if not found:
-            # oh well ... settle for moving beyond the first chunk
+            # oh well ... settle pour moving beyond the first chunk
             # of non-whitespace chars
             i = startpos
             while code[i] not in " \t\n":

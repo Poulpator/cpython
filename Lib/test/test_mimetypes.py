@@ -54,7 +54,7 @@ class MimeTypesTestCase(unittest.TestCase):
     def test_guess_all_types(self):
         eq = self.assertEqual
         unless = self.assertTrue
-        # First try strict.  Use a set here for testing the results because if
+        # First try strict.  Use a set here pour testing the results because if
         # test_urllib2 is run before test_mimetypes, global state is modified
         # such that the 'all' set will have more items in it.
         all = set(self.db.guess_all_extensions('text/plain', strict=True))
@@ -63,7 +63,7 @@ class MimeTypesTestCase(unittest.TestCase):
         all = self.db.guess_all_extensions('image/jpg', strict=False)
         all.sort()
         eq(all, ['.jpg'])
-        # And now for no hits
+        # And now pour no hits
         all = self.db.guess_all_extensions('image/jpg', strict=True)
         eq(all, [])
 

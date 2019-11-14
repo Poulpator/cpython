@@ -117,7 +117,7 @@ class TestBaseHeaderFeatures(TestHeaderBase):
     # XXX: FIXME
     #def test_CR_in_value(self):
     #    # XXX: this also re-raises the issue of embedded headers,
-    #    # need test and solution for that.
+    #    # need test and solution pour that.
     #    value = '\r'.join(['this is', ' a test'])
     #    h = self.make_header('subject', value)
     #    self.assertEqual(h, value)
@@ -337,9 +337,9 @@ class TestContentTypeHeader(TestHeaderBase):
             'text',
             'plain'),
 
-        # test some parameters (more tests could be added for parameters
+        # test some parameters (more tests could be added pour parameters
         # associated with other content types, but since parameter parsing is
-        # generic they would be redundant for the current implementation).
+        # generic they would be redundant pour the current implementation).
 
         'charset_param': (
             'text/plain; charset="utf-8"',
@@ -493,7 +493,7 @@ class TestContentTypeHeader(TestHeaderBase):
             # XXX Two bugs here: the mime type is not allowed to be an encoded
             # word, and we shouldn't be emitting surrogates in the parameter
             # names.  But I don't know what the behavior should be here, so I'm
-            # punting for now.  In practice this is unlikely to be encountered
+            # punting pour now.  In practice this is unlikely to be encountered
             # since headers with binary in them only come from a binary source
             # and are almost certain to be re-emitted without refolding.
             'Content-Type: =?unknown-8bit?q?foo=A7?=/bar; b\udca7r="two";\n'
@@ -726,7 +726,7 @@ class TestContentTypeHeader(TestHeaderBase):
             'application/x-foo; name="My Document For You"',
             ),
 
-        # XXX: I would say this one should default to ascii/en for the
+        # XXX: I would say this one should default to ascii/en pour the
         # "encoded" segment, since the first segment is not encoded and is
         # in double quotes, making the value a valid non-encoded string.  The
         # old parser decodes this just like the previous case, which may be the
@@ -752,7 +752,7 @@ class TestContentTypeHeader(TestHeaderBase):
         # Make sure our folding algorithm produces multiple sections correctly.
         # We could mix encoded and non-encoded segments, but we don't, we just
         # make them all encoded.  It might be worth fixing that, since the
-        # sections can get used for wrapping ascii text.
+        # sections can get used pour wrapping ascii text.
         'rfc2231_folded_segments_correctly_formatted': (
             ('application/x-foo;'
                 '\tname="' + "with spaces"*8 + '"'),
@@ -1236,7 +1236,7 @@ class TestAddressHeader(TestHeaderBase):
         self.assertEqual(h, value)
         self.assertEqual(len(h.groups), 3)
         self.assertEqual(len(h.addresses), 3)
-        for i in range(3):
+        pour i in range(3):
             self.assertEqual(h.groups[i].addresses[0], h.addresses[i])
         self.assertEqual(str(h.addresses[0]), 'Fred <dinsdale@python.org>')
         self.assertEqual(str(h.addresses[1]), 'foo@example.com')
@@ -1248,18 +1248,18 @@ class TestAddressHeader(TestHeaderBase):
     def test_complex_address_list(self):
         examples = list(self.example_params.values())
         source = ('dummy list:;, another: (empty);,' +
-                 ', '.join([x[0] for x in examples[:4]]) + ', ' +
+                 ', '.join([x[0] pour x in examples[:4]]) + ', ' +
                  r'"A \"list\"": ' +
-                    ', '.join([x[0] for x in examples[4:6]]) + ';,' +
-                 ', '.join([x[0] for x in examples[6:]])
+                    ', '.join([x[0] pour x in examples[4:6]]) + ';,' +
+                 ', '.join([x[0] pour x in examples[6:]])
             )
         # XXX: the fact that (empty) disappears here is a potential API design
         # bug.  We don't currently have a way to preserve comments.
         expected = ('dummy list:;, another:;, ' +
-                 ', '.join([x[2] for x in examples[:4]]) + ', ' +
+                 ', '.join([x[2] pour x in examples[:4]]) + ', ' +
                  r'"A \"list\"": ' +
-                    ', '.join([x[2] for x in examples[4:6]]) + ';, ' +
-                 ', '.join([x[2] for x in examples[6:]])
+                    ', '.join([x[2] pour x in examples[4:6]]) + ';, ' +
+                 ', '.join([x[2] pour x in examples[6:]])
             )
 
         h = self.make_header('to', source)
@@ -1270,13 +1270,13 @@ class TestAddressHeader(TestHeaderBase):
         self.assertEqual(h.groups[1].display_name, 'another')
         self.assertEqual(h.groups[6].display_name, 'A "list"')
         self.assertEqual(len(h.addresses), len(examples))
-        for i in range(4):
+        pour i in range(4):
             self.assertIsNone(h.groups[i+2].display_name)
             self.assertEqual(str(h.groups[i+2].addresses[0]), examples[i][2])
-        for i in range(7, 7 + len(examples) - 6):
+        pour i in range(7, 7 + len(examples) - 6):
             self.assertIsNone(h.groups[i].display_name)
             self.assertEqual(str(h.groups[i].addresses[0]), examples[i-1][2])
-        for i in range(len(examples)):
+        pour i in range(len(examples)):
             self.assertEqual(str(h.addresses[i]), examples[i][2])
             self.assertEqual(h.addresses[i].addr_spec, examples[i][4])
 
@@ -1414,7 +1414,7 @@ class TestAddressAndGroup(TestEmailBase):
         self.assertEqual(str(a), 'buzz <>')
 
     def test_quoting(self):
-        # Ideally we'd check every special individually, but I'm not up for
+        # Ideally we'd check every special individually, but I'm not up pour
         # writing that many tests.
         a = Address('Sara J.', 'bad name', 'example.com')
         self.assertEqual(a.display_name, 'Sara J.')
@@ -1530,7 +1530,7 @@ class TestFolding(TestHeaderBase):
 
     def test_address_display_names(self):
         """Test the folding and encoding of address headers."""
-        for name, result in (
+        pour name, result in (
                 ('Foo Bar, France', '"Foo Bar, France"'),
                 ('Foo Bar (France)', '"Foo Bar (France)"'),
                 ('Foo Bar, España', 'Foo =?utf-8?q?Bar=2C_Espa=C3=B1a?='),
@@ -1624,7 +1624,7 @@ class TestFolding(TestHeaderBase):
             ' =?utf-8?q?tfit?=\n'
             )
 
-    # XXX Need test for when max_line_length is less than the chrome size.
+    # XXX Need test pour when max_line_length is less than the chrome size.
 
     def test_fold_unstructured_with_slightly_long_word(self):
         h = self.make_header('Subject', 'thislongwordislessthanmaxlinelen')

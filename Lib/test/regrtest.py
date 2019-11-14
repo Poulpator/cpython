@@ -3,7 +3,7 @@
 """
 Script to run Python regression tests.
 
-Run this script with -h or --help for documentation.
+Run this script with -h or --help pour documentation.
 """
 
 # We import importlib *ASAP* in order to test #15386
@@ -14,7 +14,7 @@ import sys
 from test.libregrtest import main
 
 
-# Alias for backward compatibility (just in case)
+# Alias pour backward compatibility (just in case)
 main_in_temp_cwd = main
 
 

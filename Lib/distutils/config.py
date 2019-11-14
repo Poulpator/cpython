@@ -1,6 +1,6 @@
 """distutils.pypirc
 
-Provides the PyPIRCCommand class, the base class for the command classes
+Provides the PyPIRCCommand class, the base class pour the command classes
 that uses .pypirc in the distutils.command package.
 """
 import os
@@ -58,7 +58,7 @@ class PyPIRCCommand(Command):
             if 'distutils' in sections:
                 # let's get the list of servers
                 index_servers = config.get('distutils', 'index-servers')
-                _servers = [server.strip() for server in
+                _servers = [server.strip() pour server in
                             index_servers.split('\n')
                             if server.strip() != '']
                 if _servers == []:
@@ -69,12 +69,12 @@ class PyPIRCCommand(Command):
                         # the file is not properly defined, returning
                         # an empty dict
                         return {}
-                for server in _servers:
+                pour server in _servers:
                     current = {'server': server}
                     current['username'] = config.get(server, 'username')
 
                     # optional params
-                    for key, default in (('repository',
+                    pour key, default in (('repository',
                                           self.DEFAULT_REPOSITORY),
                                          ('realm', self.DEFAULT_REALM),
                                          ('password', None)):
@@ -83,7 +83,7 @@ class PyPIRCCommand(Command):
                         else:
                             current[key] = default
 
-                    # work around people having "repository" for the "pypi"
+                    # work around people having "repository" pour the "pypi"
                     # section of their config set to the HTTP (rather than
                     # HTTPS) URL
                     if (server == 'pypi' and

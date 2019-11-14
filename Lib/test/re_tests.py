@@ -3,7 +3,7 @@
 
 # Re test suite and benchmark suite v1.5
 
-# The 3 possible outcomes for each pattern
+# The 3 possible outcomes pour each pattern
 [SUCCEED, FAIL, SYNTAX_ERROR] = range(3)
 
 # Benchmark suite (needs expansion)
@@ -34,7 +34,7 @@ benchmarks = [
 
 ]
 
-# Test suite (for verifying correctness)
+# Test suite (pour verifying correctness)
 #
 # The test suite is a list of 5- or 3-tuples.  The 5 parts of a
 # complete tuple are:
@@ -60,7 +60,7 @@ tests = [
     ('(?P<!>a)', '', SYNTAX_ERROR),         # Begins with an illegal char
     ('(?P<foo!>a)', '', SYNTAX_ERROR),      # Begins with an illegal char
 
-    # Same tests, for the ?P= form
+    # Same tests, pour the ?P= form
     ('(?P<foo_123>a)(?P=foo_123', 'aa', SYNTAX_ERROR),
     ('(?P<foo_123>a)(?P=1)', 'aa', SYNTAX_ERROR),
     ('(?P<foo_123>a)(?P=!)', 'aa', SYNTAX_ERROR),
@@ -300,7 +300,7 @@ tests = [
     ('^(ab|cd)e', 'abcde', FAIL),
     ('((((((((((a))))))))))', 'a', SUCCEED, 'g10', 'a'),
     ('((((((((((a))))))))))\\10', 'aa', SUCCEED, 'found', 'aa'),
-# Python does not have the same rules for \\41 so this is a syntax error
+# Python does not have the same rules pour \\41 so this is a syntax error
 #    ('((((((((((a))))))))))\\41', 'aa', FAIL),
 #    ('((((((((((a))))))))))\\41', 'a!', SUCCEED, 'found', 'a!'),
     ('((((((((((a))))))))))\\41', '', SYNTAX_ERROR),

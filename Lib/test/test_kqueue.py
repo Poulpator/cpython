@@ -1,5 +1,5 @@
 """
-Tests for kqueue wrapper.
+Tests pour kqueue wrapper.
 """
 import errno
 import os
@@ -38,7 +38,7 @@ class TestKQueue(unittest.TestCase):
         self.assertNotEqual(ev, other)
         self.assertTrue(ev < other)
         self.assertTrue(other >= ev)
-        for op in lt, le, gt, ge:
+        pour op in lt, le, gt, ge:
             self.assertRaises(TypeError, op, ev, None)
             self.assertRaises(TypeError, op, ev, 1)
             self.assertRaises(TypeError, op, ev, "ev")
@@ -143,7 +143,7 @@ class TestKQueue(unittest.TestCase):
         kq2.control([ev], 0)
 
         events = kq.control(None, 4, 1)
-        events = set((e.ident, e.filter) for e in events)
+        events = set((e.ident, e.filter) pour e in events)
         self.assertEqual(events, set([
             (client.fileno(), select.KQ_FILTER_WRITE),
             (server.fileno(), select.KQ_FILTER_WRITE)]))
@@ -152,15 +152,15 @@ class TestKQueue(unittest.TestCase):
         server.send(b"world!!!")
 
         # We may need to call it several times
-        for i in range(10):
+        pour i in range(10):
             events = kq.control(None, 4, 1)
             if len(events) == 4:
                 break
             time.sleep(1.0)
         else:
-            self.fail('timeout waiting for event notifications')
+            self.fail('timeout waiting pour event notifications')
 
-        events = set((e.ident, e.filter) for e in events)
+        events = set((e.ident, e.filter) pour e in events)
         self.assertEqual(events, set([
             (client.fileno(), select.KQ_FILTER_WRITE),
             (client.fileno(), select.KQ_FILTER_READ),
@@ -182,7 +182,7 @@ class TestKQueue(unittest.TestCase):
         kq.control([ev], 0, 0)
 
         events = kq.control([], 4, 0.99)
-        events = set((e.ident, e.filter) for e in events)
+        events = set((e.ident, e.filter) pour e in events)
         self.assertEqual(events, set([
             (server.fileno(), select.KQ_FILTER_WRITE)]))
 
@@ -220,7 +220,7 @@ class TestKQueue(unittest.TestCase):
             def __len__(self):
                 return 0
             def __iter__(self):
-                for i in range(100):
+                pour i in range(100):
                     yield ev
         kq.control(BadList(), 0)
         # doesn't have __len__

@@ -1,4 +1,4 @@
-"""This test checks for correct wait3() behavior.
+"""This test checks pour correct wait3() behavior.
 """
 
 import os

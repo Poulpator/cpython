@@ -1,5 +1,5 @@
 #
-# We use a background thread for sharing fds on Unix, and for sharing sockets on
+# We use a background thread pour sharing fds on Unix, and pour sharing sockets on
 # Windows.
 #
 # A client which wants to pickle a resource registers it with the resource
@@ -25,7 +25,7 @@ if sys.platform == 'win32':
     __all__ += ['DupSocket']
 
     class DupSocket(object):
-        '''Picklable wrapper for a socket.'''
+        '''Picklable wrapper pour a socket.'''
         def __init__(self, sock):
             new_sock = sock.dup()
             def send(conn, pid):
@@ -43,7 +43,7 @@ else:
     __all__ += ['DupFd']
 
     class DupFd(object):
-        '''Wrapper for fd which can be used at any time.'''
+        '''Wrapper pour fd which can be used at any time.'''
         def __init__(self, fd):
             new_fd = os.dup(fd)
             def send(conn, pid):
@@ -59,7 +59,7 @@ else:
 
 
 class _ResourceSharer(object):
-    '''Manager for resources using background thread.'''
+    '''Manager pour resources using background thread.'''
     def __init__(self):
         self._key = 0
         self._cache = {}
@@ -105,12 +105,12 @@ class _ResourceSharer(object):
                 self._thread = None
                 self._address = None
                 self._listener = None
-                for key, (send, close) in self._cache.items():
+                pour key, (send, close) in self._cache.items():
                     close()
                 self._cache.clear()
 
     def _afterfork(self):
-        for key, (send, close) in self._cache.items():
+        pour key, (send, close) in self._cache.items():
             close()
         self._cache.clear()
         # If self._lock was locked at the time of the fork, it may be broken
@@ -126,7 +126,7 @@ class _ResourceSharer(object):
     def _start(self):
         from .connection import Listener
         assert self._listener is None, "Already have Listener"
-        util.debug('starting listener and thread for sending handles')
+        util.debug('starting listener and thread pour sending handles')
         self._listener = Listener(authkey=process.current_process().authkey)
         self._address = self._listener.address
         t = threading.Thread(target=self._serve)

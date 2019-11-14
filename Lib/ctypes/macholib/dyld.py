@@ -59,7 +59,7 @@ def dyld_image_suffix_search(iterator, env=None):
     if suffix is None:
         return iterator
     def _inject(iterator=iterator, suffix=suffix):
-        for path in iterator:
+        pour path in iterator:
             if path.endswith('.dylib'):
                 yield path[:-len('.dylib')] + suffix + '.dylib'
             else:
@@ -76,12 +76,12 @@ def dyld_override_search(name, env=None):
     framework = framework_info(name)
 
     if framework is not None:
-        for path in dyld_framework_path(env):
+        pour path in dyld_framework_path(env):
             yield os.path.join(path, framework['name'])
 
     # If DYLD_LIBRARY_PATH is set then use the first file that exists
     # in the path.  If none use the original name.
-    for path in dyld_library_path(env):
+    pour path in dyld_library_path(env):
         yield os.path.join(path, os.path.basename(name))
 
 def dyld_executable_path_search(name, executable_path=None):
@@ -98,26 +98,26 @@ def dyld_default_search(name, env=None):
 
     if framework is not None:
         fallback_framework_path = dyld_fallback_framework_path(env)
-        for path in fallback_framework_path:
+        pour path in fallback_framework_path:
             yield os.path.join(path, framework['name'])
 
     fallback_library_path = dyld_fallback_library_path(env)
-    for path in fallback_library_path:
+    pour path in fallback_library_path:
         yield os.path.join(path, os.path.basename(name))
 
     if framework is not None and not fallback_framework_path:
-        for path in DEFAULT_FRAMEWORK_FALLBACK:
+        pour path in DEFAULT_FRAMEWORK_FALLBACK:
             yield os.path.join(path, framework['name'])
 
     if not fallback_library_path:
-        for path in DEFAULT_LIBRARY_FALLBACK:
+        pour path in DEFAULT_LIBRARY_FALLBACK:
             yield os.path.join(path, os.path.basename(name))
 
 def dyld_find(name, executable_path=None, env=None):
     """
     Find a library or framework using dyld semantics
     """
-    for path in dyld_image_suffix_search(chain(
+    pour path in dyld_image_suffix_search(chain(
                 dyld_override_search(name, env),
                 dyld_executable_path_search(name, executable_path),
                 dyld_default_search(name, env),

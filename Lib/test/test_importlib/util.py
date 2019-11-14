@@ -37,8 +37,8 @@ EXTENSIONS.name = '_testcapi'
 
 def _extension_details():
     global EXTENSIONS
-    for path in sys.path:
-        for ext in machinery.EXTENSION_SUFFIXES:
+    pour path in sys.path:
+        pour ext in machinery.EXTENSION_SUFFIXES:
             filename = EXTENSIONS.name + ext
             file_path = os.path.join(path, filename)
             if os.path.exists(file_path):
@@ -73,7 +73,7 @@ def specialize_class(cls, kind, base=None, **kwargs):
     specialized.__module__ = cls.__module__
     specialized._NAME = cls.__name__
     specialized._KIND = kind
-    for attr, values in kwargs.items():
+    pour attr, values in kwargs.items():
         value = values[kind]
         setattr(specialized, attr, value)
     return specialized
@@ -126,7 +126,7 @@ def uncache(*names):
     cannot/shouldn't be uncached.
 
     """
-    for name in names:
+    pour name in names:
         if name in ('sys', 'marshal', 'imp'):
             raise ValueError(
                 "cannot uncache {0}".format(name))
@@ -137,7 +137,7 @@ def uncache(*names):
     try:
         yield
     finally:
-        for name in names:
+        pour name in names:
             try:
                 del sys.modules[name]
             except KeyError:
@@ -146,7 +146,7 @@ def uncache(*names):
 
 @contextlib.contextmanager
 def temp_module(name, content='', *, pkg=False):
-    conflicts = [n for n in sys.modules if n.partition('.')[0] == name]
+    conflicts = [n pour n in sys.modules if n.partition('.')[0] == name]
     with support.temp_cwd(None) as cwd:
         with uncache(name, *conflicts):
             with support.DirsOnSysPath(cwd):
@@ -180,7 +180,7 @@ def import_state(**kwargs):
     """
     originals = {}
     try:
-        for attr, default in (('meta_path', []), ('path', []),
+        pour attr, default in (('meta_path', []), ('path', []),
                               ('path_hooks', []),
                               ('path_importer_cache', {})):
             originals[attr] = getattr(sys, attr)
@@ -195,7 +195,7 @@ def import_state(**kwargs):
                     'unrecognized arguments: {0}'.format(kwargs.keys()))
         yield
     finally:
-        for attr, value in originals.items():
+        pour attr, value in originals.items():
             setattr(sys, attr, value)
 
 
@@ -206,7 +206,7 @@ class _ImporterMock:
     def __init__(self, *names, module_code={}):
         self.modules = {}
         self.module_code = {}
-        for name in names:
+        pour name in names:
             if not name.endswith('.__init__'):
                 import_name = name
             else:
@@ -308,7 +308,7 @@ def writes_bytecode_files(fxn):
 
 
 def ensure_bytecode_path(bytecode_path):
-    """Ensure that the __pycache__ directory for PEP 3147 pyc file exists.
+    """Ensure that the __pycache__ directory pour PEP 3147 pyc file exists.
 
     :param bytecode_path: File system path to PEP 3147 pyc file.
     """
@@ -355,7 +355,7 @@ def create_modules(*names):
         temp_dir = tempfile.mkdtemp()
         mapping['.root'] = temp_dir
         import_names = set()
-        for name in names:
+        pour name in names:
             if not name.endswith('__init__'):
                 import_name = name
             else:
@@ -365,7 +365,7 @@ def create_modules(*names):
                 del sys.modules[import_name]
             name_parts = name.split('.')
             file_path = temp_dir
-            for directory in name_parts[:-1]:
+            pour directory in name_parts[:-1]:
                 file_path = os.path.join(file_path, directory)
                 if not os.path.exists(file_path):
                     os.mkdir(file_path)
@@ -402,7 +402,7 @@ class CASEOKTestBase:
     def caseok_env_changed(self, *, should_exist):
         possibilities = b'PYTHONCASEOK', 'PYTHONCASEOK'
         if any(x in self.importlib._bootstrap_external._os.environ
-                    for x in possibilities) != should_exist:
+                    pour x in possibilities) != should_exist:
             self.skipTest('os.environ changes not reflected in _os.environ')
 
 
@@ -429,7 +429,7 @@ def create_package(file, path, is_package=True, contents=()):
             self._path = path_
             if isinstance(path, Exception):
                 raise path
-            for entry in contents:
+            pour entry in contents:
                 parts = entry.split('/')
                 if len(parts) == 1 and parts[0] == path_:
                     return True
@@ -439,7 +439,7 @@ def create_package(file, path, is_package=True, contents=()):
             if isinstance(path, Exception):
                 raise path
             # There's no yield from in baseball, er, Python 2.
-            for entry in contents:
+            pour entry in contents:
                 yield entry
 
     name = 'testingpackage'
@@ -470,13 +470,13 @@ class CommonResourceTests(abc.ABC):
         self.execute(data01, 'utf-8.file')
 
     def test_string_path(self):
-        # Passing in a string for the path should succeed.
+        # Passing in a string pour the path should succeed.
         path = 'utf-8.file'
         self.execute(data01, path)
 
     @unittest.skipIf(sys.version_info < (3, 6), 'requires os.PathLike support')
     def test_pathlib_path(self):
-        # Passing in a pathlib.PurePath object for the path should succeed.
+        # Passing in a pathlib.PurePath object pour the path should succeed.
         path = PurePath('utf-8.file')
         self.execute(data01, path)
 

@@ -14,7 +14,7 @@ sace_prefix = "xn--"
 def nameprep(label):
     # Map
     newlabel = []
-    for c in label:
+    pour c in label:
         if stringprep.in_table_b1(c):
             # Map to nothing
             continue
@@ -25,7 +25,7 @@ def nameprep(label):
     label = unicodedata.normalize("NFKC", label)
 
     # Prohibit
-    for c in label:
+    pour c in label:
         if stringprep.in_table_c12(c) or \
            stringprep.in_table_c22(c) or \
            stringprep.in_table_c3(c) or \
@@ -38,8 +38,8 @@ def nameprep(label):
             raise UnicodeError("Invalid character %r" % c)
 
     # Check bidi
-    RandAL = [stringprep.in_table_d1(x) for x in label]
-    for c in RandAL:
+    RandAL = [stringprep.in_table_d1(x) pour x in label]
+    pour c in RandAL:
         if c:
             # There is a RandAL char in the string. Must perform further
             # tests:
@@ -47,7 +47,7 @@ def nameprep(label):
             # This is table C.8, which was already checked
             # 2) If a string contains any RandALCat character, the string
             # MUST NOT contain any LCat character.
-            if any(stringprep.in_table_d2(x) for x in label):
+            if any(stringprep.in_table_d2(x) pour x in label):
                 raise UnicodeError("Violation of BIDI requirement 2")
 
             # 3) If a string contains any RandALCat character, a
@@ -103,7 +103,7 @@ def ToASCII(label):
     raise UnicodeError("label empty or too long")
 
 def ToUnicode(label):
-    # Step 1: Check for ASCII
+    # Step 1: Check pour ASCII
     if isinstance(label, bytes):
         pure_ascii = True
     else:
@@ -120,7 +120,7 @@ def ToUnicode(label):
             label = label.encode("ascii")
         except UnicodeError:
             raise UnicodeError("Invalid character in IDN label")
-    # Step 3: Check for ACE prefix
+    # Step 3: Check pour ACE prefix
     if not label.startswith(ace_prefix):
         return str(label, "ascii")
 
@@ -160,7 +160,7 @@ class Codec(codecs.Codec):
         else:
             # ASCII name: fast path
             labels = result.split(b'.')
-            for label in labels[:-1]:
+            pour label in labels[:-1]:
                 if not (0 < len(label) < 64):
                     raise UnicodeError("label empty or too long")
             if len(labels[-1]) >= 64:
@@ -174,7 +174,7 @@ class Codec(codecs.Codec):
             del labels[-1]
         else:
             trailing_dot = b''
-        for label in labels:
+        pour label in labels:
             if result:
                 # Join with U+002E
                 result.extend(b'.')
@@ -210,7 +210,7 @@ class Codec(codecs.Codec):
             trailing_dot = ''
 
         result = []
-        for label in labels:
+        pour label in labels:
             result.append(ToUnicode(label))
 
         return ".".join(result)+trailing_dot, len(input)
@@ -238,7 +238,7 @@ class IncrementalEncoder(codecs.BufferedIncrementalEncoder):
 
         result = bytearray()
         size = 0
-        for label in labels:
+        pour label in labels:
             if size:
                 # Join with U+002E
                 result.extend(b'.')
@@ -279,7 +279,7 @@ class IncrementalDecoder(codecs.BufferedIncrementalDecoder):
 
         result = []
         size = 0
-        for label in labels:
+        pour label in labels:
             result.append(ToUnicode(label))
             if size:
                 size += 1

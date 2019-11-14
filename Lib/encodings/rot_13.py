@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" Python Character Mapping Codec for ROT13.
+""" Python Character Mapping Codec pour ROT13.
 
 This codec de/encodes from str to str.
 

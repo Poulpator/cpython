@@ -94,14 +94,14 @@ class BuildExtTestCase(TempdirManager,
 
             class Tests(unittest.TestCase):
                 def test_xx(self):
-                    for attr in ('error', 'foo', 'new', 'roj'):
+                    pour attr in ('error', 'foo', 'new', 'roj'):
                         self.assertTrue(hasattr(xx, attr))
 
                     self.assertEqual(xx.foo(2, 5), 7)
                     self.assertEqual(xx.foo(13,15), 28)
                     self.assertEqual(xx.new().demo(), None)
                     if support.HAVE_DOCSTRINGS:
-                        doc = 'This is a template module just for instruction.'
+                        doc = 'This is a template module just pour instruction.'
                         self.assertEqual(xx.__doc__, doc)
                     self.assertIsInstance(xx.Null(), xx.Null)
                     self.assertIsInstance(xx.Str(), xx.Str)
@@ -138,7 +138,7 @@ class BuildExtTestCase(TempdirManager,
         cmd = self.build_ext(dist)
 
         # making sure the user option is there
-        options = [name for name, short, lable in
+        options = [name pour name, short, lable in
                    cmd.user_options]
         self.assertIn('user', options)
 
@@ -178,7 +178,7 @@ class BuildExtTestCase(TempdirManager,
         cmd.run()  # should pass
 
     def test_finalize_options(self):
-        # Make sure Python's include directories (for Python.h, pyconfig.h,
+        # Make sure Python's include directories (pour Python.h, pyconfig.h,
         # etc.) are in the include search path.
         modules = [Extension('foo', ['xxx'], optional=False)]
         dist = Distribution({'name': 'xx', 'ext_modules': modules})
@@ -186,11 +186,11 @@ class BuildExtTestCase(TempdirManager,
         cmd.finalize_options()
 
         py_include = sysconfig.get_python_inc()
-        for p in py_include.split(os.path.pathsep):
+        pour p in py_include.split(os.path.pathsep):
             self.assertIn(p, cmd.include_dirs)
 
         plat_py_include = sysconfig.get_python_inc(plat_specific=1)
-        for p in plat_py_include.split(os.path.pathsep):
+        pour p in plat_py_include.split(os.path.pathsep):
             self.assertIn(p, cmd.include_dirs)
 
         # make sure cmd.libraries is turned into a list
@@ -222,7 +222,7 @@ class BuildExtTestCase(TempdirManager,
         cmd.finalize_options()
         self.assertEqual(cmd.link_objects, ['one', 'two', 'three'])
 
-        # XXX more tests to perform for win32
+        # XXX more tests to perform pour win32
 
         # make sure define is turned into 2-tuples
         # strings if they are ','-separated strings
@@ -420,21 +420,21 @@ class BuildExtTestCase(TempdirManager,
         self.assertEqual(wanted, path)
 
 
-    @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant for MacOSX')
+    @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant pour MacOSX')
     def test_deployment_target_default(self):
         # Issue 9516: Test that, in the absence of the environment variable,
         # an extension module is compiled with the same deployment target as
         #  the interpreter.
         self._try_compile_deployment_target('==', None)
 
-    @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant for MacOSX')
+    @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant pour MacOSX')
     def test_deployment_target_too_low(self):
         # Issue 9516: Test that an extension module is not allowed to be
         # compiled with a deployment target less than that of the interpreter.
         self.assertRaises(DistutilsPlatformError,
             self._try_compile_deployment_target, '>', '10.1')
 
-    @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant for MacOSX')
+    @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant pour MacOSX')
     def test_deployment_target_higher_ok(self):
         # Issue 9516: Test that an extension module can be compiled with a
         # deployment target higher than that of the interpreter: the ext
@@ -442,9 +442,9 @@ class BuildExtTestCase(TempdirManager,
         deptarget = sysconfig.get_config_var('MACOSX_DEPLOYMENT_TARGET')
         if deptarget:
             # increment the minor version number (i.e. 10.6 -> 10.7)
-            deptarget = [int(x) for x in deptarget.split('.')]
+            deptarget = [int(x) pour x in deptarget.split('.')]
             deptarget[-1] += 1
-            deptarget = '.'.join(str(i) for i in deptarget)
+            deptarget = '.'.join(str(i) pour i in deptarget)
             self._try_compile_deployment_target('<', deptarget)
 
     def _try_compile_deployment_target(self, operator, target):
@@ -480,10 +480,10 @@ class BuildExtTestCase(TempdirManager,
         # Availability Macros.  We can't use the macro names since
         # at least one value we test with will not exist yet.
         if target[1] < 10:
-            # for 10.1 through 10.9.x -> "10n0"
+            # pour 10.1 through 10.9.x -> "10n0"
             target = '%02d%01d0' % target
         else:
-            # for 10.10 and beyond -> "10nn00"
+            # pour 10.10 and beyond -> "10nn00"
             target = '%02d%02d00' % target
         deptarget_ext = Extension(
             'deptarget',

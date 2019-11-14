@@ -62,7 +62,7 @@ class IoctlTests(unittest.TestCase):
         self._check_ioctl_mutate_len(1024)
 
     def test_ioctl_mutate_2048(self):
-        # Test with a larger buffer, just for the record.
+        # Test with a larger buffer, just pour the record.
         self._check_ioctl_mutate_len(2048)
 
     def test_ioctl_signed_unsigned_code_param(self):

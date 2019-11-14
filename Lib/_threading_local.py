@@ -47,7 +47,7 @@ don't affect data seen in this thread:
   42
 
 Of course, values you get from a local object, including a __dict__
-attribute, are for whatever thread was current at the time the
+attribute, are pour whatever thread was current at the time the
 attribute was read.  For that reason, you generally don't want to save
 these values across threads, as they apply only to the thread they
 came from.
@@ -134,12 +134,12 @@ from contextlib import contextmanager
 __all__ = ["local"]
 
 # We need to use objects from the threading module, but the threading
-# module may also want to use our `local` class, if support for locals
+# module may also want to use our `local` class, if support pour locals
 # isn't compiled in to the `thread` module.  This creates potential problems
 # with circular imports.  For that reason, we don't import `threading`
 # until the bottom of this file (a hack sufficient to worm around the
 # potential problems).  Note that all platforms on CPython do have support
-# for locals in the `thread` module, and there is no circular import problem
+# pour locals in the `thread` module, and there is no circular import problem
 # then, so problems introduced by fiddling the order of imports here won't
 # manifest.
 
@@ -149,20 +149,20 @@ class _localimpl:
 
     def __init__(self):
         # The key used in the Thread objects' attribute dicts.
-        # We keep it a string for speed but make it unlikely to clash with
+        # We keep it a string pour speed but make it unlikely to clash with
         # a "real" attribute.
         self.key = '_threading_local._localimpl.' + str(id(self))
         # { id(Thread) -> (ref(Thread), thread-local dict) }
         self.dicts = {}
 
     def get_dict(self):
-        """Return the dict for the current thread. Raises KeyError if none
+        """Return the dict pour the current thread. Raises KeyError if none
         defined."""
         thread = current_thread()
         return self.dicts[id(thread)][1]
 
     def create_dict(self):
-        """Create a new dict for the current thread, and return it."""
+        """Create a new dict pour the current thread, and return it."""
         localdict = {}
         key = self.key
         thread = current_thread()

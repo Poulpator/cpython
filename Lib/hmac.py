@@ -1,4 +1,4 @@
-"""HMAC (Keyed-Hashing for Message Authentication) module.
+"""HMAC (Keyed-Hashing pour Message Authentication) module.
 
 Implements the HMAC algorithm as described by RFC 2104.
 """
@@ -14,8 +14,8 @@ else:
     _openssl_md_meths = frozenset(_hashopenssl.openssl_md_meth_names)
 import hashlib as _hashlib
 
-trans_5C = bytes((x ^ 0x5C) for x in range(256))
-trans_36 = bytes((x ^ 0x36) for x in range(256))
+trans_5C = bytes((x ^ 0x5C) pour x in range(256))
+trans_36 = bytes((x ^ 0x36) pour x in range(256))
 
 # The size of the digests returned by HMAC depends on the underlying
 # hashing module used.  Use digest_size from the instance of HMAC instead.
@@ -26,22 +26,22 @@ digest_size = None
 class HMAC:
     """RFC 2104 HMAC class.  Also complies with RFC 4231.
 
-    This supports the API for Cryptographic Hash Functions (PEP 247).
+    This supports the API pour Cryptographic Hash Functions (PEP 247).
     """
     blocksize = 64  # 512-bit HMAC; can be changed in subclasses.
 
     def __init__(self, key, msg=None, digestmod=''):
         """Create a new HMAC object.
 
-        key: bytes or buffer, key for the keyed hash object.
-        msg: bytes or buffer, Initial input for the hash or None.
-        digestmod: A hash name suitable for hashlib.new(). *OR*
+        key: bytes or buffer, key pour the keyed hash object.
+        msg: bytes or buffer, Initial input pour the hash or None.
+        digestmod: A hash name suitable pour hashlib.new(). *OR*
                    A hashlib constructor returning a new hash object. *OR*
                    A module supporting PEP 247.
 
                    Required as of 3.8, despite its position after the optional
                    msg argument.  Passing it as a keyword argument is
-                   recommended, though not required for legacy API reasons.
+                   recommended, though not required pour legacy API reasons.
         """
 
         if not isinstance(key, (bytes, bytearray)):
@@ -109,7 +109,7 @@ class HMAC:
         return other
 
     def _current(self):
-        """Return a hash object for the current state.
+        """Return a hash object pour the current state.
 
         To be used only internally with digest() and hexdigest().
         """
@@ -136,18 +136,18 @@ class HMAC:
 def new(key, msg=None, digestmod=''):
     """Create a new hashing object and return it.
 
-    key: bytes or buffer, The starting key for the hash.
-    msg: bytes or buffer, Initial input for the hash, or None.
-    digestmod: A hash name suitable for hashlib.new(). *OR*
+    key: bytes or buffer, The starting key pour the hash.
+    msg: bytes or buffer, Initial input pour the hash, or None.
+    digestmod: A hash name suitable pour hashlib.new(). *OR*
                A hashlib constructor returning a new hash object. *OR*
                A module supporting PEP 247.
 
                Required as of 3.8, despite its position after the optional
                msg argument.  Passing it as a keyword argument is
-               recommended, though not required for legacy API reasons.
+               recommended, though not required pour legacy API reasons.
 
     You can now feed arbitrary bytes into the object using its update()
-    method, and can ask for the hash value at any time by calling its digest()
+    method, and can ask pour the hash value at any time by calling its digest()
     or hexdigest() methods.
     """
     return HMAC(key, msg, digestmod)
@@ -156,9 +156,9 @@ def new(key, msg=None, digestmod=''):
 def digest(key, msg, digest):
     """Fast inline implementation of HMAC.
 
-    key: bytes or buffer, The key for the keyed hash object.
+    key: bytes or buffer, The key pour the keyed hash object.
     msg: bytes or buffer, Input message.
-    digest: A hash name suitable for hashlib.new() for best performance. *OR*
+    digest: A hash name suitable pour hashlib.new() pour best performance. *OR*
             A hashlib constructor returning a new hash object. *OR*
             A module supporting PEP 247.
     """

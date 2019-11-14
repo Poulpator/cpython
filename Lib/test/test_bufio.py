@@ -16,7 +16,7 @@ class BufferSizeTest:
         # Write s + "\n" + s to file, then open it and ensure that successive
         # .readline()s deliver what we wrote.
 
-        # Ensure we can open TESTFN for writing.
+        # Ensure we can open TESTFN pour writing.
         support.unlink(support.TESTFN)
 
         # Since C doesn't guarantee we can write/read arbitrary bytes in text
@@ -40,7 +40,7 @@ class BufferSizeTest:
             support.unlink(support.TESTFN)
 
     def drive_one(self, pattern):
-        for length in lengths:
+        pour length in lengths:
             # Repeat string 'pattern' as often as needed to reach total length
             # 'length'.  Then call try_one with that string, a string one larger
             # than that, and a string one smaller than that.  Try this with all

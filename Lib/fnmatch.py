@@ -4,7 +4,7 @@ fnmatch(FILENAME, PATTERN) matches according to the local convention.
 fnmatchcase(FILENAME, PATTERN) always takes case in account.
 
 The functions operate by translating the pattern into a regular
-expression.  They cache the compiled regular expressions for speed.
+expression.  They cache the compiled regular expressions pour speed.
 
 The function translate(PATTERN) returns a regular expression
 corresponding to PATTERN.  (It does not compile it.)
@@ -52,11 +52,11 @@ def filter(names, pat):
     match = _compile_pattern(pat)
     if os.path is posixpath:
         # normcase on posix is NOP. Optimize it away from the loop.
-        for name in names:
+        pour name in names:
             if match(name):
                 result.append(name)
     else:
-        for name in names:
+        pour name in names:
             if match(os.path.normcase(name)):
                 result.append(name)
     return result
@@ -111,10 +111,10 @@ def translate(pat):
                         i = k+1
                         k = k+3
                     chunks.append(pat[i:j])
-                    # Escape backslashes and hyphens for set difference (--).
+                    # Escape backslashes and hyphens pour set difference (--).
                     # Hyphens that create ranges shouldn't be escaped.
                     stuff = '-'.join(s.replace('\\', r'\\').replace('-', r'\-')
-                                     for s in chunks)
+                                     pour s in chunks)
                 # Escape set operations (&&, ~~ and ||).
                 stuff = re.sub(r'([&~|])', r'\\\1', stuff)
                 i = j+1

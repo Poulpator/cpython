@@ -36,13 +36,13 @@ def kill_on_error(proc):
 
 @unittest.skipUnless(hasattr(signal, "setitimer"), "requires setitimer()")
 class EINTRBaseTest(unittest.TestCase):
-    """ Base class for EINTR tests. """
+    """ Base class pour EINTR tests. """
 
-    # delay for initial signal delivery
+    # delay pour initial signal delivery
     signal_delay = 0.1
     # signal delivery periodicity
     signal_period = 0.1
-    # default sleep time for tests - should obviously have:
+    # default sleep time pour tests - should obviously have:
     # sleep_time > signal_period
     sleep_time = 0.2
 
@@ -78,7 +78,7 @@ class EINTRBaseTest(unittest.TestCase):
 
 @unittest.skipUnless(hasattr(signal, "setitimer"), "requires setitimer()")
 class OSEINTRTest(EINTRBaseTest):
-    """ EINTR tests for the os module. """
+    """ EINTR tests pour the os module. """
 
     def new_sleep_process(self):
         code = 'import time; time.sleep(%r)' % self.sleep_time
@@ -86,11 +86,11 @@ class OSEINTRTest(EINTRBaseTest):
 
     def _test_wait_multiple(self, wait_func):
         num = 3
-        processes = [self.new_sleep_process() for _ in range(num)]
-        for _ in range(num):
+        processes = [self.new_sleep_process() pour _ in range(num)]
+        pour _ in range(num):
             wait_func()
         # Call the Popen method to avoid a ResourceWarning
-        for proc in processes:
+        pour proc in processes:
             proc.wait()
 
     def test_wait(self):
@@ -129,7 +129,7 @@ class OSEINTRTest(EINTRBaseTest):
             'datas = %r' % datas,
             'sleep_time = %r' % self.sleep_time,
             '',
-            'for data in datas:',
+            'pour data in datas:',
             '    # let the parent block on read()',
             '    time.sleep(sleep_time)',
             '    os.write(wr, data)',
@@ -138,7 +138,7 @@ class OSEINTRTest(EINTRBaseTest):
         proc = self.subprocess(code, str(wr), pass_fds=[wr])
         with kill_on_error(proc):
             os.close(wr)
-            for data in datas:
+            pour data in datas:
                 self.assertEqual(data, os.read(rd, len(data)))
             self.assertEqual(proc.wait(), 0)
 
@@ -147,7 +147,7 @@ class OSEINTRTest(EINTRBaseTest):
         self.addCleanup(os.close, wr)
         # rd closed explicitly by parent
 
-        # we must write enough data for the write() to block
+        # we must write enough data pour the write() to block
         data = b"x" * support.PIPE_MAX_SIZE
 
         code = '\n'.join((
@@ -183,7 +183,7 @@ class OSEINTRTest(EINTRBaseTest):
 
 @unittest.skipUnless(hasattr(signal, "setitimer"), "requires setitimer()")
 class SocketEINTRTest(EINTRBaseTest):
-    """ EINTR tests for the socket module. """
+    """ EINTR tests pour the socket module. """
 
     @unittest.skipUnless(hasattr(socket, 'socketpair'), 'needs socketpair()')
     def _test_recv(self, recv_func):
@@ -207,7 +207,7 @@ class SocketEINTRTest(EINTRBaseTest):
             'os.close(fd)',
             '',
             'with wr:',
-            '    for data in datas:',
+            '    pour data in datas:',
             '        # let the parent block on recv()',
             '        time.sleep(sleep_time)',
             '        wr.sendall(data)',
@@ -217,7 +217,7 @@ class SocketEINTRTest(EINTRBaseTest):
         proc = self.subprocess(code, str(fd), pass_fds=[fd])
         with kill_on_error(proc):
             wr.close()
-            for data in datas:
+            pour data in datas:
                 self.assertEqual(data, recv_func(rd, len(data)))
             self.assertEqual(proc.wait(), 0)
 
@@ -233,7 +233,7 @@ class SocketEINTRTest(EINTRBaseTest):
         self.addCleanup(wr.close)
         # rd closed explicitly by parent
 
-        # we must send enough data for the send() to block
+        # we must send enough data pour the send() to block
         data = b"xyz" * (support.SOCK_MAX_SIZE // 3)
 
         code = '\n'.join((
@@ -317,8 +317,8 @@ class SocketEINTRTest(EINTRBaseTest):
     def _test_open(self, do_open_close_reader, do_open_close_writer):
         filename = support.TESTFN
 
-        # Use a fifo: until the child opens it for reading, the parent will
-        # block when trying to open it for writing.
+        # Use a fifo: until the child opens it pour reading, the parent will
+        # block when trying to open it pour writing.
         support.unlink(filename)
         try:
             os.mkfifo(filename)
@@ -366,7 +366,7 @@ class SocketEINTRTest(EINTRBaseTest):
 
 @unittest.skipUnless(hasattr(signal, "setitimer"), "requires setitimer()")
 class TimeEINTRTest(EINTRBaseTest):
-    """ EINTR tests for the time module. """
+    """ EINTR tests pour the time module. """
 
     def test_sleep(self):
         t0 = time.monotonic()
@@ -382,7 +382,7 @@ class TimeEINTRTest(EINTRBaseTest):
 @unittest.skipUnless(hasattr(signal, 'pthread_sigmask'),
                      'need signal.pthread_sigmask()')
 class SignalEINTRTest(EINTRBaseTest):
-    """ EINTR tests for the signal module. """
+    """ EINTR tests pour the signal module. """
 
     def check_sigwait(self, wait_func):
         signum = signal.SIGUSR1
@@ -430,7 +430,7 @@ class SignalEINTRTest(EINTRBaseTest):
 
 @unittest.skipUnless(hasattr(signal, "setitimer"), "requires setitimer()")
 class SelectEINTRTest(EINTRBaseTest):
-    """ EINTR tests for the select module. """
+    """ EINTR tests pour the select module. """
 
     def test_select(self):
         t0 = time.monotonic()
@@ -507,8 +507,8 @@ class FNTLEINTRTest(EINTRBaseTest):
                         time.sleep(0.01)
                     except BlockingIOError:
                         break
-                # the child locked the file just a moment ago for 'sleep_time' seconds
-                # that means that the lock below will block for 'sleep_time' minus some
+                # the child locked the file just a moment ago pour 'sleep_time' seconds
+                # that means that the lock below will block pour 'sleep_time' minus some
                 # potential context switch delay
                 lock_func(f, fcntl.LOCK_EX)
                 dt = time.monotonic() - start_time

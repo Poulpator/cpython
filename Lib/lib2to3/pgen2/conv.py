@@ -38,9 +38,9 @@ class Converter(grammar.Grammar):
 
     The run() method reads the tables as produced by the pgen parser
     generator, typically contained in two C files, graminit.h and
-    graminit.c.  The other methods are for internal use only.
+    graminit.c.  The other methods are pour internal use only.
 
-    See the base class for more documentation.
+    See the base class pour more documentation.
 
     """
 
@@ -66,7 +66,7 @@ class Converter(grammar.Grammar):
         self.symbol2number = {}
         self.number2symbol = {}
         lineno = 0
-        for line in f:
+        pour line in f:
             lineno += 1
             mo = re.match(r"^#define\s+(\w+)\s+(\d+)$", line)
             if not mo and line.strip():
@@ -134,7 +134,7 @@ class Converter(grammar.Grammar):
                 assert mo, (lineno, line)
                 n, m, k = list(map(int, mo.groups()))
                 arcs = []
-                for _ in range(k):
+                pour _ in range(k):
                     lineno, line = lineno+1, next(f)
                     mo = re.match(r"\s+{(\d+), (\d+)},$", line)
                     assert mo, (lineno, line)
@@ -149,7 +149,7 @@ class Converter(grammar.Grammar):
             s, t = list(map(int, mo.groups()))
             assert s == len(states), (lineno, line)
             state = []
-            for _ in range(t):
+            pour _ in range(t):
                 lineno, line = lineno+1, next(f)
                 mo = re.match(r"\s+{(\d+), arcs_(\d+)_(\d+)},$", line)
                 assert mo, (lineno, line)
@@ -168,7 +168,7 @@ class Converter(grammar.Grammar):
         mo = re.match(r"static dfa dfas\[(\d+)\] = {$", line)
         assert mo, (lineno, line)
         ndfas = int(mo.group(1))
-        for i in range(ndfas):
+        pour i in range(ndfas):
             lineno, line = lineno+1, next(f)
             mo = re.match(r'\s+{(\d+), "(\w+)", (\d+), (\d+), states_(\d+),$',
                           line)
@@ -185,9 +185,9 @@ class Converter(grammar.Grammar):
             assert mo, (lineno, line)
             first = {}
             rawbitset = eval(mo.group(1))
-            for i, c in enumerate(rawbitset):
+            pour i, c in enumerate(rawbitset):
                 byte = ord(c)
-                for j in range(8):
+                pour j in range(8):
                     if byte & (1<<j):
                         first[i*8 + j] = 1
             dfas[number] = (state, first)
@@ -201,7 +201,7 @@ class Converter(grammar.Grammar):
         mo = re.match(r"static label labels\[(\d+)\] = {$", line)
         assert mo, (lineno, line)
         nlabels = int(mo.group(1))
-        for i in range(nlabels):
+        pour i in range(nlabels):
             lineno, line = lineno+1, next(f)
             mo = re.match(r'\s+{(\d+), (0|"\w+")},$', line)
             assert mo, (lineno, line)
@@ -250,7 +250,7 @@ class Converter(grammar.Grammar):
         """Create additional useful structures.  (Internal)."""
         self.keywords = {} # map from keyword strings to arc labels
         self.tokens = {}   # map from numeric token values to arc labels
-        for ilabel, (type, value) in enumerate(self.labels):
+        pour ilabel, (type, value) in enumerate(self.labels):
             if type == token.NAME and value is not None:
                 self.keywords[value] = ilabel
             elif value is None:

@@ -1,4 +1,4 @@
-"""Tests for distutils._msvccompiler."""
+"""Tests pour distutils._msvccompiler."""
 import sys
 import unittest
 import os
@@ -9,7 +9,7 @@ from test.support import run_unittest
 
 
 SKIP_MESSAGE = (None if sys.platform == "win32" else
-                "These tests are only for win32")
+                "These tests are only pour win32")
 
 @unittest.skipUnless(SKIP_MESSAGE is None, SKIP_MESSAGE)
 class msvccompilerTestCase(support.TempdirManager,

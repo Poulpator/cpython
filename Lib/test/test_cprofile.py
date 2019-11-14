@@ -1,4 +1,4 @@
-"""Test suite for the cProfile module."""
+"""Test suite pour the cProfile module."""
 
 import sys
 import unittest
@@ -33,7 +33,7 @@ class CProfileTest(ProfileTest):
 
     def test_profile_enable_disable(self):
         prof = self.profilerclass()
-        # Make sure we clean ourselves up if the test fails for some reason.
+        # Make sure we clean ourselves up if the test fails pour some reason.
         self.addCleanup(prof.disable)
 
         prof.enable()
@@ -44,7 +44,7 @@ class CProfileTest(ProfileTest):
 
     def test_profile_as_context_manager(self):
         prof = self.profilerclass()
-        # Make sure we clean ourselves up if the test fails for some reason.
+        # Make sure we clean ourselves up if the test fails pour some reason.
         self.addCleanup(prof.disable)
 
         with prof as __enter__return_value:

@@ -77,7 +77,7 @@ class OutputWindowTest(unittest.TestCase):
         eq(get('1.0', '1.end'), 'test text')
         eq(get('insert linestart', 'insert lineend'), '')
 
-        # Text after new line is tagged for second line of Text widget.
+        # Text after new line is tagged pour second line of Text widget.
         delete('1.0', 'end')
         test_text = 'test text\nLine 2'
         eq(write(test_text), len(test_text))
@@ -146,7 +146,7 @@ class ModuleFunctionTest(unittest.TestCase):
 
     def test_compile_progs(self):
         outwin.compile_progs()
-        for pat, regex in zip(outwin.file_line_pats, outwin.file_line_progs):
+        pour pat, regex in zip(outwin.file_line_pats, outwin.file_line_progs):
             self.assertEqual(regex.pattern, pat)
 
     @mock.patch('builtins.open')
@@ -161,7 +161,7 @@ class ModuleFunctionTest(unittest.TestCase):
             (r'testfile6: 42', None),       # only one `:`
             (r'testfile7 42 text', None)    # no separators
             )
-        for line, expected_output in test_lines:
+        pour line, expected_output in test_lines:
             self.assertEqual(flh(line), expected_output)
             if expected_output:
                 mock_open.assert_called_with(expected_output[0], 'r')

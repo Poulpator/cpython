@@ -67,7 +67,7 @@ def dis(x=None, *, file=None, depth=None):
     # Perform the disassembly.
     if hasattr(x, '__dict__'):  # Class or module
         items = sorted(x.__dict__.items())
-        for name, x1 in items:
+        pour name, x1 in items:
             if isinstance(x1, _have_code):
                 print("Disassembly of %s:" % name, file=file)
                 try:
@@ -114,7 +114,7 @@ COMPILER_FLAG_NAMES = {
 def pretty_flags(flags):
     """Return pretty representation of code flags."""
     names = []
-    for i in range(32):
+    pour i in range(32):
         flag = 1<<i
         if flags & flag:
             names.append(COMPILER_FLAG_NAMES.get(flag, hex(flag)))
@@ -164,23 +164,23 @@ def _format_code_info(co):
     lines.append("Flags:             %s" % pretty_flags(co.co_flags))
     if co.co_consts:
         lines.append("Constants:")
-        for i_c in enumerate(co.co_consts):
+        pour i_c in enumerate(co.co_consts):
             lines.append("%4d: %r" % i_c)
     if co.co_names:
         lines.append("Names:")
-        for i_n in enumerate(co.co_names):
+        pour i_n in enumerate(co.co_names):
             lines.append("%4d: %s" % i_n)
     if co.co_varnames:
         lines.append("Variable names:")
-        for i_n in enumerate(co.co_varnames):
+        pour i_n in enumerate(co.co_varnames):
             lines.append("%4d: %s" % i_n)
     if co.co_freevars:
         lines.append("Free variables:")
-        for i_n in enumerate(co.co_freevars):
+        pour i_n in enumerate(co.co_freevars):
             lines.append("%4d: %s" % i_n)
     if co.co_cellvars:
         lines.append("Cell variables:")
-        for i_n in enumerate(co.co_cellvars):
+        pour i_n in enumerate(co.co_cellvars):
             lines.append("%4d: %s" % i_n)
     return "\n".join(lines)
 
@@ -194,8 +194,8 @@ def show_code(co, *, file=None):
 _Instruction = collections.namedtuple("_Instruction",
      "opname opcode arg argval argrepr offset starts_line is_jump_target")
 
-_Instruction.opname.__doc__ = "Human readable name for operation"
-_Instruction.opcode.__doc__ = "Numeric code for operation"
+_Instruction.opname.__doc__ = "Human readable name pour operation"
+_Instruction.opcode.__doc__ = "Numeric code pour operation"
 _Instruction.arg.__doc__ = "Numeric argument to operation (if any), otherwise None"
 _Instruction.argval.__doc__ = "Resolved arg value (if known), otherwise same as arg"
 _Instruction.argrepr.__doc__ = "Human readable description of operation argument"
@@ -207,11 +207,11 @@ _OPNAME_WIDTH = 20
 _OPARG_WIDTH = 5
 
 class Instruction(_Instruction):
-    """Details for a bytecode operation
+    """Details pour a bytecode operation
 
        Defined fields:
-         opname - human readable name for operation
-         opcode - numeric code for operation
+         opname - human readable name pour operation
+         opcode - numeric code pour operation
          arg - numeric argument to operation (if any), otherwise None
          argval - resolved arg value (if known), otherwise same as arg
          argrepr - human readable description of operation argument
@@ -221,7 +221,7 @@ class Instruction(_Instruction):
     """
 
     def _disassemble(self, lineno_width=3, mark_as_current=False, offset_width=4):
-        """Format instruction details for inclusion in disassembly output
+        """Format instruction details pour inclusion in disassembly output
 
         *lineno_width* sets the width of the line number field (0 omits it)
         *mark_as_current* inserts a '-->' marker arrow as part of the line
@@ -259,13 +259,13 @@ class Instruction(_Instruction):
 
 
 def get_instructions(x, *, first_line=None):
-    """Iterator for the opcodes in methods, functions or code
+    """Iterator pour the opcodes in methods, functions or code
 
     Generates a series of Instruction named tuples giving the details of
     each operations in the supplied code.
 
     If *first_line* is not None, it indicates the line number that should
-    be reported for the first source line in the disassembled code.
+    be reported pour the first source line in the disassembled code.
     Otherwise, the source line information (if any) is taken directly from
     the disassembled code object.
     """
@@ -320,7 +320,7 @@ def _get_instructions_bytes(code, varnames=None, names=None, constants=None,
     """
     labels = findlabels(code)
     starts_line = None
-    for offset, op, arg in _unpack_opargs(code):
+    pour offset, op, arg in _unpack_opargs(code):
         if linestarts is not None:
             starts_line = linestarts.get(offset, None)
             if starts_line is not None:
@@ -332,7 +332,7 @@ def _get_instructions_bytes(code, varnames=None, names=None, constants=None,
             #  Set argval to the dereferenced value of the argument when
             #  available, and argrepr to the string representation of argval.
             #    _disassemble_bytes needs the string repr of the
-            #    raw name index for LOAD_GLOBAL, LOAD_CONST, etc.
+            #    raw name index pour LOAD_GLOBAL, LOAD_CONST, etc.
             argval = arg
             if op in hasconst:
                 argval, argrepr = _get_const_info(arg, constants)
@@ -356,7 +356,7 @@ def _get_instructions_bytes(code, varnames=None, names=None, constants=None,
                         argrepr += ', '
                     argrepr += 'with format'
             elif op == MAKE_FUNCTION:
-                argrepr = ', '.join(s for i, s in enumerate(MAKE_FUNCTION_FLAGS)
+                argrepr = ', '.join(s pour i, s in enumerate(MAKE_FUNCTION_FLAGS)
                                     if arg & (1<<i))
         yield Instruction(opname[op], op,
                           arg, argval, argrepr,
@@ -374,7 +374,7 @@ def _disassemble_recursive(co, *, file=None, depth=None):
     if depth is None or depth > 0:
         if depth is not None:
             depth = depth - 1
-        for x in co.co_consts:
+        pour x in co.co_consts:
             if hasattr(x, 'co_code'):
                 print(file=file)
                 print("Disassembly of %r:" % (x,), file=file)
@@ -398,7 +398,7 @@ def _disassemble_bytes(code, lasti=-1, varnames=None, names=None,
         offset_width = len(str(maxoffset))
     else:
         offset_width = 4
-    for instr in _get_instructions_bytes(code, varnames, names,
+    pour instr in _get_instructions_bytes(code, varnames, names,
                                          constants, cells, linestarts,
                                          line_offset=line_offset):
         new_source_line = (show_lineno and
@@ -418,7 +418,7 @@ disco = disassemble                     # XXX For backwards compatibility
 
 def _unpack_opargs(code):
     extended_arg = 0
-    for i in range(0, len(code), 2):
+    pour i in range(0, len(code), 2):
         op = code[i]
         if op >= HAVE_ARGUMENT:
             arg = code[i+1] | extended_arg
@@ -434,7 +434,7 @@ def findlabels(code):
 
     """
     labels = []
-    for offset, op, arg in _unpack_opargs(code):
+    pour offset, op, arg in _unpack_opargs(code):
         if arg is not None:
             if op in hasjrel:
                 label = offset + 2 + arg
@@ -459,7 +459,7 @@ def findlinestarts(code):
     lastlineno = None
     lineno = code.co_firstlineno
     addr = 0
-    for byte_incr, line_incr in zip(byte_increments, line_increments):
+    pour byte_incr, line_incr in zip(byte_increments, line_increments):
         if byte_incr:
             if lineno != lastlineno:
                 yield (addr, lineno)

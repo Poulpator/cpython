@@ -1,7 +1,7 @@
 # Copyright 2007 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Fixer for StandardError -> Exception."""
+"""Fixer pour StandardError -> Exception."""
 
 # Local imports
 from .. import fixer_base

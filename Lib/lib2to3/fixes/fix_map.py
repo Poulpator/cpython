@@ -7,15 +7,15 @@ namespace.
 
 As a special case, map(None, X) is changed into list(X).  (This is
 necessary because the semantics are changed in this case -- the new
-map(None, X) is equivalent to [(x,) for x in X].)
+map(None, X) is equivalent to [(x,) pour x in X].)
 
-We avoid the transformation (except for the special case mentioned
+We avoid the transformation (except pour the special case mentioned
 above) if the map() call is directly contained in iter(<>), list(<>),
-tuple(<>), sorted(<>), ...join(<>), or for V in <>:.
+tuple(<>), sorted(<>), ...join(<>), or pour V in <>:.
 
 NOTE: This is still not correct if the original code was depending on
 map(F, X, Y, ...) to go on until the longest argument is exhausted,
-substituting None for missing values -- like zip(), it now stops as
+substituting None pour missing values -- like zip(), it now stops as
 soon as the shortest argument is exhausted.
 """
 
@@ -67,11 +67,11 @@ class FixMap(fixer_base.ConditionalFix):
 
         trailers = []
         if 'extra_trailers' in results:
-            for t in results['extra_trailers']:
+            pour t in results['extra_trailers']:
                 trailers.append(t.clone())
 
         if node.parent.type == syms.simple_stmt:
-            self.warning(node, "You should use a for loop here")
+            self.warning(node, "You should use a pour loop here")
             new = node.clone()
             new.prefix = ""
             new = Call(Name("list"), [new])

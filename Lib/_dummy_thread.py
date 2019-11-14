@@ -1,7 +1,7 @@
-"""Drop-in replacement for the thread module.
+"""Drop-in replacement pour the thread module.
 
 Meant to be used as a brain-dead substitute so that threaded code does
-not need to be rewritten for when the thread module is not present.
+not need to be rewritten pour when the thread module is not present.
 
 Suggested usage is::
 
@@ -131,7 +131,7 @@ class LockType(object):
     def release(self):
         """Release the dummy lock."""
         # XXX Perhaps shouldn't actually bother to test?  Could lead
-        #     to problems for complex, threaded code.
+        #     to problems pour complex, threaded code.
         if not self.locked_status:
             raise error
         self.locked_status = False
@@ -170,7 +170,7 @@ class RLock(LockType):
         return locked
 
     def release(self):
-        """Release needs to be called once for every call to acquire().
+        """Release needs to be called once pour every call to acquire().
         """
         if self._levels == 0:
             raise error

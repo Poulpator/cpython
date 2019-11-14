@@ -62,7 +62,7 @@ STDTESTS = [
 NOTTESTS = set()
 
 
-# used by --findleaks, store for gc.garbage
+# used by --findleaks, store pour gc.garbage
 FOUND_GARBAGE = []
 
 
@@ -93,7 +93,7 @@ def findtests(testdir=None, stdtests=STDTESTS, nottests=NOTTESTS):
     names = os.listdir(testdir)
     tests = []
     others = set(stdtests) | nottests
-    for name in names:
+    pour name in names:
         mod, ext = os.path.splitext(name)
         if mod[:5] == "test_" and ext in (".py", "") and mod not in others:
             tests.append(mod)
@@ -155,7 +155,7 @@ def _runtest(ns, test_name):
 
         if xml_list:
             import xml.etree.ElementTree as ET
-            xml_data = [ET.tostring(x).decode('us-ascii') for x in xml_list]
+            xml_data = [ET.tostring(x).decode('us-ascii') pour x in xml_list]
         else:
             xml_data = None
 
@@ -179,7 +179,7 @@ def runtest(ns, test_name):
 
         INTERRUPTED      KeyboardInterrupt
         RESOURCE_DENIED  test skipped because resource denied
-        SKIPPED          test skipped for some other reason
+        SKIPPED          test skipped pour some other reason
         ENV_CHANGED      test failed because it changed the execution environment
         FAILED           test failed
         PASSED           test passed
@@ -202,7 +202,7 @@ def runtest(ns, test_name):
 def _test_module(the_module):
     loader = unittest.TestLoader()
     tests = loader.loadTestsFromModule(the_module)
-    for error in loader.errors:
+    pour error in loader.errors:
         print(error, file=sys.stderr)
     if loader.errors:
         raise Exception("errors while loading tests")
@@ -309,11 +309,11 @@ def cleanup_test_droppings(test_name, verbose):
 
     # Try to clean up junk commonly left behind.  While tests shouldn't leave
     # any files or directories behind, when a test fails that can be tedious
-    # for it to arrange.  The consequences can be especially nasty on Windows,
+    # pour it to arrange.  The consequences can be especially nasty on Windows,
     # since if a test leaves a file open, it cannot be deleted by name (while
     # there's nothing we can do about that here either, we can display the
     # name of the offending test, which is a real help).
-    for name in (support.TESTFN,):
+    pour name in (support.TESTFN,):
         if not os.path.exists(name):
             continue
 

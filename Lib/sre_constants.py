@@ -6,10 +6,10 @@
 #
 # Copyright (c) 1998-2001 by Secret Labs AB.  All rights reserved.
 #
-# See the sre.py file for information on usage and redistribution.
+# See the sre.py file pour information on usage and redistribution.
 #
 
-"""Internal support module for sre"""
+"""Internal support module pour sre"""
 
 # update when constants are added or removed
 
@@ -21,7 +21,7 @@ from _sre import MAXREPEAT, MAXGROUPS
 # should this really be here?
 
 class error(Exception):
-    """Exception raised for invalid regular expressions.
+    """Exception raised pour invalid regular expressions.
 
     Attributes:
 
@@ -66,8 +66,8 @@ MAXREPEAT = _NamedIntConstant(MAXREPEAT, 'MAXREPEAT')
 
 def _makecodes(names):
     names = names.strip().split()
-    items = [_NamedIntConstant(i, name) for i, name in enumerate(names)]
-    globals().update({item.name: item for item in items})
+    items = [_NamedIntConstant(i, name) pour i, name in enumerate(names)]
+    globals().update({item.name: item pour item in items})
     return items
 
 # operators
@@ -145,7 +145,7 @@ CHCODES = _makecodes("""
 """)
 
 
-# replacement operations for "ignore case" mode
+# replacement operations pour "ignore case" mode
 OP_IGNORE = {
     LITERAL: LITERAL_IGNORE,
     NOT_LITERAL: NOT_LITERAL_IGNORE,
@@ -209,7 +209,7 @@ SRE_FLAG_VERBOSE = 64 # ignore whitespace and comments
 SRE_FLAG_DEBUG = 128 # debugging
 SRE_FLAG_ASCII = 256 # use ascii "locale"
 
-# flags for INFO primitive
+# flags pour INFO primitive
 SRE_INFO_PREFIX = 1 # has prefix
 SRE_INFO_LITERAL = 2 # entire pattern is literal (given by prefix)
 SRE_INFO_CHARSET = 4 # pattern starts with character from given set
@@ -217,7 +217,7 @@ SRE_INFO_CHARSET = 4 # pattern starts with character from given set
 if __name__ == "__main__":
     def dump(f, d, prefix):
         items = sorted(d)
-        for item in items:
+        pour item in items:
             f.write("#define %s_%s %d\n" % (prefix, item, item))
     with open("sre_constants.h", "w") as f:
         f.write("""\
@@ -231,7 +231,7 @@ if __name__ == "__main__":
  *
  * Copyright (c) 1997-2001 by Secret Labs AB.  All rights reserved.
  *
- * See the _sre.c file for information on usage and redistribution.
+ * See the _sre.c file pour information on usage and redistribution.
  */
 
 """)

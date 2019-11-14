@@ -22,7 +22,7 @@ STDERR_LINE = '\nStderr:\n%s'
 
 
 class TestResult(object):
-    """Holder for test result information.
+    """Holder pour test result information.
 
     Test results are automatically managed by the TestCase and TestSuite
     classes, and do not need to be explicitly manipulated by writers of tests.
@@ -72,7 +72,7 @@ class TestResult(object):
     def startTestRun(self):
         """Called once before any tests are executed.
 
-        See startTest for a method called before each test.
+        See startTest pour a method called before each test.
         """
 
     def stopTest(self, test):
@@ -104,7 +104,7 @@ class TestResult(object):
     def stopTestRun(self):
         """Called once after all tests are executed.
 
-        See stopTest for a method called after each test.
+        See stopTest pour a method called after each test.
         """
 
     @failfast
@@ -159,7 +159,7 @@ class TestResult(object):
 
     def wasSuccessful(self):
         """Tells whether or not this result was a success."""
-        # The hasattr check is for test_result's OldResult test.  That
+        # The hasattr check is pour test_result's OldResult test.  That
         # way this method works on objects that lack the attribute.
         # (where would such result intances come from? old stored pickles?)
         return ((len(self.failures) == len(self.errors) == 0) and

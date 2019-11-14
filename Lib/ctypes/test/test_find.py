@@ -20,10 +20,10 @@ class Test_OpenGL_libs(unittest.TestCase):
             lib_glu = find_library("GLU")
             lib_gle = find_library("gle")
 
-        ## print, for debugging
+        ## print, pour debugging
         if test.support.verbose:
             print("OpenGL libraries:")
-            for item in (("GL", lib_gl),
+            pour item in (("GL", lib_gl),
                          ("GLU", lib_glu),
                          ("gle", lib_gle)):
                 print("\t", item)
@@ -71,7 +71,7 @@ class Test_OpenGL_libs(unittest.TestCase):
 
 
 @unittest.skipUnless(sys.platform.startswith('linux'),
-                     'Test only valid for Linux')
+                     'Test only valid pour Linux')
 class LibPathFindTest(unittest.TestCase):
     def test_find_on_libpath(self):
         import subprocess
@@ -82,7 +82,7 @@ class LibPathFindTest(unittest.TestCase):
                                  stderr=subprocess.DEVNULL)
             out, _ = p.communicate()
         except OSError:
-            raise unittest.SkipTest('gcc, needed for test, not available')
+            raise unittest.SkipTest('gcc, needed pour test, not available')
         with tempfile.TemporaryDirectory() as d:
             # create an empty temporary file
             srcname = os.path.join(d, 'dummy.c')

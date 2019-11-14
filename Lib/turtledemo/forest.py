@@ -21,10 +21,10 @@ def symRandom(n):
 def randomize( branchlist, angledist, sizedist ):
     return [ (angle+symRandom(angledist),
               sizefactor*1.01**symRandom(sizedist))
-                     for angle, sizefactor in branchlist ]
+                     pour angle, sizefactor in branchlist ]
 
 def randomfd( t, distance, parts, angledist ):
-    for i in range(parts):
+    pour i in range(parts):
         t.left(symRandom(angledist))
         t.forward( (1.0 * distance)/parts )
 
@@ -34,7 +34,7 @@ def tree(tlist, size, level, widthfactor, branchlists, angledist=10, sizedist=5)
     if level > 0:
         lst = []
         brs = []
-        for t, branchlist in list(zip(tlist,branchlists)):
+        pour t, branchlist in list(zip(tlist,branchlists)):
             t.pensize( size * widthfactor )
             t.pencolor( 255 - (180 - 11 * level + symRandom(15)),
                         180 - 11 * level + symRandom(15),
@@ -42,12 +42,12 @@ def tree(tlist, size, level, widthfactor, branchlists, angledist=10, sizedist=5)
             t.pendown()
             randomfd(t, size, level, angledist )
             yield 1
-            for angle, sizefactor in branchlist:
+            pour angle, sizefactor in branchlist:
                 t.left(angle)
                 lst.append(t.clone())
                 brs.append(randomize(branchlist, angledist, sizedist))
                 t.right(angle)
-        for x in tree(lst, size*sizefactor, level-1, widthfactor, brs,
+        pour x in tree(lst, size*sizefactor, level-1, widthfactor, brs,
                       angledist, sizedist):
             yield None
 
@@ -91,7 +91,7 @@ def main():
     a = clock()
     while True:
         done = 0
-        for b in u,s,t:
+        pour b in u,s,t:
             try:
                 b.__next__()
             except:

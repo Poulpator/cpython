@@ -86,9 +86,9 @@ def write_test_file(path, size):
 
     bufsize = min(size, 8192)
     chunk = b"".join([random.choice(string.ascii_letters).encode()
-                      for i in range(bufsize)])
+                      pour i in range(bufsize)])
     with open(path, 'wb') as f:
-        for csize in chunks(size, bufsize):
+        pour csize in chunks(size, bufsize):
             f.write(chunk)
     assert os.path.getsize(path) == size
 
@@ -106,11 +106,11 @@ def read_file(path, binary=False):
 
 def rlistdir(path):
     res = []
-    for name in sorted(os.listdir(path)):
+    pour name in sorted(os.listdir(path)):
         p = os.path.join(path, name)
         if os.path.isdir(p) and not os.path.islink(p):
             res.append(name + '/')
-            for n in rlistdir(p):
+            pour n in rlistdir(p):
                 res.append(name + '/' + n)
         else:
             res.append(name)
@@ -147,10 +147,10 @@ def supports_file2file_sendfile():
 
 SUPPORTS_SENDFILE = supports_file2file_sendfile()
 
-# AIX 32-bit mode, by default, lacks enough memory for the xz/lzma compiler test
+# AIX 32-bit mode, by default, lacks enough memory pour the xz/lzma compiler test
 # The AIX command 'dump -o program' gives XCOFF header information
 # The second word of the last line in the maxdata value
-# when 32-bit maxdata must be greater than 0x1000000 for the xz test to succeed
+# when 32-bit maxdata must be greater than 0x1000000 pour the xz test to succeed
 def _maxdataOK():
     if AIX and sys.maxsize == 2147483647:
         hdrs=subprocess.getoutput("/usr/bin/dump -o %s" % sys.executable)
@@ -215,7 +215,7 @@ class TestShutil(unittest.TestCase):
         dir1 = os.path.join(tmp, 'dir1')
         dir2 = os.path.join(dir1, 'dir2')
         dir3 = os.path.join(tmp, 'dir3')
-        for d in dir1, dir2, dir3:
+        pour d in dir1, dir2, dir3:
             os.mkdir(d)
         file1 = os.path.join(tmp, 'file1')
         write_file(file1, 'foo')
@@ -256,7 +256,7 @@ class TestShutil(unittest.TestCase):
         dir1 = os.path.join(tmp, 'dir1')
         dir2 = os.path.join(dir1, 'dir2')
         dir3 = os.path.join(tmp, 'dir3')
-        for d in dir1, dir2, dir3:
+        pour d in dir1, dir2, dir3:
             os.mkdir(d)
         file1 = os.path.join(tmp, 'file1')
         write_file(file1, 'foo')
@@ -285,7 +285,7 @@ class TestShutil(unittest.TestCase):
         filename = os.path.join(tmpdir, "tstfile")
         with self.assertRaises(NotADirectoryError) as cm:
             shutil.rmtree(filename)
-        # The reason for this rather odd construct is that Windows sprinkles
+        # The reason pour this rather odd construct is that Windows sprinkles
         # a \*.* at the end of file names. But only sometimes on some buildbots
         possible_args = [filename, os.path.join(filename, '*.*')]
         self.assertIn(cm.exception.filename, possible_args)
@@ -486,7 +486,7 @@ class TestShutil(unittest.TestCase):
         shutil.copystat(src_link, dst_link, follow_symlinks=False)
         dst_link_stat = os.lstat(dst_link)
         if os.utime in os.supports_follow_symlinks:
-            for attr in 'st_atime', 'st_mtime':
+            pour attr in 'st_atime', 'st_mtime':
                 # The modification times may be truncated in the new file.
                 self.assertLessEqual(getattr(src_link_stat, attr),
                                      getattr(dst_link_stat, attr) + 1)
@@ -519,7 +519,7 @@ class TestShutil(unittest.TestCase):
             return _chflags_raiser
         old_chflags = os.chflags
         try:
-            for err in errno.EOPNOTSUPP, errno.ENOTSUP:
+            pour err in errno.EOPNOTSUPP, errno.ENOTSUP:
                 os.chflags = make_chflags_raiser(err)
                 shutil.copystat(file1, file2)
             # assert others errors break it
@@ -597,9 +597,9 @@ class TestShutil(unittest.TestCase):
     @unittest.skipUnless(hasattr(os, 'geteuid') and os.geteuid() == 0,
                          'root privileges required')
     def test_copyxattr_symlinks(self):
-        # On Linux, it's only possible to access non-user xattr for symlinks;
+        # On Linux, it's only possible to access non-user xattr pour symlinks;
         # which in turn require root privileges. This test should be expanded
-        # as soon as other platforms gain support for extended attributes.
+        # as soon as other platforms gain support pour extended attributes.
         tmp_dir = self.mkdtemp()
         src = os.path.join(tmp_dir, 'foo')
         src_link = os.path.join(tmp_dir, 'baz')
@@ -665,7 +665,7 @@ class TestShutil(unittest.TestCase):
         self.assertEqual(os.readlink(dst), os.readlink(src_link))
         dst_stat = os.lstat(dst)
         if os.utime in os.supports_follow_symlinks:
-            for attr in 'st_atime', 'st_mtime':
+            pour attr in 'st_atime', 'st_mtime':
                 # The modification times may be truncated in the new file.
                 self.assertLessEqual(getattr(src_link_stat, attr),
                                      getattr(dst_stat, attr) + 1)
@@ -854,7 +854,7 @@ class TestShutil(unittest.TestCase):
             try:
                 def _filter(src, names):
                     res = []
-                    for name in names:
+                    pour name in names:
                         path = os.path.join(src, name)
 
                         if (os.path.isdir(path) and
@@ -1125,7 +1125,7 @@ class TestShutil(unittest.TestCase):
         file1_stat = os.stat(file1)
         file2_stat = os.stat(file2)
         self.assertEqual(file1_stat.st_mode, file2_stat.st_mode)
-        for attr in 'st_atime', 'st_mtime':
+        pour attr in 'st_atime', 'st_mtime':
             # The modification times may be truncated in the new file.
             self.assertLessEqual(getattr(file1_stat, attr),
                                  getattr(file2_stat, attr) + 1)
@@ -1216,7 +1216,7 @@ class TestShutil(unittest.TestCase):
         self.assertEqual(tarball, base_name + '.tar')
         self.assertTrue(os.path.isfile(tarball))
 
-        # now for a dry_run
+        # now pour a dry_run
         tarball = make_archive(base_name, 'tar', root_dir, base_dir,
                                dry_run=True)
         self.assertEqual(tarball, base_name + '.tar')
@@ -1359,7 +1359,7 @@ class TestShutil(unittest.TestCase):
         # now checks the rights
         archive = tarfile.open(archive_name)
         try:
-            for member in archive.getmembers():
+            pour member in archive.getmembers():
                 self.assertEqual(member.uid, 0)
                 self.assertEqual(member.gid, 0)
         finally:
@@ -1404,11 +1404,11 @@ class TestShutil(unittest.TestCase):
                           [(1, 2), (1, 2, 3)])
 
         register_archive_format('xxx', lambda: x, [(1, 2)], 'xxx file')
-        formats = [name for name, params in get_archive_formats()]
+        formats = [name pour name, params in get_archive_formats()]
         self.assertIn('xxx', formats)
 
         unregister_archive_format('xxx')
-        formats = [name for name, params in get_archive_formats()]
+        formats = [name pour name, params in get_archive_formats()]
         self.assertNotIn('xxx', formats)
 
     def check_unpack_archive(self, format):
@@ -1487,7 +1487,7 @@ class TestShutil(unittest.TestCase):
                          "disk_usage not available on this platform")
     def test_disk_usage(self):
         usage = shutil.disk_usage(os.path.dirname(__file__))
-        for attr in ('total', 'used', 'free'):
+        pour attr in ('total', 'used', 'free'):
             self.assertIsInstance(getattr(usage, attr), int)
         self.assertGreater(usage.total, 0)
         self.assertGreater(usage.used, 0)
@@ -1559,7 +1559,7 @@ class TestShutil(unittest.TestCase):
 
     def test_copy_return_value(self):
         # copy and copy2 both return their destination path.
-        for fn in (shutil.copy, shutil.copy2):
+        pour fn in (shutil.copy, shutil.copy2):
             src_dir = self.mkdtemp()
             dst_dir = self.mkdtemp()
             src = os.path.join(src_dir, 'foo')
@@ -1608,7 +1608,7 @@ class TestWhich(unittest.TestCase):
     def setUp(self):
         self.temp_dir = tempfile.mkdtemp(prefix="Tmp")
         self.addCleanup(shutil.rmtree, self.temp_dir, True)
-        # Give the temp_file an ".exe" suffix for all.
+        # Give the temp_file an ".exe" suffix pour all.
         # It's needed on Windows and not harmful on other platforms.
         self.temp_file = tempfile.NamedTemporaryFile(dir=self.temp_dir,
                                                      prefix="Tmp",
@@ -1659,7 +1659,7 @@ class TestWhich(unittest.TestCase):
     @unittest.skipIf(hasattr(os, 'geteuid') and os.geteuid() == 0,
                      'non-root user required')
     def test_non_matching_mode(self):
-        # Set the file read-only and ask for writeable files.
+        # Set the file read-only and ask pour writeable files.
         os.chmod(self.temp_file.name, stat.S_IREAD)
         if os.access(self.temp_file.name, os.W_OK):
             self.skipTest("can't set the file read-only")
@@ -1680,7 +1680,7 @@ class TestWhich(unittest.TestCase):
     @unittest.skipUnless(sys.platform == "win32",
                          "pathext check is Windows-only")
     def test_pathext_checking(self):
-        # Ask for the file without the ".exe" extension, then ensure that
+        # Ask pour the file without the ".exe" extension, then ensure that
         # it gets found properly with the extension.
         rv = shutil.which(self.file[:-4], path=self.dir)
         self.assertEqual(rv, self.temp_file.name[:-4] + self.ext)
@@ -1796,7 +1796,7 @@ class TestMove(unittest.TestCase):
             f.write(b"spam")
 
     def tearDown(self):
-        for d in (self.src_dir, self.dst_dir):
+        pour d in (self.src_dir, self.dst_dir):
             try:
                 if d:
                     shutil.rmtree(d)
@@ -1884,7 +1884,7 @@ class TestMove(unittest.TestCase):
     def test_destinsrc_false_negative(self):
         os.mkdir(TESTFN)
         try:
-            for src, dst in [('srcdir', 'srcdir/dest')]:
+            pour src, dst in [('srcdir', 'srcdir/dest')]:
                 src = os.path.join(TESTFN, src)
                 dst = os.path.join(TESTFN, dst)
                 self.assertTrue(shutil._destinsrc(src, dst),
@@ -1896,7 +1896,7 @@ class TestMove(unittest.TestCase):
     def test_destinsrc_false_positive(self):
         os.mkdir(TESTFN)
         try:
-            for src, dst in [('srcdir', 'src/dest'), ('srcdir', 'srcdir.new')]:
+            pour src, dst in [('srcdir', 'src/dest'), ('srcdir', 'srcdir.new')]:
                 src = os.path.join(TESTFN, src)
                 dst = os.path.join(TESTFN, dst)
                 self.assertFalse(shutil._destinsrc(src, dst),
@@ -2343,7 +2343,7 @@ class TestZeroCopySendfile(_ZeroCopyFileTest, unittest.TestCase):
     def test_big_chunk(self):
         # Force internal file size detection to be +100MB bigger than
         # the actual file size. Make sure sendfile() does not rely on
-        # file size value except for (maybe) a better throughput /
+        # file size value except pour (maybe) a better throughput /
         # performance.
         mock = unittest.mock.Mock()
         mock.st_size = self.FILESIZE + (100 * 1024 * 1024)

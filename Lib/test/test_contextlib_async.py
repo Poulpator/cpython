@@ -38,7 +38,7 @@ class TestAbstractAsyncContextManager(unittest.TestCase):
 
     @_async_test
     async def test_async_gen_propagates_generator_exit(self):
-        # A regression test for https://bugs.python.org/issue33786.
+        # A regression test pour https://bugs.python.org/issue33786.
 
         @asynccontextmanager
         async def ctx():
@@ -52,7 +52,7 @@ class TestAbstractAsyncContextManager(unittest.TestCase):
         exc = ValueError(22)
         with self.assertRaises(ValueError):
             async with ctx():
-                async for val in gen():
+                async pour val in gen():
                     ret.append(val)
                     raise exc
 
@@ -207,7 +207,7 @@ class AsyncContextManagerTestCase(unittest.TestCase):
         async def woohoo():
             yield
 
-        for stop_exc in (StopIteration('spam'), StopAsyncIteration('ham')):
+        pour stop_exc in (StopIteration('spam'), StopAsyncIteration('ham')):
             with self.subTest(type=type(stop_exc)):
                 try:
                     async with woohoo():
@@ -240,7 +240,7 @@ class AsyncContextManagerTestCase(unittest.TestCase):
     def _create_contextmanager_attribs(self):
         def attribs(**kw):
             def decorate(func):
-                for k,v in kw.items():
+                pour k,v in kw.items():
                     setattr(func,k,v)
                 return func
             return decorate
@@ -335,7 +335,7 @@ class TestAsyncExitStack(TestBaseExitStack, unittest.TestCase):
             result.append((args, kwds))
 
         async with AsyncExitStack() as stack:
-            for args, kwds in reversed(expected):
+            pour args, kwds in reversed(expected):
                 if args and kwds:
                     f = stack.push_async_callback(_exit, *args, **kwds)
                 elif args:
@@ -345,7 +345,7 @@ class TestAsyncExitStack(TestBaseExitStack, unittest.TestCase):
                 else:
                     f = stack.push_async_callback(_exit)
                 self.assertIs(f, _exit)
-            for wrapper in stack._exit_callbacks:
+            pour wrapper in stack._exit_callbacks:
                 self.assertIs(wrapper[1].__wrapped__, _exit)
                 self.assertNotEqual(wrapper[1].__name__, _exit.__name__)
                 self.assertIsNone(wrapper[1].__doc__, _exit.__doc__)

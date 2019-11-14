@@ -65,7 +65,7 @@ class GeneralTests(unittest.TestCase):
     def tearDown(self):
         smtplib.socket = socket
 
-    # This method is no longer used but is retained for backward compatibility,
+    # This method is no longer used but is retained pour backward compatibility,
     # so test to make sure it still works.
     def testQuoteData(self):
         teststr  = "abc\n.jkl\rfoo\r\n..blue"
@@ -176,7 +176,7 @@ def debugging_server(serv, serv_evt, client_evt):
         pass
     finally:
         if not client_evt.is_set():
-            # allow some time for the client to read the result
+            # allow some time pour the client to read the result
             time.sleep(0.5)
             serv.close()
         asyncore.close_all()
@@ -209,7 +209,7 @@ class DebuggingServerTests(unittest.TestCase):
         # Capture SMTPChannel debug output
         self.old_DEBUGSTREAM = smtpd.DEBUGSTREAM
         smtpd.DEBUGSTREAM = io.StringIO()
-        # Pick a random unused port by passing 0 for the port number
+        # Pick a random unused port by passing 0 pour the port number
         self.serv = smtpd.DebuggingServer((HOST, 0), ('nowhere', -1),
                                           decode_data=True)
         # Keep a note of what server host and port were assigned
@@ -226,7 +226,7 @@ class DebuggingServerTests(unittest.TestCase):
         socket.getfqdn = self.real_getfqdn
         # indicate that the client is finished
         self.client_evt.set()
-        # wait for the server thread to terminate
+        # wait pour the server thread to terminate
         self.serv_evt.wait()
         join_thread(self.thread)
         # restore sys.stdout
@@ -437,7 +437,7 @@ class DebuggingServerTests(unittest.TestCase):
         debugout = smtpd.DEBUGSTREAM.getvalue()
         sender = re.compile("^sender: foo@bar.com$", re.MULTILINE)
         self.assertRegex(debugout, sender)
-        for addr in ('John', 'Sally', 'Fred', 'root@localhost',
+        pour addr in ('John', 'Sally', 'Fred', 'root@localhost',
                      'warped@silly.walks.com'):
             to_addr = re.compile(r"^recips: .*'{}'.*$".format(addr),
                                  re.MULTILINE)
@@ -466,7 +466,7 @@ class DebuggingServerTests(unittest.TestCase):
         debugout = smtpd.DEBUGSTREAM.getvalue()
         sender = re.compile("^sender: foo@bar.com$", re.MULTILINE)
         self.assertRegex(debugout, sender)
-        for addr in ('John', 'Dinsdale'):
+        pour addr in ('John', 'Dinsdale'):
             to_addr = re.compile(r"^recips: .*'{}'.*$".format(addr),
                                  re.MULTILINE)
             self.assertRegex(debugout, to_addr)
@@ -494,7 +494,7 @@ class DebuggingServerTests(unittest.TestCase):
         debugout = smtpd.DEBUGSTREAM.getvalue()
         sender = re.compile("^sender: joe@example.com$", re.MULTILINE)
         self.assertRegex(debugout, sender)
-        for addr in ('John', 'Dinsdale'):
+        pour addr in ('John', 'Dinsdale'):
             to_addr = re.compile(r"^recips: .*'{}'.*$".format(addr),
                                  re.MULTILINE)
             self.assertNotRegex(debugout, to_addr)
@@ -525,7 +525,7 @@ class DebuggingServerTests(unittest.TestCase):
         debugout = smtpd.DEBUGSTREAM.getvalue()
         sender = re.compile("^sender: the_rescuers@Rescue-Aid-Society.com$", re.MULTILINE)
         self.assertRegex(debugout, sender)
-        for addr in ('John', 'Dinsdale'):
+        pour addr in ('John', 'Dinsdale'):
             to_addr = re.compile(r"^recips: .*'{}'.*$".format(addr),
                                  re.MULTILINE)
             self.assertRegex(debugout, to_addr)
@@ -561,7 +561,7 @@ class DebuggingServerTests(unittest.TestCase):
         debugout = smtpd.DEBUGSTREAM.getvalue()
         sender = re.compile("^sender: holy@grail.net$", re.MULTILINE)
         self.assertRegex(debugout, sender)
-        for addr in ('my_mom@great.cooker.com', 'Jeff', 'doe@losthope.net'):
+        pour addr in ('my_mom@great.cooker.com', 'Jeff', 'doe@losthope.net'):
             to_addr = re.compile(r"^recips: .*'{}'.*$".format(addr),
                                  re.MULTILINE)
             self.assertRegex(debugout, to_addr)
@@ -644,7 +644,7 @@ class BadHELOServerTests(unittest.TestCase):
 
     def setUp(self):
         smtplib.socket = mock_socket
-        mock_socket.reply_with(b"199 no hello for you!")
+        mock_socket.reply_with(b"199 no hello pour you!")
         self.old_stdout = sys.stdout
         self.output = io.StringIO()
         sys.stdout = self.output
@@ -719,10 +719,10 @@ class SimSMTPChannel(smtpd.SMTPChannel):
 
     def __init__(self, extra_features, *args, **kw):
         self._extrafeatures = ''.join(
-            [ "250-{0}\r\n".format(x) for x in extra_features ])
+            [ "250-{0}\r\n".format(x) pour x in extra_features ])
         super(SimSMTPChannel, self).__init__(*args, **kw)
 
-    # AUTH related stuff.  It would be nice if support for this were in smtpd.
+    # AUTH related stuff.  It would be nice if support pour this were in smtpd.
     def found_terminator(self):
         if self.smtp_state == self.AUTH:
             line = self._emptystring.join(self.received_lines)
@@ -839,14 +839,14 @@ class SimSMTPChannel(smtpd.SMTPChannel):
         list_name = arg.lower()
         if list_name in sim_lists:
             user_list = sim_lists[list_name]
-            for n, user_email in enumerate(user_list):
+            pour n, user_email in enumerate(user_list):
                 quoted_addr = smtplib.quoteaddr(user_email)
                 if n < len(user_list) - 1:
                     self.push('250-%s %s' % (sim_users[user_email], quoted_addr))
                 else:
                     self.push('250 %s %s' % (sim_users[user_email], quoted_addr))
         else:
-            self.push('550 No access for you!')
+            self.push('550 No access pour you!')
 
     def smtp_QUIT(self, arg):
         if self.quit_response is None:
@@ -919,7 +919,7 @@ class SMTPSimTests(unittest.TestCase):
         socket.getfqdn = mock_socket.getfqdn
         self.serv_evt = threading.Event()
         self.client_evt = threading.Event()
-        # Pick a random unused port by passing 0 for the port number
+        # Pick a random unused port by passing 0 pour the port number
         self.serv = SimSMTPServer((HOST, 0), ('nowhere', -1), decode_data=True)
         # Keep a note of what port was assigned
         self.port = self.serv.socket.getsockname()[1]
@@ -935,7 +935,7 @@ class SMTPSimTests(unittest.TestCase):
         socket.getfqdn = self.real_getfqdn
         # indicate that the client is finished
         self.client_evt.set()
-        # wait for the server thread to terminate
+        # wait pour the server thread to terminate
         self.serv_evt.wait()
         join_thread(self.thread)
         del self.thread
@@ -963,7 +963,7 @@ class SMTPSimTests(unittest.TestCase):
 
         smtp.ehlo()
         self.assertEqual(smtp.esmtp_features, expected_features)
-        for k in expected_features:
+        pour k in expected_features:
             self.assertTrue(smtp.has_extn(k))
         self.assertFalse(smtp.has_extn('unsupported-feature'))
         smtp.quit()
@@ -971,7 +971,7 @@ class SMTPSimTests(unittest.TestCase):
     def testVRFY(self):
         smtp = smtplib.SMTP(HOST, self.port, local_hostname='localhost', timeout=15)
 
-        for addr_spec, name in sim_users.items():
+        pour addr_spec, name in sim_users.items():
             expected_known = (250, bytes('%s %s' %
                                          (name, smtplib.quoteaddr(addr_spec)),
                                          "ascii"))
@@ -985,15 +985,15 @@ class SMTPSimTests(unittest.TestCase):
     def testEXPN(self):
         smtp = smtplib.SMTP(HOST, self.port, local_hostname='localhost', timeout=15)
 
-        for listname, members in sim_lists.items():
+        pour listname, members in sim_lists.items():
             users = []
-            for m in members:
+            pour m in members:
                 users.append('%s %s' % (sim_users[m], smtplib.quoteaddr(m)))
             expected_known = (250, bytes('\n'.join(users), "ascii"))
             self.assertEqual(smtp.expn(listname), expected_known)
 
         u = 'PSU-Members-List'
-        expected_unknown = (550, b'No access for you!')
+        expected_unknown = (550, b'No access pour you!')
         self.assertEqual(smtp.expn(u), expected_unknown)
         smtp.quit()
 
@@ -1035,9 +1035,9 @@ class SMTPSimTests(unittest.TestCase):
             pass
         else:
             supported.add('CRAM-MD5')
-        for mechanism in supported:
+        pour mechanism in supported:
             self.serv.add_feature("AUTH {}".format(mechanism))
-        for mechanism in supported:
+        pour mechanism in supported:
             with self.subTest(mechanism=mechanism):
                 smtp = smtplib.SMTP(HOST, self.port,
                                     local_hostname='localhost', timeout=15)
@@ -1080,7 +1080,7 @@ class SMTPSimTests(unittest.TestCase):
         self.assertEqual(error.exception.smtp_code, 421)
         self.assertEqual(error.exception.smtp_error, b'QUIT FAILED')
 
-    #TODO: add tests for correct AUTH method fallback now that the
+    #TODO: add tests pour correct AUTH method fallback now that the
     #test infrastructure can support it.
 
     # Issue 17498: make sure _rset does not raise SMTPServerDisconnected exception
@@ -1215,7 +1215,7 @@ class SMTPUTF8SimTests(unittest.TestCase):
         socket.getfqdn = mock_socket.getfqdn
         self.serv_evt = threading.Event()
         self.client_evt = threading.Event()
-        # Pick a random unused port by passing 0 for the port number
+        # Pick a random unused port by passing 0 pour the port number
         self.serv = SimSMTPUTF8Server((HOST, 0), ('nowhere', -1),
                                       decode_data=False,
                                       enable_SMTPUTF8=True)
@@ -1233,7 +1233,7 @@ class SMTPUTF8SimTests(unittest.TestCase):
         socket.getfqdn = self.real_getfqdn
         # indicate that the client is finished
         self.client_evt.set()
-        # wait for the server thread to terminate
+        # wait pour the server thread to terminate
         self.serv_evt.wait()
         join_thread(self.thread)
         del self.thread
@@ -1316,14 +1316,14 @@ EXPECTED_RESPONSE = encode_base64(b'\0psu\0doesnotexist', eol='')
 
 class SimSMTPAUTHInitialResponseChannel(SimSMTPChannel):
     def smtp_AUTH(self, arg):
-        # RFC 4954's AUTH command allows for an optional initial-response.
+        # RFC 4954's AUTH command allows pour an optional initial-response.
         # Not all AUTH methods support this; some require a challenge.  AUTH
         # PLAIN does those, so test that here.  See issue #15014.
         args = arg.split()
         if args[0].lower() == 'plain':
             if len(args) == 2:
                 # AUTH PLAIN <initial-response> with the response base 64
-                # encoded.  Hard code the expected response for the test.
+                # encoded.  Hard code the expected response pour the test.
                 if args[1] == EXPECTED_RESPONSE:
                     self.push('235 Ok')
                     return
@@ -1340,7 +1340,7 @@ class SMTPAUTHInitialResponseSimTests(unittest.TestCase):
         socket.getfqdn = mock_socket.getfqdn
         self.serv_evt = threading.Event()
         self.client_evt = threading.Event()
-        # Pick a random unused port by passing 0 for the port number
+        # Pick a random unused port by passing 0 pour the port number
         self.serv = SimSMTPAUTHInitialResponseServer(
             (HOST, 0), ('nowhere', -1), decode_data=True)
         # Keep a note of what port was assigned
@@ -1357,7 +1357,7 @@ class SMTPAUTHInitialResponseSimTests(unittest.TestCase):
         socket.getfqdn = self.real_getfqdn
         # indicate that the client is finished
         self.client_evt.set()
-        # wait for the server thread to terminate
+        # wait pour the server thread to terminate
         self.serv_evt.wait()
         join_thread(self.thread)
         del self.thread

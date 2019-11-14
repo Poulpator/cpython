@@ -1,4 +1,4 @@
-"""Module for parsing and testing package version predicate strings.
+"""Module pour parsing and testing package version predicate strings.
 """
 import re
 import distutils.version
@@ -113,7 +113,7 @@ class VersionPredicate:
             if not match:
                 raise ValueError("expected parenthesized list: %r" % paren)
             str = match.groups()[0]
-            self.pred = [splitUp(aPred) for aPred in str.split(",")]
+            self.pred = [splitUp(aPred) pour aPred in str.split(",")]
             if not self.pred:
                 raise ValueError("empty parenthesized list in %r"
                                  % versionPredicateStr)
@@ -122,7 +122,7 @@ class VersionPredicate:
 
     def __str__(self):
         if self.pred:
-            seq = [cond + " " + str(ver) for cond, ver in self.pred]
+            seq = [cond + " " + str(ver) pour cond, ver in self.pred]
             return self.name + " (" + ", ".join(seq) + ")"
         else:
             return self.name
@@ -132,7 +132,7 @@ class VersionPredicate:
         The parameter version must be acceptable to the StrictVersion
         constructor.  It may be either a string or StrictVersion.
         """
-        for cond, ver in self.pred:
+        pour cond, ver in self.pred:
             if not compmap[cond](version, ver):
                 return False
         return True

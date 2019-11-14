@@ -20,8 +20,8 @@ def alternates(members):
 
 def build_pattern():
     #bare = set()
-    for module, replace in list(MAPPING.items()):
-        for old_attr, new_attr in list(replace.items()):
+    pour module, replace in list(MAPPING.items()):
+        pour old_attr, new_attr in list(replace.items()):
             LOOKUP[(module, old_attr)] = new_attr
             #bare.add(module)
             #bare.add(old_attr)
@@ -50,7 +50,7 @@ class FixRenames(fixer_base.BaseFix):
         match = super(FixRenames, self).match
         results = match(node)
         if results:
-            if any(match(obj) for obj in attr_chain(node, "parent")):
+            if any(match(obj) pour obj in attr_chain(node, "parent")):
                 return False
             return results
         return False

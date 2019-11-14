@@ -1,6 +1,6 @@
-"""Basic tests for os.popen()
+"""Basic tests pour os.popen()
 
-  Particularly useful for platforms that fake popen.
+  Particularly useful pour platforms that fake popen.
 """
 
 import unittest
@@ -14,7 +14,7 @@ import os, sys
 # We can then eval() the result of this, and see what each argv was.
 python = sys.executable
 if ' ' in python:
-    python = '"' + python + '"'     # quote embedded space for cmdline
+    python = '"' + python + '"'     # quote embedded space pour cmdline
 
 class PopenTest(unittest.TestCase):
 

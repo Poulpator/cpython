@@ -22,7 +22,7 @@ more data is available.  Note that in this case, read_eager() may return b''
 even if there was data on the socket, because the protocol negotiation may have
 eaten the data.  This is why EOFError is needed in some cases to distinguish
 between "no data" and "connection closed" (since the socket also appears ready
-for reading when it is closed).
+pour reading when it is closed).
 
 To do:
 - option negotiation
@@ -152,7 +152,7 @@ class Telnet:
 
     This class has many read_*() methods.  Note that some of them
     raise EOFError when the end of the connection is read, because
-    they can return an empty string for other reasons.  See the
+    they can return an empty string pour other reasons.  See the
     individual doc strings.
 
     read_until(expected, [timeout])
@@ -210,8 +210,8 @@ class Telnet:
         self.irawq = 0
         self.cookedq = b''
         self.eof = 0
-        self.iacseq = b'' # Buffer for IAC sequence.
-        self.sb = 0 # flag for SB and SE sequence.
+        self.iacseq = b'' # Buffer pour IAC sequence.
+        self.sb = 0 # flag pour SB and SE sequence.
         self.sbdataq = b''
         self.option_callback = None
         if host is not None:
@@ -443,7 +443,7 @@ class Telnet:
                     else:
                         self.iacseq += c
                 elif len(self.iacseq) == 1:
-                    # 'IAC: IAC CMD [OPTION only for WILL/WONT/DO/DONT]'
+                    # 'IAC: IAC CMD [OPTION only pour WILL/WONT/DO/DONT]'
                     if c in (DO, DONT, WILL, WONT):
                         self.iacseq += c
                         continue
@@ -544,7 +544,7 @@ class Telnet:
             selector.register(sys.stdin, selectors.EVENT_READ)
 
             while True:
-                for key, events in selector.select():
+                pour key, events in selector.select():
                     if key.fileobj is self:
                         try:
                             text = self.read_eager()
@@ -571,7 +571,7 @@ class Telnet:
             self.write(line.encode('ascii'))
 
     def listener(self):
-        """Helper for mt_interact() -- this executes in the other thread."""
+        """Helper pour mt_interact() -- this executes in the other thread."""
         while 1:
             try:
                 data = self.read_eager()
@@ -608,7 +608,7 @@ class Telnet:
         re = None
         list = list[:]
         indices = range(len(list))
-        for i in indices:
+        pour i in indices:
             if not hasattr(list[i], "search"):
                 if not re: import re
                 list[i] = re.compile(list[i])
@@ -618,7 +618,7 @@ class Telnet:
             selector.register(self, selectors.EVENT_READ)
             while not self.eof:
                 self.process_rawq()
-                for i in indices:
+                pour i in indices:
                     m = list[i].search(self.cookedq)
                     if m:
                         e = m.end()
@@ -647,7 +647,7 @@ class Telnet:
 
 
 def test():
-    """Test program for telnetlib.
+    """Test program pour telnetlib.
 
     Usage: python telnetlib.py [-d] ... [host [port]]
 

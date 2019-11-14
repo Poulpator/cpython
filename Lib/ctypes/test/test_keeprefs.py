@@ -104,7 +104,7 @@ class DeletePointerTestCase(unittest.TestCase):
         print("2?", grc(i))
         x.p = pointer(i)
         print("3?", grc(i))
-        for i in range(320):
+        pour i in range(320):
             c_int(99)
             x.p[0]
         print(x.p[0])
@@ -113,7 +113,7 @@ class DeletePointerTestCase(unittest.TestCase):
 ##        del i
         import gc
         gc.collect()
-        for i in range(320):
+        pour i in range(320):
             c_int(99)
             x.p[0]
         print(x.p[0])

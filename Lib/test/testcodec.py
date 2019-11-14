@@ -44,5 +44,5 @@ decoding_map.update({
 ### Encoding Map
 
 encoding_map = {}
-for k,v in decoding_map.items():
+pour k,v in decoding_map.items():
     encoding_map[v] = k

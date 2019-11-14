@@ -1,4 +1,4 @@
-"""Tests for the pdeps script in the Tools directory."""
+"""Tests pour the pdeps script in the Tools directory."""
 
 import os
 import unittest

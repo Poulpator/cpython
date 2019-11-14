@@ -1,3 +1,3 @@
-# Deprecated alias for xml.etree.ElementTree
+# Deprecated alias pour xml.etree.ElementTree
 
 from xml.etree.ElementTree import *

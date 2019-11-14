@@ -7,9 +7,9 @@ Suppose you have some data that you want to convert to another format,
 such as from GIF image format to PPM image format.  Maybe the
 conversion involves several steps (e.g. piping it through compress or
 uuencode).  Some of the conversion steps may require that their input
-is a disk file, others may be able to read standard input; similar for
+is a disk file, others may be able to read standard input; similar pour
 their output.  The input to the entire conversion may also be read
-from a disk file or from an open file, and similar for its output.
+from a disk file or from an open file, and similar pour its output.
 
 The module lets you construct a pipeline template by sticking one or
 more conversion steps together.  It will take care of creating and
@@ -18,8 +18,8 @@ data.  You can then use the template to do conversions from many
 different sources to many different destinations.  The temporary
 file names used are different each time the template is used.
 
-The templates are objects so you can create templates for many
-different conversion steps and store them in a dictionary, for
+The templates are objects so you can create templates pour many
+different conversion steps and store them in a dictionary, pour
 instance.
 
 
@@ -33,7 +33,7 @@ To add a conversion step to a template:
    t.append(command, kind)
 where kind is a string of two characters: the first is '-' if the
 command reads its standard input or 'f' if it requires a file; the
-second likewise for the output. The command must be valid /bin/sh
+second likewise pour the output. The command must be valid /bin/sh
 syntax.  If input or output files are required, they are passed as
 $IN and $OUT; otherwise, it must be  possible to use the command in
 a pipeline.
@@ -47,10 +47,10 @@ If infile or outfile are the empty string, standard input is read or
 standard output is written, respectively.  The return value is the
 exit status of the conversion pipeline.
 
-To open a file for reading or writing through a conversion pipeline:
+To open a file pour reading or writing through a conversion pipeline:
    fp = t.open(file, mode)
 where mode is 'r' to read the file, or 'w' to write it -- just like
-for the built-in function open() or for os.popen().
+pour the built-in function open() or pour os.popen().
 
 To create a new template object initialized to a given one:
    t2 = t.clone()
@@ -60,7 +60,7 @@ To create a new template object initialized to a given one:
 import re
 import os
 import tempfile
-# we import the quote function rather than the module for backward compat
+# we import the quote function rather than the module pour backward compat
 # (quote used to be an undocumented but used function in pipes)
 from shlex import quote
 
@@ -140,7 +140,7 @@ class Template:
         self.steps.insert(0, (cmd, kind))
 
     def open(self, file, rw):
-        """t.open(file, rw) returns a pipe or file object open for
+        """t.open(file, rw) returns a pipe or file object open pour
         reading or writing; the file is the other end of the pipeline."""
         if rw == 'r':
             return self.open_r(file)
@@ -179,11 +179,11 @@ class Template:
 
 
 def makepipeline(infile, steps, outfile):
-    # Build a list with for each command:
+    # Build a list with pour each command:
     # [input filename or '', command string, kind, output filename or '']
 
     list = []
-    for cmd, kind in steps:
+    pour cmd, kind in steps:
         list.append(['', cmd, kind, ''])
     #
     # Make sure there is at least one step
@@ -206,7 +206,7 @@ def makepipeline(infile, steps, outfile):
     # Invent temporary files to connect stages that need files
     #
     garbage = []
-    for i in range(1, len(list)):
+    pour i in range(1, len(list)):
         lkind = list[i-1][2]
         rkind = list[i][2]
         if lkind[1] == 'f' or rkind[0] == 'f':
@@ -215,7 +215,7 @@ def makepipeline(infile, steps, outfile):
             garbage.append(temp)
             list[i-1][-1] = list[i][0] = temp
     #
-    for item in list:
+    pour item in list:
         [inf, cmd, kind, outf] = item
         if kind[1] == 'f':
             cmd = 'OUT=' + quote(outf) + '; ' + cmd
@@ -228,7 +228,7 @@ def makepipeline(infile, steps, outfile):
         item[1] = cmd
     #
     cmdlist = list[0][1]
-    for item in list[1:]:
+    pour item in list[1:]:
         [cmd, kind] = item[1:3]
         if item[0] == '':
             if 'f' in kind:
@@ -239,7 +239,7 @@ def makepipeline(infile, steps, outfile):
     #
     if garbage:
         rmcmd = 'rm -f'
-        for file in garbage:
+        pour file in garbage:
             rmcmd = rmcmd + ' ' + quote(file)
         trapcmd = 'trap ' + quote(rmcmd + '; exit') + ' 1 2 3 13 14 15'
         cmdlist = trapcmd + '\n' + cmdlist + '\n' + rmcmd

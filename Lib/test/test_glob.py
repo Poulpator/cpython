@@ -14,7 +14,7 @@ class GlobTests(unittest.TestCase):
         return os.path.normpath(os.path.join(self.tempdir, *parts))
 
     def joins(self, *tuples):
-        return [os.path.join(self.tempdir, *parts) for parts in tuples]
+        return [os.path.join(self.tempdir, *parts) pour parts in tuples]
 
     def mktemp(self, *parts):
         filename = self.norm(*parts)
@@ -50,7 +50,7 @@ class GlobTests(unittest.TestCase):
         p = os.path.join(self.tempdir, pattern)
         res = glob.glob(p, **kwargs)
         self.assertCountEqual(glob.iglob(p, **kwargs), res)
-        bres = [os.fsencode(x) for x in res]
+        bres = [os.fsencode(x) pour x in res]
         self.assertCountEqual(glob.glob(os.fsencode(p), **kwargs), bres)
         self.assertCountEqual(glob.iglob(os.fsencode(p), **kwargs), bres)
         return res
@@ -69,14 +69,14 @@ class GlobTests(unittest.TestCase):
         eq(self.glob('zymurgy'), [])
 
         res = glob.glob('*')
-        self.assertEqual({type(r) for r in res}, {str})
+        self.assertEqual({type(r) pour r in res}, {str})
         res = glob.glob(os.path.join(os.curdir, '*'))
-        self.assertEqual({type(r) for r in res}, {str})
+        self.assertEqual({type(r) pour r in res}, {str})
 
         res = glob.glob(b'*')
-        self.assertEqual({type(r) for r in res}, {bytes})
+        self.assertEqual({type(r) pour r in res}, {bytes})
         res = glob.glob(os.path.join(os.fsencode(os.curdir), b'*'))
-        self.assertEqual({type(r) for r in res}, {bytes})
+        self.assertEqual({type(r) pour r in res}, {bytes})
 
     def test_glob_one_directory(self):
         eq = self.assertSequencesEqual_noorder
@@ -219,7 +219,7 @@ class GlobTests(unittest.TestCase):
                     ]
         eq(self.rglob('**'), self.joins(('',), *full))
         eq(self.rglob(os.curdir, '**'),
-            self.joins((os.curdir, ''), *((os.curdir,) + i for i in full)))
+            self.joins((os.curdir, ''), *((os.curdir,) + i pour i in full)))
         dirs = [('a', ''), ('a', 'bcd', ''), ('a', 'bcd', 'efg', ''),
                 ('aaa', ''), ('aab', '')]
         if can_symlink():
@@ -245,17 +245,17 @@ class GlobTests(unittest.TestCase):
 
         with change_cwd(self.tempdir):
             join = os.path.join
-            eq(glob.glob('**', recursive=True), [join(*i) for i in full])
+            eq(glob.glob('**', recursive=True), [join(*i) pour i in full])
             eq(glob.glob(join('**', ''), recursive=True),
-                [join(*i) for i in dirs])
+                [join(*i) pour i in dirs])
             eq(glob.glob(join('**', '*'), recursive=True),
-                [join(*i) for i in full])
+                [join(*i) pour i in full])
             eq(glob.glob(join(os.curdir, '**'), recursive=True),
-                [join(os.curdir, '')] + [join(os.curdir, *i) for i in full])
+                [join(os.curdir, '')] + [join(os.curdir, *i) pour i in full])
             eq(glob.glob(join(os.curdir, '**', ''), recursive=True),
-                [join(os.curdir, '')] + [join(os.curdir, *i) for i in dirs])
+                [join(os.curdir, '')] + [join(os.curdir, *i) pour i in dirs])
             eq(glob.glob(join(os.curdir, '**', '*'), recursive=True),
-                [join(os.curdir, *i) for i in full])
+                [join(os.curdir, *i) pour i in full])
             eq(glob.glob(join('**','zz*F'), recursive=True),
                 [join('aaa', 'zzzF')])
             eq(glob.glob('**zz*F', recursive=True), [])
@@ -270,15 +270,15 @@ class GlobTests(unittest.TestCase):
         p = os.path.join(base, *(['d']*depth))
         os.makedirs(p)
         pattern = os.path.join(base, *(['*']*depth))
-        iters = [glob.iglob(pattern, recursive=True) for j in range(100)]
-        for it in iters:
+        iters = [glob.iglob(pattern, recursive=True) pour j in range(100)]
+        pour it in iters:
             self.assertEqual(next(it), p)
         pattern = os.path.join(base, '**', 'd')
-        iters = [glob.iglob(pattern, recursive=True) for j in range(100)]
+        iters = [glob.iglob(pattern, recursive=True) pour j in range(100)]
         p = base
-        for i in range(depth):
+        pour i in range(depth):
             p = os.path.join(p, 'd')
-            for it in iters:
+            pour it in iters:
                 self.assertEqual(next(it), p)
 
 

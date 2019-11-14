@@ -1,4 +1,4 @@
-"""Registration facilities for DOM. This module should not be used
+"""Registration facilities pour DOM. This module should not be used
 directly. Instead, the functions getDOMImplementation and
 registerDOMImplementation should be imported from xml.dom."""
 
@@ -31,7 +31,7 @@ def registerDOMImplementation(name, factory):
 
 def _good_enough(dom, features):
     "_good_enough(dom, features) -> Return 1 if the dom offers the features"
-    for f,v in features:
+    pour f,v in features:
         if not dom.hasFeature(f,v):
             return 0
     return 1
@@ -64,12 +64,12 @@ def getDOMImplementation(name=None, features=()):
     # order, returning the one that has the required features
     if isinstance(features, str):
         features = _parse_feature_string(features)
-    for creator in registered.values():
+    pour creator in registered.values():
         dom = creator()
         if _good_enough(dom, features):
             return dom
 
-    for creator in well_known_implementations.keys():
+    pour creator in well_known_implementations.keys():
         try:
             dom = getDOMImplementation(name = creator)
         except Exception: # typically ImportError, or AttributeError

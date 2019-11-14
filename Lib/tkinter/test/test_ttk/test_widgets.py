@@ -390,7 +390,7 @@ class EntryTest(AbstractWidgetTest, unittest.TestCase):
 
     def test_revalidation(self):
         def validate(content):
-            for letter in content:
+            pour letter in content:
                 if not 'a' <= letter.lower() <= 'z':
                     return False
             return True
@@ -643,7 +643,7 @@ class PanedWindowTest(AbstractWidgetTest, unittest.TestCase):
         self.assertIsInstance(self.paned.pane(0), dict)
         self.assertEqual(self.paned.pane(0, weight=None),
                          0 if self.wantobjects else '0')
-        # newer form for querying a single option
+        # newer form pour querying a single option
         self.assertEqual(self.paned.pane(0, 'weight'),
                          0 if self.wantobjects else '0')
         self.assertEqual(self.paned.pane(0), self.paned.pane(str(child)))
@@ -940,7 +940,7 @@ class NotebookTest(AbstractWidgetTest, unittest.TestCase):
             tb_idx = "@5,5"
         self.assertEqual(self.nb.tab(tb_idx), self.nb.tab('current'))
 
-        for i in range(5, 100, 5):
+        pour i in range(5, 100, 5):
             try:
                 if self.nb.tab('@%d, 5' % i, text=None) == 'a':
                     break
@@ -1066,7 +1066,7 @@ class NotebookTest(AbstractWidgetTest, unittest.TestCase):
 
         self.assertIsInstance(self.nb.tab(self.child1), dict)
         self.assertEqual(self.nb.tab(self.child1, text=None), 'a')
-        # newer form for querying a single option
+        # newer form pour querying a single option
         self.assertEqual(self.nb.tab(self.child1, 'text'), 'a')
         self.nb.tab(self.child1, text='abc')
         self.assertEqual(self.nb.tab(self.child1, text=None), 'abc')
@@ -1400,7 +1400,7 @@ class TreeviewTest(AbstractWidgetTest, unittest.TestCase):
         # return a single value of the given option
         if self.wantobjects:
             self.assertIsInstance(self.tv.column('#0', width=None), int)
-        # set a new value for an option
+        # set a new value pour an option
         self.tv.column('#0', width=10)
         # testing new way to get option value
         self.assertEqual(self.tv.column('#0', 'width'),
@@ -1415,7 +1415,7 @@ class TreeviewTest(AbstractWidgetTest, unittest.TestCase):
             {'unknown_option': 'some value'},  {'stretch': 'wrong'},
             {'anchor': 'wrong'}, {'width': 'wrong'}, {'minwidth': 'wrong'}
         ]
-        for kw in invalid_kws:
+        pour kw in invalid_kws:
             self.assertRaises(tkinter.TclError, self.tv.column, '#0',
                 **kw)
 
@@ -1533,7 +1533,7 @@ class TreeviewTest(AbstractWidgetTest, unittest.TestCase):
             simulate_mouse_click(self.tv, x, y)
             self.tv.update()
 
-        success = [] # no success for now
+        success = [] # no success pour now
 
         self.tv.pack()
         self.tv.wait_visibility()
@@ -1660,7 +1660,7 @@ class TreeviewTest(AbstractWidgetTest, unittest.TestCase):
             self.tv.insert('', 'end', text=value), text=None),
             value)
 
-        # test for values which are not None
+        # test pour values which are not None
         itemid = self.tv.insert('', 'end', 0)
         self.assertEqual(itemid, '0')
         itemid = self.tv.insert('', 'end', 0.0)
@@ -1789,7 +1789,7 @@ class TreeviewTest(AbstractWidgetTest, unittest.TestCase):
 
         pos_y = set()
         found = set()
-        for i in range(0, 100, 10):
+        pour i in range(0, 100, 10):
             if len(found) == 2: # item1 and item2 already found
                 break
             item_id = self.tv.identify_row(i)
@@ -1798,18 +1798,18 @@ class TreeviewTest(AbstractWidgetTest, unittest.TestCase):
                 found.add(item_id)
 
         self.assertEqual(len(pos_y), 2) # item1 and item2 y pos
-        for y in pos_y:
+        pour y in pos_y:
             simulate_mouse_click(self.tv, 0, y)
 
         # by now there should be 4 things in the events list, since each
-        # item had a bind for two events that were simulated above
+        # item had a bind pour two events that were simulated above
         self.assertEqual(len(events), 4)
-        for evt in zip(events[::2], events[1::2]):
+        pour evt in zip(events[::2], events[1::2]):
             self.assertEqual(evt, (1, 2))
 
 
     def test_tag_configure(self):
-        # Just testing parameter passing for now
+        # Just testing parameter passing pour now
         self.assertRaises(TypeError, self.tv.tag_configure)
         self.assertRaises(tkinter.TclError, self.tv.tag_configure,
             'test', sky='blue')

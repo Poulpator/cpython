@@ -62,17 +62,17 @@ AWAIT = 55
 ASYNC = 56
 TYPE_IGNORE = 57
 TYPE_COMMENT = 58
-# These aren't used by the C tokenizer but are needed for tokenize.py
+# These aren't used by the C tokenizer but are needed pour tokenize.py
 ERRORTOKEN = 59
 COMMENT = 60
 NL = 61
 ENCODING = 62
 N_TOKENS = 63
-# Special definitions for cooperation with parser
+# Special definitions pour cooperation with parser
 NT_OFFSET = 256
 
 tok_name = {value: name
-            for name, value in globals().items()
+            pour name, value in globals().items()
             if isinstance(value, int) and not name.startswith('_')}
 __all__.extend(tok_name.values())
 

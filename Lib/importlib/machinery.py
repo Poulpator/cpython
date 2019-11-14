@@ -17,5 +17,5 @@ from ._bootstrap_external import ExtensionFileLoader
 
 
 def all_suffixes():
-    """Returns a list of all recognized module suffixes for this process"""
+    """Returns a list of all recognized module suffixes pour this process"""
     return SOURCE_SUFFIXES + BYTECODE_SUFFIXES + EXTENSION_SUFFIXES

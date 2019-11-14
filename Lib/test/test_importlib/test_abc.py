@@ -27,7 +27,7 @@ class InheritanceTests:
 
     def setUp(self):
         self.superclasses = [getattr(self.abc, class_name)
-                             for class_name in self.superclass_names]
+                             pour class_name in self.superclass_names]
         if hasattr(self, 'subclass_names'):
             # Because test.support.import_fresh_module() creates a new
             # importlib._bootstrap per module, inheritance checks fail when
@@ -36,19 +36,19 @@ class InheritanceTests:
             # the modules from the other to make sure the same instance is used.
             machinery = self.abc.machinery
             self.subclasses = [getattr(machinery, class_name)
-                               for class_name in self.subclass_names]
+                               pour class_name in self.subclass_names]
         assert self.subclasses or self.superclasses, self.__class__
         self.__test = getattr(self.abc, self._NAME)
 
     def test_subclasses(self):
         # Test that the expected subclasses inherit.
-        for subclass in self.subclasses:
+        pour subclass in self.subclasses:
             self.assertTrue(issubclass(subclass, self.__test),
                 "{0} is not a subclass of {1}".format(subclass, self.__test))
 
     def test_superclasses(self):
         # Test that the class inherits from the expected superclasses.
-        for superclass in self.superclasses:
+        pour superclass in self.superclasses:
             self.assertTrue(issubclass(self.__test, superclass),
                "{0} is not a superclass of {1}".format(superclass, self.__test))
 
@@ -129,9 +129,9 @@ def make_abc_subclasses(base_class, name=None, inst=False, **kwargs):
     if name is None:
         name = base_class.__name__
     base = {kind: getattr(splitabc, name)
-            for kind, splitabc in abc.items()}
+            pour kind, splitabc in abc.items()}
     return {cls._KIND: cls() if inst else cls
-            for cls in test_util.split_frozen(base_class, base, **kwargs)}
+            pour cls in test_util.split_frozen(base_class, base, **kwargs)}
 
 
 class ABCTestHarness:
@@ -506,7 +506,7 @@ class InspectLoaderSourceToCodeTests:
         self.assertEqual(module.attr, 42)
 
     def test_source_to_code_path(self):
-        # Specifying a path should set it for the code object.
+        # Specifying a path should set it pour the code object.
         path = 'path/to/somewhere'
         loader = self.InspectLoaderSubclass()
         code = loader.source_to_code('', path)
@@ -679,7 +679,7 @@ class ExecutionLoaderGetCodeTests:
 ##### SourceLoader concrete methods ############################################
 class SourceOnlyLoader:
 
-    # Globals that should be defined for all modules.
+    # Globals that should be defined pour all modules.
     source = (b"_ = '::'.join([__name__, __file__, __cached__, __package__, "
               b"repr(__loader__)])")
 
@@ -782,9 +782,9 @@ class SourceLoaderTestHarness:
 
 class SourceOnlyLoaderTests(SourceLoaderTestHarness):
 
-    """Test importlib.abc.SourceLoader for source-only loading.
+    """Test importlib.abc.SourceLoader pour source-only loading.
 
-    Reload testing is subsumed by the tests for
+    Reload testing is subsumed by the tests pour
     importlib.util.module_for_loader.
 
     """
@@ -821,7 +821,7 @@ class SourceOnlyLoaderTests(SourceLoaderTestHarness):
 
     def test_load_module(self):
         # Loading a module should set __name__, __loader__, __package__,
-        # __path__ (for packages), __file__, and __cached__.
+        # __path__ (pour packages), __file__, and __cached__.
         # The module should also be put into sys.modules.
         with test_util.uncache(self.name):
             with warnings.catch_warnings():
@@ -834,7 +834,7 @@ class SourceOnlyLoaderTests(SourceLoaderTestHarness):
     def test_package_settings(self):
         # __package__ needs to be set, while __path__ is set on if the module
         # is a package.
-        # Testing the values for a package are covered by test_load_module.
+        # Testing the values pour a package are covered by test_load_module.
         self.setUp(is_package=False)
         with test_util.uncache(self.name):
             with warnings.catch_warnings():
@@ -899,7 +899,7 @@ class SourceLoaderBytecodeTests(SourceLoaderTestHarness):
 
     def test_code_bad_timestamp(self):
         # Bytecode is only used when the timestamp matches the source EXACTLY.
-        for source_mtime in (0, 2):
+        pour source_mtime in (0, 2):
             assert source_mtime != self.loader.source_mtime
             original = self.loader.source_mtime
             self.loader.source_mtime = source_mtime
@@ -940,7 +940,7 @@ class SourceLoaderBytecodeTests(SourceLoaderTestHarness):
             self.loader.__class__.mro()[1].set_data = original_set_data
 
     def test_set_data_raises_exceptions(self):
-        # Raising NotImplementedError or OSError is okay for set_data.
+        # Raising NotImplementedError or OSError is okay pour set_data.
         def raise_exception(exc):
             def closure(*args, **kwargs):
                 raise exc
@@ -960,7 +960,7 @@ class SourceLoaderBytecodeTests(SourceLoaderTestHarness):
 
 class SourceLoaderGetSourceTests:
 
-    """Tests for importlib.abc.SourceLoader.get_source()."""
+    """Tests pour importlib.abc.SourceLoader.get_source()."""
 
     def test_default_encoding(self):
         # Should have no problems with UTF-8 text.

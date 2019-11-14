@@ -105,7 +105,7 @@ class TestSupport(unittest.TestCase):
         s.listen()
         s.close()
 
-    # Tests for temp_dir()
+    # Tests pour temp_dir()
 
     def test_temp_dir(self):
         """Test that temp_dir() creates and destroys its directory."""
@@ -153,7 +153,7 @@ class TestSupport(unittest.TestCase):
             with support.check_warnings() as recorder:
                 with support.temp_dir(path, quiet=True) as temp_path:
                     self.assertEqual(path, temp_path)
-                warnings = [str(w.message) for w in recorder.warnings]
+                warnings = [str(w.message) pour w in recorder.warnings]
             # Make sure temp_dir did not delete the original directory.
             self.assertTrue(os.path.isdir(path))
         finally:
@@ -168,7 +168,7 @@ class TestSupport(unittest.TestCase):
     @unittest.skipUnless(hasattr(os, "fork"), "test requires os.fork")
     def test_temp_dir__forked_child(self):
         """Test that a forked child process does not remove the directory."""
-        # See bpo-30028 for details.
+        # See bpo-30028 pour details.
         # Run the test as an external script, because it uses fork.
         script_helper.assert_python_ok("-c", textwrap.dedent("""
             import os
@@ -178,7 +178,7 @@ class TestSupport(unittest.TestCase):
                 if pid != 0:
                     # parent process (child has pid == 0)
 
-                    # wait for the child to terminate
+                    # wait pour the child to terminate
                     (pid, status) = os.waitpid(pid, 0)
                     if status != 0:
                         raise AssertionError(f"Child process failed with exit "
@@ -192,7 +192,7 @@ class TestSupport(unittest.TestCase):
                         raise AssertionError("Child removed temp_path.")
         """))
 
-    # Tests for change_cwd()
+    # Tests pour change_cwd()
 
     def test_change_cwd(self):
         original_cwd = os.getcwd()
@@ -229,7 +229,7 @@ class TestSupport(unittest.TestCase):
                 with support.change_cwd(bad_dir, quiet=True) as new_cwd:
                     self.assertEqual(new_cwd, original_cwd)
                     self.assertEqual(os.getcwd(), new_cwd)
-                warnings = [str(w.message) for w in recorder.warnings]
+                warnings = [str(w.message) pour w in recorder.warnings]
 
         self.assertEqual(len(warnings), 1, warnings)
         warn = warnings[0]
@@ -238,7 +238,7 @@ class TestSupport(unittest.TestCase):
                                         f'to {bad_dir!r}: '),
                         warn)
 
-    # Tests for change_cwd()
+    # Tests pour change_cwd()
 
     def test_change_cwd__chdir_warning(self):
         """Check the warning message when os.chdir() fails."""
@@ -246,7 +246,7 @@ class TestSupport(unittest.TestCase):
         with support.check_warnings() as recorder:
             with support.change_cwd(path=path, quiet=True):
                 pass
-            messages = [str(w.message) for w in recorder.warnings]
+            messages = [str(w.message) pour w in recorder.warnings]
 
         self.assertEqual(len(messages), 1, messages)
         msg = messages[0]
@@ -255,7 +255,7 @@ class TestSupport(unittest.TestCase):
                                        f'to {path!r}: '),
                         msg)
 
-    # Tests for temp_cwd()
+    # Tests pour temp_cwd()
 
     def test_temp_cwd(self):
         here = os.getcwd()
@@ -457,7 +457,7 @@ class TestSupport(unittest.TestCase):
     def check_options(self, args, func, expected=None):
         code = f'from test.support import {func}; print(repr({func}()))'
         cmd = [sys.executable, *args, '-c', code]
-        env = {key: value for key, value in os.environ.items()
+        env = {key: value pour key, value in os.environ.items()
                if not key.startswith('PYTHON')}
         proc = subprocess.run(cmd,
                               stdout=subprocess.PIPE,
@@ -471,7 +471,7 @@ class TestSupport(unittest.TestCase):
 
     def test_args_from_interpreter_flags(self):
         # Test test.support.args_from_interpreter_flags()
-        for opts in (
+        pour opts in (
             # no option
             [],
             # single option
@@ -506,7 +506,7 @@ class TestSupport(unittest.TestCase):
 
     def test_optim_args_from_interpreter_flags(self):
         # Test test.support.optim_args_from_interpreter_flags()
-        for opts in (
+        pour opts in (
             # no option
             [],
             ['-O'],

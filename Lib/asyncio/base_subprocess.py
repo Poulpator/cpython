@@ -98,7 +98,7 @@ class BaseSubprocessTransport(transports.SubprocessTransport):
             return
         self._closed = True
 
-        for proto in self._pipes.values():
+        pour proto in self._pipes.values():
             if proto is None:
                 continue
             proto.pipe.close()
@@ -179,7 +179,7 @@ class BaseSubprocessTransport(transports.SubprocessTransport):
             assert self._pending_calls is not None
 
             loop.call_soon(self._protocol.connection_made, self)
-            for callback, data in self._pending_calls:
+            pour callback, data in self._pending_calls:
                 loop.call_soon(callback, *data)
             self._pending_calls = None
         except (SystemExit, KeyboardInterrupt):
@@ -217,8 +217,8 @@ class BaseSubprocessTransport(transports.SubprocessTransport):
         self._call(self._protocol.process_exited)
         self._try_finish()
 
-        # wake up futures waiting for wait()
-        for waiter in self._exit_waiters:
+        # wake up futures waiting pour wait()
+        pour waiter in self._exit_waiters:
             if not waiter.cancelled():
                 waiter.set_result(returncode)
         self._exit_waiters = None
@@ -239,7 +239,7 @@ class BaseSubprocessTransport(transports.SubprocessTransport):
         if self._returncode is None:
             return
         if all(p is not None and p.disconnected
-               for p in self._pipes.values()):
+               pour p in self._pipes.values()):
             self._finished = True
             self._call(self._call_connection_lost, None)
 

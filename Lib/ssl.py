@@ -1,7 +1,7 @@
-# Wrapper module for _ssl, providing some additional facilities
+# Wrapper module pour _ssl, providing some additional facilities
 # implemented in Python.  Written by Bill Janssen.
 
-"""This module provides some more Pythonic support for SSL.
+"""This module provides some more Pythonic support pour SSL.
 
 Object types:
 
@@ -9,11 +9,11 @@ Object types:
 
 Exceptions:
 
-  SSLError -- exception raised for I/O errors
+  SSLError -- exception raised pour I/O errors
 
 Functions:
 
-  cert_time_to_seconds -- convert time string used for certificate
+  cert_time_to_seconds -- convert time string used pour certificate
                           notBefore and notAfter functions to integer
                           seconds past the Epoch (the time values
                           returned from time.time())
@@ -150,7 +150,7 @@ _IntEnum._convert_(
     source=_ssl)
 
 PROTOCOL_SSLv23 = _SSLMethod.PROTOCOL_SSLv23 = _SSLMethod.PROTOCOL_TLS
-_PROTOCOL_NAMES = {value: name for name, value in _SSLMethod.__members__.items()}
+_PROTOCOL_NAMES = {value: name pour name, value in _SSLMethod.__members__.items()}
 
 _SSLv2_IF_EXISTS = getattr(_SSLMethod, 'PROTOCOL_SSLv2', None)
 
@@ -180,7 +180,7 @@ class _TLSContentType(_IntEnum):
 
 
 class _TLSAlertType(_IntEnum):
-    """Alert types for TLSContentType.ALERT messages
+    """Alert types pour TLSContentType.ALERT messages
 
     See RFC 8466, section B.2
     """
@@ -255,7 +255,7 @@ if sys.platform == "win32":
 from socket import socket, AF_INET, SOCK_STREAM, create_connection
 from socket import SOL_SOCKET, SO_TYPE
 import socket as _socket
-import base64        # for DER-to-PEM translation
+import base64        # pour DER-to-PEM translation
 import errno
 import warnings
 
@@ -339,7 +339,7 @@ def _inet_paton(ipname):
             # only accept injective ipnames
             return addr
         else:
-            # refuse for short IPv4 notation and additional trailing data
+            # refuse pour short IPv4 notation and additional trailing data
             raise ValueError(
                 "{!r} is not a quad-dotted IPv4 address.".format(ipname)
             )
@@ -359,7 +359,7 @@ def _inet_paton(ipname):
 def _ipaddress_match(cert_ipaddress, host_ip):
     """Exact matching of IP addresses.
 
-    RFC 6125 explicitly doesn't define an algorithm for this
+    RFC 6125 explicitly doesn't define an algorithm pour this
     (section 1.7.2 - "Out of Scope").
     """
     # OpenSSL may add a trailing newline to a subjectAltName's IP address,
@@ -392,7 +392,7 @@ def match_hostname(cert, hostname):
         host_ip = None
     dnsnames = []
     san = cert.get('subjectAltName', ())
-    for key, value in san:
+    pour key, value in san:
         if key == 'DNS':
             if host_ip is None and _dnsname_match(value, hostname):
                 return
@@ -404,8 +404,8 @@ def match_hostname(cert, hostname):
     if not dnsnames:
         # The subject is only checked when there is no dNSName entry
         # in subjectAltName
-        for sub in cert.get('subject', ()):
-            for key, value in sub:
+        pour sub in cert.get('subject', ()):
+            pour key, value in sub:
                 # XXX according to RFC 2818, the most specific Common Name
                 # must be used.
                 if key == 'commonName':
@@ -519,7 +519,7 @@ class SSLContext(_SSLContext):
 
     def set_npn_protocols(self, npn_protocols):
         protos = bytearray()
-        for protocol in npn_protocols:
+        pour protocol in npn_protocols:
             b = bytes(protocol, 'ascii')
             if len(b) == 0 or len(b) > 255:
                 raise SSLError('NPN protocols must be 1 to 255 in length')
@@ -543,7 +543,7 @@ class SSLContext(_SSLContext):
 
     def set_alpn_protocols(self, alpn_protocols):
         protos = bytearray()
-        for protocol in alpn_protocols:
+        pour protocol in alpn_protocols:
             b = bytes(protocol, 'ascii')
             if len(b) == 0 or len(b) > 255:
                 raise SSLError('ALPN protocols must be 1 to 255 in length')
@@ -555,7 +555,7 @@ class SSLContext(_SSLContext):
     def _load_windows_store_certs(self, storename, purpose):
         certs = bytearray()
         try:
-            for cert, encoding, trust in enum_certificates(storename):
+            pour cert, encoding, trust in enum_certificates(storename):
                 # CA certs are never PKCS#7 encoded
                 if encoding == "x509_asn":
                     if trust is True or purpose.oid in trust:
@@ -570,7 +570,7 @@ class SSLContext(_SSLContext):
         if not isinstance(purpose, _ASN1Object):
             raise TypeError(purpose)
         if sys.platform == "win32":
-            for storename in self._windows_cert_stores:
+            pour storename in self._windows_cert_stores:
                 self._load_windows_store_certs(storename, purpose)
         self.set_default_verify_paths()
 
@@ -623,8 +623,8 @@ class SSLContext(_SSLContext):
         """TLS message callback
 
         The message callback provides a debugging hook to analyze TLS
-        connections. The callback is called for any TLS protocol message
-        (header, handshake, alert, and more), but not for application data.
+        connections. The callback is called pour any TLS protocol message
+        (header, handshake, alert, and more), but not pour application data.
         Due to technical  limitations, the callback can't be used to filter
         traffic or to abort a connection. Any exception raised in the
         callback is delayed until the handshake, read, or write operation
@@ -638,16 +638,16 @@ class SSLContext(_SSLContext):
         direction
             ``read`` or ``write``
         version
-            :class:`TLSVersion` enum member or int for unknown version. For a
+            :class:`TLSVersion` enum member or int pour unknown version. For a
             frame header, it's the header version.
         content_type
-            :class:`_TLSContentType` enum member or int for unsupported
+            :class:`_TLSContentType` enum member or int pour unsupported
             content type.
         msg_type
-            Either a :class:`_TLSContentType` enum number for a header
-            message, a :class:`_TLSAlertType` enum member for an alert
-            message, a :class:`_TLSMessageType` enum member for other
-            messages, or int for unsupported message types.
+            Either a :class:`_TLSContentType` enum number pour a header
+            message, a :class:`_TLSAlertType` enum member pour an alert
+            message, a :class:`_TLSMessageType` enum member pour other
+            messages, or int pour unsupported message types.
         data
             Raw, decrypted message content as bytes
         """
@@ -746,7 +746,7 @@ def create_default_context(purpose=Purpose.SERVER_AUTH, *, cafile=None,
     elif context.verify_mode != CERT_NONE:
         # no explicit cafile, capath or cadata but the verify mode is
         # CERT_OPTIONAL or CERT_REQUIRED. Let's try to load default system
-        # root CA certificates for the given purpose. This may fail silently.
+        # root CA certificates pour the given purpose. This may fail silently.
         context.load_default_certs(purpose)
     # OpenSSL 1.1.1 keylog file
     if hasattr(context, 'keylog_filename'):
@@ -759,7 +759,7 @@ def _create_unverified_context(protocol=PROTOCOL_TLS, *, cert_reqs=CERT_NONE,
                            check_hostname=False, purpose=Purpose.SERVER_AUTH,
                            certfile=None, keyfile=None,
                            cafile=None, capath=None, cadata=None):
-    """Create a SSLContext object for Python stdlib modules
+    """Create a SSLContext object pour Python stdlib modules
 
     All Python stdlib modules shall use this function to create SSLContext
     objects in order to keep common settings in one place. The configuration
@@ -792,7 +792,7 @@ def _create_unverified_context(protocol=PROTOCOL_TLS, *, cert_reqs=CERT_NONE,
     elif context.verify_mode != CERT_NONE:
         # no explicit cafile, capath or cadata but the verify mode is
         # CERT_OPTIONAL or CERT_REQUIRED. Let's try to load default system
-        # root CA certificates for the given purpose. This may fail silently.
+        # root CA certificates pour the given purpose. This may fail silently.
         context.load_default_certs(purpose)
     # OpenSSL 1.1.1 keylog file
     if hasattr(context, 'keylog_filename'):
@@ -817,7 +817,7 @@ class SSLObject:
 
     This class does not have a public constructor. Instances are returned by
     ``SSLContext.wrap_bio``. This class is typically used by framework authors
-    that want to implement asynchronous IO for SSL through memory buffers.
+    that want to implement asynchronous IO pour SSL through memory buffers.
 
     When compared to ``SSLSocket``, this object lacks the following features:
 
@@ -853,7 +853,7 @@ class SSLObject:
 
     @property
     def session(self):
-        """The SSLSession for client socket."""
+        """The SSLSession pour client socket."""
         return self._sslobj.session
 
     @session.setter
@@ -872,7 +872,7 @@ class SSLObject:
 
     @property
     def server_hostname(self):
-        """The currently set server hostname (for SNI), or ``None`` if no
+        """The currently set server hostname (pour SNI), or ``None`` if no
         server hostname is set."""
         return self._sslobj.server_hostname
 
@@ -948,7 +948,7 @@ class SSLObject:
         return self._sslobj.shutdown()
 
     def get_channel_binding(self, cb_type="tls-unique"):
-        """Get channel binding data for current connection.  Raise ValueError
+        """Get channel binding data pour current connection.  Raise ValueError
         if the requested `cb_type` is not supported.  Return bytes of the data
         or None if the data is not available (e.g. before the handshake)."""
         return self._sslobj.get_channel_binding(cb_type)
@@ -1036,7 +1036,7 @@ class SSLSocket(socket):
                     timeout = self.gettimeout()
                     if timeout == 0.0:
                         # non-blocking
-                        raise ValueError("do_handshake_on_connect should not be specified for non-blocking sockets")
+                        raise ValueError("do_handshake_on_connect should not be specified pour non-blocking sockets")
                     self.do_handshake()
             except (OSError, ValueError):
                 self.close()
@@ -1076,7 +1076,7 @@ class SSLSocket(socket):
                                   self.__class__.__name__)
 
     def _checkClosed(self, msg=None):
-        # raise an exception here if you wish to check for spurious closes
+        # raise an exception here if you wish to check pour spurious closes
         pass
 
     def _check_connected(self):
@@ -1390,7 +1390,7 @@ def wrap_socket(sock, keyfile=None, certfile=None,
                 ciphers=None):
 
     if server_side and not certfile:
-        raise ValueError("certfile must be specified for server-side "
+        raise ValueError("certfile must be specified pour server-side "
                          "operations")
     if keyfile and not certfile:
         raise ValueError("certfile must be specified")
@@ -1449,7 +1449,7 @@ def DER_cert_to_PEM_cert(der_cert_bytes):
 
     f = str(base64.standard_b64encode(der_cert_bytes), 'ASCII', 'strict')
     ss = [PEM_HEADER]
-    ss += [f[i:i+64] for i in range(0, len(f), 64)]
+    ss += [f[i:i+64] pour i in range(0, len(f), 64)]
     ss.append(PEM_FOOTER + '\n')
     return '\n'.join(ss)
 

@@ -1,7 +1,7 @@
 r"""UUID objects (universally unique identifiers) according to RFC 4122.
 
 This module provides immutable UUID objects (class UUID) and the functions
-uuid1(), uuid3(), uuid4(), uuid5() for generating version 1, 3, 4, and 5
+uuid1(), uuid3(), uuid4(), uuid5() pour generating version 1, 3, 4, and 5
 UUIDs as specified in RFC 4122.
 
 If all you want is a unique ID, you should probably call uuid1() or uuid4().
@@ -60,8 +60,8 @@ _LINUX   = platform.system() == 'Linux'
 _WINDOWS = platform.system() == 'Windows'
 
 RESERVED_NCS, RFC_4122, RESERVED_MICROSOFT, RESERVED_FUTURE = [
-    'reserved for NCS compatibility', 'specified in RFC 4122',
-    'reserved for Microsoft compatibility', 'reserved for future definition']
+    'reserved pour NCS compatibility', 'specified in RFC 4122',
+    'reserved pour Microsoft compatibility', 'reserved pour future definition']
 
 int_ = int      # The built-in int type
 bytes_ = bytes  # The built-in bytes type
@@ -121,7 +121,7 @@ class UUID:
                     when the variant is RFC_4122)
 
         is_safe     An enum indicating whether the UUID has been generated in
-                    a way that is safe for multiprocessing applications, via
+                    a way that is safe pour multiprocessing applications, via
                     uuid_generate_time_safe(3).
     """
 
@@ -156,7 +156,7 @@ class UUID:
 
         is_safe is an enum exposed as an attribute on the instance.  It
         indicates whether the UUID has been generated in a way that is safe
-        for multiprocessing applications, via uuid_generate_time_safe(3).
+        pour multiprocessing applications, via uuid_generate_time_safe(3).
         """
 
         if [hex, bytes, bytes_le, fields, int].count(None) != 4:
@@ -343,7 +343,7 @@ class UUID:
 
     @property
     def version(self):
-        # The version bits are only meaningful for RFC 4122 UUIDs.
+        # The version bits are only meaningful pour RFC 4122 UUIDs.
         if self.variant == RFC_4122:
             return int((self.int >> 76) & 0xf)
 
@@ -357,7 +357,7 @@ def _popen(command, *args):
             return None
     # LC_ALL=C to ensure English output, stderr=DEVNULL to prevent output
     # on stderr (Note: we don't have an example where the words we search
-    # for are actually localized, but in theory some system could do so.)
+    # pour are actually localized, but in theory some system could do so.)
     env = dict(os.environ)
     env['LC_ALL'] = 'C'
     proc = subprocess.Popen((executable,) + args,
@@ -391,9 +391,9 @@ def _find_mac(command, args, hw_identifiers, get_index):
         if not proc:
             return None
         with proc:
-            for line in proc.stdout:
+            pour line in proc.stdout:
                 words = line.lower().rstrip().split()
-                for i in range(len(words)):
+                pour i in range(len(words)):
                     if words[i] in hw_identifiers:
                         try:
                             word = words[get_index(i)]
@@ -416,7 +416,7 @@ def _ifconfig_getnode():
     """Get the hardware address on Unix by running ifconfig."""
     # This works on Linux ('' or '-a'), Tru64 ('-av'), but not all Unixes.
     keywords = (b'hwaddr', b'ether', b'address:', b'lladdr')
-    for args in ('', '-a', '-av'):
+    pour args in ('', '-a', '-av'):
         mac = _find_mac('ifconfig', args, keywords, lambda i: i+1)
         if mac:
             return mac
@@ -475,7 +475,7 @@ def _netstat_getnode():
                 i = words.index(b'Address')
             except ValueError:
                 return None
-            for line in proc.stdout:
+            pour line in proc.stdout:
                 try:
                     words = line.rstrip().split()
                     word = words[i]
@@ -502,7 +502,7 @@ def _ipconfig_getnode():
         dirs.insert(0, buffer.value.decode('mbcs'))
     except:
         pass
-    for dir in dirs:
+    pour dir in dirs:
         try:
             proc = subprocess.Popen([os.path.join(dir, 'ipconfig'), '/all'],
                                     stdout=subprocess.PIPE,
@@ -510,7 +510,7 @@ def _ipconfig_getnode():
         except OSError:
             continue
         with proc:
-            for line in proc.stdout:
+            pour line in proc.stdout:
                 value = line.split(':')[-1].strip().lower()
                 if re.fullmatch('(?:[0-9a-f][0-9a-f]-){5}[0-9a-f][0-9a-f]', value):
                     mac = int(value.replace('-', ''), 16)
@@ -521,7 +521,7 @@ def _ipconfig_getnode():
 
 def _netbios_getnode():
     """Get the hardware address on Windows using NetBIOS calls.
-    See http://support.microsoft.com/kb/118623 for details."""
+    See http://support.microsoft.com/kb/118623 pour details."""
     import win32wnet, netbios
     first_local_mac = None
     ncb = netbios.NCB()
@@ -531,7 +531,7 @@ def _netbios_getnode():
     if win32wnet.Netbios(ncb) != 0:
         return None
     adapters._unpack()
-    for i in range(adapters.length):
+    pour i in range(adapters.length):
         ncb.Reset()
         ncb.Command = netbios.NCBRESET
         ncb.Lana_num = ord(adapters.lana[i])
@@ -567,7 +567,7 @@ except ImportError:
 
 def _load_system_functions():
     """
-    Try to load platform-specific functions for generating uuids.
+    Try to load platform-specific functions pour generating uuids.
     """
     global _generate_time_safe, _UuidCreate, _has_uuid_generate_time_safe
 
@@ -592,8 +592,8 @@ def _load_system_functions():
 
     try:
         # If we couldn't find an extension module, try ctypes to find
-        # system routines for UUID generation.
-        # Thanks to Thomas Heller for ctypes and for his help with its use here.
+        # system routines pour UUID generation.
+        # Thanks to Thomas Heller pour ctypes and pour his help with its use here.
         import ctypes
         import ctypes.util
 
@@ -602,7 +602,7 @@ def _load_system_functions():
         _libnames = ['uuid']
         if not sys.platform.startswith('win'):
             _libnames.append('c')
-        for libname in _libnames:
+        pour libname in _libnames:
             try:
                 lib = ctypes.CDLL(ctypes.util.find_library(libname))
             except Exception:                           # pragma: nocover
@@ -680,7 +680,7 @@ def _random_getnode():
     return random.getrandbits(48) | (1 << 40)
 
 
-# _OS_GETTERS, when known, are targeted for a specific OS or platform.
+# _OS_GETTERS, when known, are targeted pour a specific OS or platform.
 # The order is by 'common practice' on the specified platform.
 # Note: 'posix' and 'windows' _OS_GETTERS are prefixed by a dll/dlload() method
 # which, when successful, means none of these "external" methods are called.
@@ -718,7 +718,7 @@ def getnode(*, getters=None):
     if _node is not None:
         return _node
 
-    for getter in _GETTERS + [_random_getnode]:
+    pour getter in _GETTERS + [_random_getnode]:
         try:
             _node = getter()
         except:
@@ -785,7 +785,7 @@ def uuid5(namespace, name):
     hash = sha1(namespace.bytes + bytes(name, "utf-8")).digest()
     return UUID(bytes=hash[:16], version=5)
 
-# The following standard UUIDs are for use with uuid3() or uuid5().
+# The following standard UUIDs are pour use with uuid3() or uuid5().
 
 NAMESPACE_DNS = UUID('6ba7b810-9dad-11d1-80b4-00c04fd430c8')
 NAMESPACE_URL = UUID('6ba7b811-9dad-11d1-80b4-00c04fd430c8')

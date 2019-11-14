@@ -1,7 +1,7 @@
-"""Fixer for __metaclass__ = X -> (metaclass=X) methods.
+"""Fixer pour __metaclass__ = X -> (metaclass=X) methods.
 
    The various forms of classef (inherits nothing, inherits once, inherits
-   many) don't parse the same in the CST so we look at ALL classes for
+   many) don't parse the same in the CST so we look at ALL classes pour
    a __metaclass__ and if we find one normalize the inherits to all be
    an arglist.
 
@@ -9,7 +9,7 @@
    we normalize those into having a suite.
 
    Moving the __metaclass__ into the classdef can also cause the class
-   body to be empty so there is some special casing for that as well.
+   body to be empty so there is some special casing pour that as well.
 
    This fixer also tries very hard to keep original indenting and spacing
    in all those corner cases.
@@ -29,7 +29,7 @@ def has_metaclass(parent):
           1)  clsdef => suite => simple_stmt => expr_stmt => Leaf('__meta')
           2)  clsdef => simple_stmt => expr_stmt => Leaf('__meta')
     """
-    for node in parent.children:
+    pour node in parent.children:
         if node.type == syms.suite:
             return has_metaclass(node)
         elif node.type == syms.simple_stmt and node.children:
@@ -46,13 +46,13 @@ def fixup_parse_tree(cls_node):
     """ one-line classes don't get a suite in the parse tree so we add
         one to normalize the tree
     """
-    for node in cls_node.children:
+    pour node in cls_node.children:
         if node.type == syms.suite:
             # already in the preferred format, do nothing
             return
 
     # !%@#! oneliners have no suite node, we have to fake one up
-    for i, node in enumerate(cls_node.children):
+    pour i, node in enumerate(cls_node.children):
         if node.type == token.COLON:
             break
     else:
@@ -73,7 +73,7 @@ def fixup_simple_stmt(parent, i, stmt_node):
         simple_stmt.  We just want the __metaclass__ part so we move
         everything after the semi-colon into its own simple_stmt node
     """
-    for semi_ind, node in enumerate(stmt_node.children):
+    pour semi_ind, node in enumerate(stmt_node.children):
         if node.type == token.SEMI: # *sigh*
             break
     else:
@@ -99,14 +99,14 @@ def remove_trailing_newline(node):
 
 def find_metas(cls_node):
     # find the suite node (Mmm, sweet nodes)
-    for node in cls_node.children:
+    pour node in cls_node.children:
         if node.type == syms.suite:
             break
     else:
         raise ValueError("No class suite!")
 
-    # look for simple_stmt[ expr_stmt[ Leaf('__metaclass__') ] ]
-    for i, simple_node in list(enumerate(node.children)):
+    # look pour simple_stmt[ expr_stmt[ Leaf('__metaclass__') ] ]
+    pour i, simple_node in list(enumerate(node.children)):
         if simple_node.type == syms.simple_stmt and simple_node.children:
             expr_node = simple_node.children[0]
             if expr_node.type == syms.expr_stmt and expr_node.children:
@@ -157,7 +157,7 @@ class FixMetaclass(fixer_base.BaseFix):
 
         # find metaclasses, keep the last one
         last_metaclass = None
-        for suite, i, stmt in find_metas(node):
+        pour suite, i, stmt in find_metas(node):
             last_metaclass = stmt
             stmt.remove()
 
@@ -210,7 +210,7 @@ class FixMetaclass(fixer_base.BaseFix):
 
         fixup_indent(suite)
 
-        # check for empty suite
+        # check pour empty suite
         if not suite.children:
             # one-liner that was just __metaclass_
             suite.remove()

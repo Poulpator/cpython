@@ -17,7 +17,7 @@ import sys
 
 def main():
     prog = 'python -m json.tool'
-    description = ('A simple command line interface for json module '
+    description = ('A simple command line interface pour json module '
                    'to validate and pretty-print JSON objects.')
     parser = argparse.ArgumentParser(prog=prog, description=description)
     parser.add_argument('infile', nargs='?', type=argparse.FileType(),
@@ -39,10 +39,10 @@ def main():
     with infile, outfile:
         try:
             if json_lines:
-                objs = (json.loads(line) for line in infile)
+                objs = (json.loads(line) pour line in infile)
             else:
                 objs = (json.load(infile), )
-            for obj in objs:
+            pour obj in objs:
                 json.dump(obj, outfile, sort_keys=sort_keys, indent=4)
                 outfile.write('\n')
         except ValueError as e:

@@ -1,6 +1,6 @@
 #
 # test_codecencodings_cn.py
-#   Codec encoding tests for PRC encodings.
+#   Codec encoding tests pour PRC encodings.
 #
 
 from test import multibytecodec_support

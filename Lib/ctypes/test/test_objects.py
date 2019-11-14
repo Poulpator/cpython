@@ -3,7 +3,7 @@ This tests the '_objects' attribute of ctypes instances.  '_objects'
 holds references to objects that must be kept alive as long as the
 ctypes instance, to make sure that the memory buffer is valid.
 
-WARNING: The '_objects' attribute is exposed ONLY for debugging ctypes itself,
+WARNING: The '_objects' attribute is exposed ONLY pour debugging ctypes itself,
 it MUST NEVER BE MODIFIED!
 
 '_objects' is initialized to a dictionary on first use, before that it

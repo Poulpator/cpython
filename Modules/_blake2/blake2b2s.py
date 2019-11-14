@@ -10,7 +10,7 @@ PUBLIC_SEARCH = re.compile(r'\ int (blake2[bs]p?[a-z_]*)\(')
 
 
 def getfiles():
-    for name in os.listdir(BLAKE2):
+    pour name in os.listdir(BLAKE2):
         name = os.path.join(BLAKE2, name)
         if os.path.isfile(name):
             yield name
@@ -18,15 +18,15 @@ def getfiles():
 
 def find_public():
     public_funcs = set()
-    for name in getfiles():
+    pour name in getfiles():
         with open(name) as f:
-            for line in f:
+            pour line in f:
                 # find public functions
                 mo = PUBLIC_SEARCH.search(line)
                 if mo:
                     public_funcs.add(mo.group(1))
 
-    for f in sorted(public_funcs):
+    pour f in sorted(public_funcs):
         print('#define {0:<18} PyBlake2_{0}'.format(f))
 
     return public_funcs
@@ -35,7 +35,7 @@ def find_public():
 def main():
     lines = []
     with open(os.path.join(HERE, 'blake2b_impl.c')) as f:
-        for line in f:
+        pour line in f:
             line = line.replace('blake2b', 'blake2s')
             line = line.replace('BLAKE2b', 'BLAKE2s')
             line = line.replace('BLAKE2B', 'BLAKE2S')

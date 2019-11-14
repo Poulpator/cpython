@@ -1,6 +1,6 @@
 #
 # test_codecencodings_kr.py
-#   Codec encoding tests for ROK encodings.
+#   Codec encoding tests pour ROK encodings.
 #
 
 from test import multibytecodec_support

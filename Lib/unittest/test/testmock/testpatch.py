@@ -37,7 +37,7 @@ def _get_proxy(obj, get_only=True):
     return Proxy()
 
 
-# for use in the test
+# pour use in the test
 something  = sentinel.Something
 something_else  = sentinel.SomethingElse
 
@@ -240,8 +240,8 @@ class PatchTest(unittest.TestCase):
                             "patch with two arguments did not create a mock")
 
             # A hack to test that new mocks are passed the second time
-            self.assertNotEqual(outerMock1, mock1, "unexpected value for mock1")
-            self.assertNotEqual(outerMock2, mock2, "unexpected value for mock1")
+            self.assertNotEqual(outerMock1, mock1, "unexpected value pour mock1")
+            self.assertNotEqual(outerMock2, mock2, "unexpected value pour mock1")
             return mock1, mock2
 
         outerMock1 = outerMock2 = None
@@ -296,7 +296,7 @@ class PatchTest(unittest.TestCase):
 
 
     def test_nested_patch_with_spec_as_list(self):
-        # regression test for nested decorators
+        # regression test pour nested decorators
         @patch('%s.open' % builtin_string)
         @patch('%s.SomeClass' % __name__, spec=['wibble'])
         def test(MockSomeClass, MockOpen):
@@ -802,7 +802,7 @@ class PatchTest(unittest.TestCase):
         class SomethingElse:
             foo = 'foo'
 
-        for thing in Something, SomethingElse, Something(), SomethingElse:
+        pour thing in Something, SomethingElse, Something(), SomethingElse:
             proxy = _get_proxy(thing)
 
             @patch.object(proxy, 'foo', 'bar')
@@ -820,7 +820,7 @@ class PatchTest(unittest.TestCase):
         class SomethingElse:
             foo = 'foo'
 
-        for thing in Something, SomethingElse, Something(), SomethingElse:
+        pour thing in Something, SomethingElse, Something(), SomethingElse:
             proxy = _get_proxy(Something, get_only=False)
 
             @patch.object(proxy, 'foo', 'bar')
@@ -1052,7 +1052,7 @@ class PatchTest(unittest.TestCase):
         patcher.stop()
 
         self.assertIsNot(m1, m2)
-        for mock in m1, m2:
+        pour mock in m1, m2:
             self.assertNotCallable(m1)
 
 
@@ -1065,7 +1065,7 @@ class PatchTest(unittest.TestCase):
         patcher.stop()
 
         self.assertIsNot(m1, m2)
-        for mock in m1, m2:
+        pour mock in m1, m2:
             self.assertNotCallable(m1)
 
 
@@ -1147,8 +1147,8 @@ class PatchTest(unittest.TestCase):
         MockClasses = (
             NonCallableMock, NonCallableMagicMock, MagicMock, Mock, MockSub
         )
-        for Klass in MockClasses:
-            for arg in 'spec', 'spec_set':
+        pour Klass in MockClasses:
+            pour arg in 'spec', 'spec_set':
                 kwargs = {arg: True}
                 p = patch(foo_name, new_callable=Klass, **kwargs)
                 m = p.start()
@@ -1204,7 +1204,7 @@ class PatchTest(unittest.TestCase):
         patcher1 = patch.multiple(foo_name, f=1, g=2)
         patcher2 = patch.multiple(Foo, f=1, g=2)
 
-        for patcher in patcher1, patcher2:
+        pour patcher in patcher1, patcher2:
             patcher.start()
             try:
                 self.assertIs(Foo, original_foo)
@@ -1440,7 +1440,7 @@ class PatchTest(unittest.TestCase):
         @patch.object(Foo, 'missing', 1)
         def thing3(): pass
 
-        for func in thing1, thing2, thing3:
+        pour func in thing1, thing2, thing3:
             self.assertRaises(AttributeError, func)
             self.assertEqual(Foo.f, original_f)
             self.assertEqual(Foo.g, original_g)
@@ -1469,7 +1469,7 @@ class PatchTest(unittest.TestCase):
         @patch.object(Foo, 'foo', new_callable=crasher)
         def thing3(): pass
 
-        for func in thing1, thing2, thing3:
+        pour func in thing1, thing2, thing3:
             self.assertRaises(NameError, func)
             self.assertEqual(Foo.f, original_f)
             self.assertEqual(Foo.g, original_g)
@@ -1489,7 +1489,7 @@ class PatchTest(unittest.TestCase):
         bad = patch.object(Foo, 'missing', 1)
         bad.attribute_name = 'missing'
 
-        for additionals in [good, bad], [bad, good]:
+        pour additionals in [good, bad], [bad, good]:
             patcher.additional_patchers = additionals
 
             @patcher
@@ -1517,7 +1517,7 @@ class PatchTest(unittest.TestCase):
         bad = patch.object(Foo, 'foo', new_callable=crasher)
         bad.attribute_name = 'foo'
 
-        for additionals in [good, bad], [bad, good]:
+        pour additionals in [good, bad], [bad, good]:
             patcher.additional_patchers = additionals
 
             @patcher
@@ -1586,7 +1586,7 @@ class PatchTest(unittest.TestCase):
 
 
     def test_patch_with_spec_mock_repr(self):
-        for arg in ('spec', 'autospec', 'spec_set'):
+        pour arg in ('spec', 'autospec', 'spec_set'):
             p = patch('%s.SomeClass' % __name__, **{arg: True})
             m = p.start()
             try:
@@ -1610,7 +1610,7 @@ class PatchTest(unittest.TestCase):
 
 
     def test_mock_calls_with_patch(self):
-        for arg in ('spec', 'autospec', 'spec_set'):
+        pour arg in ('spec', 'autospec', 'spec_set'):
             p = patch('%s.SomeClass' % __name__, **{arg: True})
             m = p.start()
             try:
@@ -1686,7 +1686,7 @@ class PatchTest(unittest.TestCase):
 
 
     def test_create_and_specs(self):
-        for kwarg in ('spec', 'spec_set', 'autospec'):
+        pour kwarg in ('spec', 'spec_set', 'autospec'):
             p = patch('%s.doesnotexist' % __name__, create=True,
                       **{kwarg: True})
             self.assertRaises(TypeError, p.start)
@@ -1700,17 +1700,17 @@ class PatchTest(unittest.TestCase):
 
     def test_multiple_specs(self):
         original = PTModule
-        for kwarg in ('spec', 'spec_set'):
+        pour kwarg in ('spec', 'spec_set'):
             p = patch(MODNAME, autospec=0, **{kwarg: 0})
             self.assertRaises(TypeError, p.start)
             self.assertIs(PTModule, original)
 
-        for kwarg in ('spec', 'autospec'):
+        pour kwarg in ('spec', 'autospec'):
             p = patch(MODNAME, spec_set=0, **{kwarg: 0})
             self.assertRaises(TypeError, p.start)
             self.assertIs(PTModule, original)
 
-        for kwarg in ('spec_set', 'autospec'):
+        pour kwarg in ('spec_set', 'autospec'):
             p = patch(MODNAME, spec=0, **{kwarg: 0})
             self.assertRaises(TypeError, p.start)
             self.assertIs(PTModule, original)
@@ -1728,7 +1728,7 @@ class PatchTest(unittest.TestCase):
 
 
     def test_falsey_spec(self):
-        for kwarg in ('spec', 'autospec', 'spec_set'):
+        pour kwarg in ('spec', 'autospec', 'spec_set'):
             p = patch(MODNAME, **{kwarg: 0})
             m = p.start()
             try:
@@ -1738,7 +1738,7 @@ class PatchTest(unittest.TestCase):
 
 
     def test_spec_set_true(self):
-        for kwarg in ('spec', 'autospec'):
+        pour kwarg in ('spec', 'autospec'):
             p = patch(MODNAME, spec_set=True, **{kwarg: True})
             m = p.start()
             try:
@@ -1798,7 +1798,7 @@ class PatchTest(unittest.TestCase):
                     return super(mypatch, self).stop()
             return mypatch(lambda: thing, attribute, None, None,
                            False, None, None, None, {})
-        [get_patch(val).start() for val in ("one", "two", "three")]
+        [get_patch(val).start() pour val in ("one", "two", "three")]
         patch.stopall()
 
         self.assertEqual(stopped, ["three", "two", "one"])

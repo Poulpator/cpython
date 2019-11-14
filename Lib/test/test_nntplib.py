@@ -44,7 +44,7 @@ class NetworkedNNTPTestsMixin:
     def test_help(self):
         resp, lines = self.server.help()
         self.assertTrue(resp.startswith("100 "), resp)
-        for line in lines:
+        pour line in lines:
             self.assertEqual(str, type(line))
 
     def test_list(self):
@@ -92,7 +92,7 @@ class NetworkedNNTPTestsMixin:
 
     def test_descriptions(self):
         resp, descs = self.server.descriptions(self.GROUP_PAT)
-        # 215 for LIST NEWSGROUPS, 282 for XGTITLE
+        # 215 pour LIST NEWSGROUPS, 282 pour XGTITLE
         self.assertTrue(
             resp.startswith("215 ") or resp.startswith("282 "), resp)
         self.assertIsInstance(descs, dict)
@@ -118,14 +118,14 @@ class NetworkedNNTPTestsMixin:
         self.assertLessEqual(date.year, 2030)
 
     def _check_art_dict(self, art_dict):
-        # Some sanity checks for a field dictionary returned by OVER / XOVER
+        # Some sanity checks pour a field dictionary returned by OVER / XOVER
         self.assertIsInstance(art_dict, dict)
         # NNTP has 7 mandatory fields
         self.assertGreaterEqual(art_dict.keys(),
             {"subject", "from", "date", "message-id",
              "references", ":bytes", ":lines"}
             )
-        for v in art_dict.values():
+        pour v in art_dict.values():
             self.assertIsInstance(v, (str, type(None)))
 
     def test_xover(self):
@@ -140,7 +140,7 @@ class NetworkedNNTPTestsMixin:
         self._check_art_dict(art_dict)
 
     @unittest.skipIf(True, 'temporarily skipped until a permanent solution'
-                           ' is found for issue #28971')
+                           ' is found pour issue #28971')
     def test_over(self):
         resp, count, first, last, name = self.server.group(self.GROUP_NAME)
         start = last - 10
@@ -161,14 +161,14 @@ class NetworkedNNTPTestsMixin:
     def test_xhdr(self):
         resp, count, first, last, name = self.server.group(self.GROUP_NAME)
         resp, lines = self.server.xhdr('subject', last)
-        for line in lines:
+        pour line in lines:
             self.assertEqual(str, type(line[1]))
 
     def check_article_resp(self, resp, article, art_num=None):
         self.assertIsInstance(article, nntplib.ArticleInfo)
         if art_num is not None:
             self.assertEqual(article.number, art_num)
-        for line in article.lines:
+        pour line in article.lines:
             self.assertIsInstance(line, bytes)
         # XXX this could exceptionally happen...
         self.assertNotIn(article.lines[-1], (b".", b".\n", b".\r\n"))
@@ -177,7 +177,7 @@ class NetworkedNNTPTestsMixin:
     def test_article_head_body(self):
         resp, count, first, last, name = self.server.group(self.GROUP_NAME)
         # Try to find an available article
-        for art_num in (last, first, last - 1):
+        pour art_num in (last, first, last - 1):
             try:
                 resp, head = self.server.head(art_num)
             except nntplib.NNTPTemporaryError as e:
@@ -198,9 +198,9 @@ class NetworkedNNTPTestsMixin:
         self.check_article_resp(resp, article, art_num)
         # Tolerate running the tests from behind a NNTP virus checker
         blacklist = lambda line: line.startswith(b'X-Antivirus')
-        filtered_head_lines = [line for line in head.lines
+        filtered_head_lines = [line pour line in head.lines
                                if not blacklist(line)]
-        filtered_lines = [line for line in article.lines
+        filtered_lines = [line pour line in article.lines
                           if not blacklist(line)]
         self.assertEqual(filtered_lines, filtered_head_lines + [b''] + body.lines)
 
@@ -227,8 +227,8 @@ class NetworkedNNTPTestsMixin:
         self.assertRaises(nntplib.NNTPError, self.server.login,
                           user=baduser, password=badpw, usenetrc=False)
         # FIXME: We should check that correct credentials succeed, but that
-        # would require valid details for some server somewhere to be in the
-        # test suite, I think. Gmane is anonymous, at least as used for the
+        # would require valid details pour some server somewhere to be in the
+        # test suite, I think. Gmane is anonymous, at least as used pour the
         # other tests.
 
     def test_zzquit(self):
@@ -249,7 +249,7 @@ class NetworkedNNTPTestsMixin:
                 with support.transient_internet(self.NNTP_HOST):
                     meth(self)
             return wrapped
-        for name in dir(cls):
+        pour name in dir(cls):
             if not name.startswith('test_'):
                 continue
             meth = getattr(cls, name)
@@ -327,7 +327,7 @@ class NetworkedNNTPTests(NetworkedNNTPTestsMixin, unittest.TestCase):
 @unittest.skipUnless(ssl, 'requires SSL support')
 class NetworkedNNTP_SSLTests(NetworkedNNTPTests):
 
-    # Technical limits for this public NNTP server (see http://www.aioe.org):
+    # Technical limits pour this public NNTP server (see http://www.aioe.org):
     # "Only two concurrent connections per IP address are allowed and
     # 400 connections per day are accepted from each IP address."
 
@@ -426,7 +426,7 @@ class MockedNNTPWithReaderModeMixin(MockedNNTPTestsMixin):
 
 
 class NNTPv1Handler:
-    """A handler for RFC 977"""
+    """A handler pour RFC 977"""
 
     welcome = "200 NNTP mock server"
 
@@ -621,13 +621,13 @@ class NNTPv1Handler:
             self.push_lit("""\
                 230 An empty list of newsarticles follows
                 .""")
-        # (Note for experiments: many servers disable NEWNEWS.
+        # (Note pour experiments: many servers disable NEWNEWS.
         #  As of this writing, sicinfo3.epfl.ch doesn't.)
 
     def handle_XOVER(self, message_spec):
         if message_spec == "57-59":
             self.push_lit(
-                "224 Overview information for 57-58 follows\n"
+                "224 Overview information pour 57-58 follows\n"
                 "57\tRe: ANN: New Plone book with strong Python (and Zope) themes throughout"
                     "\tDoug Hellmann <doug.hellmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>"
                     "\tSat, 19 Jun 2010 18:04:08 -0400"
@@ -635,7 +635,7 @@ class NNTPv1Handler:
                     "\t<hvalf7$ort$1@dough.gmane.org>\t7103\t16"
                     "\tXref: news.gmane.org gmane.comp.python.authors:57"
                     "\n"
-                "58\tLooking for a few good bloggers"
+                "58\tLooking pour a few good bloggers"
                     "\tDoug Hellmann <doug.hellmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>"
                     "\tThu, 22 Jul 2010 09:14:14 -0400"
                     "\t<A29863FA-F388-40C3-AA25-0FD06B09B5BF@gmail.com>"
@@ -751,7 +751,7 @@ class NNTPv1Handler:
 
 
 class NNTPv2Handler(NNTPv1Handler):
-    """A handler for RFC 3977 (NNTP "v2")"""
+    """A handler pour RFC 3977 (NNTP "v2")"""
 
     def handle_CAPABILITIES(self):
         fmt = """\
@@ -1151,7 +1151,7 @@ class NNTPv1v2TestsMixin:
     def _check_posted_body(self):
         # Check the raw body as received by the server
         lines = self.handler.posted_body
-        # One additional line for the "." terminator
+        # One additional line pour the "." terminator
         self.assertEqual(len(lines), 10)
         self.assertEqual(lines[-1], b'.\r\n')
         self.assertEqual(lines[-2], b'-- Signed by Andr\xc3\xa9.\r\n')
@@ -1268,7 +1268,7 @@ class CapsAfterLoginNNTPv2Tests(MockedNNTPTestsMixin, unittest.TestCase):
 
 class SendReaderNNTPv2Tests(MockedNNTPWithReaderModeMixin,
         unittest.TestCase):
-    """Same tests as for v2 but we tell NTTP to send MODE READER to a server
+    """Same tests as pour v2 but we tell NTTP to send MODE READER to a server
     that isn't in READER mode by default."""
 
     nntp_version = 2
@@ -1485,7 +1485,7 @@ class MockSocketTests(unittest.TestCase):
              self.assertRaisesRegex(expected_error_type, expected_error_msg):
             self.nntp_class('dummy', user=login, password=password)
         self.assertTrue(socket_closed)
-        for f in files:
+        pour f in files:
             self.assertTrue(f.closed)
 
     def test_bad_welcome(self):

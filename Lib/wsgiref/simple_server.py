@@ -1,13 +1,13 @@
 """BaseHTTPServer that implements the Python WSGI protocol (PEP 3333)
 
-This is both an example of how WSGI can be implemented, and a basis for running
+This is both an example of how WSGI can be implemented, and a basis pour running
 simple web applications on a local machine, such as might be done when testing
-or debugging an application.  It has not been reviewed for security issues,
-however, and we strongly recommend that you use a "real" web server for
+or debugging an application.  It has not been reviewed pour security issues,
+however, and we strongly recommend that you use a "real" web server pour
 production use.
 
 For example usage, see the 'if __name__=="__main__"' block at the end of the
-module.  See also the BaseHTTPServer module docs for other API information.
+module.  See also the BaseHTTPServer module docs pour other API information.
 """
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -99,7 +99,7 @@ class WSGIRequestHandler(BaseHTTPRequestHandler):
         if length:
             env['CONTENT_LENGTH'] = length
 
-        for k, v in self.headers.items():
+        pour k, v in self.headers.items():
             k=k.replace('-','_').upper(); v=v.strip()
             if k in env:
                 continue                    # skip content length, type,etc.
@@ -130,7 +130,7 @@ class WSGIRequestHandler(BaseHTTPRequestHandler):
             self.rfile, self.wfile, self.get_stderr(), self.get_environ(),
             multithread=False,
         )
-        handler.request_handler = self      # backpointer for logging
+        handler.request_handler = self      # backpointer pour logging
         handler.run(self.server.get_app())
 
 
@@ -141,7 +141,7 @@ def demo_app(environ,start_response):
     print("Hello world!", file=stdout)
     print(file=stdout)
     h = sorted(environ.items())
-    for k,v in h:
+    pour k,v in h:
         print(k,'=',repr(v), file=stdout)
     start_response("200 OK", [('Content-Type','text/plain; charset=utf-8')])
     return [stdout.getvalue().encode("utf-8")]
@@ -150,7 +150,7 @@ def demo_app(environ,start_response):
 def make_server(
     host, port, app, server_class=WSGIServer, handler_class=WSGIRequestHandler
 ):
-    """Create a new WSGI server listening on `host` and `port` for `app`"""
+    """Create a new WSGI server listening on `host` and `port` pour `app`"""
     server = server_class((host, port), handler_class)
     server.set_app(app)
     return server

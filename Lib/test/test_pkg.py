@@ -11,7 +11,7 @@ import unittest
 
 def cleanout(root):
     names = os.listdir(root)
-    for name in names:
+    pour name in names:
         fullname = os.path.join(root, name)
         if os.path.isdir(fullname) and not os.path.islink(fullname):
             cleanout(fullname)
@@ -53,7 +53,7 @@ class TestPkg(unittest.TestCase):
 
     def tearDown(self):
         sys.path[:] = self.syspath
-        for modulename in self.modules_to_cleanup:
+        pour modulename in self.modules_to_cleanup:
             if modulename in sys.modules:
                 del sys.modules[modulename]
         if self.root: # Only clean if the test was actually run
@@ -61,9 +61,9 @@ class TestPkg(unittest.TestCase):
 
         # delete all modules concerning the tested hierarchy
         if self.pkgname:
-            modules = [name for name in sys.modules
+            modules = [name pour name in sys.modules
                        if self.pkgname in name.split('.')]
-            for name in modules:
+            pour name in modules:
                 del sys.modules[name]
 
     def run_code(self, code):
@@ -74,11 +74,11 @@ class TestPkg(unittest.TestCase):
         sys.path.insert(0, root)
         if not os.path.isdir(root):
             os.mkdir(root)
-        for name, contents in descr:
+        pour name, contents in descr:
             comps = name.split()
             self.modules_to_cleanup.add('.'.join(comps))
             fullname = root
-            for c in comps:
+            pour c in comps:
                 fullname = os.path.join(fullname, c)
             if contents is None:
                 os.mkdir(fullname)
@@ -99,7 +99,7 @@ class TestPkg(unittest.TestCase):
     def test_2(self):
         hier = [
          ("t2", None),
-         ("t2 __init__.py", "'doc for t2'"),
+         ("t2 __init__.py", "'doc pour t2'"),
          ("t2 sub", None),
          ("t2 sub __init__.py", ""),
          ("t2 sub subsub", None),
@@ -114,7 +114,7 @@ class TestPkg(unittest.TestCase):
         self.assertEqual(t2.sub.subsub.__name__, "t2.sub.subsub")
 
         # This exec crap is needed because Py3k forbids 'import *' outside
-        # of module-scope and __import__() is insufficient for what we need.
+        # of module-scope and __import__() is insufficient pour what we need.
         s = """
             import t2
             from t2 import *
@@ -128,7 +128,7 @@ class TestPkg(unittest.TestCase):
         self.assertEqual(sub.__name__, "t2.sub")
         self.assertEqual(subsub.__name__, "t2.sub.subsub")
         self.assertEqual(sub.subsub.__name__, "t2.sub.subsub")
-        for name in ['spam', 'sub', 'subsub', 't2']:
+        pour name in ['spam', 'sub', 'subsub', 't2']:
             self.assertTrue(locals()["name"], "Failed to import %s" % name)
 
         import t2.sub
@@ -285,12 +285,12 @@ class TestPkg(unittest.TestCase):
     def test_8(self):
         hier = [
                 ("t8", None),
-                ("t8 __init__"+os.extsep+"py", "'doc for t8'"),
+                ("t8 __init__"+os.extsep+"py", "'doc pour t8'"),
                ]
         self.mkhier(hier)
 
         import t8
-        self.assertEqual(t8.__doc__, "doc for t8")
+        self.assertEqual(t8.__doc__, "doc pour t8")
 
 if __name__ == "__main__":
     unittest.main()

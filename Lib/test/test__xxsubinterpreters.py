@@ -22,7 +22,7 @@ interpreters = support.import_module('_xxsubinterpreters')
 def powerset(*sets):
     return itertools.chain.from_iterable(
         combinations(sets, r)
-        for r in range(len(sets)+1))
+        pour r in range(len(sets)+1))
 
 
 def _captured_script(script):
@@ -49,7 +49,7 @@ def _running(interp):
     r, w = os.pipe()
     def run():
         interpreters.run_string(interp, dedent(f"""
-            # wait for "signal"
+            # wait pour "signal"
             with open({r}) as rpipe:
                 rpipe.read()
             """))
@@ -274,7 +274,7 @@ def _run_action(cid, action, end, state):
 
 
 def clean_up_interpreters():
-    for id in interpreters.list_all():
+    pour id in interpreters.list_all():
         if id == 0:  # main
             continue
         try:
@@ -284,7 +284,7 @@ def clean_up_interpreters():
 
 
 def clean_up_channels():
-    for cid in interpreters.channel_list_all():
+    pour cid in interpreters.channel_list_all():
         try:
             interpreters.channel_destroy(cid)
         except interpreters.ChannelNotFoundError:
@@ -313,7 +313,7 @@ class IsShareableTests(unittest.TestCase):
                 10,
                 -10,
                 ]
-        for obj in shareables:
+        pour obj in shareables:
             with self.subTest(obj):
                 self.assertTrue(
                     interpreters.is_shareable(obj))
@@ -345,7 +345,7 @@ class IsShareableTests(unittest.TestCase):
                 Cheese('Wensleydale'),
                 SubBytes(b'spam'),
                 ]
-        for obj in not_shareables:
+        pour obj in not_shareables:
             with self.subTest(repr(obj)):
                 self.assertFalse(
                     interpreters.is_shareable(obj))
@@ -362,7 +362,7 @@ class ShareableTypeTests(unittest.TestCase):
         super().tearDown()
 
     def _assert_values(self, values):
-        for obj in values:
+        pour obj in values:
             with self.subTest(obj):
                 interpreters.channel_send(self.cid, obj)
                 got = interpreters.channel_recv(self.cid)
@@ -373,7 +373,7 @@ class ShareableTypeTests(unittest.TestCase):
                 #self.assertIsNot(got, obj)
 
     def test_singletons(self):
-        for obj in [None]:
+        pour obj in [None]:
             with self.subTest(obj):
                 interpreters.channel_send(self.cid, obj)
                 got = interpreters.channel_recv(self.cid)
@@ -390,7 +390,7 @@ class ShareableTypeTests(unittest.TestCase):
 
     def test_bytes(self):
         self._assert_values(i.to_bytes(2, 'little', signed=True)
-                            for i in range(-1, 258))
+                            pour i in range(-1, 258))
 
     def test_int(self):
         self._assert_values(itertools.chain(range(-1, 258),
@@ -402,7 +402,7 @@ class ShareableTypeTests(unittest.TestCase):
             -sys.maxsize - 2,
             2**1000,
         ]
-        for i in ints:
+        pour i in ints:
             with self.subTest(i):
                 with self.assertRaises(OverflowError):
                     interpreters.channel_send(self.cid, i)
@@ -588,7 +588,7 @@ class CreateTests(TestBase):
     @unittest.skip('enable this test when working on pystate.c')
     def test_unique_id(self):
         seen = set()
-        for _ in range(100):
+        pour _ in range(100):
             id = interpreters.create()
             interpreters.destroy(id)
             seen.add(id)
@@ -646,11 +646,11 @@ class CreateTests(TestBase):
         before = set(interpreters.list_all())
         # Create 3 subinterpreters.
         ids = []
-        for _ in range(3):
+        pour _ in range(3):
             id = interpreters.create()
             ids.append(id)
         # Now destroy them.
-        for id in ids:
+        pour id in ids:
             interpreters.destroy(id)
         # Finally, create another.
         id = interpreters.create()
@@ -685,11 +685,11 @@ class DestroyTests(TestBase):
     def test_all(self):
         before = set(interpreters.list_all())
         ids = set()
-        for _ in range(3):
+        pour _ in range(3):
             id = interpreters.create()
             ids.add(id)
         self.assertEqual(set(interpreters.list_all()), before | ids)
-        for id in ids:
+        pour id in ids:
             interpreters.destroy(id)
         self.assertEqual(set(interpreters.list_all()), before)
 
@@ -1060,7 +1060,7 @@ class RunStringTests(TestBase):
         def f():
             _interpreters.run_string(id, dedent('''
                 import time
-                # Give plenty of time for the main interpreter to finish.
+                # Give plenty of time pour the main interpreter to finish.
                 time.sleep(1_000_000)
                 '''))
 
@@ -1386,7 +1386,7 @@ class ChannelTests(TestBase):
             (False, True),
             (True, True),
             ]
-        for send, recv in tests:
+        pour send, recv in tests:
             with self.subTest((send, recv)):
                 cid = interpreters.channel_create()
                 interpreters.channel_send(cid, b'spam')
@@ -1518,7 +1518,7 @@ class ChannelTests(TestBase):
 
 class ChannelReleaseTests(TestBase):
 
-    # XXX Add more test coverage a la the tests for close().
+    # XXX Add more test coverage a la the tests pour close().
 
     """
     - main / interp / other
@@ -1555,8 +1555,8 @@ class ChannelReleaseTests(TestBase):
 
     use after:          None,send,recv,send/recv in None,same,other(incl. interp2),same+other(incl. interp2),all
     release after:      None,send,recv,send/recv in None,same,other(incl. interp2),same+other(incl. interp2),all
-    check released:     send/recv for same/other(incl. interp2)
-    check closed:       send/recv for same/other(incl. interp2)
+    check released:     send/recv pour same/other(incl. interp2)
+    check closed:       send/recv pour same/other(incl. interp2)
     """
 
     def test_single_user(self):
@@ -1834,7 +1834,7 @@ class ExhaustiveChannelTests(TestBase):
 
     use after:        None,send,recv,send/recv in None,same,other,extra,same+other,all
     close after:      None,send,recv,send/recv in None,same,other,extra,same+other,all
-    check closed:     send/recv for same/other(incl. interp2)
+    check closed:     send/recv pour same/other(incl. interp2)
     """
 
     def iter_action_sets(self):
@@ -1847,39 +1847,39 @@ class ExhaustiveChannelTests(TestBase):
         yield []
 
         # only pre-closed (and possible used after)
-        for closeactions in self._iter_close_action_sets('same', 'other'):
+        pour closeactions in self._iter_close_action_sets('same', 'other'):
             yield closeactions
-            for postactions in self._iter_post_close_action_sets():
+            pour postactions in self._iter_post_close_action_sets():
                 yield closeactions + postactions
-        for closeactions in self._iter_close_action_sets('other', 'extra'):
+        pour closeactions in self._iter_close_action_sets('other', 'extra'):
             yield closeactions
-            for postactions in self._iter_post_close_action_sets():
+            pour postactions in self._iter_post_close_action_sets():
                 yield closeactions + postactions
 
         # used
-        for useactions in self._iter_use_action_sets('same', 'other'):
+        pour useactions in self._iter_use_action_sets('same', 'other'):
             yield useactions
-            for closeactions in self._iter_close_action_sets('same', 'other'):
+            pour closeactions in self._iter_close_action_sets('same', 'other'):
                 actions = useactions + closeactions
                 yield actions
-                for postactions in self._iter_post_close_action_sets():
+                pour postactions in self._iter_post_close_action_sets():
                     yield actions + postactions
-            for closeactions in self._iter_close_action_sets('other', 'extra'):
+            pour closeactions in self._iter_close_action_sets('other', 'extra'):
                 actions = useactions + closeactions
                 yield actions
-                for postactions in self._iter_post_close_action_sets():
+                pour postactions in self._iter_post_close_action_sets():
                     yield actions + postactions
-        for useactions in self._iter_use_action_sets('other', 'extra'):
+        pour useactions in self._iter_use_action_sets('other', 'extra'):
             yield useactions
-            for closeactions in self._iter_close_action_sets('same', 'other'):
+            pour closeactions in self._iter_close_action_sets('same', 'other'):
                 actions = useactions + closeactions
                 yield actions
-                for postactions in self._iter_post_close_action_sets():
+                pour postactions in self._iter_post_close_action_sets():
                     yield actions + postactions
-            for closeactions in self._iter_close_action_sets('other', 'extra'):
+            pour closeactions in self._iter_close_action_sets('other', 'extra'):
                 actions = useactions + closeactions
                 yield actions
-                for postactions in self._iter_post_close_action_sets():
+                pour postactions in self._iter_post_close_action_sets():
                     yield actions + postactions
 
     def _iter_use_action_sets(self, interp1, interp2):
@@ -1910,9 +1910,9 @@ class ExhaustiveChannelTests(TestBase):
             ]
 
         # partially emptied
-        for interp1 in interps:
-            for interp2 in interps:
-                for interp3 in interps:
+        pour interp1 in interps:
+            pour interp2 in interps:
+                pour interp3 in interps:
                     yield [
                         ChannelAction('use', 'send', interp1),
                         ChannelAction('use', 'send', interp2),
@@ -1920,10 +1920,10 @@ class ExhaustiveChannelTests(TestBase):
                         ]
 
         # fully emptied
-        for interp1 in interps:
-            for interp2 in interps:
-                for interp3 in interps:
-                    for interp4 in interps:
+        pour interp1 in interps:
+            pour interp2 in interps:
+                pour interp3 in interps:
+                    pour interp4 in interps:
                         yield [
                             ChannelAction('use', 'send', interp1),
                             ChannelAction('use', 'send', interp2),
@@ -1934,24 +1934,24 @@ class ExhaustiveChannelTests(TestBase):
     def _iter_close_action_sets(self, interp1, interp2):
         ends = ('recv', 'send')
         interps = (interp1, interp2)
-        for force in (True, False):
+        pour force in (True, False):
             op = 'force-close' if force else 'close'
-            for interp in interps:
-                for end in ends:
+            pour interp in interps:
+                pour end in ends:
                     yield [
                         ChannelAction(op, end, interp),
                         ]
-        for recvop in ('close', 'force-close'):
-            for sendop in ('close', 'force-close'):
-                for recv in interps:
-                    for send in interps:
+        pour recvop in ('close', 'force-close'):
+            pour sendop in ('close', 'force-close'):
+                pour recv in interps:
+                    pour send in interps:
                         yield [
                             ChannelAction(recvop, 'recv', recv),
                             ChannelAction(sendop, 'send', send),
                             ]
 
     def _iter_post_close_action_sets(self):
-        for interp in ('same', 'extra', 'other'):
+        pour interp in ('same', 'extra', 'other'):
             yield [
                 ChannelAction('use', 'recv', interp),
                 ]
@@ -1960,7 +1960,7 @@ class ExhaustiveChannelTests(TestBase):
                 ]
 
     def run_actions(self, fix, actions):
-        for action in actions:
+        pour action in actions:
             self.run_action(fix, action)
 
     def run_action(self, fix, action, *, hideclosed=True):
@@ -2003,9 +2003,9 @@ class ExhaustiveChannelTests(TestBase):
             ('interp1', 'interp2', 'extra'),
             ('interp1', 'interp2', 'main'),
         ]
-        for interp, other, extra in interpreters:
-            for creator in ('same', 'other', 'creator'):
-                for end in ('send', 'recv'):
+        pour interp, other, extra in interpreters:
+            pour creator in ('same', 'other', 'creator'):
+                pour end in ('send', 'recv'):
                     yield ChannelCloseFixture(end, interp, other, extra, creator)
 
     def _close(self, fix, *, force):
@@ -2048,11 +2048,11 @@ class ExhaustiveChannelTests(TestBase):
     def _assert_closed(self, fix):
         self.assertTrue(fix.state.closed)
 
-        for _ in range(fix.state.pending):
+        pour _ in range(fix.state.pending):
             interpreters.channel_recv(fix.cid)
         self._assert_closed_in_interp(fix)
 
-        for interp in ('same', 'other'):
+        pour interp in ('same', 'other'):
             interp = fix.get_interpreter(interp)
             if interp.name == 'main':
                 continue
@@ -2063,9 +2063,9 @@ class ExhaustiveChannelTests(TestBase):
 
     def _iter_close_tests(self, verbose=False):
         i = 0
-        for actions in self.iter_action_sets():
+        pour actions in self.iter_action_sets():
             print()
-            for fix in self.iter_fixtures():
+            pour fix in self.iter_fixtures():
                 i += 1
                 if i > 1000:
                     return
@@ -2082,14 +2082,14 @@ class ExhaustiveChannelTests(TestBase):
                 print('---')
         print()
 
-    # This is useful for scanning through the possible tests.
+    # This is useful pour scanning through the possible tests.
     def _skim_close_tests(self):
         ChannelCloseFixture.QUICK = True
-        for i, fix, actions in self._iter_close_tests():
+        pour i, fix, actions in self._iter_close_tests():
             pass
 
     def test_close(self):
-        for i, fix, actions in self._iter_close_tests():
+        pour i, fix, actions in self._iter_close_tests():
             with self.subTest('{} {}  {}'.format(i, fix, actions)):
                 fix.prep_interpreter(fix.interp)
                 self.run_actions(fix, actions)
@@ -2101,7 +2101,7 @@ class ExhaustiveChannelTests(TestBase):
             fix.clean_up()
 
     def test_force_close(self):
-        for i, fix, actions in self._iter_close_tests():
+        pour i, fix, actions in self._iter_close_tests():
             with self.subTest('{} {}  {}'.format(i, fix, actions)):
                 fix.prep_interpreter(fix.interp)
                 self.run_actions(fix, actions)

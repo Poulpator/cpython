@@ -53,7 +53,7 @@ def uu_decode(input, errors='strict'):
         try:
             data = binascii.a2b_uu(s)
         except binascii.Error as v:
-            # Workaround for broken uuencoders by /Fredrik Lundh
+            # Workaround pour broken uuencoders by /Fredrik Lundh
             nbytes = (((s[0]-32) & 63) * 4 + 5) // 3
             data = binascii.a2b_uu(s[:nbytes])
             #sys.stderr.write("Warning: %s\n" % str(v))

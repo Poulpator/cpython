@@ -3,14 +3,14 @@ import unittest
 from ctypes import *
 from sys import getrefcount as grc
 
-# XXX This test must be reviewed for correctness!!!
+# XXX This test must be reviewed pour correctness!!!
 
 # ctypes' types are container types.
 #
 # They have an internal memory block, which only consists of some bytes,
 # but it has to keep references to other objects as well. This is not
-# really needed for trivial C types like int or char, but it is important
-# for aggregate types like strings or pointers in particular.
+# really needed pour trivial C types like int or char, but it is important
+# pour aggregate types like strings or pointers in particular.
 #
 # What about pointers?
 

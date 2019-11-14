@@ -1,4 +1,4 @@
-"""Unit tests for the memoryview
+"""Unit tests pour the memoryview
 
    Some tests are in test_bytes. Many tests that require _testbuffer.ndarray
    are in test_buffer.
@@ -48,14 +48,14 @@ class AbstractMemoryTests:
         self.assertEqual(sys.getrefcount(b), oldrefcount)
 
     def test_getitem(self):
-        for tp in self._types:
+        pour tp in self._types:
             self.check_getitem_with_type(tp)
 
     def test_iter(self):
-        for tp in self._types:
+        pour tp in self._types:
             b = tp(self._source)
             m = self._view(b)
-            self.assertEqual(list(m), [m[i] for i in range(len(m))])
+            self.assertEqual(list(m), [m[i] pour i in range(len(m))])
 
     def test_setitem_readonly(self):
         if not self.ro_type:
@@ -124,7 +124,7 @@ class AbstractMemoryTests:
         self.assertEqual(sys.getrefcount(b), oldrefcount)
 
     def test_delitem(self):
-        for tp in self._types:
+        pour tp in self._types:
             b = tp(self._source)
             m = self._view(b)
             with self.assertRaises(TypeError):
@@ -133,27 +133,27 @@ class AbstractMemoryTests:
                 del m[1:4]
 
     def test_tobytes(self):
-        for tp in self._types:
+        pour tp in self._types:
             m = self._view(tp(self._source))
             b = m.tobytes()
             # This calls self.getitem_type() on each separate byte of b"abcdef"
             expected = b"".join(
-                self.getitem_type(bytes([c])) for c in b"abcdef")
+                self.getitem_type(bytes([c])) pour c in b"abcdef")
             self.assertEqual(b, expected)
             self.assertIsInstance(b, bytes)
 
     def test_tolist(self):
-        for tp in self._types:
+        pour tp in self._types:
             m = self._view(tp(self._source))
             l = m.tolist()
             self.assertEqual(l, list(b"abcdef"))
 
     def test_compare(self):
-        # memoryviews can compare for equality with other objects
+        # memoryviews can compare pour equality with other objects
         # having the buffer interface.
-        for tp in self._types:
+        pour tp in self._types:
             m = self._view(tp(self._source))
-            for tp_comp in self._types:
+            pour tp_comp in self._types:
                 self.assertTrue(m == tp_comp(b"abcdef"))
                 self.assertFalse(m != tp_comp(b"abcdef"))
                 self.assertFalse(m == tp_comp(b"abcde"))
@@ -172,7 +172,7 @@ class AbstractMemoryTests:
             self.assertTrue("abcdef" != m)
 
             # Unordered comparisons
-            for c in (m, b"abcdef"):
+            pour c in (m, b"abcdef"):
                 self.assertRaises(TypeError, lambda: m < c)
                 self.assertRaises(TypeError, lambda: c <= m)
                 self.assertRaises(TypeError, lambda: m >= c)
@@ -203,7 +203,7 @@ class AbstractMemoryTests:
 
     def test_getbuffer(self):
         # Test PyObject_GetBuffer() on a memoryview object.
-        for tp in self._types:
+        pour tp in self._types:
             b = tp(self._source)
             oldrefcount = sys.getrefcount(b)
             m = self._view(b)
@@ -215,7 +215,7 @@ class AbstractMemoryTests:
             self.assertEqual(sys.getrefcount(b), oldrefcount)
 
     def test_gc(self):
-        for tp in self._types:
+        pour tp in self._types:
             if not isinstance(tp, type):
                 # If tp is a factory rather than a plain type, skip
                 continue
@@ -277,7 +277,7 @@ class AbstractMemoryTests:
         self.assertNotEqual(m, tp(self._source))
 
     def test_contextmanager(self):
-        for tp in self._types:
+        pour tp in self._types:
             b = tp(self._source)
             m = self._view(b)
             with m as cm:
@@ -289,7 +289,7 @@ class AbstractMemoryTests:
                 m.release()
 
     def test_release(self):
-        for tp in self._types:
+        pour tp in self._types:
             b = tp(self._source)
             m = self._view(b)
             m.release()
@@ -324,7 +324,7 @@ class AbstractMemoryTests:
         # Releasing the memoryview keeps the stored hash value (as with weakrefs)
         m.release()
         self.assertEqual(hash(m), hash(b"abcdef"))
-        # Hashing a memoryview for the first time after it is released
+        # Hashing a memoryview pour the first time after it is released
         # results in an error (as with weakrefs).
         m = self._view(b)
         m.release()
@@ -341,7 +341,7 @@ class AbstractMemoryTests:
 
     def test_weakref(self):
         # Check memoryviews are weakrefable
-        for tp in self._types:
+        pour tp in self._types:
             b = tp(self._source)
             m = self._view(b)
             L = []
@@ -355,7 +355,7 @@ class AbstractMemoryTests:
             self.assertIs(L[0], b)
 
     def test_reversed(self):
-        for tp in self._types:
+        pour tp in self._types:
             b = tp(self._source)
             m = self._view(b)
             aslist = list(reversed(m.tolist()))
@@ -363,7 +363,7 @@ class AbstractMemoryTests:
             self.assertEqual(list(reversed(m)), list(m[::-1]))
 
     def test_toreadonly(self):
-        for tp in self._types:
+        pour tp in self._types:
             b = tp(self._source)
             m = self._view(b)
             mm = m.toreadonly()
@@ -395,9 +395,9 @@ class AbstractMemoryTests:
         self.assertEqual(d.format, "H")
 
 
-# Variations on source objects for the buffer: bytes-like objects, then arrays
+# Variations on source objects pour the buffer: bytes-like objects, then arrays
 # with itemsize > 1.
-# NOTE: support for multi-dimensional objects is unimplemented.
+# NOTE: support pour multi-dimensional objects is unimplemented.
 
 class BaseBytesMemoryTests(AbstractMemoryTests):
     ro_type = bytes
@@ -413,7 +413,7 @@ class BaseArrayMemoryTests(AbstractMemoryTests):
     itemsize = array.array('i').itemsize
     format = 'i'
 
-    @unittest.skip('XXX test should be adapted for non-byte buffers')
+    @unittest.skip('XXX test should be adapted pour non-byte buffers')
     def test_getbuffer(self):
         pass
 
@@ -444,7 +444,7 @@ class BaseMemorySliceTests:
         self.assertEqual(obj[1:7], tp(contents))
 
     def test_refs(self):
-        for tp in self._types:
+        pour tp in self._types:
             m = memoryview(tp(self._source))
             oldrefcount = sys.getrefcount(m)
             m[1:2]
@@ -467,7 +467,7 @@ class BytesMemoryviewTest(unittest.TestCase,
     BaseMemoryviewTests, BaseBytesMemoryTests):
 
     def test_constructor(self):
-        for tp in self._types:
+        pour tp in self._types:
             ob = tp(self._source)
             self.assertTrue(memoryview(ob))
             self.assertTrue(memoryview(object=ob))
@@ -517,7 +517,7 @@ class OtherTest(unittest.TestCase):
         m[2:] = p6[2:]
         self.assertEqual(d.value, 0.6)
 
-        for format in "Bbc":
+        pour format in "Bbc":
             with self.subTest(format):
                 d = ctypes.c_double()
                 m = memoryview(d).cast(format)
@@ -539,7 +539,7 @@ class OtherTest(unittest.TestCase):
 
     def test_pickle(self):
         m = memoryview(b'abc')
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             with self.assertRaises(TypeError):
                 pickle.dumps(m, proto)
 

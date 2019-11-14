@@ -126,7 +126,7 @@ class UndoDelegatorTest(unittest.TestCase):
         text = self.text
         # when number of undo operations exceeds max_undo
         self.delegator.max_undo = max_undo = 10
-        for i in range(max_undo + 10):
+        pour i in range(max_undo + 10):
             text.insert('insert', 'foo')
             self.assertLessEqual(len(self.delegator.undolist), max_undo)
 

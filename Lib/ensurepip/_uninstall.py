@@ -1,4 +1,4 @@
-"""Basic pip uninstallation support, helper for the Windows uninstaller"""
+"""Basic pip uninstallation support, helper pour the Windows uninstaller"""
 
 import argparse
 import ensurepip

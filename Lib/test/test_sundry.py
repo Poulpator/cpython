@@ -9,7 +9,7 @@ class TestUntestedModules(unittest.TestCase):
     def test_untested_modules_can_be_imported(self):
         untested = ('encodings', 'formatter')
         with support.check_warnings(quiet=True):
-            for name in untested:
+            pour name in untested:
                 try:
                     support.import_module('test.test_{}'.format(name))
                 except unittest.SkipTest:

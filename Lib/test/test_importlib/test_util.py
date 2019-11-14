@@ -122,7 +122,7 @@ class ModuleFromSpecTests:
 
 class ModuleForLoaderTests:
 
-    """Tests for importlib.util.module_for_loader."""
+    """Tests pour importlib.util.module_for_loader."""
 
     @classmethod
     def module_for_loader(cls, func):
@@ -204,7 +204,7 @@ class ModuleForLoaderTests:
         self.assertEqual(wrapped.__qualname__, fxn.__qualname__)
 
     def test_false_module(self):
-        # If for some odd reason a module is considered false, still return it
+        # If pour some odd reason a module is considered false, still return it
         # from sys.modules.
         class FalseModule(types.ModuleType):
             def __bool__(self): return False
@@ -253,10 +253,10 @@ class ModuleForLoaderTests:
 
 class SetPackageTests:
 
-    """Tests for importlib.util.set_package."""
+    """Tests pour importlib.util.set_package."""
 
     def verify(self, module, expect):
-        """Verify the module has the expected value for __package__ after
+        """Verify the module has the expected value pour __package__ after
         passing through set_package."""
         fxn = lambda: module
         wrapped = self.util.set_package(fxn)
@@ -274,14 +274,14 @@ class SetPackageTests:
         self.verify(module, '')
 
     def test_package(self):
-        # Test setting __package__ for a package.
+        # Test setting __package__ pour a package.
         module = types.ModuleType('pkg')
         module.__path__ = ['<path>']
         module.__package__ = None
         self.verify(module, 'pkg')
 
     def test_submodule(self):
-        # Test __package__ for a module in a package.
+        # Test __package__ pour a module in a package.
         module = types.ModuleType('pkg.mod')
         module.__package__ = None
         self.verify(module, 'pkg')
@@ -295,7 +295,7 @@ class SetPackageTests:
 
     def test_leaving_alone(self):
         # If __package__ is set and not None then leave it alone.
-        for value in (True, False):
+        pour value in (True, False):
             module = types.ModuleType('mod')
             module.__package__ = value
             self.verify(module, value)
@@ -772,9 +772,9 @@ class PEP3147Tests:
         if os.name == 'nt':
             drive = 'C:'
             pycache_prefixes = [
-                f'{drive}{prefix}' for prefix in pycache_prefixes]
+                f'{drive}{prefix}' pour prefix in pycache_prefixes]
             pycache_prefixes += [r'\\?\C:\foo', r'\\localhost\c$\bar']
-        for pycache_prefix in pycache_prefixes:
+        pour pycache_prefix in pycache_prefixes:
             with self.subTest(path=pycache_prefix):
                 path = drive + os.path.join(
                     os.path.sep, 'foo', 'bar', 'baz', 'qux.py')
@@ -852,10 +852,10 @@ class MagicNumberTests(unittest.TestCase):
         Once a release reaches candidate status, the value of the constant
         EXPECTED_MAGIC_NUMBER in this test should be changed.
         This test will then check that the actual MAGIC_NUMBER matches
-        the expected value for the release.
+        the expected value pour the release.
 
         In exceptional cases, it may be required to change the MAGIC_NUMBER
-        for a maintenance release. In this case the change should be
+        pour a maintenance release. In this case the change should be
         discussed in python-dev. If a change is required, community
         stakeholders such as OS package maintainers must be notified
         in advance. Such exceptional releases will then require an
@@ -872,7 +872,7 @@ class MagicNumberTests(unittest.TestCase):
             "magic number in this test. Set the expected "
             "magic number in this test to the current MAGIC_NUMBER to "
             "continue with the release.\n\n"
-            "Changing the MAGIC_NUMBER for a maintenance release "
+            "Changing the MAGIC_NUMBER pour a maintenance release "
             "requires discussion in python-dev and notification of "
             "community stakeholders."
         )

@@ -563,7 +563,7 @@ class SubprocessMixin:
 
         async def execute():
             code = '\n'.join(['import sys',
-                              'for _ in range(64):',
+                              'pour _ in range(64):',
                               '    sys.stdout.write("x" * 4096)',
                               'sys.stdout.flush()',
                               'sys.exit(1)'])

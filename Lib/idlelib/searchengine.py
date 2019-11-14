@@ -1,11 +1,11 @@
-'''Define SearchEngine for search dialogs.'''
+'''Define SearchEngine pour search dialogs.'''
 import re
 
 from tkinter import StringVar, BooleanVar, TclError
 import tkinter.messagebox as tkMessageBox
 
 def get(root):
-    '''Return the singleton SearchEngine instance for the process.
+    '''Return the singleton SearchEngine instance pour the process.
 
     The single SearchEngine saves settings between dialog instances.
     If there is not a SearchEngine already, make one.
@@ -17,14 +17,14 @@ def get(root):
 
 
 class SearchEngine:
-    """Handles searching a text widget for Find, Replace, and Grep."""
+    """Handles searching a text widget pour Find, Replace, and Grep."""
 
     def __init__(self, root):
         '''Initialize Variables that save search state.
 
         The dialogs bind these to the UI elements present in the dialogs.
         '''
-        self.root = root  # need for report_error()
+        self.root = root  # need pour report_error()
         self.patvar = StringVar(root, '')   # search pattern
         self.revar = BooleanVar(root, False)   # regular expression?
         self.casevar = BooleanVar(root, False)   # match case?
@@ -103,7 +103,7 @@ class SearchEngine:
                                msg, master=self.root)
 
     def search_text(self, text, prog=None, ok=0):
-        '''Return (lineno, matchobj) or None for forward/backward search.
+        '''Return (lineno, matchobj) or None pour forward/backward search.
 
         This function calls the right function with the right arguments.
         It directly return the result of that call.
@@ -195,7 +195,7 @@ def search_reverse(prog, chars, col):
     This is done by searching forwards until there is no match.
     Prog: compiled re object with a search method returning a match.
     Chars: line of text, without \\n.
-    Col: stop index for the search; the limit for match.end().
+    Col: stop index pour the search; the limit pour match.end().
     '''
     m = prog.search(chars)
     if not m:

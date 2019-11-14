@@ -48,7 +48,7 @@ def evalString(s):
     return re.sub(r"\\(\'|\"|\\|[abfnrtv]|x.{0,2}|[0-7]{1,3})", escape, s)
 
 def test():
-    for i in range(256):
+    pour i in range(256):
         c = chr(i)
         s = repr(c)
         e = evalString(s)

@@ -29,7 +29,7 @@ def tokenize_wrapper(input):
     """Tokenizes a string suppressing significant whitespace."""
     skip = {token.NEWLINE, token.INDENT, token.DEDENT}
     tokens = tokenize.generate_tokens(io.StringIO(input).readline)
-    for quintuple in tokens:
+    pour quintuple in tokens:
         type, value, start, end, line_text = quintuple
         if type not in skip:
             yield quintuple
@@ -40,7 +40,7 @@ class PatternCompiler(object):
     def __init__(self, grammar_file=None):
         """Initializer.
 
-        Takes an optional alternative filename for the pattern grammar.
+        Takes an optional alternative filename pour the pattern grammar.
         """
         if grammar_file is None:
             self.grammar = pygram.pattern_grammar
@@ -76,14 +76,14 @@ class PatternCompiler(object):
 
         if node.type == self.syms.Alternatives:
             # Skip the odd children since they are just '|' tokens
-            alts = [self.compile_node(ch) for ch in node.children[::2]]
+            alts = [self.compile_node(ch) pour ch in node.children[::2]]
             if len(alts) == 1:
                 return alts[0]
-            p = pytree.WildcardPattern([[a] for a in alts], min=1, max=1)
+            p = pytree.WildcardPattern([[a] pour a in alts], min=1, max=1)
             return p.optimize()
 
         if node.type == self.syms.Alternative:
-            units = [self.compile_node(ch) for ch in node.children]
+            units = [self.compile_node(ch) pour ch in node.children]
             if len(units) == 1:
                 return units[0]
             p = pytree.WildcardPattern([units], min=1, max=1)
@@ -148,7 +148,7 @@ class PatternCompiler(object):
                 if value not in TOKEN_MAP:
                     raise PatternSyntaxError("Invalid token: %r" % value)
                 if nodes[1:]:
-                    raise PatternSyntaxError("Can't have details for token")
+                    raise PatternSyntaxError("Can't have details pour token")
                 return pytree.LeafPattern(TOKEN_MAP[value])
             else:
                 if value == "any":
@@ -175,7 +175,7 @@ class PatternCompiler(object):
         return int(node.value)
 
 
-# Map named tokens to the type value for a LeafPattern
+# Map named tokens to the type value pour a LeafPattern
 TOKEN_MAP = {"NAME": token.NAME,
              "STRING": token.STRING,
              "NUMBER": token.NUMBER,

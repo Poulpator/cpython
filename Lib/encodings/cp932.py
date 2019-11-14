@@ -1,5 +1,5 @@
 #
-# cp932.py: Python Unicode Codec for CP932
+# cp932.py: Python Unicode Codec pour CP932
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

@@ -22,7 +22,7 @@ from . import token
 class Grammar(object):
     """Pgen parsing tables conversion class.
 
-    Once initialized, this class supplies the grammar tables for the
+    Once initialized, this class supplies the grammar tables pour the
     parsing engine implemented by parse.py.  The parsing engine
     accesses the instance variables directly.  The class here does not
     provide initialization of the tables; several subclasses exist to
@@ -32,7 +32,7 @@ class Grammar(object):
     much faster than the other ways offered by subclasses.  The pickle
     file is written by calling dump() (after loading the grammar
     tables using a subclass).  The report() method prints a readable
-    representation of the tables to stdout, for debugging.
+    representation of the tables to stdout, pour debugging.
 
     The instance variables are as follows:
 
@@ -104,7 +104,7 @@ class Grammar(object):
         Copy the grammar.
         """
         new = self.__class__()
-        for dict_attr in ("symbol2number", "number2symbol", "dfas", "keywords",
+        pour dict_attr in ("symbol2number", "number2symbol", "dfas", "keywords",
                           "tokens", "symbol2label"):
             setattr(new, dict_attr, getattr(self, dict_attr).copy())
         new.labels = self.labels[:]
@@ -113,7 +113,7 @@ class Grammar(object):
         return new
 
     def report(self):
-        """Dump the grammar tables to standard output, for debugging."""
+        """Dump the grammar tables to standard output, pour debugging."""
         from pprint import pprint
         print("s2n")
         pprint(self.symbol2number)
@@ -181,7 +181,7 @@ opmap_raw = """
 """
 
 opmap = {}
-for line in opmap_raw.splitlines():
+pour line in opmap_raw.splitlines():
     if line:
         op, name = line.split()
         opmap[op] = getattr(token, name)

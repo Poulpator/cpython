@@ -1,4 +1,4 @@
-"""Tests for distutils.extension."""
+"""Tests pour distutils.extension."""
 import unittest
 import os
 import warnings
@@ -14,7 +14,7 @@ class ExtensionTestCase(unittest.TestCase):
         setup = os.path.join(os.path.dirname(__file__), 'Setup.sample')
 
         exts = read_setup_file(setup)
-        names = [ext.name for ext in exts]
+        names = [ext.name pour ext in exts]
         names.sort()
 
         # here are the extensions read_setup_file should have created
@@ -44,7 +44,7 @@ class ExtensionTestCase(unittest.TestCase):
         self.assertEqual(ext.sources, ['file1', 'file2'])
 
         # others arguments have defaults
-        for attr in ('include_dirs', 'define_macros', 'undef_macros',
+        pour attr in ('include_dirs', 'define_macros', 'undef_macros',
                      'library_dirs', 'libraries', 'runtime_library_dirs',
                      'extra_objects', 'extra_compile_args', 'extra_link_args',
                      'export_symbols', 'swig_opts', 'depends'):

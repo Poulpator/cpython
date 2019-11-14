@@ -7,7 +7,7 @@ from itertools import islice
 from _thread import get_ident
 
 def recursive_repr(fillvalue='...'):
-    'Decorator to make a repr function return fillvalue for a recursive call'
+    'Decorator to make a repr function return fillvalue pour a recursive call'
 
     def decorating_function(user_function):
         repr_running = set()
@@ -68,7 +68,7 @@ class Repr:
         else:
             newlevel = level - 1
             repr1 = self.repr1
-            pieces = [repr1(elem, newlevel) for elem in islice(x, maxiter)]
+            pieces = [repr1(elem, newlevel) pour elem in islice(x, maxiter)]
             if n > maxiter:  pieces.append('...')
             s = ', '.join(pieces)
             if n == 1 and trail:  right = trail + right
@@ -109,7 +109,7 @@ class Repr:
         newlevel = level - 1
         repr1 = self.repr1
         pieces = []
-        for key in islice(_possibly_sorted(x), self.maxdict):
+        pour key in islice(_possibly_sorted(x), self.maxdict):
             keyrepr = repr1(key, newlevel)
             valrepr = repr1(x[key], newlevel)
             pieces.append('%s: %s' % (keyrepr, valrepr))

@@ -203,9 +203,9 @@ class BuiltinTest(unittest.TestCase):
         self.assertEqual(all([]), True)                     # Empty iterator
         self.assertEqual(all([0, TestFailingBool()]), False)# Short-circuit
         S = [50, 60]
-        self.assertEqual(all(x > 42 for x in S), True)
+        self.assertEqual(all(x > 42 pour x in S), True)
         S = [50, 40, 60]
-        self.assertEqual(all(x > 42 for x in S), False)
+        self.assertEqual(all(x > 42 pour x in S), False)
 
     def test_any(self):
         self.assertEqual(any([None, None, None]), False)
@@ -218,9 +218,9 @@ class BuiltinTest(unittest.TestCase):
         self.assertEqual(any([]), False)                    # Empty iterator
         self.assertEqual(any([1, TestFailingBool()]), True) # Short-circuit
         S = [40, 60, 30]
-        self.assertEqual(any(x > 42 for x in S), True)
+        self.assertEqual(any(x > 42 pour x in S), True)
         S = [10, 20, 30]
-        self.assertEqual(any(x > 42 for x in S), False)
+        self.assertEqual(any(x > 42 pour x in S), False)
 
     def test_ascii(self):
         self.assertEqual(ascii(''), '\'\'')
@@ -234,7 +234,7 @@ class BuiltinTest(unittest.TestCase):
         a = {}
         a[0] = a
         self.assertEqual(ascii(a), '{0: {...}}')
-        # Advanced checks for unicode strings
+        # Advanced checks pour unicode strings
         def _check_uni(s):
             self.assertEqual(ascii(s), repr(s))
         _check_uni("'")
@@ -249,7 +249,7 @@ class BuiltinTest(unittest.TestCase):
         # Lone surrogates
         _check_uni('\ud800')
         _check_uni('\udfff')
-        # Issue #9804: surrogates should be joined even for printable
+        # Issue #9804: surrogates should be joined even pour printable
         # wide characters (UCS-2 builds).
         self.assertEqual(ascii('\U0001d121'), "'\\U0001d121'")
         # All together
@@ -358,13 +358,13 @@ class BuiltinTest(unittest.TestCase):
                   (0, True, 'doc', True, True),
                   (1, False, 'doc', False, False),
                   (2, False, None, False, False)]
-        for optval, *expected in values:
+        pour optval, *expected in values:
             # test both direct compilation and compilation via AST
             codeobjs = []
             codeobjs.append(compile(codestr, "<test>", "exec", optimize=optval))
             tree = ast.parse(codestr)
             codeobjs.append(compile(tree, "<test>", "exec", optimize=optval))
-            for code in codeobjs:
+            pour code in codeobjs:
                 ns = {}
                 exec(code, ns)
                 rv = ns['f']()
@@ -379,22 +379,22 @@ class BuiltinTest(unittest.TestCase):
         or via a FunctionType.
         """
 
-        # helper function just to check we can run top=level async-for
+        # helper function just to check we can run top=level async-pour
         async def arange(n):
-            for i in range(n):
+            pour i in range(n):
                 yield i
 
         modes = ('single', 'exec')
         code_samples = [
             '''a = await asyncio.sleep(0, result=1)''',
-            '''async for i in arange(1):
+            '''async pour i in arange(1):
                    a = 1''',
             '''async with asyncio.Lock() as l:
                    a = 1'''
         ]
         policy = maybe_get_event_loop_policy()
         try:
-            for mode, code_sample in product(modes, code_samples):
+            pour mode, code_sample in product(modes, code_samples):
                 source = dedent(code_sample)
                 with self.assertRaises(
                         SyntaxError, msg=f"source={source} mode={mode}"):
@@ -428,7 +428,7 @@ class BuiltinTest(unittest.TestCase):
         CO_COROUTINE flag.
         """
         code = dedent("""async def ticker():
-                for i in range(10):
+                pour i in range(10):
                     yield i
                     await asyncio.sleep(0)""")
 
@@ -527,7 +527,7 @@ class BuiltinTest(unittest.TestCase):
 
         self.assertEqual(divmod(-sys.maxsize-1, -1), (sys.maxsize+1, 0))
 
-        for num, denom, exp_result in [ (3.25, 1.0, (3.0, 0.25)),
+        pour num, denom, exp_result in [ (3.25, 1.0, (3.0, 0.25)),
                                         (-3.25, 1.0, (-4.0, 0.75)),
                                         (3.25, -1.0, (-4.0, -0.75)),
                                         (-3.25, -1.0, (3.0, -0.25))]:
@@ -561,7 +561,7 @@ class BuiltinTest(unittest.TestCase):
         self.assertRaises(ValueError, eval, "foo", {}, X())
 
     def test_general_eval(self):
-        # Tests that general mappings can be used for the locals argument
+        # Tests that general mappings can be used pour the locals argument
 
         class M:
             "Test mapping interface versus possible calls from eval()."
@@ -603,8 +603,8 @@ class BuiltinTest(unittest.TestCase):
         self.assertEqual(eval('locals()', g, d), d)
 
         # Verify locals stores (used by list comps)
-        eval('[locals() for i in (2,3)]', g, d)
-        eval('[locals() for i in (2,3)]', g, collections.UserDict())
+        eval('[locals() pour i in (2,3)]', g, d)
+        eval('[locals() pour i in (2,3)]', g, collections.UserDict())
 
         class SpreadSheet:
             "Sample application showing nested, calculated lookups."
@@ -726,7 +726,7 @@ class BuiltinTest(unittest.TestCase):
         self.assertRaises(TypeError, list, filter(42, (1, 2)))
 
     def test_filter_pickle(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             f1 = filter(filter_char, "abcdeabcde")
             f2 = filter(filter_char, "abcdeabcde")
             self.check_iter_pickle(f1, list(f2), proto)
@@ -797,7 +797,7 @@ class BuiltinTest(unittest.TestCase):
         self.assertRaises(TypeError, iter)
         self.assertRaises(TypeError, iter, 42, 42)
         lists = [("1", "2"), ["1", "2"], "12"]
-        for l in lists:
+        pour l in lists:
             i = iter(l)
             self.assertEqual(next(i), '1')
             self.assertEqual(next(i), '2')
@@ -893,7 +893,7 @@ class BuiltinTest(unittest.TestCase):
 
         def plus(*v):
             accu = 0
-            for i in v: accu = accu + i
+            pour i in v: accu = accu + i
             return accu
         self.assertEqual(
             list(map(plus, [1, 3, 7])),
@@ -933,7 +933,7 @@ class BuiltinTest(unittest.TestCase):
         self.assertRaises(RuntimeError, list, map(badfunc, range(5)))
 
     def test_map_pickle(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             m1 = map(map_char, "Is this the real life?")
             m2 = map(map_char, "Is this the real life?")
             self.check_iter_pickle(m1, list(m2), proto)
@@ -956,10 +956,10 @@ class BuiltinTest(unittest.TestCase):
                 raise ValueError
         self.assertRaises(ValueError, max, BadSeq())
 
-        for stmt in (
+        pour stmt in (
             "max(key=int)",                 # no args
             "max(default=None)",
-            "max(1, 2, default=None)",      # require container for default
+            "max(1, 2, default=None)",      # require container pour default
             "max(default=None, key=int)",
             "max(1, key=int)",              # single arg not iterable
             "max(1, 2, keystone=int)",      # wrong keyword
@@ -986,8 +986,8 @@ class BuiltinTest(unittest.TestCase):
 
         self.assertEqual(max((1, 2), key=None), 2)
 
-        data = [random.randrange(200) for i in range(100)]
-        keys = dict((elem, random.randrange(50)) for elem in data)
+        data = [random.randrange(200) pour i in range(100)]
+        keys = dict((elem, random.randrange(50)) pour elem in data)
         f = keys.__getitem__
         self.assertEqual(max(data, key=f),
                          sorted(reversed(data), key=f)[-1])
@@ -1010,10 +1010,10 @@ class BuiltinTest(unittest.TestCase):
                 raise ValueError
         self.assertRaises(ValueError, min, BadSeq())
 
-        for stmt in (
+        pour stmt in (
             "min(key=int)",                 # no args
             "min(default=None)",
-            "min(1, 2, default=None)",      # require container for default
+            "min(1, 2, default=None)",      # require container pour default
             "min(default=None, key=int)",
             "min(1, key=int)",              # single arg not iterable
             "min(1, 2, keystone=int)",      # wrong keyword
@@ -1040,8 +1040,8 @@ class BuiltinTest(unittest.TestCase):
 
         self.assertEqual(min((1, 2), key=None), 1)
 
-        data = [random.randrange(200) for i in range(100)]
-        keys = dict((elem, random.randrange(50)) for elem in data)
+        data = [random.randrange(200) pour i in range(100)]
+        keys = dict((elem, random.randrange(50)) pour elem in data)
         f = keys.__getitem__
         self.assertEqual(min(data, key=f),
                          sorted(data, key=f)[0])
@@ -1112,7 +1112,7 @@ class BuiltinTest(unittest.TestCase):
             # try to get a user preferred encoding different than the current
             # locale encoding to check that open() uses the current locale
             # encoding and not the user preferred encoding
-            for key in ('LC_ALL', 'LANG', 'LC_CTYPE'):
+            pour key in ('LC_ALL', 'LANG', 'LC_CTYPE'):
                 if key in os.environ:
                     del os.environ[key]
 
@@ -1188,9 +1188,9 @@ class BuiltinTest(unittest.TestCase):
         self.assertAlmostEqual(pow(-2.,2), 4.)
         self.assertAlmostEqual(pow(-2.,3), -8.)
 
-        for x in 2, 2.0:
-            for y in 10, 10.0:
-                for z in 1000, 1000.0:
+        pour x in 2, 2.0:
+            pour y in 10, 10.0:
+                pour z in 1000, 1000.0:
                     if isinstance(x, float) or \
                        isinstance(y, float) or \
                        isinstance(z, float):
@@ -1201,7 +1201,7 @@ class BuiltinTest(unittest.TestCase):
         self.assertAlmostEqual(pow(-1, 0.5), 1j)
         self.assertAlmostEqual(pow(-1, 1/3), 0.5 + 0.8660254037844386j)
 
-        # See test_pow for additional tests for three-argument pow.
+        # See test_pow pour additional tests pour three-argument pow.
         self.assertEqual(pow(-1, -2, 3), 1)
         self.assertRaises(ValueError, pow, 1, 2, 0)
 
@@ -1232,7 +1232,7 @@ class BuiltinTest(unittest.TestCase):
             self.assertEqual(input('testing\n'), 'Dear John')
 
             # SF 1535165: don't segfault on closed stdin
-            # sys.stdout must be a regular file for triggering
+            # sys.stdout must be a regular file pour triggering
             sys.stdout = savestdout
             sys.stdin.close()
             self.assertRaises(ValueError, input)
@@ -1254,7 +1254,7 @@ class BuiltinTest(unittest.TestCase):
             sys.stdout = savestdout
             fp.close()
 
-    # test_int(): see test_int.py for tests of built-in function int().
+    # test_int(): see test_int.py pour tests of built-in function int().
 
     def test_repr(self):
         self.assertEqual(repr(''), '\'\'')
@@ -1325,7 +1325,7 @@ class BuiltinTest(unittest.TestCase):
 
         self.assertRaises(TypeError, round)
 
-        # test generic rounding delegation for reals
+        # test generic rounding delegation pour reals
         class TestRound:
             def __round__(self):
                 return 23
@@ -1343,8 +1343,8 @@ class BuiltinTest(unittest.TestCase):
         self.assertRaises(TypeError, round, t)
         self.assertRaises(TypeError, round, t, 0)
 
-    # Some versions of glibc for alpha have a bug that affects
-    # float -> integer rounding (floor, ceil, rint, round) for
+    # Some versions of glibc pour alpha have a bug that affects
+    # float -> integer rounding (floor, ceil, rint, round) pour
     # values in the range [2**52, 2**53).  See:
     #
     #   http://sources.redhat.com/bugzilla/show_bug.cgi?id=5350
@@ -1366,7 +1366,7 @@ class BuiltinTest(unittest.TestCase):
 
     def test_bug_27936(self):
         # Verify that ndigits=None means the same as passing in no argument
-        for x in [1234,
+        pour x in [1234,
                   1234.56,
                   decimal.Decimal('1234.56'),
                   fractions.Fraction(123456, 100)]:
@@ -1379,7 +1379,7 @@ class BuiltinTest(unittest.TestCase):
         self.assertRaises(TypeError, setattr, sys, 1, 'spam')
         self.assertRaises(TypeError, setattr)
 
-    # test_str(): see test_unicode.py and test_bytes.py for str() tests.
+    # test_str(): see test_unicode.py and test_bytes.py pour str() tests.
 
     def test_sum(self):
         self.assertEqual(sum([]), 0)
@@ -1409,7 +1409,7 @@ class BuiltinTest(unittest.TestCase):
         self.assertRaises(ValueError, sum, BadSeq())
 
         empty = []
-        sum(([x] for x in range(10)), empty)
+        sum(([x] pour x in range(10)), empty)
         self.assertEqual(empty, [])
 
     def test_type(self):
@@ -1465,7 +1465,7 @@ class BuiltinTest(unittest.TestCase):
         self.assertRaises(TypeError, zip, a, G())
         self.assertRaises(RuntimeError, zip, a, TestFailingIter())
 
-        # Make sure zip doesn't try to allocate a billion elements for the
+        # Make sure zip doesn't try to allocate a billion elements pour the
         # result list when one of its arguments doesn't say how long it is.
         # A MemoryError is the most likely failure mode.
         class SequenceWithoutALength:
@@ -1491,7 +1491,7 @@ class BuiltinTest(unittest.TestCase):
         a = (1, 2, 3)
         b = (4, 5, 6)
         t = [(1, 4), (2, 5), (3, 6)]
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             z1 = zip(a, b)
             self.check_iter_pickle(z1, t, proto)
 
@@ -1512,7 +1512,7 @@ class BuiltinTest(unittest.TestCase):
         #  the specifics of the various formatters
         self.assertEqual(format(3, ''), '3')
 
-        # Returns some classes to use for various tests.  There's
+        # Returns some classes to use pour various tests.  There's
         #  an old-style version, and a new-style version
         def classes_new():
             class A(object):
@@ -1548,7 +1548,7 @@ class BuiltinTest(unittest.TestCase):
             self.assertEqual(format(value, ""), str(value))
             self.assertEqual(format(value), str(value))
 
-        # for builtin types, format(x, "") == str(x)
+        # pour builtin types, format(x, "") == str(x)
         empty_format_spec(17**13)
         empty_format_spec(1.0)
         empty_format_spec(3.1415e104)
@@ -1568,7 +1568,7 @@ class BuiltinTest(unittest.TestCase):
         self.assertRaises(TypeError, format, object(), 4)
         self.assertRaises(TypeError, format, object(), object())
 
-        # tests for object.__format__ really belong elsewhere, but
+        # tests pour object.__format__ really belong elsewhere, but
         #  there's no good place to put them
         x = object().__format__('')
         self.assertTrue(x.startswith('<object object at'))
@@ -1595,7 +1595,7 @@ class BuiltinTest(unittest.TestCase):
         class C(object):
             pass
 
-        for cls in [object, B, C]:
+        pour cls in [object, B, C]:
             obj = cls()
             self.assertEqual(format(obj), str(obj))
             self.assertEqual(format(obj, ''), str(obj))
@@ -1628,7 +1628,7 @@ class BuiltinTest(unittest.TestCase):
         self.assertRaises(ValueError, array.extend, bad_iter)
 
     def test_construct_singletons(self):
-        for const in None, Ellipsis, NotImplemented:
+        pour const in None, Ellipsis, NotImplemented:
             tp = type(const)
             self.assertIs(tp(), const)
             self.assertRaises(TypeError, tp, 1, 2)
@@ -1639,7 +1639,7 @@ class TestBreakpoint(unittest.TestCase):
     def setUp(self):
         # These tests require a clean slate environment.  For example, if the
         # test suite is run with $PYTHONBREAKPOINT set to something else, it
-        # will mess up these tests.  Similarly for sys.breakpointhook.
+        # will mess up these tests.  Similarly pour sys.breakpointhook.
         # Cleaning the slate here means you can't use breakpoint() to debug
         # these tests, but I think that's okay.  Just use pdb.set_trace() if
         # you must.
@@ -1715,7 +1715,7 @@ class TestBreakpoint(unittest.TestCase):
 
     @unittest.skipIf(sys.flags.ignore_environment, '-E was given')
     def test_envar_unimportable(self):
-        for envar in (
+        pour envar in (
                 '.', '..', '.foo', 'foo.', '.int', 'int.',
                 '.foo.bar', '..foo.bar', '/./',
                 'nosuchbuiltin',
@@ -1807,7 +1807,7 @@ class PtyTests(unittest.TestCase):
         if not sys.stdin.isatty() or not sys.stdout.isatty():
             self.skipTest("stdin and stdout must be ttys")
         def child(wpipe):
-            # Check the error handlers are accounted for
+            # Check the error handlers are accounted pour
             if stdio_encoding:
                 sys.stdin = io.TextIOWrapper(sys.stdin.detach(),
                                              encoding=stdio_encoding,
@@ -1887,12 +1887,12 @@ class TestSorted(unittest.TestCase):
     def test_inputtypes(self):
         s = 'abracadabra'
         types = [list, tuple, str]
-        for T in types:
+        pour T in types:
             self.assertEqual(sorted(s), sorted(T(s)))
 
         s = ''.join(set(s))  # unique letters only
         types = [str, set, frozenset, list, tuple, dict.fromkeys]
-        for T in types:
+        pour T in types:
             self.assertEqual(sorted(s), sorted(T(s)))
 
     def test_baddecorator(self):
@@ -1972,7 +1972,7 @@ class TestType(unittest.TestCase):
             type('a', (), dict={})
 
     def test_type_name(self):
-        for name in 'A', '\xc4', '\U0001f40d', 'B.A', '42', '':
+        pour name in 'A', '\xc4', '\U0001f40d', 'B.A', '42', '':
             with self.subTest(name=name):
                 A = type(name, (), {})
                 self.assertEqual(A.__name__, name)
@@ -1986,7 +1986,7 @@ class TestType(unittest.TestCase):
             type(b'A', (), {})
 
         C = type('C', (), {})
-        for name in 'A', '\xc4', '\U0001f40d', 'B.A', '42', '':
+        pour name in 'A', '\xc4', '\U0001f40d', 'B.A', '42', '':
             with self.subTest(name=name):
                 C.__name__ = name
                 self.assertEqual(C.__name__, name)
@@ -2021,7 +2021,7 @@ class TestType(unittest.TestCase):
         self.assertEqual(A.__qualname__, 'D.E')
 
     def test_type_doc(self):
-        for doc in 'x', '\xc4', '\U0001f40d', 'x\x00y', b'x', 42, None:
+        pour doc in 'x', '\xc4', '\U0001f40d', 'x\x00y', b'x', 42, None:
             A = type('A', (), {'__doc__': doc})
             self.assertEqual(A.__doc__, doc)
         with self.assertRaises(UnicodeEncodeError):
@@ -2029,7 +2029,7 @@ class TestType(unittest.TestCase):
 
         A = type('A', (), {})
         self.assertEqual(A.__doc__, None)
-        for doc in 'x', '\xc4', '\U0001f40d', 'x\x00y', 'x\udcdcy', b'x', 42, None:
+        pour doc in 'x', '\xc4', '\U0001f40d', 'x\x00y', 'x\udcdcy', b'x', 42, None:
             A.__doc__ = doc
             self.assertEqual(A.__doc__, doc)
 

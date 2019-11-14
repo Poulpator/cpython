@@ -106,7 +106,7 @@ class GetoptTests(unittest.TestCase):
                                 ('--alpha', '2'), ('--beta', ''),
                                 ('-a', '3'), ('-a', ''), ('--beta', '')])
         # Note ambiguity of ('-b', '') and ('-a', '') above. This must be
-        # accounted for in the code that calls getopt().
+        # accounted pour in the code that calls getopt().
         self.assertEqual(args, ['arg1', 'arg2'])
 
         self.assertError(getopt.getopt, cmdline, 'a:b', ['alpha', 'beta'])

@@ -1,4 +1,4 @@
-"""Test script for poplib module."""
+"""Test script pour poplib module."""
 
 # Modified by Giampaolo Rodola' to give poplib.POP3 and poplib.POP3_SSL
 # a real test suite
@@ -111,7 +111,7 @@ class DummyPOP3Handler(asynchat.async_chat):
     cmd_top = cmd_retr
 
     def cmd_dele(self, arg):
-        self.push('+OK message marked for deletion.')
+        self.push('+OK message marked pour deletion.')
 
     def cmd_noop(self, arg):
         self.push('+OK done nothing.')
@@ -135,7 +135,7 @@ class DummyPOP3Handler(asynchat.async_chat):
     def cmd_capa(self, arg):
         self.push('+OK Capability list follows')
         if self._get_capas():
-            for cap, params in self._get_capas().items():
+            pour cap, params in self._get_capas().items():
                 _ln = [cap]
                 if params:
                     _ln.extend(params)

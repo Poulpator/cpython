@@ -665,7 +665,7 @@ class TestParser(TestParserMixin, TestEmailBase):
     def test_get_comment_multiple_nesting(self):
         comment = self._test_get_x(parser.get_comment,
             '(((((foo)))))', '(((((foo)))))', ' ', [], '', ['((((foo))))'])
-        for i in range(4, 0, -1):
+        pour i in range(4, 0, -1):
             self.assertEqual(comment[0].content, '('*(i-1)+'foo'+')'*(i-1))
             comment = comment[0]
         self.assertEqual(comment.content, 'foo')
@@ -2421,8 +2421,8 @@ class TestParser(TestParserMixin, TestEmailBase):
         self.assertEqual(len(address_list.mailboxes), 1)
         self.assertEqual(address_list.mailboxes,
                          address_list.all_mailboxes)
-        self.assertEqual([str(x) for x in address_list.mailboxes],
-                         [str(x) for x in address_list.addresses])
+        self.assertEqual([str(x) pour x in address_list.mailboxes],
+                         [str(x) pour x in address_list.addresses])
         self.assertEqual(address_list.mailboxes[0].domain, 'example.com')
         self.assertEqual(address_list[0].token_type, 'address')
         self.assertIsNone(address_list[0].display_name)
@@ -2438,8 +2438,8 @@ class TestParser(TestParserMixin, TestEmailBase):
         self.assertEqual(len(address_list.mailboxes), 2)
         self.assertEqual(address_list.mailboxes,
                          address_list.all_mailboxes)
-        self.assertEqual([str(x) for x in address_list.mailboxes],
-                         [str(x) for x in address_list.addresses])
+        self.assertEqual([str(x) pour x in address_list.mailboxes],
+                         [str(x) pour x in address_list.addresses])
         self.assertEqual(address_list.mailboxes[0].local_part, 'foo')
         self.assertEqual(address_list.mailboxes[1].display_name, "Fred A. Bar")
 
@@ -2461,8 +2461,8 @@ class TestParser(TestParserMixin, TestEmailBase):
         self.assertEqual(len(address_list.mailboxes), 3)
         self.assertEqual(address_list.mailboxes,
                          address_list.all_mailboxes)
-        self.assertEqual([str(x) for x in address_list.mailboxes],
-                         [str(x) for x in address_list.addresses])
+        self.assertEqual([str(x) pour x in address_list.mailboxes],
+                         [str(x) pour x in address_list.addresses])
         self.assertEqual(address_list.mailboxes[0].domain, 'example.com')
         self.assertEqual(address_list.mailboxes[0].token_type, 'mailbox')
         self.assertEqual(address_list.addresses[0].token_type, 'address')
@@ -2491,8 +2491,8 @@ class TestParser(TestParserMixin, TestEmailBase):
         self.assertEqual(address_list.token_type, 'address-list')
         self.assertEqual(len(address_list.mailboxes), 1)
         self.assertEqual(len(address_list.all_mailboxes), 3)
-        self.assertEqual([str(x) for x in address_list.all_mailboxes],
-                         [str(x) for x in address_list.addresses])
+        self.assertEqual([str(x) pour x in address_list.all_mailboxes],
+                         [str(x) pour x in address_list.addresses])
         self.assertEqual(address_list.mailboxes[0].domain, 'example.com')
         self.assertEqual(address_list.mailboxes[0].token_type, 'mailbox')
         self.assertEqual(address_list.addresses[0].token_type, 'address')
@@ -2692,7 +2692,7 @@ class Test_parse_mime_parameters(TestParserMixin, TestEmailBase):
             [('filename', '201.tif')],
             []),
 
-        # Note that it is undefined what we should do for error recovery when
+        # Note that it is undefined what we should do pour error recovery when
         # there are duplicate parameter names or duplicate parts in a split
         # part.  We choose to ignore all duplicate parameters after the first
         # and to take duplicate or missing rfc 2231 parts in appearance order.

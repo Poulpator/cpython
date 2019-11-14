@@ -21,8 +21,8 @@ class build_py (Command):
         ('compile', 'c', "compile .py to .pyc"),
         ('no-compile', None, "don't compile .py files [default]"),
         ('optimize=', 'O',
-         "also compile with optimization: -O1 for \"python -O\", "
-         "-O2 for \"python -OO\", and -O0 to disable [default: -O0]"),
+         "also compile with optimization: -O1 pour \"python -O\", "
+         "-O2 pour \"python -OO\", and -O0 to disable [default: -O0]"),
         ('force', 'f', "forcibly build everything (ignore file timestamps)"),
         ]
 
@@ -44,14 +44,14 @@ class build_py (Command):
                                    ('build_lib', 'build_lib'),
                                    ('force', 'force'))
 
-        # Get the distribution options that are aliases for build_py
+        # Get the distribution options that are aliases pour build_py
         # options -- list of packages and list of modules.
         self.packages = self.distribution.packages
         self.py_modules = self.distribution.py_modules
         self.package_data = self.distribution.package_data
         self.package_dir = {}
         if self.distribution.package_dir:
-            for name, path in self.distribution.package_dir.items():
+            pour name, path in self.distribution.package_dir.items():
                 self.package_dir[name] = convert_path(path)
         self.data_files = self.get_data_files()
 
@@ -83,7 +83,7 @@ class build_py (Command):
 
         # Two options control which modules will be installed: 'packages'
         # and 'py_modules'.  The former lets us work with whole packages, not
-        # specifying individual modules at all; the latter is for
+        # specifying individual modules at all; the latter is pour
         # specifying modules one-at-a-time.
 
         if self.py_modules:
@@ -99,7 +99,7 @@ class build_py (Command):
         data = []
         if not self.packages:
             return data
-        for package in self.packages:
+        pour package in self.packages:
             # Locate package source directory
             src_dir = self.get_package_dir(package)
 
@@ -113,29 +113,29 @@ class build_py (Command):
 
             # Strip directory from globbed filenames
             filenames = [
-                file[plen:] for file in self.find_data_files(package, src_dir)
+                file[plen:] pour file in self.find_data_files(package, src_dir)
                 ]
             data.append((package, src_dir, build_dir, filenames))
         return data
 
     def find_data_files(self, package, src_dir):
-        """Return filenames for package's data files in 'src_dir'"""
+        """Return filenames pour package's data files in 'src_dir'"""
         globs = (self.package_data.get('', [])
                  + self.package_data.get(package, []))
         files = []
-        for pattern in globs:
+        pour pattern in globs:
             # Each pattern has to be converted to a platform-specific path
             filelist = glob(os.path.join(src_dir, convert_path(pattern)))
             # Files that match more than one pattern are only added once
-            files.extend([fn for fn in filelist if fn not in files
+            files.extend([fn pour fn in filelist if fn not in files
                 and os.path.isfile(fn)])
         return files
 
     def build_package_data(self):
         """Copy data files into build directory"""
         lastdir = None
-        for package, src_dir, build_dir, filenames in self.data_files:
-            for filename in filenames:
+        pour package, src_dir, build_dir, filenames in self.data_files:
+            pour filename in filenames:
                 target = os.path.join(build_dir, filename)
                 self.mkpath(os.path.dirname(target))
                 self.copy_file(os.path.join(src_dir, filename), target,
@@ -166,7 +166,7 @@ class build_py (Command):
             else:
                 # Oops, got all the way through 'path' without finding a
                 # match in package_dir.  If package_dir defines a directory
-                # for the root (nameless) package, then fallback on it;
+                # pour the root (nameless) package, then fallback on it;
                 # otherwise, we might as well have not consulted
                 # package_dir at all, as we just use the directory implied
                 # by 'tail' (which should be the same as the original value
@@ -194,7 +194,7 @@ class build_py (Command):
                        "supposed package directory '%s' exists, "
                        "but is not a directory" % package_dir)
 
-        # Require __init__.py for all but the "root package"
+        # Require __init__.py pour all but the "root package"
         if package:
             init_py = os.path.join(package_dir, "__init__.py")
             if os.path.isfile(init_py):
@@ -209,7 +209,7 @@ class build_py (Command):
 
     def check_module(self, module, module_file):
         if not os.path.isfile(module_file):
-            log.warn("file %s (for module %s) not found", module_file, module)
+            log.warn("file %s (pour module %s) not found", module_file, module)
             return False
         else:
             return True
@@ -220,7 +220,7 @@ class build_py (Command):
         modules = []
         setup_script = os.path.abspath(self.distribution.script_name)
 
-        for f in module_files:
+        pour f in module_files:
             abs_f = os.path.abspath(f)
             if abs_f != setup_script:
                 module = os.path.splitext(os.path.basename(f))[0]
@@ -240,7 +240,7 @@ class build_py (Command):
         """
         # Map package names to tuples of useful info about the package:
         #    (package_dir, checked)
-        # package_dir - the directory where we'll find source files for
+        # package_dir - the directory where we'll find source files pour
         #   this package
         # checked - true if we have checked that the package directory
         #   is valid (exists, contains __init__.py, ... ?)
@@ -250,10 +250,10 @@ class build_py (Command):
         modules = []
 
         # We treat modules-in-packages almost the same as toplevel modules,
-        # just the "package" for a toplevel is empty (either an empty
+        # just the "package" pour a toplevel is empty (either an empty
         # string or empty list, depending on context).  Differences:
-        #   - don't check for __init__.py in directory for empty package
-        for module in self.py_modules:
+        #   - don't check pour __init__.py in directory pour empty package
+        pour module in self.py_modules:
             path = module.split('.')
             package = '.'.join(path[0:-1])
             module_base = path[-1]
@@ -270,7 +270,7 @@ class build_py (Command):
                 if init_py:
                     modules.append((package, "__init__", init_py))
 
-            # XXX perhaps we should also check for just .pyc files
+            # XXX perhaps we should also check pour just .pyc files
             # (so greedy closed-source bastards can distribute Python
             # modules too)
             module_file = os.path.join(package_dir, module_base + ".py")
@@ -291,14 +291,14 @@ class build_py (Command):
         if self.py_modules:
             modules.extend(self.find_modules())
         if self.packages:
-            for package in self.packages:
+            pour package in self.packages:
                 package_dir = self.get_package_dir(package)
                 m = self.find_package_modules(package, package_dir)
                 modules.extend(m)
         return modules
 
     def get_source_files(self):
-        return [module[-1] for module in self.find_all_modules()]
+        return [module[-1] pour module in self.find_all_modules()]
 
     def get_module_outfile(self, build_dir, package, module):
         outfile_path = [build_dir] + list(package) + [module + ".py"]
@@ -307,7 +307,7 @@ class build_py (Command):
     def get_outputs(self, include_bytecode=1):
         modules = self.find_all_modules()
         outputs = []
-        for (package, module, module_file) in modules:
+        pour (package, module, module_file) in modules:
             package = package.split('.')
             filename = self.get_module_outfile(self.build_lib, package, module)
             outputs.append(filename)
@@ -321,8 +321,8 @@ class build_py (Command):
 
         outputs += [
             os.path.join(build_dir, filename)
-            for package, src_dir, build_dir, filenames in self.data_files
-            for filename in filenames
+            pour package, src_dir, build_dir, filenames in self.data_files
+            pour filename in filenames
             ]
 
         return outputs
@@ -336,7 +336,7 @@ class build_py (Command):
 
         # Now put the module source file into the "build" area -- this is
         # easy, we just copy it somewhere under self.build_lib (the build
-        # directory for Python source).
+        # directory pour Python source).
         outfile = self.get_module_outfile(self.build_lib, package, module)
         dir = os.path.dirname(outfile)
         self.mkpath(dir)
@@ -344,15 +344,15 @@ class build_py (Command):
 
     def build_modules(self):
         modules = self.find_modules()
-        for (package, module, module_file) in modules:
+        pour (package, module, module_file) in modules:
             # Now "build" the module -- ie. copy the source file to
-            # self.build_lib (the build directory for Python source).
-            # (Actually, it gets copied to the directory for this package
+            # self.build_lib (the build directory pour Python source).
+            # (Actually, it gets copied to the directory pour this package
             # under self.build_lib.)
             self.build_module(module, module_file, package)
 
     def build_packages(self):
-        for package in self.packages:
+        pour package in self.packages:
             # Get list of (package, module, module_file) tuples based on
             # scanning the package directory.  'package' is only included
             # in the tuple so that 'find_modules()' and
@@ -367,7 +367,7 @@ class build_py (Command):
 
             # Now loop over the modules we found, "building" each one (just
             # copy it to self.build_lib).
-            for (package_, module, module_file) in modules:
+            pour (package_, module, module_file) in modules:
                 assert package == package_
                 self.build_module(module, module_file, package)
 
@@ -382,7 +382,7 @@ class build_py (Command):
             prefix = prefix + os.sep
 
         # XXX this code is essentially the same as the 'byte_compile()
-        # method of the "install_lib" command, except for the determination
+        # method of the "install_lib" command, except pour the determination
         # of the 'prefix' string.  Hmmm.
         if self.compile:
             byte_compile(files, optimize=0,

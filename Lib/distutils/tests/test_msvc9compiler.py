@@ -1,4 +1,4 @@
-"""Tests for distutils.msvc9compiler."""
+"""Tests pour distutils.msvc9compiler."""
 import sys
 import unittest
 import os
@@ -95,9 +95,9 @@ if sys.platform=="win32":
     if get_build_version()>=8.0:
         SKIP_MESSAGE = None
     else:
-        SKIP_MESSAGE = "These tests are only for MSVC8.0 or above"
+        SKIP_MESSAGE = "These tests are only pour MSVC8.0 or above"
 else:
-    SKIP_MESSAGE = "These tests are only for win32"
+    SKIP_MESSAGE = "These tests are only pour win32"
 
 @unittest.skipUnless(SKIP_MESSAGE is None, SKIP_MESSAGE)
 class msvc9compilerTestCase(support.TempdirManager,
@@ -124,7 +124,7 @@ class msvc9compilerTestCase(support.TempdirManager,
         from distutils.msvc9compiler import Reg
         self.assertRaises(KeyError, Reg.get_value, 'xxx', 'xxx')
 
-        # looking for values that should exist on all
+        # looking pour values that should exist on all
         # windows registry versions.
         path = r'Control Panel\Desktop'
         v = Reg.get_value(path, 'dragfullwindows')
@@ -155,7 +155,7 @@ class msvc9compilerTestCase(support.TempdirManager,
         f = open(manifest)
         try:
             # removing trailing spaces
-            content = '\n'.join([line.rstrip() for line in f.readlines()])
+            content = '\n'.join([line.rstrip() pour line in f.readlines()])
         finally:
             f.close()
 

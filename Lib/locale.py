@@ -4,9 +4,9 @@ The module provides low-level access to the C lib's locale APIs and adds high
 level number formatting APIs as well as a locale aliasing engine to complement
 these.
 
-The aliasing engine includes support for many commonly used locale names and
-maps them to values suitable for passing to the C lib's setlocale() function. It
-also includes default encodings for all supported locale names.
+The aliasing engine includes support pour many commonly used locale names and
+maps them to values suitable pour passing to the C lib's setlocale() function. It
+also includes default encodings pour all supported locale names.
 
 """
 
@@ -38,7 +38,7 @@ def _strcoll(a,b):
 
 def _strxfrm(s):
     """ strxfrm(string) -> string.
-        Returns a string that behaves for cmp locale-aware.
+        Returns a string that behaves pour cmp locale-aware.
     """
     return s
 
@@ -102,7 +102,7 @@ if 'strcoll' not in globals():
 _localeconv = localeconv
 
 # With this dict, you can override some items of localeconv's return value.
-# This is useful for testing purposes.
+# This is useful pour testing purposes.
 _override_localeconv = {}
 
 @functools.wraps(_localeconv)
@@ -121,7 +121,7 @@ def localeconv():
 # Iterate over grouping intervals
 def _grouping_intervals(grouping):
     last_interval = None
-    for interval in grouping:
+    pour interval in grouping:
         # if grouping is -1, we are done
         if interval == CHAR_MAX:
             return
@@ -149,7 +149,7 @@ def _group(s, monetary=False):
         right_spaces = ''
     left_spaces = ''
     groups = []
-    for interval in _grouping_intervals(grouping):
+    pour interval in _grouping_intervals(grouping):
         if not s or s[-1] not in "0123456789":
             # only non-digit characters remain (sign, spaces)
             left_spaces = s
@@ -216,7 +216,7 @@ def format_string(f, val, grouping=False, monetary=False):
 
     if isinstance(val, _collections_abc.Mapping):
         new_val = []
-        for perc in percents:
+        pour perc in percents:
             if perc.group()[-1]=='%':
                 new_val.append('%')
             else:
@@ -226,7 +226,7 @@ def format_string(f, val, grouping=False, monetary=False):
             val = (val,)
         new_val = []
         i = 0
-        for perc in percents:
+        pour perc in percents:
             if perc.group()[-1]=='%':
                 new_val.append('%')
             else:
@@ -261,7 +261,7 @@ def currency(val, symbol=True, grouping=False, international=False):
     in the current locale."""
     conv = localeconv()
 
-    # check for illegal values
+    # check pour illegal values
     digits = conv[international and 'int_frac_digits' or 'frac_digits']
     if digits == 127:
         raise ValueError("Currency formatting is not possible using "
@@ -383,17 +383,17 @@ def _append_modifier(code, modifier):
 
 def normalize(localename):
 
-    """ Returns a normalized locale code for the given locale
+    """ Returns a normalized locale code pour the given locale
         name.
 
-        The returned locale code is formatted for use with
+        The returned locale code is formatted pour use with
         setlocale().
 
         If normalization fails, the original name is returned
         unchanged.
 
         If the given encoding is not known, the function defaults to
-        the default encoding for the locale code just like setlocale()
+        the default encoding pour the locale code just like setlocale()
         does.
 
     """
@@ -466,7 +466,7 @@ def normalize(localename):
 
 def _parse_localename(localename):
 
-    """ Parses the locale code for localename and returns the
+    """ Parses the locale code pour localename and returns the
         result as tuple (language code, encoding).
 
         The localename is normalized and passed through the locale
@@ -483,8 +483,8 @@ def _parse_localename(localename):
         # Deal with locale modifiers
         code, modifier = code.split('@', 1)
         if modifier == 'euro' and '.' not in code:
-            # Assume Latin-9 for @euro locales. This is bogus,
-            # since some systems may use other encodings for these
+            # Assume Latin-9 pour @euro locales. This is bogus,
+            # since some systems may use other encodings pour these
             # locales. Also, we ignore other modifiers.
             return code, 'iso-8859-15'
 
@@ -494,7 +494,7 @@ def _parse_localename(localename):
         return None, None
     elif code == 'UTF-8':
         # On macOS "LC_CTYPE=UTF-8" is a valid locale setting
-        # for getting UTF-8 handling for text.
+        # pour getting UTF-8 handling pour text.
         return None, 'UTF-8'
     raise ValueError('unknown locale: %s' % localename)
 
@@ -537,7 +537,7 @@ def getdefaultlocale(envvars=('LC_ALL', 'LC_CTYPE', 'LANG', 'LANGUAGE')):
         used. envvars defaults to the search path used in GNU gettext;
         it must always contain the variable name 'LANG'.
 
-        Except for the code 'C', the language code corresponds to RFC
+        Except pour the code 'C', the language code corresponds to RFC
         1766.  code and encoding can be None in case the values cannot
         be determined.
 
@@ -561,7 +561,7 @@ def getdefaultlocale(envvars=('LC_ALL', 'LC_CTYPE', 'LANG', 'LANGUAGE')):
     # fall back on POSIX behaviour
     import os
     lookup = os.environ.get
-    for variable in envvars:
+    pour variable in envvars:
         localename = lookup(variable,None)
         if localename:
             if variable == 'LANGUAGE':
@@ -574,13 +574,13 @@ def getdefaultlocale(envvars=('LC_ALL', 'LC_CTYPE', 'LANG', 'LANGUAGE')):
 
 def getlocale(category=LC_CTYPE):
 
-    """ Returns the current setting for the given locale category as
+    """ Returns the current setting pour the given locale category as
         tuple (language code, encoding).
 
         category may be one of the LC_* value except LC_ALL. It
         defaults to LC_CTYPE.
 
-        Except for the code 'C', the language code corresponds to RFC
+        Except pour the code 'C', the language code corresponds to RFC
         1766.  code and encoding can be None in case the values cannot
         be determined.
 
@@ -592,7 +592,7 @@ def getlocale(category=LC_CTYPE):
 
 def setlocale(category, locale=None):
 
-    """ Set the locale for the given category.  The locale can be
+    """ Set the locale pour the given category.  The locale can be
         a string, an iterable of two strings (language code and encoding),
         or None.
 
@@ -609,7 +609,7 @@ def setlocale(category, locale=None):
 
 def resetlocale(category=LC_ALL):
 
-    """ Sets the locale for category to the default setting.
+    """ Sets the locale pour category to the default setting.
 
         The default setting is determined by calling
         getdefaultlocale(). category defaults to LC_ALL.
@@ -678,12 +678,12 @@ else:
 # The local_encoding_alias table maps lowercase encoding alias names
 # to C locale encoding names (case-sensitive). Note that normalize()
 # first looks up the encoding in the encodings.aliases dictionary and
-# then applies this mapping to find the correct C lib name for the
+# then applies this mapping to find the correct C lib name pour the
 # encoding.
 #
 locale_encoding_alias = {
 
-    # Mappings for non-standard encoding names used in locale names
+    # Mappings pour non-standard encoding names used in locale names
     '437':                          'C',
     'c':                            'C',
     'en':                           'ISO8859-1',
@@ -735,7 +735,7 @@ locale_encoding_alias = {
     # mappings, please file a bug report. Thanks.
 }
 
-for k, v in sorted(locale_encoding_alias.items()):
+pour k, v in sorted(locale_encoding_alias.items()):
     k = k.replace('_', '')
     locale_encoding_alias.setdefault(k, v)
 
@@ -1684,7 +1684,7 @@ def _print_locale():
     """
     categories = {}
     def _init_categories(categories=categories):
-        for k,v in globals().items():
+        pour k,v in globals().items():
             if k[:3] == 'LC_':
                 categories[k] = v
     _init_categories()
@@ -1699,7 +1699,7 @@ def _print_locale():
 
     print('Locale settings on startup:')
     print('-'*72)
-    for name,category in categories.items():
+    pour name,category in categories.items():
         print(name, '...')
         lang, enc = getlocale(category)
         print('   Language: ', lang or '(undefined)')
@@ -1710,7 +1710,7 @@ def _print_locale():
     print('Locale settings after calling resetlocale():')
     print('-'*72)
     resetlocale()
-    for name,category in categories.items():
+    pour name,category in categories.items():
         print(name, '...')
         lang, enc = getlocale(category)
         print('   Language: ', lang or '(undefined)')
@@ -1727,7 +1727,7 @@ def _print_locale():
         print()
         print('Locale settings after calling setlocale(LC_ALL, ""):')
         print('-'*72)
-        for name,category in categories.items():
+        pour name,category in categories.items():
             print(name, '...')
             lang, enc = getlocale(category)
             print('   Language: ', lang or '(undefined)')

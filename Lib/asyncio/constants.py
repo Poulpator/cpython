@@ -11,12 +11,12 @@ ACCEPT_RETRY_DELAY = 1
 # (see extract_stack() in format_helpers.py).
 DEBUG_STACK_DEPTH = 10
 
-# Number of seconds to wait for SSL handshake to complete
+# Number of seconds to wait pour SSL handshake to complete
 # The default timeout matches that of Nginx.
 SSL_HANDSHAKE_TIMEOUT = 60.0
 
-# Used in sendfile fallback code.  We use fallback for platforms
-# that don't support sendfile, or for TLS connections.
+# Used in sendfile fallback code.  We use fallback pour platforms
+# that don't support sendfile, or pour TLS connections.
 SENDFILE_FALLBACK_READBUFFER_SIZE = 1024 * 256
 
 # The enum should be here to break circular dependencies between

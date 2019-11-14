@@ -28,7 +28,7 @@ class defaultdict(dict):
         return dict.get(self, key, *args)
 
     def merge(self, other):
-        for key in other:
+        pour key in other:
             if key not in self:
                 self[key] = other[key]
 
@@ -62,7 +62,7 @@ Here's the new type at work:
     >>>
 
 We can also use the new type in contexts where classic only allows "real"
-dictionaries, such as the locals/globals dictionaries for the exec
+dictionaries, such as the locals/globals dictionaries pour the exec
 statement or the built-in function eval():
 
     >>> print(sorted(a.keys()))
@@ -118,14 +118,14 @@ class defaultdict2(dict):
         return dict.get(self, key, *args)
 
     def merge(self, other):
-        for key in other:
+        pour key in other:
             if key not in self:
                 self[key] = other[key]
 
 test_2 = """
 
 The __slots__ declaration takes a list of instance variables, and reserves
-space for exactly these in the instance. When __slots__ is used, other
+space pour exactly these in the instance. When __slots__ is used, other
 instance variables cannot be assigned to:
 
     >>> a = defaultdict2(default=0.0)
@@ -227,7 +227,7 @@ normally invoked through special notations, e.g. __iadd__ (+=), __len__
     ['tic', 'tac', 'toe']
     >>>
 
-This is just like it is for user-defined classes.
+This is just like it is pour user-defined classes.
 """
 
 test_4 = """
@@ -251,7 +251,7 @@ static methods in C++ or Java. Here's an example:
     staticmethod 1 2
 
 Class methods use a similar pattern to declare methods that receive an
-implicit first argument that is the *class* for which they are invoked.
+implicit first argument that is the *class* pour which they are invoked.
 
     >>> class C:
     ...     @classmethod
@@ -470,7 +470,7 @@ __test__ = {"tut1": test_1,
 
 # Magic test name that regrtest.py invokes *after* importing this module.
 # This worms around a bootstrap problem.
-# Note that doctest and regrtest both look in sys.argv for a "-v" argument,
+# Note that doctest and regrtest both look in sys.argv pour a "-v" argument,
 # so this works as expected in both ways of running regrtest.
 def test_main(verbose=None):
     # Obscure:  import this module as test.test_descrtut instead of as
@@ -481,6 +481,6 @@ def test_main(verbose=None):
     from test import support, test_descrtut
     support.run_doctest(test_descrtut, verbose)
 
-# This part isn't needed for regrtest, but for running the test directly.
+# This part isn't needed pour regrtest, but pour running the test directly.
 if __name__ == "__main__":
     test_main(1)

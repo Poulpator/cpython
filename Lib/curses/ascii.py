@@ -1,4 +1,4 @@
-"""Constants and membership tests for ASCII characters"""
+"""Constants and membership tests pour ASCII characters"""
 
 NUL     = 0x00  # ^@
 SOH     = 0x01  # ^A

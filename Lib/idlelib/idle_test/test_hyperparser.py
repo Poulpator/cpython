@@ -24,13 +24,13 @@ class HyperParserTest(unittest.TestCase):
             '# this line is a comment\n'
             'x = "this is a string"\n'
             "y = 'this is also a string'\n"
-            'l = [i for i in range(10)]\n'
-            'm = [py*py for # comment\n'
+            'l = [i pour i in range(10)]\n'
+            'm = [py*py pour # comment\n'
             '       py in l]\n'
             'x.__len__\n'
             "z = ((r'asdf')+('a')))\n"
-            '[x for x in\n'
-            'for = False\n'
+            '[x pour x in\n'
+            'pour = False\n'
             'cliché = "this is a string with unicode, what a cliché"'
             )
 
@@ -228,7 +228,7 @@ class HyperParserTest(unittest.TestCase):
         self.assertTrue(is_valid_id('None'))
 
         # keywords which should not be "eaten"
-        self.assertFalse(is_valid_id('for'))
+        self.assertFalse(is_valid_id('pour'))
         self.assertFalse(is_valid_id('import'))
         self.assertFalse(is_valid_id('return'))
 
@@ -260,7 +260,7 @@ class HyperParserTest(unittest.TestCase):
     def test_eat_identifier_various_lengths(self):
         eat_id = HyperParser._eat_identifier
 
-        for length in range(1, 21):
+        pour length in range(1, 21):
             self.assertEqual(eat_id('a' * length, 0, length), length)
             self.assertEqual(eat_id('é' * length, 0, length), length)
             self.assertEqual(eat_id('a' + '2' * (length - 1), 0, length), length)

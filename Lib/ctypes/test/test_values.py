@@ -66,7 +66,7 @@ class PythonValuesTestCase(unittest.TestCase):
                 b'_frozen_importlib_external',
                 b'zipimport',
                 ]
-        for entry in ft:
+        pour entry in ft:
             # This is dangerous. We *can* iterate over a pointer, but
             # the loop will not terminate (maybe with an access
             # violation;-) because the pointer instance has no size.

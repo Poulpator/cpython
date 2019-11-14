@@ -1,4 +1,4 @@
-# Common tests for test_tkinter/test_widgets.py and test_ttk/test_widgets.py
+# Common tests pour test_tkinter/test_widgets.py and test_ttk/test_widgets.py
 
 import unittest
 import sys
@@ -92,7 +92,7 @@ class AbstractWidgetTest(AbstractTkTest):
             widget[name] = orig
 
     def checkParams(self, widget, name, *values, **kwargs):
-        for value in values:
+        pour value in values:
             self.checkParam(widget, name, value, **kwargs)
 
     def checkIntegerParam(self, widget, name, *values, **kwargs):
@@ -105,7 +105,7 @@ class AbstractWidgetTest(AbstractTkTest):
                 errmsg='expected integer but got "3.2"')
 
     def checkFloatParam(self, widget, name, *values, conv=float, **kwargs):
-        for value in values:
+        pour value in values:
             self.checkParam(widget, name, value, conv=conv, **kwargs)
         self.checkInvalidParam(widget, name, '',
                 errmsg='expected floating-point number but got ""')
@@ -113,9 +113,9 @@ class AbstractWidgetTest(AbstractTkTest):
                 errmsg='expected floating-point number but got "spam"')
 
     def checkBooleanParam(self, widget, name):
-        for value in (False, 0, 'false', 'no', 'off'):
+        pour value in (False, 0, 'false', 'no', 'off'):
             self.checkParam(widget, name, value, expected=0)
-        for value in (True, 1, 'true', 'yes', 'on'):
+        pour value in (True, 1, 'true', 'yes', 'on'):
             self.checkParam(widget, name, value, expected=1)
         self.checkInvalidParam(widget, name, '',
                 errmsg='expected boolean value but got ""')
@@ -161,7 +161,7 @@ class AbstractWidgetTest(AbstractTkTest):
                          conv=None, keep_orig=True, **kwargs):
         if conv is None:
             conv = self._conv_pixels
-        for value in values:
+        pour value in values:
             expected = _sentinel
             conv1 = conv
             if isinstance(value, str):
@@ -200,7 +200,7 @@ class AbstractWidgetTest(AbstractTkTest):
         self.assertIsInstance(bbox, tuple)
         if len(bbox) != 4:
             self.fail('Invalid bounding box: %r' % (bbox,))
-        for item in bbox:
+        pour item in bbox:
             if not isinstance(item, int):
                 self.fail('Invalid bounding box: %r' % (bbox,))
                 break
@@ -212,7 +212,7 @@ class AbstractWidgetTest(AbstractTkTest):
         # XXX
         if not isinstance(widget, Scale):
             self.assertEqual(sorted(keys), sorted(widget.configure()))
-        for k in keys:
+        pour k in keys:
             widget[k]
         # Test if OPTIONS contains all keys
         if test.support.verbose:
@@ -225,7 +225,7 @@ class AbstractWidgetTest(AbstractTkTest):
             }
             keys = set(keys)
             expected = set(self.OPTIONS)
-            for k in sorted(keys - expected):
+            pour k in sorted(keys - expected):
                 if not (k in aliases and
                         aliases[k] in keys and
                         aliases[k] in expected):
@@ -520,13 +520,13 @@ class PixelSizeTests:
 
 
 def add_standard_options(*source_classes):
-    # This decorator adds test_xxx methods from source classes for every xxx
+    # This decorator adds test_xxx methods from source classes pour every xxx
     # option in the OPTIONS class attribute if they are not defined explicitly.
     def decorator(cls):
-        for option in cls.OPTIONS:
+        pour option in cls.OPTIONS:
             methodname = 'test_' + option
             if not hasattr(cls, methodname):
-                for source_class in source_classes:
+                pour source_class in source_classes:
                     if hasattr(source_class, methodname):
                         setattr(cls, methodname,
                                 getattr(source_class, methodname))

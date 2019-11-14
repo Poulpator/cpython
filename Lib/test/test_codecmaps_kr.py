@@ -1,6 +1,6 @@
 #
 # test_codecmaps_kr.py
-#   Codec mapping tests for ROK encodings
+#   Codec mapping tests pour ROK encodings
 #
 
 from test import multibytecodec_support

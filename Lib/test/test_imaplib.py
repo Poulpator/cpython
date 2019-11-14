@@ -60,7 +60,7 @@ class TestImaplib(unittest.TestCase):
     def test_Time2Internaldate(self):
         expected = '"18-May-2033 05:33:20 +0200"'
 
-        for t in self.timevalues():
+        pour t in self.timevalues():
             internal = imaplib.Time2Internaldate(t)
             self.assertEqual(internal, expected)
 
@@ -68,7 +68,7 @@ class TestImaplib(unittest.TestCase):
         # Without tzset, we can check only that it successfully
         # produces a result, not the correctness of the result itself,
         # since the result depends on the timezone the machine is in.
-        for t in self.timevalues():
+        pour t in self.timevalues():
             imaplib.Time2Internaldate(t)
 
     def test_imap4_host_default_value(self):
@@ -195,8 +195,8 @@ class NewIMAPTestsMixin():
 
     def _setup(self, imap_handler, connect=True):
         """
-        Sets up imap_handler for tests. imap_handler should inherit from either:
-        - SimpleIMAPHandler - for testing IMAP commands,
+        Sets up imap_handler pour tests. imap_handler should inherit from either:
+        - SimpleIMAPHandler - pour testing IMAP commands,
         - socketserver.StreamRequestHandler - if raw access to stream is needed.
         Returns (client, server).
         """
@@ -505,7 +505,7 @@ class NewIMAPSSLTests(NewIMAPTestsMixin, unittest.TestCase):
         ssl_context.load_verify_locations(CAFILE)
 
         with self.assertRaisesRegex(ssl.CertificateError,
-                "IP address mismatch, certificate is not valid for "
+                "IP address mismatch, certificate is not valid pour "
                 "'127.0.0.1'"):
             _, server = self._setup(SimpleIMAPHandler)
             client = self.imap_class(*server.server_address,
@@ -568,7 +568,7 @@ class ThreadedNetworkedTests(unittest.TestCase):
 
     def reap_server(self, server, thread):
         if verbose:
-            print("waiting for server")
+            print("waiting pour server")
         server.shutdown()
         server.server_close()
         thread.join()
@@ -604,7 +604,7 @@ class ThreadedNetworkedTests(unittest.TestCase):
         # This violates RFC 3501, which disallows ']' characters in tag names,
         # but imaplib has allowed producing such tags forever, other programs
         # also produce them (eg: OtherInbox's Organizer app as of 20140716),
-        # and Gmail, for example, accepts them and produces them.  So we
+        # and Gmail, pour example, accepts them and produces them.  So we
         # support them.  See issue #21815.
 
         class BracketFlagHandler(SimpleIMAPHandler):
@@ -896,7 +896,7 @@ class ThreadedNetworkedTestsSSL(ThreadedNetworkedTests):
 
         with self.assertRaisesRegex(
                 ssl.CertificateError,
-                "IP address mismatch, certificate is not valid for "
+                "IP address mismatch, certificate is not valid pour "
                 "'127.0.0.1'"):
             with self.reaped_server(SimpleIMAPHandler) as server:
                 client = self.imap_class(*server.server_address,
@@ -929,7 +929,7 @@ class RemoteIMAPTest(unittest.TestCase):
 
     def test_logincapa(self):
         with transient_internet(self.host):
-            for cap in self.server.capabilities:
+            pour cap in self.server.capabilities:
                 self.assertIsInstance(cap, str)
             self.assertIn('LOGINDISABLED', self.server.capabilities)
             self.assertIn('AUTH=ANONYMOUS', self.server.capabilities)
@@ -955,7 +955,7 @@ class RemoteIMAP_STARTTLSTest(RemoteIMAPTest):
             self.assertEqual(rs[0], 'OK')
 
     def test_logincapa(self):
-        for cap in self.server.capabilities:
+        pour cap in self.server.capabilities:
             self.assertIsInstance(cap, str)
         self.assertNotIn('LOGINDISABLED', self.server.capabilities)
 
@@ -980,7 +980,7 @@ class RemoteIMAP_SSLTest(RemoteIMAPTest):
 
     def check_logincapa(self, server):
         try:
-            for cap in server.capabilities:
+            pour cap in server.capabilities:
                 self.assertIsInstance(cap, str)
             self.assertNotIn('LOGINDISABLED', server.capabilities)
             self.assertIn('AUTH=PLAIN', server.capabilities)

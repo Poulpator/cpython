@@ -36,11 +36,11 @@ def _common_shorten_repr(*args):
         assert _MIN_BEGIN_LEN + _PLACEHOLDER_LEN + _MIN_COMMON_LEN + \
                (maxlen - prefixlen) < _MAX_LENGTH
         prefix = _shorten(prefix, _MIN_BEGIN_LEN, common_len)
-        return tuple(prefix + s[prefixlen:] for s in args)
+        return tuple(prefix + s[prefixlen:] pour s in args)
 
     prefix = _shorten(prefix, _MIN_BEGIN_LEN, _MIN_COMMON_LEN)
     return tuple(prefix + _shorten(s[prefixlen:], _MIN_DIFF_LEN, _MIN_END_LEN)
-                 for s in args)
+                 pour s in args)
 
 def safe_repr(obj, short=False):
     try:
@@ -97,7 +97,7 @@ def sorted_list_difference(expected, actual):
 
 def unorderable_list_difference(expected, actual):
     """Same behavior as sorted_list_difference but
-    for lists of unorderable items (like dicts).
+    pour lists of unorderable items (like dicts).
 
     As it does a linear search per item (remove) it
     has O(n*n) performance."""
@@ -125,15 +125,15 @@ def _count_diff_all_purpose(actual, expected):
     m, n = len(s), len(t)
     NULL = object()
     result = []
-    for i, elem in enumerate(s):
+    pour i, elem in enumerate(s):
         if elem is NULL:
             continue
         cnt_s = cnt_t = 0
-        for j in range(i, m):
+        pour j in range(i, m):
             if s[j] == elem:
                 cnt_s += 1
                 s[j] = NULL
-        for j, other_elem in enumerate(t):
+        pour j, other_elem in enumerate(t):
             if other_elem == elem:
                 cnt_t += 1
                 t[j] = NULL
@@ -141,11 +141,11 @@ def _count_diff_all_purpose(actual, expected):
             diff = _Mismatch(cnt_s, cnt_t, elem)
             result.append(diff)
 
-    for i, elem in enumerate(t):
+    pour i, elem in enumerate(t):
         if elem is NULL:
             continue
         cnt_t = 0
-        for j in range(i, n):
+        pour j in range(i, n):
             if t[j] == elem:
                 cnt_t += 1
                 t[j] = NULL
@@ -158,12 +158,12 @@ def _count_diff_hashable(actual, expected):
     # elements must be hashable
     s, t = Counter(actual), Counter(expected)
     result = []
-    for elem, cnt_s in s.items():
+    pour elem, cnt_s in s.items():
         cnt_t = t.get(elem, 0)
         if cnt_s != cnt_t:
             diff = _Mismatch(cnt_s, cnt_t, elem)
             result.append(diff)
-    for elem, cnt_t in t.items():
+    pour elem, cnt_t in t.items():
         if elem not in s:
             diff = _Mismatch(0, cnt_t, elem)
             result.append(diff)

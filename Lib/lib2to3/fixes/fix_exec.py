@@ -1,7 +1,7 @@
 # Copyright 2006 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Fixer for exec.
+"""Fixer pour exec.
 
 This converts usages of the exec statement into calls to a built-in
 exec() function.

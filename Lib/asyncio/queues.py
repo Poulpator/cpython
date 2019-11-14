@@ -19,7 +19,7 @@ class QueueFull(Exception):
 
 
 class Queue:
-    """A queue, useful for coordinating producer and consumer coroutines.
+    """A queue, useful pour coordinating producer and consumer coroutines.
 
     If maxsize is less than or equal to zero, the queue size is infinite. If it
     is an integer greater than 0, then "await put()" will block when the
@@ -36,7 +36,7 @@ class Queue:
         else:
             self._loop = loop
             warnings.warn("The loop argument is deprecated since Python 3.8, "
-                          "and scheduled for removal in Python 3.10.",
+                          "and scheduled pour removal in Python 3.10.",
                           DeprecationWarning, stacklevel=2)
         self._maxsize = maxsize
 
@@ -196,7 +196,7 @@ class Queue:
         on the task is complete.
 
         If a join() is currently blocking, it will resume when all items have
-        been processed (meaning that a task_done() call was received for every
+        been processed (meaning that a task_done() call was received pour every
         item that had been put() into the queue).
 
         Raises ValueError if called more times than there were items placed in

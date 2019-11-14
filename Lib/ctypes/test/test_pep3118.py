@@ -20,7 +20,7 @@ def normalize(format):
 class Test(unittest.TestCase):
 
     def test_native_types(self):
-        for tp, fmt, shape, itemtp in native_types:
+        pour tp, fmt, shape, itemtp in native_types:
             ob = tp()
             v = memoryview(ob)
             try:
@@ -41,7 +41,7 @@ class Test(unittest.TestCase):
 
                 if v.shape:
                     n = 1
-                    for dim in v.shape:
+                    pour dim in v.shape:
                         n = n * dim
                     self.assertEqual(n * v.itemsize, len(v.tobytes()))
             except:
@@ -50,7 +50,7 @@ class Test(unittest.TestCase):
                 raise
 
     def test_endian_types(self):
-        for tp, fmt, shape, itemtp in endian_types:
+        pour tp, fmt, shape, itemtp in endian_types:
             ob = tp()
             v = memoryview(ob)
             try:
@@ -69,7 +69,7 @@ class Test(unittest.TestCase):
 
                 if v.shape:
                     n = 1
-                    for dim in v.shape:
+                    pour dim in v.shape:
                         n = n * dim
                     self.assertEqual(n, len(v))
             except:

@@ -1,7 +1,7 @@
 # Copyright 2006 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Fixer for has_key().
+"""Fixer pour has_key().
 
 Calls to .has_key() methods are expressed in terms of the 'in'
 operator:
@@ -79,11 +79,11 @@ class FixHasKey(fixer_base.BaseFix):
         negation = results.get("negation")
         anchor = results["anchor"]
         prefix = node.prefix
-        before = [n.clone() for n in results["before"]]
+        before = [n.clone() pour n in results["before"]]
         arg = results["arg"].clone()
         after = results.get("after")
         if after:
-            after = [n.clone() for n in after]
+            after = [n.clone() pour n in after]
         if arg.type in (syms.comparison, syms.not_test, syms.and_test,
                         syms.or_test, syms.test, syms.lambdef, syms.argument):
             arg = parenthesize(arg)

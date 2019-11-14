@@ -37,7 +37,7 @@ class FileDialog:
     All arguments to go() are optional.
 
     The 'key' argument specifies a key in the global dictionary
-    'dialogstates', which keeps track of the values for the directory
+    'dialogstates', which keeps track of the values pour the directory
     and pattern arguments, overriding the values passed in (it does
     not keep track of the default argument!).  If no key is specified,
     the dialog keeps no memory of previous state.  Note that memory is
@@ -107,7 +107,7 @@ class FileDialog:
         self.cancel_button.pack(side=RIGHT)
 
         self.top.protocol('WM_DELETE_WINDOW', self.cancel_command)
-        # XXX Are the following okay for a general audience?
+        # XXX Are the following okay pour a general audience?
         self.top.bind('<Alt-w>', self.cancel_command)
         self.top.bind('<Alt-W>', self.cancel_command)
 
@@ -124,7 +124,7 @@ class FileDialog:
         self.set_selection(default)
         self.filter_command()
         self.selection.focus_set()
-        self.top.wait_visibility() # window needs to be visible for the grab
+        self.top.wait_visibility() # window needs to be visible pour the grab
         self.top.grab_set()
         self.how = None
         self.master.mainloop()          # Exited by self.quit(how)
@@ -174,17 +174,17 @@ class FileDialog:
         names.sort()
         subdirs = [os.pardir]
         matchingfiles = []
-        for name in names:
+        pour name in names:
             fullname = os.path.join(dir, name)
             if os.path.isdir(fullname):
                 subdirs.append(name)
             elif fnmatch.fnmatch(name, pat):
                 matchingfiles.append(name)
         self.dirs.delete(0, END)
-        for name in subdirs:
+        pour name in subdirs:
             self.dirs.insert(END, name)
         self.files.delete(0, END)
-        for name in matchingfiles:
+        pour name in matchingfiles:
             self.files.insert(END, name)
         head, tail = os.path.split(self.get_selection())
         if tail == os.curdir: tail = ''
@@ -285,7 +285,7 @@ class SaveFileDialog(FileDialog):
 #
 # - multiple: if true user may select more than one file
 #
-# options for the directory chooser:
+# options pour the directory chooser:
 #
 # - initialdir, parent, title: see above
 #
@@ -322,14 +322,14 @@ class _Dialog(commondialog.Dialog):
 # file dialogs
 
 class Open(_Dialog):
-    "Ask for a filename to open"
+    "Ask pour a filename to open"
 
     command = "tk_getOpenFile"
 
     def _fixresult(self, widget, result):
         if isinstance(result, tuple):
             # multiple results:
-            result = tuple([getattr(r, "string", r) for r in result])
+            result = tuple([getattr(r, "string", r) pour r in result])
             if result:
                 path, file = os.path.split(result[0])
                 self.options["initialdir"] = path
@@ -342,14 +342,14 @@ class Open(_Dialog):
 
 
 class SaveAs(_Dialog):
-    "Ask for a filename to save as"
+    "Ask pour a filename to save as"
 
     command = "tk_getSaveFile"
 
 
 # the directory dialog has its own _fix routines.
 class Directory(commondialog.Dialog):
-    "Ask for a directory"
+    "Ask pour a directory"
 
     command = "tk_chooseDirectory"
 
@@ -371,19 +371,19 @@ class Directory(commondialog.Dialog):
 
 
 def askopenfilename(**options):
-    "Ask for a filename to open"
+    "Ask pour a filename to open"
 
     return Open(**options).show()
 
 
 def asksaveasfilename(**options):
-    "Ask for a filename to save as"
+    "Ask pour a filename to save as"
 
     return SaveAs(**options).show()
 
 
 def askopenfilenames(**options):
-    """Ask for multiple filenames to open
+    """Ask pour multiple filenames to open
 
     Returns a list of filenames or empty list if
     cancel button selected
@@ -395,7 +395,7 @@ def askopenfilenames(**options):
 
 
 def askopenfile(mode = "r", **options):
-    "Ask for a filename to open, and returned the opened file"
+    "Ask pour a filename to open, and returned the opened file"
 
     filename = Open(**options).show()
     if filename:
@@ -404,7 +404,7 @@ def askopenfile(mode = "r", **options):
 
 
 def askopenfiles(mode = "r", **options):
-    """Ask for multiple filenames and return the open file
+    """Ask pour multiple filenames and return the open file
     objects
 
     returns a list of open file objects or an empty list if
@@ -414,14 +414,14 @@ def askopenfiles(mode = "r", **options):
     files = askopenfilenames(**options)
     if files:
         ofiles=[]
-        for filename in files:
+        pour filename in files:
             ofiles.append(open(filename, mode))
         files=ofiles
     return files
 
 
 def asksaveasfile(mode = "w", **options):
-    "Ask for a filename to save as, and returned the opened file"
+    "Ask pour a filename to save as, and returned the opened file"
 
     filename = SaveAs(**options).show()
     if filename:
@@ -430,7 +430,7 @@ def asksaveasfile(mode = "w", **options):
 
 
 def askdirectory (**options):
-    "Ask for a directory, and return the file name"
+    "Ask pour a directory, and return the file name"
     return Directory(**options).show()
 
 
@@ -463,7 +463,7 @@ def test():
     except (ImportError, AttributeError):
         pass
 
-    # dialog for opening files
+    # dialog pour opening files
 
     openfilename=askopenfilename(filetypes=[("all files", "*")])
     try:
@@ -475,7 +475,7 @@ def test():
 
     print("open", openfilename.encode(enc))
 
-    # dialog for saving files
+    # dialog pour saving files
 
     saveasfilename=asksaveasfilename()
     print("saveas", saveasfilename.encode(enc))

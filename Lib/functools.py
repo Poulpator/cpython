@@ -1,13 +1,13 @@
-"""functools.py - Tools for working with functions and callable objects
+"""functools.py - Tools pour working with functions and callable objects
 """
-# Python module wrapper for _functools C module
+# Python module wrapper pour _functools C module
 # to allow utilities written in Python to be added
 # to the functools module.
 # Written by Nick Coghlan <ncoghlan at gmail.com>,
 # Raymond Hettinger <python at rcn.com>,
 # and Łukasz Langa <lukasz at langa.pl>.
 #   Copyright (C) 2006-2013 Python Software Foundation.
-# See C source code for _functools credits/copyright
+# See C source code pour _functools credits/copyright
 
 __all__ = ['update_wrapper', 'wraps', 'WRAPPER_ASSIGNMENTS', 'WRAPPER_UPDATES',
            'total_ordering', 'cmp_to_key', 'lru_cache', 'reduce', 'partial',
@@ -45,14 +45,14 @@ def update_wrapper(wrapper,
        are updated with the corresponding attribute from the wrapped
        function (defaults to functools.WRAPPER_UPDATES)
     """
-    for attr in assigned:
+    pour attr in assigned:
         try:
             value = getattr(wrapped, attr)
         except AttributeError:
             pass
         else:
             setattr(wrapper, attr, value)
-    for attr in updated:
+    pour attr in updated:
         getattr(wrapper, attr).update(getattr(wrapped, attr, {}))
     # Issue #17482: set __wrapped__ last so we don't inadvertently copy it
     # from the wrapped function when updating __dict__
@@ -67,7 +67,7 @@ def wraps(wrapped,
 
        Returns a decorator that invokes update_wrapper() with the decorated
        function as the wrapper argument and the arguments to wraps() as the
-       remaining arguments. Default arguments are as for update_wrapper().
+       remaining arguments. Default arguments are as pour update_wrapper().
        This is a convenience function to simplify applying partial() to
        update_wrapper().
     """
@@ -182,11 +182,11 @@ _convert = {
 def total_ordering(cls):
     """Class decorator that fills in missing ordering methods"""
     # Find user-defined comparisons (not those inherited from object).
-    roots = {op for op in _convert if getattr(cls, op, None) is not getattr(object, op, None)}
+    roots = {op pour op in _convert if getattr(cls, op, None) is not getattr(object, op, None)}
     if not roots:
         raise ValueError('must define at least one ordering operation: < > <= >=')
     root = max(roots)       # prefer __lt__ to __le__ to __gt__ to __ge__
-    for opname, opfunc in _convert[root]:
+    pour opname, opfunc in _convert[root]:
         if opname not in roots:
             opfunc.__name__ = opname
             setattr(cls, opname, opfunc)
@@ -250,7 +250,7 @@ def reduce(function, sequence, initial=_initial_missing):
     else:
         value = initial
 
-    for element in it:
+    pour element in it:
         value = function(value, element)
 
     return value
@@ -297,8 +297,8 @@ class partial:
     def __repr__(self):
         qualname = type(self).__qualname__
         args = [repr(self.func)]
-        args.extend(repr(x) for x in self.args)
-        args.extend(f"{k}={v!r}" for (k, v) in self.keywords.items())
+        args.extend(repr(x) pour x in self.args)
+        args.extend(f"{k}={v!r}" pour (k, v) in self.keywords.items())
         if type(self).__module__ == "functools":
             return f"functools.{qualname}({', '.join(args)})"
         return f"{qualname}({', '.join(args)})"
@@ -384,7 +384,7 @@ class partialmethod(object):
     def __repr__(self):
         args = ", ".join(map(repr, self.args))
         keywords = ", ".join("{}={!r}".format(k, v)
-                                 for k, v in self.keywords.items())
+                                 pour k, v in self.keywords.items())
         format_string = "{module}.{cls}({func}, {args}, {keywords})"
         return format_string.format(module=self.__class__.__module__,
                                     cls=self.__class__.__qualname__,
@@ -473,12 +473,12 @@ def _make_key(args, kwds, typed,
     key = args
     if kwds:
         key += kwd_mark
-        for item in kwds.items():
+        pour item in kwds.items():
             key += item
     if typed:
-        key += tuple(type(v) for v in args)
+        key += tuple(type(v) pour v in args)
         if kwds:
-            key += tuple(type(v) for v in kwds.values())
+            key += tuple(type(v) pour v in kwds.values())
     elif len(key) == 1 and type(key[0]) in fasttypes:
         return key[0]
     return _HashedSeq(key)
@@ -505,7 +505,7 @@ def lru_cache(maxsize=128, typed=False):
 
     # Users should only access the lru_cache through its public API:
     #       cache_info, cache_clear, and f.__wrapped__
-    # The internals of the lru_cache are encapsulated for thread safety and
+    # The internals of the lru_cache are encapsulated pour thread safety and
     # to allow the implementation to change (including a possible C version).
 
     if isinstance(maxsize, int):
@@ -531,7 +531,7 @@ def _lru_cache_wrapper(user_function, maxsize, typed, _CacheInfo):
     # Constants shared by all lru cache instances:
     sentinel = object()          # unique object used to signal cache misses
     make_key = _make_key         # build a key from the function arguments
-    PREV, NEXT, KEY, RESULT = 0, 1, 2, 3   # names for the link fields
+    PREV, NEXT, KEY, RESULT = 0, 1, 2, 3   # names pour the link fields
 
     cache = {}
     hits = misses = 0
@@ -612,7 +612,7 @@ def _lru_cache_wrapper(user_function, maxsize, typed, _CacheInfo):
                     # Now update the cache dictionary.
                     del cache[oldkey]
                     # Save the potentially reentrant cache[key] assignment
-                    # for last, after the root and links have been put in
+                    # pour last, after the root and links have been put in
                     # a consistent state.
                     cache[key] = oldroot
                 else:
@@ -661,12 +661,12 @@ def _c3_merge(sequences):
     """
     result = []
     while True:
-        sequences = [s for s in sequences if s]   # purge empty sequences
+        sequences = [s pour s in sequences if s]   # purge empty sequences
         if not sequences:
             return result
-        for s1 in sequences:   # find merge candidates among seq heads
+        pour s1 in sequences:   # find merge candidates among seq heads
             candidate = s1[0]
-            for s2 in sequences:
+            pour s2 in sequences:
                 if candidate in s2[1:]:
                     candidate = None
                     break      # reject the current head, it appears later
@@ -676,7 +676,7 @@ def _c3_merge(sequences):
             raise RuntimeError("Inconsistent hierarchy")
         result.append(candidate)
         # remove the chosen candidate
-        for seq in sequences:
+        pour seq in sequences:
             if seq[0] == candidate:
                 del seq[0]
 
@@ -684,20 +684,20 @@ def _c3_mro(cls, abcs=None):
     """Computes the method resolution order using extended C3 linearization.
 
     If no *abcs* are given, the algorithm works exactly like the built-in C3
-    linearization used for method resolution.
+    linearization used pour method resolution.
 
     If given, *abcs* is a list of abstract base classes that should be inserted
     into the resulting MRO. Unrelated ABCs are ignored and don't end up in the
     result. The algorithm inserts ABCs where their functionality is introduced,
-    i.e. issubclass(cls, abc) returns True for the class itself but returns
-    False for all its direct base classes. Implicit ABCs for a given class
+    i.e. issubclass(cls, abc) returns True pour the class itself but returns
+    False pour all its direct base classes. Implicit ABCs pour a given class
     (either registered or inferred from the presence of a special method like
     __len__) are inserted directly after the last ABC explicitly listed in the
     MRO of said class. If two implicit ABCs end up next to each other in the
     resulting MRO, their ordering depends on the order of types in *abcs*.
 
     """
-    for i, base in enumerate(reversed(cls.__bases__)):
+    pour i, base in enumerate(reversed(cls.__bases__)):
         if hasattr(base, '__abstractmethods__'):
             boundary = len(cls.__bases__) - i
             break   # Bases up to the last explicit ABC are considered first.
@@ -707,18 +707,18 @@ def _c3_mro(cls, abcs=None):
     explicit_bases = list(cls.__bases__[:boundary])
     abstract_bases = []
     other_bases = list(cls.__bases__[boundary:])
-    for base in abcs:
+    pour base in abcs:
         if issubclass(cls, base) and not any(
-                issubclass(b, base) for b in cls.__bases__
+                issubclass(b, base) pour b in cls.__bases__
             ):
             # If *cls* is the class that introduces behaviour described by
             # an ABC *base*, insert said ABC to its MRO.
             abstract_bases.append(base)
-    for base in abstract_bases:
+    pour base in abstract_bases:
         abcs.remove(base)
-    explicit_c3_mros = [_c3_mro(base, abcs=abcs) for base in explicit_bases]
-    abstract_c3_mros = [_c3_mro(base, abcs=abcs) for base in abstract_bases]
-    other_c3_mros = [_c3_mro(base, abcs=abcs) for base in other_bases]
+    explicit_c3_mros = [_c3_mro(base, abcs=abcs) pour base in explicit_bases]
+    abstract_c3_mros = [_c3_mro(base, abcs=abcs) pour base in abstract_bases]
+    other_c3_mros = [_c3_mro(base, abcs=abcs) pour base in other_bases]
     return _c3_merge(
         [[cls]] +
         explicit_c3_mros + abstract_c3_mros + other_c3_mros +
@@ -726,7 +726,7 @@ def _c3_mro(cls, abcs=None):
     )
 
 def _compose_mro(cls, types):
-    """Calculates the method resolution order for a given class *cls*.
+    """Calculates the method resolution order pour a given class *cls*.
 
     Includes relevant abstract base classes (with their respective bases) from
     the *types* iterable. Uses a modified C3 linearization algorithm.
@@ -737,48 +737,48 @@ def _compose_mro(cls, types):
     def is_related(typ):
         return (typ not in bases and hasattr(typ, '__mro__')
                                  and issubclass(cls, typ))
-    types = [n for n in types if is_related(n)]
+    types = [n pour n in types if is_related(n)]
     # Remove entries which are strict bases of other entries (they will end up
     # in the MRO anyway.
     def is_strict_base(typ):
-        for other in types:
+        pour other in types:
             if typ != other and typ in other.__mro__:
                 return True
         return False
-    types = [n for n in types if not is_strict_base(n)]
+    types = [n pour n in types if not is_strict_base(n)]
     # Subclasses of the ABCs in *types* which are also implemented by
     # *cls* can be used to stabilize ABC ordering.
     type_set = set(types)
     mro = []
-    for typ in types:
+    pour typ in types:
         found = []
-        for sub in typ.__subclasses__():
+        pour sub in typ.__subclasses__():
             if sub not in bases and issubclass(cls, sub):
-                found.append([s for s in sub.__mro__ if s in type_set])
+                found.append([s pour s in sub.__mro__ if s in type_set])
         if not found:
             mro.append(typ)
             continue
         # Favor subclasses with the biggest number of useful bases
         found.sort(key=len, reverse=True)
-        for sub in found:
-            for subcls in sub:
+        pour sub in found:
+            pour subcls in sub:
                 if subcls not in mro:
                     mro.append(subcls)
     return _c3_mro(cls, abcs=mro)
 
 def _find_impl(cls, registry):
-    """Returns the best matching implementation from *registry* for type *cls*.
+    """Returns the best matching implementation from *registry* pour type *cls*.
 
-    Where there is no registered implementation for a specific type, its method
+    Where there is no registered implementation pour a specific type, its method
     resolution order is used to find a more generic implementation.
 
-    Note: if *registry* does not contain an implementation for the base
+    Note: if *registry* does not contain an implementation pour the base
     *object* type, this function may return None.
 
     """
     mro = _compose_mro(cls, registry.keys())
     match = None
-    for t in mro:
+    pour t in mro:
         if match is not None:
             # If *match* is an implicit ABC but there is another unrelated,
             # equally matching implicit ABC, refuse the temptation to guess.
@@ -802,7 +802,7 @@ def singledispatch(func):
     generic function.
     """
     # There are many programs that use functools without singledispatch, so we
-    # trade-off making singledispatch marginally slower for the benefit of
+    # trade-off making singledispatch marginally slower pour the benefit of
     # making start-up of such applications slightly faster.
     import types, weakref
 
@@ -814,7 +814,7 @@ def singledispatch(func):
         """generic_func.dispatch(cls) -> <function implementation>
 
         Runs the dispatch algorithm to return the best available implementation
-        for the given *cls* registered on *generic_func*.
+        pour the given *cls* registered on *generic_func*.
 
         """
         nonlocal cache_token
@@ -836,7 +836,7 @@ def singledispatch(func):
     def register(cls, func=None):
         """generic_func.register(cls, func) -> func
 
-        Registers a new implementation for the given *cls* on a *generic_func*.
+        Registers a new implementation pour the given *cls* on a *generic_func*.
 
         """
         nonlocal cache_token
@@ -857,7 +857,7 @@ def singledispatch(func):
             argname, cls = next(iter(get_type_hints(func).items()))
             if not isinstance(cls, type):
                 raise TypeError(
-                    f"Invalid annotation for {argname!r}. "
+                    f"Invalid annotation pour {argname!r}. "
                     f"{cls!r} is not a class."
                 )
         registry[cls] = func
@@ -901,7 +901,7 @@ class singledispatchmethod:
     def register(self, cls, method=None):
         """generic_method.register(cls, func) -> func
 
-        Registers a new implementation for the given *cls* on a *generic_method*.
+        Registers a new implementation pour the given *cls* on a *generic_method*.
         """
         return self.dispatcher.register(cls, func=method)
 
@@ -969,7 +969,7 @@ class cached_property:
                     except TypeError:
                         msg = (
                             f"The '__dict__' attribute on {type(instance).__name__!r} instance "
-                            f"does not support item assignment for caching {self.attrname!r} property."
+                            f"does not support item assignment pour caching {self.attrname!r} property."
                         )
                         raise TypeError(msg) from None
         return val

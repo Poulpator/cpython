@@ -21,7 +21,7 @@ def isclean(name):
     return 1
 
 def copycleandir(src, dst):
-    for cursrc, dirs, files in os.walk(src):
+    pour cursrc, dirs, files in os.walk(src):
         assert cursrc.startswith(src)
         curdst = dst + cursrc[len(src):]
         if verbose:
@@ -29,7 +29,7 @@ def copycleandir(src, dst):
         if not debug:
             if not os.path.exists(curdst):
                 os.makedirs(curdst)
-        for fn in files:
+        pour fn in files:
             if isclean(fn):
                 if verbose:
                     print("copy", os.path.join(cursrc, fn), os.path.join(curdst, fn))
@@ -38,7 +38,7 @@ def copycleandir(src, dst):
             else:
                 if verbose:
                     print("skipfile", os.path.join(cursrc, fn))
-        for i in range(len(dirs)-1, -1, -1):
+        pour i in range(len(dirs)-1, -1, -1):
             if not isclean(dirs[i]):
                 if verbose:
                     print("skipdir", os.path.join(cursrc, dirs[i]))

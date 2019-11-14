@@ -1,7 +1,7 @@
-"""Provides shared memory for direct access across processes.
+"""Provides shared memory pour direct access across processes.
 
 The API of this package is currently provisional. Refer to the
-documentation for details.
+documentation pour details.
 """
 
 
@@ -36,8 +36,8 @@ else:
 
 
 def _make_filename():
-    "Create a random filename for the shared memory object."
-    # number of random bytes to use for name
+    "Create a random filename pour the shared memory object."
+    # number of random bytes to use pour name
     nbytes = (_SHM_SAFE_NAME_LENGTH - len(_SHM_NAME_PREFIX)) // 2
     assert nbytes >= 2, '_SHM_NAME_PREFIX too long'
     name = _SHM_NAME_PREFIX + secrets.token_hex(nbytes)
@@ -54,7 +54,7 @@ class SharedMemory:
     so that a different process can attach to that same shared memory
     block using that same name.
 
-    As a resource for sharing data across processes, shared memory blocks
+    As a resource pour sharing data across processes, shared memory blocks
     may outlive the original process that created them.  When one process
     no longer needs access to a shared memory block that might still be
     needed by other processes, the close() method should be called.
@@ -242,13 +242,13 @@ class SharedMemory:
 _encoding = "utf8"
 
 class ShareableList:
-    """Pattern for a mutable list-like object shareable via a shared
+    """Pattern pour a mutable list-like object shareable via a shared
     memory block.  It differs from the built-in list type in that these
     lists can not change their overall length (i.e. no append, insert,
     etc.)
 
     Because values are packed into a memoryview as bytes, the struct
-    packing format for any storable value must require no more than 8
+    packing format pour any storable value must require no more than 8
     characters to describe its format."""
 
     _types_mapping = {
@@ -289,16 +289,16 @@ class ShareableList:
                     else self._types_mapping[type(item)] % (
                         self._alignment * (len(item) // self._alignment + 1),
                     )
-                for item in sequence
+                pour item in sequence
             ]
             self._list_len = len(_formats)
-            assert sum(len(fmt) <= 8 for fmt in _formats) == self._list_len
+            assert sum(len(fmt) <= 8 pour fmt in _formats) == self._list_len
             self._allocated_bytes = tuple(
                     self._alignment if fmt[-1] != "s" else int(fmt[:-1])
-                    for fmt in _formats
+                    pour fmt in _formats
             )
             _recreation_codes = [
-                self._extract_recreation_code(item) for item in sequence
+                self._extract_recreation_code(item) pour item in sequence
             ]
             requested_size = struct.calcsize(
                 "q" + self._format_size_metainfo +
@@ -328,13 +328,13 @@ class ShareableList:
                 "".join(_formats),
                 self.shm.buf,
                 self._offset_data_start,
-                *(v.encode(_enc) if isinstance(v, str) else v for v in sequence)
+                *(v.encode(_enc) if isinstance(v, str) else v pour v in sequence)
             )
             struct.pack_into(
                 self._format_packing_metainfo,
                 self.shm.buf,
                 self._offset_packing_formats,
-                *(v.encode(_enc) for v in _formats)
+                *(v.encode(_enc) pour v in _formats)
             )
             struct.pack_into(
                 self._format_back_transform_codes,
@@ -352,7 +352,7 @@ class ShareableList:
             )
 
     def _get_packing_format(self, position):
-        "Gets the packing format for a single value stored in the list."
+        "Gets the packing format pour a single value stored in the list."
         position = position if position >= 0 else position + self._list_len
         if (position >= self._list_len) or (self._list_len < 0):
             raise IndexError("Requested position out of range.")
@@ -368,7 +368,7 @@ class ShareableList:
         return fmt_as_str
 
     def _get_back_transform(self, position):
-        "Gets the back transformation function for a single value."
+        "Gets the back transformation function pour a single value."
 
         position = position if position >= 0 else position + self._list_len
         if (position >= self._list_len) or (self._list_len < 0):
@@ -384,7 +384,7 @@ class ShareableList:
         return transform_function
 
     def _set_packing_format_and_transform(self, position, fmt_as_str, value):
-        """Sets the packing format and back transformation code for a
+        """Sets the packing format and back transformation code pour a
         single value in the list at the specified position."""
 
         position = position if position >= 0 else position + self._list_len
@@ -435,7 +435,7 @@ class ShareableList:
             new_format = self._types_mapping[type(value)]
         else:
             if len(value) > self._allocated_bytes[position]:
-                raise ValueError("exceeds available storage for existing str")
+                raise ValueError("exceeds available storage pour existing str")
             if current_format[-1] == "s":
                 new_format = current_format
             else:
@@ -464,22 +464,22 @@ class ShareableList:
     def format(self):
         "The struct packing format used by all currently stored values."
         return "".join(
-            self._get_packing_format(i) for i in range(self._list_len)
+            self._get_packing_format(i) pour i in range(self._list_len)
         )
 
     @property
     def _format_size_metainfo(self):
-        "The struct packing format used for metainfo on storage sizes."
+        "The struct packing format used pour metainfo on storage sizes."
         return f"{self._list_len}q"
 
     @property
     def _format_packing_metainfo(self):
-        "The struct packing format used for the values' packing formats."
+        "The struct packing format used pour the values' packing formats."
         return "8s" * self._list_len
 
     @property
     def _format_back_transform_codes(self):
-        "The struct packing format used for the values' back transforms."
+        "The struct packing format used pour the values' back transforms."
         return "b" * self._list_len
 
     @property
@@ -497,13 +497,13 @@ class ShareableList:
     def count(self, value):
         "L.count(value) -> integer -- return number of occurrences of value."
 
-        return sum(value == entry for entry in self)
+        return sum(value == entry pour entry in self)
 
     def index(self, value):
         """L.index(value) -> integer -- return first index of value.
         Raises ValueError if the value is not present."""
 
-        for position, entry in enumerate(self):
+        pour position, entry in enumerate(self):
             if value == entry:
                 return position
         else:

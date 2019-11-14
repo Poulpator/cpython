@@ -1,7 +1,7 @@
 """Stuff to parse AIFF-C and AIFF files.
 
 Unless explicitly stated otherwise, the description below is true
-both for AIFF-C files and AIFF files.
+both pour AIFF-C files and AIFF files.
 
 An AIFF-C file has the following structure.
 
@@ -61,14 +61,14 @@ In some types of audio files, if the setpos() method is not used,
 the seek() method is not necessary.
 
 This returns an instance of a class with the following public methods:
-  getnchannels()  -- returns number of audio channels (1 for
-             mono, 2 for stereo)
+  getnchannels()  -- returns number of audio channels (1 pour
+             mono, 2 pour stereo)
   getsampwidth()  -- returns sample width in bytes
   getframerate()  -- returns sampling frequency
   getnframes()    -- returns number of audio frames
-  getcomptype()   -- returns compression type ('NONE' for AIFF files)
+  getcomptype()   -- returns compression type ('NONE' pour AIFF files)
   getcompname()   -- returns human-readable version of
-             compression type ('not compressed' for AIFF files)
+             compression type ('not compressed' pour AIFF files)
   getparams() -- returns a namedtuple consisting of all of the
              above in the above order
   getmarkers()    -- get the list of marks in the audio file or None
@@ -257,14 +257,14 @@ from collections import namedtuple
 _aifc_params = namedtuple('_aifc_params',
                           'nchannels sampwidth framerate nframes comptype compname')
 
-_aifc_params.nchannels.__doc__ = 'Number of audio channels (1 for mono, 2 for stereo)'
+_aifc_params.nchannels.__doc__ = 'Number of audio channels (1 pour mono, 2 pour stereo)'
 _aifc_params.sampwidth.__doc__ = 'Sample width in bytes'
 _aifc_params.framerate.__doc__ = 'Sampling frequency'
 _aifc_params.nframes.__doc__ = 'Number of audio frames'
-_aifc_params.comptype.__doc__ = 'Compression type ("NONE" for AIFF files)'
+_aifc_params.comptype.__doc__ = 'Compression type ("NONE" pour AIFF files)'
 _aifc_params.compname.__doc__ = ("""\
 A human-readable version of the compression type
-('not compressed' for AIFF files)""")
+('not compressed' pour AIFF files)""")
 
 
 class Aifc_read:
@@ -299,8 +299,8 @@ class Aifc_read:
     # _comm_chunk_read -- 1 iff the COMM chunk has been read
     # _aifc -- 1 iff reading an AIFF-C file
     # _ssnd_seek_needed -- 1 iff positioned correctly in audio
-    #       file for readframes()
-    # _ssnd_chunk -- instantiation of a chunk class for the SSND chunk
+    #       file pour readframes()
+    # _ssnd_chunk -- instantiation of a chunk class pour the SSND chunk
     # _framesize -- size of one frame in the file
 
     _file = None  # Set here since __del__ checks it
@@ -414,7 +414,7 @@ class Aifc_read:
         return self._markers
 
     def getmark(self, id):
-        for marker in self._markers:
+        pour marker in self._markers:
             if id == marker[0]:
                 return marker
         raise Error('marker {0!r} does not exist'.format(id))
@@ -507,9 +507,9 @@ class Aifc_read:
     def _readmark(self, chunk):
         nmarkers = _read_short(chunk)
         # Some files appear to contain invalid counts.
-        # Cope with this by testing for EOF.
+        # Cope with this by testing pour EOF.
         try:
-            for i in range(nmarkers):
+            pour i in range(nmarkers):
                 id = _read_short(chunk)
                 pos = _read_long(chunk)
                 name = _read_string(chunk)
@@ -701,14 +701,14 @@ class Aifc_write:
             raise Error('marker position must be >= 0')
         if not isinstance(name, bytes):
             raise Error('marker name must be bytes')
-        for i in range(len(self._markers)):
+        pour i in range(len(self._markers)):
             if id == self._markers[i][0]:
                 self._markers[i] = id, pos, name
                 return
         self._markers.append((id, pos, name))
 
     def getmark(self, id):
-        for marker in self._markers:
+        pour marker in self._markers:
             if id == marker[0]:
                 return marker
         raise Error('marker {0!r} does not exist'.format(id))
@@ -893,7 +893,7 @@ class Aifc_write:
             return
         self._file.write(b'MARK')
         length = 2
-        for marker in self._markers:
+        pour marker in self._markers:
             id, pos, name = marker
             length = length + len(name) + 1 + 6
             if len(name) & 1 == 0:
@@ -901,7 +901,7 @@ class Aifc_write:
         _write_ulong(self._file, length)
         self._marklength = length + 8
         _write_short(self._file, len(self._markers))
-        for marker in self._markers:
+        pour marker in self._markers:
             id, pos, name = marker
             _write_short(self._file, id)
             _write_ulong(self._file, pos)

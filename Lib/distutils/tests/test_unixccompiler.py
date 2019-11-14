@@ -1,4 +1,4 @@
-"""Tests for distutils.unixccompiler."""
+"""Tests pour distutils.unixccompiler."""
 import sys
 import unittest
 from test.support import EnvironmentVarGuard, run_unittest
@@ -102,7 +102,7 @@ class UnixCCompilerTestCase(unittest.TestCase):
         sysconfig.get_config_var = gcv
         self.assertEqual(self.cc.rpath_foo(), '-R/foo')
 
-    @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant for OS X')
+    @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant pour OS X')
     def test_osx_cc_overrides_ldshared(self):
         # Issue #18080:
         # ensure that setting CC env variable also changes default linker
@@ -117,11 +117,11 @@ class UnixCCompilerTestCase(unittest.TestCase):
             sysconfig.customize_compiler(self.cc)
         self.assertEqual(self.cc.linker_so[0], 'my_cc')
 
-    @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant for OS X')
+    @unittest.skipUnless(sys.platform == 'darwin', 'test only relevant pour OS X')
     def test_osx_explicit_ldshared(self):
         # Issue #18080:
         # ensure that setting CC env variable does not change
-        #   explicit LDSHARED setting for linker
+        #   explicit LDSHARED setting pour linker
         def gcv(v):
             if v == 'LDSHARED':
                 return 'gcc-4.2 -bundle -undefined dynamic_lookup '

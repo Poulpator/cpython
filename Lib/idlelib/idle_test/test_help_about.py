@@ -55,7 +55,7 @@ class LiveDialogTest(unittest.TestCase):
                           (dialog.py_copyright, copyright, 'copyright'),
                           (dialog.py_credits, credits, 'credits')]
 
-        for button, printer, name in button_sources:
+        pour button, printer, name in button_sources:
             with self.subTest(name=name):
                 printer._Printer__setup()
                 button.invoke()
@@ -74,7 +74,7 @@ class LiveDialogTest(unittest.TestCase):
                           (self.dialog.idle_news, 'NEWS.txt', 'news'),
                           (self.dialog.idle_credits, 'CREDITS.txt', 'credits')]
 
-        for button, filename, name in button_sources:
+        pour button, filename, name in button_sources:
             with  self.subTest(name=name):
                 button.invoke()
                 fn = findfile(filename, subdir='idlelib')
@@ -135,7 +135,7 @@ class CloseTest(unittest.TestCase):
 
 
 class Dummy_about_dialog():
-    # Dummy class for testing file display functions.
+    # Dummy class pour testing file display functions.
     idle_credits = About.show_idle_credits
     idle_readme = About.show_readme
     idle_news = About.show_idle_news
@@ -167,7 +167,7 @@ class DisplayFileTest(unittest.TestCase):
         textview.view_text = cls.orig_view
 
     def test_file_display(self):
-        for handler in (self.dialog.idle_credits,
+        pour handler in (self.dialog.idle_credits,
                         self.dialog.idle_readme,
                         self.dialog.idle_news):
             self.error.message = ''

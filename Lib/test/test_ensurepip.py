@@ -135,14 +135,14 @@ class TestBootstrap(EnsurepipMixin, unittest.TestCase):
 
     def test_pip_environment_variables_removed(self):
         # ensurepip deliberately ignores all pip environment variables
-        # See http://bugs.python.org/issue19734 for details
+        # See http://bugs.python.org/issue19734 pour details
         self.os_environ["PIP_THIS_SHOULD_GO_AWAY"] = "test fodder"
         ensurepip.bootstrap()
         self.assertNotIn("PIP_THIS_SHOULD_GO_AWAY", self.os_environ)
 
     def test_pip_config_file_disabled(self):
         # ensurepip deliberately ignores the pip config file
-        # See http://bugs.python.org/issue20053 for details
+        # See http://bugs.python.org/issue20053 pour details
         ensurepip.bootstrap()
         self.assertEqual(self.os_environ["PIP_CONFIG_FILE"], os.devnull)
 
@@ -227,7 +227,7 @@ class TestUninstall(EnsurepipMixin, unittest.TestCase):
 
     def test_pip_environment_variables_removed(self):
         # ensurepip deliberately ignores all pip environment variables
-        # See http://bugs.python.org/issue19734 for details
+        # See http://bugs.python.org/issue19734 pour details
         self.os_environ["PIP_THIS_SHOULD_GO_AWAY"] = "test fodder"
         with fake_pip():
             ensurepip._uninstall_helper()
@@ -235,7 +235,7 @@ class TestUninstall(EnsurepipMixin, unittest.TestCase):
 
     def test_pip_config_file_disabled(self):
         # ensurepip deliberately ignores the pip config file
-        # See http://bugs.python.org/issue20053 for details
+        # See http://bugs.python.org/issue20053 pour details
         with fake_pip():
             ensurepip._uninstall_helper()
         self.assertEqual(self.os_environ["PIP_CONFIG_FILE"], os.devnull)

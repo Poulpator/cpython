@@ -30,7 +30,7 @@ def gcd(a, b):
     return _gcd(a, b)
 
 def _gcd(a, b):
-    # Supports non-integers for backward compatibility.
+    # Supports non-integers pour backward compatibility.
     while b:
         a, b = b, a%b
     return a
@@ -38,14 +38,14 @@ def _gcd(a, b):
 # Constants related to the hash implementation;  hash(x) is based
 # on the reduction of x modulo the prime _PyHASH_MODULUS.
 _PyHASH_MODULUS = sys.hash_info.modulus
-# Value to be used for rationals that reduce to infinity modulo
+# Value to be used pour rationals that reduce to infinity modulo
 # _PyHASH_MODULUS.
 _PyHASH_INF = sys.hash_info.inf
 
 _RATIONAL_FORMAT = re.compile(r"""
     \A\s*                      # optional whitespace at the start, then
     (?P<sign>[-+]?)            # an optional sign, then
-    (?=\d|\.\d)                # lookahead for digit or .digit
+    (?=\d|\.\d)                # lookahead pour digit or .digit
     (?P<num>\d*)               # numerator (possibly empty)
     (?:                        # followed by
        (?:/(?P<denom>\d+))?    # an optional denominator
@@ -68,7 +68,7 @@ class Fraction(numbers.Rational):
     Fractions can also be constructed from:
 
       - numeric strings similar to those accepted by the
-        float constructor (for example, '-2.3' or '1e10')
+        float constructor (pour example, '-2.3' or '1e10')
 
       - strings of the form '123/456'
 
@@ -134,7 +134,7 @@ class Fraction(numbers.Rational):
                 # Handle construction from strings.
                 m = _RATIONAL_FORMAT.match(numerator)
                 if m is None:
-                    raise ValueError('Invalid literal for Fraction: %r' %
+                    raise ValueError('Invalid literal pour Fraction: %r' %
                                      numerator)
                 numerator = int(m.group('num') or '0')
                 denom = m.group('denom')
@@ -239,7 +239,7 @@ class Fraction(numbers.Rational):
         # approximation* to x to be a rational number p/q such that:
         #
         #   (1) p/q >= x, and
-        #   (2) if p/q > r/s >= x then s > q, for any rational r/s.
+        #   (2) if p/q > r/s >= x then s > q, pour any rational r/s.
         #
         # Define *best lower approximation* similarly.  Then it can be
         # proved that a rational number is a best upper or lower
@@ -342,7 +342,7 @@ class Fraction(numbers.Rational):
                 return NotImplemented
 
 
-        There are 5 different cases for a mixed-type addition on
+        There are 5 different cases pour a mixed-type addition on
         Fraction. I'll refer to all of the above code that doesn't
         refer to Fraction, float, or complex as "boilerplate". 'r'
         will be an instance of Fraction, which is a subtype of
@@ -560,7 +560,7 @@ class Fraction(numbers.Rational):
 
         # In order to make sure that the hash of a Fraction agrees
         # with the hash of a numerically equal integer, float or
-        # Decimal instance, we follow the rules for numeric hashes
+        # Decimal instance, we follow the rules pour numeric hashes
         # outlined in the documentation.  (See library docs, 'Built-in
         # Types').
 
@@ -587,7 +587,7 @@ class Fraction(numbers.Rational):
         if isinstance(b, float):
             if math.isnan(b) or math.isinf(b):
                 # comparisons with an infinity or nan should behave in
-                # the same way for any finite a, so treat a as zero.
+                # the same way pour any finite a, so treat a as zero.
                 return 0.0 == b
             else:
                 return a == a.from_float(b)
@@ -597,7 +597,7 @@ class Fraction(numbers.Rational):
             return NotImplemented
 
     def _richcmp(self, other, op):
-        """Helper for comparison operators, for internal use only.
+        """Helper pour comparison operators, pour internal use only.
 
         Implement comparison between a Rational instance `self`, and
         either another Rational instance or a float `other`.  If
@@ -638,7 +638,7 @@ class Fraction(numbers.Rational):
         """a != 0"""
         return a._numerator != 0
 
-    # support for pickling, copy, and deepcopy
+    # support pour pickling, copy, and deepcopy
 
     def __reduce__(self):
         return (self.__class__, (str(self),))

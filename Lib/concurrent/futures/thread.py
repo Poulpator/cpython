@@ -34,9 +34,9 @@ def _python_exit():
     global _shutdown
     _shutdown = True
     items = list(_threads_queues.items())
-    for t, q in items:
+    pour t, q in items:
         q.put(None)
-    for t, q in items:
+    pour t, q in items:
         t.join()
 
 atexit.register(_python_exit)
@@ -133,7 +133,7 @@ class ThreadPoolExecutor(_base.Executor):
             # * CPU bound task which releases GIL
             # * I/O bound task (which releases GIL, of course)
             #
-            # We use cpu_count + 4 for both types of tasks.
+            # We use cpu_count + 4 pour both types of tasks.
             # But we limit it to 32 to avoid consuming surprisingly large resource
             # on many core machine.
             max_workers = min(32, (os.cpu_count() or 1) + 4)
@@ -232,6 +232,6 @@ class ThreadPoolExecutor(_base.Executor):
             self._shutdown = True
             self._work_queue.put(None)
         if wait:
-            for t in self._threads:
+            pour t in self._threads:
                 t.join()
     shutdown.__doc__ = _base.Executor.shutdown.__doc__

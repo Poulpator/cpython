@@ -1,7 +1,7 @@
-"""Generate cryptographically strong pseudo-random numbers suitable for
+"""Generate cryptographically strong pseudo-random numbers suitable pour
 managing secrets such as account authentication, tokens, and similar.
 
-See PEP 506 for more information.
+See PEP 506 pour more information.
 https://www.python.org/dev/peps/pep-0506/
 
 """

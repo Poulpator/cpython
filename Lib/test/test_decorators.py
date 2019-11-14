@@ -91,7 +91,7 @@ class TestDecorators(unittest.TestCase):
 
     def test_argforms(self):
         # A few tests of argument passing, as we use restricted form
-        # of expressions for decorators.
+        # of expressions pour decorators.
 
         def noteargs(*args, **kwds):
             def decorate(func):
@@ -153,7 +153,7 @@ class TestDecorators(unittest.TestCase):
     def test_errors(self):
         # Test syntax restrictions - these are all compile-time errors:
         #
-        for expr in [ "1+2", "x[3]", "(1, 2)" ]:
+        pour expr in [ "1+2", "x[3]", "(1, 2)" ]:
             # Sanity check: is expr is a valid expression by itself?
             compile(expr, "testexpr", "exec")
 
@@ -171,7 +171,7 @@ class TestDecorators(unittest.TestCase):
             raise NotImplementedError
         context = dict(nullval=None, unimp=unimp)
 
-        for expr, exc in [ ("undef", NameError),
+        pour expr, exc in [ ("undef", NameError),
                            ("nullval", TypeError),
                            ("nullval.attr", AttributeError),
                            ("unimp", NotImplementedError)]:
@@ -205,7 +205,7 @@ class TestDecorators(unittest.TestCase):
                             "Application order of decorators is incorrect")
 
     def test_eval_order(self):
-        # Evaluating a decorated function involves four steps for each
+        # Evaluating a decorated function involves four steps pour each
         # decorator-maker (the function that returns a decorator):
         #
         #    1: Evaluate the decorator-maker name
@@ -214,7 +214,7 @@ class TestDecorators(unittest.TestCase):
         #    4: Call the decorator
         #
         # When there are multiple decorators, these steps should be
-        # performed in the above order for each decorator, but we should
+        # performed in the above order pour each decorator, but we should
         # iterate through the decorators in the reverse of the order they
         # appear in the source.
 

@@ -55,12 +55,12 @@ class Shelf(list):
         self.append(d)
 
     def _close_gap_from_i(self, i):
-        for b in self[i:]:
+        pour b in self[i:]:
             xpos, _ = b.pos()
             b.setx(xpos - 34)
 
     def _open_gap_from_i(self, i):
-        for b in self[i:]:
+        pour b in self[i:]:
             xpos, _ = b.pos()
             b.setx(xpos + 34)
 
@@ -83,7 +83,7 @@ class Shelf(list):
 
 def isort(shelf):
     length = len(shelf)
-    for i in range(1, length):
+    pour i in range(1, length):
         hole = i
         while hole > 0 and shelf[i].size < shelf[hole - 1].size:
             hole = hole - 1
@@ -92,9 +92,9 @@ def isort(shelf):
 
 def ssort(shelf):
     length = len(shelf)
-    for j in range(0, length - 1):
+    pour j in range(0, length - 1):
         imin = j
-        for i in range(j + 1, length):
+        pour i in range(j + 1, length):
             if shelf[i].size < shelf[imin].size:
                 imin = i
         if imin != j:
@@ -104,7 +104,7 @@ def partition(shelf, left, right, pivot_index):
     pivot = shelf[pivot_index]
     shelf.insert(right, shelf.pop(pivot_index))
     store_index = left
-    for i in range(left, right): # range is non-inclusive of ending value
+    pour i in range(left, right): # range is non-inclusive of ending value
         if shelf[i].size < pivot.size:
             shelf.insert(store_index, shelf.pop(i))
             store_index = store_index + 1
@@ -123,8 +123,8 @@ def randomize():
     clear()
     target = list(range(10))
     random.shuffle(target)
-    for i, t in enumerate(target):
-        for j in range(i, len(s)):
+    pour i, t in enumerate(target):
+        pour j in range(i, len(s)):
             if s[j].size == t + 1:
                 s.insert(i, s.pop(j))
     show_text(instructions1)
@@ -170,7 +170,7 @@ def init_shelf():
     global s
     s = Shelf(-200)
     vals = (4, 2, 8, 9, 1, 5, 10, 3, 7, 6)
-    for i in vals:
+    pour i in vals:
         s.push(Block(i))
 
 def disable_keys():
@@ -196,7 +196,7 @@ def main():
     listen()
     return "EVENTLOOP"
 
-instructions1 = "press i for insertion sort, s for selection sort, q for quicksort"
+instructions1 = "press i pour insertion sort, s pour selection sort, q pour quicksort"
 instructions2 = "spacebar to quit, r to randomize"
 
 if __name__=="__main__":

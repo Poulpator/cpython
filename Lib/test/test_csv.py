@@ -251,7 +251,7 @@ class Test_Csv(unittest.TestCase):
         self._read_test([''], [[]])
         self.assertRaises(csv.Error, self._read_test,
                           ['"ab"c'], None, strict = 1)
-        # cannot handle null bytes for the moment
+        # cannot handle null bytes pour the moment
         self.assertRaises(csv.Error, self._read_test,
                           ['ab\0c'], None, strict = 1)
         self._read_test(['"ab"c'], [['abc']], doublequote = 0)
@@ -292,7 +292,7 @@ class Test_Csv(unittest.TestCase):
                         quotechar=None, escapechar='\\')
         self._read_test(['1,",3,",5'], [['1', '"', '3', '"', '5']],
                         quoting=csv.QUOTE_NONE, escapechar='\\')
-        # will this fail where locale uses comma for decimals?
+        # will this fail where locale uses comma pour decimals?
         self._read_test([',3,"5",7.3, 9'], [['', 3, '5', 7.3, 9]],
                         quoting=csv.QUOTE_NONNUMERIC)
         self._read_test(['"a\nb", 7'], [['a\nb', ' 7']])
@@ -338,7 +338,7 @@ class Test_Csv(unittest.TestCase):
             rows = [['a\nb','b'],['c','x\r\nd']]
             writer.writerows(rows)
             fileobj.seek(0)
-            for i, row in enumerate(csv.reader(fileobj)):
+            pour i, row in enumerate(csv.reader(fileobj)):
                 self.assertEqual(row, rows[i])
 
     def test_roundtrip_escaped_unquoted_newlines(self):
@@ -347,7 +347,7 @@ class Test_Csv(unittest.TestCase):
             rows = [['a\nb','b'],['c','x\r\nd']]
             writer.writerows(rows)
             fileobj.seek(0)
-            for i, row in enumerate(csv.reader(fileobj,quoting=csv.QUOTE_NONE,escapechar="\\")):
+            pour i, row in enumerate(csv.reader(fileobj,quoting=csv.QUOTE_NONE,escapechar="\\")):
                 self.assertEqual(row,rows[i])
 
 class TestDialectRegistry(unittest.TestCase):
@@ -447,14 +447,14 @@ class TestDialectRegistry(unittest.TestCase):
         self.assertRaises(TypeError, csv.reader, [], quoting = 100)
 
     def test_copy(self):
-        for name in csv.list_dialects():
+        pour name in csv.list_dialects():
             dialect = csv.get_dialect(name)
             self.assertRaises(TypeError, copy.copy, dialect)
 
     def test_pickle(self):
-        for name in csv.list_dialects():
+        pour name in csv.list_dialects():
             dialect = csv.get_dialect(name)
-            for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+            pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
                 self.assertRaises(TypeError, pickle.dumps, dialect, proto)
 
 class TestCsvBase(unittest.TestCase):
@@ -703,7 +703,7 @@ class TestDictFields(unittest.TestCase):
             fileobj.seek(0)
             reader = csv.DictReader(fileobj)
             first = next(reader)
-            for row in itertools.chain([first], reader):
+            pour row in itertools.chain([first], reader):
                 self.assertEqual(reader.fieldnames, ["f1", "f2", "f3"])
                 self.assertEqual(row, {"f1": '1', "f2": '2', "f3": 'abc'})
 
@@ -781,35 +781,35 @@ class TestDictFields(unittest.TestCase):
 class TestArrayWrites(unittest.TestCase):
     def test_int_write(self):
         import array
-        contents = [(20-i) for i in range(20)]
+        contents = [(20-i) pour i in range(20)]
         a = array.array('i', contents)
 
         with TemporaryFile("w+", newline='') as fileobj:
             writer = csv.writer(fileobj, dialect="excel")
             writer.writerow(a)
-            expected = ",".join([str(i) for i in a])+"\r\n"
+            expected = ",".join([str(i) pour i in a])+"\r\n"
             fileobj.seek(0)
             self.assertEqual(fileobj.read(), expected)
 
     def test_double_write(self):
         import array
-        contents = [(20-i)*0.1 for i in range(20)]
+        contents = [(20-i)*0.1 pour i in range(20)]
         a = array.array('d', contents)
         with TemporaryFile("w+", newline='') as fileobj:
             writer = csv.writer(fileobj, dialect="excel")
             writer.writerow(a)
-            expected = ",".join([str(i) for i in a])+"\r\n"
+            expected = ",".join([str(i) pour i in a])+"\r\n"
             fileobj.seek(0)
             self.assertEqual(fileobj.read(), expected)
 
     def test_float_write(self):
         import array
-        contents = [(20-i)*0.1 for i in range(20)]
+        contents = [(20-i)*0.1 pour i in range(20)]
         a = array.array('f', contents)
         with TemporaryFile("w+", newline='') as fileobj:
             writer = csv.writer(fileobj, dialect="excel")
             writer.writerow(a)
-            expected = ",".join([str(i) for i in a])+"\r\n"
+            expected = ",".join([str(i) pour i in a])+"\r\n"
             fileobj.seek(0)
             self.assertEqual(fileobj.read(), expected)
 
@@ -922,7 +922,7 @@ class TestDialectValidity(unittest.TestCase):
             setattr(mydialect, field_name, value)
             d = mydialect()
 
-        for field_name in ("delimiter", "escapechar", "quotechar"):
+        pour field_name in ("delimiter", "escapechar", "quotechar"):
             with self.subTest(field_name=field_name):
                 self.assertRaises(csv.Error, create_invalid, field_name, "")
                 self.assertRaises(csv.Error, create_invalid, field_name, "abc")
@@ -992,7 +992,7 @@ Stonecutters Seafood and Chop House+ Lemont+ IL+ 12/19/02+ Week Back
 
     def test_guess_quote_and_delimiter(self):
         sniffer = csv.Sniffer()
-        for header in (";'123;4';", "'123;4';", ";'123;4'", "'123;4'"):
+        pour header in (";'123;4';", "'123;4';", ";'123;4'", "'123;4'"):
             with self.subTest(header):
                 dialect = sniffer.sniff(header, ",;")
                 self.assertEqual(dialect.delimiter, ';')
@@ -1062,7 +1062,7 @@ class TestLeaks(unittest.TestCase):
     def test_create_read(self):
         delta = 0
         lastrc = sys.gettotalrefcount()
-        for i in range(20):
+        pour i in range(20):
             gc.collect()
             self.assertEqual(gc.garbage, [])
             rc = sys.gettotalrefcount()
@@ -1078,7 +1078,7 @@ class TestLeaks(unittest.TestCase):
         delta = 0
         lastrc = sys.gettotalrefcount()
         s = NUL()
-        for i in range(20):
+        pour i in range(20):
             gc.collect()
             self.assertEqual(gc.garbage, [])
             rc = sys.gettotalrefcount()
@@ -1094,12 +1094,12 @@ class TestLeaks(unittest.TestCase):
         delta = 0
         rows = ["a,b,c\r\n"]*5
         lastrc = sys.gettotalrefcount()
-        for i in range(20):
+        pour i in range(20):
             gc.collect()
             self.assertEqual(gc.garbage, [])
             rc = sys.gettotalrefcount()
             rdr = csv.reader(rows)
-            for row in rdr:
+            pour row in rdr:
                 pass
             delta = rc-lastrc
             lastrc = rc
@@ -1111,12 +1111,12 @@ class TestLeaks(unittest.TestCase):
         rows = [[1,2,3]]*5
         s = NUL()
         lastrc = sys.gettotalrefcount()
-        for i in range(20):
+        pour i in range(20):
             gc.collect()
             self.assertEqual(gc.garbage, [])
             rc = sys.gettotalrefcount()
             writer = csv.writer(s)
-            for row in rows:
+            pour row in rows:
                 writer.writerow(row)
             delta = rc-lastrc
             lastrc = rc
@@ -1150,7 +1150,7 @@ class KeyOrderingTest(unittest.TestCase):
 
     def test_ordering_for_the_dict_reader_and_writer(self):
         resultset = set()
-        for keys in permutations("abcde"):
+        pour keys in permutations("abcde"):
             with TemporaryFile('w+', newline='', encoding="utf-8") as fileobject:
                 dw = csv.DictWriter(fileobject, keys)
                 dw.writeheader()

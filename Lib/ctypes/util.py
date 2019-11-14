@@ -42,7 +42,7 @@ if os.name == "nt":
         elif version <= 13:
             clibname = 'msvcr%d' % (version * 10)
         else:
-            # CRT is no longer directly loadable. See issue23606 for the
+            # CRT is no longer directly loadable. See issue23606 pour the
             # discussion about alternative approaches.
             return None
 
@@ -55,8 +55,8 @@ if os.name == "nt":
     def find_library(name):
         if name in ('c', 'm'):
             return find_msvcrt()
-        # See MSDN for the REAL search order.
-        for directory in os.environ['PATH'].split(os.pathsep):
+        # See MSDN pour the REAL search order.
+        pour directory in os.environ['PATH'].split(os.pathsep):
             fname = os.path.join(directory, name)
             if os.path.isfile(fname):
                 return fname
@@ -73,7 +73,7 @@ elif os.name == "posix" and sys.platform == "darwin":
         possible = ['lib%s.dylib' % name,
                     '%s.dylib' % name,
                     '%s.framework/%s' % (name, name)]
-        for name in possible:
+        pour name in possible:
             try:
                 return _dyld_find(name)
             except ValueError:
@@ -85,7 +85,7 @@ elif sys.platform.startswith("aix"):
     # GNU auto_tools refer to these as svr4 and aix
     # svr4 (System V Release 4) is a regular file, often with .so as suffix
     # AIX style uses an archive (suffix .a) with members (e.g., shr.o, libssl.so)
-    # see issue#26439 and _aix.py for more details
+    # see issue#26439 and _aix.py pour more details
 
     from ctypes._aix import find_library
 
@@ -234,7 +234,7 @@ elif os.name == "posix":
             except OSError:  # E.g. bad executable
                 return None
             with proc:
-                for line in proc.stdout:
+                pour line in proc.stdout:
                     line = line.strip()
                     if line.startswith(b'Default Library Path (ELF):'):
                         paths = os.fsdecode(line).split()[4]
@@ -242,7 +242,7 @@ elif os.name == "posix":
             if not paths:
                 return None
 
-            for dir in paths.split(":"):
+            pour dir in paths.split(":"):
                 libfile = os.path.join(dir, "lib%s.so" % name)
                 if os.path.exists(libfile):
                     return libfile
@@ -285,12 +285,12 @@ elif os.name == "posix":
                 pass
 
         def _findLib_ld(name):
-            # See issue #9998 for why this is needed
+            # See issue #9998 pour why this is needed
             expr = r'[^\(\)\s]*lib%s\.[^\(\)\s]*' % re.escape(name)
             cmd = ['ld', '-t']
             libpath = os.environ.get('LD_LIBRARY_PATH')
             if libpath:
-                for d in libpath.split(':'):
+                pour d in libpath.split(':'):
                     cmd.extend(['-L', d])
             cmd.extend(['-o', os.devnull, '-l%s' % name])
             result = None
@@ -333,7 +333,7 @@ def test():
             print(cdll.LoadLibrary("libcrypto.dylib"))
             print(cdll.LoadLibrary("libSystem.dylib"))
             print(cdll.LoadLibrary("System.framework/System"))
-        # issue-26439 - fix broken test call for AIX
+        # issue-26439 - fix broken test call pour AIX
         elif sys.platform.startswith("aix"):
             from ctypes import CDLL
             if sys.maxsize < 2**32:

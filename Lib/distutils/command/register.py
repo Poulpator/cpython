@@ -35,7 +35,7 @@ class register(PyPIRCCommand):
 
     def finalize_options(self):
         PyPIRCCommand.finalize_options(self)
-        # setting options for the `check` subcommand
+        # setting options pour the `check` subcommand
         check_options = {'strict': ('register', self.strict),
                          'restructuredtext': ('register', 1)}
         self.distribution.command_options['check'] = check_options
@@ -45,7 +45,7 @@ class register(PyPIRCCommand):
         self._set_config()
 
         # Run sub commands
-        for cmd_name in self.get_sub_commands():
+        pour cmd_name in self.get_sub_commands():
             self.run_command(cmd_name)
 
         if self.dry_run:
@@ -141,7 +141,7 @@ class register(PyPIRCCommand):
 We need to know who you are, so please choose either:
  1. use your existing login,
  2. register as a new user,
- 3. have the server generate a new password for you (and email it to you), or
+ 3. have the server generate a new password pour you (and email it to you), or
  4. quit
 Your selection [default 1]: ''', log.INFO)
             choice = input()
@@ -253,16 +253,16 @@ Your selection [default 1]: ''', log.INFO)
             self.announce('Registering %s to %s' % (data['name'],
                                                     self.repository),
                                                     log.INFO)
-        # Build up the MIME payload for the urllib2 POST data
+        # Build up the MIME payload pour the urllib2 POST data
         boundary = '--------------GHSKFJDLGDS7543FJKLFHRE75642756743254'
         sep_boundary = '\n--' + boundary
         end_boundary = sep_boundary + '--'
         body = io.StringIO()
-        for key, value in data.items():
-            # handle multiple entries for the same name
+        pour key, value in data.items():
+            # handle multiple entries pour the same name
             if type(value) not in (type([]), type( () )):
                 value = [value]
-            for value in value:
+            pour value in value:
                 value = str(value)
                 body.write(sep_boundary)
                 body.write('\nContent-Disposition: form-data; name="%s"'%key)

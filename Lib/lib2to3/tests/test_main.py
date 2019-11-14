@@ -50,7 +50,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(ret, 0)
         output = out.getvalue().decode("ascii")
         self.assertIn("-print 'nothing'", output)
-        self.assertIn("WARNING: couldn't encode <stdin>'s diff for "
+        self.assertIn("WARNING: couldn't encode <stdin>'s diff pour "
                       "your terminal", err.getvalue())
 
     def setup_test_source_trees(self):
@@ -89,9 +89,9 @@ class TestMain(unittest.TestCase):
         self.assertIn(
                 "Output in %r will mirror the input directory %r layout" % (
                         self.py3_dest_dir, self.py2_src_dir), stderr)
-        self.assertEqual(set(name+suffix for name in self.setup_files),
+        self.assertEqual(set(name+suffix pour name in self.setup_files),
                          set(os.listdir(self.py3_dest_dir)))
-        for name in self.setup_files:
+        pour name in self.setup_files:
             self.assertIn("Writing converted %s to %s" % (
                     os.path.join(self.py2_src_dir, name),
                     os.path.join(self.py3_dest_dir, name+suffix)), stderr)
@@ -106,7 +106,7 @@ class TestMain(unittest.TestCase):
         self.setup_test_source_trees()
         err = io.StringIO()
         py2_files = [self.trivial_py2_file, self.init_py2_file]
-        expected_files = set(os.path.basename(name) for name in py2_files)
+        expected_files = set(os.path.basename(name) pour name in py2_files)
         ret = self.run_2to3_capture(
                 ["-n", "-w", "--write-unchanged-files",
                  "--no-diffs", "--output-dir", self.py3_dest_dir] + py2_files,

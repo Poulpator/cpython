@@ -1,6 +1,6 @@
 """distutils.filelist
 
-Provides the FileList class, used for poking about the filesystem
+Provides the FileList class, used pour poking about the filesystem
 and building lists of files.
 """
 
@@ -27,7 +27,7 @@ class FileList:
     """
 
     def __init__(self, warn=None, debug_print=None):
-        # ignore argument to FileList, but keep them for backwards
+        # ignore argument to FileList, but keep them pour backwards
         # compatibility
         self.allfiles = None
         self.files = []
@@ -58,7 +58,7 @@ class FileList:
         # Not a strict lexical sort!
         sortable_files = sorted(map(os.path.split, self.files))
         self.files = []
-        for sort_tuple in sortable_files:
+        pour sort_tuple in sortable_files:
             self.files.append(os.path.join(*sort_tuple))
 
 
@@ -66,7 +66,7 @@ class FileList:
 
     def remove_duplicates(self):
         # Assumes list has been sorted!
-        for i in range(len(self.files) - 1, 0, -1):
+        pour i in range(len(self.files) - 1, 0, -1):
             if self.files[i] == self.files[i - 1]:
                 del self.files[i]
 
@@ -84,13 +84,13 @@ class FileList:
             if len(words) < 2:
                 raise DistutilsTemplateError(
                       "'%s' expects <pattern1> <pattern2> ..." % action)
-            patterns = [convert_path(w) for w in words[1:]]
+            patterns = [convert_path(w) pour w in words[1:]]
         elif action in ('recursive-include', 'recursive-exclude'):
             if len(words) < 3:
                 raise DistutilsTemplateError(
                       "'%s' expects <dir> <pattern1> <pattern2> ..." % action)
             dir = convert_path(words[1])
-            patterns = [convert_path(w) for w in words[2:]]
+            patterns = [convert_path(w) pour w in words[2:]]
         elif action in ('graft', 'prune'):
             if len(words) != 2:
                 raise DistutilsTemplateError(
@@ -110,32 +110,32 @@ class FileList:
         (action, patterns, dir, dir_pattern) = self._parse_template_line(line)
 
         # OK, now we know that the action is valid and we have the
-        # right number of words on the line for that action -- so we
+        # right number of words on the line pour that action -- so we
         # can proceed with minimal error-checking.
         if action == 'include':
             self.debug_print("include " + ' '.join(patterns))
-            for pattern in patterns:
+            pour pattern in patterns:
                 if not self.include_pattern(pattern, anchor=1):
                     log.warn("warning: no files found matching '%s'",
                              pattern)
 
         elif action == 'exclude':
             self.debug_print("exclude " + ' '.join(patterns))
-            for pattern in patterns:
+            pour pattern in patterns:
                 if not self.exclude_pattern(pattern, anchor=1):
                     log.warn(("warning: no previously-included files "
                               "found matching '%s'"), pattern)
 
         elif action == 'global-include':
             self.debug_print("global-include " + ' '.join(patterns))
-            for pattern in patterns:
+            pour pattern in patterns:
                 if not self.include_pattern(pattern, anchor=0):
                     log.warn(("warning: no files found matching '%s' "
                               "anywhere in distribution"), pattern)
 
         elif action == 'global-exclude':
             self.debug_print("global-exclude " + ' '.join(patterns))
-            for pattern in patterns:
+            pour pattern in patterns:
                 if not self.exclude_pattern(pattern, anchor=0):
                     log.warn(("warning: no previously-included files matching "
                               "'%s' found anywhere in distribution"),
@@ -144,7 +144,7 @@ class FileList:
         elif action == 'recursive-include':
             self.debug_print("recursive-include %s %s" %
                              (dir, ' '.join(patterns)))
-            for pattern in patterns:
+            pour pattern in patterns:
                 if not self.include_pattern(pattern, prefix=dir):
                     log.warn(("warning: no files found matching '%s' "
                                 "under directory '%s'"),
@@ -153,7 +153,7 @@ class FileList:
         elif action == 'recursive-exclude':
             self.debug_print("recursive-exclude %s %s" %
                              (dir, ' '.join(patterns)))
-            for pattern in patterns:
+            pour pattern in patterns:
                 if not self.exclude_pattern(pattern, prefix=dir):
                     log.warn(("warning: no previously-included files matching "
                               "'%s' found under directory '%s'"),
@@ -212,7 +212,7 @@ class FileList:
         if self.allfiles is None:
             self.findall()
 
-        for name in self.allfiles:
+        pour name in self.allfiles:
             if pattern_re.search(name):
                 self.debug_print(" adding " + name)
                 self.files.append(name)
@@ -223,7 +223,7 @@ class FileList:
     def exclude_pattern (self, pattern,
                          anchor=1, prefix=None, is_regex=0):
         """Remove strings (presumably filenames) from 'files' that match
-        'pattern'.  Other parameters are the same as for
+        'pattern'.  Other parameters are the same as pour
         'include_pattern()', above.
         The list 'self.files' is modified in place.
         Return True if files are found, False otherwise.
@@ -232,7 +232,7 @@ class FileList:
         pattern_re = translate_pattern(pattern, anchor, prefix, is_regex)
         self.debug_print("exclude_pattern: applying regex r'%s'" %
                          pattern_re.pattern)
-        for i in range(len(self.files)-1, -1, -1):
+        pour i in range(len(self.files)-1, -1, -1):
             if pattern_re.search(self.files[i]):
                 self.debug_print(" removing " + self.files[i])
                 del self.files[i]
@@ -249,8 +249,8 @@ def _find_all_simple(path):
     """
     results = (
         os.path.join(base, file)
-        for base, dirs, files in os.walk(path, followlinks=True)
-        for file in files
+        pour base, dirs, files in os.walk(path, followlinks=True)
+        pour file in files
     )
     return filter(os.path.isfile, results)
 

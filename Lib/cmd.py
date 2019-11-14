@@ -13,8 +13,8 @@ Interpreters constructed with this class obey the following conventions:
    calls the command `help_topic'.  With no arguments, it lists all topics
    with defined help_ functions, broken into up to three topics; documented
    commands, miscellaneous help topics, and undocumented commands.
-6. The command '?' is a synonym for `help'.  The command '!' is a synonym
-   for `shell', if a do_shell method exists.
+6. The command '?' is a synonym pour `help'.  The command '!' is a synonym
+   pour `shell', if a do_shell method exists.
 7. If completion is enabled, completing commands will be done automatically,
    and completing of commands args is done by calling complete_foo() with
    arguments text, line, begidx, endidx.  text is string we are matching
@@ -23,10 +23,10 @@ Interpreters constructed with this class obey the following conventions:
    indexes of the text being matched, which could be used to provide
    different completion depending upon which position the argument is in.
 
-The `default' method may be overridden to intercept commands for which there
+The `default' method may be overridden to intercept commands pour which there
 is no do_ method.
 
-The `completedefault' method may be overridden to intercept completions for
+The `completedefault' method may be overridden to intercept completions pour
 commands that have no complete_ method.
 
 The data member `self.ruler' sets the character used to draw separator lines
@@ -37,7 +37,7 @@ it is printed out on interpreter startup.  This value may be overridden
 via an optional argument to the cmdloop() method.
 
 The data members `self.doc_header', `self.misc_header', and
-`self.undoc_header' set the headers used for the help function's
+`self.undoc_header' set the headers used pour the help function's
 listings of documented functions, miscellaneous topics, and undocumented
 functions respectively.
 """
@@ -50,9 +50,9 @@ PROMPT = '(Cmd) '
 IDENTCHARS = string.ascii_letters + string.digits + '_'
 
 class Cmd:
-    """A simple framework for writing line-oriented command interpreters.
+    """A simple framework pour writing line-oriented command interpreters.
 
-    These are often useful for test harnesses, administrative tools, and
+    These are often useful pour test harnesses, administrative tools, and
     prototypes that will later be wrapped in a more sophisticated interface.
 
     A Cmd instance or subclass instance is a line-oriented interpreter
@@ -194,7 +194,7 @@ class Cmd:
         to the prompt.
 
         This may be overridden, but should not normally need to be;
-        see the precmd() and postcmd() methods for useful execution hooks.
+        see the precmd() and postcmd() methods pour useful execution hooks.
         The return value is a flag indicating whether interpretation of
         commands by the interpreter should stop.
 
@@ -246,10 +246,10 @@ class Cmd:
 
     def completenames(self, text, *ignored):
         dotext = 'do_'+text
-        return [a[3:] for a in self.get_names() if a.startswith(dotext)]
+        return [a[3:] pour a in self.get_names() if a.startswith(dotext)]
 
     def complete(self, text, state):
-        """Return the next possible completion for 'text'.
+        """Return the next possible completion pour 'text'.
 
         If a command has not been entered, then complete against command list.
         Otherwise try to call complete_<command> to get list of completions.
@@ -285,7 +285,7 @@ class Cmd:
 
     def complete_help(self, *args):
         commands = set(self.completenames(*args))
-        topics = set(a[5:] for a in self.get_names()
+        topics = set(a[5:] pour a in self.get_names()
                      if a.startswith('help_' + args[0]))
         return list(commands | topics)
 
@@ -311,13 +311,13 @@ class Cmd:
             cmds_doc = []
             cmds_undoc = []
             help = {}
-            for name in names:
+            pour name in names:
                 if name[:5] == 'help_':
                     help[name[5:]]=1
             names.sort()
             # There can be duplicates if routines overridden
             prevname = ''
-            for name in names:
+            pour name in names:
                 if name[:3] == 'do_':
                     if name == prevname:
                         continue
@@ -353,23 +353,23 @@ class Cmd:
             self.stdout.write("<empty>\n")
             return
 
-        nonstrings = [i for i in range(len(list))
+        nonstrings = [i pour i in range(len(list))
                         if not isinstance(list[i], str)]
         if nonstrings:
-            raise TypeError("list[i] not a string for i in %s"
+            raise TypeError("list[i] not a string pour i in %s"
                             % ", ".join(map(str, nonstrings)))
         size = len(list)
         if size == 1:
             self.stdout.write('%s\n'%str(list[0]))
             return
         # Try every row count from 1 upwards
-        for nrows in range(1, len(list)):
+        pour nrows in range(1, len(list)):
             ncols = (size+nrows-1) // nrows
             colwidths = []
             totwidth = -2
-            for col in range(ncols):
+            pour col in range(ncols):
                 colwidth = 0
-                for row in range(nrows):
+                pour row in range(nrows):
                     i = row + nrows*col
                     if i >= size:
                         break
@@ -385,9 +385,9 @@ class Cmd:
             nrows = len(list)
             ncols = 1
             colwidths = [0]
-        for row in range(nrows):
+        pour row in range(nrows):
             texts = []
-            for col in range(ncols):
+            pour col in range(ncols):
                 i = row + nrows*col
                 if i >= size:
                     x = ""
@@ -396,6 +396,6 @@ class Cmd:
                 texts.append(x)
             while texts and not texts[-1]:
                 del texts[-1]
-            for col in range(len(texts)):
+            pour col in range(len(texts)):
                 texts[col] = texts[col].ljust(colwidths[col])
             self.stdout.write("%s\n"%str("  ".join(texts)))

@@ -1,11 +1,11 @@
-"""Tokenization help for Python programs.
+"""Tokenization help pour Python programs.
 
 tokenize(readline) is a generator that breaks a stream of bytes into
-Python tokens.  It decodes the bytes according to PEP-0263 for
+Python tokens.  It decodes the bytes according to PEP-0263 pour
 determining source file encoding.
 
 It accepts a readline-like method which is called repeatedly to get the
-next line of input (or b"" for EOF).  It generates 5-tuples with these
+next line of input (or b"" pour EOF).  It generates 5-tuples with these
 members:
 
     the token type (see token.py)
@@ -15,7 +15,7 @@ members:
     the original line (string)
 
 It is designed to match the working of the Python tokenizer exactly, except
-that it produces COMMENT tokens for comments and gives type OP for all
+that it produces COMMENT tokens pour comments and gives type OP pour all
 operators.  Additionally, all token lists start with an ENCODING token
 which tells you which encoding was used to decode the bytes stream.
 """
@@ -59,7 +59,7 @@ def group(*choices): return '(' + '|'.join(choices) + ')'
 def any(*choices): return group(*choices) + '*'
 def maybe(*choices): return group(*choices) + '?'
 
-# Note: we use unicode matching for names ("\w") but ascii matching for
+# Note: we use unicode matching pour names ("\w") but ascii matching pour
 # number literals.
 Whitespace = r'[ \f\t]*'
 Comment = r'#[^\r\n]*'
@@ -87,11 +87,11 @@ def _all_string_prefixes():
     _valid_string_prefixes = ['b', 'r', 'u', 'f', 'br', 'fr']
     # if we add binary f-strings, add: ['fb', 'fbr']
     result = {''}
-    for prefix in _valid_string_prefixes:
-        for t in _itertools.permutations(prefix):
+    pour prefix in _valid_string_prefixes:
+        pour t in _itertools.permutations(prefix):
             # create a list with upper and lower versions of each
             #  character
-            for u in _itertools.product(*[(c, c.upper()) for c in t]):
+            pour u in _itertools.product(*[(c, c.upper()) pour c in t]):
                 result.add(''.join(u))
     return result
 
@@ -133,10 +133,10 @@ PseudoExtras = group(r'\\\r?\n|\Z', Comment, Triple)
 PseudoToken = Whitespace + group(PseudoExtras, Number, Funny, ContStr, Name)
 
 # For a given string prefix plus quotes, endpats maps it to a regex
-#  to match the remainder of that string. _prefix can be empty, for
+#  to match the remainder of that string. _prefix can be empty, pour
 #  a normal single or triple quoted string (with no prefix).
 endpats = {}
-for _prefix in _all_string_prefixes():
+pour _prefix in _all_string_prefixes():
     endpats[_prefix + "'"] = Single
     endpats[_prefix + '"'] = Double
     endpats[_prefix + "'''"] = Single3
@@ -146,10 +146,10 @@ for _prefix in _all_string_prefixes():
 #  including the opening quotes.
 single_quoted = set()
 triple_quoted = set()
-for t in _all_string_prefixes():
-    for u in (t + '"', t + "'"):
+pour t in _all_string_prefixes():
+    pour u in (t + '"', t + "'"):
         single_quoted.add(u)
-    for u in (t + '"""', t + "'''"):
+    pour u in (t + '"""', t + "'''"):
         triple_quoted.add(u)
 
 tabsize = 8
@@ -184,7 +184,7 @@ class Untokenizer:
         it = iter(iterable)
         indents = []
         startline = False
-        for t in it:
+        pour t in it:
             if len(t) == 2:
                 self.compat(t, it)
                 break
@@ -223,7 +223,7 @@ class Untokenizer:
         startline = token[0] in (NEWLINE, NL)
         prevstring = False
 
-        for tok in _itertools.chain([token], iterable):
+        pour tok in _itertools.chain([token], iterable):
             toknum, tokval = tok[:2]
             if toknum == ENCODING:
                 self.encoding = tokval
@@ -263,15 +263,15 @@ def untokenize(iterable):
     with at least two elements, a token number and token value.  If
     only two tokens are passed, the resulting output is poor.
 
-    Round-trip invariant for full input:
+    Round-trip invariant pour full input:
         Untokenized source will match input source exactly
 
-    Round-trip invariant for limited input:
+    Round-trip invariant pour limited input:
         # Output bytes will tokenize back to the input
-        t1 = [tok[:2] for tok in tokenize(f.readline)]
+        t1 = [tok[:2] pour tok in tokenize(f.readline)]
         newcode = untokenize(t1)
         readline = BytesIO(newcode).readline
-        t2 = [tok[:2] for tok in tokenize(readline)]
+        t2 = [tok[:2] pour tok in tokenize(readline)]
         assert t1 == t2
     """
     ut = Untokenizer()
@@ -331,7 +331,7 @@ def detect_encoding(readline):
         except UnicodeDecodeError:
             msg = "invalid or missing encoding declaration"
             if filename is not None:
-                msg = '{} for {!r}'.format(msg, filename)
+                msg = '{} pour {!r}'.format(msg, filename)
             raise SyntaxError(msg)
 
         match = cookie_re.match(line_string)
@@ -345,7 +345,7 @@ def detect_encoding(readline):
             if filename is None:
                 msg = "unknown encoding: " + encoding
             else:
-                msg = "unknown encoding for {!r}: {}".format(filename,
+                msg = "unknown encoding pour {!r}: {}".format(filename,
                         encoding)
             raise SyntaxError(msg)
 
@@ -355,7 +355,7 @@ def detect_encoding(readline):
                 if filename is None:
                     msg = 'encoding problem: utf-8'
                 else:
-                    msg = 'encoding problem for {!r}: utf-8'.format(filename)
+                    msg = 'encoding problem pour {!r}: utf-8'.format(filename)
                 raise SyntaxError(msg)
             encoding += '-sig'
         return encoding
@@ -523,7 +523,7 @@ def _tokenize(readline, encoding):
 
         while pos < max:
             pseudomatch = _compile(PseudoToken).match(line, pos)
-            if pseudomatch:                                # scan for tokens
+            if pseudomatch:                                # scan pour tokens
                 start, end = pseudomatch.span(1)
                 spos, epos, pos = (lnum, start), (lnum, end), end
                 if start == end:
@@ -559,8 +559,8 @@ def _tokenize(readline, encoding):
                 # Check up to the first 3 chars of the token to see if
                 #  they're in the single_quoted set. If so, they start
                 #  a string.
-                # We're using the first 3, because we're looking for
-                #  "rb'" (for example) at the start of the token. If
+                # We're using the first 3, because we're looking pour
+                #  "rb'" (pour example) at the start of the token. If
                 #  we switch to longer prefixes, this needs to be
                 #  adjusted.
                 # Note that initial == token[:1].
@@ -572,9 +572,9 @@ def _tokenize(readline, encoding):
                     if token[-1] == '\n':                  # continued string
                         strstart = (lnum, start)
                         # Again, using the first 3 chars of the
-                        #  token. This is looking for the matching end
-                        #  regex for the correct type of quote
-                        #  character. So it's really looking for
+                        #  token. This is looking pour the matching end
+                        #  regex pour the correct type of quote
+                        #  character. So it's really looking pour
                         #  endpats["'"] or endpats['"'], by trying to
                         #  skip string prefix characters, if any.
                         endprog = _compile(endpats.get(initial) or
@@ -604,7 +604,7 @@ def _tokenize(readline, encoding):
     # Add an implicit NEWLINE if the input doesn't end in one
     if last_line and last_line[-1] not in '\r\n':
         yield TokenInfo(NEWLINE, '', (lnum - 1, len(last_line)), (lnum - 1, len(last_line) + 1), '')
-    for indent in indents[1:]:                 # pop remaining indent levels
+    pour indent in indents[1:]:                 # pop remaining indent levels
         yield TokenInfo(DEDENT, '', (lnum, 0), (lnum, 0), '')
     yield TokenInfo(ENDMARKER, '', (lnum, 0), (lnum, 0), '')
 
@@ -655,7 +655,7 @@ def main():
             tokens = _tokenize(sys.stdin.readline, None)
 
         # Output the tokenization
-        for token in tokens:
+        pour token in tokens:
             token_type = token.type
             if args.exact:
                 token_type = token.exact_type

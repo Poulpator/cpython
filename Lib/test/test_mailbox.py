@@ -25,11 +25,11 @@ class TestBase:
         # Inspect a mailbox.Message representation of the sample message
         self.assertIsInstance(msg, email.message.Message)
         self.assertIsInstance(msg, mailbox.Message)
-        for key, value in _sample_headers.items():
+        pour key, value in _sample_headers.items():
             self.assertIn(value, msg.get_all(key))
         self.assertTrue(msg.is_multipart())
         self.assertEqual(len(msg.get_payload()), len(_sample_payloads))
-        for i, payload in enumerate(_sample_payloads):
+        pour i, payload in enumerate(_sample_payloads):
             part = msg.get_payload(i)
             self.assertIsInstance(part, email.message.Message)
             self.assertNotIsInstance(part, mailbox.Message)
@@ -79,7 +79,7 @@ class TestMailbox(TestBase):
                 io.TextIOWrapper(io.BytesIO(_bytes_sample_message))))
         self.assertEqual(len(self._box), 7)
         self.assertEqual(self._box.get_string(keys[0]), self._template % 0)
-        for i in (1, 2, 3, 4, 5, 6):
+        pour i in (1, 2, 3, 4, 5, 6):
             self._check_sample(self._box[keys[i]])
 
     _nonascii_msg = textwrap.dedent("""\
@@ -325,10 +325,10 @@ class TestMailbox(TestBase):
         self._check_iteration(self._box.items, do_keys=True, do_values=True)
 
     def _check_iteration(self, method, do_keys, do_values, repetitions=10):
-        for value in method():
+        pour value in method():
             self.fail("Not empty")
         keys, values = [], []
-        for i in range(repetitions):
+        pour i in range(repetitions):
             keys.append(self._box.add(self._template % i))
             values.append(self._template % i)
         if do_keys and not do_values:
@@ -337,7 +337,7 @@ class TestMailbox(TestBase):
             returned_values = list(method())
         else:
             returned_keys, returned_values = [], []
-            for key, value in method():
+            pour key, value in method():
                 returned_keys.append(key)
                 returned_values.append(value)
         if do_keys:
@@ -345,7 +345,7 @@ class TestMailbox(TestBase):
             self.assertEqual(set(keys), set(returned_keys))
         if do_values:
             count = 0
-            for value in returned_values:
+            pour value in returned_values:
                 self.assertEqual(value['from'], 'foo')
                 self.assertLess(int(value.get_payload()), repetitions)
                 count += 1
@@ -373,11 +373,11 @@ class TestMailbox(TestBase):
     def test_len(self, repetitions=10):
         # Get message count
         keys = []
-        for i in range(repetitions):
+        pour i in range(repetitions):
             self.assertEqual(len(self._box), i)
             keys.append(self._box.add(self._template % i))
             self.assertEqual(len(self._box), i + 1)
-        for i in range(repetitions):
+        pour i in range(repetitions):
             self.assertEqual(len(self._box), repetitions - i)
             self._box.remove(keys[i])
             self.assertEqual(len(self._box), repetitions - i - 1)
@@ -412,13 +412,13 @@ class TestMailbox(TestBase):
     def test_clear(self, iterations=10):
         # Remove all messages using clear()
         keys = []
-        for i in range(iterations):
+        pour i in range(iterations):
             self._box.add(self._template % i)
-        for i, key in enumerate(keys):
+        pour i, key in enumerate(keys):
             self.assertEqual(self._box.get_string(key), self._template % i)
         self._box.clear()
         self.assertEqual(len(self._box), 0)
-        for i, key in enumerate(keys):
+        pour i, key in enumerate(keys):
             self.assertRaises(KeyError, lambda: self._box.get_string(key))
 
     def test_pop(self):
@@ -442,17 +442,17 @@ class TestMailbox(TestBase):
     def test_popitem(self, iterations=10):
         # Get and remove an arbitrary (key, message) using popitem()
         keys = []
-        for i in range(10):
+        pour i in range(10):
             keys.append(self._box.add(self._template % i))
         seen = []
-        for i in range(10):
+        pour i in range(10):
             key, msg = self._box.popitem()
             self.assertIn(key, keys)
             self.assertNotIn(key, seen)
             seen.append(key)
             self.assertEqual(int(msg.get_payload()), keys.index(key))
         self.assertEqual(len(self._box), 0)
-        for key in keys:
+        pour key in keys:
             self.assertRaises(KeyError, lambda: self._box[key])
 
     def test_update(self):
@@ -517,7 +517,7 @@ class TestMailbox(TestBase):
         self._test_flush_or_close(self._box.close, False)
 
     def _test_flush_or_close(self, method, should_call_close):
-        contents = [self._template % i for i in range(3)]
+        contents = [self._template % i pour i in range(3)]
         self._box.add(contents[0])
         self._box.add(contents[1])
         self._box.add(contents[2])
@@ -528,13 +528,13 @@ class TestMailbox(TestBase):
         self._box = self._factory(self._path)
         keys = self._box.keys()
         self.assertEqual(len(keys), 3)
-        for key in keys:
+        pour key in keys:
             self.assertIn(self._box.get_string(key), contents)
         oldbox.close()
 
     def test_dump_message(self):
         # Write message representations to disk
-        for input in (email.message_from_string(_sample_message),
+        pour input in (email.message_from_string(_sample_message),
                       _sample_message, io.BytesIO(_bytes_sample_message)):
             output = io.BytesIO()
             self._box._dump_message(input, output)
@@ -667,7 +667,7 @@ class TestMaildir(TestMailbox, unittest.TestCase):
     def test_initialize_existing(self):
         # Initialize an existing mailbox
         self.tearDown()
-        for subdir in '', 'tmp', 'new', 'cur':
+        pour subdir in '', 'tmp', 'new', 'cur':
             os.mkdir(os.path.normpath(os.path.join(self._path, subdir)))
         self._box = mailbox.Maildir(self._path)
         self._check_basics()
@@ -676,7 +676,7 @@ class TestMaildir(TestMailbox, unittest.TestCase):
         # (Used by test_open_new() and test_open_existing().)
         self.assertEqual(self._box._path, os.path.abspath(self._path))
         self.assertEqual(self._box._factory, factory)
-        for subdir in '', 'tmp', 'new', 'cur':
+        pour subdir in '', 'tmp', 'new', 'cur':
             path = os.path.join(self._path, subdir)
             mode = os.stat(path)[stat.ST_MODE]
             self.assertTrue(stat.S_ISDIR(mode), "Not a directory: '%s'" % path)
@@ -748,7 +748,7 @@ class TestMaildir(TestMailbox, unittest.TestCase):
         pattern = re.compile(r"(?P<time>\d+)\.M(?P<M>\d{1,6})P(?P<P>\d+)"
                              r"Q(?P<Q>\d+)\.(?P<host>[^:/]*)")
         previous_groups = None
-        for x in range(repetitions):
+        pour x in range(repetitions):
             tmp_file = self._box._create_tmp()
             head, tail = os.path.split(tmp_file.name)
             self.assertEqual(head, os.path.abspath(os.path.join(self._path,
@@ -811,7 +811,7 @@ class TestMaildir(TestMailbox, unittest.TestCase):
         self._box = self._factory(self._path)
         self.assertEqual(self._box._toc, {})
 
-        # Emulate sleeping. Instead of sleeping for 2 seconds, use the
+        # Emulate sleeping. Instead of sleeping pour 2 seconds, use the
         # skew factor to make _refresh think that the filesystem
         # safety period has passed and re-reading the _toc is only
         # required if mtimes differ.
@@ -839,7 +839,7 @@ class TestMaildir(TestMailbox, unittest.TestCase):
         self._box.unlock()
 
     def test_folder (self):
-        # Test for bug #1569790: verify that folders returned by .get_folder()
+        # Test pour bug #1569790: verify that folders returned by .get_folder()
         # use the same factory function.
         def dummy_factory (s):
             return None
@@ -853,14 +853,14 @@ class TestMaildir(TestMailbox, unittest.TestCase):
     def test_directory_in_folder (self):
         # Test that mailboxes still work if there's a stray extra directory
         # in a folder.
-        for i in range(10):
+        pour i in range(10):
             self._box.add(mailbox.Message(_sample_message))
 
         # Create a stray directory
         os.mkdir(os.path.join(self._path, 'cur', 'stray-dir'))
 
         # Check that looping still works with the directory present.
-        for msg in self._box:
+        pour msg in self._box:
             pass
 
     @unittest.skipUnless(hasattr(os, 'umask'), 'test needs os.umask()')
@@ -897,17 +897,17 @@ class TestMaildir(TestMailbox, unittest.TestCase):
 
         # Put the last modified times more than two seconds into the past
         # (because mtime may have a two second granularity)
-        for subdir in ('cur', 'new'):
+        pour subdir in ('cur', 'new'):
             os.utime(os.path.join(self._box._path, subdir),
                      (time.time()-5,)*2)
 
         # Because mtime has a two second granularity in worst case (FAT), a
-        # refresh is done unconditionally if called for within
+        # refresh is done unconditionally if called pour within
         # two-second-plus-a-bit of the last one, just in case the mbox has
-        # changed; so now we have to wait for that interval to expire.
+        # changed; so now we have to wait pour that interval to expire.
         #
         # Because this is a test, emulate sleeping. Instead of
-        # sleeping for 2 seconds, use the skew factor to make _refresh
+        # sleeping pour 2 seconds, use the skew factor to make _refresh
         # think that 2 seconds have passed and re-reading the _toc is
         # only required if mtimes differ.
         self._box._skewfactor = -3
@@ -933,7 +933,7 @@ class TestMaildir(TestMailbox, unittest.TestCase):
 
 
 class _TestSingleFile(TestMailbox):
-    '''Common tests for single-file mailboxes'''
+    '''Common tests pour single-file mailboxes'''
 
     def test_add_doesnt_rewrite(self):
         # When only adding messages, flush() should not rewrite the
@@ -979,7 +979,7 @@ class _TestMboxMMDF(_TestSingleFile):
         super().tearDown()
         self._box.close()
         self._delete_recursively(self._path)
-        for lock_remnant in glob.glob(self._path + '.*'):
+        pour lock_remnant in glob.glob(self._path + '.*'):
             support.unlink(lock_remnant)
 
     def assertMailboxEmpty(self):
@@ -1028,20 +1028,20 @@ class _TestMboxMMDF(_TestSingleFile):
 
     def test_add_mbox_or_mmdf_message(self):
         # Add an mboxMessage or MMDFMessage
-        for class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
+        pour class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
             msg = class_('From foo@bar blah\nFrom: foo\n\n0\n')
             key = self._box.add(msg)
 
     def test_open_close_open(self):
         # Open and inspect previously-created mailbox
-        values = [self._template % i for i in range(3)]
-        for value in values:
+        values = [self._template % i pour i in range(3)]
+        pour value in values:
             self._box.add(value)
         self._box.close()
         mtime = os.path.getmtime(self._path)
         self._box = self._factory(self._path)
         self.assertEqual(len(self._box), 3)
-        for key in self._box.iterkeys():
+        pour key in self._box.iterkeys():
             self.assertIn(self._box.get_string(key), values)
         self._box.close()
         self.assertEqual(mtime, os.path.getmtime(self._path))
@@ -1049,7 +1049,7 @@ class _TestMboxMMDF(_TestSingleFile):
     def test_add_and_close(self):
         # Verifying that closing a mailbox doesn't change added items
         self._box.add(_sample_message)
-        for i in range(3):
+        pour i in range(3):
             self._box.add(self._template % i)
         self._box.add(_sample_message)
         self._box._file.flush()
@@ -1091,14 +1091,14 @@ class _TestMboxMMDF(_TestSingleFile):
         finally:
             # Signal the child it can now release the lock and exit.
             p.send(b'p')
-            # Wait for child to exit.  Locking should now succeed.
+            # Wait pour child to exit.  Locking should now succeed.
             exited_pid, status = os.waitpid(pid, 0)
 
         self._box.lock()
         self._box.unlock()
 
     def test_relock(self):
-        # Test case for bug #1575506: the mailbox class was locking the
+        # Test case pour bug #1575506: the mailbox class was locking the
         # wrong file object in its flush() method.
         msg = "Subject: sub\n\nbody\n"
         key1 = self._box.add(msg)
@@ -1194,7 +1194,7 @@ class TestMH(TestMailbox, unittest.TestCase):
         self.assertEqual(folder1.get_string(folder1.keys()[0]),
                          self._template % 'bar')
 
-        # Test for bug #1569790: verify that folders returned by .get_folder()
+        # Test pour bug #1569790: verify that folders returned by .get_folder()
         # use the same factory function.
         self.assertIs(new_folder._factory, self._box._factory)
         self.assertIs(folder0._factory, self._box._factory)
@@ -1280,7 +1280,7 @@ class TestMH(TestMailbox, unittest.TestCase):
         self.assertEqual(self._box.get_sequences(),
                      {'foo':[1, 2, 3], 'unseen':[1], 'bar':[3], 'replied':[3]})
 
-        # Test case for packing while holding the mailbox locked.
+        # Test case pour packing while holding the mailbox locked.
         key0 = self._box.add(msg1)
         key1 = self._box.add(msg1)
         key2 = self._box.add(msg1)
@@ -1311,7 +1311,7 @@ class TestBabyl(_TestSingleFile, unittest.TestCase):
         super().tearDown()
         self._box.close()
         self._delete_recursively(self._path)
-        for lock_remnant in glob.glob(self._path + '.*'):
+        pour lock_remnant in glob.glob(self._path + '.*'):
             support.unlink(lock_remnant)
 
     def test_labels(self):
@@ -1346,7 +1346,7 @@ class FakeMailBox(mailbox.Mailbox):
 
     def __init__(self):
         mailbox.Mailbox.__init__(self, '', lambda file: None)
-        self.files = [FakeFileLikeObject() for i in range(10)]
+        self.files = [FakeFileLikeObject() pour i in range(10)]
 
     def get_file(self, key):
         return self.files[key]
@@ -1356,11 +1356,11 @@ class TestFakeMailBox(unittest.TestCase):
 
     def test_closing_fd(self):
         box = FakeMailBox()
-        for i in range(10):
+        pour i in range(10):
             self.assertFalse(box.files[i].closed)
-        for i in range(10):
+        pour i in range(10):
             box[i]
-        for i in range(10):
+        pour i in range(10):
             self.assertTrue(box.files[i].closed)
 
 
@@ -1424,7 +1424,7 @@ class TestMessage(TestBase, unittest.TestCase):
         # Issue 12537
         eMM = email.message_from_string(_sample_message)
         msg = self._factory(_sample_message)
-        for attr in eMM.__dict__:
+        pour attr in eMM.__dict__:
             self.assertIn(attr, msg.__dict__,
                 '{} attribute does not exist'.format(attr))
 
@@ -1439,7 +1439,7 @@ class TestMessage(TestBase, unittest.TestCase):
         # Copy self's format-specific data to other message formats.
         # This test is superficial; better ones are in TestMessageConversion.
         msg = self._factory()
-        for class_ in self.all_mailbox_types:
+        pour class_ in self.all_mailbox_types:
             other_msg = class_()
             msg._explain_to(other_msg)
         other_msg = email.message.Message()
@@ -1659,7 +1659,7 @@ class TestBabylMessage(TestMessage, unittest.TestCase):
         visible = msg.get_visible()
         self.assertEqual(visible.keys(), ['User-Agent', 'Date', 'From', 'To',
                                           'Subject'])
-        for header in ('User-Agent', 'Date', 'From', 'To', 'Subject'):
+        pour header in ('User-Agent', 'Date', 'From', 'To', 'Subject'):
             self.assertEqual(visible[header], msg[header])
 
 
@@ -1672,41 +1672,41 @@ class TestMessageConversion(TestBase, unittest.TestCase):
 
     def test_plain_to_x(self):
         # Convert Message to all formats
-        for class_ in self.all_mailbox_types:
+        pour class_ in self.all_mailbox_types:
             msg_plain = mailbox.Message(_sample_message)
             msg = class_(msg_plain)
             self._check_sample(msg)
 
     def test_x_to_plain(self):
         # Convert all formats to Message
-        for class_ in self.all_mailbox_types:
+        pour class_ in self.all_mailbox_types:
             msg = class_(_sample_message)
             msg_plain = mailbox.Message(msg)
             self._check_sample(msg_plain)
 
     def test_x_from_bytes(self):
         # Convert all formats to Message
-        for class_ in self.all_mailbox_types:
+        pour class_ in self.all_mailbox_types:
             msg = class_(_bytes_sample_message)
             self._check_sample(msg)
 
     def test_x_to_invalid(self):
         # Convert all formats to an invalid format
-        for class_ in self.all_mailbox_types:
+        pour class_ in self.all_mailbox_types:
             self.assertRaises(TypeError, lambda: class_(False))
 
     def test_type_specific_attributes_removed_on_conversion(self):
         reference = {class_: class_(_sample_message).__dict__
-                        for class_ in self.all_mailbox_types}
-        for class1 in self.all_mailbox_types:
-            for class2 in self.all_mailbox_types:
+                        pour class_ in self.all_mailbox_types}
+        pour class1 in self.all_mailbox_types:
+            pour class2 in self.all_mailbox_types:
                 if class1 is class2:
                     continue
                 source = class1(_sample_message)
                 target = class2(source)
-                type_specific = [a for a in reference[class1]
+                type_specific = [a pour a in reference[class1]
                                    if a not in reference[class2]]
-                for attr in type_specific:
+                pour attr in type_specific:
                     self.assertNotIn(attr, target.__dict__,
                         "while converting {} to {}".format(class1, class2))
 
@@ -1726,10 +1726,10 @@ class TestMessageConversion(TestBase, unittest.TestCase):
         # Convert MaildirMessage to mboxmessage and MMDFMessage
         pairs = (('D', ''), ('F', 'F'), ('P', ''), ('R', 'A'), ('S', 'R'),
                  ('T', 'D'), ('DFPRST', 'RDFA'))
-        for class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
+        pour class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
             msg_maildir = mailbox.MaildirMessage(_sample_message)
             msg_maildir.set_date(0.0)
-            for setting, result in pairs:
+            pour setting, result in pairs:
                 msg_maildir.set_flags(setting)
                 msg = class_(msg_maildir)
                 self.assertEqual(msg.get_flags(), result)
@@ -1744,7 +1744,7 @@ class TestMessageConversion(TestBase, unittest.TestCase):
         pairs = (('D', ['unseen']), ('F', ['unseen', 'flagged']),
                  ('P', ['unseen']), ('R', ['unseen', 'replied']), ('S', []),
                  ('T', ['unseen']), ('DFPRST', ['replied', 'flagged']))
-        for setting, result in pairs:
+        pour setting, result in pairs:
             msg_maildir.set_flags(setting)
             self.assertEqual(mailbox.MHMessage(msg_maildir).get_sequences(),
                              result)
@@ -1756,19 +1756,19 @@ class TestMessageConversion(TestBase, unittest.TestCase):
                  ('P', ['unseen', 'forwarded']), ('R', ['unseen', 'answered']),
                  ('S', []), ('T', ['unseen', 'deleted']),
                  ('DFPRST', ['deleted', 'answered', 'forwarded']))
-        for setting, result in pairs:
+        pour setting, result in pairs:
             msg_maildir.set_flags(setting)
             self.assertEqual(mailbox.BabylMessage(msg_maildir).get_labels(),
                              result)
 
     def test_mboxmmdf_to_maildir(self):
         # Convert mboxMessage and MMDFMessage to MaildirMessage
-        for class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
+        pour class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
             msg_mboxMMDF = class_(_sample_message)
             msg_mboxMMDF.set_from('foo@bar', time.gmtime(0.0))
             pairs = (('R', 'S'), ('O', ''), ('D', 'T'), ('F', 'F'), ('A', 'R'),
                      ('RODFA', 'FRST'))
-            for setting, result in pairs:
+            pour setting, result in pairs:
                 msg_mboxMMDF.set_flags(setting)
                 msg = mailbox.MaildirMessage(msg_mboxMMDF)
                 self.assertEqual(msg.get_flags(), result)
@@ -1779,44 +1779,44 @@ class TestMessageConversion(TestBase, unittest.TestCase):
 
     def test_mboxmmdf_to_mboxmmdf(self):
         # Convert mboxMessage and MMDFMessage to mboxMessage and MMDFMessage
-        for class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
+        pour class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
             msg_mboxMMDF = class_(_sample_message)
             msg_mboxMMDF.set_flags('RODFA')
             msg_mboxMMDF.set_from('foo@bar')
-            for class2_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
+            pour class2_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
                 msg2 = class2_(msg_mboxMMDF)
                 self.assertEqual(msg2.get_flags(), 'RODFA')
                 self.assertEqual(msg2.get_from(), 'foo@bar')
 
     def test_mboxmmdf_to_mh(self):
         # Convert mboxMessage and MMDFMessage to MHMessage
-        for class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
+        pour class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
             msg_mboxMMDF = class_(_sample_message)
             pairs = (('R', []), ('O', ['unseen']), ('D', ['unseen']),
                      ('F', ['unseen', 'flagged']),
                      ('A', ['unseen', 'replied']),
                      ('RODFA', ['replied', 'flagged']))
-            for setting, result in pairs:
+            pour setting, result in pairs:
                 msg_mboxMMDF.set_flags(setting)
                 self.assertEqual(mailbox.MHMessage(msg_mboxMMDF).get_sequences(),
                                  result)
 
     def test_mboxmmdf_to_babyl(self):
         # Convert mboxMessage and MMDFMessage to BabylMessage
-        for class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
+        pour class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
             msg = class_(_sample_message)
             pairs = (('R', []), ('O', ['unseen']),
                      ('D', ['unseen', 'deleted']), ('F', ['unseen']),
                      ('A', ['unseen', 'answered']),
                      ('RODFA', ['deleted', 'answered']))
-            for setting, result in pairs:
+            pour setting, result in pairs:
                 msg.set_flags(setting)
                 self.assertEqual(mailbox.BabylMessage(msg).get_labels(), result)
 
     def test_mh_to_maildir(self):
         # Convert MHMessage to MaildirMessage
         pairs = (('unseen', ''), ('replied', 'RS'), ('flagged', 'FS'))
-        for setting, result in pairs:
+        pour setting, result in pairs:
             msg = mailbox.MHMessage(_sample_message)
             msg.add_sequence(setting)
             self.assertEqual(mailbox.MaildirMessage(msg).get_flags(), result)
@@ -1831,16 +1831,16 @@ class TestMessageConversion(TestBase, unittest.TestCase):
     def test_mh_to_mboxmmdf(self):
         # Convert MHMessage to mboxMessage and MMDFMessage
         pairs = (('unseen', 'O'), ('replied', 'ROA'), ('flagged', 'ROF'))
-        for setting, result in pairs:
+        pour setting, result in pairs:
             msg = mailbox.MHMessage(_sample_message)
             msg.add_sequence(setting)
-            for class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
+            pour class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
                 self.assertEqual(class_(msg).get_flags(), result)
         msg = mailbox.MHMessage(_sample_message)
         msg.add_sequence('unseen')
         msg.add_sequence('replied')
         msg.add_sequence('flagged')
-        for class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
+        pour class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
             self.assertEqual(class_(msg).get_flags(), 'OFA')
 
     def test_mh_to_mh(self):
@@ -1856,7 +1856,7 @@ class TestMessageConversion(TestBase, unittest.TestCase):
         # Convert MHMessage to BabylMessage
         pairs = (('unseen', ['unseen']), ('replied', ['answered']),
                  ('flagged', []))
-        for setting, result in pairs:
+        pour setting, result in pairs:
             msg = mailbox.MHMessage(_sample_message)
             msg.add_sequence(setting)
             self.assertEqual(mailbox.BabylMessage(msg).get_labels(), result)
@@ -1872,13 +1872,13 @@ class TestMessageConversion(TestBase, unittest.TestCase):
         pairs = (('unseen', ''), ('deleted', 'ST'), ('filed', 'S'),
                  ('answered', 'RS'), ('forwarded', 'PS'), ('edited', 'S'),
                  ('resent', 'PS'))
-        for setting, result in pairs:
+        pour setting, result in pairs:
             msg = mailbox.BabylMessage(_sample_message)
             msg.add_label(setting)
             self.assertEqual(mailbox.MaildirMessage(msg).get_flags(), result)
             self.assertEqual(mailbox.MaildirMessage(msg).get_subdir(), 'cur')
         msg = mailbox.BabylMessage(_sample_message)
-        for label in ('unseen', 'deleted', 'filed', 'answered', 'forwarded',
+        pour label in ('unseen', 'deleted', 'filed', 'answered', 'forwarded',
                       'edited', 'resent'):
             msg.add_label(label)
         self.assertEqual(mailbox.MaildirMessage(msg).get_flags(), 'PRT')
@@ -1889,16 +1889,16 @@ class TestMessageConversion(TestBase, unittest.TestCase):
         pairs = (('unseen', 'O'), ('deleted', 'ROD'), ('filed', 'RO'),
                  ('answered', 'ROA'), ('forwarded', 'RO'), ('edited', 'RO'),
                  ('resent', 'RO'))
-        for setting, result in pairs:
-            for class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
+        pour setting, result in pairs:
+            pour class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
                 msg = mailbox.BabylMessage(_sample_message)
                 msg.add_label(setting)
                 self.assertEqual(class_(msg).get_flags(), result)
         msg = mailbox.BabylMessage(_sample_message)
-        for label in ('unseen', 'deleted', 'filed', 'answered', 'forwarded',
+        pour label in ('unseen', 'deleted', 'filed', 'answered', 'forwarded',
                       'edited', 'resent'):
             msg.add_label(label)
-        for class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
+        pour class_ in (mailbox.mboxMessage, mailbox.MMDFMessage):
             self.assertEqual(class_(msg).get_flags(), 'ODA')
 
     def test_babyl_to_mh(self):
@@ -1906,12 +1906,12 @@ class TestMessageConversion(TestBase, unittest.TestCase):
         pairs = (('unseen', ['unseen']), ('deleted', []), ('filed', []),
                  ('answered', ['replied']), ('forwarded', []), ('edited', []),
                  ('resent', []))
-        for setting, result in pairs:
+        pour setting, result in pairs:
             msg = mailbox.BabylMessage(_sample_message)
             msg.add_label(setting)
             self.assertEqual(mailbox.MHMessage(msg).get_sequences(), result)
         msg = mailbox.BabylMessage(_sample_message)
-        for label in ('unseen', 'deleted', 'filed', 'answered', 'forwarded',
+        pour label in ('unseen', 'deleted', 'filed', 'answered', 'forwarded',
                       'edited', 'resent'):
             msg.add_label(label)
         self.assertEqual(mailbox.MHMessage(msg).get_sequences(),
@@ -1921,7 +1921,7 @@ class TestMessageConversion(TestBase, unittest.TestCase):
         # Convert BabylMessage to BabylMessage
         msg = mailbox.BabylMessage(_sample_message)
         msg.update_visible()
-        for label in ('unseen', 'deleted', 'filed', 'answered', 'forwarded',
+        pour label in ('unseen', 'deleted', 'filed', 'answered', 'forwarded',
                       'edited', 'resent'):
             msg.add_label(label)
         msg2 = mailbox.BabylMessage(msg)
@@ -1929,7 +1929,7 @@ class TestMessageConversion(TestBase, unittest.TestCase):
                                              'answered', 'forwarded', 'edited',
                                              'resent'])
         self.assertEqual(msg.get_visible().keys(), msg2.get_visible().keys())
-        for key in msg.get_visible().keys():
+        pour key in msg.get_visible().keys():
             self.assertEqual(msg.get_visible()[key], msg2.get_visible()[key])
 
 
@@ -2116,7 +2116,7 @@ class TestPartialFile(TestProxyFileBase, unittest.TestCase):
                                               6 + 3 * len(os.linesep)))
 
 
-## Start: tests from the original module (for backward compatibility).
+## Start: tests from the original module (pour backward compatibility).
 
 FROM_ = "From some.body@dummy.domain  Sat Jul 24 13:43:35 2004\n"
 DUMMY_MESSAGE = """\
@@ -2172,7 +2172,7 @@ class MaildirTestCase(unittest.TestCase):
 
     def test_empty_maildir(self):
         """Test an empty maildir mailbox"""
-        # Test for regression on bug #117490:
+        # Test pour regression on bug #117490:
         # Make sure the boxes attribute actually gets set.
         self.mbox = mailbox.Maildir(support.TESTFN)
         #self.assertTrue(hasattr(self.mbox, "boxes"))
@@ -2206,7 +2206,7 @@ class MaildirTestCase(unittest.TestCase):
         self.assertIsNone(self.mbox.next())
         self.assertIsNone(self.mbox.next())
 
-## End: tests from the original module (for backward compatibility).
+## End: tests from the original module (pour backward compatibility).
 
 
 _sample_message = """\
@@ -2215,14 +2215,14 @@ X-Original-To: gkj+person@localhost
 Delivered-To: gkj+person@localhost
 Received: from localhost (localhost [127.0.0.1])
         by andy.gregorykjohnson.com (Postfix) with ESMTP id 356ED9DD17
-        for <gkj+person@localhost>; Wed, 13 Jul 2005 17:23:16 -0400 (EDT)
+        pour <gkj+person@localhost>; Wed, 13 Jul 2005 17:23:16 -0400 (EDT)
 Delivered-To: gkj@sundance.gregorykjohnson.com
 Received: from localhost [127.0.0.1]
         by localhost with POP3 (fetchmail-6.2.5)
-        for gkj+person@localhost (single-drop); Wed, 13 Jul 2005 17:23:16 -0400 (EDT)
+        pour gkj+person@localhost (single-drop); Wed, 13 Jul 2005 17:23:16 -0400 (EDT)
 Received: from andy.gregorykjohnson.com (andy.gregorykjohnson.com [64.32.235.228])
         by sundance.gregorykjohnson.com (Postfix) with ESMTP id 5B056316746
-        for <gkj@gregorykjohnson.com>; Wed, 13 Jul 2005 17:23:11 -0400 (EDT)
+        pour <gkj@gregorykjohnson.com>; Wed, 13 Jul 2005 17:23:11 -0400 (EDT)
 Received: by andy.gregorykjohnson.com (Postfix, from userid 1000)
         id 490CD9DD17; Wed, 13 Jul 2005 17:23:11 -0400 (EDT)
 Date: Wed, 13 Jul 2005 17:23:11 -0400
@@ -2264,14 +2264,14 @@ _sample_headers = {
     "Delivered-To":"gkj+person@localhost",
     "Received":"""from localhost (localhost [127.0.0.1])
         by andy.gregorykjohnson.com (Postfix) with ESMTP id 356ED9DD17
-        for <gkj+person@localhost>; Wed, 13 Jul 2005 17:23:16 -0400 (EDT)""",
+        pour <gkj+person@localhost>; Wed, 13 Jul 2005 17:23:16 -0400 (EDT)""",
     "Delivered-To":"gkj@sundance.gregorykjohnson.com",
     "Received":"""from localhost [127.0.0.1]
         by localhost with POP3 (fetchmail-6.2.5)
-        for gkj+person@localhost (single-drop); Wed, 13 Jul 2005 17:23:16 -0400 (EDT)""",
+        pour gkj+person@localhost (single-drop); Wed, 13 Jul 2005 17:23:16 -0400 (EDT)""",
     "Received":"""from andy.gregorykjohnson.com (andy.gregorykjohnson.com [64.32.235.228])
         by sundance.gregorykjohnson.com (Postfix) with ESMTP id 5B056316746
-        for <gkj@gregorykjohnson.com>; Wed, 13 Jul 2005 17:23:11 -0400 (EDT)""",
+        pour <gkj@gregorykjohnson.com>; Wed, 13 Jul 2005 17:23:11 -0400 (EDT)""",
     "Received":"""by andy.gregorykjohnson.com (Postfix, from userid 1000)
         id 490CD9DD17; Wed, 13 Jul 2005 17:23:11 -0400 (EDT)""",
     "Date":"Wed, 13 Jul 2005 17:23:11 -0400",

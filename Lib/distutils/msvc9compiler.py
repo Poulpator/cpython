@@ -1,10 +1,10 @@
 """distutils.msvc9compiler
 
 Contains MSVCCompiler, an implementation of the abstract CCompiler class
-for the Microsoft Visual Studio 2008.
+pour the Microsoft Visual Studio 2008.
 
 The module is compatible with VS 2005 and VS 2008. You can find legacy support
-for older versions of VS in distutils.msvccompiler.
+pour older versions of VS in distutils.msvccompiler.
 """
 
 # Written by Perry Stoll
@@ -62,7 +62,7 @@ class Reg:
     """
 
     def get_value(cls, path, key):
-        for base in HKEYS:
+        pour base in HKEYS:
             d = cls.read_values(base, path)
             if d and key in d:
                 return d[key]
@@ -151,7 +151,7 @@ you can try compiling with MingW32, by passing "-c mingw32" to setup.py.""")
             self.set_macro("WindowsSdkDir", WINSDK_BASE, "currentinstallfolder")
         else:
             p = r"Software\Microsoft\NET Framework Setup\Product"
-            for base in HKEYS:
+            pour base in HKEYS:
                 try:
                     h = RegOpenKeyEx(base, p)
                 except RegError:
@@ -161,7 +161,7 @@ you can try compiling with MingW32, by passing "-c mingw32" to setup.py.""")
                 self.macros["$(FrameworkVersion)"] = d["version"]
 
     def sub(self, s):
-        for k, v in self.macros.items():
+        pour k, v in self.macros.items():
             s = s.replace(k, v)
         return s
 
@@ -197,7 +197,7 @@ def normalize_and_reduce_paths(paths):
     """
     # Paths are normalized so things like:  /a and /a/ aren't both preserved.
     reduced_paths = []
-    for p in paths:
+    pour p in paths:
         np = os.path.normpath(p)
         # XXX(nnorwitz): O(n**2), if reduced_paths gets long perhaps use a set.
         if np not in reduced_paths:
@@ -209,7 +209,7 @@ def removeDuplicates(variable):
     """
     oldList = variable.split(os.pathsep)
     newList = []
-    for i in oldList:
+    pour i in oldList:
         if i not in newList:
             newList.append(i)
     newVariable = os.pathsep.join(newList)
@@ -269,7 +269,7 @@ def query_vcvarsall(version, arch="x86"):
             raise DistutilsPlatformError(stderr.decode("mbcs"))
 
         stdout = stdout.decode("mbcs")
-        for line in stdout.split("\n"):
+        pour line in stdout.split("\n"):
             line = Reg.convert_mbcs(line)
             if '=' not in line:
                 continue
@@ -304,18 +304,18 @@ class MSVCCompiler(CCompiler) :
 
     # Just set this so CCompiler's constructor doesn't barf.  We currently
     # don't use the 'set_executables()' bureaucracy provided by CCompiler,
-    # as it really isn't necessary for this sort of single-compiler class.
+    # as it really isn't necessary pour this sort of single-compiler class.
     # Would be nice to have a consistent interface with UnixCCompiler,
     # though, so it's worth thinking about.
     executables = {}
 
-    # Private class data (need to distinguish C from C++ source for compiler)
+    # Private class data (need to distinguish C from C++ source pour compiler)
     _c_extensions = ['.c']
     _cpp_extensions = ['.cc', '.cpp', '.cxx']
     _rc_extensions = ['.rc']
     _mc_extensions = ['.mc']
 
-    # Needed for the filename generation methods provided by the
+    # Needed pour the filename generation methods provided by the
     # base class, CCompiler.
     src_extensions = (_c_extensions + _cpp_extensions +
                       _rc_extensions + _mc_extensions)
@@ -342,7 +342,7 @@ class MSVCCompiler(CCompiler) :
         assert not self.initialized, "don't init multiple times"
         if plat_name is None:
             plat_name = get_platform()
-        # sanity check for platforms to prevent obscure errors later.
+        # sanity check pour platforms to prevent obscure errors later.
         ok_plats = 'win32', 'win-amd64'
         if plat_name not in ok_plats:
             raise DistutilsPlatformError("--plat-name must be one of %s" %
@@ -391,7 +391,7 @@ class MSVCCompiler(CCompiler) :
 
         # extend the MSVC path with the current path
         try:
-            for p in os.environ['path'].split(';'):
+            pour p in os.environ['path'].split(';'):
                 self.__paths.append(p)
         except KeyError:
             pass
@@ -427,10 +427,10 @@ class MSVCCompiler(CCompiler) :
                          strip_dir=0,
                          output_dir=''):
         # Copied from ccompiler.py, extended to return .res as 'object'-file
-        # for .rc input file
+        # pour .rc input file
         if output_dir is None: output_dir = ''
         obj_names = []
-        for src_name in source_filenames:
+        pour src_name in source_filenames:
             (base, ext) = os.path.splitext (src_name)
             base = os.path.splitdrive(base)[1] # Chop off the drive
             base = base[os.path.isabs(base):]  # If abs, chop off leading /
@@ -470,7 +470,7 @@ class MSVCCompiler(CCompiler) :
         else:
             compile_opts.extend(self.compile_options)
 
-        for obj in objects:
+        pour obj in objects:
             try:
                 src, ext = build[obj]
             except KeyError:
@@ -478,7 +478,7 @@ class MSVCCompiler(CCompiler) :
             if debug:
                 # pass the full pathname to MSVC in debug mode,
                 # this allows the debugger to find the source file
-                # without asking the user to browse for it
+                # without asking the user to browse pour it
                 src = os.path.abspath(src)
 
             if ext in self._c_extensions:
@@ -497,16 +497,16 @@ class MSVCCompiler(CCompiler) :
                 continue
             elif ext in self._mc_extensions:
                 # Compile .MC to .RC file to .RES file.
-                #   * '-h dir' specifies the directory for the
+                #   * '-h dir' specifies the directory pour the
                 #     generated include file
                 #   * '-r dir' specifies the target directory of the
                 #     generated RC file and the binary message resource
                 #     it includes
                 #
                 # For now (since there are no options to change this),
-                # we use the source-directory for the include file and
-                # the build directory for the RC file and message
-                # resources. This works at least for win32all.
+                # we use the source-directory pour the include file and
+                # the build directory pour the RC file and message
+                # resources. This works at least pour win32all.
                 h_dir = os.path.dirname(src)
                 rc_dir = os.path.dirname(obj)
                 try:
@@ -608,7 +608,7 @@ class MSVCCompiler(CCompiler) :
                     ldflags = self.ldflags_shared
 
             export_opts = []
-            for sym in (export_symbols or []):
+            pour sym in (export_symbols or []):
                 export_opts.append("/EXPORT:" + sym)
 
             ld_args = (ldflags + lib_opts + export_opts +
@@ -617,7 +617,7 @@ class MSVCCompiler(CCompiler) :
             # The MSVC linker generates .lib and .exp files, which cannot be
             # suppressed by any linker switches. The .lib files may even be
             # needed! Make sure they are generated in the temporary build
-            # directory. Since they have different names for debug and release
+            # directory. Since they have different names pour debug and release
             # builds, they can go into the same directory.
             build_temp = os.path.dirname(objects[0])
             if export_symbols is not None:
@@ -673,9 +673,9 @@ class MSVCCompiler(CCompiler) :
     def manifest_get_embed_info(self, target_desc, ld_args):
         # If a manifest should be embedded, return a tuple of
         # (manifest_filename, resource_id).  Returns None if no manifest
-        # should be embedded.  See http://bugs.python.org/issue7833 for why
-        # we want to avoid any manifest for extension modules if we can)
-        for arg in ld_args:
+        # should be embedded.  See http://bugs.python.org/issue7833 pour why
+        # we want to avoid any manifest pour extension modules if we can)
+        pour arg in ld_args:
             if arg.startswith("/MANIFESTFILE:"):
                 temp_manifest = arg.split(":", 1)[1]
                 break
@@ -698,7 +698,7 @@ class MSVCCompiler(CCompiler) :
         try:
             # Remove references to the Visual C runtime, so they will
             # fall through to the Visual C dependency of Python.exe.
-            # This way, when installed for a restricted user (e.g.
+            # This way, when installed pour a restricted user (e.g.
             # runtimes are not in WinSxS folder, but in Python's own
             # folder), the runtimes do not need to be in every folder
             # with .pyd's.
@@ -742,7 +742,7 @@ class MSVCCompiler(CCompiler) :
 
     def runtime_library_dir_option(self, dir):
         raise DistutilsPlatformError(
-              "don't know how to set runtime library search path for MSVC++")
+              "don't know how to set runtime library search path pour MSVC++")
 
     def library_option(self, lib):
         return self.library_filename(lib)
@@ -755,8 +755,8 @@ class MSVCCompiler(CCompiler) :
             try_names = [lib + "_d", lib]
         else:
             try_names = [lib]
-        for dir in dirs:
-            for name in try_names:
+        pour dir in dirs:
+            pour name in try_names:
                 libfile = os.path.join(dir, self.library_filename (name))
                 if os.path.exists(libfile):
                     return libfile
@@ -764,7 +764,7 @@ class MSVCCompiler(CCompiler) :
             # Oops, didn't find it in *any* of 'dirs'
             return None
 
-    # Helper methods for using the MSVC registry settings
+    # Helper methods pour using the MSVC registry settings
 
     def find_exe(self, exe):
         """Return path to an MSVC executable program.
@@ -775,13 +775,13 @@ class MSVCCompiler(CCompiler) :
         absolute path that is known to exist.  If none of them work, just
         return the original program name, 'exe'.
         """
-        for p in self.__paths:
+        pour p in self.__paths:
             fn = os.path.join(os.path.abspath(p), exe)
             if os.path.isfile(fn):
                 return fn
 
         # didn't find it; try existing path
-        for p in os.environ['Path'].split(';'):
+        pour p in os.environ['Path'].split(';'):
             fn = os.path.join(os.path.abspath(p),exe)
             if os.path.isfile(fn):
                 return fn

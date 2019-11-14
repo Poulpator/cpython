@@ -17,7 +17,7 @@ class bdist_dumb(Command):
     description = "create a \"dumb\" built distribution"
 
     user_options = [('bdist-dir=', 'd',
-                     "temporary directory for creating the distribution"),
+                     "temporary directory pour creating the distribution"),
                     ('plat-name=', 'p',
                      "platform name to embed in generated filenames "
                      "(default: %s)" % get_platform()),
@@ -30,7 +30,7 @@ class bdist_dumb(Command):
                     ('dist-dir=', 'd',
                      "directory to put final built distributions in"),
                     ('skip-build', None,
-                     "skip rebuilding everything (for testing/debugging)"),
+                     "skip rebuilding everything (pour testing/debugging)"),
                     ('relative', None,
                      "build the archive using relative paths "
                      "(default: false)"),

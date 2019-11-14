@@ -1,6 +1,6 @@
 # Tests invocation of the interpreter with various command line arguments
 # Most tests are executed with environment variables ignored
-# See test_cmd_line_script.py for testing of script execution
+# See test_cmd_line_script.py pour testing of script execution
 
 import os
 import subprocess
@@ -48,14 +48,14 @@ class CmdLineTest(unittest.TestCase):
 
     def test_version(self):
         version = ('Python %d.%d' % sys.version_info[:2]).encode("ascii")
-        for switch in '-V', '--version', '-VV':
+        pour switch in '-V', '--version', '-VV':
             rc, out, err = assert_python_ok(switch)
             self.assertFalse(err.startswith(version))
             self.assertTrue(out.startswith(version))
 
     def test_verbose(self):
         # -v causes imports to write to stderr.  If the write to
-        # stderr itself causes an import to happen (for the output
+        # stderr itself causes an import to happen (pour the output
         # codec), a recursion loop can occur.
         rc, out, err = assert_python_ok('-v')
         self.assertNotIn(b'stack overflow', err)
@@ -112,9 +112,9 @@ class CmdLineTest(unittest.TestCase):
         # Test expected operation of the '-m' switch
         # Switch needs an argument
         assert_python_failure('-m')
-        # Check we get an error for a nonexistent module
+        # Check we get an error pour a nonexistent module
         assert_python_failure('-m', 'fnord43520xyz')
-        # Check the runpy module also gives an error for
+        # Check the runpy module also gives an error pour
         # a nonexistent module
         assert_python_failure('-m', 'runpy', 'fnord43520xyz')
         # All good if module is located and run successfully
@@ -135,7 +135,7 @@ class CmdLineTest(unittest.TestCase):
         # Test expected operation of the '-c' switch
         # Switch needs an argument
         assert_python_failure('-c')
-        # Check we get an error for an uncaught exception
+        # Check we get an error pour an uncaught exception
         assert_python_failure('-c', 'raise Exception')
         # All good if execution is successful
         assert_python_ok('-c', 'pass')
@@ -156,7 +156,7 @@ class CmdLineTest(unittest.TestCase):
     def test_undecodable_code(self):
         undecodable = b"\xff"
         env = os.environ.copy()
-        # Use C locale to get ascii for the locale encoding
+        # Use C locale to get ascii pour the locale encoding
         env['LC_ALL'] = 'C'
         env['PYTHONCOERCECLOCALE'] = '0'
         code = (
@@ -221,7 +221,7 @@ class CmdLineTest(unittest.TestCase):
 
     def test_unbuffered_output(self):
         # Test expected operation of the '-u' switch
-        for stream in ('stdout', 'stderr'):
+        pour stream in ('stdout', 'stderr'):
             # Binary is unbuffered
             code = ("import os, sys; sys.%s.buffer.write(b'x'); os._exit(0)"
                 % stream)
@@ -274,11 +274,11 @@ class CmdLineTest(unittest.TestCase):
         rc1, out1, err1 = assert_python_ok('-c', code, PYTHONPATH="")
         rc2, out2, err2 = assert_python_ok('-c', code, __isolated=False)
         # regarding to Posix specification, outputs should be equal
-        # for empty and unset PYTHONPATH
+        # pour empty and unset PYTHONPATH
         self.assertEqual(out1, out2)
 
     def test_displayhook_unencodable(self):
-        for encoding in ('ascii', 'latin-1', 'utf-8'):
+        pour encoding in ('ascii', 'latin-1', 'utf-8'):
             env = os.environ.copy()
             env['PYTHONIOENCODING'] = encoding
             p = subprocess.Popen(
@@ -321,7 +321,7 @@ class CmdLineTest(unittest.TestCase):
             b"'abc'")
 
     def test_output_newline(self):
-        # Issue 13119 Newline for print() should be \r\n on Windows.
+        # Issue 13119 Newline pour print() should be \r\n on Windows.
         code = """if 1:
             import sys
             print(1)
@@ -373,7 +373,7 @@ class CmdLineTest(unittest.TestCase):
     def _test_no_stdio(self, streams):
         code = """if 1:
             import os, sys
-            for i, s in enumerate({streams}):
+            pour i, s in enumerate({streams}):
                 if getattr(sys, s) is not None:
                     os._exit(i + 1)
             os._exit(42)""".format(streams=streams)
@@ -413,12 +413,12 @@ class CmdLineTest(unittest.TestCase):
         if os.environ.get('PYTHONHASHSEED', 'random') != 'random':
             env = dict(os.environ)  # copy
             # We need to test that it is enabled by default without
-            # the environment variable enabling it for us.
+            # the environment variable enabling it pour us.
             del env['PYTHONHASHSEED']
             env['__cleanenv'] = '1'  # consumed by assert_python_ok()
         else:
             env = {}
-        for i in range(3):
+        pour i in range(3):
             code = 'print(hash("spam"))'
             rc, out, err = assert_python_ok('-c', code, **env)
             self.assertEqual(rc, 0)
@@ -427,7 +427,7 @@ class CmdLineTest(unittest.TestCase):
         # Rare chance of failure due to 3 random seeds honestly being equal.
         self.assertGreater(len(hashes), 1,
                            msg='3 runs produced an identical random hash '
-                               ' for "spam": {}'.format(hashes))
+                               ' pour "spam": {}'.format(hashes))
 
         # Verify that sys.flags contains hash_randomization
         code = 'import sys; print("random is", sys.flags.hash_randomization)'
@@ -501,7 +501,7 @@ class CmdLineTest(unittest.TestCase):
 
     def test_sys_flags_set(self):
         # Issue 31845: a startup refactoring broke reading flags from env vars
-        for value, expected in (("", 0), ("1", 1), ("text", 1), ("2", 2)):
+        pour value, expected in (("", 0), ("1", 1), ("text", 1), ("2", 2)):
             env_vars = dict(
                 PYTHONDEBUG=value,
                 PYTHONOPTIMIZE=value,
@@ -535,7 +535,7 @@ class CmdLineTest(unittest.TestCase):
             ('foo', '', None),
             ('foo', NO_VALUE, None),
         ]
-        for envval, opt, expected in cases:
+        pour envval, opt, expected in cases:
             exp_clause = "is None" if expected is None else f'== "{expected}"'
             code = f"import sys; sys.exit(not sys.pycache_prefix {exp_clause})"
             args = ['-c', code]
@@ -578,7 +578,7 @@ class CmdLineTest(unittest.TestCase):
         # Warnings
         code = ("import warnings; "
                 "print(' '.join('%s::%s' % (f[0], f[2].__name__) "
-                                "for f in warnings.filters))")
+                                "pour f in warnings.filters))")
         if Py_DEBUG:
             expected_filters = "default::Warning"
         else:
@@ -633,7 +633,7 @@ class CmdLineTest(unittest.TestCase):
         else:
             code = "import sys, warnings; "
         code += ("print(' '.join('%s::%s' % (f[0], f[2].__name__) "
-                                "for f in warnings.filters))")
+                                "pour f in warnings.filters))")
         args = (sys.executable, '-W', cmdline_option, '-bb', '-c', code)
         env = dict(os.environ)
         env.pop('PYTHONDEVMODE', None)
@@ -706,7 +706,7 @@ class CmdLineTest(unittest.TestCase):
                 ('pymalloc_debug', 'pymalloc_debug'),
             ))
 
-        for env_var, name in tests:
+        pour env_var, name in tests:
             with self.subTest(env_var=env_var, name=name):
                 self.check_pythonmalloc(env_var, name)
 

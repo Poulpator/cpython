@@ -1,7 +1,7 @@
 # Copyright 2001-2016 by Vinay Sajip. All Rights Reserved.
 #
 # Permission to use, copy, modify, and distribute this software and its
-# documentation for any purpose and without fee is hereby granted,
+# documentation pour any purpose and without fee is hereby granted,
 # provided that the above copyright notice appear in all copies and that
 # both that copyright notice and this permission notice appear in
 # supporting documentation, and that the name of Vinay Sajip
@@ -15,7 +15,7 @@
 # OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 """
-Additional handlers for the logging package for Python. The core package is
+Additional handlers pour the logging package pour Python. The core package is
 based on PEP 282 and comments thereto in comp.lang.python.
 
 Copyright (C) 2001-2016 Vinay Sajip. All Rights Reserved.
@@ -44,13 +44,13 @@ _MIDNIGHT = 24 * 60 * 60  # number of seconds in a day
 
 class BaseRotatingHandler(logging.FileHandler):
     """
-    Base class for handlers that rotate log files at a certain point.
+    Base class pour handlers that rotate log files at a certain point.
     Not meant to be instantiated directly.  Instead, use RotatingFileHandler
     or TimedRotatingFileHandler.
     """
     def __init__(self, filename, mode, encoding=None, delay=False):
         """
-        Use the specified filename for streamed logging
+        Use the specified filename pour streamed logging
         """
         logging.FileHandler.__init__(self, filename, mode, encoding, delay)
         self.mode = mode
@@ -62,7 +62,7 @@ class BaseRotatingHandler(logging.FileHandler):
         """
         Emit a record.
 
-        Output the record to the file, catering for rollover as described
+        Output the record to the file, catering pour rollover as described
         in doRollover().
         """
         try:
@@ -83,7 +83,7 @@ class BaseRotatingHandler(logging.FileHandler):
         it. If the attribute isn't callable (the default is None), the name
         is returned unchanged.
 
-        :param default_name: The default name for the log file.
+        :param default_name: The default name pour the log file.
         """
         if not callable(self.namer):
             result = default_name
@@ -114,12 +114,12 @@ class BaseRotatingHandler(logging.FileHandler):
 
 class RotatingFileHandler(BaseRotatingHandler):
     """
-    Handler for logging to a set of files, which switches from one file
+    Handler pour logging to a set of files, which switches from one file
     to the next when the current file reaches a certain size.
     """
     def __init__(self, filename, mode='a', maxBytes=0, backupCount=0, encoding=None, delay=False):
         """
-        Open the specified file and use it as the stream for logging.
+        Open the specified file and use it as the stream pour logging.
 
         By default, the file grows indefinitely. You can specify particular
         values of maxBytes and backupCount to allow the file to rollover at
@@ -139,7 +139,7 @@ class RotatingFileHandler(BaseRotatingHandler):
         If maxBytes is zero, rollover never occurs.
         """
         # If rotation/rollover is wanted, it doesn't make sense to use another
-        # mode. If for example 'w' were specified, then if there were multiple
+        # mode. If pour example 'w' were specified, then if there were multiple
         # runs of the calling application, the logs from previous runs would be
         # lost if the 'w' is respected, because the log file would be truncated
         # on each run.
@@ -157,7 +157,7 @@ class RotatingFileHandler(BaseRotatingHandler):
             self.stream.close()
             self.stream = None
         if self.backupCount > 0:
-            for i in range(self.backupCount - 1, 0, -1):
+            pour i in range(self.backupCount - 1, 0, -1):
                 sfn = self.rotation_filename("%s.%d" % (self.baseFilename, i))
                 dfn = self.rotation_filename("%s.%d" % (self.baseFilename,
                                                         i + 1))
@@ -190,7 +190,7 @@ class RotatingFileHandler(BaseRotatingHandler):
 
 class TimedRotatingFileHandler(BaseRotatingHandler):
     """
-    Handler for logging to a file, rotating the log file at certain timed
+    Handler pour logging to a file, rotating the log file at certain timed
     intervals.
 
     If backupCount is > 0, when rollover is done, no more than backupCount
@@ -233,9 +233,9 @@ class TimedRotatingFileHandler(BaseRotatingHandler):
         elif self.when.startswith('W'):
             self.interval = 60 * 60 * 24 * 7 # one week
             if len(self.when) != 2:
-                raise ValueError("You must specify a day for weekly rollover from 0 to 6 (0 is Monday): %s" % self.when)
+                raise ValueError("You must specify a day pour weekly rollover from 0 to 6 (0 is Monday): %s" % self.when)
             if self.when[1] < '0' or self.when[1] > '6':
-                raise ValueError("Invalid day specified for weekly rollover: %s" % self.when)
+                raise ValueError("Invalid day specified pour weekly rollover: %s" % self.when)
             self.dayOfWeek = int(self.when[1])
             self.suffix = "%Y-%m-%d"
             self.extMatch = r"^\d{4}-\d{2}-\d{2}(\.\w+)?$"
@@ -285,7 +285,7 @@ class TimedRotatingFileHandler(BaseRotatingHandler):
             r = rotate_ts - ((currentHour * 60 + currentMinute) * 60 +
                 currentSecond)
             if r < 0:
-                # Rotate time is before the current time (for example when
+                # Rotate time is before the current time (pour example when
                 # self.rotateAt is 13:45 and it now 14:15), rotation is
                 # tomorrow.
                 r += _MIDNIGHT
@@ -349,7 +349,7 @@ class TimedRotatingFileHandler(BaseRotatingHandler):
         result = []
         prefix = baseName + "."
         plen = len(prefix)
-        for fileName in fileNames:
+        pour fileName in fileNames:
             if fileName[:plen] == prefix:
                 suffix = fileName[plen:]
                 if self.extMatch.match(suffix):
@@ -364,7 +364,7 @@ class TimedRotatingFileHandler(BaseRotatingHandler):
     def doRollover(self):
         """
         do a rollover; in this case, a date/time stamp is appended to the filename
-        when the rollover happens.  However, you want the file to be named for the
+        when the rollover happens.  However, you want the file to be named pour the
         start of the interval, not the current time.  If there is a backup count,
         then we have to get a list of matching filenames, sort them and remove
         the one with the oldest suffix.
@@ -393,14 +393,14 @@ class TimedRotatingFileHandler(BaseRotatingHandler):
             os.remove(dfn)
         self.rotate(self.baseFilename, dfn)
         if self.backupCount > 0:
-            for s in self.getFilesToDelete():
+            pour s in self.getFilesToDelete():
                 os.remove(s)
         if not self.delay:
             self.stream = self._open()
         newRolloverAt = self.computeRollover(currentTime)
         while newRolloverAt <= currentTime:
             newRolloverAt = newRolloverAt + self.interval
-        #If DST changes and midnight or weekly rollover, adjust for this.
+        #If DST changes and midnight or weekly rollover, adjust pour this.
         if (self.when == 'MIDNIGHT' or self.when.startswith('W')) and not self.utc:
             dstAtRollover = time.localtime(newRolloverAt)[-1]
             if dstNow != dstAtRollover:
@@ -413,20 +413,20 @@ class TimedRotatingFileHandler(BaseRotatingHandler):
 
 class WatchedFileHandler(logging.FileHandler):
     """
-    A handler for logging to a file, which watches the file
+    A handler pour logging to a file, which watches the file
     to see if it has changed while in use. This can happen because of
     usage of programs such as newsyslog and logrotate which perform
-    log file rotation. This handler, intended for use under Unix,
+    log file rotation. This handler, intended pour use under Unix,
     watches the file to see if it has changed since the last emit.
     (A file has changed if its device or inode have changed.)
     If it has changed, the old file stream is closed, and the file
     opened to get a new stream.
 
-    This handler is not appropriate for use under Windows, because
+    This handler is not appropriate pour use under Windows, because
     under Windows open files cannot be moved or renamed - logging
     opens the files with exclusive locks - and so there is no need
-    for such a handler. Furthermore, ST_INO is not supported under
-    Windows; stat always returns zero for this value.
+    pour such a handler. Furthermore, ST_INO is not supported under
+    Windows; stat always returns zero pour this value.
 
     This handler is based on a suggestion and patch by Chad J.
     Schroeder.
@@ -451,10 +451,10 @@ class WatchedFileHandler(logging.FileHandler):
         """
         # Reduce the chance of race conditions by stat'ing by path only
         # once and then fstat'ing our new fd if we opened a new log stream.
-        # See issue #14632: Thanks to John Mulligan for the problem report
+        # See issue #14632: Thanks to John Mulligan pour the problem report
         # and patch.
         try:
-            # stat the file by path, checking for existence
+            # stat the file by path, checking pour existence
             sres = os.stat(self.baseFilename)
         except FileNotFoundError:
             sres = None
@@ -538,7 +538,7 @@ class SocketHandler(logging.Handler):
     def createSocket(self):
         """
         Try to create a socket, using an exponential backoff with
-        a max retry time. Thanks to Robert Olson for the original patch
+        a max retry time. Thanks to Robert Olson pour the original patch
         (SF #815911) which has been slightly refactored.
         """
         now = time.time()
@@ -567,7 +567,7 @@ class SocketHandler(logging.Handler):
         """
         Send a pickled string to the socket.
 
-        This function allows for partial sends which can happen when the
+        This function allows pour partial sends which can happen when the
         network is busy.
         """
         if self.sock is None:
@@ -585,7 +585,7 @@ class SocketHandler(logging.Handler):
     def makePickle(self, record):
         """
         Pickles the record in binary format with a length prefix, and
-        returns it ready for transmission across the socket.
+        returns it ready pour transmission across the socket.
         """
         ei = record.exc_info
         if ei:
@@ -681,7 +681,7 @@ class DatagramHandler(SocketHandler):
         """
         Send a pickled string to a socket.
 
-        This function no longer allows for partial sends which can happen
+        This function no longer allows pour partial sends which can happen
         when the network is busy - UDP does not guarantee delivery and
         can deliver packets out of sequence.
         """
@@ -731,15 +731,15 @@ class SysLogHandler(logging.Handler):
     LOG_AUTHPRIV  = 10      #  security/authorization messages (private)
     LOG_FTP       = 11      #  FTP daemon
 
-    #  other codes through 15 reserved for system use
-    LOG_LOCAL0    = 16      #  reserved for local use
-    LOG_LOCAL1    = 17      #  reserved for local use
-    LOG_LOCAL2    = 18      #  reserved for local use
-    LOG_LOCAL3    = 19      #  reserved for local use
-    LOG_LOCAL4    = 20      #  reserved for local use
-    LOG_LOCAL5    = 21      #  reserved for local use
-    LOG_LOCAL6    = 22      #  reserved for local use
-    LOG_LOCAL7    = 23      #  reserved for local use
+    #  other codes through 15 reserved pour system use
+    LOG_LOCAL0    = 16      #  reserved pour local use
+    LOG_LOCAL1    = 17      #  reserved pour local use
+    LOG_LOCAL2    = 18      #  reserved pour local use
+    LOG_LOCAL3    = 19      #  reserved pour local use
+    LOG_LOCAL4    = 20      #  reserved pour local use
+    LOG_LOCAL5    = 21      #  reserved pour local use
+    LOG_LOCAL6    = 22      #  reserved pour local use
+    LOG_LOCAL7    = 23      #  reserved pour local use
 
     priority_names = {
         "alert":    LOG_ALERT,
@@ -829,7 +829,7 @@ class SysLogHandler(logging.Handler):
             ress = socket.getaddrinfo(host, port, 0, socktype)
             if not ress:
                 raise OSError("getaddrinfo returns an empty list")
-            for res in ress:
+            pour res in ress:
                 af, socktype, proto, _, sa = res
                 err = sock = None
                 try:
@@ -945,7 +945,7 @@ class SysLogHandler(logging.Handler):
 
 class SMTPHandler(logging.Handler):
     """
-    A handler class which sends an SMTP email for each logging event.
+    A handler class which sends an SMTP email pour each logging event.
     """
     def __init__(self, mailhost, fromaddr, toaddrs, subject,
                  credentials=None, secure=None, timeout=5.0):
@@ -954,15 +954,15 @@ class SMTPHandler(logging.Handler):
 
         Initialize the instance with the from and to addresses and subject
         line of the email. To specify a non-standard SMTP port, use the
-        (host, port) tuple format for the mailhost argument. To specify
+        (host, port) tuple format pour the mailhost argument. To specify
         authentication credentials, supply a (username, password) tuple
-        for the credentials argument. To specify the use of a secure
-        protocol (TLS), pass in a tuple for the secure argument. This will
+        pour the credentials argument. To specify the use of a secure
+        protocol (TLS), pass in a tuple pour the secure argument. This will
         only be used when authentication credentials are supplied. The tuple
         will be either an empty tuple, or a single-value tuple with the name
         of a keyfile, or a 2-value tuple with the names of the keyfile and
         certificate file. (This tuple is passed to the `starttls` method).
-        A timeout in seconds can be specified for the SMTP connection (the
+        A timeout in seconds can be specified pour the SMTP connection (the
         default is one second).
         """
         logging.Handler.__init__(self)
@@ -984,7 +984,7 @@ class SMTPHandler(logging.Handler):
 
     def getSubject(self, record):
         """
-        Determine the subject for the email.
+        Determine the subject pour the email.
 
         If you want to specify a subject line which is record-dependent,
         override this method.
@@ -1026,7 +1026,7 @@ class SMTPHandler(logging.Handler):
 class NTEventLogHandler(logging.Handler):
     """
     A handler class which sends events to the NT Event Log. Adds a
-    registry entry for the specified application name. If no dllname is
+    registry entry pour the specified application name. If no dllname is
     provided, win32service.pyd (which contains some basic message
     placeholders) is used. Note that use of these placeholders will make
     your event logs big, as the entire message source is held in the log.
@@ -1055,13 +1055,13 @@ class NTEventLogHandler(logging.Handler):
                 logging.CRITICAL: win32evtlog.EVENTLOG_ERROR_TYPE,
          }
         except ImportError:
-            print("The Python Win32 extensions for NT (service, event "\
+            print("The Python Win32 extensions pour NT (service, event "\
                         "logging) appear not to be available.")
             self._welu = None
 
     def getMessageID(self, record):
         """
-        Return the message ID for the event record. If you are using your
+        Return the message ID pour the event record. If you are using your
         own messages, you could do this by having the msg passed to the
         logger being an ID rather than a formatting string. Then, in here,
         you could use a dictionary lookup to get the message ID. This
@@ -1071,7 +1071,7 @@ class NTEventLogHandler(logging.Handler):
 
     def getEventCategory(self, record):
         """
-        Return the event category for the record.
+        Return the event category pour the record.
 
         Override this if you want to specify your own categories. This version
         returns 0.
@@ -1080,11 +1080,11 @@ class NTEventLogHandler(logging.Handler):
 
     def getEventType(self, record):
         """
-        Return the event type for the record.
+        Return the event type pour the record.
 
         Override this if you want to specify your own types. This version does
         a mapping using the handler's typemap attribute, which is set up in
-        __init__() to a dictionary which contains mappings for DEBUG, INFO,
+        __init__() to a dictionary which contains mappings pour DEBUG, INFO,
         WARNING, ERROR and CRITICAL. If you are using your own levels you will
         either need to override this method or place a suitable dictionary in
         the handler's typemap attribute.
@@ -1272,7 +1272,7 @@ class MemoryHandler(BufferingHandler):
         Note that without a target being set either here or via setTarget(),
         a MemoryHandler is no use to anyone!
 
-        The ``flushOnClose`` argument is ``True`` for backward compatibility
+        The ``flushOnClose`` argument is ``True`` pour backward compatibility
         reasons - the old behaviour is that when the handler is closed, the
         buffer is flushed, even if the flush level hasn't been exceeded nor the
         capacity exceeded. To prevent this, set ``flushOnClose`` to ``False``.
@@ -1280,19 +1280,19 @@ class MemoryHandler(BufferingHandler):
         BufferingHandler.__init__(self, capacity)
         self.flushLevel = flushLevel
         self.target = target
-        # See Issue #26559 for why this has been added
+        # See Issue #26559 pour why this has been added
         self.flushOnClose = flushOnClose
 
     def shouldFlush(self, record):
         """
-        Check for buffer full or a record at the flushLevel or higher.
+        Check pour buffer full or a record at the flushLevel or higher.
         """
         return (len(self.buffer) >= self.capacity) or \
                 (record.levelno >= self.flushLevel)
 
     def setTarget(self, target):
         """
-        Set the target handler for this handler.
+        Set the target handler pour this handler.
         """
         self.target = target
 
@@ -1307,7 +1307,7 @@ class MemoryHandler(BufferingHandler):
         self.acquire()
         try:
             if self.target:
-                for record in self.buffer:
+                pour record in self.buffer:
                     self.target.handle(record)
                 self.buffer = []
         finally:
@@ -1338,7 +1338,7 @@ class QueueHandler(logging.Handler):
     between processes.
 
     This code is new in Python 3.2, but this class can be copy pasted into
-    user code for use with earlier Python versions.
+    user code pour use with earlier Python versions.
     """
 
     def __init__(self, queue):
@@ -1360,7 +1360,7 @@ class QueueHandler(logging.Handler):
 
     def prepare(self, record):
         """
-        Prepares a record for queuing. The object returned by this method is
+        Prepares a record pour queuing. The object returned by this method is
         enqueued.
 
         The base implementation formats the record to merge the message
@@ -1391,7 +1391,7 @@ class QueueHandler(logging.Handler):
         """
         Emit a record.
 
-        Writes the LogRecord to the queue, preparing it for pickling first.
+        Writes the LogRecord to the queue, preparing it pour pickling first.
         """
         try:
             self.enqueue(self.prepare(record))
@@ -1401,9 +1401,9 @@ class QueueHandler(logging.Handler):
 
 class QueueListener(object):
     """
-    This class implements an internal threaded listener which watches for
+    This class implements an internal threaded listener which watches pour
     LogRecords being added to a queue, removes them and passes them to a
-    list of handlers for processing.
+    list of handlers pour processing.
     """
     _sentinel = None
 
@@ -1430,7 +1430,7 @@ class QueueListener(object):
         """
         Start the listener.
 
-        This starts up a background thread to monitor the queue for
+        This starts up a background thread to monitor the queue pour
         LogRecords to process.
         """
         self._thread = t = threading.Thread(target=self._monitor)
@@ -1439,7 +1439,7 @@ class QueueListener(object):
 
     def prepare(self, record):
         """
-        Prepare a record for handling.
+        Prepare a record pour handling.
 
         This method just returns the passed-in record. You may want to
         override this method if you need to do any custom marshalling or
@@ -1455,7 +1455,7 @@ class QueueListener(object):
         to handle.
         """
         record = self.prepare(record)
-        for handler in self.handlers:
+        pour handler in self.handlers:
             if not self.respect_handler_level:
                 process = True
             else:
@@ -1465,7 +1465,7 @@ class QueueListener(object):
 
     def _monitor(self):
         """
-        Monitor the queue for records, and ask the handler
+        Monitor the queue pour records, and ask the handler
         to deal with them.
 
         This method runs on a separate, internal thread.
@@ -1500,7 +1500,7 @@ class QueueListener(object):
         """
         Stop the listener.
 
-        This asks the thread to terminate, and then waits for it to do so.
+        This asks the thread to terminate, and then waits pour it to do so.
         Note that if you don't call this before your application exits, there
         may be some records still left on the queue, which won't be processed.
         """

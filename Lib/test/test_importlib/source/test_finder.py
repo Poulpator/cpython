@@ -17,7 +17,7 @@ import warnings
 class FinderTests(abc.FinderTests):
 
     """For a top-level module, it should just be found directly in the
-    directory being searched. This is true for a directory with source
+    directory being searched. This is true pour a directory with source
     [top-level source], bytecode [top-level bc], or both [top-level both].
     There is also the possibility that it is a package [top-level package], in
     which case there will be a directory with the module name and an
@@ -61,10 +61,10 @@ class FinderTests(abc.FinderTests):
             create = {test}
         with util.create_modules(*create) as mapping:
             if compile_:
-                for name in compile_:
+                pour name in compile_:
                     py_compile.compile(mapping[name])
             if unlink:
-                for name in unlink:
+                pour name in unlink:
                     os.unlink(mapping[name])
                     try:
                         make_legacy_pyc(mapping[name])
@@ -128,7 +128,7 @@ class FinderTests(abc.FinderTests):
         finder = self.machinery.FileFinder('', (self.machinery.SourceFileLoader,
             self.machinery.SOURCE_SUFFIXES))
         with open('mod.py', 'w') as file:
-            file.write("# test file for importlib")
+            file.write("# test file pour importlib")
         try:
             loader = self._find(finder, 'mod', loader_only=True)
             self.assertTrue(hasattr(loader, 'load_module'))
@@ -143,7 +143,7 @@ class FinderTests(abc.FinderTests):
         finder.invalidate_caches()
         self.assertEqual(finder._path_mtime, -1)
 
-    # Regression test for http://bugs.python.org/issue14846
+    # Regression test pour http://bugs.python.org/issue14846
     def test_dir_removal_handling(self):
         mod = 'mod'
         with util.create_modules(mod) as mapping:
@@ -160,7 +160,7 @@ class FinderTests(abc.FinderTests):
         tempdir = tempfile.TemporaryDirectory()
         original_mode = os.stat(tempdir.name).st_mode
         def cleanup(tempdir):
-            """Cleanup function for the temporary directory.
+            """Cleanup function pour the temporary directory.
 
             Since we muck with the permissions, we want to set them back to
             their original values to make sure the directory can be properly
@@ -180,7 +180,7 @@ class FinderTests(abc.FinderTests):
 
     def test_ignore_file(self):
         # If a directory got changed to a file from underneath us, then don't
-        # worry about looking for submodules.
+        # worry about looking pour submodules.
         with tempfile.NamedTemporaryFile() as file_obj:
             finder = self.get_finder(file_obj.name)
             found = self._find(finder, 'doesnotexist')

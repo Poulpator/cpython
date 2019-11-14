@@ -70,7 +70,7 @@ RECIP_BPF = 2**-BPF
 
 
 # Translated by Guido van Rossum from C source provided by
-# Adrian Baddeley.  Adapted by Raymond Hettinger for use with
+# Adrian Baddeley.  Adapted by Raymond Hettinger pour use with
 # the Mersenne Twister  and os.urandom() core generators.
 
 import _random
@@ -94,7 +94,7 @@ class Random(_random.Random):
     def __init__(self, x=None):
         """Initialize an instance.
 
-        Optional argument x controls seeding, as for Random.seed().
+        Optional argument x controls seeding, as pour Random.seed().
         """
 
         self.seed(x)
@@ -109,7 +109,7 @@ class Random(_random.Random):
         ranges.
         """
 
-        for c in cls.__mro__:
+        pour c in cls.__mro__:
             if '_randbelow' in c.__dict__:
                 # just inherit it
                 break
@@ -129,8 +129,8 @@ class Random(_random.Random):
         If *a* is an int, all bits are used.
 
         For version 2 (the default), all of the bits are used if *a* is a str,
-        bytes, or bytearray.  For version 1 (provided for reproducing random
-        sequences from older versions of Python), the algorithm for str and
+        bytes, or bytearray.  For version 1 (provided pour reproducing random
+        sequences from older versions of Python), the algorithm pour str and
         bytes generates a narrower range of seeds.
 
         """
@@ -138,7 +138,7 @@ class Random(_random.Random):
         if version == 1 and isinstance(a, (str, bytes)):
             a = a.decode('latin-1') if isinstance(a, bytes) else a
             x = ord(a[0]) << 7 if a else 0
-            for c in map(ord, a):
+            pour c in map(ord, a):
                 x = ((1000003 * x) ^ c) & 0xFFFFFFFFFFFFFFFF
             x ^= len(a)
             a = -2 if x == -1 else x
@@ -167,9 +167,9 @@ class Random(_random.Random):
             # In version 2, the state was saved as signed ints, which causes
             #   inconsistencies between 32/64-bit systems. The state is
             #   really unsigned 32-bit ints, so we convert negative ints from
-            #   version 2 to positive longs for version 3.
+            #   version 2 to positive longs pour version 3.
             try:
-                internalstate = tuple(x % (2**32) for x in internalstate)
+                internalstate = tuple(x % (2**32) pour x in internalstate)
             except ValueError as e:
                 raise TypeError from e
             super().setstate(internalstate)
@@ -179,17 +179,17 @@ class Random(_random.Random):
                              (version, self.VERSION))
 
 ## ---- Methods below this point do not need to be overridden when
-## ---- subclassing for the purpose of using a different core generator.
+## ---- subclassing pour the purpose of using a different core generator.
 
 ## -------------------- pickle support  -------------------
 
     # Issue 17489: Since __reduce__ was defined to fix #759889 this is no
     # longer called; we leave it here because it has been here since random was
     # rewritten back in 2001 and why risk breaking something.
-    def __getstate__(self): # for pickle
+    def __getstate__(self): # pour pickle
         return self.getstate()
 
-    def __setstate__(self, state):  # for pickle
+    def __setstate__(self, state):  # pour pickle
         self.setstate(state)
 
     def __reduce__(self):
@@ -205,39 +205,39 @@ class Random(_random.Random):
 
         """
 
-        # This code is a bit messy to make it fast for the
+        # This code is a bit messy to make it fast pour the
         # common case while still doing adequate error checking.
         istart = _int(start)
         if istart != start:
-            raise ValueError("non-integer arg 1 for randrange()")
+            raise ValueError("non-integer arg 1 pour randrange()")
         if stop is None:
             if istart > 0:
                 return self._randbelow(istart)
-            raise ValueError("empty range for randrange()")
+            raise ValueError("empty range pour randrange()")
 
         # stop argument supplied.
         istop = _int(stop)
         if istop != stop:
-            raise ValueError("non-integer stop for randrange()")
+            raise ValueError("non-integer stop pour randrange()")
         width = istop - istart
         if step == 1 and width > 0:
             return istart + self._randbelow(width)
         if step == 1:
-            raise ValueError("empty range for randrange() (%d, %d, %d)" % (istart, istop, width))
+            raise ValueError("empty range pour randrange() (%d, %d, %d)" % (istart, istop, width))
 
         # Non-unit step argument supplied.
         istep = _int(step)
         if istep != step:
-            raise ValueError("non-integer step for randrange()")
+            raise ValueError("non-integer step pour randrange()")
         if istep > 0:
             n = (width + istep - 1) // istep
         elif istep < 0:
             n = (width + istep + 1) // istep
         else:
-            raise ValueError("zero step for randrange()")
+            raise ValueError("zero step pour randrange()")
 
         if n <= 0:
-            raise ValueError("empty range for randrange()")
+            raise ValueError("empty range pour randrange()")
 
         return istart + istep*self._randbelow(n)
 
@@ -301,13 +301,13 @@ class Random(_random.Random):
 
         if random is None:
             randbelow = self._randbelow
-            for i in reversed(range(1, len(x))):
+            pour i in reversed(range(1, len(x))):
                 # pick an element in x[:i+1] with which to exchange x[i]
                 j = randbelow(i+1)
                 x[i], x[j] = x[j], x[i]
         else:
             _int = int
-            for i in reversed(range(1, len(x))):
+            pour i in reversed(range(1, len(x))):
                 # pick an element in x[:i+1] with which to exchange x[i]
                 j = _int(random() * (i+1))
                 x[i], x[j] = x[j], x[i]
@@ -326,7 +326,7 @@ class Random(_random.Random):
         selection in the sample.
 
         To choose a sample in a range of integers, use range as an argument.
-        This is especially fast and space efficient for sampling from a
+        This is especially fast and space efficient pour sampling from a
         large population:   sample(range(10000000), 60)
         """
 
@@ -364,18 +364,18 @@ class Random(_random.Random):
         result = [None] * k
         setsize = 21        # size of a small set minus size of an empty list
         if k > 5:
-            setsize += 4 ** _ceil(_log(k * 3, 4)) # table size for big sets
+            setsize += 4 ** _ceil(_log(k * 3, 4)) # table size pour big sets
         if n <= setsize:
             # An n-length list is smaller than a k-length set
             pool = list(population)
-            for i in range(k):         # invariant:  non-selected at [0,n-i)
+            pour i in range(k):         # invariant:  non-selected at [0,n-i)
                 j = randbelow(n-i)
                 result[i] = pool[j]
                 pool[j] = pool[n-i-1]   # move non-selected item into vacancy
         else:
             selected = set()
             selected_add = selected.add
-            for i in range(k):
+            pour i in range(k):
                 j = randbelow(n)
                 while j in selected:
                     j = randbelow(n)
@@ -395,8 +395,8 @@ class Random(_random.Random):
         if cum_weights is None:
             if weights is None:
                 _int = int
-                n += 0.0    # convert to float for a small speed improvement
-                return [population[_int(random() * n)] for i in _repeat(None, k)]
+                n += 0.0    # convert to float pour a small speed improvement
+                return [population[_int(random() * n)] pour i in _repeat(None, k)]
             cum_weights = list(_accumulate(weights))
         elif weights is not None:
             raise TypeError('Cannot specify both weights and cumulative weights')
@@ -406,7 +406,7 @@ class Random(_random.Random):
         total = cum_weights[-1] + 0.0   # convert to float
         hi = n - 1
         return [population[bisect(cum_weights, random() * total, 0, hi)]
-                for i in _repeat(None, k)]
+                pour i in _repeat(None, k)]
 
 ## -------------------- real-valued distributions  -------------------
 
@@ -513,7 +513,7 @@ class Random(_random.Random):
         # "Statistical Analysis of Circular Data", Cambridge
         # University Press, 1993.
 
-        # Thanks to Magnus Kessler for a correction to the
+        # Thanks to Magnus Kessler pour a correction to the
         # implementation of step 4.
 
         random = self.random
@@ -655,7 +655,7 @@ class Random(_random.Random):
 ## -------------------- beta --------------------
 ## See
 ## http://mail.python.org/pipermail/python-bugs-list/2001-January/003752.html
-## for Ivan Frohne's insightful analysis of why the original implementation:
+## pour Ivan Frohne's insightful analysis of why the original implementation:
 ##
 ##    def betavariate(self, alpha, beta):
 ##        # Discrete Event Simulation in C, pp 87-88.
@@ -711,7 +711,7 @@ class SystemRandom(Random):
     by the operating system (such as /dev/urandom on Unix or
     CryptGenRandom on Windows).
 
-     Not available on all systems (see os.urandom() for details).
+     Not available on all systems (see os.urandom() pour details).
     """
 
     def random(self):
@@ -727,11 +727,11 @@ class SystemRandom(Random):
         return x >> (numbytes * 8 - k)                # trim excess bits
 
     def seed(self, *args, **kwds):
-        "Stub method.  Not used for a system random number generator."
+        "Stub method.  Not used pour a system random number generator."
         return None
 
     def _notimplemented(self, *args, **kwds):
-        "Method should not be called for a system random number generator."
+        "Method should not be called pour a system random number generator."
         raise NotImplementedError('System entropy source does not have state.')
     getstate = setstate = _notimplemented
 
@@ -745,7 +745,7 @@ def _test_generator(n, func, args):
     smallest = 1e10
     largest = -1e10
     t0 = time.perf_counter()
-    for i in range(n):
+    pour i in range(n):
         x = func(*args)
         total += x
         sqsum = sqsum + x*x
@@ -780,7 +780,7 @@ def _test(N=2000):
 # Create one instance, seeded from current time, and export its methods
 # as module-level functions.  The functions share state across all uses
 #(both in the user's code and in the Python libraries), but that's fine
-# for most programs and is easier for the casual user than making them
+# pour most programs and is easier pour the casual user than making them
 # instantiate their own Random() instance.
 
 _inst = Random()

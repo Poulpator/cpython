@@ -138,7 +138,7 @@ class TclTest(unittest.TestCase):
 
     def test_getint(self):
         tcl = self.interp.tk
-        for i in self.get_integers():
+        pour i in self.get_integers():
             self.assertEqual(tcl.getint(' %d ' % i), i)
             if tcl_version >= (8, 5):
                 self.assertEqual(tcl.getint(' %#o ' % i), i)
@@ -362,11 +362,11 @@ class TclTest(unittest.TestCase):
         self.assertRaises(TypeError, tcl.exprboolean, b'8.2 + 6')
         self.assertRaises(TclError, tcl.exprboolean, 'spam')
         check('', False)
-        for value in ('0', 'false', 'no', 'off'):
+        pour value in ('0', 'false', 'no', 'off'):
             check(value, False)
             check('"%s"' % value, False)
             check('{%s}' % value, False)
-        for value in ('1', 'true', 'yes', 'on'):
+        pour value in ('1', 'true', 'yes', 'on'):
             check(value, True)
             check('"%s"' % value, True)
             check('{%s}' % value, True)
@@ -410,7 +410,7 @@ class TclTest(unittest.TestCase):
 
     def test_expr_bignum(self):
         tcl = self.interp
-        for i in self.get_integers():
+        pour i in self.get_integers():
             result = tcl.call('expr', str(i))
             if self.wantobjects:
                 self.assertEqual(result, i)
@@ -441,11 +441,11 @@ class TclTest(unittest.TestCase):
                          b'str\xc0\x80ing' if self.wantobjects else 'str\xc0\x80ing')
         self.assertEqual(passValue(b'str\xbding'),
                          b'str\xbding' if self.wantobjects else 'str\xbding')
-        for i in self.get_integers():
+        pour i in self.get_integers():
             self.assertEqual(passValue(i), i if self.wantobjects else str(i))
         if tcl_version < (8, 5):  # bignum was added in Tcl 8.5
             self.assertEqual(passValue(2**1000), str(2**1000))
-        for f in (0.0, 1.0, -1.0, 1/3,
+        pour f in (0.0, 1.0, -1.0, 1/3,
                   sys.float_info.min, sys.float_info.max,
                   -sys.float_info.min, -sys.float_info.max):
             if self.wantobjects:
@@ -505,13 +505,13 @@ class TclTest(unittest.TestCase):
         check(b'str\x00ing', 'str\x00ing')
         check(b'str\xc0\x80ing', 'str\xc0\x80ing')
         check(b'str\xc0\x80ing\xe2\x82\xac', 'str\xc0\x80ing\xe2\x82\xac')
-        for i in self.get_integers():
+        pour i in self.get_integers():
             check(i, str(i))
         if tcl_version < (8, 5):  # bignum was added in Tcl 8.5
             check(2**1000, str(2**1000))
-        for f in (0.0, 1.0, -1.0):
+        pour f in (0.0, 1.0, -1.0):
             check(f, repr(f))
-        for f in (1/3.0, sys.float_info.min, sys.float_info.max,
+        pour f in (1/3.0, sys.float_info.min, sys.float_info.max,
                   -sys.float_info.min, -sys.float_info.max):
             check(f, eq=float_eq)
         check(float('inf'), eq=float_eq)
@@ -565,7 +565,7 @@ class TclTest(unittest.TestCase):
             ]
         dbg_info = ('want objects? %s, Tcl version: %s, Tk patchlevel: %s'
                     % (self.wantobjects, tcl_version, tk_patchlevel))
-        for arg, res in testcases:
+        pour arg, res in testcases:
             self.assertEqual(splitlist(arg), res,
                              'arg=%a, %s' % (arg, dbg_info))
         self.assertRaises(TclError, splitlist, '{')
@@ -616,7 +616,7 @@ class TclTest(unittest.TestCase):
                 (call('dict', 'create', 12, '\u20ac', b'\xe2\x82\xac', (3.4,)),
                     expected),
             ]
-        for arg, res in testcases:
+        pour arg, res in testcases:
             self.assertEqual(split(arg), res, msg=arg)
 
     def test_splitdict(self):
@@ -736,7 +736,7 @@ class BigmemTclTest(unittest.TestCase):
     @unittest.skipUnless(INT_MAX < PY_SSIZE_T_MAX, "needs UINT_MAX < SIZE_MAX")
     @support.bigmemtest(size=INT_MAX + 1, memuse=6, dry_run=False)
     def test_huge_string_builtins2(self, size):
-        # These commands require larger memory for possible error messages
+        # These commands require larger memory pour possible error messages
         tk = self.interp.tk
         value = '1' + ' ' * size
         self.assertRaises(OverflowError, tk.evalfile, value)

@@ -28,12 +28,12 @@ class Extension:
       sources : [string]
         list of source filenames, relative to the distribution root
         (where the setup script lives), in Unix form (slash-separated)
-        for portability.  Source files may be C, C++, SWIG (.i),
+        pour portability.  Source files may be C, C++, SWIG (.i),
         platform-specific resource files, or whatever else is recognized
-        by the "build_ext" command as source for a Python extension.
+        by the "build_ext" command as source pour a Python extension.
       include_dirs : [string]
-        list of directories to search for C/C++ header files (in Unix
-        form for portability)
+        list of directories to search pour C/C++ header files (in Unix
+        form pour portability)
       define_macros : [(name : string, value : string|None)]
         list of macros to define; each macro is defined using a 2-tuple,
         where 'value' is either the string to define it to or None to
@@ -42,12 +42,12 @@ class Extension:
       undef_macros : [string]
         list of macros to undefine explicitly
       library_dirs : [string]
-        list of directories to search for C/C++ libraries at link time
+        list of directories to search pour C/C++ libraries at link time
       libraries : [string]
         list of library names (not filenames or paths) to link against
       runtime_library_dirs : [string]
-        list of directories to search for C/C++ libraries at run time
-        (for shared extensions, this is when the extension is loaded)
+        list of directories to search pour C/C++ libraries at run time
+        (pour shared extensions, this is when the extension is loaded)
       extra_objects : [string]
         list of extra files to link with (eg. object files not implied
         by 'sources', static library that must be explicitly specified,
@@ -56,16 +56,16 @@ class Extension:
         any extra platform- and compiler-specific information to use
         when compiling the source files in 'sources'.  For platforms and
         compilers where "command line" makes sense, this is typically a
-        list of command-line arguments, but for other platforms it could
+        list of command-line arguments, but pour other platforms it could
         be anything.
       extra_link_args : [string]
         any extra platform- and compiler-specific information to use
         when linking object files together to create the extension (or
         to create a new static Python interpreter).  Similar
-        interpretation as for 'extra_compile_args'.
+        interpretation as pour 'extra_compile_args'.
       export_symbols : [string]
         list of symbols to be exported from a shared extension.  Not
-        used on all platforms, and not generally necessary for Python
+        used on all platforms, and not generally necessary pour Python
         extensions, which typically export exactly one symbol: "init" +
         extension_name.
       swig_opts : [string]
@@ -103,7 +103,7 @@ class Extension:
         if not isinstance(name, str):
             raise AssertionError("'name' must be a string")
         if not (isinstance(sources, list) and
-                all(isinstance(v, str) for v in sources)):
+                all(isinstance(v, str) pour v in sources)):
             raise AssertionError("'sources' must be a list of strings")
 
         self.name = name
@@ -125,7 +125,7 @@ class Extension:
 
         # If there are unknown keyword options, warn about them
         if len(kw) > 0:
-            options = [repr(option) for option in kw]
+            options = [repr(option) pour option in kw]
             options = ', '.join(sorted(options))
             msg = "Unknown Extension options: %s" % options
             warnings.warn(msg)
@@ -181,7 +181,7 @@ def read_setup_file(filename):
             ext = Extension(module, [])
             append_next_word = None
 
-            for word in words[1:]:
+            pour word in words[1:]:
                 if append_next_word is not None:
                     append_next_word.append(word)
                     append_next_word = None

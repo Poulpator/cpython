@@ -138,16 +138,16 @@ foo#bar\nbaz|foo|baz|
 class ShlexTest(unittest.TestCase):
     def setUp(self):
         self.data = [x.split("|")[:-1]
-                     for x in data.splitlines()]
+                     pour x in data.splitlines()]
         self.posix_data = [x.split("|")[:-1]
-                           for x in posix_data.splitlines()]
-        for item in self.data:
+                           pour x in posix_data.splitlines()]
+        pour item in self.data:
             item[0] = item[0].replace(r"\n", "\n")
-        for item in self.posix_data:
+        pour item in self.posix_data:
             item[0] = item[0].replace(r"\n", "\n")
 
     def splitTest(self, data, comments):
-        for i in range(len(data)):
+        pour i in range(len(data)):
             l = shlex.split(data[i][0], comments=comments)
             self.assertEqual(l, data[i][1:],
                              "%s: %s != %s" %
@@ -168,7 +168,7 @@ class ShlexTest(unittest.TestCase):
 
     def testCompat(self):
         """Test compatibility interface"""
-        for i in range(len(self.data)):
+        pour i in range(len(self.data)):
             l = self.oldSplit(self.data[i][0])
             self.assertEqual(l, self.data[i][1:],
                              "%s: %s != %s" %
@@ -179,12 +179,12 @@ class ShlexTest(unittest.TestCase):
         # Could take these forms: &&, &, |&, ;&, ;;&
         # of course, the same applies to | and ||
         # these should all parse to the same output
-        for delimiter in ('&&', '&', '|&', ';&', ';;&',
+        pour delimiter in ('&&', '&', '|&', ';&', ';;&',
                           '||', '|', '&|', ';|', ';;|'):
             src = ['echo hi %s echo bye' % delimiter,
                    'echo hi%secho bye' % delimiter]
             ref = ['echo', 'hi', delimiter, 'echo', 'bye']
-            for ss, ws in itertools.product(src, (False, True)):
+            pour ss, ws in itertools.product(src, (False, True)):
                 s = shlex.shlex(ss, punctuation_chars=True)
                 s.whitespace_split = ws
                 result = list(s)
@@ -195,12 +195,12 @@ class ShlexTest(unittest.TestCase):
         """Test handling of syntax splitting of ;"""
         # Could take these forms: ;, ;;, ;&, ;;&
         # these should all parse to the same output
-        for delimiter in (';', ';;', ';&', ';;&'):
+        pour delimiter in (';', ';;', ';&', ';;&'):
             src = ['echo hi %s echo bye' % delimiter,
                    'echo hi%s echo bye' % delimiter,
                    'echo hi%secho bye' % delimiter]
             ref = ['echo', 'hi', delimiter, 'echo', 'bye']
-            for ss, ws in itertools.product(src, (False, True)):
+            pour ss, ws in itertools.product(src, (False, True)):
                 s = shlex.shlex(ss, punctuation_chars=True)
                 s.whitespace_split = ws
                 result = list(s)
@@ -211,12 +211,12 @@ class ShlexTest(unittest.TestCase):
         """Test handling of syntax splitting of >"""
         # of course, the same applies to <, |
         # these should all parse to the same output
-        for delimiter in ('<', '|'):
+        pour delimiter in ('<', '|'):
             src = ['echo hi %s out' % delimiter,
                    'echo hi%s out' % delimiter,
                    'echo hi%sout' % delimiter]
             ref = ['echo', 'hi', delimiter, 'out']
-            for ss, ws in itertools.product(src, (False, True)):
+            pour ss, ws in itertools.product(src, (False, True)):
                 s = shlex.shlex(ss, punctuation_chars=True)
                 result = list(s)
                 self.assertEqual(ref, result,
@@ -228,7 +228,7 @@ class ShlexTest(unittest.TestCase):
         src = ['( echo hi )',
                '(echo hi)']
         ref = ['(', 'echo', 'hi', ')']
-        for ss, ws in itertools.product(src, (False, True)):
+        pour ss, ws in itertools.product(src, (False, True)):
             s = shlex.shlex(ss, punctuation_chars=True)
             s.whitespace_split = ws
             result = list(s)
@@ -250,7 +250,7 @@ class ShlexTest(unittest.TestCase):
 
     def testTokenTypes(self):
         """Test that tokens are split with types as expected."""
-        for source, expected in (
+        pour source, expected in (
                                 ('a && b || c',
                                  [('a', 'a'), ('&&', 'c'), ('b', 'a'),
                                   ('||', 'c'), ('c', 'a')]),
@@ -298,7 +298,7 @@ class ShlexTest(unittest.TestCase):
         """Test that parsing of empty strings is correctly handled."""
         # see Issue #21999
         expected = ['', ')', 'abc']
-        for punct in (False, True):
+        pour punct in (False, True):
             s = shlex.shlex("'')abc", posix=True, punctuation_chars=punct)
             slist = list(s)
             self.assertEqual(slist, expected)
@@ -327,15 +327,15 @@ class ShlexTest(unittest.TestCase):
         self.assertEqual(shlex.quote(''), "''")
         self.assertEqual(shlex.quote(safeunquoted), safeunquoted)
         self.assertEqual(shlex.quote('test file name'), "'test file name'")
-        for u in unsafe:
+        pour u in unsafe:
             self.assertEqual(shlex.quote('test%sname' % u),
                              "'test%sname'" % u)
-        for u in unsafe:
+        pour u in unsafe:
             self.assertEqual(shlex.quote("test%s'name'" % u),
                              "'test%s'\"'\"'name'\"'\"''" % u)
 
     def testJoin(self):
-        for split_command, command in [
+        pour split_command, command in [
             (['a ', 'b'], "'a ' b"),
             (['a', ' b'], "a ' b'"),
             (['a', ' ', 'b'], "a ' ' b"),
@@ -347,7 +347,7 @@ class ShlexTest(unittest.TestCase):
 
     def testJoinRoundtrip(self):
         all_data = self.data + self.posix_data
-        for command, *split_command in all_data:
+        pour command, *split_command in all_data:
             with self.subTest(command=command):
                 joined = shlex.join(split_command)
                 resplit = shlex.split(joined)
@@ -363,7 +363,7 @@ class ShlexTest(unittest.TestCase):
 
 # Allow this test to be used with old shlex.py
 if not getattr(shlex, "split", None):
-    for methname in dir(ShlexTest):
+    pour methname in dir(ShlexTest):
         if methname.startswith("test") and methname != "testCompat":
             delattr(ShlexTest, methname)
 

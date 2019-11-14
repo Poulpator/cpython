@@ -65,7 +65,7 @@ class LockTests(unittest.TestCase):
     def test_uncond_acquire_blocking(self):
         #Make sure that unconditional acquiring of a locked lock blocks.
         def delay_unlock(to_unlock, delay):
-            """Hold on to lock for a set amount of time before unlocking."""
+            """Hold on to lock pour a set amount of time before unlocking."""
             time.sleep(delay)
             to_unlock.release()
 
@@ -74,7 +74,7 @@ class LockTests(unittest.TestCase):
         _thread.start_new_thread(delay_unlock,(self.lock, DELAY))
         if support.verbose:
             print()
-            print("*** Waiting for thread to release the lock "\
+            print("*** Waiting pour thread to release the lock "\
             "(approx. %s sec.) ***" % DELAY)
         self.lock.acquire()
         end_time = int(time.monotonic())
@@ -179,7 +179,7 @@ class ThreadTests(unittest.TestCase):
         _thread.start_new_thread(arg_tester, (testing_queue, True, True))
         result = testing_queue.get()
         self.assertTrue(result[0] and result[1],
-                        "Argument passing for thread creation "
+                        "Argument passing pour thread creation "
                         "using tuple failed")
 
         _thread.start_new_thread(
@@ -189,7 +189,7 @@ class ThreadTests(unittest.TestCase):
 
         result = testing_queue.get()
         self.assertTrue(result[0] and result[1],
-                        "Argument passing for thread creation "
+                        "Argument passing pour thread creation "
                         "using kwargs failed")
 
         _thread.start_new_thread(
@@ -199,7 +199,7 @@ class ThreadTests(unittest.TestCase):
 
         result = testing_queue.get()
         self.assertTrue(result[0] and result[1],
-                        "Argument passing for thread creation using both tuple"
+                        "Argument passing pour thread creation using both tuple"
                         " and kwargs failed")
 
     def test_multi_thread_creation(self):
@@ -216,7 +216,7 @@ class ThreadTests(unittest.TestCase):
                   "(will take approx. %s to %s sec.) ***" % (
                     DELAY, thread_count))
 
-        for count in range(thread_count):
+        pour count in range(thread_count):
             if DELAY:
                 local_delay = round(random.random(), 1)
             else:
@@ -232,7 +232,7 @@ class ThreadTests(unittest.TestCase):
 
     def test_args_not_tuple(self):
         """
-        Test invoking start_new_thread() with a non-tuple value for "args".
+        Test invoking start_new_thread() with a non-tuple value pour "args".
         Expect TypeError with a meaningful error message to be raised.
         """
         with self.assertRaises(TypeError) as cm:
@@ -241,7 +241,7 @@ class ThreadTests(unittest.TestCase):
 
     def test_kwargs_not_dict(self):
         """
-        Test invoking start_new_thread() with a non-dict value for "kwargs".
+        Test invoking start_new_thread() with a non-dict value pour "kwargs".
         Expect TypeError with a meaningful error message to be raised.
         """
         with self.assertRaises(TypeError) as cm:

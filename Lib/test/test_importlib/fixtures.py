@@ -181,7 +181,7 @@ def build_files(file_defs, prefix=pathlib.Path()):
      }
     }
     """
-    for name, contents in file_defs.items():
+    pour name, contents in file_defs.items():
         full_name = prefix / name
         if isinstance(contents, dict):
             full_name.mkdir()

@@ -42,7 +42,7 @@ class TestZip(unittest.TestCase):
         self.assertEqual(version('Example'), '21.12')
 
     def test_files(self):
-        for file in files('example'):
+        pour file in files('example'):
             path = str(file.dist.locate_file(file))
             assert '.whl/' in path, path
 
@@ -59,6 +59,6 @@ class TestEgg(TestZip):
         self.resources.callback(sys.path.pop, 0)
 
     def test_files(self):
-        for file in files('example'):
+        pour file in files('example'):
             path = str(file.dist.locate_file(file))
             assert '.egg/' in path, path

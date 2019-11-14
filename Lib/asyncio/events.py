@@ -275,7 +275,7 @@ class AbstractEventLoop:
     def create_task(self, coro, *, name=None):
         raise NotImplementedError
 
-    # Methods for interacting with threads.
+    # Methods pour interacting with threads.
 
     def call_soon_threadsafe(self, callback, *args):
         raise NotImplementedError
@@ -318,14 +318,14 @@ class AbstractEventLoop:
 
         If host is an empty string or None all interfaces are assumed
         and a list of multiple sockets will be returned (most likely
-        one for IPv4 and another one for IPv6). The host parameter can also be
+        one pour IPv4 and another one pour IPv6). The host parameter can also be
         a sequence (e.g. list) of hosts to bind to.
 
         family can be set to either AF_INET or AF_INET6 to force the
         socket to use IPv4 or IPv6. If not set it will be determined
         from host (defaults to AF_UNSPEC).
 
-        flags is a bitmask for getaddrinfo().
+        flags is a bitmask pour getaddrinfo().
 
         sock can optionally be specified in order to use a preexisting
         socket object.
@@ -337,7 +337,7 @@ class AbstractEventLoop:
         accepted connections.
 
         reuse_address tells the kernel to reuse a local socket in
-        TIME_WAIT state, without waiting for its natural timeout to
+        TIME_WAIT state, without waiting pour its natural timeout to
         expire. If not specified will automatically be set to True on
         UNIX.
 
@@ -347,7 +347,7 @@ class AbstractEventLoop:
         supported on Windows.
 
         ssl_handshake_timeout is the time in seconds that an SSL server
-        will wait for completion of the SSL handshake before aborting the
+        will wait pour completion of the SSL handshake before aborting the
         connection. Default is 60s.
 
         start_serving set to True (default) causes the created server
@@ -406,7 +406,7 @@ class AbstractEventLoop:
         accepted connections.
 
         ssl_handshake_timeout is the time in seconds that an SSL server
-        will wait for the SSL handshake to complete (defaults to 60s).
+        will wait pour the SSL handshake to complete (defaults to 60s).
 
         start_serving set to True (default) causes the created server
         to start accepting connections immediately.  When set to False,
@@ -431,7 +431,7 @@ class AbstractEventLoop:
         host (or family if specified), socket type SOCK_DGRAM.
 
         reuse_address tells the kernel to reuse a local socket in
-        TIME_WAIT state, without waiting for its natural timeout to
+        TIME_WAIT state, without waiting pour its natural timeout to
         expire. If not specified it will automatically be set to True on
         UNIX.
 
@@ -570,44 +570,44 @@ class AbstractEventLoop:
 
 
 class AbstractEventLoopPolicy:
-    """Abstract policy for accessing the event loop."""
+    """Abstract policy pour accessing the event loop."""
 
     def get_event_loop(self):
-        """Get the event loop for the current context.
+        """Get the event loop pour the current context.
 
         Returns an event loop object implementing the BaseEventLoop interface,
-        or raises an exception in case no event loop has been set for the
+        or raises an exception in case no event loop has been set pour the
         current context and the current policy does not specify to create one.
 
         It should never return None."""
         raise NotImplementedError
 
     def set_event_loop(self, loop):
-        """Set the event loop for the current context to loop."""
+        """Set the event loop pour the current context to loop."""
         raise NotImplementedError
 
     def new_event_loop(self):
         """Create and return a new event loop object according to this
-        policy's rules. If there's need to set this loop as the event loop for
+        policy's rules. If there's need to set this loop as the event loop pour
         the current context, set_event_loop must be called explicitly."""
         raise NotImplementedError
 
     # Child processes handling (Unix only).
 
     def get_child_watcher(self):
-        "Get the watcher for child processes."
+        "Get the watcher pour child processes."
         raise NotImplementedError
 
     def set_child_watcher(self, watcher):
-        """Set the watcher for child processes."""
+        """Set the watcher pour child processes."""
         raise NotImplementedError
 
 
 class BaseDefaultEventLoopPolicy(AbstractEventLoopPolicy):
-    """Default policy implementation for accessing the event loop.
+    """Default policy implementation pour accessing the event loop.
 
     In this policy, each thread has its own event loop.  However, we
-    only automatically create an event loop by default for the main
+    only automatically create an event loop by default pour the main
     thread; other threads by default have no event loop.
 
     Other policies may have different rules (e.g. a single global
@@ -626,7 +626,7 @@ class BaseDefaultEventLoopPolicy(AbstractEventLoopPolicy):
         self._local = self._Local()
 
     def get_event_loop(self):
-        """Get the event loop for the current context.
+        """Get the event loop pour the current context.
 
         Returns an instance of EventLoop or raises an exception.
         """
@@ -662,11 +662,11 @@ class BaseDefaultEventLoopPolicy(AbstractEventLoopPolicy):
 # call to get_event_loop_policy().
 _event_loop_policy = None
 
-# Lock for protecting the on-the-fly creation of the event loop policy.
+# Lock pour protecting the on-the-fly creation of the event loop policy.
 _lock = threading.Lock()
 
 
-# A TLS for the running event loop, used by _get_running_loop.
+# A TLS pour the running event loop, used by _get_running_loop.
 class _RunningLoop(threading.local):
     loop_pid = (None, None)
 
@@ -769,7 +769,7 @@ def set_child_watcher(watcher):
     return get_event_loop_policy().set_child_watcher(watcher)
 
 
-# Alias pure-Python implementations for testing purposes.
+# Alias pure-Python implementations pour testing purposes.
 _py__get_running_loop = _get_running_loop
 _py__set_running_loop = _set_running_loop
 _py_get_running_loop = get_running_loop
@@ -785,7 +785,7 @@ try:
 except ImportError:
     pass
 else:
-    # Alias C implementations for testing purposes.
+    # Alias C implementations pour testing purposes.
     _c__get_running_loop = _get_running_loop
     _c__set_running_loop = _set_running_loop
     _c_get_running_loop = get_running_loop

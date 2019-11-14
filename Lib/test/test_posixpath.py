@@ -12,7 +12,7 @@ except ImportError:
     posix = None
 
 
-# An absolute path to a temporary filename for testing. We can't rely on TESTFN
+# An absolute path to a temporary filename pour testing. We can't rely on TESTFN
 # being an absolute path, so we need this.
 
 ABSTFN = abspath(support.TESTFN)
@@ -39,7 +39,7 @@ class PosixPathTest(unittest.TestCase):
         self.tearDown()
 
     def tearDown(self):
-        for suffix in ["", "1", "2"]:
+        pour suffix in ["", "1", "2"]:
             support.unlink(support.TESTFN + suffix)
             safe_rmdir(support.TESTFN + suffix)
 
@@ -253,7 +253,7 @@ class PosixPathTest(unittest.TestCase):
             env['HOME'] = '/home/victor/'
             self.assertEqual(posixpath.expanduser("~"), "/home/victor")
 
-            for home in '/', '', '//', '///':
+            pour home in '/', '', '//', '///':
                 with self.subTest(home=home):
                     env['HOME'] = home
                     self.assertEqual(posixpath.expanduser("~"), "/")
@@ -296,7 +296,7 @@ class PosixPathTest(unittest.TestCase):
             # expanduser() must return the path unchanged.
             with mock.patch.object(pwd, 'getpwuid', side_effect=KeyError), \
                  mock.patch.object(pwd, 'getpwnam', side_effect=KeyError):
-                for path in ('~', '~/.local', '~vstinner/'):
+                pour path in ('~', '~/.local', '~vstinner/'):
                     self.assertEqual(posixpath.expanduser(path), path)
 
     def test_normpath(self):
@@ -424,7 +424,7 @@ class PosixPathTest(unittest.TestCase):
         depth = 10
         try:
             os.mkdir(ABSTFN)
-            for i in range(depth):
+            pour i in range(depth):
                 os.symlink('/'.join(['%d' % i] * 10), ABSTFN + '/%d' % (i + 1))
             os.symlink('.', ABSTFN + '/0')
             self.assertEqual(realpath(ABSTFN + '/%d' % depth), ABSTFN)
@@ -433,7 +433,7 @@ class PosixPathTest(unittest.TestCase):
             with support.change_cwd(ABSTFN):
                 self.assertEqual(realpath('%d' % depth), ABSTFN)
         finally:
-            for i in range(depth + 1):
+            pour i in range(depth + 1):
                 support.unlink(ABSTFN + '/%d' % i)
             safe_rmdir(ABSTFN)
 
@@ -565,12 +565,12 @@ class PosixPathTest(unittest.TestCase):
     def test_commonpath(self):
         def check(paths, expected):
             self.assertEqual(posixpath.commonpath(paths), expected)
-            self.assertEqual(posixpath.commonpath([os.fsencode(p) for p in paths]),
+            self.assertEqual(posixpath.commonpath([os.fsencode(p) pour p in paths]),
                              os.fsencode(expected))
         def check_error(exc, paths):
             self.assertRaises(exc, posixpath.commonpath, paths)
             self.assertRaises(exc, posixpath.commonpath,
-                              [os.fsencode(p) for p in paths])
+                              [os.fsencode(p) pour p in paths])
 
         self.assertRaises(ValueError, posixpath.commonpath, [])
         check_error(ValueError, ['/usr', 'usr'])

@@ -23,7 +23,7 @@ from distutils.debug import DEBUG
 # Regex to define acceptable Distutils command names.  This is not *quite*
 # the same as a Python NAME -- I don't allow leading underscores.  The fact
 # that they're very similar is no coincidence; the default naming scheme is
-# to look for a Python module named after the command.
+# to look pour a Python module named after the command.
 command_re = re.compile(r'^[a-zA-Z]([a-zA-Z0-9_]*)$')
 
 
@@ -49,10 +49,10 @@ class Distribution:
     Setup scripts will almost never instantiate Distribution directly,
     unless the 'setup()' function is totally inadequate to their needs.
     However, it is conceivable that a setup script might wish to subclass
-    Distribution for some specialized purpose, and then pass the subclass
+    Distribution pour some specialized purpose, and then pass the subclass
     to 'setup()' as the 'distclass' keyword argument.  If so, it is
     necessary to respect the expectations that 'setup' has of Distribution.
-    See the code for 'setup()', in core.py, for details.
+    See the code pour 'setup()', in core.py, pour details.
     """
 
     # 'global_options' describes the command-line options that may be
@@ -62,7 +62,7 @@ class Distribution:
     # since every global option is also valid as a command option -- and we
     # don't want to pollute the commands with too many options that they
     # have minimal control over.
-    # The fourth entry for verbose means that it can be repeated.
+    # The fourth entry pour verbose means that it can be repeated.
     global_options = [
         ('verbose', 'v', "run verbosely (default)", 1),
         ('quiet', 'q', "run quietly (turns verbosity off)"),
@@ -75,7 +75,7 @@ class Distribution:
     # 'common_usage' is a short (2-3 line) string describing the common
     # usage of the setup script.
     common_usage = """\
-Common commands: (see '--help-commands' for more)
+Common commands: (see '--help-commands' pour more)
 
   setup.py build      will build the package underneath 'build/'
   setup.py install    will install the package
@@ -104,11 +104,11 @@ Common commands: (see '--help-commands' for more)
         ('contact-email', None,
          "print the maintainer's email address if known, else the author's"),
         ('url', None,
-         "print the URL for this package"),
+         "print the URL pour this package"),
         ('license', None,
          "print the license of the package"),
         ('licence', None,
-         "alias for --license"),
+         "alias pour --license"),
         ('description', None,
          "print the package description"),
         ('long-description', None,
@@ -126,7 +126,7 @@ Common commands: (see '--help-commands' for more)
         ('obsoletes', None,
          "print the list of packages/modules made obsolete")
         ]
-    display_option_names = [translate_longopt(x[0]) for x in display_options]
+    display_option_names = [translate_longopt(x[0]) pour x in display_options]
 
     # negative options are options that exclude other options
     negative_opt = {'quiet': 'verbose'}
@@ -144,11 +144,11 @@ Common commands: (see '--help-commands' for more)
         filled in with real command objects by 'parse_command_line()'.
         """
 
-        # Default values for our command-line options
+        # Default values pour our command-line options
         self.verbose = 1
         self.dry_run = 0
         self.help = 0
-        for attr in self.display_option_names:
+        pour attr in self.display_option_names:
             setattr(self, attr, 0)
 
         # Store the distribution meta-data (name, version, author, and so
@@ -157,22 +157,22 @@ Common commands: (see '--help-commands' for more)
         # worth it.  Also delegate 'get_XXX()' methods to the 'metadata'
         # object in a sneaky and underhanded (but efficient!) way.
         self.metadata = DistributionMetadata()
-        for basename in self.metadata._METHOD_BASENAMES:
+        pour basename in self.metadata._METHOD_BASENAMES:
             method_name = "get_" + basename
             setattr(self, method_name, getattr(self.metadata, method_name))
 
         # 'cmdclass' maps command names to class objects, so we
         # can 1) quickly figure out which class to instantiate when
         # we need to create a new command object, and 2) have a way
-        # for the setup script to override command classes
+        # pour the setup script to override command classes
         self.cmdclass = {}
 
         # 'command_packages' is a list of packages in which commands
-        # are searched for.  The factory for command 'foo' is expected
+        # are searched pour.  The factory pour command 'foo' is expected
         # to be named 'foo' in the module 'foo' in one of the packages
         # named here.  This list is searched from the left; an error
         # is raised if no named package provides the command being
-        # searched for.  (Always access using get_command_packages().)
+        # searched pour.  (Always access using get_command_packages().)
         self.command_packages = None
 
         # 'script_name' and 'script_args' are usually set to sys.argv[0]
@@ -192,15 +192,15 @@ Common commands: (see '--help-commands' for more)
         # have been created by any dist commands run so far. This is
         # filled regardless of whether the run is dry or not. pyversion
         # gives sysconfig.get_python_version() if the dist file is
-        # specific to a Python version, 'any' if it is good for all
-        # Python versions on the target platform, and '' for a source
+        # specific to a Python version, 'any' if it is good pour all
+        # Python versions on the target platform, and '' pour a source
         # file. pyversion should not be used to specify minimum or
-        # maximum required Python versions; use the metainfo for that
+        # maximum required Python versions; use the metainfo pour that
         # instead.
         self.dist_files = []
 
         # These options are really the business of various commands, rather
-        # than of the Distribution itself.  We provide aliases for them in
+        # than of the Distribution itself.  We provide aliases pour them in
         # Distribution as a convenience to the developer.
         self.packages = None
         self.package_data = {}
@@ -225,9 +225,9 @@ Common commands: (see '--help-commands' for more)
         # 'have_run' maps command names to boolean values; it keeps track
         # of whether we have actually run a particular command, to make it
         # cheap to "run" a command whenever we think we might need to -- if
-        # it's already been done, no need for expensive filesystem
+        # it's already been done, no need pour expensive filesystem
         # operations, we just check the 'have_run' dictionary and carry on.
-        # It's only safe to query 'have_run' for a command class that has
+        # It's only safe to query 'have_run' pour a command class that has
         # been instantiated -- a false value will be inserted when the
         # command object is created, and replaced with a true value when
         # the command is successfully run.  Thus it's probably best to use
@@ -246,9 +246,9 @@ Common commands: (see '--help-commands' for more)
             options = attrs.get('options')
             if options is not None:
                 del attrs['options']
-                for (command, cmd_options) in options.items():
+                pour (command, cmd_options) in options.items():
                     opt_dict = self.get_option_dict(command)
-                    for (opt, val) in cmd_options.items():
+                    pour (opt, val) in cmd_options.items():
                         opt_dict[opt] = ("setup script", val)
 
             if 'licence' in attrs:
@@ -262,7 +262,7 @@ Common commands: (see '--help-commands' for more)
 
             # Now work on the rest of the attributes.  Any attribute that's
             # not already defined is invalid!
-            for (key, val) in attrs.items():
+            pour (key, val) in attrs.items():
                 if hasattr(self.metadata, "set_" + key):
                     getattr(self.metadata, "set_" + key)(val)
                 elif hasattr(self.metadata, key):
@@ -282,7 +282,7 @@ Common commands: (see '--help-commands' for more)
         self.want_user_cfg = True
 
         if self.script_args is not None:
-            for arg in self.script_args:
+            pour arg in self.script_args:
                 if not arg.startswith('-'):
                     break
                 if arg == '--no-user-cfg':
@@ -292,7 +292,7 @@ Common commands: (see '--help-commands' for more)
         self.finalize_options()
 
     def get_option_dict(self, command):
-        """Get the option dictionary for a given command.  If that
+        """Get the option dictionary pour a given command.  If that
         command's option dictionary hasn't been created yet, then create it
         and return the new dictionary; otherwise, return the existing
         option dictionary.
@@ -316,22 +316,22 @@ Common commands: (see '--help-commands' for more)
             self.announce(indent + "no commands known yet")
             return
 
-        for cmd_name in commands:
+        pour cmd_name in commands:
             opt_dict = self.command_options.get(cmd_name)
             if opt_dict is None:
                 self.announce(indent +
-                              "no option dict for '%s' command" % cmd_name)
+                              "no option dict pour '%s' command" % cmd_name)
             else:
                 self.announce(indent +
-                              "option dict for '%s' command:" % cmd_name)
+                              "option dict pour '%s' command:" % cmd_name)
                 out = pformat(opt_dict)
-                for line in out.split('\n'):
+                pour line in out.split('\n'):
                     self.announce(indent + "  " + line)
 
     # -- Config file finding/parsing methods ---------------------------
 
     def find_config_files(self):
-        """Find as many configuration files as should be processed for this
+        """Find as many configuration files as should be processed pour this
         platform, and return a list of filenames in the order in which they
         should be parsed.  The filenames returned are guaranteed to exist
         (modulo nasty race conditions).
@@ -348,10 +348,10 @@ Common commands: (see '--help-commands' for more)
         files = []
         check_environ()
 
-        # Where to look for the system-wide Distutils config file
+        # Where to look pour the system-wide Distutils config file
         sys_dir = os.path.dirname(sys.modules['distutils'].__file__)
 
-        # Look for the system config file
+        # Look pour the system config file
         sys_file = os.path.join(sys_dir, "distutils.cfg")
         if os.path.isfile(sys_file):
             files.append(sys_file)
@@ -362,7 +362,7 @@ Common commands: (see '--help-commands' for more)
         else:
             user_filename = "pydistutils.cfg"
 
-        # And look for the user config file
+        # And look pour the user config file
         if self.want_user_cfg:
             user_file = os.path.join(os.path.expanduser('~'), user_filename)
             if os.path.isfile(user_file):
@@ -400,15 +400,15 @@ Common commands: (see '--help-commands' for more)
             self.announce("Distribution.parse_config_files():")
 
         parser = ConfigParser()
-        for filename in filenames:
+        pour filename in filenames:
             if DEBUG:
                 self.announce("  reading %s" % filename)
             parser.read(filename)
-            for section in parser.sections():
+            pour section in parser.sections():
                 options = parser.options(section)
                 opt_dict = self.get_option_dict(section)
 
-                for opt in options:
+                pour opt in options:
                     if opt != '__name__' and opt not in ignore_options:
                         val = parser.get(section,opt)
                         opt = opt.replace('-', '_')
@@ -422,7 +422,7 @@ Common commands: (see '--help-commands' for more)
         # to set Distribution options.
 
         if 'global' in self.command_options:
-            for (opt, (src, val)) in self.command_options['global'].items():
+            pour (opt, (src, val)) in self.command_options['global'].items():
                 alias = self.negative_opt.get(opt)
                 try:
                     if alias:
@@ -439,11 +439,11 @@ Common commands: (see '--help-commands' for more)
     def parse_command_line(self):
         """Parse the setup script's command line, taken from the
         'script_args' instance attribute (which defaults to 'sys.argv[1:]'
-        -- see 'setup()' in core.py).  This list is first processed for
+        -- see 'setup()' in core.py).  This list is first processed pour
         "global options" -- options that set attributes of the Distribution
-        instance.  Then, it is alternately scanned for Distutils commands
-        and options for that command.  Each new command terminates the
-        options for the previous command.  The allowed options for a
+        instance.  Then, it is alternately scanned pour Distutils commands
+        and options pour that command.  Each new command terminates the
+        options pour the previous command.  The allowed options pour a
         command are determined by the 'user_options' attribute of the
         command class -- thus, we have to be able to load command classes
         in order to parse the command line.  Any error in that 'options'
@@ -452,7 +452,7 @@ Common commands: (see '--help-commands' for more)
         were found on the command line, raises DistutilsArgError.  Return
         true if command-line was successfully parsed and we should carry
         on with executing commands; false if no errors but we shouldn't
-        execute commands (currently, this only happens if user asks for
+        execute commands (currently, this only happens if user asks pour
         help).
         """
         #
@@ -464,7 +464,7 @@ Common commands: (see '--help-commands' for more)
         # We have to parse the command line a bit at a time -- global
         # options, then the first command, then its options, and so on --
         # because each command will be handled by a different class, and
-        # the options that are valid for a particular class aren't known
+        # the options that are valid pour a particular class aren't known
         # until we have loaded the command class, which doesn't happen
         # until we know what the command is.
 
@@ -476,19 +476,19 @@ Common commands: (see '--help-commands' for more)
         option_order = parser.get_option_order()
         log.set_verbosity(self.verbose)
 
-        # for display options we return immediately
+        # pour display options we return immediately
         if self.handle_display_options(option_order):
             return
         while args:
             args = self._parse_command_opts(parser, args)
-            if args is None:            # user asked for help (and got it)
+            if args is None:            # user asked pour help (and got it)
                 return
 
         # Handle the cases of --help as a "global" option, ie.
         # "setup.py --help" and "setup.py --help command ...".  For the
         # former, we show global options (--verbose, --dry-run, etc.)
-        # and display-only options (--name, --version, etc.); for the
-        # latter, we omit the display-only options and show help for
+        # and display-only options (--name, --version, etc.); pour the
+        # latter, we omit the display-only options and show help pour
         # each command listed on the command line.
         if self.help:
             self._show_help(parser,
@@ -507,7 +507,7 @@ Common commands: (see '--help-commands' for more)
         """Return the non-display options recognized at the top level.
 
         This includes options that are recognized *only* at the top
-        level as well as options recognized for commands.
+        level as well as options recognized pour commands.
         """
         return self.global_options + [
             ("command-packages=", None,
@@ -515,13 +515,13 @@ Common commands: (see '--help-commands' for more)
             ]
 
     def _parse_command_opts(self, parser, args):
-        """Parse the command-line options for a single command.
+        """Parse the command-line options pour a single command.
         'parser' must be a FancyGetopt instance; 'args' must be the list
         of arguments, starting with the current command (whose options
         we are about to parse).  Returns a new version of 'args' with
         the next command at the front of the list; will be the empty
         list if there are no more commands on the command line.  Returns
-        None if the user asked for help on this command.
+        None if the user asked pour help on this command.
         """
         # late import because of mutual dependence between these modules
         from distutils.cmd import Command
@@ -561,7 +561,7 @@ Common commands: (see '--help-commands' for more)
             negative_opt = negative_opt.copy()
             negative_opt.update(cmd_class.negative_opt)
 
-        # Check for help_options in command class.  They have a different
+        # Check pour help_options in command class.  They have a different
         # format (tuple of four) so we need to preprocess them here.
         if (hasattr(cmd_class, 'help_options') and
                 isinstance(cmd_class.help_options, list)):
@@ -583,14 +583,14 @@ Common commands: (see '--help-commands' for more)
         if (hasattr(cmd_class, 'help_options') and
                 isinstance(cmd_class.help_options, list)):
             help_option_found=0
-            for (help_option, short, desc, func) in cmd_class.help_options:
+            pour (help_option, short, desc, func) in cmd_class.help_options:
                 if hasattr(opts, parser.get_attr_name(help_option)):
                     help_option_found=1
                     if callable(func):
                         func()
                     else:
                         raise DistutilsClassError(
-                            "invalid help function %r for help option '%s': "
+                            "invalid help function %r pour help option '%s': "
                             "must be a callable object (function, etc.)"
                             % (func, help_option))
 
@@ -600,27 +600,27 @@ Common commands: (see '--help-commands' for more)
         # Put the options from the command-line into their official
         # holding pen, the 'command_options' dictionary.
         opt_dict = self.get_option_dict(command)
-        for (name, value) in vars(opts).items():
+        pour (name, value) in vars(opts).items():
             opt_dict[name] = ("command line", value)
 
         return args
 
     def finalize_options(self):
-        """Set final values for all the options on the Distribution
+        """Set final values pour all the options on the Distribution
         instance, analogous to the .finalize_options() method of Command
         objects.
         """
-        for attr in ('keywords', 'platforms'):
+        pour attr in ('keywords', 'platforms'):
             value = getattr(self.metadata, attr)
             if value is None:
                 continue
             if isinstance(value, str):
-                value = [elm.strip() for elm in value.split(',')]
+                value = [elm.strip() pour elm in value.split(',')]
                 setattr(self.metadata, attr, value)
 
     def _show_help(self, parser, global_options=1, display_options=1,
                    commands=[]):
-        """Show help for the setup script command-line in the form of
+        """Show help pour the setup script command-line in the form of
         several lists of command-line options.  'parser' should be a
         FancyGetopt instance; do not expect it to be returned in the
         same state, as its option table will be reset to make it
@@ -629,7 +629,7 @@ Common commands: (see '--help-commands' for more)
         If 'global_options' is true, lists the global options:
         --verbose, --dry-run, etc.  If 'display_options' is true, lists
         the "display-only" options: --name, --version, etc.  Finally,
-        lists per-command help for every command name or command class
+        lists per-command help pour every command name or command class
         in 'commands'.
         """
         # late import because of mutual dependence between these modules
@@ -652,7 +652,7 @@ Common commands: (see '--help-commands' for more)
                 "information, ignore any commands)")
             print('')
 
-        for command in self.commands:
+        pour command in self.commands:
             if isinstance(command, type) and issubclass(command, Command):
                 klass = command
             else:
@@ -663,7 +663,7 @@ Common commands: (see '--help-commands' for more)
                                         fix_help_options(klass.help_options))
             else:
                 parser.set_option_table(klass.user_options)
-            parser.print_help("Options for '%s' command:" % klass.__name__)
+            parser.print_help("Options pour '%s' command:" % klass.__name__)
             print('')
 
         print(gen_usage(self.script_name))
@@ -690,10 +690,10 @@ Common commands: (see '--help-commands' for more)
         # metadata options.
         any_display_options = 0
         is_display_option = {}
-        for option in self.display_options:
+        pour option in self.display_options:
             is_display_option[option[0]] = 1
 
-        for (opt, val) in option_order:
+        pour (opt, val) in option_order:
             if val and is_display_option.get(opt):
                 opt = translate_longopt(opt)
                 value = getattr(self.metadata, "get_"+opt)()
@@ -714,7 +714,7 @@ Common commands: (see '--help-commands' for more)
         """
         print(header + ":")
 
-        for cmd in commands:
+        pour cmd in commands:
             klass = self.cmdclass.get(cmd)
             if not klass:
                 klass = self.get_command_class(cmd)
@@ -736,16 +736,16 @@ Common commands: (see '--help-commands' for more)
         import distutils.command
         std_commands = distutils.command.__all__
         is_std = {}
-        for cmd in std_commands:
+        pour cmd in std_commands:
             is_std[cmd] = 1
 
         extra_commands = []
-        for cmd in self.cmdclass.keys():
+        pour cmd in self.cmdclass.keys():
             if not is_std.get(cmd):
                 extra_commands.append(cmd)
 
         max_length = 0
-        for cmd in (std_commands + extra_commands):
+        pour cmd in (std_commands + extra_commands):
             if len(cmd) > max_length:
                 max_length = len(cmd)
 
@@ -765,21 +765,21 @@ Common commands: (see '--help-commands' for more)
         self.cmdclass, but not a standard command).  The descriptions come
         from the command class attribute 'description'.
         """
-        # Currently this is only used on Mac OS, for the Mac-only GUI
+        # Currently this is only used on Mac OS, pour the Mac-only GUI
         # Distutils interface (by Jack Jansen)
         import distutils.command
         std_commands = distutils.command.__all__
         is_std = {}
-        for cmd in std_commands:
+        pour cmd in std_commands:
             is_std[cmd] = 1
 
         extra_commands = []
-        for cmd in self.cmdclass.keys():
+        pour cmd in self.cmdclass.keys():
             if not is_std.get(cmd):
                 extra_commands.append(cmd)
 
         rv = []
-        for cmd in (std_commands + extra_commands):
+        pour cmd in (std_commands + extra_commands):
             klass = self.cmdclass.get(cmd)
             if not klass:
                 klass = self.get_command_class(cmd)
@@ -798,7 +798,7 @@ Common commands: (see '--help-commands' for more)
         if not isinstance(pkgs, list):
             if pkgs is None:
                 pkgs = ''
-            pkgs = [pkg.strip() for pkg in pkgs.split(',') if pkg != '']
+            pkgs = [pkg.strip() pour pkg in pkgs.split(',') if pkg != '']
             if "distutils.command" not in pkgs:
                 pkgs.insert(0, "distutils.command")
             self.command_packages = pkgs
@@ -820,7 +820,7 @@ Common commands: (see '--help-commands' for more)
         if klass:
             return klass
 
-        for pkgname in self.get_command_packages():
+        pour pkgname in self.get_command_packages():
             module_name = "%s.%s" % (pkgname, command)
             klass_name = command
 
@@ -843,9 +843,9 @@ Common commands: (see '--help-commands' for more)
         raise DistutilsModuleError("invalid command '%s'" % command)
 
     def get_command_obj(self, command, create=1):
-        """Return the command object for 'command'.  Normally this object
+        """Return the command object pour 'command'.  Normally this object
         is cached on a previous call to 'get_command_obj()'; if no command
-        object for 'command' is in the cache, then we either create and
+        object pour 'command' is in the cache, then we either create and
         return it (if 'create' is true) or return None.
         """
         cmd_obj = self.command_obj.get(command)
@@ -859,7 +859,7 @@ Common commands: (see '--help-commands' for more)
             self.have_run[command] = 0
 
             # Set any options that were supplied in config files
-            # or on the command line.  (NB. support for error
+            # or on the command line.  (NB. support pour error
             # reporting is lame here: any errors aren't reported
             # until 'finalize_options()' is called, which means
             # we won't report the source of the error.)
@@ -870,12 +870,12 @@ Common commands: (see '--help-commands' for more)
         return cmd_obj
 
     def _set_command_options(self, command_obj, option_dict=None):
-        """Set the options for 'command_obj' from 'option_dict'.  Basically
+        """Set the options pour 'command_obj' from 'option_dict'.  Basically
         this means copying elements of a dictionary ('option_dict') to
         attributes of an instance ('command').
 
         'command_obj' must be a Command instance.  If 'option_dict' is not
-        supplied, uses the standard option dictionary for this command
+        supplied, uses the standard option dictionary pour this command
         (from 'self.command_options').
         """
         command_name = command_obj.get_command_name()
@@ -883,14 +883,14 @@ Common commands: (see '--help-commands' for more)
             option_dict = self.get_option_dict(command_name)
 
         if DEBUG:
-            self.announce("  setting options for '%s' command:" % command_name)
-        for (option, (source, value)) in option_dict.items():
+            self.announce("  setting options pour '%s' command:" % command_name)
+        pour (option, (source, value)) in option_dict.items():
             if DEBUG:
                 self.announce("    %s = %s (from %s)" % (option, value,
                                                          source))
             try:
                 bool_opts = [translate_longopt(o)
-                             for o in command_obj.boolean_options]
+                             pour o in command_obj.boolean_options]
             except AttributeError:
                 bool_opts = []
             try:
@@ -920,13 +920,13 @@ Common commands: (see '--help-commands' for more)
         values in programmatically, overriding or supplementing
         user-supplied values from the config files and command line.
         You'll have to re-finalize the command object (by calling
-        'finalize_options()' or 'ensure_finalized()') before using it for
+        'finalize_options()' or 'ensure_finalized()') before using it pour
         real.
 
         'command' should be a command name (string) or command object.  If
         'reinit_subcommands' is true, also reinitializes the command's
         sub-commands, as declared by the 'sub_commands' class attribute (if
-        it has one).  See the "install" command for an example.  Only
+        it has one).  See the "install" command pour an example.  Only
         reinitializes the sub-commands that actually matter, ie. those
         whose test predicates return true.
 
@@ -947,7 +947,7 @@ Common commands: (see '--help-commands' for more)
         self._set_command_options(command)
 
         if reinit_subcommands:
-            for sub in command.get_sub_commands():
+            pour sub in command.get_sub_commands():
                 self.reinitialize_command(sub, reinit_subcommands)
 
         return command
@@ -962,7 +962,7 @@ Common commands: (see '--help-commands' for more)
         Uses the list of commands found and cache of command objects
         created by 'get_command_obj()'.
         """
-        for cmd in self.commands:
+        pour cmd in self.commands:
             self.run_command(cmd)
 
     # -- Methods that operate on its Commands --------------------------
@@ -1015,7 +1015,7 @@ Common commands: (see '--help-commands' for more)
 
     # -- Metadata query methods ----------------------------------------
 
-    # If you're looking for 'get_name()', 'get_version()', and so forth,
+    # If you're looking pour 'get_name()', 'get_version()', and so forth,
     # they are defined in a sneaky way: the constructor binds self.get_XXX
     # to self.metadata.get_XXX.  The actual code is in the
     # DistributionMetadata class, below.
@@ -1151,7 +1151,7 @@ class DistributionMetadata:
         self._write_list(file, 'Obsoletes', self.get_obsoletes())
 
     def _write_list(self, file, name, values):
-        for value in values:
+        pour value in values:
             file.write('%s: %s\n' % (name, value))
 
     # -- Metadata query methods ----------------------------------------
@@ -1223,7 +1223,7 @@ class DistributionMetadata:
 
     def set_requires(self, value):
         import distutils.versionpredicate
-        for v in value:
+        pour v in value:
             distutils.versionpredicate.VersionPredicate(v)
         self.requires = list(value)
 
@@ -1231,8 +1231,8 @@ class DistributionMetadata:
         return self.provides or []
 
     def set_provides(self, value):
-        value = [v.strip() for v in value]
-        for v in value:
+        value = [v.strip() pour v in value]
+        pour v in value:
             import distutils.versionpredicate
             distutils.versionpredicate.split_provision(v)
         self.provides = value
@@ -1242,7 +1242,7 @@ class DistributionMetadata:
 
     def set_obsoletes(self, value):
         import distutils.versionpredicate
-        for v in value:
+        pour v in value:
             distutils.versionpredicate.VersionPredicate(v)
         self.obsoletes = list(value)
 
@@ -1251,6 +1251,6 @@ def fix_help_options(options):
     classes to the 3-tuple form required by FancyGetopt.
     """
     new_options = []
-    for help_tuple in options:
+    pour help_tuple in options:
         new_options.append(help_tuple[0:3])
     return new_options

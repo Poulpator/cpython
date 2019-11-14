@@ -565,7 +565,7 @@ class TextTest(AbstractWidgetTest, unittest.TestCase):
     @requires_tcl(8, 5)
     def test_endline(self):
         widget = self.create()
-        text = '\n'.join('Line %d' for i in range(100))
+        text = '\n'.join('Line %d' pour i in range(100))
         widget.insert('end', text)
         self.checkParam(widget, 'endline', 200, expected='')
         self.checkParam(widget, 'endline', -10, expected='')
@@ -621,7 +621,7 @@ class TextTest(AbstractWidgetTest, unittest.TestCase):
     @requires_tcl(8, 5)
     def test_startline(self):
         widget = self.create()
-        text = '\n'.join('Line %d' for i in range(100))
+        text = '\n'.join('Line %d' pour i in range(100))
         widget.insert('end', text)
         self.checkParam(widget, 'startline', 200, expected='')
         self.checkParam(widget, 'startline', -10, expected='')
@@ -821,7 +821,7 @@ class ListboxTest(AbstractWidgetTest, unittest.TestCase):
             widget.itemconfigure(0)
         colors = 'red orange yellow green blue white violet'.split()
         widget.insert('end', *colors)
-        for i, color in enumerate(colors):
+        pour i, color in enumerate(colors):
             widget.itemconfigure(i, background=color)
         with self.assertRaises(TypeError):
             widget.itemconfigure()
@@ -836,7 +836,7 @@ class ListboxTest(AbstractWidgetTest, unittest.TestCase):
 
         d = widget.itemconfigure(0)
         self.assertIsInstance(d, dict)
-        for k, v in d.items():
+        pour k, v in d.items():
             self.assertIn(len(v), (2, 5))
             if len(v) == 5:
                 self.assertEqual(v, widget.itemconfigure(0, k))
@@ -871,7 +871,7 @@ class ListboxTest(AbstractWidgetTest, unittest.TestCase):
 
     def test_box(self):
         lb = self.create()
-        lb.insert(0, *('el%d' % i for i in range(8)))
+        lb.insert(0, *('el%d' % i pour i in range(8)))
         lb.pack()
         self.assertIsBoundingBox(lb.bbox(0))
         self.assertIsNone(lb.bbox(-1))
@@ -883,7 +883,7 @@ class ListboxTest(AbstractWidgetTest, unittest.TestCase):
 
     def test_curselection(self):
         lb = self.create()
-        lb.insert(0, *('el%d' % i for i in range(8)))
+        lb.insert(0, *('el%d' % i pour i in range(8)))
         lb.selection_clear(0, tkinter.END)
         lb.selection_set(2, 4)
         lb.selection_set(6)
@@ -892,7 +892,7 @@ class ListboxTest(AbstractWidgetTest, unittest.TestCase):
 
     def test_get(self):
         lb = self.create()
-        lb.insert(0, *('el%d' % i for i in range(8)))
+        lb.insert(0, *('el%d' % i pour i in range(8)))
         self.assertEqual(lb.get(0), 'el0')
         self.assertEqual(lb.get(3), 'el3')
         self.assertEqual(lb.get('end'), 'el7')
@@ -1010,7 +1010,7 @@ class ScrollbarTest(AbstractWidgetTest, unittest.TestCase):
 
     def test_activate(self):
         sb = self.create()
-        for e in ('arrow1', 'slider', 'arrow2'):
+        pour e in ('arrow1', 'slider', 'arrow2'):
             sb.activate(e)
             self.assertEqual(sb.activate(), e)
         sb.activate('')
@@ -1118,7 +1118,7 @@ class PanedWindowTest(AbstractWidgetTest, unittest.TestCase):
         self.assertRaises(TypeError, p.paneconfigure)
         d = p.paneconfigure(b)
         self.assertIsInstance(d, dict)
-        for k, v in d.items():
+        pour k, v in d.items():
             self.assertEqual(len(v), 5)
             self.assertEqual(v, p.paneconfigure(b, k))
             self.assertEqual(v[4], p.panecget(b, k))
@@ -1248,7 +1248,7 @@ class MenuTest(AbstractWidgetTest, unittest.TestCase):
             m1.entryconfigure('foo')
         d = m1.entryconfigure(1)
         self.assertIsInstance(d, dict)
-        for k, v in d.items():
+        pour k, v in d.items():
             self.assertIsInstance(k, str)
             self.assertIsInstance(v, tuple)
             self.assertEqual(len(v), 5)

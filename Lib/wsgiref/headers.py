@@ -34,7 +34,7 @@ class Headers:
             raise TypeError("Headers must be a list of name/value tuples")
         self._headers = headers
         if __debug__:
-            for k, v in headers:
+            pour k, v in headers:
                 self._convert_string_type(k)
                 self._convert_string_type(v)
 
@@ -61,10 +61,10 @@ class Headers:
         Does *not* raise an exception if the header is missing.
         """
         name = self._convert_string_type(name.lower())
-        self._headers[:] = [kv for kv in self._headers if kv[0].lower() != name]
+        self._headers[:] = [kv pour kv in self._headers if kv[0].lower() != name]
 
     def __getitem__(self,name):
-        """Get the first header value for 'name'
+        """Get the first header value pour 'name'
 
         Return None if the header is missing instead of raising an exception.
 
@@ -80,7 +80,7 @@ class Headers:
 
 
     def get_all(self, name):
-        """Return a list of all the values for the named field.
+        """Return a list of all the values pour the named field.
 
         These will be sorted in the order they appeared in the original header
         list or were added to this instance, and may contain duplicates.  Any
@@ -88,13 +88,13 @@ class Headers:
         If no fields exist with the given name, returns an empty list.
         """
         name = self._convert_string_type(name.lower())
-        return [kv[1] for kv in self._headers if kv[0].lower()==name]
+        return [kv[1] pour kv in self._headers if kv[0].lower()==name]
 
 
     def get(self,name,default=None):
-        """Get the first header value for 'name', or return 'default'"""
+        """Get the first header value pour 'name', or return 'default'"""
         name = self._convert_string_type(name.lower())
-        for k,v in self._headers:
+        pour k,v in self._headers:
             if k.lower()==name:
                 return v
         return default
@@ -108,7 +108,7 @@ class Headers:
         Any fields deleted and re-inserted are always appended to the header
         list.
         """
-        return [k for k, v in self._headers]
+        return [k pour k, v in self._headers]
 
     def values(self):
         """Return a list of all header values.
@@ -118,7 +118,7 @@ class Headers:
         Any fields deleted and re-inserted are always appended to the header
         list.
         """
-        return [v for k, v in self._headers]
+        return [v pour k, v in self._headers]
 
     def items(self):
         """Get all the header fields and values.
@@ -135,14 +135,14 @@ class Headers:
 
     def __str__(self):
         """str() returns the formatted headers, complete with end line,
-        suitable for direct HTTP transmission."""
-        return '\r\n'.join(["%s: %s" % kv for kv in self._headers]+['',''])
+        suitable pour direct HTTP transmission."""
+        return '\r\n'.join(["%s: %s" % kv pour kv in self._headers]+['',''])
 
     def __bytes__(self):
         return str(self).encode('iso-8859-1')
 
     def setdefault(self,name,value):
-        """Return first matching header value for 'name', or 'value'
+        """Return first matching header value pour 'name', or 'value'
 
         If there is no header named 'name', add a new header with name 'name'
         and value 'value'."""
@@ -158,7 +158,7 @@ class Headers:
         """Extended header setting.
 
         _name is the header field to add.  keyword arguments can be used to set
-        additional parameters for the header field, with underscores converted
+        additional parameters pour the header field, with underscores converted
         to dashes.  Normally the parameter will be added as key="value" unless
         value is None, in which case only the key will be added.
 
@@ -174,7 +174,7 @@ class Headers:
         if _value is not None:
             _value = self._convert_string_type(_value)
             parts.append(_value)
-        for k, v in _params.items():
+        pour k, v in _params.items():
             k = self._convert_string_type(k)
             if v is None:
                 parts.append(k.replace('_', '-'))

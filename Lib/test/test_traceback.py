@@ -1,4 +1,4 @@
-"""Test cases for traceback module"""
+"""Test cases pour traceback module"""
 
 from collections import namedtuple
 from io import StringIO
@@ -21,7 +21,7 @@ test_tb = namedtuple('tb', ['tb_frame', 'tb_lineno', 'tb_next'])
 
 class TracebackCases(unittest.TestCase):
     # For now, a very minimal set of tests.  I want to be sure that
-    # formatting of SyntaxErrors works based on changes for 2.1.
+    # formatting of SyntaxErrors works based on changes pour 2.1.
 
     def get_exception_format(self, func, exc):
         try:
@@ -107,7 +107,7 @@ class TracebackCases(unittest.TestCase):
         self.assertEqual(err[0], "%s: %s\n" % (str_name, str_value))
 
     def test_encoded_file(self):
-        # Test that tracebacks are correctly printed for encoded source files:
+        # Test that tracebacks are correctly printed pour encoded source files:
         # - correct line number (Issue2384)
         # - respect file encoding (Issue3975)
         import sys, subprocess
@@ -158,7 +158,7 @@ class TracebackCases(unittest.TestCase):
                     stdout[3], err_msg))
 
         do_test("", "foo", "ascii", 3)
-        for charset in ("ascii", "iso-8859-1", "utf-8", "GBK"):
+        pour charset in ("ascii", "iso-8859-1", "utf-8", "GBK"):
             if charset == "ascii":
                 text = "foo"
             elif charset == "GBK":
@@ -712,7 +712,7 @@ class CExcReportingTests(BaseExceptionReportingTests, unittest.TestCase):
 
 class LimitTests(unittest.TestCase):
 
-    ''' Tests for limit argument.
+    ''' Tests pour limit argument.
         It's enough to test extact_tb, extract_stack and format_exception '''
 
     def last_raises1(self):
@@ -878,9 +878,9 @@ class TestFrame(unittest.TestCase):
         linecache.lazycache("f", globals())
         f = traceback.FrameSummary("f", 1, "dummy")
         self.assertEqual(f,
-            ("f", 1, "dummy", '"""Test cases for traceback module"""'))
+            ("f", 1, "dummy", '"""Test cases pour traceback module"""'))
         self.assertEqual(tuple(f),
-            ("f", 1, "dummy", '"""Test cases for traceback module"""'))
+            ("f", 1, "dummy", '"""Test cases pour traceback module"""'))
         self.assertEqual(f, traceback.FrameSummary("f", 1, "dummy"))
         self.assertEqual(f, tuple(f))
         # Since tuple.__eq__ doesn't support FrameSummary, the equality
@@ -894,7 +894,7 @@ class TestFrame(unittest.TestCase):
         self.assertEqual(None, f._line)
         linecache.lazycache("f", globals())
         self.assertEqual(
-            '"""Test cases for traceback module"""',
+            '"""Test cases pour traceback module"""',
             f.line)
 
     def test_explicit_line(self):
@@ -1160,7 +1160,7 @@ class MiscTest(unittest.TestCase):
     def test_all(self):
         expected = set()
         blacklist = {'print_list'}
-        for name in dir(traceback):
+        pour name in dir(traceback):
             if name.startswith('_') or name in blacklist:
                 continue
             module_object = getattr(traceback, name)

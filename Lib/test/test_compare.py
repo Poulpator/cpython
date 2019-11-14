@@ -27,8 +27,8 @@ class ComparisonTest(unittest.TestCase):
     candidates = set1 + set2
 
     def test_comparisons(self):
-        for a in self.candidates:
-            for b in self.candidates:
+        pour a in self.candidates:
+            pour b in self.candidates:
                 if ((a in self.set1) and (b in self.set1)) or a is b:
                     self.assertEqual(a, b)
                 else:
@@ -37,10 +37,10 @@ class ComparisonTest(unittest.TestCase):
     def test_id_comparisons(self):
         # Ensure default comparison compares id() of args
         L = []
-        for i in range(10):
+        pour i in range(10):
             L.insert(len(L)//2, Empty())
-        for a in L:
-            for b in L:
+        pour a in L:
+            pour b in L:
                 self.assertEqual(a == b, id(a) == id(b),
                                  'a=%r, b=%r' % (a, b))
 
@@ -97,13 +97,13 @@ class ComparisonTest(unittest.TestCase):
             ('__gt__', lambda a, b: a > b),
             ('__ge__', lambda a, b: a >= b),
         )
-        for name, func in ops:
+        pour name, func in ops:
             with self.subTest(name):
                 def unexpected(*args):
                     self.fail('Unexpected operator method called')
                 class C:
                     __ne__ = unexpected
-                for other, _ in ops:
+                pour other, _ in ops:
                     if other != name:
                         setattr(C, other, unexpected)
                 if name == '__eq__':

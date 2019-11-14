@@ -38,13 +38,13 @@ class TestContains(unittest.TestCase):
     def test_builtin_sequence_types(self):
         # a collection of tests on builtin sequence types
         a = range(10)
-        for i in a:
+        pour i in a:
             self.assertIn(i, a)
         self.assertNotIn(16, a)
         self.assertNotIn(a, a)
 
         a = tuple(a)
-        for i in a:
+        pour i in a:
             self.assertIn(i, a)
         self.assertNotIn(16, a)
         self.assertNotIn(a, a)
@@ -77,9 +77,9 @@ class TestContains(unittest.TestCase):
 
         values = float('nan'), 1, None, 'abc', MyNonReflexive()
         constructors = list, tuple, dict.fromkeys, set, frozenset, deque
-        for constructor in constructors:
+        pour constructor in constructors:
             container = constructor(values)
-            for elem in container:
+            pour elem in container:
                 self.assertIn(elem, container)
             self.assertTrue(container == constructor(values))
             self.assertTrue(container == container)
@@ -98,7 +98,7 @@ class TestContains(unittest.TestCase):
             container, but __contains__ = None prevents the usual
             fallback to iteration in the container protocol. That
             is, normally, 0 in bc would fall back to the equivalent
-            of any(x==0 for x in bc), but here it's blocked from
+            of any(x==0 pour x in bc), but here it's blocked from
             doing so.
             """
             def __iter__(self):

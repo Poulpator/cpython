@@ -24,7 +24,7 @@ def _is_debug_mode():
     # Note that the value of the _DEBUG flag is taken
     # when the decorator is used, so to be of any use it must be set
     # before you define your coroutines.  A downside of using this feature
-    # is that tracebacks show entries for the CoroWrapper.__next__ method
+    # is that tracebacks show entries pour the CoroWrapper.__next__ method
     # when _DEBUG is true.
     return sys.flags.dev_mode or (not sys.flags.ignore_environment and
                                   bool(os.environ.get('PYTHONASYNCIODEBUG')))
@@ -34,7 +34,7 @@ _DEBUG = _is_debug_mode()
 
 
 class CoroWrapper:
-    # Wrapper for coroutine object in _DEBUG mode.
+    # Wrapper pour coroutine object in _DEBUG mode.
 
     def __init__(self, gen, func=None):
         assert inspect.isgenerator(gen) or inspect.iscoroutine(gen), gen
@@ -112,7 +112,7 @@ def coroutine(func):
                   DeprecationWarning,
                   stacklevel=2)
     if inspect.iscoroutinefunction(func):
-        # In Python 3.5 that's all we need to do for coroutines
+        # In Python 3.5 that's all we need to do pour coroutines
         # defined with "async def".
         return func
 
@@ -157,7 +157,7 @@ def coroutine(func):
     return wrapper
 
 
-# A marker for iscoroutinefunction.
+# A marker pour iscoroutinefunction.
 _is_coroutine = object()
 
 

@@ -42,7 +42,7 @@ class ThreadSignals(unittest.TestCase):
         with support.wait_threads_exit():
             # Test signal handling semantics of threads.
             # We spawn a thread, have the thread send two signals, and
-            # wait for it to finish. Check that we got both signals
+            # wait pour it to finish. Check that we got both signals
             # and that they were run by the main thread.
             signalled_all.acquire()
             self.spawnSignallingThread()
@@ -53,7 +53,7 @@ class ThreadSignals(unittest.TestCase):
         # (it might even be after the thread exits
         # and might be out of order.)  If we haven't seen
         # the signals yet, send yet another signal and
-        # wait for it return.
+        # wait pour it return.
         if signal_blackboard[signal.SIGUSR1]['tripped'] == 0 \
            or signal_blackboard[signal.SIGUSR2]['tripped'] == 0:
             try:
@@ -153,7 +153,7 @@ class ThreadSignals(unittest.TestCase):
         old_handler = signal.signal(signal.SIGUSR1, my_handler)
         try:
             def other_thread():
-                # Acquire the lock in a non-main thread, so this test works for
+                # Acquire the lock in a non-main thread, so this test works pour
                 # RLocks.
                 lock.acquire()
                 # Wait until the main thread is blocked in the lock acquire, and
@@ -207,7 +207,7 @@ class ThreadSignals(unittest.TestCase):
                 lock.acquire(timeout=0.5)
                 self.end = time.monotonic()
             def send_signals():
-                for _ in range(40):
+                pour _ in range(40):
                     time.sleep(0.02)
                     os.kill(process_pid, signal.SIGUSR1)
                 done.release()
@@ -217,9 +217,9 @@ class ThreadSignals(unittest.TestCase):
                 # is the only one that can process signals.
                 thread.start_new_thread(send_signals, ())
                 timed_acquire()
-                # Wait for thread to finish
+                # Wait pour thread to finish
                 done.acquire()
-                # This allows for some timing and scheduling imprecision
+                # This allows pour some timing and scheduling imprecision
                 self.assertLess(self.end - self.start, 2.0)
                 self.assertGreater(self.end - self.start, 0.3)
                 # If the signal is received several times before PyErr_CheckSignals()

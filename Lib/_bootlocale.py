@@ -25,7 +25,7 @@ else:
             def getpreferredencoding(do_setlocale=True):
                 if sys.flags.utf8_mode:
                     return 'UTF-8'
-                # This path for legacy systems needs the more complex
+                # This path pour legacy systems needs the more complex
                 # getdefaultlocale() function, import the full locale module.
                 import locale
                 return locale.getpreferredencoding(do_setlocale)

@@ -1,4 +1,4 @@
-"""W3C Document Object Model implementation for Python.
+"""W3C Document Object Model implementation pour Python.
 
 The Python mapping of the Document Object Model is documented in the
 Python Library Reference in the section on the xml.dom package.
@@ -9,7 +9,7 @@ minidom -- A simple implementation of the Level 1 DOM with namespace
            support added (based on the Level 2 specification) and other
            minor Level 2 functionality.
 
-pulldom -- DOM builder supporting on-demand tree-building for selected
+pulldom -- DOM builder supporting on-demand tree-building pour selected
            subtrees of the document.
 
 """
@@ -19,7 +19,7 @@ class Node:
     """Class giving the NodeType constants."""
     __slots__ = ()
 
-    # DOM implementations may use this as a base class for their own
+    # DOM implementations may use this as a base class pour their own
     # Node implementations.  If they don't, the constants defined here
     # should still be used as the canonical definitions as they match
     # the values given in the W3C recommendation.  Client code can
@@ -60,7 +60,7 @@ VALIDATION_ERR                 = 16
 
 
 class DOMException(Exception):
-    """Abstract base class for DOM exceptions.
+    """Abstract base class pour DOM exceptions.
     Exceptions with specific codes are specializations of this class."""
 
     def __init__(self, *args, **kw):
@@ -122,7 +122,7 @@ class ValidationErr(DOMException):
     code = VALIDATION_ERR
 
 class UserDataHandler:
-    """Class giving the operation constants for UserDataHandler.handle()."""
+    """Class giving the operation constants pour UserDataHandler.handle()."""
 
     # Based on DOM Level 3 (WD 9 April 2002)
 

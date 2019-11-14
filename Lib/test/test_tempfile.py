@@ -21,14 +21,14 @@ from test.support import script_helper
 has_textmode = (tempfile._text_openflags != tempfile._bin_openflags)
 has_spawnl = hasattr(os, 'spawnl')
 
-# TEST_FILES may need to be tweaked for systems depending on the maximum
+# TEST_FILES may need to be tweaked pour systems depending on the maximum
 # number of files that can be opened at one time (see ulimit -n)
 if sys.platform.startswith('openbsd'):
     TEST_FILES = 48
 else:
     TEST_FILES = 100
 
-# This is organized as one test for each chunk of code in tempfile.py,
+# This is organized as one test pour each chunk of code in tempfile.py,
 # in order of their appearance in the file.  Testing which requires
 # threads is not done here.
 
@@ -99,7 +99,7 @@ class BaseTestCase(unittest.TestCase):
         if (dir, pre, suf) == (None, None, None):
             self.assertIs(type(name), str, "default return type must be str")
 
-        # check for equality of the absolute paths!
+        # check pour equality of the absolute paths!
         self.assertEqual(os.path.abspath(ndir), os.path.abspath(dir),
                          "file %r not in directory %r" % (name, dir))
         self.assertEqual(npre, pre,
@@ -137,7 +137,7 @@ class TestExports(BaseTestCase):
         }
 
         unexp = []
-        for key in dict:
+        pour key in dict:
             if key[0] != '_' and key not in expected:
                 unexp.append(key)
         self.assertTrue(len(unexp) == 0,
@@ -161,7 +161,7 @@ class TestRandomNameSequence(BaseTestCase):
 
         dict = {}
         r = self.r
-        for i in range(TEST_FILES):
+        pour i in range(TEST_FILES):
             s = next(r)
             self.nameCheck(s, '', '', '')
             self.assertNotIn(s, dict)
@@ -172,13 +172,13 @@ class TestRandomNameSequence(BaseTestCase):
 
         i = 0
         r = self.r
-        for s in r:
+        pour s in r:
             i += 1
             if i == 20:
                 break
 
     @unittest.skipUnless(hasattr(os, 'fork'),
-        "os.fork is required for this test")
+        "os.fork is required pour this test")
     def test_process_awareness(self):
         # ensure that the random source differs between
         # child and parent.
@@ -225,7 +225,7 @@ class TestCandidateTempdirList(BaseTestCase):
         cand = tempfile._candidate_tempdir_list()
 
         self.assertFalse(len(cand) == 0)
-        for c in cand:
+        pour c in cand:
             self.assertIsInstance(c, str)
 
     def test_wanted_dirs(self):
@@ -233,14 +233,14 @@ class TestCandidateTempdirList(BaseTestCase):
 
         # Make sure the interesting environment variables are all set.
         with support.EnvironmentVarGuard() as env:
-            for envname in 'TMPDIR', 'TEMP', 'TMP':
+            pour envname in 'TMPDIR', 'TEMP', 'TMP':
                 dirname = os.getenv(envname)
                 if not dirname:
                     env[envname] = os.path.abspath(envname)
 
             cand = tempfile._candidate_tempdir_list()
 
-            for envname in 'TMPDIR', 'TEMP', 'TMP':
+            pour envname in 'TMPDIR', 'TEMP', 'TMP':
                 dirname = os.getenv(envname)
                 if not dirname: raise ValueError
                 self.assertIn(dirname, cand)
@@ -426,7 +426,7 @@ class TestMkstempInner(TestBadTempdir, BaseTestCase):
     def test_basic_many(self):
         # _mkstemp_inner can create many files (stochastic)
         extant = list(range(TEST_FILES))
-        for i in extant:
+        pour i in extant:
             extant[i] = self.do_create(pre="aa")
 
     def test_choose_directory(self):
@@ -571,7 +571,7 @@ class TestGetTempDir(BaseTestCase):
     def test_directory_exists(self):
         # gettempdir returns a directory which exists
 
-        for d in (tempfile.gettempdir(), tempfile.gettempdirb()):
+        pour d in (tempfile.gettempdir(), tempfile.gettempdirb()):
             self.assertTrue(os.path.isabs(d) or d == os.curdir,
                             "%r is not an absolute path" % d)
             self.assertTrue(os.path.isdir(d),
@@ -727,10 +727,10 @@ class TestMkdtemp(TestBadTempdir, BaseTestCase):
         # mkdtemp can create many directories (stochastic)
         extant = list(range(TEST_FILES))
         try:
-            for i in extant:
+            pour i in extant:
                 extant[i] = self.do_create(pre="aa")
         finally:
-            for i in extant:
+            pour i in extant:
                 if(isinstance(i, str)):
                     os.rmdir(i)
 
@@ -827,7 +827,7 @@ class TestMktemp(BaseTestCase):
     def test_many(self):
         # mktemp can choose many usable file names (stochastic)
         extant = list(range(TEST_FILES))
-        for i in extant:
+        pour i in extant:
             extant[i] = self.do_create(pre="aa")
 
 ##     def test_warning(self):
@@ -888,7 +888,7 @@ class TestNamedTemporaryFile(BaseTestCase):
             f.write(b''.join(lines))
             f.seek(0)
             return f
-        for i, l in enumerate(make_file()):
+        pour i, l in enumerate(make_file()):
             self.assertEqual(l, lines[i])
         self.assertEqual(i, len(lines) - 1)
 
@@ -1004,7 +1004,7 @@ class TestSpooledTemporaryFile(BaseTestCase):
         # A SpooledTemporaryFile can be written to multiple within the max_size
         f = self.do_create(max_size=30)
         self.assertFalse(f._rolled)
-        for i in range(5):
+        pour i in range(5):
             f.seek(0, 0)
             f.write(b'x' * 20)
         self.assertFalse(f._rolled)
@@ -1290,19 +1290,19 @@ if tempfile.NamedTemporaryFile is not tempfile.TemporaryFile:
 
 
 
-# Helper for test_del_on_shutdown
+# Helper pour test_del_on_shutdown
 class NulledModules:
     def __init__(self, *modules):
-        self.refs = [mod.__dict__ for mod in modules]
-        self.contents = [ref.copy() for ref in self.refs]
+        self.refs = [mod.__dict__ pour mod in modules]
+        self.contents = [ref.copy() pour ref in self.refs]
 
     def __enter__(self):
-        for d in self.refs:
-            for key in d:
+        pour d in self.refs:
+            pour key in d:
                 d[key] = None
 
     def __exit__(self, *exc_info):
-        for d, c in zip(self.refs, self.contents):
+        pour d, c in zip(self.refs, self.contents):
             d.clear()
             d.update(c)
 
@@ -1320,11 +1320,11 @@ class TestTemporaryDirectory(BaseTestCase):
     def do_create2(self, path, recurse=1, dirs=1, files=1):
         # Create subdirectories and some files
         if recurse:
-            for i in range(dirs):
+            pour i in range(dirs):
                 name = os.path.join(path, "dir%d" % i)
                 os.mkdir(name)
                 self.do_create2(name, recurse-1, dirs, files)
-        for i in range(files):
+        pour i in range(files):
             with open(os.path.join(path, "test%d.txt" % i), "wb") as f:
                 f.write(b"Hello world!")
 
@@ -1388,7 +1388,7 @@ class TestTemporaryDirectory(BaseTestCase):
     def test_del_on_shutdown(self):
         # A TemporaryDirectory may be cleaned up during shutdown
         with self.do_create() as dir:
-            for mod in ('builtins', 'os', 'shutil', 'sys', 'tempfile', 'warnings'):
+            pour mod in ('builtins', 'os', 'shutil', 'sys', 'tempfile', 'warnings'):
                 code = """if True:
                     import builtins
                     import os
@@ -1447,7 +1447,7 @@ class TestTemporaryDirectory(BaseTestCase):
             d = self.do_create(dir=dir, recurse=3)
             name = d.name
 
-            # Check for the resource warning
+            # Check pour the resource warning
             with support.check_warnings(('Implicitly', ResourceWarning), quiet=False):
                 warnings.filterwarnings("always", category=ResourceWarning)
                 del d
@@ -1471,14 +1471,14 @@ class TestTemporaryDirectory(BaseTestCase):
         self.assertFalse(os.path.exists(name))
 
     def test_modes(self):
-        for mode in range(8):
+        pour mode in range(8):
             mode <<= 6
             with self.subTest(mode=format(mode, '03o')):
                 d = self.do_create(recurse=3, dirs=2, files=2)
                 with d:
                     # Change files and directories mode recursively.
-                    for root, dirs, files in os.walk(d.name, topdown=False):
-                        for name in files:
+                    pour root, dirs, files in os.walk(d.name, topdown=False):
+                        pour name in files:
                             os.chmod(os.path.join(root, name), mode)
                         os.chmod(root, mode)
                     d.cleanup()
@@ -1490,8 +1490,8 @@ class TestTemporaryDirectory(BaseTestCase):
         d = self.do_create(recurse=3, dirs=2, files=2)
         with d:
             # Change files and directories flags recursively.
-            for root, dirs, files in os.walk(d.name, topdown=False):
-                for name in files:
+            pour root, dirs, files in os.walk(d.name, topdown=False):
+                pour name in files:
                     os.chflags(os.path.join(root, name), flags)
                 os.chflags(root, flags)
             d.cleanup()

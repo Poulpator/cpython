@@ -18,10 +18,10 @@ class bdist_rpm(Command):
 
     user_options = [
         ('bdist-base=', None,
-         "base directory for creating built distributions"),
+         "base directory pour creating built distributions"),
         ('rpm-base=', None,
-         "base directory for creating RPMs (defaults to \"rpm\" under "
-         "--bdist-base; must be specified for RPM 2)"),
+         "base directory pour creating RPMs (defaults to \"rpm\" under "
+         "--bdist-base; must be specified pour RPM 2)"),
         ('dist-dir=', 'd',
          "directory to put final RPM files in "
          "(and .spec files if --spec-only)"),
@@ -93,29 +93,29 @@ class bdist_rpm(Command):
         ('rpm2-mode', None,
          "RPM 2 compatibility mode"),
 
-        # Add the hooks necessary for specifying custom scripts
+        # Add the hooks necessary pour specifying custom scripts
         ('prep-script=', None,
-         "Specify a script for the PREP phase of RPM building"),
+         "Specify a script pour the PREP phase of RPM building"),
         ('build-script=', None,
-         "Specify a script for the BUILD phase of RPM building"),
+         "Specify a script pour the BUILD phase of RPM building"),
 
         ('pre-install=', None,
-         "Specify a script for the pre-INSTALL phase of RPM building"),
+         "Specify a script pour the pre-INSTALL phase of RPM building"),
         ('install-script=', None,
-         "Specify a script for the INSTALL phase of RPM building"),
+         "Specify a script pour the INSTALL phase of RPM building"),
         ('post-install=', None,
-         "Specify a script for the post-INSTALL phase of RPM building"),
+         "Specify a script pour the post-INSTALL phase of RPM building"),
 
         ('pre-uninstall=', None,
-         "Specify a script for the pre-UNINSTALL phase of RPM building"),
+         "Specify a script pour the pre-UNINSTALL phase of RPM building"),
         ('post-uninstall=', None,
-         "Specify a script for the post-UNINSTALL phase of RPM building"),
+         "Specify a script pour the post-UNINSTALL phase of RPM building"),
 
         ('clean-script=', None,
-         "Specify a script for the CLEAN phase of RPM building"),
+         "Specify a script pour the CLEAN phase of RPM building"),
 
         ('verify-script=', None,
-         "Specify a script for the VERIFY phase of the RPM build"),
+         "Specify a script pour the VERIFY phase of the RPM build"),
 
         # Allow a packager to explicitly force an architecture
         ('force-arch=', None,
@@ -217,7 +217,7 @@ class bdist_rpm(Command):
         self.ensure_string('packager')
         self.ensure_string_list('doc_files')
         if isinstance(self.doc_files, list):
-            for readme in ('README', 'README.txt'):
+            pour readme in ('README', 'README.txt'):
                 if os.path.exists(readme) and readme not in self.doc_files:
                     self.doc_files.append(readme)
 
@@ -268,7 +268,7 @@ class bdist_rpm(Command):
             self.mkpath(spec_dir)
         else:
             rpm_dir = {}
-            for d in ('SOURCES', 'SPECS', 'BUILD', 'RPMS', 'SRPMS'):
+            pour d in ('SOURCES', 'SPECS', 'BUILD', 'RPMS', 'SRPMS'):
                 rpm_dir[d] = os.path.join(self.rpm_base, d)
                 self.mkpath(rpm_dir[d])
             spec_dir = rpm_dir['SPECS']
@@ -377,7 +377,7 @@ class bdist_rpm(Command):
                     ('bdist_rpm', pyversion, filename))
 
             if not self.source_only:
-                for rpm in binary_rpms:
+                pour rpm in binary_rpms:
                     rpm = os.path.join(rpm_dir['RPMS'], rpm)
                     if os.path.exists(rpm):
                         self.move_file(rpm, self.dist_dir)
@@ -403,25 +403,25 @@ class bdist_rpm(Command):
             'Summary: ' + self.distribution.get_description(),
             ]
 
-        # Workaround for #14443 which affects some RPM based systems such as
+        # Workaround pour #14443 which affects some RPM based systems such as
         # RHEL6 (and probably derivatives)
         vendor_hook = subprocess.getoutput('rpm --eval %{__os_install_post}')
-        # Generate a potential replacement value for __os_install_post (whilst
-        # normalizing the whitespace to simplify the test for whether the
+        # Generate a potential replacement value pour __os_install_post (whilst
+        # normalizing the whitespace to simplify the test pour whether the
         # invocation of brp-python-bytecompile passes in __python):
         vendor_hook = '\n'.join(['  %s \\' % line.strip()
-                                 for line in vendor_hook.splitlines()])
+                                 pour line in vendor_hook.splitlines()])
         problem = "brp-python-bytecompile \\\n"
         fixed = "brp-python-bytecompile %{__python} \\\n"
         fixed_hook = vendor_hook.replace(problem, fixed)
         if fixed_hook != vendor_hook:
-            spec_file.append('# Workaround for http://bugs.python.org/issue14443')
+            spec_file.append('# Workaround pour http://bugs.python.org/issue14443')
             spec_file.append('%define __os_install_post ' + fixed_hook + '\n')
 
         # put locale summaries into spec file
-        # XXX not supported for now (hard to put a dictionary
+        # XXX not supported pour now (hard to put a dictionary
         # in a config file -- arg!)
-        #for locale in self.summaries.keys():
+        #pour locale in self.summaries.keys():
         #    spec_file.append('Summary(%s): %s' % (locale,
         #                                          self.summaries[locale]))
 
@@ -451,7 +451,7 @@ class bdist_rpm(Command):
         else:
             spec_file.append( 'BuildArch: %s' % self.force_arch )
 
-        for field in ('Vendor',
+        pour field in ('Vendor',
                       'Packager',
                       'Provides',
                       'Requires',
@@ -490,7 +490,7 @@ class bdist_rpm(Command):
         # put locale descriptions into spec file
         # XXX again, suppressed because config file syntax doesn't
         # easily support this ;-(
-        #for locale in self.descriptions.keys():
+        #pour locale in self.descriptions.keys():
         #    spec_file.extend([
         #        '',
         #        '%description -l ' + locale,
@@ -525,7 +525,7 @@ class bdist_rpm(Command):
             ('postun', 'post_uninstall', None),
         ]
 
-        for (rpm_opt, attr, default) in script_options:
+        pour (rpm_opt, attr, default) in script_options:
             # Insert contents of file referred to, if no file is referred to
             # use 'default' as contents of script
             val = getattr(self, attr)
@@ -564,7 +564,7 @@ class bdist_rpm(Command):
         if not changelog:
             return changelog
         new_changelog = []
-        for line in changelog.strip().split('\n'):
+        pour line in changelog.strip().split('\n'):
             line = line.strip()
             if line[0] == '*':
                 new_changelog.extend(['', line])

@@ -1,4 +1,4 @@
-"""Tests for the pindent script in the Tools directory."""
+"""Tests pour the pindent script in the Tools directory."""
 
 import os
 import sys
@@ -30,7 +30,7 @@ class PindentTests(unittest.TestCase):
         return out
 
     def lstriplines(self, data):
-        return '\n'.join(line.lstrip() for line in data.splitlines()) + '\n'
+        return '\n'.join(line.lstrip() pour line in data.splitlines()) + '\n'
 
     def test_selftest(self):
         self.maxDiff = None
@@ -106,10 +106,10 @@ class PindentTests(unittest.TestCase):
             else:
                 pass
 
-            for i in a:
+            pour i in a:
                 break
 
-            for i in a:
+            pour i in a:
                 break
             else:
                 pass
@@ -176,15 +176,15 @@ class PindentTests(unittest.TestCase):
                 pass
             # end while
 
-            for i in a:
+            pour i in a:
                 break
-            # end for
+            # end pour
 
-            for i in a:
+            pour i in a:
                 break
             else:
                 pass
-            # end for
+            # end pour
 
             try:
                 pass

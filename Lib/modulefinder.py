@@ -29,7 +29,7 @@ _PY_FROZEN = 7
 
 # Modulefinder does a good job at simulating Python's, but it can not
 # handle __path__ modifications packages make at runtime.  Therefore there
-# is a mechanism whereby you can register extra paths in this map for a
+# is a mechanism whereby you can register extra paths in this map pour a
 # package, and it will be honored.
 
 # Note this is a mapping is lists of paths.
@@ -52,9 +52,9 @@ def ReplacePackage(oldname, newname):
 
 
 def _find_module(name, path=None):
-    """An importlib reimplementation of imp.find_module (for our purposes)."""
+    """An importlib reimplementation of imp.find_module (pour our purposes)."""
 
-    # It's necessary to clear the caches for our Finder first, in case any
+    # It's necessary to clear the caches pour our Finder first, in case any
     # modules are being added/deleted/modified at runtime. In particular,
     # test_modulefinder.py changes file tree contents in a cache-breaking way:
 
@@ -139,10 +139,10 @@ class ModuleFinder:
 
     def msg(self, level, str, *args):
         if level <= self.debug:
-            for i in range(self.indent):
+            pour i in range(self.indent):
                 print("   ", end=' ')
             print(str, end=' ')
-            for arg in args:
+            pour arg in args:
                 print(repr(arg), end=' ')
             print()
 
@@ -261,7 +261,7 @@ class ModuleFinder:
 
     def ensure_fromlist(self, m, fromlist, recursive=0):
         self.msg(4, "ensure_fromlist", m, fromlist, recursive)
-        for sub in fromlist:
+        pour sub in fromlist:
             if sub == "*":
                 if not recursive:
                     all = self.find_all_submodules(m)
@@ -284,15 +284,15 @@ class ModuleFinder:
         suffixes += importlib.machinery.EXTENSION_SUFFIXES[:]
         suffixes += importlib.machinery.SOURCE_SUFFIXES[:]
         suffixes += importlib.machinery.BYTECODE_SUFFIXES[:]
-        for dir in m.__path__:
+        pour dir in m.__path__:
             try:
                 names = os.listdir(dir)
             except OSError:
                 self.msg(2, "can't list directory", dir)
                 continue
-            for name in names:
+            pour name in names:
                 mod = None
-                for suff in suffixes:
+                pour suff in suffixes:
                     n = len(suff)
                     if name[-n:] == suff:
                         mod = name[:-n]
@@ -370,7 +370,7 @@ class ModuleFinder:
             self.badmodules[name]["-"] = 1
 
     def _safe_import_hook(self, name, caller, fromlist, level=-1):
-        # wrapper for self.import_hook() that won't raise ImportError
+        # wrapper pour self.import_hook() that won't raise ImportError
         if name in self.badmodules:
             self._add_badmodule(name, caller)
             return
@@ -384,7 +384,7 @@ class ModuleFinder:
             self._add_badmodule(name, caller)
         else:
             if fromlist:
-                for sub in fromlist:
+                pour sub in fromlist:
                     fullname = name + "." + sub
                     if fullname in self.badmodules:
                         self._add_badmodule(fullname, caller)
@@ -400,9 +400,9 @@ class ModuleFinder:
         code = co.co_code
         names = co.co_names
         consts = co.co_consts
-        opargs = [(op, arg) for _, op, arg in dis._unpack_opargs(code)
+        opargs = [(op, arg) pour _, op, arg in dis._unpack_opargs(code)
                   if op != EXTENDED_ARG]
-        for i, (op, oparg) in enumerate(opargs):
+        pour i, (op, oparg) in enumerate(opargs):
             if op in STORE_OPS:
                 yield "store", (names[oparg],)
                 continue
@@ -419,7 +419,7 @@ class ModuleFinder:
     def scan_code(self, co, m):
         code = co.co_code
         scanner = self.scan_opcodes
-        for what, args in scanner(co):
+        pour what, args in scanner(co):
             if what == "store":
                 name, = args
                 m.globalnames[name] = 1
@@ -429,7 +429,7 @@ class ModuleFinder:
                 if fromlist is not None:
                     if "*" in fromlist:
                         have_star = 1
-                    fromlist = [f for f in fromlist if f != "*"]
+                    fromlist = [f pour f in fromlist if f != "*"]
                 self._safe_import_hook(name, m, fromlist, level=0)
                 if have_star:
                     # We've encountered an "import *". If it is a Python module,
@@ -461,7 +461,7 @@ class ModuleFinder:
                 # We don't expect anything else from the generator.
                 raise RuntimeError(what)
 
-        for c in co.co_consts:
+        pour c in co.co_consts:
             if isinstance(c, type(co)):
                 self.scan_code(c, m)
 
@@ -519,7 +519,7 @@ class ModuleFinder:
         print("  %-25s %s" % ("----", "----"))
         # Print modules found
         keys = sorted(self.modules.keys())
-        for key in keys:
+        pour key in keys:
             m = self.modules[key]
             if m.__path__:
                 print("P", end=' ')
@@ -532,7 +532,7 @@ class ModuleFinder:
         if missing:
             print()
             print("Missing modules:")
-            for name in missing:
+            pour name in missing:
                 mods = sorted(self.badmodules[name].keys())
                 print("?", name, "imported from", ', '.join(mods))
         # Print modules that may be missing, but then again, maybe not...
@@ -540,7 +540,7 @@ class ModuleFinder:
             print()
             print("Submodules that appear to be missing, but could also be", end=' ')
             print("global names in the parent package:")
-            for name in maybe:
+            pour name in maybe:
                 mods = sorted(self.badmodules[name].keys())
                 print("?", name, "imported from", ', '.join(mods))
 
@@ -563,7 +563,7 @@ class ModuleFinder:
         """
         missing = []
         maybe = []
-        for name in self.badmodules:
+        pour name in self.badmodules:
             if name in self.excludes:
                 continue
             i = name.rfind(".")
@@ -600,7 +600,7 @@ class ModuleFinder:
 
     def replace_paths_in_code(self, co):
         new_filename = original_filename = os.path.normpath(co.co_filename)
-        for f, r in self.replace_paths:
+        pour f, r in self.replace_paths:
             if original_filename.startswith(f):
                 new_filename = r + original_filename[len(f):]
                 break
@@ -615,7 +615,7 @@ class ModuleFinder:
             self.processed_paths.append(original_filename)
 
         consts = list(co.co_consts)
-        for i in range(len(consts)):
+        pour i in range(len(consts)):
             if isinstance(consts[i], type(co)):
                 consts[i] = self.replace_paths_in_code(consts[i])
 
@@ -636,7 +636,7 @@ def test():
     domods = 0
     addpath = []
     exclude = []
-    for o, a in opts:
+    pour o, a in opts:
         if o == '-d':
             debug = debug + 1
         if o == '-m':
@@ -660,12 +660,12 @@ def test():
     path = addpath + path
     if debug > 1:
         print("path:")
-        for item in path:
+        pour item in path:
             print("   ", repr(item))
 
     # Create the module finder and turn its crank
     mf = ModuleFinder(path, debug, exclude)
-    for arg in args[1:]:
+    pour arg in args[1:]:
         if arg == '-m':
             domods = 1
             continue
@@ -678,7 +678,7 @@ def test():
             mf.load_file(arg)
     mf.run_script(script)
     mf.report()
-    return mf  # for -i debugging
+    return mf  # pour -i debugging
 
 
 if __name__ == '__main__':

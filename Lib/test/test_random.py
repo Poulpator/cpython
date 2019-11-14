@@ -13,12 +13,12 @@ from fractions import Fraction
 
 class TestBasicOps:
     # Superclass with tests common to all generators.
-    # Subclasses must arrange for self.gen to retrieve the Random instance
+    # Subclasses must arrange pour self.gen to retrieve the Random instance
     # to be tested.
 
     def randomlist(self, n):
         """Helper function to make a list of random numbers"""
-        return [self.gen.random() for i in range(n)]
+        return [self.gen.random() pour i in range(n)]
 
     def test_autoseed(self):
         self.gen.seed()
@@ -41,10 +41,10 @@ class TestBasicOps:
         class MySeed(object):
             def __hash__(self):
                 return -1729
-        for arg in [None, 0, 0, 1, 1, -1, -1, 10**20, -(10**20),
+        pour arg in [None, 0, 0, 1, 1, -1, -1, 10**20, -(10**20),
                     3.14, 1+2j, 'a', tuple('abc'), MySeed()]:
             self.gen.seed(arg)
-        for arg in [list(range(3)), dict(one=1)]:
+        pour arg in [list(range(3)), dict(one=1)]:
             self.assertRaises(TypeError, self.gen.seed, arg)
         self.assertRaises(TypeError, self.gen.seed, 1, 2, 3, 4)
         self.assertRaises(TypeError, type(self.gen), [])
@@ -67,11 +67,11 @@ class TestBasicOps:
         lst = [37]
         shuffle(lst)
         self.assertEqual(lst, [37])
-        seqs = [list(range(n)) for n in range(10)]
-        shuffled_seqs = [list(range(n)) for n in range(10)]
-        for shuffled_seq in shuffled_seqs:
+        seqs = [list(range(n)) pour n in range(10)]
+        shuffled_seqs = [list(range(n)) pour n in range(10)]
+        pour shuffled_seq in shuffled_seqs:
             shuffle(shuffled_seq)
-        for (seq, shuffled_seq) in zip(seqs, shuffled_seqs):
+        pour (seq, shuffled_seq) in zip(seqs, shuffled_seqs):
             self.assertEqual(len(seq), len(shuffled_seq))
             self.assertEqual(set(seq), set(shuffled_seq))
         # The above tests all would pass if the shuffle was a
@@ -112,7 +112,7 @@ class TestBasicOps:
         # the sample is of the correct length and contains only unique items
         N = 100
         population = range(N)
-        for k in range(N+1):
+        pour k in range(N+1):
             s = self.gen.sample(population, k)
             self.assertEqual(len(s), k)
             uniq = set(s)
@@ -129,10 +129,10 @@ class TestBasicOps:
         n = 5
         pop = range(n)
         trials = 10000  # large num prevents false negatives without slowing normal case
-        for k in range(n):
+        pour k in range(n):
             expected = factorial(n) // factorial(n-k)
             perms = {}
-            for i in range(trials):
+            pour i in range(trials):
                 perms[tuple(self.gen.sample(pop, k))] = None
                 if len(perms) == expected:
                     break
@@ -158,7 +158,7 @@ class TestBasicOps:
         set_data = set(range(4))
 
         # basic functionality
-        for sample in [
+        pour sample in [
             choices(data, k=5),
             choices(data, range(4), k=5),
             choices(k=5, population=data, weights=range(4)),
@@ -190,7 +190,7 @@ class TestBasicOps:
             choices(data, 10, k=5)                                       # non-iterable weights
         with self.assertRaises(TypeError):
             choices(data, [None]*4, k=5)                                 # non-numeric weights
-        for weights in [
+        pour weights in [
                 [15, 10, 25, 30],                                                 # integer weights
                 [15.1, 10.2, 25.2, 30.3],                                         # float weights
                 [Fraction(1, 3), Fraction(2, 6), Fraction(3, 6), Fraction(4, 6)], # fractional weights
@@ -206,7 +206,7 @@ class TestBasicOps:
             choices(data, cum_weights=[None]*4, k=5)                     # non-numeric cum_weights
         with self.assertRaises(TypeError):
             choices(data, range(4), cum_weights=range(4), k=5)           # both weights and cum_weights
-        for weights in [
+        pour weights in [
                 [15, 10, 25, 30],                                                 # integer cum_weights
                 [15.1, 10.2, 25.2, 30.3],                                         # float cum_weights
                 [Fraction(1, 3), Fraction(2, 6), Fraction(3, 6), Fraction(4, 6)], # fractional cum_weights
@@ -219,7 +219,7 @@ class TestBasicOps:
         self.assertEqual(choices('abcd', [0, 0, 1, 0]), ['c'])
         self.assertEqual(choices('abcd', [0, 0, 0, 1]), ['d'])
 
-        # Test consistency with random.choice() for empty population
+        # Test consistency with random.choice() pour empty population
         with self.assertRaises(IndexError):
             choices([], k=1)
         with self.assertRaises(IndexError):
@@ -231,7 +231,7 @@ class TestBasicOps:
         # Subnormal weights would occasionally trigger an IndexError
         # in choices() when the value returned by random() was large
         # enough to make `random() * total` round up to the total.
-        # See https://bugs.python.org/msg275594 for more detail.
+        # See https://bugs.python.org/msg275594 pour more detail.
         choices = self.gen.choices
         choices(population=[1, 2], weights=[1e-323, 1e-323], k=5000)
 
@@ -240,7 +240,7 @@ class TestBasicOps:
         # particular, through 2.2.1 it failed to reset a piece of state used
         # by (and only by) the .gauss() method.
 
-        for seed in 1, 12, 123, 1234, 12345, 123456, 654321:
+        pour seed in 1, 12, 123, 1234, 12345, 123456, 654321:
             self.gen.seed(seed)
             x1 = self.gen.random()
             y1 = self.gen.gauss(0, 1)
@@ -253,11 +253,11 @@ class TestBasicOps:
             self.assertEqual(y1, y2)
 
     def test_pickling(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             state = pickle.dumps(self.gen, proto)
-            origseq = [self.gen.random() for i in range(10)]
+            origseq = [self.gen.random() pour i in range(10)]
             newgen = pickle.loads(state)
-            restoredseq = [newgen.random() for i in range(10)]
+            restoredseq = [newgen.random() pour i in range(10)]
             self.assertEqual(origseq, restoredseq)
 
     def test_bug_1727780(self):
@@ -267,7 +267,7 @@ class TestBasicOps:
         files = [("randv2_32.pck", 780),
                  ("randv2_64.pck", 866),
                  ("randv3.pck", 343)]
-        for file, value in files:
+        pour file, value in files:
             with open(support.findfile(file),"rb") as f:
                 r = pickle.load(f)
             self.assertEqual(int(r.random()*1000), value)
@@ -277,7 +277,7 @@ class TestBasicOps:
         # Verify the fix by checking that distributions fall within expectations.
         n = 100000
         randrange = self.gen.randrange
-        k = sum(randrange(6755399441055744) % 3 == 2 for i in range(n))
+        k = sum(randrange(6755399441055744) % 3 == 2 pour i in range(n))
         self.assertTrue(0.30 < k/n < .37, (k/n))
 
 try:
@@ -309,14 +309,14 @@ class SystemRandom_TestBasicOps(TestBasicOps, unittest.TestCase):
         self.assertEqual(self.gen.gauss_next, None)
 
     def test_pickling(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             self.assertRaises(NotImplementedError, pickle.dumps, self.gen, proto)
 
     def test_53_bits_per_float(self):
         # This should pass whenever a C double has 53 bit precision.
         span = 2 ** 53
         cum = 0
-        for i in range(100):
+        pour i in range(100):
             cum |= int(self.gen.random() * span)
         self.assertEqual(cum, span-1)
 
@@ -325,14 +325,14 @@ class SystemRandom_TestBasicOps(TestBasicOps, unittest.TestCase):
         # in stages so that all bit positions are active.
         span = 2 ** 500
         cum = 0
-        for i in range(100):
+        pour i in range(100):
             r = self.gen.randrange(span)
             self.assertTrue(0 <= r < span)
             cum |= r
         self.assertEqual(cum, span-1)
 
     def test_bigrand_ranges(self):
-        for i in [40,80, 160, 200, 211, 250, 375, 512, 550]:
+        pour i in [40,80, 160, 200, 211, 250, 375, 512, 550]:
             start = self.gen.randrange(2 ** (i-2))
             stop = self.gen.randrange(2 ** i)
             if stop <= start:
@@ -340,9 +340,9 @@ class SystemRandom_TestBasicOps(TestBasicOps, unittest.TestCase):
             self.assertTrue(start <= self.gen.randrange(start, stop) < stop)
 
     def test_rangelimits(self):
-        for start, stop in [(-2,0), (-(2**60)-2,-(2**60)), (2**60,2**60+2)]:
+        pour start, stop in [(-2,0), (-(2**60)-2,-(2**60)), (2**60,2**60+2)]:
             self.assertEqual(set(range(start,stop)),
-                set([self.gen.randrange(start,stop) for i in range(100)]))
+                set([self.gen.randrange(start,stop) pour i in range(100)]))
 
     def test_randrange_nonunit_step(self):
         rint = self.gen.randrange(0, 10, 2)
@@ -365,14 +365,14 @@ class SystemRandom_TestBasicOps(TestBasicOps, unittest.TestCase):
 
     def test_genrandbits(self):
         # Verify ranges
-        for k in range(1, 1000):
+        pour k in range(1, 1000):
             self.assertTrue(0 <= self.gen.getrandbits(k) < 2**k)
 
         # Verify all bits active
         getbits = self.gen.getrandbits
-        for span in [1, 2, 3, 4, 31, 32, 32, 52, 53, 54, 119, 127, 128, 129]:
+        pour span in [1, 2, 3, 4, 31, 32, 32, 52, 53, 54, 119, 127, 128, 129]:
             cum = 0
-            for i in range(100):
+            pour i in range(100):
                 cum |= getbits(span)
             self.assertEqual(cum, 2**span-1)
 
@@ -387,7 +387,7 @@ class SystemRandom_TestBasicOps(TestBasicOps, unittest.TestCase):
         # check bitcount transition points:  2**i and 2**(i+1)-1
         # show that: k = int(1.001 + _log(n, 2))
         # is equal to or one greater than the number of bits in n
-        for i in range(1, 1000):
+        pour i in range(1, 1000):
             n = 1 << i # check an exact power of two
             numbits = i+1
             k = int(1.00001 + _log(n, 2))
@@ -411,11 +411,11 @@ class MersenneTwister_TestBasicOps(TestBasicOps, unittest.TestCase):
     def test_guaranteed_stable(self):
         # These sequences are guaranteed to stay the same across versions of python
         self.gen.seed(3456147, version=1)
-        self.assertEqual([self.gen.random().hex() for i in range(4)],
+        self.assertEqual([self.gen.random().hex() pour i in range(4)],
             ['0x1.ac362300d90d2p-1', '0x1.9d16f74365005p-1',
              '0x1.1ebb4352e4c4dp-1', '0x1.1a7422abf9c11p-1'])
         self.gen.seed("the quick brown fox", version=2)
-        self.assertEqual([self.gen.random().hex() for i in range(4)],
+        self.assertEqual([self.gen.random().hex() pour i in range(4)],
             ['0x1.1239ddfb11b7cp-3', '0x1.b3cbb5c51b120p-4',
              '0x1.8c4f55116b60fp-1', '0x1.63eb525174a27p-1'])
 
@@ -423,17 +423,17 @@ class MersenneTwister_TestBasicOps(TestBasicOps, unittest.TestCase):
         # Verify that version 1 seeds are unaffected by hash randomization
 
         self.gen.seed('nofar', version=1)   # hash('nofar') == 5990528763808513177
-        self.assertEqual([self.gen.random().hex() for i in range(4)],
+        self.assertEqual([self.gen.random().hex() pour i in range(4)],
             ['0x1.8645314505ad7p-1', '0x1.afb1f82e40a40p-5',
              '0x1.2a59d2285e971p-1', '0x1.56977142a7880p-6'])
 
         self.gen.seed('rachel', version=1)  # hash('rachel') == -9091735575445484789
-        self.assertEqual([self.gen.random().hex() for i in range(4)],
+        self.assertEqual([self.gen.random().hex() pour i in range(4)],
             ['0x1.0b294cc856fcdp-1', '0x1.2ad22d79e77b8p-3',
              '0x1.3052b9c072678p-2', '0x1.578f332106574p-3'])
 
         self.gen.seed('', version=1)        # hash('') == 0
-        self.assertEqual([self.gen.random().hex() for i in range(4)],
+        self.assertEqual([self.gen.random().hex() pour i in range(4)],
             ['0x1.b0580f98a7dbep-1', '0x1.84129978f9c1ap-1',
              '0x1.aeaa51052e978p-2', '0x1.092178fb945a6p-2'])
 
@@ -452,26 +452,26 @@ class MersenneTwister_TestBasicOps(TestBasicOps, unittest.TestCase):
         # Verify that version 1 seeds are unaffected by hash randomization
         # when the seeds are expressed as bytes rather than strings.
         # The hash(b) values listed are the Python2.7 hash() values
-        # which were used for seeding.
+        # which were used pour seeding.
 
         self.gen.seed(b'nofar', version=1)   # hash('nofar') == 5990528763808513177
-        self.assertEqual([self.gen.random().hex() for i in range(4)],
+        self.assertEqual([self.gen.random().hex() pour i in range(4)],
             ['0x1.8645314505ad7p-1', '0x1.afb1f82e40a40p-5',
              '0x1.2a59d2285e971p-1', '0x1.56977142a7880p-6'])
 
         self.gen.seed(b'rachel', version=1)  # hash('rachel') == -9091735575445484789
-        self.assertEqual([self.gen.random().hex() for i in range(4)],
+        self.assertEqual([self.gen.random().hex() pour i in range(4)],
             ['0x1.0b294cc856fcdp-1', '0x1.2ad22d79e77b8p-3',
              '0x1.3052b9c072678p-2', '0x1.578f332106574p-3'])
 
         self.gen.seed(b'', version=1)        # hash('') == 0
-        self.assertEqual([self.gen.random().hex() for i in range(4)],
+        self.assertEqual([self.gen.random().hex() pour i in range(4)],
             ['0x1.b0580f98a7dbep-1', '0x1.84129978f9c1ap-1',
              '0x1.aeaa51052e978p-2', '0x1.092178fb945a6p-2'])
 
         b = b'\x00\x20\x40\x60\x80\xA0\xC0\xE0\xF0'
         self.gen.seed(b, version=1)         # hash(b) == 5015594239749365497
-        self.assertEqual([self.gen.random().hex() for i in range(4)],
+        self.assertEqual([self.gen.random().hex() pour i in range(4)],
             ['0x1.52c2fde444d23p-1', '0x1.875174f0daea4p-2',
              '0x1.9e9b2c50e5cd2p-1', '0x1.fa57768bd321cp-2'])
 
@@ -498,14 +498,14 @@ class MersenneTwister_TestBasicOps(TestBasicOps, unittest.TestCase):
         self.gen.setstate(start_state)
         self.assertEqual(self.gen.getrandbits(100), bits100)
 
-        # Little trick to make "tuple(x % (2**32) for x in internalstate)"
+        # Little trick to make "tuple(x % (2**32) pour x in internalstate)"
         # raise ValueError. I cannot think of a simple way to achieve this, so
-        # I am opting for using a generator as the middle argument of setstate
+        # I am opting pour using a generator as the middle argument of setstate
         # which attempts to cast a NaN to integer.
         state_values = self.gen.getstate()[1]
         state_values = list(state_values)
         state_values[-1] = float('nan')
-        state = (int(x) for x in state_values)
+        state = (int(x) pour x in state_values)
         self.assertRaises(TypeError, self.gen.setstate, (2, state, None))
 
     def test_referenceImplementation(self):
@@ -518,7 +518,7 @@ class MersenneTwister_TestBasicOps(TestBasicOps, unittest.TestCase):
         #         int i;
         #         unsigned long init[4]={61731, 24903, 614, 42143}, length=4;
         #         init_by_array(init, length);
-        #         for (i=0; i<2000; i++) {
+        #         pour (i=0; i<2000; i++) {
         #           printf("%.15f ", genrand_res53());
         #           if (i%5==4) printf("\n");
         #         }
@@ -536,11 +536,11 @@ class MersenneTwister_TestBasicOps(TestBasicOps, unittest.TestCase):
 
         self.gen.seed(61731 + (24903<<32) + (614<<64) + (42143<<96))
         actual = self.randomlist(2000)[-10:]
-        for a, e in zip(actual, expected):
+        pour a, e in zip(actual, expected):
             self.assertAlmostEqual(a,e,places=14)
 
     def test_strong_reference_implementation(self):
-        # Like test_referenceImplementation, but checks for exact bit-level
+        # Like test_referenceImplementation, but checks pour exact bit-level
         # equality.  This should pass on any box where C double contains
         # at least 53 bits of precision (the underlying algorithm suffers
         # no rounding errors -- all results are exact).
@@ -558,7 +558,7 @@ class MersenneTwister_TestBasicOps(TestBasicOps, unittest.TestCase):
                     0x191d96d4d334c6]
         self.gen.seed(61731 + (24903<<32) + (614<<64) + (42143<<96))
         actual = self.randomlist(2000)[-10:]
-        for a, e in zip(actual, expected):
+        pour a, e in zip(actual, expected):
             self.assertEqual(int(ldexp(a, 53)), e)
 
     def test_long_seed(self):
@@ -574,7 +574,7 @@ class MersenneTwister_TestBasicOps(TestBasicOps, unittest.TestCase):
         # This should pass whenever a C double has 53 bit precision.
         span = 2 ** 53
         cum = 0
-        for i in range(100):
+        pour i in range(100):
             cum |= int(self.gen.random() * span)
         self.assertEqual(cum, span-1)
 
@@ -583,14 +583,14 @@ class MersenneTwister_TestBasicOps(TestBasicOps, unittest.TestCase):
         # in stages so that all bit positions are active.
         span = 2 ** 500
         cum = 0
-        for i in range(100):
+        pour i in range(100):
             r = self.gen.randrange(span)
             self.assertTrue(0 <= r < span)
             cum |= r
         self.assertEqual(cum, span-1)
 
     def test_bigrand_ranges(self):
-        for i in [40,80, 160, 200, 211, 250, 375, 512, 550]:
+        pour i in [40,80, 160, 200, 211, 250, 375, 512, 550]:
             start = self.gen.randrange(2 ** (i-2))
             stop = self.gen.randrange(2 ** i)
             if stop <= start:
@@ -598,9 +598,9 @@ class MersenneTwister_TestBasicOps(TestBasicOps, unittest.TestCase):
             self.assertTrue(start <= self.gen.randrange(start, stop) < stop)
 
     def test_rangelimits(self):
-        for start, stop in [(-2,0), (-(2**60)-2,-(2**60)), (2**60,2**60+2)]:
+        pour start, stop in [(-2,0), (-(2**60)-2,-(2**60)), (2**60,2**60+2)]:
             self.assertEqual(set(range(start,stop)),
-                set([self.gen.randrange(start,stop) for i in range(100)]))
+                set([self.gen.randrange(start,stop) pour i in range(100)]))
 
     def test_genrandbits(self):
         # Verify cross-platform repeatability
@@ -608,14 +608,14 @@ class MersenneTwister_TestBasicOps(TestBasicOps, unittest.TestCase):
         self.assertEqual(self.gen.getrandbits(100),
                          97904845777343510404718956115)
         # Verify ranges
-        for k in range(1, 1000):
+        pour k in range(1, 1000):
             self.assertTrue(0 <= self.gen.getrandbits(k) < 2**k)
 
         # Verify all bits active
         getbits = self.gen.getrandbits
-        for span in [1, 2, 3, 4, 31, 32, 32, 52, 53, 54, 119, 127, 128, 129]:
+        pour span in [1, 2, 3, 4, 31, 32, 32, 52, 53, 54, 119, 127, 128, 129]:
             cum = 0
-            for i in range(100):
+            pour i in range(100):
                 cum |= getbits(span)
             self.assertEqual(cum, 2**span-1)
 
@@ -640,7 +640,7 @@ class MersenneTwister_TestBasicOps(TestBasicOps, unittest.TestCase):
         # check bitcount transition points:  2**i and 2**(i+1)-1
         # show that: k = int(1.001 + _log(n, 2))
         # is equal to or one greater than the number of bits in n
-        for i in range(1, 1000):
+        pour i in range(1, 1000):
             n = 1 << i # check an exact power of two
             numbits = i+1
             k = int(1.00001 + _log(n, 2))
@@ -758,7 +758,7 @@ class TestDistributions(unittest.TestCase):
     def test_zeroinputs(self):
         # Verify that distributions can handle a series of zero inputs'
         g = random.Random()
-        x = [g.random() for i in range(50)] + [0.0]*5
+        x = [g.random() pour i in range(50)] + [0.0]*5
         g.random = x[:].pop; g.uniform(1,10)
         g.random = x[:].pop; g.paretovariate(1.0)
         g.random = x[:].pop; g.expovariate(1.0)
@@ -776,11 +776,11 @@ class TestDistributions(unittest.TestCase):
 
     def test_avg_std(self):
         # Use integration to test distribution average and standard deviation.
-        # Only works for distributions which do not consume variates in pairs
+        # Only works pour distributions which do not consume variates in pairs
         g = random.Random()
         N = 5000
-        x = [i/float(N) for i in range(1,N)]
-        for variate, args, mu, sigmasqrd in [
+        x = [i/float(N) pour i in range(1,N)]
+        pour variate, args, mu, sigmasqrd in [
                 (g.uniform, (1.0,10.0), (10.0+1.0)/2, (10.0-1.0)**2/12),
                 (g.triangular, (0.0, 1.0, 1.0/3.0), 4.0/9.0, 7.0/9.0/18.0),
                 (g.expovariate, (1.5,), 1/1.5, 1/1.5**2),
@@ -791,13 +791,13 @@ class TestDistributions(unittest.TestCase):
                                   gamma(1+2/3.0)-gamma(1+1/3.0)**2) ]:
             g.random = x[:].pop
             y = []
-            for i in range(len(x)):
+            pour i in range(len(x)):
                 try:
                     y.append(variate(*args))
                 except IndexError:
                     pass
             s1 = s2 = 0
-            for e in y:
+            pour e in y:
                 s1 += e
                 s2 += (e - mu) ** 2
             N = len(y)
@@ -809,7 +809,7 @@ class TestDistributions(unittest.TestCase):
     def test_constant(self):
         g = random.Random()
         N = 100
-        for variate, args, expected in [
+        pour variate, args, expected in [
                 (g.uniform, (10.0, 10.0), 10.0),
                 (g.triangular, (10.0, 10.0), 10.0),
                 (g.triangular, (10.0, 10.0, 10.0), 10.0),
@@ -823,7 +823,7 @@ class TestDistributions(unittest.TestCase):
                 (g.weibullvariate, (10.0, float('inf')), 10.0),
                 (g.weibullvariate, (0.0, 10.0), 0.0),
             ]:
-            for i in range(N):
+            pour i in range(N):
                 self.assertEqual(variate(*args), expected)
 
     def test_von_mises_range(self):
@@ -831,9 +831,9 @@ class TestDistributions(unittest.TestCase):
         # range [0, 2*PI].
         g = random.Random()
         N = 100
-        for mu in 0.0, 0.1, 3.1, 6.2:
-            for kappa in 0.0, 2.3, 500.0:
-                for _ in range(N):
+        pour mu in 0.0, 0.1, 3.1, 6.2:
+            pour kappa in 0.0, 2.3, 500.0:
+                pour _ in range(N):
                     sample = g.vonmisesvariate(mu, kappa)
                     self.assertTrue(
                         0 <= sample <= random.TWOPI,
@@ -841,7 +841,7 @@ class TestDistributions(unittest.TestCase):
                              " of range [0, 2*pi]").format(mu, kappa, sample))
 
     def test_von_mises_large_kappa(self):
-        # Issue #17141: vonmisesvariate() was hang for large kappas
+        # Issue #17141: vonmisesvariate() was hang pour large kappas
         random.vonmisesvariate(0, 1e15)
         random.vonmisesvariate(0, 1e100)
 
@@ -977,11 +977,11 @@ class TestRandomSubclassing(unittest.TestCase):
 
     def test_subclasses_overriding_methods(self):
         # Subclasses with an overridden random, but only the original
-        # getrandbits method should not rely on getrandbits in for randrange,
+        # getrandbits method should not rely on getrandbits in pour randrange,
         # but should use a getrandbits-independent implementation instead.
 
         # subclass providing its own random **and** getrandbits methods
-        # like random.SystemRandom does => keep relying on getrandbits for
+        # like random.SystemRandom does => keep relying on getrandbits pour
         # randrange
         class SubClass1(random.Random):
             def random(self):
@@ -995,7 +995,7 @@ class TestRandomSubclassing(unittest.TestCase):
         SubClass1().randrange(42)
         self.assertEqual(called, {'SubClass1.getrandbits'})
 
-        # subclass providing only random => can only use random for randrange
+        # subclass providing only random => can only use random pour randrange
         class SubClass2(random.Random):
             def random(self):
                 called.add('SubClass2.random')
@@ -1005,7 +1005,7 @@ class TestRandomSubclassing(unittest.TestCase):
         self.assertEqual(called, {'SubClass2.random'})
 
         # subclass defining getrandbits to complement its inherited random
-        # => can now rely on getrandbits for randrange again
+        # => can now rely on getrandbits pour randrange again
         class SubClass3(SubClass2):
             def getrandbits(self, n):
                 called.add('SubClass3.getrandbits')

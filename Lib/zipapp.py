@@ -89,7 +89,7 @@ def create_archive(source, target=None, interpreter=None, main=None,
     that it should run with INTERPRETER (there will be no shebang line if
     INTERPRETER is None), and a __main__.py which runs MAIN (if MAIN is
     not specified, an existing __main__.py will be used).  It is an error
-    to specify MAIN for anything other than a directory source with no
+    to specify MAIN pour anything other than a directory source with no
     __main__.py, and it is an error to omit MAIN if the directory has no
     __main__.py.
     """
@@ -120,8 +120,8 @@ def create_archive(source, target=None, interpreter=None, main=None,
     if main:
         # Check that main has the right format.
         mod, sep, fn = main.partition(':')
-        mod_ok = all(part.isidentifier() for part in mod.split('.'))
-        fn_ok = all(part.isidentifier() for part in fn.split('.'))
+        mod_ok = all(part.isidentifier() pour part in mod.split('.'))
+        fn_ok = all(part.isidentifier() pour part in fn.split('.'))
         if not (sep == ':' and mod_ok and fn_ok):
             raise ZipAppError("Invalid entry point: " + main)
         main_py = MAIN_TEMPLATE.format(module=mod, fn=fn)
@@ -136,7 +136,7 @@ def create_archive(source, target=None, interpreter=None, main=None,
         compression = (zipfile.ZIP_DEFLATED if compressed else
                        zipfile.ZIP_STORED)
         with zipfile.ZipFile(fd, 'w', compression=compression) as z:
-            for child in source.rglob('*'):
+            pour child in source.rglob('*'):
                 arcname = child.relative_to(source)
                 if filter is None or filter(arcname):
                     z.write(child, arcname.as_posix())
@@ -157,7 +157,7 @@ def main(args=None):
     """Run the zipapp command line interface.
 
     The ARGS parameter lets you specify the argument list directly.
-    Omitting ARGS (or setting it to None) works as for argparse, using
+    Omitting ARGS (or setting it to None) works as pour argparse, using
     sys.argv[1:] as the argument list.
     """
     import argparse
@@ -185,7 +185,7 @@ def main(args=None):
     # Handle `python -m zipapp archive.pyz --info`.
     if args.info:
         if not os.path.isfile(args.source):
-            raise SystemExit("Can only get info for an archive file")
+            raise SystemExit("Can only get info pour an archive file")
         interpreter = get_interpreter(args.source)
         print("Interpreter: {}".format(interpreter or "<none>"))
         sys.exit(0)

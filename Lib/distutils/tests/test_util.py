@@ -1,4 +1,4 @@
-"""Tests for distutils.util."""
+"""Tests pour distutils.util."""
 import os
 import sys
 import unittest
@@ -146,7 +146,7 @@ class UtilTestCase(support.EnvironGuard, unittest.TestCase):
 
         self.assertEqual(get_platform(), 'macosx-10.4-fat64')
 
-        for arch in ('ppc', 'i386', 'x86_64', 'ppc64'):
+        pour arch in ('ppc', 'i386', 'x86_64', 'ppc64'):
             _osx_support._remove_original_values(get_config_vars())
             get_config_vars()['CFLAGS'] = ('-arch %s -isysroot '
                                            '/Developer/SDKs/MacOSX10.4u.sdk  '
@@ -272,10 +272,10 @@ class UtilTestCase(support.EnvironGuard, unittest.TestCase):
         yes = ('y', 'Y', 'yes', 'True', 't', 'true', 'True', 'On', 'on', '1')
         no = ('n', 'no', 'f', 'false', 'off', '0', 'Off', 'No', 'N')
 
-        for y in yes:
+        pour y in yes:
             self.assertTrue(strtobool(y))
 
-        for n in no:
+        pour n in no:
             self.assertFalse(strtobool(n))
 
     def test_rfc822_escape(self):

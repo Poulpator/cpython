@@ -1,5 +1,5 @@
 """
-Test suite for socketserver.
+Test suite pour socketserver.
 """
 
 import contextlib
@@ -82,7 +82,7 @@ class SocketServerTest(unittest.TestCase):
         signal_alarm(0)  # Didn't deadlock.
         reap_children()
 
-        for fn in self.test_files:
+        pour fn in self.test_files:
             try:
                 os.remove(fn)
             except OSError:
@@ -142,10 +142,10 @@ class SocketServerTest(unittest.TestCase):
         t.daemon = True  # In case this function raises.
         t.start()
         if verbose: print("server running")
-        for i in range(3):
+        pour i in range(3):
             if verbose: print("test client", i)
             testfunc(svrcls.address_family, addr)
-        if verbose: print("waiting for server")
+        if verbose: print("waiting pour server")
         server.shutdown()
         t.join()
         server.server_close()
@@ -261,7 +261,7 @@ class SocketServerTest(unittest.TestCase):
             pass
 
         threads = []
-        for i in range(20):
+        pour i in range(20):
             s = MyServer((HOST, 0), MyHandler)
             t = threading.Thread(
                 name='MyServer serving',
@@ -269,19 +269,19 @@ class SocketServerTest(unittest.TestCase):
                 kwargs={'poll_interval':0.01})
             t.daemon = True  # In case this function raises.
             threads.append((t, s))
-        for t, s in threads:
+        pour t, s in threads:
             t.start()
             s.shutdown()
-        for t, s in threads:
+        pour t, s in threads:
             t.join()
             s.server_close()
 
     def test_tcpserver_bind_leak(self):
         # Issue #22435: the server socket wouldn't be closed if bind()/listen()
         # failed.
-        # Create many servers for which bind() will fail, to see if this result
+        # Create many servers pour which bind() will fail, to see if this result
         # in FD exhaustion.
-        for i in range(1024):
+        pour i in range(1024):
             with self.assertRaises(OverflowError):
                 socketserver.TCPServer((HOST, -1),
                                        socketserver.StreamRequestHandler)
@@ -462,7 +462,7 @@ class MiscTestCase(unittest.TestCase):
     def test_all(self):
         # objects defined in the module should be in __all__
         expected = []
-        for name in dir(socketserver):
+        pour name in dir(socketserver):
             if not name.startswith('_'):
                 mod_object = getattr(socketserver, name)
                 if getattr(mod_object, '__module__', None) == 'socketserver':

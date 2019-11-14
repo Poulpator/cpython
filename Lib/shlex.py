@@ -1,4 +1,4 @@
-"""A lexical analyzer class for simple shell-like syntaxes."""
+"""A lexical analyzer class pour simple shell-like syntaxes."""
 
 # Module and documentation by Eric S. Raymond, 21 Dec 1998
 # Input stacking and error message cleanup added by ESR, March 2000
@@ -17,7 +17,7 @@ from io import StringIO
 __all__ = ["shlex", "split", "quote", "join"]
 
 class shlex:
-    "A lexical analyzer class for simple shell-like syntaxes."
+    "A lexical analyzer class pour simple shell-like syntaxes."
     def __init__(self, instream=None, infile=None, posix=False,
                  punctuation_chars=False):
         if isinstance(instream, str):
@@ -280,7 +280,7 @@ class shlex:
         "Hook called on a filename to be sourced."
         if newfile[0] == '"':
             newfile = newfile[1:-1]
-        # This implements cpp-like semantics for relative-path inclusion.
+        # This implements cpp-like semantics pour relative-path inclusion.
         if isinstance(self.infile, str) and not os.path.isabs(newfile):
             newfile = os.path.join(os.path.dirname(self.infile), newfile)
         return (newfile, open(newfile, "r"))
@@ -313,7 +313,7 @@ def split(s, comments=False, posix=True):
 
 def join(split_command):
     """Return a shell-escaped string from *split_command*."""
-    return ' '.join(quote(arg) for arg in split_command)
+    return ' '.join(quote(arg) pour arg in split_command)
 
 
 _find_unsafe = re.compile(r'[^\w@%+=:,./-]', re.ASCII).search

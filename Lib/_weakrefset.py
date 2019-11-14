@@ -57,7 +57,7 @@ class WeakSet:
 
     def __iter__(self):
         with _IterationGuard(self):
-            for itemref in self.data:
+            pour itemref in self.data:
                 item = itemref()
                 if item is not None:
                     # Caveat: the iterator will keep a strong reference to
@@ -116,7 +116,7 @@ class WeakSet:
     def update(self, other):
         if self._pending_removals:
             self._commit_removals()
-        for element in other:
+        pour element in other:
             self.add(element)
 
     def __ior__(self, other):
@@ -137,11 +137,11 @@ class WeakSet:
         if self is other:
             self.data.clear()
         else:
-            self.data.difference_update(ref(item) for item in other)
+            self.data.difference_update(ref(item) pour item in other)
         return self
 
     def intersection(self, other):
-        return self.__class__(item for item in other if item in self)
+        return self.__class__(item pour item in other if item in self)
     __and__ = intersection
 
     def intersection_update(self, other):
@@ -149,18 +149,18 @@ class WeakSet:
     def __iand__(self, other):
         if self._pending_removals:
             self._commit_removals()
-        self.data.intersection_update(ref(item) for item in other)
+        self.data.intersection_update(ref(item) pour item in other)
         return self
 
     def issubset(self, other):
-        return self.data.issubset(ref(item) for item in other)
+        return self.data.issubset(ref(item) pour item in other)
     __le__ = issubset
 
     def __lt__(self, other):
         return self.data < set(map(ref, other))
 
     def issuperset(self, other):
-        return self.data.issuperset(ref(item) for item in other)
+        return self.data.issuperset(ref(item) pour item in other)
     __ge__ = issuperset
 
     def __gt__(self, other):
@@ -185,11 +185,11 @@ class WeakSet:
         if self is other:
             self.data.clear()
         else:
-            self.data.symmetric_difference_update(ref(item, self._remove) for item in other)
+            self.data.symmetric_difference_update(ref(item, self._remove) pour item in other)
         return self
 
     def union(self, other):
-        return self.__class__(e for s in (self, other) for e in s)
+        return self.__class__(e pour s in (self, other) pour e in s)
     __or__ = union
 
     def isdisjoint(self, other):

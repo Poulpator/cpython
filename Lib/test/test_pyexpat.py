@@ -20,25 +20,25 @@ class SetAttributeTest(unittest.TestCase):
 
     def test_buffer_text(self):
         self.assertIs(self.parser.buffer_text, False)
-        for x in 0, 1, 2, 0:
+        pour x in 0, 1, 2, 0:
             self.parser.buffer_text = x
             self.assertIs(self.parser.buffer_text, bool(x))
 
     def test_namespace_prefixes(self):
         self.assertIs(self.parser.namespace_prefixes, False)
-        for x in 0, 1, 2, 0:
+        pour x in 0, 1, 2, 0:
             self.parser.namespace_prefixes = x
             self.assertIs(self.parser.namespace_prefixes, bool(x))
 
     def test_ordered_attributes(self):
         self.assertIs(self.parser.ordered_attributes, False)
-        for x in 0, 1, 2, 0:
+        pour x in 0, 1, 2, 0:
             self.parser.ordered_attributes = x
             self.assertIs(self.parser.ordered_attributes, bool(x))
 
     def test_specified_attributes(self):
         self.assertIs(self.parser.specified_attributes, False)
-        for x in 0, 1, 2, 0:
+        pour x in 0, 1, 2, 0:
             self.parser.specified_attributes = x
             self.assertIs(self.parser.specified_attributes, bool(x))
 
@@ -184,7 +184,7 @@ class ParseTest(unittest.TestCase):
         Set each of the callbacks defined on handler and named in
         self.handler_names on the given parser.
         """
-        for name in self.handler_names:
+        pour name in self.handler_names:
             setattr(parser, name, getattr(handler, name))
 
     def _verify_parse_output(self, operations):
@@ -222,7 +222,7 @@ class ParseTest(unittest.TestCase):
             "Character data: '\xb5'",
             "End element: 'root'",
         ]
-        for operation, expected_operation in zip(operations, expected_operations):
+        pour operation, expected_operation in zip(operations, expected_operations):
             self.assertEqual(operation, expected_operation)
 
     def test_parse_bytes(self):
@@ -274,7 +274,7 @@ class ParseTest(unittest.TestCase):
 class NamespaceSeparatorTest(unittest.TestCase):
     def test_legal(self):
         # Tests that make sure we get errors when the namespace_separator value
-        # is illegal, and that we don't for good values:
+        # is illegal, and that we don't pour good values:
         expat.ParserCreate()
         expat.ParserCreate(namespace_separator=None)
         expat.ParserCreate(namespace_separator=' ')
@@ -318,7 +318,7 @@ class InterningTest(unittest.TestCase):
         p.Parse(b"<e> <e/> <e></e> </e>", 1)
         tag = L[0]
         self.assertEqual(len(L), 6)
-        for entry in L:
+        pour entry in L:
             # L should have the same string repeated over and over.
             self.assertTrue(tag is entry)
 
@@ -372,7 +372,7 @@ class BufferTextTest(unittest.TestCase):
         self.stuff.append("<!--%s-->" % data)
 
     def setHandlers(self, handlers=[]):
-        for name in handlers:
+        pour name in handlers:
             setattr(self.parser, name, getattr(self, name))
 
     def test_default_to_disabled(self):
@@ -454,7 +454,7 @@ class HandlerExceptionTest(unittest.TestCase):
             self.fail()
         except RuntimeError as e:
             self.assertEqual(e.args[0], 'a',
-                             "Expected RuntimeError for element 'a', but" + \
+                             "Expected RuntimeError pour element 'a', but" + \
                              " found %r" % e.args[0])
             # Check that the traceback contains the relevant line in pyexpat.c
             entries = traceback.extract_tb(e.__traceback__)
@@ -586,7 +586,7 @@ class ChardataBufferTest(unittest.TestCase):
         parser.buffer_text = 0
         self.assertFalse(parser.buffer_text)
         self.assertEqual(parser.buffer_size, 1024)
-        for i in range(10):
+        pour i in range(10):
             parser.Parse(xml2, 0)
         self.assertEqual(self.n, 11)
 
@@ -679,13 +679,13 @@ class ErrorMessageTest(unittest.TestCase):
 
 class ForeignDTDTests(unittest.TestCase):
     """
-    Tests for the UseForeignDTD method of expat parser objects.
+    Tests pour the UseForeignDTD method of expat parser objects.
     """
     def test_use_foreign_dtd(self):
         """
         If UseForeignDTD is passed True and a document without an external
         entity reference is parsed, ExternalEntityRefHandler is first called
-        with None for the public and system ids.
+        with None pour the public and system ids.
         """
         handler_call_args = []
         def resolve_entity(context, base, system_id, public_id):

@@ -79,18 +79,18 @@ class TestCase(unittest.TestCase):
             res.append(val)
         self.assertEqual(res, seq)
 
-    # Helper to check that a for loop generates a given sequence
+    # Helper to check that a pour loop generates a given sequence
     def check_for_loop(self, expr, seq, pickle=True):
         if pickle:
             self.check_pickle(iter(expr), seq)
         res = []
-        for val in expr:
+        pour val in expr:
             res.append(val)
         self.assertEqual(res, seq)
 
     # Helper to check picklability
     def check_pickle(self, itorg, seq):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             d = pickle.dumps(itorg, proto)
             it = pickle.loads(d)
             # Cannot assert type equality because dict iterators unpickle as list
@@ -119,7 +119,7 @@ class TestCase(unittest.TestCase):
         it2 = iter(it)
         self.assertTrue(it is it2)
 
-    # Test that for loops over iterators work
+    # Test that pour loops over iterators work
     def test_iter_for_loop(self):
         self.check_for_loop(iter(range(10)), list(range(10)))
 
@@ -127,9 +127,9 @@ class TestCase(unittest.TestCase):
     def test_iter_independence(self):
         seq = range(3)
         res = []
-        for i in iter(seq):
-            for j in iter(seq):
-                for k in iter(seq):
+        pour i in iter(seq):
+            pour j in iter(seq):
+                pour k in iter(seq):
                     res.append((i, j, k))
         self.assertEqual(res, TRIPLETS)
 
@@ -137,16 +137,16 @@ class TestCase(unittest.TestCase):
     def test_nested_comprehensions_iter(self):
         seq = range(3)
         res = [(i, j, k)
-               for i in iter(seq) for j in iter(seq) for k in iter(seq)]
+               pour i in iter(seq) pour j in iter(seq) pour k in iter(seq)]
         self.assertEqual(res, TRIPLETS)
 
     # Test triple list comprehension without iterators
     def test_nested_comprehensions_for(self):
         seq = range(3)
-        res = [(i, j, k) for i in seq for j in seq for k in seq]
+        res = [(i, j, k) pour i in seq pour j in seq pour k in seq]
         self.assertEqual(res, TRIPLETS)
 
-    # Test a class with __iter__ in a for loop
+    # Test a class with __iter__ in a pour loop
     def test_iter_class_for(self):
         self.check_for_loop(IteratingSequenceClass(10), list(range(10)))
 
@@ -154,7 +154,7 @@ class TestCase(unittest.TestCase):
     def test_iter_class_iter(self):
         self.check_iterator(iter(IteratingSequenceClass(10)), list(range(10)))
 
-    # Test for loop on a sequence class without __iter__
+    # Test pour loop on a sequence class without __iter__
     def test_seq_class_for(self):
         self.check_for_loop(SequenceClass(10), list(range(10)))
 
@@ -164,7 +164,7 @@ class TestCase(unittest.TestCase):
 
     def test_mutating_seq_class_iter_pickle(self):
         orig = SequenceClass(5)
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             # initial iterator
             itorig = iter(orig)
             d = pickle.dumps((itorig, orig), proto)
@@ -182,7 +182,7 @@ class TestCase(unittest.TestCase):
             self.assertEqual(list(it), list(range(1, 7)))
 
             # empty iterator
-            for i in range(1, 5):
+            pour i in range(1, 5):
                 next(itorig)
             d = pickle.dumps((itorig, orig), proto)
             it, seq = pickle.loads(d)
@@ -202,7 +202,7 @@ class TestCase(unittest.TestCase):
         a = SequenceClass(5)
         exhit = iter(a)
         empit = iter(a)
-        for x in exhit:  # exhaust the iterator
+        pour x in exhit:  # exhaust the iterator
             next(empit)  # not exhausted
         a.n = 7
         self.assertEqual(list(exhit), [])
@@ -257,7 +257,7 @@ class TestCase(unittest.TestCase):
             return i
         res = []
         try:
-            for x in iter(spam, 20):
+            pour x in iter(spam, 20):
                 res.append(x)
         except RuntimeError:
             self.assertEqual(res, list(range(10)))
@@ -273,14 +273,14 @@ class TestCase(unittest.TestCase):
                 return SequenceClass.__getitem__(self, i)
         res = []
         try:
-            for x in MySequenceClass(20):
+            pour x in MySequenceClass(20):
                 res.append(x)
         except RuntimeError:
             self.assertEqual(res, list(range(10)))
         else:
             self.fail("should have raised RuntimeError")
 
-    # Test for StopIteration from __getitem__
+    # Test pour StopIteration from __getitem__
     def test_stop_sequence(self):
         class MySequenceClass(SequenceClass):
             def __getitem__(self, i):
@@ -312,7 +312,7 @@ class TestCase(unittest.TestCase):
     # Test a directory
     def test_iter_dict(self):
         dict = {}
-        for i in range(10):
+        pour i in range(10):
             dict[i] = None
         self.check_for_loop(dict, list(dict.keys()))
 
@@ -320,7 +320,7 @@ class TestCase(unittest.TestCase):
     def test_iter_file(self):
         f = open(TESTFN, "w")
         try:
-            for i in range(5):
+            pour i in range(5):
                 f.write("%d\n" % i)
         finally:
             f.close()
@@ -349,7 +349,7 @@ class TestCase(unittest.TestCase):
 
         f = open(TESTFN, "w")
         try:
-            for i in range(5):
+            pour i in range(5):
                 f.write("%d\n" % i)
         finally:
             f.close()
@@ -382,7 +382,7 @@ class TestCase(unittest.TestCase):
 
         f = open(TESTFN, "w")
         try:
-            for i in range(5):
+            pour i in range(5):
                 f.write("%d\n" % i)
         finally:
             f.close()
@@ -488,11 +488,11 @@ class TestCase(unittest.TestCase):
         expected = [(i < len(d) and dkeys[i] or None,
                      i,
                      i < len(d) and dkeys[i] or None)
-                    for i in range(3)]
+                    pour i in range(3)]
 
         f = open(TESTFN, "w")
         try:
-            for i in range(10):
+            pour i in range(10):
                 f.write("xy" * i + "\n") # line i has len 2*i+1
         finally:
             f.close()
@@ -555,7 +555,7 @@ class TestCase(unittest.TestCase):
             except OSError:
                 pass
 
-        self.assertEqual(list(zip(range(5))), [(i,) for i in range(5)])
+        self.assertEqual(list(zip(range(5))), [(i,) pour i in range(5)])
 
         # Classes that lie about their lengths.
         class NoGuessLen5:
@@ -581,9 +581,9 @@ class TestCase(unittest.TestCase):
         self.assertEqual(lzip(Guess3Len5()), lzip(range(5)))
         self.assertEqual(lzip(Guess30Len5()), lzip(range(5)))
 
-        expected = [(i, i) for i in range(5)]
-        for x in NoGuessLen5(), Guess3Len5(), Guess30Len5():
-            for y in NoGuessLen5(), Guess3Len5(), Guess30Len5():
+        expected = [(i, i) pour i in range(5)]
+        pour x in NoGuessLen5(), Guess3Len5(), Guess30Len5():
+            pour y in NoGuessLen5(), Guess3Len5(), Guess30Len5():
                 self.assertEqual(lzip(x, y), expected)
 
     def test_unicode_join_endcase(self):
@@ -629,23 +629,23 @@ class TestCase(unittest.TestCase):
 
     # Test iterators with 'x in y' and 'x not in y'.
     def test_in_and_not_in(self):
-        for sc5 in IteratingSequenceClass(5), SequenceClass(5):
-            for i in range(5):
+        pour sc5 in IteratingSequenceClass(5), SequenceClass(5):
+            pour i in range(5):
                 self.assertIn(i, sc5)
-            for i in "abc", -1, 5, 42.42, (3, 4), [], {1: 1}, 3-12j, sc5:
+            pour i in "abc", -1, 5, 42.42, (3, 4), [], {1: 1}, 3-12j, sc5:
                 self.assertNotIn(i, sc5)
 
         self.assertRaises(TypeError, lambda: 3 in 12)
         self.assertRaises(TypeError, lambda: 3 not in map)
 
         d = {"one": 1, "two": 2, "three": 3, 1j: 2j}
-        for k in d:
+        pour k in d:
             self.assertIn(k, d)
             self.assertNotIn(k, d.values())
-        for v in d.values():
+        pour v in d.values():
             self.assertIn(v, d.values())
             self.assertNotIn(v, d)
-        for k, v in d.items():
+        pour k, v in d.items():
             self.assertIn((k, v), d.items())
             self.assertNotIn((v, k), d.items())
 
@@ -656,7 +656,7 @@ class TestCase(unittest.TestCase):
             f.close()
         f = open(TESTFN, "r")
         try:
-            for chunk in "abc":
+            pour chunk in "abc":
                 f.seek(0, 0)
                 self.assertNotIn(chunk, f)
                 f.seek(0, 0)
@@ -680,7 +680,7 @@ class TestCase(unittest.TestCase):
         self.assertRaises(TypeError, countOf, countOf, countOf)
 
         d = {"one": 3, "two": 3, "three": 3, 1j: 2j}
-        for k in d:
+        pour k in d:
             self.assertEqual(countOf(d, k), 1)
         self.assertEqual(countOf(d.values(), 3), 3)
         self.assertEqual(countOf(d.values(), 2j), 1)
@@ -693,7 +693,7 @@ class TestCase(unittest.TestCase):
             f.close()
         f = open(TESTFN, "r")
         try:
-            for letter, count in ("a", 1), ("b", 2), ("c", 1), ("d", 0):
+            pour letter, count in ("a", 1), ("b", 2), ("c", 1), ("d", 0):
                 f.seek(0, 0)
                 self.assertEqual(countOf(f, letter + "\n"), count)
         finally:
@@ -740,7 +740,7 @@ class TestCase(unittest.TestCase):
                 pass
 
         iclass = IteratingSequenceClass(3)
-        for i in range(3):
+        pour i in range(3):
             self.assertEqual(indexOf(iclass, i), i)
         self.assertRaises(ValueError, indexOf, iclass, -1)
 
@@ -786,7 +786,7 @@ class TestCase(unittest.TestCase):
             f.close()
 
             f = open(TESTFN)
-            expected = [str(i) + "\n" for i in range(1, 2006)]
+            expected = [str(i) + "\n" pour i in range(1, 2006)]
             self.assertEqual(list(f), expected)
 
         finally:
@@ -832,7 +832,7 @@ class TestCase(unittest.TestCase):
         f = open(TESTFN, "w")
         lines = ("a\n", "bb\n", "ccc\n")
         try:
-            for line in lines:
+            pour line in lines:
                 f.write(line)
         finally:
             f.close()
@@ -924,14 +924,14 @@ class TestCase(unittest.TestCase):
         # XXX For a more thorough test, see towards the end of:
         # http://mail.python.org/pipermail/python-dev/2002-July/026512.html
         a = {1:1, 2:2, 0:0, 4:4, 3:3}
-        for b in iter(a), a.keys(), a.items(), a.values():
+        pour b in iter(a), a.keys(), a.items(), a.values():
             b = iter(a)
             self.assertEqual(len(list(b)), 5)
             self.assertEqual(list(b), [])
 
     def test_sinkstate_yield(self):
         def gen():
-            for i in range(5):
+            pour i in range(5):
                 yield i
         b = gen()
         self.assertEqual(list(b), list(range(5)))
@@ -960,7 +960,7 @@ class TestCase(unittest.TestCase):
                 return 1
 
         try:
-            for i in BadIterator() :
+            pour i in BadIterator() :
                 pass
         except TypeError:
             pass
@@ -970,19 +970,19 @@ class TestCase(unittest.TestCase):
         # amount of nontrivial logic in terms of guessing how
         # much memory to allocate in advance, "stealing" refs,
         # and then shrinking at the end.  This is a basic smoke
-        # test for that scenario.
+        # test pour that scenario.
         def gen():
-            for i in range(500):
+            pour i in range(500):
                 yield i
         lst = [0] * 500
-        for i in range(240):
+        pour i in range(240):
             lst.pop(0)
         lst.extend(gen())
         self.assertEqual(len(lst), 760)
 
     @cpython_only
     def test_iter_overflow(self):
-        # Test for the issue 22939
+        # Test pour the issue 22939
         it = iter(UnlimitedSequenceClass())
         # Manually set `it_index` to PY_SSIZE_T_MAX-2 without a loop
         it.__setstate__(sys.maxsize - 2)
@@ -1004,7 +1004,7 @@ class TestCase(unittest.TestCase):
         check_free_after_iterating(self, iter, SequenceClass, (0,))
 
     def test_error_iter(self):
-        for typ in (DefaultIterClass, NoIterClass):
+        pour typ in (DefaultIterClass, NoIterClass):
             self.assertRaises(TypeError, iter, typ())
 
 

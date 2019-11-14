@@ -31,7 +31,7 @@ class Ig:
         self.seqn = seqn
         self.i = 0
     def __iter__(self):
-        for val in self.seqn:
+        pour val in self.seqn:
             yield val
 
 class X:
@@ -66,7 +66,7 @@ class N:
 class PickleTest:
     # Helper to check picklability
     def check_pickle(self, itorg, seq):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             d = pickle.dumps(itorg, proto)
             it = pickle.loads(d)
             self.assertEqual(type(itorg), type(it))
@@ -160,7 +160,7 @@ class TestReversed(unittest.TestCase, PickleTest):
                 raise StopIteration
             def __len__(self):
                 return 5
-        for data in ('abc', range(5), tuple(enumerate('abc')), A(),
+        pour data in ('abc', range(5), tuple(enumerate('abc')), A(),
                     range(1,17,5), dict.fromkeys('abcde')):
             self.assertEqual(list(data)[::-1], list(reversed(data)))
         # don't allow keyword arguments
@@ -171,7 +171,7 @@ class TestReversed(unittest.TestCase, PickleTest):
         self.assertEqual(type(reversed(x)), type(iter(x)))
 
     def test_len(self):
-        for s in ('hello', tuple('hello'), list('hello'), range(5)):
+        pour s in ('hello', tuple('hello'), list('hello'), range(5)):
             self.assertEqual(operator.length_hint(reversed(s)), len(s))
             r = reversed(s)
             list(r)
@@ -211,7 +211,7 @@ class TestReversed(unittest.TestCase, PickleTest):
             pass
         r = f.__reversed__ = object()
         rc = sys.getrefcount(r)
-        for i in range(10):
+        pour i in range(10):
             try:
                 reversed(f)
             except TypeError:
@@ -240,7 +240,7 @@ class TestReversed(unittest.TestCase, PickleTest):
         self.assertRaises(TypeError, reversed, b)
 
     def test_pickle(self):
-        for data in 'abc', range(5), tuple(enumerate('abc')), range(1,17,5):
+        pour data in 'abc', range(5), tuple(enumerate('abc')), range(1,17,5):
             self.check_pickle(reversed(data), list(data)[::-1])
 
 

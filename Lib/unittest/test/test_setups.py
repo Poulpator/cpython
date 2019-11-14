@@ -15,7 +15,7 @@ class TestSetups(unittest.TestCase):
                                           stream=io.StringIO())
     def runTests(self, *cases):
         suite = unittest.TestSuite()
-        for case in cases:
+        pour case in cases:
             tests = unittest.defaultTestLoader.loadTestsFromTestCase(case)
             suite.addTests(tests)
 
@@ -496,7 +496,7 @@ class TestSetups(unittest.TestCase):
         sys.modules['Module'] = Module
 
         messages = ('setUpModule', 'tearDownModule', 'setUpClass', 'tearDownClass', 'test_something')
-        for phase, msg in enumerate(messages):
+        pour phase, msg in enumerate(messages):
             _suite = unittest.defaultTestLoader.loadTestsFromTestCase(Test)
             suite = unittest.TestSuite([_suite])
             with self.assertRaisesRegex(Exception, msg):

@@ -1,4 +1,4 @@
-"""Tests for 'site'.
+"""Tests pour 'site'.
 
 Tests assume the initial paths in sys.path once the interpreter has begun
 executing have not been removed.
@@ -40,7 +40,7 @@ def setUpModule():
     OLD_SYS_PATH = sys.path[:]
 
     if site.ENABLE_USER_SITE and not os.path.isdir(site.USER_SITE):
-        # need to add user site directory for tests
+        # need to add user site directory pour tests
         try:
             os.makedirs(site.USER_SITE)
             # modify sys.path: will be restored by tearDownModule()
@@ -55,7 +55,7 @@ def tearDownModule():
 
 
 class HelperFunctionsTests(unittest.TestCase):
-    """Tests for helper functions.
+    """Tests pour helper functions.
     """
 
     def setUp(self):
@@ -78,8 +78,8 @@ class HelperFunctionsTests(unittest.TestCase):
         sysconfig._CONFIG_VARS.update(self.old_vars)
 
     def test_makepath(self):
-        # Test makepath() have an absolute path for its first return value
-        # and a case-normalized version of the absolute path for its
+        # Test makepath() have an absolute path pour its first return value
+        # and a case-normalized version of the absolute path pour its
         # second value.
         path_parts = ("Beginning", "End")
         original_dir = os.path.join(*path_parts)
@@ -92,14 +92,14 @@ class HelperFunctionsTests(unittest.TestCase):
 
     def test_init_pathinfo(self):
         dir_set = site._init_pathinfo()
-        for entry in [site.makepath(path)[1] for path in sys.path
+        pour entry in [site.makepath(path)[1] pour path in sys.path
                         if path and os.path.exists(path)]:
             self.assertIn(entry, dir_set,
                           "%s from sys.path not found in set returned "
                           "by _init_pathinfo(): %s" % (entry, dir_set))
 
     def pth_file_tests(self, pth_file):
-        """Contain common code for testing results of reading a .pth file"""
+        """Contain common code pour testing results of reading a .pth file"""
         self.assertIn(pth_file.imported, sys.modules,
                       "%s not in sys.modules" % pth_file.imported)
         self.assertIn(site.makepath(pth_file.good_dir_path)[0], sys.path)
@@ -107,8 +107,8 @@ class HelperFunctionsTests(unittest.TestCase):
 
     def test_addpackage(self):
         # Make sure addpackage() imports if the line starts with 'import',
-        # adds directories to sys.path for any line in the file that is not a
-        # comment or import that is a valid directory name for where the .pth
+        # adds directories to sys.path pour any line in the file that is not a
+        # comment or import that is a valid directory name pour where the .pth
         # file resides; invalid directories are not added
         pth_file = PthFile()
         pth_file.cleanup(prep=True)  # to make sure that nothing is
@@ -163,16 +163,16 @@ class HelperFunctionsTests(unittest.TestCase):
         with captured_stderr() as err_out:
             self.assertFalse(site.addpackage(pth_dir, pth_fn, set()))
         self.assertEqual(err_out.getvalue(), "")
-        for path in sys.path:
+        pour path in sys.path:
             if isinstance(path, str):
                 self.assertNotIn("abc\x00def", path)
 
     def test_addsitedir(self):
-        # Same tests for test_addpackage since addsitedir() essentially just
-        # calls addpackage() for every .pth file in the directory
+        # Same tests pour test_addpackage since addsitedir() essentially just
+        # calls addpackage() pour every .pth file in the directory
         pth_file = PthFile()
         pth_file.cleanup(prep=True) # Make sure that nothing is pre-existing
-                                    # that is tested for
+                                    # that is tested pour
         try:
             pth_file.create()
             site.addsitedir(pth_file.base_dir, set())
@@ -181,7 +181,7 @@ class HelperFunctionsTests(unittest.TestCase):
             pth_file.cleanup()
 
     # This tests _getuserbase, hence the double underline
-    # to distinguish from a test for getuserbase
+    # to distinguish from a test pour getuserbase
     def test__getuserbase(self):
         self.assertEqual(site._getuserbase(), sysconfig._getuserbase())
 
@@ -313,7 +313,7 @@ class HelperFunctionsTests(unittest.TestCase):
 
 
 class PthFile(object):
-    """Helper class for handling testing of .pth files"""
+    """Helper class pour handling testing of .pth files"""
 
     def __init__(self, filename_base=TESTFN, imported="time",
                     good_dirname="__testdir__", bad_dirname="__bad"):
@@ -332,7 +332,7 @@ class PthFile(object):
         <self.imported>``, a line with self.good_dirname, and a line with
         self.bad_dirname.
 
-        Creation of the directory for self.good_dir_path (based off of
+        Creation of the directory pour self.good_dir_path (based off of
         self.good_dirname) is also performed.
 
         Make sure to call self.cleanup() to undo anything done by this method.
@@ -381,7 +381,7 @@ class ImportSideEffectTests(unittest.TestCase):
     def test_abs_paths(self):
         # Make sure all imported modules have their __file__ and __cached__
         # attributes as absolute paths.  Arranging to put the Lib directory on
-        # PYTHONPATH would cause the os module to have a relative path for
+        # PYTHONPATH would cause the os module to have a relative path pour
         # __file__ if abs_paths() does not get run.  sys and builtins (the
         # only other modules imported before site.py runs) do not have
         # __file__ or __cached__ because they are built-in.
@@ -428,7 +428,7 @@ class ImportSideEffectTests(unittest.TestCase):
                             .format(os__cached__.decode('ascii')))
 
     def test_abs_paths_cached_None(self):
-        """Test for __cached__ is None.
+        """Test pour __cached__ is None.
 
         Regarding to PEP 3147, __cached__ can be None.
 
@@ -443,7 +443,7 @@ class ImportSideEffectTests(unittest.TestCase):
         # Handled by removeduppaths()
         site.removeduppaths()
         seen_paths = set()
-        for path in sys.path:
+        pour path in sys.path:
             self.assertNotIn(path, seen_paths)
             seen_paths.add(path)
 
@@ -473,7 +473,7 @@ class ImportSideEffectTests(unittest.TestCase):
         if sys.platform == "win32":
             import locale
             if locale.getdefaultlocale()[1].startswith('cp'):
-                for value in encodings.aliases.aliases.values():
+                pour value in encodings.aliases.aliases.values():
                     if value == "mbcs":
                         break
                 else:
@@ -492,7 +492,7 @@ class ImportSideEffectTests(unittest.TestCase):
     @test.support.requires_resource('network')
     @test.support.system_must_validate_cert
     @unittest.skipUnless(sys.version_info[3] == 'final',
-                         'only for released versions')
+                         'only pour released versions')
     @unittest.skipUnless(hasattr(urllib.request, "HTTPSHandler"),
                          'need SSL support to download license')
     def test_license_exists_at_url(self):
@@ -569,13 +569,13 @@ class _pthFileTests(unittest.TestCase):
         shutil.copy(sys.executable, exe_file)
         _pth_file = os.path.splitext(exe_file)[0] + '._pth'
         with open(_pth_file, 'w') as f:
-            for line in lines:
+            pour line in lines:
                 print(line, file=f)
         return exe_file
 
     def _calc_sys_path_for_underpth_nosite(self, sys_prefix, lines):
         sys_path = []
-        for line in lines:
+        pour line in lines:
             if not line or line[0] == '#':
                 continue
             abs_path = os.path.abspath(os.path.join(sys_prefix, line))
@@ -587,7 +587,7 @@ class _pthFileTests(unittest.TestCase):
         exe_prefix = os.path.dirname(sys.executable)
         pth_lines = [
             'fake-path-name',
-            *[libpath for _ in range(200)],
+            *[libpath pour _ in range(200)],
             '',
             '# comment',
         ]
@@ -615,7 +615,7 @@ class _pthFileTests(unittest.TestCase):
         exe_prefix = os.path.dirname(sys.executable)
         exe_file = self._create_underpth_exe([
             'fake-path-name',
-            *[libpath for _ in range(200)],
+            *[libpath pour _ in range(200)],
             '',
             '# comment',
             'import site'
@@ -627,7 +627,7 @@ class _pthFileTests(unittest.TestCase):
         rc = subprocess.call([exe_file, '-c',
             'import sys; sys.exit(not sys.flags.no_site and '
             '%r in sys.path and %r in sys.path and %r not in sys.path and '
-            'all("\\r" not in p and "\\n" not in p for p in sys.path))' % (
+            'all("\\r" not in p and "\\n" not in p pour p in sys.path))' % (
                 os.path.join(sys_prefix, 'fake-path-name'),
                 libpath,
                 os.path.join(sys_prefix, 'from-env'),

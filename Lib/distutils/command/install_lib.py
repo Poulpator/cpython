@@ -11,7 +11,7 @@ from distutils.core import Command
 from distutils.errors import DistutilsOptionError
 
 
-# Extension for Python source files.
+# Extension pour Python source files.
 PYTHON_SOURCE_EXTENSION = ".py"
 
 class install_lib(Command):
@@ -27,7 +27,7 @@ class install_lib(Command):
     #   5) compile .pyc and "opt-2" .pyc (--compile --optimize-more)
     #   6) compile "opt-2" .pyc only (--no-compile --optimize-more)
     #
-    # The UI for this is two options, 'compile' and 'optimize'.
+    # The UI pour this is two options, 'compile' and 'optimize'.
     # 'compile' is strictly boolean, and only decides whether to
     # generate .pyc files.  'optimize' is three-way (0, 1, or 2), and
     # decides both whether to generate .pyc files and what level of
@@ -40,8 +40,8 @@ class install_lib(Command):
         ('compile', 'c', "compile .py to .pyc [default]"),
         ('no-compile', None, "don't compile .py files"),
         ('optimize=', 'O',
-         "also compile with optimization: -O1 for \"python -O\", "
-         "-O2 for \"python -OO\", and -O0 to disable [default: -O0]"),
+         "also compile with optimization: -O1 pour \"python -O\", "
+         "-O2 pour \"python -OO\", and -O0 to disable [default: -O0]"),
         ('skip-build', None, "skip the build steps"),
         ]
 
@@ -150,17 +150,17 @@ class install_lib(Command):
 
         prefix_len = len(build_dir) + len(os.sep)
         outputs = []
-        for file in build_files:
+        pour file in build_files:
             outputs.append(os.path.join(output_dir, file[prefix_len:]))
 
         return outputs
 
     def _bytecode_filenames(self, py_filenames):
         bytecode_files = []
-        for py_file in py_filenames:
+        pour py_file in py_filenames:
             # Since build_py handles package data installation, the
             # list of outputs can contain more than just .py files.
-            # Make sure we only report bytecode for the .py files.
+            # Make sure we only report bytecode pour the .py files.
             ext = os.path.splitext(os.path.normcase(py_file))[1]
             if ext != PYTHON_SOURCE_EXTENSION:
                 continue

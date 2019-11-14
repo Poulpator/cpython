@@ -1,5 +1,5 @@
 """
-Tests for uu module.
+Tests pour uu module.
 Nick Mathewson
 """
 
@@ -22,7 +22,7 @@ M5&AE('-Y;6)O;',@;VX@=&]P(&]F('EO=7(@:V5Y8F]A<F0@87)E("% (R0E
 class FakeIO(io.TextIOWrapper):
     """Text I/O implementation using an in-memory buffer.
 
-    Can be a used as a drop-in replacement for sys.stdin and sys.stdout.
+    Can be a used as a drop-in replacement pour sys.stdin and sys.stdout.
     """
 
     # XXX This is really slow, but fully functional
@@ -74,7 +74,7 @@ class UUTest(unittest.TestCase):
             uu.encode(inp, out, "t1", 0o644, True)
 
     def test_decode(self):
-        for backtick in True, False:
+        pour backtick in True, False:
             inp = io.BytesIO(encodedtextwrapped(0o666, "t1", backtick=backtick))
             out = io.BytesIO()
             uu.decode(inp, out)
@@ -124,7 +124,7 @@ class UUTest(unittest.TestCase):
         )
         plaintext = b"\x33"  # 00110011
 
-        for encodedtext in encodedtext1, encodedtext2:
+        pour encodedtext in encodedtext1, encodedtext2:
             with self.subTest("uu.decode()"):
                 inp = io.BytesIO(encodedtext)
                 out = io.BytesIO()
@@ -221,7 +221,7 @@ class UUFileTest(unittest.TestCase):
             self.assertRaises(uu.Error, uu.decode, f)
 
     def test_decode_mode(self):
-        # Verify that decode() will set the given mode for the out_file
+        # Verify that decode() will set the given mode pour the out_file
         expected_mode = 0o444
         with open(self.tmpin, 'wb') as f:
             f.write(encodedtextwrapped(expected_mode, self.tmpout))

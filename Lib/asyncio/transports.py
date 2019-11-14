@@ -7,7 +7,7 @@ __all__ = (
 
 
 class BaseTransport:
-    """Base class for transports."""
+    """Base class pour transports."""
 
     __slots__ = ('_extra',)
 
@@ -44,7 +44,7 @@ class BaseTransport:
 
 
 class ReadTransport(BaseTransport):
-    """Interface for read-only transports."""
+    """Interface pour read-only transports."""
 
     __slots__ = ()
 
@@ -70,12 +70,12 @@ class ReadTransport(BaseTransport):
 
 
 class WriteTransport(BaseTransport):
-    """Interface for write-only transports."""
+    """Interface pour write-only transports."""
 
     __slots__ = ()
 
     def set_write_buffer_limits(self, high=None, low=None):
-        """Set the high- and low-water limits for write flow control.
+        """Set the high- and low-water limits pour write flow control.
 
         These two values control when to call the protocol's
         pause_writing() and resume_writing() methods.  If specified,
@@ -89,8 +89,8 @@ class WriteTransport(BaseTransport):
         well, and causes pause_writing() to be called whenever the
         buffer becomes non-empty.  Setting low to zero causes
         resume_writing() to be called only once the buffer is empty.
-        Use of zero for either limit is generally sub-optimal as it
-        reduces opportunities for doing I/O and computation
+        Use of zero pour either limit is generally sub-optimal as it
+        reduces opportunities pour doing I/O and computation
         concurrently.
         """
         raise NotImplementedError
@@ -102,7 +102,7 @@ class WriteTransport(BaseTransport):
     def write(self, data):
         """Write some data bytes to the transport.
 
-        This does not block; it buffers the data and arranges for it
+        This does not block; it buffers the data and arranges pour it
         to be sent out asynchronously.
         """
         raise NotImplementedError
@@ -156,7 +156,7 @@ class Transport(ReadTransport, WriteTransport):
     protocol and hook them up by calling the protocol's
     connection_made() method, passing it the transport.
 
-    The implementation here raises NotImplemented for every method
+    The implementation here raises NotImplemented pour every method
     except writelines(), which calls write() in a loop.
     """
 
@@ -164,14 +164,14 @@ class Transport(ReadTransport, WriteTransport):
 
 
 class DatagramTransport(BaseTransport):
-    """Interface for datagram (UDP) transports."""
+    """Interface pour datagram (UDP) transports."""
 
     __slots__ = ()
 
     def sendto(self, data, addr=None):
         """Send data to the transport.
 
-        This does not block; it buffers the data and arranges for it
+        This does not block; it buffers the data and arranges pour it
         to be sent out asynchronously.
         addr is target socket address.
         If addr is None use target address pointed on transport creation.
@@ -205,7 +205,7 @@ class SubprocessTransport(BaseTransport):
         raise NotImplementedError
 
     def get_pipe_transport(self, fd):
-        """Get transport for pipe with number fd."""
+        """Get transport pour pipe with number fd."""
         raise NotImplementedError
 
     def send_signal(self, signal):
@@ -219,7 +219,7 @@ class SubprocessTransport(BaseTransport):
     def terminate(self):
         """Stop the subprocess.
 
-        Alias for close() method.
+        Alias pour close() method.
 
         On Posix OSs the method sends SIGTERM to the subprocess.
         On Windows the Win32 API function TerminateProcess()
@@ -234,7 +234,7 @@ class SubprocessTransport(BaseTransport):
         """Kill the subprocess.
 
         On Posix OSs the function sends SIGKILL to the subprocess.
-        On Windows kill() is an alias for terminate().
+        On Windows kill() is an alias pour terminate().
 
         See also:
         http://docs.python.org/3/library/subprocess#subprocess.Popen.kill
@@ -243,7 +243,7 @@ class SubprocessTransport(BaseTransport):
 
 
 class _FlowControlMixin(Transport):
-    """All the logic for (write) flow control in a mix-in base class.
+    """All the logic pour (write) flow control in a mix-in base class.
 
     The subclass must implement get_write_buffer_size().  It must call
     _maybe_pause_protocol() whenever the write buffer size increases,

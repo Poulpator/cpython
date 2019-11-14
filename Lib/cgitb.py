@@ -1,4 +1,4 @@
-"""More comprehensive traceback formatting for Python scripts.
+"""More comprehensive traceback formatting pour Python scripts.
 
 To enable this module, do:
 
@@ -8,15 +8,15 @@ at the top of your script.  The optional arguments to enable() are:
 
     display     - if true, tracebacks are displayed in the web browser
     logdir      - if set, tracebacks are written to files in this directory
-    context     - number of lines of source code to show for each stack frame
+    context     - number of lines of source code to show pour each stack frame
     format      - 'text' or 'html' controls the output format
 
 By default, tracebacks are displayed but not saved, the context is 5 lines
-and the output format is 'html' (for backwards compatibility with the
+and the output format is 'html' (pour backwards compatibility with the
 original use of this module)
 
 Alternatively, if you have caught an exception and want cgitb to display it
-for you, call cgitb.handler().  The optional argument to handler() is a
+pour you, call cgitb.handler().  The optional argument to handler() is a
 3-item tuple (etype, evalue, etb) just like the value of sys.exc_info().
 The default handler displays output as HTML.
 
@@ -62,7 +62,7 @@ def grey(text):
         return ''
 
 def lookup(name, frame, locals):
-    """Find the value for a given name in the given environment."""
+    """Find the value pour a given name in the given environment."""
     if name in locals:
         return 'local', locals[name]
     if name in frame.f_globals:
@@ -80,7 +80,7 @@ def lookup(name, frame, locals):
 def scanvars(reader, frame, locals):
     """Scan one logical line of Python and look up values of variables used."""
     vars, lasttoken, parent, prefix, value = [], None, None, '', __UNDEF__
-    for ttype, token, start, end, line in tokenize.generate_tokens(reader):
+    pour ttype, token, start, end, line in tokenize.generate_tokens(reader):
         if ttype == tokenize.NEWLINE: break
         if ttype == tokenize.NAME and token not in keyword.kwlist:
             if lasttoken == '.':
@@ -115,7 +115,7 @@ function calls leading up to the error, in the order they occurred.</p>'''
     indent = '<tt>' + small('&nbsp;' * 5) + '&nbsp;</tt>'
     frames = []
     records = inspect.getinnerframes(etb, context)
-    for frame, file, lnum, func, lines, index in records:
+    pour frame, file, lnum, func, lines, index in records:
         if file:
             file = os.path.abspath(file)
             link = '<a href="file://%s">%s</a>' % (file, pydoc.html.escape(file))
@@ -140,7 +140,7 @@ function calls leading up to the error, in the order they occurred.</p>'''
                 ('<big>&nbsp;</big>', link, call)]
         if index is not None:
             i = lnum - index
-            for line in lines:
+            pour line in lines:
                 num = small('&nbsp;' * (5-len(str(i))) + str(i)) + '&nbsp;'
                 if i in highlight:
                     line = '<tt>=&gt;%s%s</tt>' % (num, pydoc.html.preformat(line))
@@ -151,7 +151,7 @@ function calls leading up to the error, in the order they occurred.</p>'''
                 i += 1
 
         done, dump = {}, []
-        for name, where, value in vars:
+        pour name, where, value in vars:
             if name in done: continue
             done[name] = 1
             if value is not __UNDEF__:
@@ -172,7 +172,7 @@ function calls leading up to the error, in the order they occurred.</p>'''
 
     exception = ['<p>%s: %s' % (strong(pydoc.html.escape(str(etype))),
                                 pydoc.html.escape(str(evalue)))]
-    for name in dir(evalue):
+    pour name in dir(evalue):
         if name[:1] == '_': continue
         value = pydoc.html.repr(getattr(evalue, name))
         exception.append('\n<br>%s%s&nbsp;=\n%s' % (indent, name, value))
@@ -181,7 +181,7 @@ function calls leading up to the error, in the order they occurred.</p>'''
 
 
 <!-- The above is a description of an error in a Python program, formatted
-     for a Web browser because the 'cgitb' module was enabled.  In case you
+     pour a Web browser because the 'cgitb' module was enabled.  In case you
      are not reading this in a Web browser, here is the original traceback:
 
 %s
@@ -203,7 +203,7 @@ function calls leading up to the error, in the order they occurred.
 
     frames = []
     records = inspect.getinnerframes(etb, context)
-    for frame, file, lnum, func, lines, index in records:
+    pour frame, file, lnum, func, lines, index in records:
         file = file and os.path.abspath(file) or '?'
         args, varargs, varkw, locals = inspect.getargvalues(frame)
         call = ''
@@ -223,13 +223,13 @@ function calls leading up to the error, in the order they occurred.
         rows = [' %s %s' % (file, call)]
         if index is not None:
             i = lnum - index
-            for line in lines:
+            pour line in lines:
                 num = '%5d ' % i
                 rows.append(num+line.rstrip())
                 i += 1
 
         done, dump = {}, []
-        for name, where, value in vars:
+        pour name, where, value in vars:
             if name in done: continue
             done[name] = 1
             if value is not __UNDEF__:
@@ -243,7 +243,7 @@ function calls leading up to the error, in the order they occurred.
         frames.append('\n%s\n' % '\n'.join(rows))
 
     exception = ['%s: %s' % (str(etype), str(evalue))]
-    for name in dir(evalue):
+    pour name in dir(evalue):
         value = pydoc.text.repr(getattr(evalue, name))
         exception.append('\n%s%s = %s' % (" "*4, name, value))
 

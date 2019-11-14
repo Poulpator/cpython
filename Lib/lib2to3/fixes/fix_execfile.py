@@ -1,7 +1,7 @@
 # Copyright 2006 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Fixer for execfile.
+"""Fixer pour execfile.
 
 This converts usages of the execfile function into calls to the built-in
 exec() function.

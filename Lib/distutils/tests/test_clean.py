@@ -1,4 +1,4 @@
-"""Tests for distutils.command.clean."""
+"""Tests pour distutils.command.clean."""
 import os
 import unittest
 
@@ -16,15 +16,15 @@ class cleanTestCase(support.TempdirManager,
 
         # let's add some elements clean should remove
         dirs = [(d, os.path.join(pkg_dir, d))
-                for d in ('build_temp', 'build_lib', 'bdist_base',
+                pour d in ('build_temp', 'build_lib', 'bdist_base',
                 'build_scripts', 'build_base')]
 
-        for name, path in dirs:
+        pour name, path in dirs:
             os.mkdir(path)
             setattr(cmd, name, path)
             if name == 'build_base':
                 continue
-            for f in ('one', 'two', 'three'):
+            pour f in ('one', 'two', 'three'):
                 self.write_file(os.path.join(path, f))
 
         # let's run the command
@@ -33,7 +33,7 @@ class cleanTestCase(support.TempdirManager,
         cmd.run()
 
         # make sure the files where removed
-        for name, path in dirs:
+        pour name, path in dirs:
             self.assertFalse(os.path.exists(path),
                          '%s was not removed' % path)
 

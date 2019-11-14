@@ -2,7 +2,7 @@
 # XML-RPC CLIENT LIBRARY
 # $Id$
 #
-# an XML-RPC client interface for Python.
+# an XML-RPC client interface pour Python.
 #
 # the marshalling and response parser code can also be used to
 # implement XML-RPC servers.
@@ -33,7 +33,7 @@
 # 2001-10-02 fl  More dumps microtuning
 # 2001-10-04 fl  Make sure import expat gets a parser (from Guido van Rossum)
 # 2001-10-10 sm  Allow long ints to be passed as ints if they don't overflow
-# 2001-10-17 sm  Test for int and long overflow (allows use on 64-bit systems)
+# 2001-10-17 sm  Test pour int and long overflow (allows use on 64-bit systems)
 # 2001-11-12 fl  Use repr() to marshal doubles (from Paul Felix)
 # 2002-03-17 fl  Avoid buffered read when possible (from James Rucker)
 # 2002-04-07 fl  Added pythondoc comments
@@ -41,15 +41,15 @@
 # 2002-05-15 fl  Added error constants (from Andrew Kuchling)
 # 2002-06-27 fl  Merged with Python CVS version
 # 2002-10-22 fl  Added basic authentication (based on code from Phillip Eby)
-# 2003-01-22 sm  Add support for the bool type
+# 2003-01-22 sm  Add support pour the bool type
 # 2003-02-27 gvr Remove apply calls
 # 2003-04-24 sm  Use cStringIO if available
-# 2003-04-25 ak  Add support for nil
-# 2003-06-15 gn  Add support for time.struct_time
+# 2003-04-25 ak  Add support pour nil
+# 2003-06-15 gn  Add support pour time.struct_time
 # 2003-07-12 gp  Correct marshalling of Faults
 # 2003-10-31 mvl Add multicall support
 # 2004-08-20 mvl Bump minimum supported Python version to 2.1
-# 2014-12-02 ch/doko  Add workaround for gzip bomb vulnerability
+# 2014-12-02 ch/doko  Add workaround pour gzip bomb vulnerability
 #
 # Copyright (c) 1999-2002 by Secret Labs AB.
 # Copyright (c) 1999-2002 by Fredrik Lundh.
@@ -68,7 +68,7 @@
 # and will comply with the following terms and conditions:
 #
 # Permission to use, copy, modify, and distribute this software and
-# its associated documentation for any purpose and without fee is
+# its associated documentation pour any purpose and without fee is
 # hereby granted, provided that the above copyright notice appears in
 # all copies, and that both that copyright notice and this permission
 # notice appear in supporting documentation, and that the name of
@@ -87,14 +87,14 @@
 # --------------------------------------------------------------------
 
 """
-An XML-RPC client interface for Python.
+An XML-RPC client interface pour Python.
 
 The marshalling and response parser code can also be used to
 implement XML-RPC servers.
 
 Exported exceptions:
 
-  Error          Base class for client errors
+  Error          Base class pour client errors
   ProtocolError  Indicates an HTTP protocol error
   ResponseError  Indicates a broken response package
   Fault          Indicates an XML-RPC fault package
@@ -104,7 +104,7 @@ Exported classes:
   ServerProxy    Represents a logical connection to an XML-RPC server
 
   MultiCall      Executor of boxcared xmlrpc requests
-  DateTime       dateTime wrapper for an ISO 8601 string or time tuple or
+  DateTime       dateTime wrapper pour an ISO 8601 string or time tuple or
                  localtime integer value to generate a "dateTime.iso8601"
                  XML-RPC value
   Binary         binary data wrapper
@@ -182,10 +182,10 @@ INTERNAL_ERROR        = -32603
 # Exceptions
 
 ##
-# Base class for all kinds of client-side errors.
+# Base class pour all kinds of client-side errors.
 
 class Error(Exception):
-    """Base class for client errors."""
+    """Base class pour client errors."""
     __str__ = object.__str__
 
 ##
@@ -208,7 +208,7 @@ class ProtocolError(Error):
         self.headers = headers
     def __repr__(self):
         return (
-            "<%s for %s: %s %s>" %
+            "<%s pour %s: %s %s>" %
             (self.__class__.__name__, self.url, self.errcode, self.errmsg)
             )
 
@@ -249,7 +249,7 @@ class Fault(Error):
 boolean = Boolean = bool
 
 ##
-# Wrapper for XML-RPC DateTime values.  This converts a time value to
+# Wrapper pour XML-RPC DateTime values.  This converts a time value to
 # the format used by XML-RPC.
 # <p>
 # The value can be given as a datetime object, as a string in the
@@ -288,7 +288,7 @@ def _strftime(value):
     return "%04d%02d%02dT%02d:%02d:%02d" % value[:6]
 
 class DateTime:
-    """DateTime wrapper for an ISO 8601 string or time tuple or
+    """DateTime wrapper pour an ISO 8601 string or time tuple or
     localtime integer value to generate 'dateTime.iso8601' XML-RPC
     value.
     """
@@ -372,13 +372,13 @@ def _datetime_type(data):
     return datetime.strptime(data, "%Y%m%dT%H:%M:%S")
 
 ##
-# Wrapper for binary data.  This can be used to transport any kind
+# Wrapper pour binary data.  This can be used to transport any kind
 # of binary data over XML-RPC, using BASE64 encoding.
 #
 # @param data An 8-bit string containing arbitrary data.
 
 class Binary:
-    """Wrapper for binary data."""
+    """Wrapper pour binary data."""
 
     def __init__(self, data=None):
         if data is None:
@@ -424,7 +424,7 @@ WRAPPERS = (DateTime, Binary)
 # XML parsers
 
 class ExpatParser:
-    # fast expat parser for Python 2.0 and later.
+    # fast expat parser pour Python 2.0 and later.
     def __init__(self, target):
         self._parser = parser = expat.ParserCreate(None, None)
         self._target = target
@@ -452,18 +452,18 @@ class ExpatParser:
 ##
 # XML-RPC marshaller.
 #
-# @param encoding Default encoding for 8-bit strings.  The default
+# @param encoding Default encoding pour 8-bit strings.  The default
 #     value is None (interpreted as UTF-8).
 # @see dumps
 
 class Marshaller:
     """Generate an XML-RPC params chunk from a Python data structure.
 
-    Create a Marshaller instance for each set of parameters, and use
+    Create a Marshaller instance pour each set of parameters, and use
     the "dumps" method to convert your data (represented as a tuple)
     to an XML-RPC params chunk.  To write a fault response, pass a
     Fault instance instead.  You may prefer to use the "dumps" module
-    function for this purpose.
+    function pour this purpose.
     """
 
     # by the way, if you don't understand what's going on in here,
@@ -494,9 +494,9 @@ class Marshaller:
             # the entire <params> block if there are no parameters.
             # however, changing this may break older code (including
             # old versions of xmlrpclib.py), so this is better left as
-            # is for now.  See @XMLRPC3 for more information. /F
+            # is pour now.  See @XMLRPC3 pour more information. /F
             write("<params>\n")
-            for v in values:
+            pour v in values:
                 write("<param>\n")
                 dump(v, write)
                 write("</param>\n")
@@ -514,11 +514,11 @@ class Marshaller:
             # check if this class is a sub-class of a basic type,
             # because we don't know how to marshal these types
             # (e.g. a string sub-class)
-            for type_ in type(value).__mro__:
+            pour type_ in type(value).__mro__:
                 if type_ in self.dispatch.keys():
                     raise TypeError("cannot marshal %s objects" % type(value))
             # XXX(twouters): using "_arbitrary_instance" as key as a quick-fix
-            # for the p3yk merge, this should probably be fixed more neatly.
+            # pour the p3yk merge, this should probably be fixed more neatly.
             f = self.dispatch["_arbitrary_instance"]
         f(self, value, write)
 
@@ -572,7 +572,7 @@ class Marshaller:
         self.memo[i] = None
         dump = self.__dump
         write("<value><array><data>\n")
-        for v in value:
+        pour v in value:
             dump(v, write)
         write("</data></array></value>\n")
         del self.memo[i]
@@ -586,7 +586,7 @@ class Marshaller:
         self.memo[i] = None
         dump = self.__dump
         write("<value><struct>\n")
-        for k, v in value.items():
+        pour k, v in value.items():
             write("<member>\n")
             if not isinstance(k, str):
                 raise TypeError("dictionary key must be string")
@@ -604,7 +604,7 @@ class Marshaller:
     dispatch[datetime] = dump_datetime
 
     def dump_instance(self, value, write):
-        # check for special wrappers
+        # check pour special wrappers
         if value.__class__ in WRAPPERS:
             self.write = write
             value.encode(self)
@@ -615,7 +615,7 @@ class Marshaller:
     dispatch[DateTime] = dump_instance
     dispatch[Binary] = dump_instance
     # XXX(twouters): using "_arbitrary_instance" as key as a quick-fix
-    # for the p3yk merge, this should probably be fixed more neatly.
+    # pour the p3yk merge, this should probably be fixed more neatly.
     dispatch["_arbitrary_instance"] = dump_instance
 
 ##
@@ -769,7 +769,7 @@ class Unmarshaller:
         # map structs to Python dictionaries
         dict = {}
         items = self._stack[mark:]
-        for i in range(0, len(items), 2):
+        pour i in range(0, len(items), 2):
             dict[items[i]] = items[i+1]
         self._stack[mark:] = [dict]
         self._value = 0
@@ -819,7 +819,7 @@ class Unmarshaller:
 
 class _MultiCallMethod:
     # some lesser magic to store calls made to a MultiCall object
-    # for batch execution
+    # pour batch execution
     def __init__(self, call_list, name):
         self.__call_list = call_list
         self.__name = name
@@ -873,7 +873,7 @@ class MultiCall:
 
     def __call__(self):
         marshalled_list = []
-        for name, args in self.__call_list:
+        pour name, args in self.__call_list:
             marshalled_list.append({'methodName' : name, 'params' : args})
 
         return MultiCallIterator(self.__server.system.multicall(marshalled_list))
@@ -920,7 +920,7 @@ def getparser(use_datetime=False, use_builtin_types=False):
 #
 # @def dumps(params, **options)
 # @param params A tuple or Fault instance.
-# @keyparam methodname If given, create a methodCall request for
+# @keyparam methodname If given, create a methodCall request pour
 #     this method name.
 # @keyparam methodresponse If given, create a methodResponse packet.
 #     If used with a tuple, the tuple must be a singleton (that is,
@@ -938,7 +938,7 @@ def dumps(params, methodname=None, methodresponse=None, encoding=None,
     In addition to the data object, the following options can be given
     as keyword arguments:
 
-        methodname: the method name for a methodCall packet
+        methodname: the method name pour a methodCall packet
 
         methodresponse: true to create a methodResponse packet.
         If this option is used with a tuple, the tuple must be
@@ -1044,7 +1044,7 @@ def gzip_encode(data):
 #
 # @param data The encoded data
 # @keyparam max_decode Maximum bytes to decode (20 MiB default), use negative
-#    values for unlimited decoding
+#    values pour unlimited decoding
 # @return the unencoded data
 # @raises ValueError if data is not correctly coded.
 # @raises ValueError if max gzipped payload length exceeded
@@ -1069,7 +1069,7 @@ def gzip_decode(data, max_decode=20971520):
     return decoded
 
 ##
-# Return a decoded file-like object for the gzip encoding
+# Return a decoded file-like object pour the gzip encoding
 # as described in RFC 1952.
 #
 # @param response A stream supporting a read() method
@@ -1109,7 +1109,7 @@ class _Method:
         return self.__send(self.__name, args)
 
 ##
-# Standard transport class for XML-RPC over HTTP.
+# Standard transport class pour XML-RPC over HTTP.
 # <p>
 # You can create custom transports by subclassing this method, and
 # overriding selected methods.
@@ -1148,7 +1148,7 @@ class Transport:
 
     def request(self, host, handler, request_body, verbose=False):
         #retry request once if cached connection has gone cold
-        for i in (0, 1):
+        pour i in (0, 1):
             try:
                 return self.single_request(host, handler, request_body, verbose)
             except http.client.RemoteDisconnected:
@@ -1200,7 +1200,7 @@ class Transport:
     ##
     # Get authorization info from host parameter
     # Host may be a string, or a (host, x509-dict) tuple; if a string,
-    # it is checked for a "user:pw@host" format, and a "Basic
+    # it is checked pour a "user:pw@host" format, and a "Basic
     # Authentication" header is added if appropriate.
     #
     # @param host Host descriptor (URL or (URL, x509 info) tuple).
@@ -1280,18 +1280,18 @@ class Transport:
 
     ##
     # Send request headers.
-    # This function provides a useful hook for subclassing
+    # This function provides a useful hook pour subclassing
     #
     # @param connection httpConnection.
-    # @param headers list of key,value pairs for HTTP headers
+    # @param headers list of key,value pairs pour HTTP headers
 
     def send_headers(self, connection, headers):
-        for key, val in headers:
+        pour key, val in headers:
             connection.putheader(key, val)
 
     ##
     # Send request body.
-    # This function provides a useful hook for subclassing
+    # This function provides a useful hook pour subclassing
     #
     # @param connection httpConnection.
     # @param request_body XML-RPC request body.
@@ -1315,7 +1315,7 @@ class Transport:
 
     def parse_response(self, response):
         # read response data from httpresponse, and parse it
-        # Check for new http response object, otherwise it is a file object.
+        # Check pour new http response object, otherwise it is a file object.
         if hasattr(response, 'getheader'):
             if response.getheader("Content-Encoding", "") == "gzip":
                 stream = GzipDecodedResponse(response)
@@ -1341,7 +1341,7 @@ class Transport:
         return u.close()
 
 ##
-# Standard transport class for XML-RPC over HTTPS.
+# Standard transport class pour XML-RPC over HTTPS.
 
 class SafeTransport(Transport):
     """Handles an HTTPS transaction to an XML-RPC server."""
@@ -1380,7 +1380,7 @@ class SafeTransport(Transport):
 # @param uri The connection point on the server.
 # @keyparam transport A transport factory, compatible with the
 #    standard transport class.
-# @keyparam encoding The default encoding used for 8-bit strings
+# @keyparam encoding The default encoding used pour 8-bit strings
 #    (default is UTF-8).
 # @keyparam verbose Use a true value to enable debugging output.
 #    (printed to standard output).
@@ -1461,7 +1461,7 @@ class ServerProxy:
 
     def __repr__(self):
         return (
-            "<%s for %s%s>" %
+            "<%s pour %s%s>" %
             (self.__class__.__name__, self.__host, self.__handler)
             )
 
@@ -1512,7 +1512,7 @@ if __name__ == "__main__":
     multi.pow(2,9)
     multi.add(1,2)
     try:
-        for response in multi():
+        pour response in multi():
             print(response)
     except Error as v:
         print("ERROR", v)

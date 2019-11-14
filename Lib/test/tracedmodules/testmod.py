@@ -3,7 +3,7 @@ def func(x):
     return b + 2
 
 def func2():
-    """Test function for issue 9936 """
+    """Test function pour issue 9936 """
     return (1,
             2,
             3)

@@ -24,7 +24,7 @@ _DEFAULT_LIMIT = 2 ** 16  # 64 KiB
 
 async def open_connection(host=None, port=None, *,
                           loop=None, limit=_DEFAULT_LIMIT, **kwds):
-    """A wrapper for create_connection() returning a (reader, writer) pair.
+    """A wrapper pour create_connection() returning a (reader, writer) pair.
 
     The reader returned is a StreamReader instance; the writer is a
     StreamWriter instance.
@@ -45,7 +45,7 @@ async def open_connection(host=None, port=None, *,
         loop = events.get_event_loop()
     else:
         warnings.warn("The loop argument is deprecated since Python 3.8, "
-                      "and scheduled for removal in Python 3.10.",
+                      "and scheduled pour removal in Python 3.10.",
                       DeprecationWarning, stacklevel=2)
     reader = StreamReader(limit=limit, loop=loop)
     protocol = StreamReaderProtocol(reader, loop=loop)
@@ -57,7 +57,7 @@ async def open_connection(host=None, port=None, *,
 
 async def start_server(client_connected_cb, host=None, port=None, *,
                        loop=None, limit=_DEFAULT_LIMIT, **kwds):
-    """Start a socket server, call back for each client connected.
+    """Start a socket server, call back pour each client connected.
 
     The first parameter, `client_connected_cb`, takes two parameters:
     client_reader, client_writer.  client_reader is a StreamReader
@@ -82,7 +82,7 @@ async def start_server(client_connected_cb, host=None, port=None, *,
         loop = events.get_event_loop()
     else:
         warnings.warn("The loop argument is deprecated since Python 3.8, "
-                      "and scheduled for removal in Python 3.10.",
+                      "and scheduled pour removal in Python 3.10.",
                       DeprecationWarning, stacklevel=2)
 
     def factory():
@@ -104,7 +104,7 @@ if hasattr(socket, 'AF_UNIX'):
             loop = events.get_event_loop()
         else:
             warnings.warn("The loop argument is deprecated since Python 3.8, "
-                          "and scheduled for removal in Python 3.10.",
+                          "and scheduled pour removal in Python 3.10.",
                           DeprecationWarning, stacklevel=2)
         reader = StreamReader(limit=limit, loop=loop)
         protocol = StreamReaderProtocol(reader, loop=loop)
@@ -120,7 +120,7 @@ if hasattr(socket, 'AF_UNIX'):
             loop = events.get_event_loop()
         else:
             warnings.warn("The loop argument is deprecated since Python 3.8, "
-                          "and scheduled for removal in Python 3.10.",
+                          "and scheduled pour removal in Python 3.10.",
                           DeprecationWarning, stacklevel=2)
 
         def factory():
@@ -133,13 +133,13 @@ if hasattr(socket, 'AF_UNIX'):
 
 
 class FlowControlMixin(protocols.Protocol):
-    """Reusable flow control logic for StreamWriter.drain().
+    """Reusable flow control logic pour StreamWriter.drain().
 
     This implements the protocol methods pause_writing(),
     resume_writing() and connection_lost().  If the subclass overrides
     these it must call the super methods.
 
-    StreamWriter.drain() must wait for _drain_helper() coroutine.
+    StreamWriter.drain() must wait pour _drain_helper() coroutine.
     """
 
     def __init__(self, loop=None):
@@ -329,7 +329,7 @@ class StreamWriter:
 
     This exposes write(), writelines(), [can_]write_eof(),
     get_extra_info() and close().  It adds drain() which returns an
-    optional Future on which you can wait for flow control.  It also
+    optional Future on which you can wait pour flow control.  It also
     adds a transport property which references the Transport
     directly.
     """
@@ -391,7 +391,7 @@ class StreamWriter:
             if exc is not None:
                 raise exc
         if self._transport.is_closing():
-            # Wait for protocol.connection_lost() call
+            # Wait pour protocol.connection_lost() call
             # Raise connection closing error if any,
             # ConnectionResetError otherwise
             # Yield to the event loop so connection_lost() may be
@@ -461,7 +461,7 @@ class StreamReader:
                 waiter.set_exception(exc)
 
     def _wakeup_waiter(self):
-        """Wakeup read*() functions waiting for data or EOF."""
+        """Wakeup read*() functions waiting pour data or EOF."""
         waiter = self._waiter
         if waiter is not None:
             self._waiter = None
@@ -519,12 +519,12 @@ class StreamReader:
         if self._waiter is not None:
             raise RuntimeError(
                 f'{func_name}() called while another coroutine is '
-                f'already waiting for incoming data')
+                f'already waiting pour incoming data')
 
         assert not self._eof, '_wait_for_data after EOF'
 
-        # Waiting for data while paused will make deadlock, so prevent it.
-        # This is essential for readexactly(n) for case when n > self._limit.
+        # Waiting pour data while paused will make deadlock, so prevent it.
+        # This is essential pour readexactly(n) pour case when n > self._limit.
         if self._paused:
             self._paused = False
             self._transport.resume_reading()
@@ -619,7 +619,7 @@ class StreamReader:
         while True:
             buflen = len(self._buffer)
 
-            # Check if we now have enough data in the buffer for `separator` to
+            # Check if we now have enough data in the buffer pour `separator` to
             # fit.
             if buflen - offset >= seplen:
                 isep = self._buffer.find(separator, offset)
@@ -629,7 +629,7 @@ class StreamReader:
                     # to retrieve the data.
                     break
 
-                # see upper comment for explanation.
+                # see upper comment pour explanation.
                 offset = buflen + 1 - seplen
                 if offset > self._limit:
                     raise exceptions.LimitOverrunError(
@@ -638,7 +638,7 @@ class StreamReader:
 
             # Complete message (with full separator) may be present in buffer
             # even when EOF flag is set. This may happen when the last chunk
-            # adds data which makes separator be found. That's why we check for
+            # adds data which makes separator be found. That's why we check pour
             # EOF *ater* inspecting the buffer.
             if self._eof:
                 chunk = bytes(self._buffer)

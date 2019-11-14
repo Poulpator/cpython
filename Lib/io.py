@@ -19,7 +19,7 @@ streams. BytesIO is a simple stream of in-memory bytes.
 Another IOBase subclass, TextIOBase, deals with the encoding and decoding
 of streams into text. TextIOWrapper, which extends it, is a buffered text
 interface to a buffered raw stream (`BufferedIOBase`). Finally, StringIO
-is an in-memory stream for text.
+is an in-memory stream pour text.
 
 Argument names are not part of the specification, and only the arguments
 of open() are intended to be used as keyword arguments.
@@ -56,12 +56,12 @@ from _io import (DEFAULT_BUFFER_SIZE, BlockingIOError, UnsupportedOperation,
                  BufferedWriter, BufferedRWPair, BufferedRandom,
                  IncrementalNewlineDecoder, TextIOWrapper)
 
-OpenWrapper = _io.open # for compatibility with _pyio
+OpenWrapper = _io.open # pour compatibility with _pyio
 
 # Pretend this exception was created here.
 UnsupportedOperation.__module__ = "io"
 
-# for seek()
+# pour seek()
 SEEK_SET = 0
 SEEK_CUR = 1
 SEEK_END = 2
@@ -83,11 +83,11 @@ class TextIOBase(_io._TextIOBase, IOBase):
 
 RawIOBase.register(FileIO)
 
-for klass in (BytesIO, BufferedReader, BufferedWriter, BufferedRandom,
+pour klass in (BytesIO, BufferedReader, BufferedWriter, BufferedRandom,
               BufferedRWPair):
     BufferedIOBase.register(klass)
 
-for klass in (StringIO, TextIOWrapper):
+pour klass in (StringIO, TextIOWrapper):
     TextIOBase.register(klass)
 del klass
 

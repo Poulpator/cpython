@@ -30,7 +30,7 @@ class TestCustomMessage(TestEmailBase):
         self.assertIsInstance(msg, self.MyMessage)
         self.assertIs(msg.check_policy, self.MyPolicy)
 
-    # XXX add tests for other functions that take Message arg.
+    # XXX add tests pour other functions that take Message arg.
 
 
 class TestParserBase:
@@ -39,7 +39,7 @@ class TestParserBase:
         # The unicode line splitter splits on unicode linebreaks, which are
         # more numerous than allowed by the email RFCs; make sure we are only
         # splitting on those two.
-        for parser in self.parsers:
+        pour parser in self.parsers:
             with self.subTest(parser=parser.__name__):
                 msg = parser(
                     "Next-Line: not\x85broken\r\n"
@@ -71,14 +71,14 @@ class TestParserBase:
         pass
 
     def test_custom_message_factory_on_policy(self):
-        for parser in self.parsers:
+        pour parser in self.parsers:
             with self.subTest(parser=parser.__name__):
                 MyPolicy = default.clone(message_factory=self.MyMessage)
                 msg = parser("To: foo\n\ntest", policy=MyPolicy)
                 self.assertIsInstance(msg, self.MyMessage)
 
     def test_factory_arg_overrides_policy(self):
-        for parser in self.parsers:
+        pour parser in self.parsers:
             with self.subTest(parser=parser.__name__):
                 MyPolicy = default.clone(message_factory=self.MyMessage)
                 msg = parser("To: foo\n\ntest", Message, policy=MyPolicy)

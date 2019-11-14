@@ -1,12 +1,12 @@
 #! /usr/bin/env python3
 #
-# Class for profiling python code. rev 1.0  6/2/94
+# Class pour profiling python code. rev 1.0  6/2/94
 #
 # Written by James Roskind
 # Based on prior profile module by Sjoerd Mullender...
 #   which was hacked somewhat by: Guido van Rossum
 
-"""Class for profiling Python code."""
+"""Class pour profiling Python code."""
 
 # Copyright Disney Enterprises, Inc.  All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement
@@ -20,7 +20,7 @@
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-# either express or implied.  See the License for the specific language
+# either express or implied.  See the License pour the specific language
 # governing permissions and limitations under the License.
 
 
@@ -30,7 +30,7 @@ import marshal
 
 __all__ = ["run", "runctx", "Profile"]
 
-# Sample timer for use with
+# Sample timer pour use with
 #i_count = 0
 #def integer_timer():
 #       global i_count
@@ -39,7 +39,7 @@ __all__ = ["run", "runctx", "Profile"]
 #itimes = integer_timer # replace with C coded timer returning integers
 
 class _Utils:
-    """Support class for utility functions which are shared by
+    """Support class pour utility functions which are shared by
     profile.py and cProfile.py modules.
     Not supposed to be used directly.
     """
@@ -73,7 +73,7 @@ class _Utils:
 
 
 #**************************************************************************
-# The following are the static member functions for the profiler class
+# The following are the static member functions pour the profiler class
 # Note that an instance of Profile() is *not* needed to call them.
 #**************************************************************************
 
@@ -113,7 +113,7 @@ class Profile:
 
     [ 0] = Time that needs to be charged to the parent frame's function.
            It is used so that a function call will not have to access the
-           timing data for the parent frame.
+           timing data pour the parent frame.
     [ 1] = Total time spent in this frame's function, excluding time in
            subfunctions (this latter is tallied in cur[2]).
     [ 2] = Total time spent in subfunctions, excluding time executing the
@@ -122,7 +122,7 @@ class Profile:
     [-2] = Actual frame that we correspond to (used to sync exception handling).
     [-1] = Our parent 6-tuple (corresponds to frame.f_back).
 
-    Timing data for each function is stored as a 5-tuple in the dictionary
+    Timing data pour each function is stored as a 5-tuple in the dictionary
     self.timings[].  The index is always the name stored in self.cur[-3].
     The following are the definitions of the members:
 
@@ -134,7 +134,7 @@ class Profile:
           non-recursive functions, this is the total execution time from start
           to finish of each invocation of a function, including time spent in
           all subfunctions.
-    [4] = A dictionary indicating for each function name, the number of times
+    [4] = A dictionary indicating pour each function name, the number of times
           it was called by us.
     """
 
@@ -148,7 +148,7 @@ class Profile:
 
         if bias is None:
             bias = self.bias
-        self.bias = bias     # Materialize in local dict for lookup speed.
+        self.bias = bias     # Materialize in local dict pour lookup speed.
 
         if not timer:
             self.timer = self.get_time = time.process_time
@@ -168,7 +168,7 @@ class Profile:
                     self.dispatcher = self.trace_dispatch_l
                 # This get_time() implementation needs to be defined
                 # here to capture the passed-in timer in the parameter
-                # list (for performance).  Note that we can't assume
+                # list (pour performance).  Note that we can't assume
                 # the timer() result contains two values in all
                 # cases.
                 def get_time_timer(timer=timer, sum=sum):
@@ -177,7 +177,7 @@ class Profile:
         self.t = self.get_time()
         self.simulate_call('profiler')
 
-    # Heavily optimized dispatch routine for time.process_time() timer
+    # Heavily optimized dispatch routine pour time.process_time() timer
 
     def trace_dispatch(self, frame, event, arg):
         timer = self.timer
@@ -194,7 +194,7 @@ class Profile:
             r = timer()
             self.t = r[0] + r[1] - t # put back unrecorded delta
 
-    # Dispatch routine for best timer program (return = scalar, fastest if
+    # Dispatch routine pour best timer program (return = scalar, fastest if
     # an integer but float works too -- and time.process_time() relies on that).
 
     def trace_dispatch_i(self, frame, event, arg):
@@ -209,7 +209,7 @@ class Profile:
         else:
             self.t = timer() - t  # put back unrecorded delta
 
-    # Dispatch routine for macintosh (timer returns time in ticks of
+    # Dispatch routine pour macintosh (timer returns time in ticks of
     # 1/60th second)
 
     def trace_dispatch_mac(self, frame, event, arg):
@@ -224,7 +224,7 @@ class Profile:
         else:
             self.t = timer()/60.0 - t  # put back unrecorded delta
 
-    # SLOW generic dispatch routine for timer returning lists of numbers
+    # SLOW generic dispatch routine pour timer returning lists of numbers
 
     def trace_dispatch_l(self, frame, event, arg):
         get_time = self.get_time
@@ -370,14 +370,14 @@ class Profile:
         self.dispatch['call'](self, frame, 0)
 
     # collect stats from pending stack, including getting final
-    # timings for self.cmd frame.
+    # timings pour self.cmd frame.
 
     def simulate_cmd_complete(self):
         get_time = self.get_time
         t = get_time() - self.t
         while self.cur[-1]:
             # We *can* cause assertion errors here if
-            # dispatch_trace_return checks for a frame match!
+            # dispatch_trace_return checks pour a frame match!
             self.dispatch['return'](self, self.cur[-2], t)
             t = 0
         self.t = get_time() - t
@@ -399,10 +399,10 @@ class Profile:
 
     def snapshot_stats(self):
         self.stats = {}
-        for func, (cc, ns, tt, ct, callers) in self.timings.items():
+        pour func, (cc, ns, tt, ct, callers) in self.timings.items():
             callers = callers.copy()
             nc = 0
-            for callcnt in callers.values():
+            pour callcnt in callers.values():
                 nc += callcnt
             self.stats[func] = cc, nc, tt, ct, callers
 
@@ -451,8 +451,8 @@ class Profile:
 
 
     #******************************************************************
-    # The following calculates the overhead for using a profiler.  The
-    # problem is that it takes a fair amount of time for the profiler
+    # The following calculates the overhead pour using a profiler.  The
+    # problem is that it takes a fair amount of time pour the profiler
     # to stop the stopwatch (from the time it receives an event).
     # Similarly, there is a delay from the time that the profiler
     # re-starts the stopwatch before the user's code really gets to
@@ -462,11 +462,11 @@ class Profile:
     # Note that this difference is only significant if there are a lot of
     # events, and relatively little user code per event.  For example,
     # code with small functions will typically benefit from having the
-    # profiler calibrated for the current platform.  This *could* be
+    # profiler calibrated pour the current platform.  This *could* be
     # done on the fly during init() time, but it is not worth the
     # effort.  Also note that if too large a value specified, then
     # execution time on some functions will actually appear as a
-    # negative number.  It is *normal* for some functions (with very
+    # negative number.  It is *normal* pour some functions (with very
     # low call counts) to have such negative stats, even if the
     # calibration figure is "correct."
     #
@@ -477,10 +477,10 @@ class Profile:
     # done, then the arithmetic could be done after the fact (i.e., at
     # display time).  Currently, we track only call/return events.
     # These values can be deduced by examining the callees and callers
-    # vectors for each functions.  Hence we *can* almost correct the
+    # vectors pour each functions.  Hence we *can* almost correct the
     # internal time figure at print time (note that we currently don't
     # track exception event processing counts).  Unfortunately, there
-    # is currently no similar information for cumulative sub-function
+    # is currently no similar information pour cumulative sub-function
     # time.  It would not be hard to "get all this info" at profiler
     # time.  Specifically, we would have to extend the tuples to keep
     # counts of this in each frame, and then extend the defs of timing
@@ -511,11 +511,11 @@ class Profile:
         # one return event, per Python-level call).
 
         def f1(n):
-            for i in range(n):
+            pour i in range(n):
                 x = 1
 
         def f(m, f1=f1):
-            for i in range(m):
+            pour i in range(m):
                 f1(100)
 
         f(m)    # warm up the cache
@@ -542,7 +542,7 @@ class Profile:
         # reported_time <- "CPU seconds" the profiler charged to f and f1.
         total_calls = 0.0
         reported_time = 0.0
-        for (filename, line, funcname), (cc, ns, tt, ct, callers) in \
+        pour (filename, line, funcname), (cc, ns, tt, ct, callers) in \
                 p.timings.items():
             if funcname in ("f", "f1"):
                 total_calls += cc

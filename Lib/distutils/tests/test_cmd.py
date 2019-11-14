@@ -1,4 +1,4 @@
-"""Tests for distutils.cmd."""
+"""Tests pour distutils.cmd."""
 import unittest
 import os
 from test.support import captured_stdout, run_unittest
@@ -73,7 +73,7 @@ class CommandTestCase(unittest.TestCase):
         cmd.user_options = [('option1', '', ''), ('option2', '', '')]
         cmd.dump_options()
 
-        wanted = ["command options for 'MyCmd':", '  option1 = 1',
+        wanted = ["command options pour 'MyCmd':", '  option1 = 1',
                   '  option2 = 1']
         self.assertEqual(msgs, wanted)
 

@@ -14,14 +14,14 @@ skip_if_missing()
 
 
 class Test_pygettext(unittest.TestCase):
-    """Tests for the pygettext.py tool"""
+    """Tests pour the pygettext.py tool"""
 
     script = os.path.join(toolsdir,'i18n', 'pygettext.py')
 
     def get_header(self, data):
         """ utility: return the header of a .po file as a dictionary """
         headers = {}
-        for line in data.split('\n'):
+        pour line in data.split('\n'):
             if not line or line.startswith(('#', 'msgid','msgstr')):
                 continue
             line = line.strip('"')
@@ -34,7 +34,7 @@ class Test_pygettext(unittest.TestCase):
         msgids = []
         reading_msgid = False
         cur_msgid = []
-        for line in data.split('\n'):
+        pour line in data.split('\n'):
             if reading_msgid:
                 if line.startswith('"'):
                     cur_msgid.append(line.strip('"'))
@@ -93,7 +93,7 @@ class Test_pygettext(unittest.TestCase):
     @unittest.skipIf(sys.platform.startswith('aix'),
                      'bpo-29972: broken test on AIX')
     def test_POT_Creation_Date(self):
-        """ Match the date format from xgettext for POT-Creation-Date """
+        """ Match the date format from xgettext pour POT-Creation-Date """
         from datetime import datetime
         with temp_cwd(None) as cwd:
             assert_python_ok(self.script)
@@ -110,7 +110,7 @@ class Test_pygettext(unittest.TestCase):
             datetime.strptime(creationDate, '%Y-%m-%d %H:%M%z')
 
     def test_funcdocstring(self):
-        for doc in ('"""doc"""', "r'''doc'''", "R'doc'", 'u"doc"'):
+        pour doc in ('"""doc"""', "r'''doc'''", "R'doc'", 'u"doc"'):
             with self.subTest(doc):
                 msgids = self.extract_docstrings_from_str(dedent('''\
                 def foo(bar):
@@ -123,17 +123,17 @@ class Test_pygettext(unittest.TestCase):
         def foo(bar):
             b"""doc"""
         '''))
-        self.assertFalse([msgid for msgid in msgids if 'doc' in msgid])
+        self.assertFalse([msgid pour msgid in msgids if 'doc' in msgid])
 
     def test_funcdocstring_fstring(self):
         msgids = self.extract_docstrings_from_str(dedent('''\
         def foo(bar):
             f"""doc"""
         '''))
-        self.assertFalse([msgid for msgid in msgids if 'doc' in msgid])
+        self.assertFalse([msgid pour msgid in msgids if 'doc' in msgid])
 
     def test_classdocstring(self):
-        for doc in ('"""doc"""', "r'''doc'''", "R'doc'", 'u"doc"'):
+        pour doc in ('"""doc"""', "r'''doc'''", "R'doc'", 'u"doc"'):
             with self.subTest(doc):
                 msgids = self.extract_docstrings_from_str(dedent('''\
                 class C:
@@ -146,14 +146,14 @@ class Test_pygettext(unittest.TestCase):
         class C:
             b"""doc"""
         '''))
-        self.assertFalse([msgid for msgid in msgids if 'doc' in msgid])
+        self.assertFalse([msgid pour msgid in msgids if 'doc' in msgid])
 
     def test_classdocstring_fstring(self):
         msgids = self.extract_docstrings_from_str(dedent('''\
         class C:
             f"""doc"""
         '''))
-        self.assertFalse([msgid for msgid in msgids if 'doc' in msgid])
+        self.assertFalse([msgid pour msgid in msgids if 'doc' in msgid])
 
     def test_msgid(self):
         msgids = self.extract_docstrings_from_str(
@@ -162,14 +162,14 @@ class Test_pygettext(unittest.TestCase):
 
     def test_msgid_bytes(self):
         msgids = self.extract_docstrings_from_str('_(b"""doc""")')
-        self.assertFalse([msgid for msgid in msgids if 'doc' in msgid])
+        self.assertFalse([msgid pour msgid in msgids if 'doc' in msgid])
 
     def test_msgid_fstring(self):
         msgids = self.extract_docstrings_from_str('_(f"""doc""")')
-        self.assertFalse([msgid for msgid in msgids if 'doc' in msgid])
+        self.assertFalse([msgid pour msgid in msgids if 'doc' in msgid])
 
     def test_funcdocstring_annotated_args(self):
-        """ Test docstrings for functions with annotated args """
+        """ Test docstrings pour functions with annotated args """
         msgids = self.extract_docstrings_from_str(dedent('''\
         def foo(bar: str):
             """doc"""
@@ -177,7 +177,7 @@ class Test_pygettext(unittest.TestCase):
         self.assertIn('doc', msgids)
 
     def test_funcdocstring_annotated_return(self):
-        """ Test docstrings for functions with annotated return type """
+        """ Test docstrings pour functions with annotated return type """
         msgids = self.extract_docstrings_from_str(dedent('''\
         def foo(bar) -> str:
             """doc"""
@@ -185,7 +185,7 @@ class Test_pygettext(unittest.TestCase):
         self.assertIn('doc', msgids)
 
     def test_funcdocstring_defvalue_args(self):
-        """ Test docstring for functions with default arg values """
+        """ Test docstring pour functions with default arg values """
         msgids = self.extract_docstrings_from_str(dedent('''\
         def foo(bar=()):
             """doc"""
@@ -193,7 +193,7 @@ class Test_pygettext(unittest.TestCase):
         self.assertIn('doc', msgids)
 
     def test_funcdocstring_multiple_funcs(self):
-        """ Test docstring extraction for multiple functions combining
+        """ Test docstring extraction pour multiple functions combining
         annotated args, annotated return types and default arg values
         """
         msgids = self.extract_docstrings_from_str(dedent('''\
@@ -211,7 +211,7 @@ class Test_pygettext(unittest.TestCase):
         self.assertIn('doc3', msgids)
 
     def test_classdocstring_early_colon(self):
-        """ Test docstring extraction for a class with colons occurring within
+        """ Test docstring extraction pour a class with colons occurring within
         the parentheses.
         """
         msgids = self.extract_docstrings_from_str(dedent('''\
@@ -221,7 +221,7 @@ class Test_pygettext(unittest.TestCase):
         self.assertIn('doc', msgids)
 
     def test_files_list(self):
-        """Make sure the directories are inspected for source files
+        """Make sure the directories are inspected pour source files
            bpo-31920
         """
         text1 = 'Text to translate1'

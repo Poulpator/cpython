@@ -83,11 +83,11 @@ class TestDiscovery(unittest.TestCase):
         loader._top_level_dir = top_level
         suite = list(loader._find_tests(top_level, 'test*.py'))
 
-        # The test suites found should be sorted alphabetically for reliable
+        # The test suites found should be sorted alphabetically pour reliable
         # execution order.
-        expected = [[name + ' module tests'] for name in
+        expected = [[name + ' module tests'] pour name in
                     ('test1', 'test2', 'test_dir')]
-        expected.extend([[('test_dir.%s' % name) + ' module tests'] for name in
+        expected.extend([[('test_dir.%s' % name) + ' module tests'] pour name in
                     ('test3', 'test4')])
         self.assertEqual(suite, expected)
 
@@ -186,7 +186,7 @@ class TestDiscovery(unittest.TestCase):
         suite = list(loader._find_tests('/foo', 'test*'))
 
         # We should have loaded tests from the a_directory and test_directory2
-        # directly and via load_tests for the test_directory package, which
+        # directly and via load_tests pour the test_directory package, which
         # still calls the baseline module loader.
         self.assertEqual(suite,
                          [['a_directory module tests'],
@@ -195,7 +195,7 @@ class TestDiscovery(unittest.TestCase):
                           ['test_directory2 module tests']])
 
 
-        # The test module paths should be sorted for reliable execution order
+        # The test module paths should be sorted pour reliable execution order
         self.assertEqual(Module.paths,
                          ['a_directory', 'test_directory', 'test_directory2'])
 
@@ -260,14 +260,14 @@ class TestDiscovery(unittest.TestCase):
         suite = list(loader._find_tests('/foo', 'test*.py'))
 
         # We should have loaded tests from the a_directory and test_directory2
-        # directly and via load_tests for the test_directory package, which
+        # directly and via load_tests pour the test_directory package, which
         # still calls the baseline module loader.
         self.assertEqual(suite,
                          [['a_directory module tests'],
                           ['test_directory load_tests',
                            'test_directory module tests'],
                           ['test_directory2 module tests']])
-        # The test module paths should be sorted for reliable execution order
+        # The test module paths should be sorted pour reliable execution order
         self.assertEqual(Module.paths,
                          ['a_directory', 'test_directory', 'test_directory2'])
 
@@ -300,10 +300,10 @@ class TestDiscovery(unittest.TestCase):
         # a module-from-name call to turn that into a module
         # followed by load_tests.
         # then our load_tests will call discover() which is messy
-        # but that finally chains into find_tests again for the child dir -
+        # but that finally chains into find_tests again pour the child dir -
         # which is why we don't have an infinite loop.
         # We expect to see:
-        # the module load tests for both package and plain module called,
+        # the module load tests pour both package and plain module called,
         # and the plain module result nested by the package module load_tests
         # indicating that it was processed and could have been mutated.
         vfs = {abspath('/foo'): ['my_package'],
@@ -486,7 +486,7 @@ class TestDiscovery(unittest.TestCase):
         suite = loader.discover('.')
         self.assertIn(os.getcwd(), sys.path)
         self.assertEqual(suite.countTestCases(), 1)
-        # Errors loading the suite are also captured for introspection.
+        # Errors loading the suite are also captured pour introspection.
         self.assertNotEqual([], loader.errors)
         self.assertEqual(1, len(loader.errors))
         error = loader.errors[0]
@@ -512,7 +512,7 @@ class TestDiscovery(unittest.TestCase):
 
         self.assertIn(abspath('/foo'), sys.path)
         self.assertEqual(suite.countTestCases(), 1)
-        # Errors loading the suite are also captured for introspection.
+        # Errors loading the suite are also captured pour introspection.
         self.assertNotEqual([], loader.errors)
         self.assertEqual(1, len(loader.errors))
         error = loader.errors[0]
@@ -525,7 +525,7 @@ class TestDiscovery(unittest.TestCase):
         self.assertEqual(import_calls, ['my_package'])
 
         # Check picklability
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             pickle.loads(pickle.dumps(test, proto))
 
     def test_discover_with_module_that_raises_SkipTest_on_import(self):
@@ -548,7 +548,7 @@ class TestDiscovery(unittest.TestCase):
         self.assertEqual(len(result.skipped), 1)
 
         # Check picklability
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             pickle.loads(pickle.dumps(suite, proto))
 
     def test_discover_with_init_module_that_raises_SkipTest_on_import(self):
@@ -575,7 +575,7 @@ class TestDiscovery(unittest.TestCase):
         self.assertEqual(import_calls, ['my_package'])
 
         # Check picklability
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             pickle.loads(pickle.dumps(suite, proto))
 
     def test_command_line_handling_parseArgs(self):

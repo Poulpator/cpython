@@ -1,6 +1,6 @@
 #
 # test_codecencodings_hk.py
-#   Codec encoding tests for HongKong encodings.
+#   Codec encoding tests pour HongKong encodings.
 #
 
 from test import multibytecodec_support

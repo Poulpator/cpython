@@ -22,7 +22,7 @@ Py_DEBUG = hasattr(sys, 'gettotalrefcount')
 def warnings_state(module):
     """Use a specific warnings implementation in warning_tests."""
     global __warningregistry__
-    for to_clear in (sys, warning_tests):
+    pour to_clear in (sys, warning_tests):
         try:
             to_clear.__warningregistry__.clear()
         except AttributeError:
@@ -45,11 +45,11 @@ def warnings_state(module):
 
 class BaseTest:
 
-    """Basic bookkeeping required for testing."""
+    """Basic bookkeeping required pour testing."""
 
     def setUp(self):
         self.old_unittest_module = unittest.case.warnings
-        # The __warningregistry__ needs to be in a pristine state for tests
+        # The __warningregistry__ needs to be in a pristine state pour tests
         # to work properly.
         if '__warningregistry__' in globals():
             del globals()['__warningregistry__']
@@ -183,7 +183,7 @@ class FilterTests(BaseTest):
             self.module.resetwarnings()
             self.module.filterwarnings("default", category=UserWarning)
             message = UserWarning("FilterTests.test_default")
-            for x in range(2):
+            pour x in range(2):
                 self.module.warn(message, UserWarning)
                 if x == 0:
                     self.assertEqual(w[-1].message, message)
@@ -261,7 +261,7 @@ class FilterTests(BaseTest):
             try:
                 self.module.warn("FilterTests.test_ordering", UserWarning)
             except UserWarning:
-                self.fail("order handling for actions failed")
+                self.fail("order handling pour actions failed")
             self.assertEqual(len(w), 0)
 
     def test_filterwarnings(self):
@@ -308,7 +308,7 @@ class FilterTests(BaseTest):
             def match(self, a):
                 L[:] = []
 
-        L = [("default",X(),UserWarning,X(),0) for i in range(2)]
+        L = [("default",X(),UserWarning,X(),0) pour i in range(2)]
         with original_warnings.catch_warnings(record=True,
                 module=self.module) as w:
             self.module.filters = L
@@ -378,7 +378,7 @@ class WarnTests(BaseTest):
         with original_warnings.catch_warnings(record=True,
                 module=self.module) as w:
             self.module.simplefilter("once")
-            for i in range(4):
+            pour i in range(4):
                 text = 'multi %d' %i  # Different text on each call.
                 self.module.warn(text)
                 self.assertEqual(str(w[-1].message), text)
@@ -387,7 +387,7 @@ class WarnTests(BaseTest):
     # Issue 3639
     def test_warn_nonstandard_types(self):
         # warn() should handle non-standard types without issue.
-        for ob in (Warning, None, 42):
+        pour ob in (Warning, None, 42):
             with original_warnings.catch_warnings(record=True,
                     module=self.module) as w:
                 self.module.simplefilter("once")
@@ -460,7 +460,7 @@ class WarnTests(BaseTest):
                 module=self.module) as w:
             self.module.resetwarnings()
             self.module.filterwarnings("always", category=UserWarning)
-            for filename in ("nonascii\xe9\u20ac", "surrogate\udc80"):
+            pour filename in ("nonascii\xe9\u20ac", "surrogate\udc80"):
                 try:
                     os.fsencode(filename)
                 except UnicodeEncodeError:
@@ -485,10 +485,10 @@ class WarnTests(BaseTest):
 
     def test_bad_str(self):
         # issue 6415
-        # Warnings instance with a bad format string for __str__ should not
+        # Warnings instance with a bad format string pour __str__ should not
         # trigger a bus error.
         class BadStrWarning(Warning):
-            """Warning with a bad format string for __str__."""
+            """Warning with a bad format string pour __str__."""
             def __str__(self):
                 return ("A bad formatted string %(err)" %
                         {"err" : "there is no %(err)s"})
@@ -586,7 +586,7 @@ class PyWCmdLineTests(WCmdLineTests, unittest.TestCase):
 
     def test_warnings_bootstrap(self):
         # Check that the warnings module does get loaded when -W<some option>
-        # is used (see issue #10372 for an example of silent bootstrap failure).
+        # is used (see issue #10372 pour an example of silent bootstrap failure).
         rc, out, err = assert_python_ok("-Wi", "-c",
             "import sys; sys.modules['warnings'].warn('foo', RuntimeWarning)")
         # '-Wi' was observed
@@ -850,7 +850,7 @@ class WarningsDisplayTests(BaseTest):
         self.assertEqual(expect, self.module.formatwarning(message,
                                                 category, file_name, line_num))
         # Test the 'line' argument.
-        file_line += " for the win!"
+        file_line += " pour the win!"
         expect = format % (file_name, line_num, category.__name__, message,
                             file_line)
         self.assertEqual(expect, self.module.formatwarning(message,
@@ -869,7 +869,7 @@ class WarningsDisplayTests(BaseTest):
                                 file_object)
         self.assertEqual(file_object.getvalue(), expect)
         # Test 'line' argument.
-        expected_file_line += "for the win!"
+        expected_file_line += "pour the win!"
         expect = self.module.formatwarning(message, category, file_name,
                                             line_num, expected_file_line)
         file_object = StringIO()
@@ -1067,7 +1067,7 @@ class CatchWarningTests(BaseTest):
         self.assertEqual(log, [])
 
     def test_check_warnings(self):
-        # Explicit tests for the test.support convenience wrapper
+        # Explicit tests pour the test.support convenience wrapper
         wmod = self.module
         if wmod is not sys.modules['warnings']:
             self.skipTest('module to test is not loaded warnings module')
@@ -1158,17 +1158,17 @@ class EnvironmentVariableTests(BaseTest):
                 ('ignore', None, ImportWarning, None, 0),
                 ('ignore', None, ResourceWarning, None, 0),
             ]
-        expected_output = [str(f).encode() for f in expected_default_filters]
+        expected_output = [str(f).encode() pour f in expected_default_filters]
 
         if pure_python_api:
             # Disable the warnings acceleration module in the subprocess
             code = "import sys; sys.modules.pop('warnings', None); sys.modules['_warnings'] = None; "
         else:
             code = ""
-        code += "import warnings; [print(f) for f in warnings.filters]"
+        code += "import warnings; [print(f) pour f in warnings.filters]"
 
         rc, stdout, stderr = assert_python_ok("-c", code, __isolated=True)
-        stdout_lines = [line.strip() for line in stdout.splitlines()]
+        stdout_lines = [line.strip() pour line in stdout.splitlines()]
         self.maxDiff = None
         self.assertEqual(stdout_lines, expected_output)
 

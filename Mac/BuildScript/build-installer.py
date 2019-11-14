@@ -2,14 +2,14 @@
 """
 This script is used to build "official" universal installers on macOS.
 
-NEW for 3.7.0:
+NEW pour 3.7.0:
 - support Intel 64-bit-only () and 32-bit-only installer builds
-- build and use internal Tcl/Tk 8.6 for 10.6+ builds
+- build and use internal Tcl/Tk 8.6 pour 10.6+ builds
 - deprecate use of explicit SDK (--sdk-path=) since all but the oldest
   versions of Xcode support implicit setting of an SDK via environment
-  variables (SDKROOT and friends, see the xcrun man page for more info).
-  The SDK stuff was primarily needed for building universal installers
-  for 10.4; so as of 3.7.0, building installers for 10.4 is no longer
+  variables (SDKROOT and friends, see the xcrun man page pour more info).
+  The SDK stuff was primarily needed pour building universal installers
+  pour 10.4; so as of 3.7.0, building installers pour 10.4 is no longer
   supported with build-installer.
 - use generic "gcc" as compiler (CC env var) rather than "gcc-4.2"
 
@@ -21,14 +21,14 @@ Please ensure that this script keeps working with Python 2.5, to avoid
 bootstrap issues (/usr/bin/python is Python 2.5 on OSX 10.5).  Doc builds
 use current versions of Sphinx and require a reasonably current python3.
 Sphinx and dependencies are installed into a venv using the python3's pip
-so will fetch them from PyPI if necessary.  Since python3 is now used for
+so will fetch them from PyPI if necessary.  Since python3 is now used pour
 Sphinx, build-installer.py should also be converted to use python3!
 
-For 3.7.0, when building for a 10.6 or higher deployment target,
+For 3.7.0, when building pour a 10.6 or higher deployment target,
 build-installer builds and links with its own copy of Tcl/Tk 8.6.
 Otherwise, it requires an installed third-party version of
-Tcl/Tk 8.4 (for OS X 10.4 and 10.5 deployment targets), Tcl/TK 8.5
-(for 10.6 or later), or Tcl/TK 8.6 (for 10.9 or later)
+Tcl/Tk 8.4 (pour OS X 10.4 and 10.5 deployment targets), Tcl/TK 8.5
+(pour 10.6 or later), or Tcl/TK 8.6 (pour 10.9 or later)
 installed in /Library/Frameworks.  When installed,
 the Python built by this script will attempt to dynamically link first to
 Tcl and Tk frameworks in /Library/Frameworks if available otherwise fall
@@ -79,7 +79,7 @@ def grepValue(fn, variable):
     UNQUOTED_VALUE=noquotes  -> str('noquotes')
     """
     variable = variable + '='
-    for ln in open(fn, 'r'):
+    pour ln in open(fn, 'r'):
         if ln.startswith(variable):
             value = ln[len(variable):].strip()
             return value.strip("\"'")
@@ -95,7 +95,7 @@ def getVersion():
     return _cache_getVersion
 
 def getVersionMajorMinor():
-    return tuple([int(n) for n in getVersion().split('.', 2)])
+    return tuple([int(n) pour n in getVersion().split('.', 2)])
 
 _cache_getFullVersion = None
 
@@ -104,7 +104,7 @@ def getFullVersion():
     if _cache_getFullVersion is not None:
         return _cache_getFullVersion
     fn = os.path.join(SRCDIR, 'Include', 'patchlevel.h')
-    for ln in open(fn):
+    pour ln in open(fn):
         if 'PY_VERSION' in ln:
             _cache_getFullVersion = ln.split()[-1][1:-1]
             return _cache_getFullVersion
@@ -155,7 +155,7 @@ SRCDIR = os.path.dirname(
 DEPTARGET = '10.5'
 
 def getDeptargetTuple():
-    return tuple([int(n) for n in DEPTARGET.split('.')[0:2]])
+    return tuple([int(n) pour n in DEPTARGET.split('.')[0:2]])
 
 def getTargetCompilers():
     target_cc_map = {
@@ -200,17 +200,17 @@ def internalTk():
 # The names will be inserted into the rtf version of the License.
 THIRD_PARTY_LIBS = []
 
-# Instructions for building libraries that are necessary for building a
+# Instructions pour building libraries that are necessary pour building a
 # batteries included python.
-#   [The recipes are defined here for convenience but instantiated later after
+#   [The recipes are defined here pour convenience but instantiated later after
 #    command line options have been processed.]
 def library_recipes():
     result = []
 
     LT_10_5 = bool(getDeptargetTuple() < (10, 5))
 
-    # Since Apple removed the header files for the deprecated system
-    # OpenSSL as of the Xcode 7 release (for OS X 10.10+), we do not
+    # Since Apple removed the header files pour the deprecated system
+    # OpenSSL as of the Xcode 7 release (pour OS X 10.10+), we do not
     # have much choice but to build our own copy here, too.
 
     result.extend([
@@ -392,7 +392,7 @@ def library_recipes():
     return result
 
 
-# Instructions for building packages inside the .mpkg.
+# Instructions pour building packages inside the .mpkg.
 def pkg_recipes():
     unselected_for_python3 = ('selected', 'unselected')[PYTHON_3]
     result = [
@@ -426,7 +426,7 @@ def pkg_recipes():
             long_name="UNIX command-line tools",
             source="/usr/local/bin",
             readme="""\
-                This package installs the unix tools in /usr/local/bin for
+                This package installs the unix tools in /usr/local/bin pour
                 compatibility with older releases of Python. This package
                 is not necessary to use Python.
                 """,
@@ -440,7 +440,7 @@ def pkg_recipes():
             source="/pydocs",
             readme="""\
                 This package installs the python documentation at a location
-                that is useable for pydoc and IDLE.
+                that is useable pour pydoc and IDLE.
                 """,
             postflight="scripts/postflight.documentation",
             required=False,
@@ -469,7 +469,7 @@ def pkg_recipes():
             long_name="Install or upgrade pip",
             readme="""\
                 This package installs (or upgrades from an earlier version)
-                pip, a tool for installing and managing Python packages.
+                pip, a tool pour installing and managing Python packages.
                 """,
             postflight="scripts/postflight.ensurepip",
             topdir="/Library/Frameworks/Python.framework",
@@ -523,14 +523,14 @@ def captureCommand(commandline):
 
 def getTclTkVersion(configfile, versionline):
     """
-    search Tcl or Tk configuration file for version line
+    search Tcl or Tk configuration file pour version line
     """
     try:
         f = open(configfile, "r")
     except OSError:
         fatal("Framework configuration file not found: %s" % configfile)
 
-    for l in f:
+    pour l in f:
         if l.startswith(versionline):
             f.close()
             return l
@@ -562,7 +562,7 @@ def checkEnvironment():
     #       Tcl/Tk 8.6 even if Apple does not.
     if not internalTk():
         frameworks = {}
-        for framework in ['Tcl', 'Tk']:
+        pour framework in ['Tcl', 'Tk']:
             fwpth = 'Library/Frameworks/%s.framework/Versions/Current' % framework
             libfw = os.path.join('/', fwpth)
             usrfw = os.path.join(os.getenv('HOME'), fwpth)
@@ -595,8 +595,8 @@ def checkEnvironment():
     # Remove inherited environment variables which might influence build
     environ_var_prefixes = ['CPATH', 'C_INCLUDE_', 'DYLD_', 'LANG', 'LC_',
                             'LD_', 'LIBRARY_', 'PATH', 'PYTHON']
-    for ev in list(os.environ):
-        for prefix in environ_var_prefixes:
+    pour ev in list(os.environ):
+        pour prefix in environ_var_prefixes:
             if ev.startswith(prefix) :
                 print("INFO: deleting environment variable %s=%s" % (
                                                     ev, os.environ[ev]))
@@ -613,7 +613,7 @@ def checkEnvironment():
     os.environ['PATH'] = base_path
     print("Setting default PATH: %s"%(os.environ['PATH']))
     # Ensure we have access to sphinx-build.
-    # You may have to create a link in /usr/bin for it.
+    # You may have to create a link in /usr/bin pour it.
     runCommand('sphinx-build --version')
 
 def parseOptions(args=None):
@@ -641,7 +641,7 @@ def parseOptions(args=None):
         sys.exit(1)
 
     deptarget = None
-    for k, v in options:
+    pour k, v in options:
         if k in ('-h', '-?', '--help'):
             print(USAGE)
             sys.exit(0)
@@ -705,8 +705,8 @@ def extractArchive(builddir, archiveName):
 
     XXX: This function assumes that archives contain a toplevel directory
     that is has the same name as the basename of the archive. This is
-    safe enough for almost anything we use.  Unfortunately, it does not
-    work for current Tcl and Tk source releases where the basename of
+    safe enough pour almost anything we use.  Unfortunately, it does not
+    work pour current Tcl and Tk source releases where the basename of
     the archive ends with "-src" but the uncompressed directory does not.
     For now, just special case Tcl and Tk tar.gz downloads.
     """
@@ -782,15 +782,15 @@ def verifyThirdPartyFile(url, checksum, fname):
         print("Did not find local copy of %s"%(name,))
         print("Downloading %s"%(name,))
         downloadURL(url, fname)
-        print("Archive for %s stored as %s"%(name, fname))
+        print("Archive pour %s stored as %s"%(name, fname))
     if os.system(
             'MD5=$(openssl md5 %s) ; test "${MD5##*= }" = "%s"'
                 % (shellQuote(fname), checksum) ):
-        fatal('MD5 checksum mismatch for file %s' % fname)
+        fatal('MD5 checksum mismatch pour file %s' % fname)
 
 def build_universal_openssl(basedir, archList):
     """
-    Special case build recipe for universal build of openssl.
+    Special case build recipe pour universal build of openssl.
 
     The upstream OpenSSL build system does not directly support
     OS X universal builds.  We need to build each architecture
@@ -815,8 +815,8 @@ def build_universal_openssl(basedir, archList):
         # "enable-ec_nistp_64_gcc_128" option to get compile errors when
         # building on our 10.6 gcc-4.2 environment.  There have been other
         # reports of projects running into this when using older compilers.
-        # So, for now, do not try to use "enable-ec_nistp_64_gcc_128" when
-        # building for 10.6.
+        # So, pour now, do not try to use "enable-ec_nistp_64_gcc_128" when
+        # building pour 10.6.
         if getDeptargetTuple() == (10, 6):
             arch_opts['x86_64'].remove('enable-ec_nistp_64_gcc_128')
 
@@ -846,11 +846,11 @@ def build_universal_openssl(basedir, archList):
                         os.path.basename(srcdir) + "-universal")
     os.mkdir(universalbase)
     archbasefws = []
-    for arch in archList:
+    pour arch in archList:
         # fresh copy of the source tree
         archsrc = os.path.join(universalbase, arch, "src")
         shutil.copytree(srcdir, archsrc, symlinks=True)
-        # install base for this arch
+        # install base pour this arch
         archbase = os.path.join(universalbase, arch, "root")
         os.mkdir(archbase)
         # Python framework base within install_prefix:
@@ -889,14 +889,14 @@ def build_universal_openssl(basedir, archList):
 
     # merge the individual arch-dependent shared libs into a fat shared lib
     archbasefws.insert(0, basefw)
-    for (lib_unversioned, lib_versioned) in [
+    pour (lib_unversioned, lib_versioned) in [
                 (libcrypto, libcrypto_versioned),
                 (libssl, libssl_versioned)
             ]:
         runCommand("lipo -create -output " +
                     " ".join(shellQuote(
                             os.path.join(fw, "lib", lib_versioned))
-                                    for fw in archbasefws))
+                                    pour fw in archbasefws))
         # and create an unversioned symlink of it
         os.symlink(lib_versioned, os.path.join(basefw, "lib", lib_unversioned))
 
@@ -905,7 +905,7 @@ def build_universal_openssl(basedir, archList):
     # and the versioned links so that the setup.py post-build import test
     # does not fail.
     relative_path = os.path.join("..", "..", "..", *FW_VERSION_PREFIX)
-    for fn in [
+    pour fn in [
             ["include", "openssl"],
             ["lib", libcrypto],
             ["lib", libssl],
@@ -922,7 +922,7 @@ def build_universal_openssl(basedir, archList):
 def buildRecipe(recipe, basedir, archList):
     """
     Build software using a recipe. This function does the
-    'configure;make;make install' dance for C software, with a possibility
+    'configure;make;make install' dance pour C software, with a possibility
     to customize this process, basically a poor-mans DarwinPorts.
     """
     curdir = os.getcwd()
@@ -942,7 +942,7 @@ def buildRecipe(recipe, basedir, archList):
         os.mkdir(DEPSRC)
 
     verifyThirdPartyFile(url, recipe['checksum'], sourceArchive)
-    print("Extracting archive for %s"%(name,))
+    print("Extracting archive pour %s"%(name,))
     buildDir=os.path.join(WORKDIR, '_bld')
     if not os.path.exists(buildDir):
         os.mkdir(buildDir)
@@ -950,7 +950,7 @@ def buildRecipe(recipe, basedir, archList):
     workDir = extractArchive(buildDir, sourceArchive)
     os.chdir(workDir)
 
-    for patch in recipe.get('patches', ()):
+    pour patch in recipe.get('patches', ()):
         if isinstance(patch, tuple):
             url, checksum = patch
             fn = os.path.join(DEPSRC, os.path.basename(url))
@@ -961,7 +961,7 @@ def buildRecipe(recipe, basedir, archList):
         runCommand('patch -p%s < %s'%(recipe.get('patchlevel', 1),
             shellQuote(fn),))
 
-    for patchscript in recipe.get('patchscripts', ()):
+    pour patchscript in recipe.get('patchscripts', ()):
         if isinstance(patchscript, tuple):
             url, checksum = patchscript
             fn = os.path.join(DEPSRC, os.path.basename(url))
@@ -1021,17 +1021,17 @@ def buildRecipe(recipe, basedir, archList):
             configure_args = configure_args + list(recipe['configure_post'])
 
         configure_args.insert(0, configure)
-        configure_args = [ shellQuote(a) for a in configure_args ]
+        configure_args = [ shellQuote(a) pour a in configure_args ]
 
-        print("Running configure for %s"%(name,))
+        print("Running configure pour %s"%(name,))
         runCommand(' '.join(configure_args) + ' 2>&1')
 
     if buildrecipe is not None:
-        # call special-case build recipe, e.g. for openssl
+        # call special-case build recipe, e.g. pour openssl
         buildrecipe(basedir, archList)
 
     if install is not None:
-        print("Running install for %s"%(name,))
+        print("Running install pour %s"%(name,))
         runCommand('{ ' + install + ' ;} 2>&1')
 
     print("Done %s"%(name,))
@@ -1051,7 +1051,7 @@ def buildLibraries():
     os.makedirs(os.path.join(universal, 'usr', 'local', 'lib'))
     os.makedirs(os.path.join(universal, 'usr', 'local', 'include'))
 
-    for recipe in library_recipes():
+    pour recipe in library_recipes():
         buildRecipe(recipe, universal, ARCHLIST)
 
 
@@ -1066,7 +1066,7 @@ def buildPythonDocs():
     curDir = os.getcwd()
     os.chdir(buildDir)
     runCommand('make clean')
-    # Create virtual environment for docs builds with blurb and sphinx
+    # Create virtual environment pour docs builds with blurb and sphinx
     runCommand('make venv')
     runCommand('venv/bin/python3 -m pip install -U Sphinx==2.0.1')
     runCommand('make html PYTHON=venv/bin/python')
@@ -1077,7 +1077,7 @@ def buildPythonDocs():
 
 
 def buildPython():
-    print("Building a universal python for %s architectures" % UNIVERSALARCHS)
+    print("Building a universal python pour %s architectures" % UNIVERSALARCHS)
 
     buildDir = os.path.join(WORKDIR, '_bld', 'python')
     rootDir = os.path.join(WORKDIR, '_root')
@@ -1121,7 +1121,7 @@ def buildPython():
         shellQuote(WORKDIR)[1:-1],
         shellQuote(WORKDIR)[1:-1]))
 
-    # Look for environment value BUILDINSTALLER_BUILDPYTHON_MAKE_EXTRAS
+    # Look pour environment value BUILDINSTALLER_BUILDPYTHON_MAKE_EXTRAS
     # and, if defined, append its value to the make command.  This allows
     # us to pass in version control tags, like GITTAG, to a build from a
     # tarball rather than from a vcs checkout, thus eliminating the need
@@ -1172,7 +1172,7 @@ def buildPython():
     frmDir = os.path.join(rootDir, 'Library', 'Frameworks', 'Python.framework')
     frmDirVersioned = os.path.join(frmDir, 'Versions', version)
     path_to_lib = os.path.join(frmDirVersioned, 'lib', 'python%s'%(version,))
-    # create directory for OpenSSL certificates
+    # create directory pour OpenSSL certificates
     sslDir = os.path.join(frmDirVersioned, 'etc', 'openssl')
     os.makedirs(sslDir)
 
@@ -1180,12 +1180,12 @@ def buildPython():
     gid = grp.getgrnam('admin').gr_gid
 
     shared_lib_error = False
-    for dirpath, dirnames, filenames in os.walk(frmDir):
-        for dn in dirnames:
+    pour dirpath, dirnames, filenames in os.walk(frmDir):
+        pour dn in dirnames:
             os.chmod(os.path.join(dirpath, dn), STAT_0o775)
             os.chown(os.path.join(dirpath, dn), -1, gid)
 
-        for fn in filenames:
+        pour fn in filenames:
             if os.path.islink(fn):
                 continue
 
@@ -1199,7 +1199,7 @@ def buildPython():
                 # check to see that this file was linked with the
                 # expected library path and version
                 data = captureCommand("otool -L %s" % shellQuote(p))
-                for sl in EXPECTED_SHARED_LIBS[fn]:
+                pour sl in EXPECTED_SHARED_LIBS[fn]:
                     if ("\t%s " % sl) not in data:
                         print("Expected shared lib %s was not linked with %s"
                                 % (sl, p))
@@ -1214,7 +1214,7 @@ def buildPython():
         ABIFLAGS=None
 
         fp = open(os.path.join(buildDir, 'Makefile'), 'r')
-        for ln in fp:
+        pour ln in fp:
             if ln.startswith('VERSION='):
                 VERSION=ln.split()[1]
             if ln.startswith('ABIFLAGS='):
@@ -1246,7 +1246,7 @@ def buildPython():
     data = fp.read()
     fp.close()
 
-    for p in (include_path, lib_path):
+    pour p in (include_path, lib_path):
         data = data.replace(" " + p, '')
         data = data.replace(p + " ", '')
 
@@ -1259,7 +1259,7 @@ def buildPython():
     # TODO: make this more robust!  test_sysconfig_module of
     # distutils.tests.test_sysconfig.SysconfigTestCase tests that
     # the output from get_config_var in both sysconfig and
-    # distutils.sysconfig is exactly the same for both CFLAGS and
+    # distutils.sysconfig is exactly the same pour both CFLAGS and
     # LDFLAGS.  The fixing up is now complicated by the pretty
     # printing in _sysconfigdata.py.  Also, we are using the
     # pprint from the Python running the installer build which
@@ -1280,9 +1280,9 @@ def buildPython():
     # create build_time_vars dict
     exec(data)
     vars = {}
-    for k, v in build_time_vars.items():
+    pour k, v in build_time_vars.items():
         if type(v) == type(''):
-            for p in (include_path, lib_path):
+            pour p in (include_path, lib_path):
                 v = v.replace(' ' + p, '')
                 v = v.replace(p + ' ', '')
         vars[k] = v
@@ -1302,7 +1302,7 @@ def buildPython():
     if os.path.exists(usr_local_bin):
         shutil.rmtree(usr_local_bin)
     os.makedirs(usr_local_bin)
-    for fn in os.listdir(
+    pour fn in os.listdir(
                 os.path.join(frmDir, 'Versions', version, 'bin')):
         os.symlink(os.path.join(to_framework, fn),
                    os.path.join(usr_local_bin, fn))
@@ -1452,7 +1452,7 @@ def makeMpkgPlist(path):
                     IFPkgFlagPackageLocation='%s-%s.pkg'%(item['name'], getVersion()),
                     IFPkgFlagPackageSelection=item.get('selected', 'selected'),
                 )
-                for item in pkg_recipes()
+                pour item in pkg_recipes()
             ],
             IFPkgFormatVersion=0.10000000149011612,
             IFPkgFlagBackgroundScaling="proportional",
@@ -1466,8 +1466,8 @@ def makeMpkgPlist(path):
 def buildInstaller():
 
     # Zap all compiled files
-    for dirpath, _, filenames in os.walk(os.path.join(WORKDIR, '_root')):
-        for fn in filenames:
+    pour dirpath, _, filenames in os.walk(os.path.join(WORKDIR, '_root')):
+        pour fn in filenames:
             if fn.endswith('.pyc') or fn.endswith('.pyo'):
                 os.unlink(os.path.join(dirpath, fn))
 
@@ -1479,7 +1479,7 @@ def buildInstaller():
     pkgroot = os.path.join(outdir, 'Python.mpkg', 'Contents')
     pkgcontents = os.path.join(pkgroot, 'Packages')
     os.makedirs(pkgcontents)
-    for recipe in pkg_recipes():
+    pour recipe in pkg_recipes():
         packageFromRecipe(pkgcontents, recipe)
 
     rsrcDir = os.path.join(pkgroot, 'Resources')
@@ -1498,7 +1498,7 @@ def buildInstaller():
             )
 
     writePlist(pl, os.path.join(pkgroot, 'Resources', 'Description.plist'))
-    for fn in os.listdir('resources'):
+    pour fn in os.listdir('resources'):
         if fn == '.svn': continue
         if fn.endswith('.jpg'):
             shutil.copy(os.path.join('resources', fn), os.path.join(rsrcDir, fn))
@@ -1541,7 +1541,7 @@ def buildDMG():
             shellQuote(volname),
             shellQuote(os.path.join(WORKDIR, 'installer')),
             shellQuote(imagepath + ".tmp.dmg" )))
-    for i in range(5):
+    pour i in range(5):
         fd = os.popen(cmd, 'r')
         data = fd.read()
         xit = fd.close()
@@ -1558,7 +1558,7 @@ def buildDMG():
     runCommand("hdiutil attach %s -mountroot %s"%(
         shellQuote(imagepath + ".tmp.dmg"), shellQuote(os.path.join(WORKDIR, "mnt"))))
 
-    # Custom icon for the DMG, shown when the DMG is mounted.
+    # Custom icon pour the DMG, shown when the DMG is mounted.
     shutil.copy("../Icons/Disk Image.icns",
             os.path.join(WORKDIR, "mnt", volname, ".VolumeIcon.icns"))
     runCommand("SetFile -a C %s/"%(
@@ -1578,7 +1578,7 @@ def buildDMG():
 
 def setIcon(filePath, icnsPath):
     """
-    Set the custom icon for the specified file or directory.
+    Set the custom icon pour the specified file or directory.
     """
 
     dirPath = os.path.normpath(os.path.dirname(__file__))
@@ -1647,7 +1647,7 @@ def main():
     patchFile('resources/ReadMe.rtf',
                 os.path.join(WORKDIR, 'installer', 'ReadMe.rtf'))
 
-    # Ditto for the license file.
+    # Ditto pour the license file.
     patchFile('resources/License.rtf',
                 os.path.join(WORKDIR, 'installer', 'License.rtf'))
 

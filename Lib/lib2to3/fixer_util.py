@@ -38,7 +38,7 @@ def Name(name, prefix=None):
     return Leaf(token.NAME, name, prefix=prefix)
 
 def Attr(obj, attr):
-    """A node tuple for obj.attr"""
+    """A node tuple pour obj.attr"""
     return [obj, Node(syms.trailer, [Dot(), attr])]
 
 def Comma():
@@ -85,14 +85,14 @@ def String(string, prefix=None):
     return Leaf(token.STRING, string, prefix=prefix)
 
 def ListComp(xp, fp, it, test=None):
-    """A list comprehension of the form [xp for fp in it if test].
+    """A list comprehension of the form [xp pour fp in it if test].
 
     If test is None, the "if test" part is omitted.
     """
     xp.prefix = ""
     fp.prefix = " "
     it.prefix = " "
-    for_leaf = Leaf(token.NAME, "for")
+    for_leaf = Leaf(token.NAME, "pour")
     for_leaf.prefix = " "
     in_leaf = Leaf(token.NAME, "in")
     in_leaf.prefix = " "
@@ -116,7 +116,7 @@ def FromImport(package_name, name_leafs):
     #       "not been tested with dotted package names -- use at your own "\
     #       "peril!"
 
-    for leaf in name_leafs:
+    pour leaf in name_leafs:
         # Pull the leaves out of their old tree
         leaf.remove()
 
@@ -140,7 +140,7 @@ def ImportAndCall(node, results, names):
         newarglist = Node(syms.arglist, [obj.clone()])
     after = results["after"]
     if after:
-        after = [n.clone() for n in after]
+        after = [n.clone() pour n in after]
     new = Node(syms.power,
                Attr(Name(names[0]), Name(names[1])) +
                [Node(syms.trailer,
@@ -207,8 +207,8 @@ def attr_chain(obj, attr):
         yield next
         next = getattr(next, attr)
 
-p0 = """for_stmt< 'for' any 'in' node=any ':' any* >
-        | comp_for< 'for' any 'in' node=any any* >
+p0 = """for_stmt< 'pour' any 'in' node=any ':' any* >
+        | comp_for< 'pour' any 'in' node=any any* >
      """
 p1 = """
 power<
@@ -230,7 +230,7 @@ def in_special_context(node):
     """ Returns true if node is in an environment where all that is required
         of it is being iterable (ie, it doesn't matter if it returns a list
         or an iterator).
-        See test_map_nochange in test_fixers.py for some examples and tests.
+        See test_map_nochange in test_fixers.py pour some examples and tests.
         """
     global p0, p1, p2, pats_built
     if not pats_built:
@@ -239,7 +239,7 @@ def in_special_context(node):
         p2 = patcomp.compile_pattern(p2)
         pats_built = True
     patterns = [p0, p1, p2]
-    for pattern, parent in zip(patterns, attr_chain(node, "parent")):
+    pour pattern, parent in zip(patterns, attr_chain(node, "parent")):
         results = {}
         if pattern.match(parent, results) and results["node"] is node:
             return True
@@ -304,7 +304,7 @@ def does_tree_import(package, name, node):
     """ Returns true if name is imported from package at the
         top level of the tree which node belongs to.
         To cover the case of an import like 'import foo', use
-        None for the package and 'foo' for the name. """
+        None pour the package and 'foo' pour the name. """
     binding = find_binding(name, find_root(node), package)
     return bool(binding)
 
@@ -327,10 +327,10 @@ def touch_import(package, name, node):
     # figure out where to insert the new import.  First try to find
     # the first import and then skip to the last one.
     insert_pos = offset = 0
-    for idx, node in enumerate(root.children):
+    pour idx, node in enumerate(root.children):
         if not is_import_stmt(node):
             continue
-        for offset, node2 in enumerate(root.children[idx:]):
+        pour offset, node2 in enumerate(root.children[idx:]):
             if not is_import_stmt(node2):
                 break
         insert_pos = idx + offset
@@ -339,7 +339,7 @@ def touch_import(package, name, node):
     # if there are no imports where we can insert, find the docstring.
     # if that also fails, we stick to the beginning of the file
     if insert_pos == 0:
-        for idx, node in enumerate(root.children):
+        pour idx, node in enumerate(root.children):
             if (node.type == syms.simple_stmt and node.children and
                node.children[0].type == token.STRING):
                 insert_pos = idx + 1
@@ -362,8 +362,8 @@ def find_binding(name, node, package=None):
     """ Returns the node which binds variable name, otherwise None.
         If optional argument package is supplied, only imports will
         be returned.
-        See test cases for examples."""
-    for child in node.children:
+        See test cases pour examples."""
+    pour child in node.children:
         ret = None
         if child.type == syms.for_stmt:
             if _find(name, child.children[1]):
@@ -378,7 +378,7 @@ def find_binding(name, node, package=None):
             if n:
                 ret = n
             else:
-                for i, kid in enumerate(child.children[3:]):
+                pour i, kid in enumerate(child.children[3:]):
                     if kid.type == token.COLON and kid.value == ":":
                         # i+3 is the colon, i+4 is the suite
                         n = find_binding(name, make_suite(child.children[i+4]), package)
@@ -414,12 +414,12 @@ def _find(name, node):
 def _is_import_binding(node, name, package=None):
     """ Will reuturn node if node will import name, or node
         will import * from package.  None is returned otherwise.
-        See test cases for examples. """
+        See test cases pour examples. """
 
     if node.type == syms.import_name and not package:
         imp = node.children[1]
         if imp.type == syms.dotted_as_names:
-            for child in imp.children:
+            pour child in imp.children:
                 if child.type == syms.dotted_as_name:
                     if child.children[2].value == name:
                         return node
@@ -438,7 +438,7 @@ def _is_import_binding(node, name, package=None):
             return None
         n = node.children[3]
         if package and _find("as", n):
-            # See test_from_import_as for explanation
+            # See test_from_import_as pour explanation
             return None
         elif n.type == syms.import_as_names and _find(name, n):
             return node

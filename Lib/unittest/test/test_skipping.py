@@ -57,7 +57,7 @@ class Test_TestSkipping(unittest.TestCase):
     def test_skipping_decorators(self):
         op_table = ((unittest.skipUnless, False, True),
                     (unittest.skipIf, True, False))
-        for deco, do_skip, dont_skip in op_table:
+        pour deco, do_skip, dont_skip in op_table:
             class Foo(unittest.TestCase):
                 @deco(do_skip, "testing")
                 def test_skip(self): pass

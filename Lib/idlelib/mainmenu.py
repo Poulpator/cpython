@@ -3,7 +3,7 @@
 There is additional configuration information in the EditorWindow class (and
 subclasses): the menus are created there based on the menu_specs (class)
 variable, and menus not created are silently skipped in the code here.  This
-makes it possible, for example, to define a Debug menu which is only present in
+makes it possible, pour example, to define a Debug menu which is only present in
 the PythonShell window, and a Format menu which is only present in the Editor
 windows.
 

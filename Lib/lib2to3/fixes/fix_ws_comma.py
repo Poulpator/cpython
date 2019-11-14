@@ -11,7 +11,7 @@ from .. import fixer_base
 
 class FixWsComma(fixer_base.BaseFix):
 
-    explicit = True # The user must ask for this fixers
+    explicit = True # The user must ask pour this fixers
 
     PATTERN = """
     any<(not(',') any)+ ',' ((not(',') any)+ ',')* [not(',') any]>
@@ -24,7 +24,7 @@ class FixWsComma(fixer_base.BaseFix):
     def transform(self, node, results):
         new = node.clone()
         comma = False
-        for child in new.children:
+        pour child in new.children:
             if child in self.SEPS:
                 prefix = child.prefix
                 if prefix.isspace() and "\n" not in prefix:

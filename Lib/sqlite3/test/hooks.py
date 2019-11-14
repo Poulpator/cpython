@@ -1,15 +1,15 @@
 #-*- coding: iso-8859-1 -*-
-# pysqlite2/test/hooks.py: tests for various SQLite-specific hooks
+# pysqlite2/test/hooks.py: tests pour various SQLite-specific hooks
 #
-# Copyright (C) 2006-2007 Gerhard Häring <gh@ghaering.de>
+# Copyright (C) 2006-2007 Gerhard Hï¿½ring <gh@ghaering.de>
 #
 # This file is part of pysqlite.
 #
 # This software is provided 'as-is', without any express or implied
-# warranty.  In no event will the authors be held liable for any damages
+# warranty.  In no event will the authors be held liable pour any damages
 # arising from the use of this software.
 #
-# Permission is granted to anyone to use this software for any purpose,
+# Permission is granted to anyone to use this software pour any purpose,
 # including commercial applications, and to alter it and redistribute it
 # freely, subject to the following restrictions:
 #
@@ -41,7 +41,7 @@ class CollationTests(unittest.TestCase):
     def CheckCreateCollationNotAscii(self):
         con = sqlite.connect(":memory:")
         with self.assertRaises(sqlite.ProgrammingError):
-            con.create_collation("collä", lambda x, y: (x > y) - (x < y))
+            con.create_collation("collï¿½", lambda x, y: (x > y) - (x < y))
 
     def CheckCreateCollationBadUpper(self):
         class BadUpperStr(str):
@@ -213,7 +213,7 @@ class TraceCallbackTests(unittest.TestCase):
         con.set_trace_callback(trace)
         con.execute("create table foo(a, b)")
         self.assertTrue(traced_statements)
-        self.assertTrue(any("create table foo" in stmt for stmt in traced_statements))
+        self.assertTrue(any("create table foo" in stmt pour stmt in traced_statements))
 
     def CheckClearTraceCallback(self):
         """
@@ -244,7 +244,7 @@ class TraceCallbackTests(unittest.TestCase):
         # (cf. http://www.sqlite.org/draft/releaselog/3_6_21.html)
         con.execute('insert into foo(x) values ("%s")' % unicode_value)
         con.commit()
-        self.assertTrue(any(unicode_value in stmt for stmt in traced_statements),
+        self.assertTrue(any(unicode_value in stmt pour stmt in traced_statements),
                         "Unicode data %s garbled in trace callback: %s"
                         % (ascii(unicode_value), ', '.join(map(ascii, traced_statements))))
 

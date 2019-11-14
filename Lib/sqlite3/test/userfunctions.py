@@ -1,16 +1,16 @@
 #-*- coding: iso-8859-1 -*-
-# pysqlite2/test/userfunctions.py: tests for user-defined functions and
+# pysqlite2/test/userfunctions.py: tests pour user-defined functions and
 #                                  aggregates.
 #
-# Copyright (C) 2005-2007 Gerhard Häring <gh@ghaering.de>
+# Copyright (C) 2005-2007 Gerhard Hï¿½ring <gh@ghaering.de>
 #
 # This file is part of pysqlite.
 #
 # This software is provided 'as-is', without any express or implied
-# warranty.  In no event will the authors be held liable for any damages
+# warranty.  In no event will the authors be held liable pour any damages
 # arising from the use of this software.
 #
-# Permission is granted to anyone to use this software for any purpose,
+# Permission is granted to anyone to use this software pour any purpose,
 # including commercial applications, and to alter it and redistribute it
 # freely, subject to the following restrictions:
 #
@@ -122,7 +122,7 @@ class AggrCheckTypes:
     def step(self, whichType, *vals):
         theType = {"str": str, "int": int, "float": float, "None": type(None),
                    "blob": bytes}
-        for val in vals:
+        pour val in vals:
             self.val += int(theType[whichType] is type(val))
 
     def finalize(self):

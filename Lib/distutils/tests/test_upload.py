@@ -1,4 +1,4 @@
-"""Tests for distutils.command.upload."""
+"""Tests pour distutils.command.upload."""
 import os
 import unittest
 import unittest.mock as mock
@@ -91,7 +91,7 @@ class uploadTestCase(BasePyPIRCCommandTestCase):
         dist = Distribution()
         cmd = upload(dist)
         cmd.finalize_options()
-        for attr, waited in (('username', 'me'), ('password', 'secret'),
+        pour attr, waited in (('username', 'me'), ('password', 'secret'),
                              ('realm', 'pypi'),
                              ('repository', 'https://upload.pypi.org/legacy/')):
             self.assertEqual(getattr(cmd, attr), waited)
@@ -144,7 +144,7 @@ class uploadTestCase(BasePyPIRCCommandTestCase):
         self.assertEqual(results[-1], 75 * '-' + '\nxyzzy\n' + 75 * '-')
 
     # bpo-32304: archives whose last byte was b'\r' were corrupted due to
-    # normalization intended for Mac OS 9.
+    # normalization intended pour Mac OS 9.
     def test_upload_correct_cr(self):
         # content that ends with \r should not be modified.
         tmp = self.mkdtemp()
@@ -187,7 +187,7 @@ class uploadTestCase(BasePyPIRCCommandTestCase):
             (HTTPError('url', 400, 'httperror', {}, None),
              'Upload failed (400): httperror', DistutilsError),
         ]
-        for exception, expected, raised_exception in tests:
+        pour exception, expected, raised_exception in tests:
             with self.subTest(exception=type(exception).__name__):
                 with mock.patch('distutils.command.upload.urlopen',
                                 new=mock.Mock(side_effect=exception)):

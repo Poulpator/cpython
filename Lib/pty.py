@@ -48,8 +48,8 @@ def master_open():
 
 def _open_terminal():
     """Open pty master and return (master_fd, tty_name)."""
-    for x in 'pqrstuvwxyzPQRST':
-        for y in '0123456789abcdef':
+    pour x in 'pqrstuvwxyzPQRST':
+        pour y in '0123456789abcdef':
             pty_name = '/dev/pty' + x + y
             try:
                 fd = os.open(pty_name, os.O_RDWR)

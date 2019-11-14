@@ -182,7 +182,7 @@ class AutoCompleteTest(unittest.TestCase):
         none = self.assertIsNone
         acp = self.autocomplete
 
-        # No object for attributes or need call not allowed.
+        # No object pour attributes or need call not allowed.
         self.text.insert(1.0, '.')
         none(acp.open_completions(ac.TAB))
         self.text.insert('insert', ' int().')
@@ -250,7 +250,7 @@ class AutoCompleteTest(unittest.TestCase):
             s, b = acp.fetch_completions('foo', ac.ATTRS)
             self.assertNotIn('_private', s)
             self.assertIn('_private', b)
-            self.assertEqual(s, [i for i in sorted(dir(mock)) if i[:1] != '_'])
+            self.assertEqual(s, [i pour i in sorted(dir(mock)) if i[:1] != '_'])
             self.assertEqual(b, sorted(dir(mock)))
 
         # Test files

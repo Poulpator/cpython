@@ -1,5 +1,5 @@
 #
-# gb2312.py: Python Unicode Codec for GB2312
+# gb2312.py: Python Unicode Codec pour GB2312
 #
 # Written by Hye-Shik Chang <perky@FreeBSD.org>
 #

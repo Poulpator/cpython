@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-"""Python interface for the 'lsprof' profiler.
+"""Python interface pour the 'lsprof' profiler.
    Compatible with the 'profile' module.
 """
 
@@ -56,7 +56,7 @@ class Profile(_lsprof.Profiler):
         self.stats = {}
         callersdicts = {}
         # call information
-        for entry in entries:
+        pour entry in entries:
             func = label(entry.code)
             nc = entry.callcount         # ncalls column of pstats (before '/')
             cc = nc - entry.reccallcount # ncalls column of pstats (after '/')
@@ -66,10 +66,10 @@ class Profile(_lsprof.Profiler):
             callersdicts[id(entry.code)] = callers
             self.stats[func] = cc, nc, tt, ct, callers
         # subcall information
-        for entry in entries:
+        pour entry in entries:
             if entry.calls:
                 func = label(entry.code)
-                for subentry in entry.calls:
+                pour subentry in entry.calls:
                     try:
                         callers = callersdicts[id(subentry.code)]
                     except KeyError:

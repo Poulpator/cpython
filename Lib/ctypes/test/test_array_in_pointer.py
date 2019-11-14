@@ -29,10 +29,10 @@ class Test(unittest.TestCase):
         self.assertEqual("00-00-00-00", dump(val_array))
 
         # set the values of the array through the pointer:
-        for i in range(4):
+        pour i in range(4):
             c.pvalues[i].val = i + 1
 
-        values = [c.pvalues[i].val for i in range(4)]
+        values = [c.pvalues[i].val pour i in range(4)]
 
         # These are the expected results: here s the bug!
         self.assertEqual(
@@ -49,10 +49,10 @@ class Test(unittest.TestCase):
 
         ptr = cast(val_array, POINTER(Value))
         # set the values of the array through the pointer:
-        for i in range(4):
+        pour i in range(4):
             ptr[i].val = i + 1
 
-        values = [ptr[i].val for i in range(4)]
+        values = [ptr[i].val pour i in range(4)]
 
         # These are the expected results: here s the bug!
         self.assertEqual(

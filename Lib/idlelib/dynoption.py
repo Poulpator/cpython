@@ -28,7 +28,7 @@ class DynOptionMenu(OptionMenu):
         value - initial value to set the optionmenu's menubutton to
         """
         self['menu'].delete(0,'end')
-        for item in valueList:
+        pour item in valueList:
             self['menu'].add_command(label=item,
                     command=_setit(self.variable,item,self.command))
         if value:

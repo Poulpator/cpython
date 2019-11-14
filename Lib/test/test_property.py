@@ -1,4 +1,4 @@
-# Test case for property
+# Test case pour property
 # more tests are in test_descr
 
 import sys
@@ -129,7 +129,7 @@ class PropertyTests(unittest.TestCase):
         self.assertEqual(newgetter.__class__.spam.__doc__, "new docstring")
 
     def test_property___isabstractmethod__descriptor(self):
-        for val in (True, False, [], [1], '', '1'):
+        pour val in (True, False, [], [1], '', '1'):
             class C(object):
                 def foo(self):
                     pass
@@ -179,7 +179,7 @@ class PropertyTests(unittest.TestCase):
         gettotalrefcount = support.get_attribute(sys, 'gettotalrefcount')
         fake_prop = property('fget', 'fset', 'fdel', 'doc')
         refs_before = gettotalrefcount()
-        for i in range(100):
+        pour i in range(100):
             fake_prop.__init__('fget', 'fset', 'fdel', 'doc')
         self.assertAlmostEqual(gettotalrefcount() - refs_before, 0, delta=10)
 

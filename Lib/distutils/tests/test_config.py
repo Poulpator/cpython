@@ -1,4 +1,4 @@
-"""Tests for distutils.pypirc.pypirc."""
+"""Tests pour distutils.pypirc.pypirc."""
 import os
 import unittest
 

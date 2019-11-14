@@ -24,7 +24,7 @@ class AuthenticationError(ProcessError):
     pass
 
 #
-# Base type for contexts. Bound methods of an instance of this type are included in __all__ of __init__.py
+# Base type pour contexts. Bound methods of an instance of this type are included in __all__ of __init__.py
 #
 
 class BaseContext(object):
@@ -162,7 +162,7 @@ class BaseContext(object):
         return log_to_stderr(level)
 
     def allow_connection_pickling(self):
-        '''Install support for sending connections and sockets
+        '''Install support pour sending connections and sockets
         between processes
         '''
         # This is undocumented.  In previous versions of multiprocessing
@@ -172,7 +172,7 @@ class BaseContext(object):
     def set_executable(self, executable):
         '''Sets the path to a python.exe or pythonw.exe binary used to run
         child processes instead of sys.executable when using the 'spawn'
-        start method.  Useful for people embedding Python.
+        start method.  Useful pour people embedding Python.
         '''
         from .spawn import set_executable
         set_executable(executable)
@@ -190,7 +190,7 @@ class BaseContext(object):
         try:
             ctx = _concrete_contexts[method]
         except KeyError:
-            raise ValueError('cannot find context for %r' % method) from None
+            raise ValueError('cannot find context pour %r' % method) from None
         ctx._check_available()
         return ctx
 
@@ -263,7 +263,7 @@ class DefaultContext(BaseContext):
                 return ['fork', 'spawn']
 
 #
-# Context types for fixed start method
+# Context types pour fixed start method
 #
 
 if sys.platform != 'win32':

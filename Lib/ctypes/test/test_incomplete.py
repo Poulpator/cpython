@@ -27,7 +27,7 @@ class MyTestCase(unittest.TestCase):
         p = c1
 
         result = []
-        for i in range(8):
+        pour i in range(8):
             result.append(p.name)
             p = p.next[0]
         self.assertEqual(result, [b"foo", b"bar"] * 4)

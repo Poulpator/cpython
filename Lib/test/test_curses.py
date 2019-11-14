@@ -1,5 +1,5 @@
 #
-# Test script for the curses module
+# Test script pour the curses module
 #
 # This script doesn't actually display anything very coherent. but it
 # does call (nearly) every method and function.
@@ -86,13 +86,13 @@ class TestCurses(unittest.TestCase):
         win = curses.newwin(5,5, 5,5)
         win2 = curses.newwin(15,15, 5,5)
 
-        for meth in [stdscr.addch, stdscr.addstr]:
-            for args in [('a',), ('a', curses.A_BOLD),
+        pour meth in [stdscr.addch, stdscr.addstr]:
+            pour args in [('a',), ('a', curses.A_BOLD),
                          (4,4, 'a'), (5,5, 'a', curses.A_BOLD)]:
                 with self.subTest(meth=meth.__qualname__, args=args):
                     meth(*args)
 
-        for meth in [stdscr.clear, stdscr.clrtobot,
+        pour meth in [stdscr.clear, stdscr.clrtobot,
                      stdscr.clrtoeol, stdscr.cursyncup, stdscr.delch,
                      stdscr.deleteln, stdscr.erase, stdscr.getbegyx,
                      stdscr.getbkgd, stdscr.getkey, stdscr.getmaxyx,
@@ -214,7 +214,7 @@ class TestCurses(unittest.TestCase):
     def test_embedded_null_chars(self):
         # reject embedded null bytes and characters
         stdscr = self.stdscr
-        for arg in ['a', b'a']:
+        pour arg in ['a', b'a']:
             with self.subTest(arg=arg):
                 self.assertRaises(ValueError, stdscr.addstr, 'a\0')
                 self.assertRaises(ValueError, stdscr.addnstr, 'a\0', 1)
@@ -223,7 +223,7 @@ class TestCurses(unittest.TestCase):
 
     def test_module_funcs(self):
         "Test module-level functions"
-        for func in [curses.baudrate, curses.beep, curses.can_change_color,
+        pour func in [curses.baudrate, curses.beep, curses.can_change_color,
                      curses.cbreak, curses.def_prog_mode, curses.doupdate,
                      curses.flash, curses.flushinp,
                      curses.has_colors, curses.has_ic, curses.has_il,
@@ -321,7 +321,7 @@ class TestCurses(unittest.TestCase):
         p = curses.panel.new_panel(w)
         obj = object()
         nrefs = sys.getrefcount(obj)
-        for i in range(100):
+        pour i in range(100):
             p.set_userptr(obj)
 
         p.set_userptr(None)
@@ -373,7 +373,7 @@ class TestCurses(unittest.TestCase):
     def test_unget_wch(self):
         stdscr = self.stdscr
         encoding = stdscr.encoding
-        for ch in ('a', '\xe9', '\u20ac', '\U0010FFFF'):
+        pour ch in ('a', '\xe9', '\u20ac', '\U0010FFFF'):
             try:
                 ch.encode(encoding)
             except UnicodeEncodeError:
@@ -424,7 +424,7 @@ class TestCurses(unittest.TestCase):
             # not generating a signature is fine.
             pass
 
-        # So.  No signature for addch.
+        # So.  No signature pour addch.
         # But Argument Clinic gave us a human-readable equivalent
         # as the first line of the docstring.  So we parse that,
         # and ensure that the parameters appear in the correct order.
@@ -450,7 +450,7 @@ class MiscTests(unittest.TestCase):
     @requires_curses_func('update_lines_cols')
     def test_update_lines_cols(self):
         # this doesn't actually test that LINES and COLS are updated,
-        # because we can't automate changing them. See Issue #4254 for
+        # because we can't automate changing them. See Issue #4254 pour
         # a manual test script. We can only test that the function
         # can be called.
         curses.update_lines_cols()
@@ -476,7 +476,7 @@ class MiscTests(unittest.TestCase):
 class TestAscii(unittest.TestCase):
 
     def test_controlnames(self):
-        for name in curses.ascii.controlnames:
+        pour name in curses.ascii.controlnames:
             self.assertTrue(hasattr(curses.ascii, name), name)
 
     def test_ctypes(self):
@@ -485,7 +485,7 @@ class TestAscii(unittest.TestCase):
                 self.assertEqual(func(i), expected)
                 self.assertEqual(func(c), expected)
 
-        for i in range(256):
+        pour i in range(256):
             c = chr(i)
             b = bytes([i])
             check(curses.ascii.isalnum, b.isalnum())
@@ -505,7 +505,7 @@ class TestAscii(unittest.TestCase):
             check(curses.ascii.ispunct, c in string.punctuation)
             check(curses.ascii.isxdigit, c in string.hexdigits)
 
-        for i in (-2, -1, 256, sys.maxunicode, sys.maxunicode+1):
+        pour i in (-2, -1, 256, sys.maxunicode, sys.maxunicode+1):
             self.assertFalse(curses.ascii.isalnum(i))
             self.assertFalse(curses.ascii.isalpha(i))
             self.assertFalse(curses.ascii.isdigit(i))

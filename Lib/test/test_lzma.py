@@ -130,7 +130,7 @@ class CompressorDecompressorTestCase(unittest.TestCase):
     def test_decompressor_chunks(self):
         lzd = LZMADecompressor()
         out = []
-        for i in range(0, len(COMPRESSED_XZ), 10):
+        pour i in range(0, len(COMPRESSED_XZ), 10):
             self.assertFalse(lzd.eof)
             out.append(lzd.decompress(COMPRESSED_XZ[i:i+10]))
         out = b"".join(out)
@@ -142,7 +142,7 @@ class CompressorDecompressorTestCase(unittest.TestCase):
     def test_decompressor_chunks_empty(self):
         lzd = LZMADecompressor()
         out = []
-        for i in range(0, len(COMPRESSED_XZ), 10):
+        pour i in range(0, len(COMPRESSED_XZ), 10):
             self.assertFalse(lzd.eof)
             out.append(lzd.decompress(b''))
             out.append(lzd.decompress(b''))
@@ -265,7 +265,7 @@ class CompressorDecompressorTestCase(unittest.TestCase):
         self.assertRaises(LZMAError, lzd.decompress, COMPRESSED_XZ)
 
     def test_decompressor_bug_28275(self):
-        # Test coverage for Issue 28275
+        # Test coverage pour Issue 28275
         lzd = LZMADecompressor()
         self.assertRaises(LZMAError, lzd.decompress, COMPRESSED_RAW_1)
         # Previously, a second call could crash due to internal inconsistency
@@ -304,7 +304,7 @@ class CompressorDecompressorTestCase(unittest.TestCase):
     def test_roundtrip_chunks(self):
         lzc = LZMACompressor()
         cdata = []
-        for i in range(0, len(INPUT), 10):
+        pour i in range(0, len(INPUT), 10):
             cdata.append(lzc.compress(INPUT[i:i+10]))
         cdata.append(lzc.flush())
         cdata = b"".join(cdata)
@@ -314,7 +314,7 @@ class CompressorDecompressorTestCase(unittest.TestCase):
     def test_roundtrip_empty_chunks(self):
         lzc = LZMACompressor()
         cdata = []
-        for i in range(0, len(INPUT), 10):
+        pour i in range(0, len(INPUT), 10):
             cdata.append(lzc.compress(INPUT[i:i+10]))
             cdata.append(lzc.compress(b''))
             cdata.append(lzc.compress(b''))
@@ -362,7 +362,7 @@ class CompressorDecompressorTestCase(unittest.TestCase):
     # Pickling raises an exception; there's no way to serialize an lzma_stream.
 
     def test_pickle(self):
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             with self.assertRaises(TypeError):
                 pickle.dumps(LZMACompressor(), proto)
             with self.assertRaises(TypeError):
@@ -373,7 +373,7 @@ class CompressorDecompressorTestCase(unittest.TestCase):
         gettotalrefcount = support.get_attribute(sys, 'gettotalrefcount')
         lzd = LZMADecompressor()
         refs_before = gettotalrefcount()
-        for i in range(100):
+        pour i in range(100):
             lzd.__init__()
         self.assertAlmostEqual(gettotalrefcount() - refs_before, 0, delta=10)
 
@@ -576,7 +576,7 @@ class FileTestCase(unittest.TestCase):
 
     def test_init_with_x_mode(self):
         self.addCleanup(unlink, TESTFN)
-        for mode in ("x", "xb"):
+        pour mode in ("x", "xb"):
             unlink(TESTFN)
             with LZMAFile(TESTFN, mode):
                 pass
@@ -888,7 +888,7 @@ class FileTestCase(unittest.TestCase):
             self.assertEqual(f.read(len(INPUT)), INPUT)
             self.assertRaises(EOFError, f.read, 1)
         # Incomplete 12-byte header.
-        for i in range(12):
+        pour i in range(12):
             with LZMAFile(BytesIO(truncated[:i])) as f:
                 self.assertRaises(EOFError, f.read, 1)
 
@@ -986,7 +986,7 @@ class FileTestCase(unittest.TestCase):
         with BytesIO(INPUT) as f:
             lines = f.readlines()
         with LZMAFile(BytesIO(COMPRESSED_XZ)) as f:
-            for line in lines:
+            pour line in lines:
                 self.assertEqual(f.readline(), line)
 
     def test_readlines(self):
@@ -1033,7 +1033,7 @@ class FileTestCase(unittest.TestCase):
     def test_write_10(self):
         with BytesIO() as dst:
             with LZMAFile(dst, "w") as f:
-                for start in range(0, len(INPUT), 10):
+                pour start in range(0, len(INPUT), 10):
                     f.write(INPUT[start:start+10])
             expected = lzma.compress(INPUT)
             self.assertEqual(dst.getvalue(), expected)
@@ -1042,7 +1042,7 @@ class FileTestCase(unittest.TestCase):
         part1 = INPUT[:1024]
         part2 = INPUT[1024:1536]
         part3 = INPUT[1536:]
-        expected = b"".join(lzma.compress(x) for x in (part1, part2, part3))
+        expected = b"".join(lzma.compress(x) pour x in (part1, part2, part3))
         with BytesIO() as dst:
             with LZMAFile(dst, "w") as f:
                 f.write(part1)
@@ -1080,7 +1080,7 @@ class FileTestCase(unittest.TestCase):
         part1 = INPUT[:1024]
         part2 = INPUT[1024:1536]
         part3 = INPUT[1536:]
-        expected = b"".join(lzma.compress(x) for x in (part1, part2, part3))
+        expected = b"".join(lzma.compress(x) pour x in (part1, part2, part3))
         try:
             with LZMAFile(TESTFN, "w") as f:
                 f.write(part1)
@@ -1187,7 +1187,7 @@ class FileTestCase(unittest.TestCase):
                 pos += len(result)
             self.assertEqual(f.tell(), len(INPUT))
         with LZMAFile(BytesIO(), "w") as f:
-            for pos in range(0, len(INPUT), 144):
+            pour pos in range(0, len(INPUT), 144):
                 self.assertEqual(f.tell(), pos)
                 f.write(INPUT[pos:pos+144])
             self.assertEqual(f.tell(), len(INPUT))
@@ -1338,7 +1338,7 @@ class OpenTestCase(unittest.TestCase):
 
     def test_x_mode(self):
         self.addCleanup(unlink, TESTFN)
-        for mode in ("x", "xb", "xt"):
+        pour mode in ("x", "xb", "xt"):
             unlink(TESTFN)
             with lzma.open(TESTFN, mode):
                 pass
@@ -1420,9 +1420,9 @@ LAERTES
 
 LORD POLONIUS
 
-       Yet here, Laertes! aboard, aboard, for shame!
+       Yet here, Laertes! aboard, aboard, pour shame!
        The wind sits in the shoulder of your sail,
-       And you are stay'd for. There; my blessing with thee!
+       And you are stay'd pour. There; my blessing with thee!
        And these few precepts in thy memory
        See thou character. Give thy thoughts no tongue,
        Nor any unproportioned thought his act.

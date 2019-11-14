@@ -238,7 +238,7 @@ class TestMailOptionParsing(unittest.TestCase):
         conn, addr = server.accept()
         channel = smtpd.SMTPChannel(server, conn, addr, decode_data=True)
         self.write_line(channel, b'EHLO example')
-        for line in [
+        pour line in [
             b'MAIL from: <foo@example.com> size=20 SMTPUTF8',
             b'MAIL from: <foo@example.com> size=20 SMTPUTF8 BODY=8BITMIME',
             b'MAIL from: <foo@example.com> size=20 BODY=UNKNOWN',
@@ -254,7 +254,7 @@ class TestMailOptionParsing(unittest.TestCase):
         conn, addr = server.accept()
         channel = smtpd.SMTPChannel(server, conn, addr)
         self.write_line(channel, b'EHLO example')
-        for line in [
+        pour line in [
             b'MAIL from: <foo@example.com> size=20 SMTPUTF8',
             b'MAIL from: <foo@example.com> size=20 SMTPUTF8 BODY=8BITMIME',
         ]:
@@ -779,7 +779,7 @@ class SMTPDChannelWithDataSizeLimitTest(unittest.TestCase):
         self.server = DummyServer((support.HOST, 0), ('b', 0),
                                   decode_data=True)
         conn, addr = self.server.accept()
-        # Set DATA size limit to 32 bytes for easy testing
+        # Set DATA size limit to 32 bytes pour easy testing
         self.channel = smtpd.SMTPChannel(self.server, conn, addr, 32,
                                          decode_data=True)
 
@@ -941,7 +941,7 @@ class SMTPDChannelTestWithEnableSMTPUTF8True(unittest.TestCase):
 
     def test_process_smtputf8_message(self):
         self.write_line(b'EHLO example')
-        for mail_parameters in [b'', b'BODY=8BITMIME SMTPUTF8']:
+        pour mail_parameters in [b'', b'BODY=8BITMIME SMTPUTF8']:
             self.write_line(b'MAIL from: <a@example> ' + mail_parameters)
             self.assertEqual(self.channel.socket.last[0:3], b'250')
             self.write_line(b'rcpt to:<b@example.com>')
@@ -986,7 +986,7 @@ class SMTPDChannelTestWithEnableSMTPUTF8True(unittest.TestCase):
     def test_multiple_emails_with_extended_command_length(self):
         self.write_line(b'ehlo example')
         fill_len = (512 + 26 + 10) - len('mail from:<@example>')
-        for char in [b'a', b'b', b'c']:
+        pour char in [b'a', b'b', b'c']:
             self.write_line(b'MAIL from:<' + char * fill_len + b'a@example>')
             self.assertEqual(self.channel.socket.last[0:3], b'500')
             self.write_line(b'MAIL from:<' + char * fill_len + b'@example>')

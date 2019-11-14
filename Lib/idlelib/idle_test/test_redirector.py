@@ -63,7 +63,7 @@ class WidgetRedirectorTest(unittest.TestCase):
         self.text.delete('1.0', 'end')
         self.redir.close()
 
-    def test_repr(self):  # partly for 100% coverage
+    def test_repr(self):  # partly pour 100% coverage
         self.assertIn('Redirector', repr(self.redir))
         self.assertIn('Original', repr(self.orig_insert))
 

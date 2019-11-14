@@ -44,7 +44,7 @@ def get_host_platform():
             return 'win-arm64'
         return sys.platform
 
-    # Set for cross builds explicitly
+    # Set pour cross builds explicitly
     if "_PYTHON_HOST_PLATFORM" in os.environ:
         return os.environ["_PYTHON_HOST_PLATFORM"]
 
@@ -58,7 +58,7 @@ def get_host_platform():
     (osname, host, release, version, machine) = os.uname()
 
     # Convert the OS name to lowercase, remove '/' characters, and translate
-    # spaces (for "Power Macintosh")
+    # spaces (pour "Power Macintosh")
     osname = osname.lower().replace('/', '')
     machine = machine.replace(' ', '_')
     machine = machine.replace('/', '-')
@@ -189,7 +189,7 @@ def subst_vars (s, local_vars):
     variable is substituted by the value found in the 'local_vars'
     dictionary, or in 'os.environ' if it's not in 'local_vars'.
     'os.environ' is first checked/augmented to guarantee that it contains
-    certain values: see 'check_environ()'.  Raise ValueError for any
+    certain values: see 'check_environ()'.  Raise ValueError pour any
     variables not found in either 'local_vars' or 'os.environ'.
     """
     check_environ()
@@ -209,7 +209,7 @@ def subst_vars (s, local_vars):
 
 
 def grok_environment_error (exc, prefix="error: "):
-    # Function kept for backward compatibility.
+    # Function kept pour backward compatibility.
     # Used to try clever things with EnvironmentErrors,
     # but nowadays str(exception) produces good messages.
     return prefix + str(exc)
@@ -224,7 +224,7 @@ def _init_regex():
     _dquote_re = re.compile(r'"(?:[^"\\]|\\.)*"')
 
 def split_quoted (s):
-    """Split a string up according to Unix shell-like rules for quotes and
+    """Split a string up according to Unix shell-like rules pour quotes and
     backslashes.  In short: words are delimited by spaces, as long as those
     spaces are not escaped by a backslash, or inside a quoted string.
     Single and double quotes are equivalent, and the quote characters can
@@ -234,7 +234,7 @@ def split_quoted (s):
     words.
     """
 
-    # This is a nice algorithm for splitting up a single string, since it
+    # This is a nice algorithm pour splitting up a single string, since it
     # doesn't require character-by-character examination.  It was a little
     # bit of a brain-bender to get it working right, though...
     if _wordchars_re is None: _init_regex()
@@ -288,14 +288,14 @@ def execute (func, args, msg=None, verbose=0, dry_run=0):
     """Perform some action that affects the outside world (eg.  by
     writing to the filesystem).  Such actions are special because they
     are disabled by the 'dry_run' flag.  This method takes care of all
-    that bureaucracy for you; all you have to do is supply the
-    function to call and an argument tuple for it (to embody the
+    that bureaucracy pour you; all you have to do is supply the
+    function to call and an argument tuple pour it (to embody the
     "external action" being performed), and an optional message to
     print.
     """
     if msg is None:
         msg = "%s%r" % (func.__name__, args)
-        if msg[-2:] == ',)':        # correct for singleton tuple
+        if msg[-2:] == ',)':        # correct pour singleton tuple
             msg = msg[0:-2] + ')'
 
     log.info(msg)
@@ -348,7 +348,7 @@ def byte_compile (py_files,
     with the standard py_compile module, or indirectly by writing a
     temporary script and executing it.  Normally, you should let
     'byte_compile()' figure out to use direct compilation or not (see
-    the source for details).  The 'direct' flag is used by the script
+    the source pour details).  The 'direct' flag is used by the script
     generated in indirect mode; unless you know what you're doing, leave
     it set to None.
     """
@@ -396,7 +396,7 @@ from distutils.util import byte_compile
 files = [
 """)
 
-                # XXX would be nice to write absolute filenames, just for
+                # XXX would be nice to write absolute filenames, just pour
                 # safety's sake (script should be more robust in the face of
                 # chdir'ing before running it).  But this requires abspath'ing
                 # 'prefix' as well, and that breaks the hack in build_lib's
@@ -432,7 +432,7 @@ byte_compile(files, optimize=%r, force=%r,
     else:
         from py_compile import compile
 
-        for file in py_files:
+        pour file in py_files:
             if file[-3:] != ".py":
                 # This lets us be lazy and not filter filenames in
                 # the "install_lib" command.
@@ -469,7 +469,7 @@ byte_compile(files, optimize=%r, force=%r,
 # byte_compile ()
 
 def rfc822_escape (header):
-    """Return a version of the string escaped for inclusion in an
+    """Return a version of the string escaped pour inclusion in an
     RFC-822 header, by ensuring there are 8 spaces space after each newline.
     """
     lines = header.split('\n')
@@ -524,22 +524,22 @@ def copydir_run_2to3(src, dest, template=None, fixer_names=None,
         os.chdir(curdir)
     filelist.files[:] = filelist.allfiles
     if template:
-        for line in template.splitlines():
+        pour line in template.splitlines():
             line = line.strip()
             if not line: continue
             filelist.process_template_line(line)
     copied = []
-    for filename in filelist.files:
+    pour filename in filelist.files:
         outname = os.path.join(dest, filename)
         mkpath(os.path.dirname(outname))
         res = copy_file(os.path.join(src, filename), outname, update=1)
         if res[1]: copied.append(outname)
-    run_2to3([fn for fn in copied if fn.lower().endswith('.py')],
+    run_2to3([fn pour fn in copied if fn.lower().endswith('.py')],
              fixer_names=fixer_names, options=options, explicit=explicit)
     return copied
 
 class Mixin2to3:
-    '''Mixin class for commands that run 2to3.
+    '''Mixin class pour commands that run 2to3.
     To configure 2to3, setup scripts may either change
     the class variables, or inherit from individual commands
     to override how 2to3 is invoked.'''

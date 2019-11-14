@@ -58,14 +58,14 @@ if 'pthread_sigmask' in _globals:
     @_wraps(_signal.pthread_sigmask)
     def pthread_sigmask(how, mask):
         sigs_set = _signal.pthread_sigmask(how, mask)
-        return set(_int_to_enum(x, Signals) for x in sigs_set)
+        return set(_int_to_enum(x, Signals) pour x in sigs_set)
     pthread_sigmask.__doc__ = _signal.pthread_sigmask.__doc__
 
 
 if 'sigpending' in _globals:
     @_wraps(_signal.sigpending)
     def sigpending():
-        return {_int_to_enum(x, Signals) for x in _signal.sigpending()}
+        return {_int_to_enum(x, Signals) pour x in _signal.sigpending()}
 
 
 if 'sigwait' in _globals:
@@ -79,7 +79,7 @@ if 'sigwait' in _globals:
 if 'valid_signals' in _globals:
     @_wraps(_signal.valid_signals)
     def valid_signals():
-        return {_int_to_enum(x, Signals) for x in _signal.valid_signals()}
+        return {_int_to_enum(x, Signals) pour x in _signal.valid_signals()}
 
 
 del _globals, _wraps

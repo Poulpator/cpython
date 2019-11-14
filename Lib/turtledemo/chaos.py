@@ -35,7 +35,7 @@ def plot(fun, start, color):
     jumpto(0, x)
     pendown()
     dot(5)
-    for i in range(N):
+    pour i in range(N):
         x=fun(x)
         goto(i+1,x)
         dot(5)
@@ -50,7 +50,7 @@ def main():
     plot(g, 0.35, "green")
     plot(h, 0.35, "red")
     # Now zoom in:
-    for s in range(100):
+    pour s in range(100):
         setworldcoordinates(0.5*s,-0.1, N+1, 1.1)
     return "Done!"
 

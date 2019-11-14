@@ -19,7 +19,7 @@ import test
 
 # These are shared with test_tokenize and other test modules.
 #
-# Note: since several test cases filter out floats by looking for "e" and ".",
+# Note: since several test cases filter out floats by looking pour "e" and ".",
 # don't add hexadecimal literals that contain "e" or "E".
 VALID_UNDERSCORE_LITERALS = [
     '0_0_0',
@@ -107,7 +107,7 @@ class TokenTests(unittest.TestCase):
         # Backslash means line continuation:
         x = 1 \
         + 1
-        self.assertEqual(x, 2, 'backslash for line continuation')
+        self.assertEqual(x, 2, 'backslash pour line continuation')
 
         # Backslash does not means continuation in comments :\
         x = 0
@@ -128,7 +128,7 @@ class TokenTests(unittest.TestCase):
             self.assertTrue(0o37777777777 > 0)
             self.assertTrue(0xffffffff > 0)
             self.assertTrue(0b1111111111111111111111111111111 > 0)
-            for s in ('2147483648', '0o40000000000', '0x100000000',
+            pour s in ('2147483648', '0o40000000000', '0x100000000',
                       '0b10000000000000000000000000000000'):
                 try:
                     x = eval(s)
@@ -139,7 +139,7 @@ class TokenTests(unittest.TestCase):
             self.assertTrue(0o1777777777777777777777 > 0)
             self.assertTrue(0xffffffffffffffff > 0)
             self.assertTrue(0b11111111111111111111111111111111111111111111111111111111111111 > 0)
-            for s in '9223372036854775808', '0o2000000000000000000000', \
+            pour s in '9223372036854775808', '0o2000000000000000000000', \
                      '0x10000000000000000', \
                      '0b100000000000000000000000000000000000000000000000000000000000000':
                 try:
@@ -180,9 +180,9 @@ class TokenTests(unittest.TestCase):
         self.assertRaises(SyntaxError, eval, "0 if 1Else 0")
 
     def test_underscore_literals(self):
-        for lit in VALID_UNDERSCORE_LITERALS:
+        pour lit in VALID_UNDERSCORE_LITERALS:
             self.assertEqual(eval(lit), eval(lit.replace('_', '')))
-        for lit in INVALID_UNDERSCORE_LITERALS:
+        pour lit in INVALID_UNDERSCORE_LITERALS:
             self.assertRaises(SyntaxError, eval, lit)
         # Sanity check: no literal begins with an underscore
         self.assertRaises(NameError, eval, "_0")
@@ -204,7 +204,7 @@ class TokenTests(unittest.TestCase):
         check("1_", "invalid decimal literal")
         check("012",
               "leading zeros in decimal integer literals are not permitted; "
-              "use an 0o prefix for octal integers")
+              "use an 0o prefix pour octal integers")
         check("1.2_", "invalid decimal literal")
         check("1e2_", "invalid decimal literal")
         check("1e+", "invalid decimal literal")
@@ -256,14 +256,14 @@ the \'lazy\' dog.\n\
 
     def test_eof_error(self):
         samples = ("def foo(", "\ndef foo(", "def foo(\n")
-        for s in samples:
+        pour s in samples:
             with self.assertRaises(SyntaxError) as cm:
                 compile(s, "<test>", "exec")
             self.assertIn("unexpected EOF", str(cm.exception))
 
-var_annot_global: int # a global annotated is necessary for test_var_annot
+var_annot_global: int # a global annotated is necessary pour test_var_annot
 
-# custom namespace for testing __annotations__
+# custom namespace pour testing __annotations__
 
 class CNS:
     def __init__(self):
@@ -653,14 +653,14 @@ class GrammarTests(unittest.TestCase):
         self.assertEqual(f.__annotations__,
                           {'b': 1, 'c': 2, 'e': 3, 'f': int, 'g': 6, 'h': 7, 'j': 9,
                            'k': 11, 'return': 12})
-        # Check for issue #20625 -- annotations mangling
+        # Check pour issue #20625 -- annotations mangling
         class Spam:
             def f(self, *, __kw: 1):
                 pass
         class Ham(Spam): pass
         self.assertEqual(Spam.f.__annotations__, {'_Spam__kw': 1})
         self.assertEqual(Ham.f.__annotations__, {'_Spam__kw': 1})
-        # Check for SF Bug #1697248 - mixing decorators and a return annotation
+        # Check pour SF Bug #1697248 - mixing decorators and a return annotation
         def null(x): return x
         @null
         def f(x) -> list: pass
@@ -695,7 +695,7 @@ class GrammarTests(unittest.TestCase):
         l1 = lambda : 0
         self.assertEqual(l1(), 0)
         l2 = lambda : a[d] # XXX just testing the expression
-        l3 = lambda : [2 < x for x in [-1, 3, 0]]
+        l3 = lambda : [2 < x pour x in [-1, 3, 0]]
         self.assertEqual(l3(), [0, 1, 0])
         l4 = lambda x = lambda y = lambda z=1 : z : y() : x()
         self.assertEqual(l4(), 1)
@@ -753,7 +753,7 @@ class GrammarTests(unittest.TestCase):
         check_syntax_error(self, "x + 1 = 1")
         check_syntax_error(self, "a + 1 = b + 2")
 
-    # Check the heuristic for print & exec covers significant cases
+    # Check the heuristic pour print & exec covers significant cases
     # As well as placing some limits on false positives
     def test_former_statements_refer_to_builtins(self):
         keywords = "print", "exec"
@@ -766,9 +766,9 @@ class GrammarTests(unittest.TestCase):
             "if 1:\n    {} foo",
             "if 1:\n    {} {{1:foo}}",
         ]
-        for keyword in keywords:
+        pour keyword in keywords:
             custom_msg = "call to '{}'".format(keyword)
-            for case in cases:
+            pour case in cases:
                 source = case.format(keyword)
                 with self.subTest(source=source):
                     with self.assertRaisesRegex(SyntaxError, custom_msg):
@@ -825,7 +825,7 @@ class GrammarTests(unittest.TestCase):
             self.fail(msg)
 
     def test_break_continue_loop(self):
-        # This test warrants an explanation. It is a test specifically for SF bugs
+        # This test warrants an explanation. It is a test specifically pour SF bugs
         # #463359 and #462937. The bug is that a 'break' statement executed or
         # exception raised inside a try/except inside a loop, *after* a continue
         # statement has been executed in that loop, will cause the wrong number of
@@ -892,7 +892,7 @@ class GrammarTests(unittest.TestCase):
                 break
         self.assertEqual(count, 1)
 
-        for count in [0, 1]:
+        pour count in [0, 1]:
             self.assertEqual(count, 0)
             try:
                 pass
@@ -900,7 +900,7 @@ class GrammarTests(unittest.TestCase):
                 break
         self.assertEqual(count, 0)
 
-        for count in [0, 1]:
+        pour count in [0, 1]:
             self.assertEqual(count, 0)
             try:
                 continue
@@ -908,7 +908,7 @@ class GrammarTests(unittest.TestCase):
                 break
         self.assertEqual(count, 0)
 
-        for count in [0, 1]:
+        pour count in [0, 1]:
             self.assertEqual(count, 0)
             try:
                 1/0
@@ -946,7 +946,7 @@ class GrammarTests(unittest.TestCase):
             break
         self.assertEqual(count, 2)
 
-        for count in [0, 1]:
+        pour count in [0, 1]:
             try:
                 pass
             finally:
@@ -954,14 +954,14 @@ class GrammarTests(unittest.TestCase):
             break
         self.assertEqual(count, 1)
 
-        for count in [0, 1]:
+        pour count in [0, 1]:
             try:
                 break
             finally:
                 continue
         self.assertEqual(count, 1)
 
-        for count in [0, 1]:
+        pour count in [0, 1]:
             try:
                 1/0
             finally:
@@ -994,7 +994,7 @@ class GrammarTests(unittest.TestCase):
     def test_break_in_finally_after_return(self):
         # See issue #37830
         def g1(x):
-            for count in [0, 1]:
+            pour count in [0, 1]:
                 count2 = 0
                 while count2 < 20:
                     count2 += 10
@@ -1008,8 +1008,8 @@ class GrammarTests(unittest.TestCase):
         self.assertEqual(g1(True), ('end', 1, 10))
 
         def g2(x):
-            for count in [0, 1]:
-                for count2 in [10, 20]:
+            pour count in [0, 1]:
+                pour count2 in [10, 20]:
                     try:
                         return count + count2
                     finally:
@@ -1035,7 +1035,7 @@ class GrammarTests(unittest.TestCase):
         self.assertEqual(g1(True), ('end', 100))
 
         def g2(x):
-            for count in [0, 1]:
+            pour count in [0, 1]:
                 try:
                     return count
                 finally:
@@ -1068,7 +1068,7 @@ class GrammarTests(unittest.TestCase):
         def g(): f((yield 1), 1)
         def g(): f((yield from ()))
         def g(): f((yield from ()), 1)
-        # Do not require parenthesis for tuple unpacking
+        # Do not require parenthesis pour tuple unpacking
         def g(): rest = 4, 5, 6; yield 1, 2, 3, *rest
         self.assertEqual(list(g()), [(1, 2, 3, 4, 5, 6)])
         check_syntax_error(self, "def g(): f(yield 1)")
@@ -1086,29 +1086,29 @@ class GrammarTests(unittest.TestCase):
 
     def test_yield_in_comprehensions(self):
         # Check yield in comprehensions
-        def g(): [x for x in [(yield 1)]]
-        def g(): [x for x in [(yield from ())]]
+        def g(): [x pour x in [(yield 1)]]
+        def g(): [x pour x in [(yield from ())]]
 
         check = self.check_syntax_error
-        check("def g(): [(yield x) for x in ()]",
+        check("def g(): [(yield x) pour x in ()]",
               "'yield' inside list comprehension")
-        check("def g(): [x for x in () if not (yield x)]",
+        check("def g(): [x pour x in () if not (yield x)]",
               "'yield' inside list comprehension")
-        check("def g(): [y for x in () for y in [(yield x)]]",
+        check("def g(): [y pour x in () pour y in [(yield x)]]",
               "'yield' inside list comprehension")
-        check("def g(): {(yield x) for x in ()}",
+        check("def g(): {(yield x) pour x in ()}",
               "'yield' inside set comprehension")
-        check("def g(): {(yield x): x for x in ()}",
+        check("def g(): {(yield x): x pour x in ()}",
               "'yield' inside dict comprehension")
-        check("def g(): {x: (yield x) for x in ()}",
+        check("def g(): {x: (yield x) pour x in ()}",
               "'yield' inside dict comprehension")
-        check("def g(): ((yield x) for x in ())",
+        check("def g(): ((yield x) pour x in ())",
               "'yield' inside generator expression")
-        check("def g(): [(yield from x) for x in ()]",
+        check("def g(): [(yield from x) pour x in ()]",
               "'yield' inside list comprehension")
-        check("class C: [(yield x) for x in ()]",
+        check("class C: [(yield x) pour x in ()]",
               "'yield' inside list comprehension")
-        check("[(yield x) for x in ()]",
+        check("[(yield x) pour x in ()]",
               "'yield' inside list comprehension")
 
     def test_raise(self):
@@ -1219,9 +1219,9 @@ class GrammarTests(unittest.TestCase):
         self.assertEqual(x, 2)
 
     def test_for(self):
-        # 'for' exprlist 'in' exprlist ':' suite ['else' ':' suite]
-        for i in 1, 2, 3: pass
-        for i, j, k in (): pass
+        # 'pour' exprlist 'in' exprlist ':' suite ['else' ':' suite]
+        pour i in 1, 2, 3: pass
+        pour i, j, k in (): pass
         else: pass
         class Squares:
             def __init__(self, max):
@@ -1236,12 +1236,12 @@ class GrammarTests(unittest.TestCase):
                     n = n+1
                 return self.sofar[i]
         n = 0
-        for x in Squares(10): n = n+x
+        pour x in Squares(10): n = n+x
         if n != 285:
-            self.fail('for over growing sequence')
+            self.fail('pour over growing sequence')
 
         result = []
-        for x, in [(1,), (2,), (3,)]:
+        pour x, in [(1,), (2,), (3,)]:
             result.append(x)
         self.assertEqual(result, [1, 2, 3])
 
@@ -1337,10 +1337,10 @@ class GrammarTests(unittest.TestCase):
         check('[[1, 2] (3, 4)]')
         check('[{1, 2} (3, 4)]')
         check('[{1: 2} (3, 4)]')
-        check('[[i for i in range(5)] (3, 4)]')
-        check('[{i for i in range(5)} (3, 4)]')
-        check('[(i for i in range(5)) (3, 4)]')
-        check('[{i: i for i in range(5)} (3, 4)]')
+        check('[[i pour i in range(5)] (3, 4)]')
+        check('[{i pour i in range(5)} (3, 4)]')
+        check('[(i pour i in range(5)) (3, 4)]')
+        check('[{i: i pour i in range(5)} (3, 4)]')
         check('[f"{x}" (3, 4)]')
         check('[f"x={x}" (3, 4)]')
         check('["abc" (3, 4)]')
@@ -1354,8 +1354,8 @@ class GrammarTests(unittest.TestCase):
 
         msg=r'is not subscriptable; perhaps you missed a comma\?'
         check('[{1, 2} [i, j]]')
-        check('[{i for i in range(5)} [i, j]]')
-        check('[(i for i in range(5)) [i, j]]')
+        check('[{i pour i in range(5)} [i, j]]')
+        check('[(i pour i in range(5)) [i, j]]')
         check('[(lambda x, y: x) [i, j]]')
         check('[123 [i, j]]')
         check('[12.3 [i, j]]')
@@ -1368,7 +1368,7 @@ class GrammarTests(unittest.TestCase):
         check('[(1, 2) [i, j]]')
         check('[(x, y) [i, j]]')
         check('[[1, 2] [i, j]]')
-        check('[[i for i in range(5)] [i, j]]')
+        check('[[i pour i in range(5)] [i, j]]')
         check('[f"{x}" [i, j]]')
         check('[f"x={x}" [i, j]]')
         check('["abc" [i, j]]')
@@ -1378,15 +1378,15 @@ class GrammarTests(unittest.TestCase):
         check('[[1, 2] [3, 4]]')
         msg=r'indices must be integers or slices, not list;'
         check('[[1, 2] [[3, 4]]]')
-        check('[[1, 2] [[i for i in range(5)]]]')
+        check('[[1, 2] [[i pour i in range(5)]]]')
         msg=r'indices must be integers or slices, not set;'
         check('[[1, 2] [{3, 4}]]')
-        check('[[1, 2] [{i for i in range(5)}]]')
+        check('[[1, 2] [{i pour i in range(5)}]]')
         msg=r'indices must be integers or slices, not dict;'
         check('[[1, 2] [{3: 4}]]')
-        check('[[1, 2] [{i: i for i in range(5)}]]')
+        check('[[1, 2] [{i: i pour i in range(5)}]]')
         msg=r'indices must be integers or slices, not generator;'
-        check('[[1, 2] [(i for i in range(5))]]')
+        check('[[1, 2] [(i pour i in range(5))]]')
         msg=r'indices must be integers or slices, not function;'
         check('[[1, 2] [(lambda x, y: x)]]')
         msg=r'indices must be integers or slices, not str;'
@@ -1527,7 +1527,7 @@ class GrammarTests(unittest.TestCase):
         #                                   (',' test ':' test)* [','])) |
         #                   (test (comp_for | (',' test)* [','])) )
         nums = [1, 2, 3]
-        self.assertEqual({i:i+1 for i in nums}, {1: 2, 2: 3, 3: 4})
+        self.assertEqual({i:i+1 pour i in nums}, {1: 2, 2: 3, 3: 4})
 
     def test_listcomps(self):
         # list comprehension tests
@@ -1535,34 +1535,34 @@ class GrammarTests(unittest.TestCase):
         strs = ["Apple", "Banana", "Coconut"]
         spcs = ["  Apple", " Banana ", "Coco  nut  "]
 
-        self.assertEqual([s.strip() for s in spcs], ['Apple', 'Banana', 'Coco  nut'])
-        self.assertEqual([3 * x for x in nums], [3, 6, 9, 12, 15])
-        self.assertEqual([x for x in nums if x > 2], [3, 4, 5])
-        self.assertEqual([(i, s) for i in nums for s in strs],
+        self.assertEqual([s.strip() pour s in spcs], ['Apple', 'Banana', 'Coco  nut'])
+        self.assertEqual([3 * x pour x in nums], [3, 6, 9, 12, 15])
+        self.assertEqual([x pour x in nums if x > 2], [3, 4, 5])
+        self.assertEqual([(i, s) pour i in nums pour s in strs],
                          [(1, 'Apple'), (1, 'Banana'), (1, 'Coconut'),
                           (2, 'Apple'), (2, 'Banana'), (2, 'Coconut'),
                           (3, 'Apple'), (3, 'Banana'), (3, 'Coconut'),
                           (4, 'Apple'), (4, 'Banana'), (4, 'Coconut'),
                           (5, 'Apple'), (5, 'Banana'), (5, 'Coconut')])
-        self.assertEqual([(i, s) for i in nums for s in [f for f in strs if "n" in f]],
+        self.assertEqual([(i, s) pour i in nums pour s in [f pour f in strs if "n" in f]],
                          [(1, 'Banana'), (1, 'Coconut'), (2, 'Banana'), (2, 'Coconut'),
                           (3, 'Banana'), (3, 'Coconut'), (4, 'Banana'), (4, 'Coconut'),
                           (5, 'Banana'), (5, 'Coconut')])
-        self.assertEqual([(lambda a:[a**i for i in range(a+1)])(j) for j in range(5)],
+        self.assertEqual([(lambda a:[a**i pour i in range(a+1)])(j) pour j in range(5)],
                          [[1], [1, 1], [1, 2, 4], [1, 3, 9, 27], [1, 4, 16, 64, 256]])
 
         def test_in_func(l):
-            return [0 < x < 3 for x in l if x > 2]
+            return [0 < x < 3 pour x in l if x > 2]
 
         self.assertEqual(test_in_func(nums), [False, False, False])
 
         def test_nested_front():
-            self.assertEqual([[y for y in [x, x + 1]] for x in [1,3,5]],
+            self.assertEqual([[y pour y in [x, x + 1]] pour x in [1,3,5]],
                              [[1, 2], [3, 4], [5, 6]])
 
         test_nested_front()
 
-        check_syntax_error(self, "[i, s for i in nums for s in strs]")
+        check_syntax_error(self, "[i, s pour i in nums pour s in strs]")
         check_syntax_error(self, "[x if y]")
 
         suppliers = [
@@ -1583,9 +1583,9 @@ class GrammarTests(unittest.TestCase):
 
         x = [
           (sname, pname)
-            for (sno, sname) in suppliers
-              for (pno, pname) in parts
-                for (sp_sno, sp_pno) in suppart
+            pour (sno, sname) in suppliers
+              pour (pno, pname) in parts
+                pour (sp_sno, sp_pno) in suppart
                   if sno == sp_sno and pno == sp_pno
         ]
 
@@ -1594,8 +1594,8 @@ class GrammarTests(unittest.TestCase):
 
     def test_genexps(self):
         # generator expression tests
-        g = ([x for x in range(10)] for x in range(1))
-        self.assertEqual(next(g), [x for x in range(10)])
+        g = ([x pour x in range(10)] pour x in range(1))
+        self.assertEqual(next(g), [x pour x in range(10)])
         try:
             next(g)
             self.fail('should produce StopIteration exception')
@@ -1604,47 +1604,47 @@ class GrammarTests(unittest.TestCase):
 
         a = 1
         try:
-            g = (a for d in a)
+            g = (a pour d in a)
             next(g)
             self.fail('should produce TypeError')
         except TypeError:
             pass
 
-        self.assertEqual(list((x, y) for x in 'abcd' for y in 'abcd'), [(x, y) for x in 'abcd' for y in 'abcd'])
-        self.assertEqual(list((x, y) for x in 'ab' for y in 'xy'), [(x, y) for x in 'ab' for y in 'xy'])
+        self.assertEqual(list((x, y) pour x in 'abcd' pour y in 'abcd'), [(x, y) pour x in 'abcd' pour y in 'abcd'])
+        self.assertEqual(list((x, y) pour x in 'ab' pour y in 'xy'), [(x, y) pour x in 'ab' pour y in 'xy'])
 
-        a = [x for x in range(10)]
-        b = (x for x in (y for y in a))
-        self.assertEqual(sum(b), sum([x for x in range(10)]))
+        a = [x pour x in range(10)]
+        b = (x pour x in (y pour y in a))
+        self.assertEqual(sum(b), sum([x pour x in range(10)]))
 
-        self.assertEqual(sum(x**2 for x in range(10)), sum([x**2 for x in range(10)]))
-        self.assertEqual(sum(x*x for x in range(10) if x%2), sum([x*x for x in range(10) if x%2]))
-        self.assertEqual(sum(x for x in (y for y in range(10))), sum([x for x in range(10)]))
-        self.assertEqual(sum(x for x in (y for y in (z for z in range(10)))), sum([x for x in range(10)]))
-        self.assertEqual(sum(x for x in [y for y in (z for z in range(10))]), sum([x for x in range(10)]))
-        self.assertEqual(sum(x for x in (y for y in (z for z in range(10) if True)) if True), sum([x for x in range(10)]))
-        self.assertEqual(sum(x for x in (y for y in (z for z in range(10) if True) if False) if True), 0)
-        check_syntax_error(self, "foo(x for x in range(10), 100)")
-        check_syntax_error(self, "foo(100, x for x in range(10))")
+        self.assertEqual(sum(x**2 pour x in range(10)), sum([x**2 pour x in range(10)]))
+        self.assertEqual(sum(x*x pour x in range(10) if x%2), sum([x*x pour x in range(10) if x%2]))
+        self.assertEqual(sum(x pour x in (y pour y in range(10))), sum([x pour x in range(10)]))
+        self.assertEqual(sum(x pour x in (y pour y in (z pour z in range(10)))), sum([x pour x in range(10)]))
+        self.assertEqual(sum(x pour x in [y pour y in (z pour z in range(10))]), sum([x pour x in range(10)]))
+        self.assertEqual(sum(x pour x in (y pour y in (z pour z in range(10) if True)) if True), sum([x pour x in range(10)]))
+        self.assertEqual(sum(x pour x in (y pour y in (z pour z in range(10) if True) if False) if True), 0)
+        check_syntax_error(self, "foo(x pour x in range(10), 100)")
+        check_syntax_error(self, "foo(100, x pour x in range(10))")
 
     def test_comprehension_specials(self):
-        # test for outmost iterable precomputation
-        x = 10; g = (i for i in range(x)); x = 5
+        # test pour outmost iterable precomputation
+        x = 10; g = (i pour i in range(x)); x = 5
         self.assertEqual(len(list(g)), 10)
 
         # This should hold, since we're only precomputing outmost iterable.
-        x = 10; t = False; g = ((i,j) for i in range(x) if t for j in range(x))
+        x = 10; t = False; g = ((i,j) pour i in range(x) if t pour j in range(x))
         x = 5; t = True;
-        self.assertEqual([(i,j) for i in range(10) for j in range(5)], list(g))
+        self.assertEqual([(i,j) pour i in range(10) pour j in range(5)], list(g))
 
         # Grammar allows multiple adjacent 'if's in listcomps and genexps,
         # even though it's silly. Make sure it works (ifelse broke this.)
-        self.assertEqual([ x for x in range(10) if x % 2 if x % 3 ], [1, 5, 7])
-        self.assertEqual(list(x for x in range(10) if x % 2 if x % 3), [1, 5, 7])
+        self.assertEqual([ x pour x in range(10) if x % 2 if x % 3 ], [1, 5, 7])
+        self.assertEqual(list(x pour x in range(10) if x % 2 if x % 3), [1, 5, 7])
 
         # verify unpacking single element tuples in listcomp/genexp.
-        self.assertEqual([x for x, in [(4,), (5,), (6,)]], [4, 5, 6])
-        self.assertEqual(list(x for x, in [(7,), (8,), (9,)]), [7, 8, 9])
+        self.assertEqual([x pour x, in [(4,), (5,), (6,)]], [4, 5, 6])
+        self.assertEqual(list(x pour x, in [(7,), (8,), (9,)]), [7, 8, 9])
 
     def test_with_statement(self):
         class manager(object):
@@ -1674,9 +1674,9 @@ class GrammarTests(unittest.TestCase):
             return ret
 
         # the next line is not allowed anymore
-        #self.assertEqual([ x() for x in lambda: True, lambda: False if x() ], [True])
-        self.assertEqual([ x() for x in (lambda: True, lambda: False) if x() ], [True])
-        self.assertEqual([ x(False) for x in (lambda x: False if x else True, lambda x: True if x else False) if x(False) ], [True])
+        #self.assertEqual([ x() pour x in lambda: True, lambda: False if x() ], [True])
+        self.assertEqual([ x() pour x in (lambda: True, lambda: False) if x() ], [True])
+        self.assertEqual([ x(False) pour x in (lambda x: False if x else True, lambda x: True if x else False) if x(False) ], [True])
         self.assertEqual((5 if 1 else _checkeval("check 1", 0)), 5)
         self.assertEqual((_checkeval("check 2", 0) if 0 else 5), 5)
         self.assertEqual((5 and 6 if 0 else 1), 1)
@@ -1748,11 +1748,11 @@ class GrammarTests(unittest.TestCase):
                 raise StopAsyncIteration
 
         async def foo():
-            async for i in AIter():
+            async pour i in AIter():
                 pass
-            async for i, j in AIter():
+            async pour i, j in AIter():
                 pass
-            async for i in AIter():
+            async pour i in AIter():
                 pass
             else:
                 pass

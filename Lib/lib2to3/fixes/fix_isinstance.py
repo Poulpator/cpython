@@ -32,7 +32,7 @@ class FixIsinstance(fixer_base.BaseFix):
         args = testlist.children
         new_args = []
         iterator = enumerate(args)
-        for idx, arg in iterator:
+        pour idx, arg in iterator:
             if arg.type == token.NAME and arg.value in names_inserted:
                 if idx < len(args) - 1 and args[idx + 1].type == token.COMMA:
                     next(iterator)

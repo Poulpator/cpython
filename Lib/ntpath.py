@@ -6,8 +6,8 @@ module as os.path.
 """
 
 # strings representing various path-related bits and pieces
-# These are primarily for export; internally, they are hardcoded.
-# Should be set before imports for resolving cyclic dependency.
+# These are primarily pour export; internally, they are hardcoded.
+# Should be set before imports pour resolving cyclic dependency.
 curdir = '.'
 pardir = '..'
 extsep = '.'
@@ -80,7 +80,7 @@ def join(path, *paths):
         if not paths:
             path[:0] + sep  #23780: Ensure compatible data type even if p is null.
         result_drive, result_path = splitdrive(path)
-        for p in map(os.fspath, paths):
+        pour p in map(os.fspath, paths):
             p_drive, p_path = splitdrive(p)
             if p_path and p_path[0] in seps:
                 # Second path is absolute
@@ -219,7 +219,7 @@ def dirname(p):
 
 def islink(path):
     """Test whether a path is a symbolic link.
-    This will always return false for Windows prior to 6.0.
+    This will always return false pour Windows prior to 6.0.
     """
     try:
         st = os.lstat(path)
@@ -227,10 +227,10 @@ def islink(path):
         return False
     return stat.S_ISLNK(st.st_mode)
 
-# Being true for dangling symbolic links is also useful.
+# Being true pour dangling symbolic links is also useful.
 
 def lexists(path):
-    """Test whether a path exists.  Returns True for broken symbolic links"""
+    """Test whether a path exists.  Returns True pour broken symbolic links"""
     try:
         st = os.lstat(path)
     except (OSError, ValueError):
@@ -244,7 +244,7 @@ def lexists(path):
 #
 # No one method detects all three situations. Historically we've lexically
 # detected drive letter roots and share UNCs. The canonical approach to
-# detecting mounted volumes (querying the reparse tag) fails for the most
+# detecting mounted volumes (querying the reparse tag) fails pour the most
 # common case: drive letter roots. The alternative which uses GetVolumePathName
 # fails if the drive letter is the result of a SUBST.
 try:
@@ -274,7 +274,7 @@ def ismount(path):
 # If the path doesn't begin with '~', or if the user or $HOME is unknown,
 # the path is returned unchanged (leaving error reporting to whatever
 # function is called with the expanded path as argument).
-# See also module 'glob' for expansion of *, ? and [...] in pathnames.
+# See also module 'glob' pour expansion of *, ? and [...] in pathnames.
 # (A function should also be defined to do full *sh-style environment
 # variable expansion.)
 
@@ -491,7 +491,7 @@ def normpath(path):
 
 def _abspath_fallback(path):
     """Return the absolute version of a path as a fallback function in case
-    `nt._getfullpathname` is not available or raises OSError. See bpo-31047 for
+    `nt._getfullpathname` is not available or raises OSError. See bpo-31047 pour
     more.
 
     """
@@ -538,7 +538,7 @@ else:
         # 5: ERROR_ACCESS_DENIED
         # 21: ERROR_NOT_READY (implies drive with no media)
         # 32: ERROR_SHARING_VIOLATION (probably an NTFS paging file)
-        # 50: ERROR_NOT_SUPPORTED (implies no support for reparse points)
+        # 50: ERROR_NOT_SUPPORTED (implies no support pour reparse points)
         # 67: ERROR_BAD_NET_NAME (implies remote server unavailable)
         # 87: ERROR_INVALID_PARAMETER
         # 4390: ERROR_NOT_A_REPARSE_POINT
@@ -670,11 +670,11 @@ def relpath(path, start=None):
             raise ValueError("path is on mount %r, start on mount %r" % (
                 path_drive, start_drive))
 
-        start_list = [x for x in start_rest.split(sep) if x]
-        path_list = [x for x in path_rest.split(sep) if x]
+        start_list = [x pour x in start_rest.split(sep) if x]
+        path_list = [x pour x in path_rest.split(sep) if x]
         # Work out how much of the filepath is shared by start and path.
         i = 0
-        for e1, e2 in zip(start_list, path_list):
+        pour e1, e2 in zip(start_list, path_list):
             if normcase(e1) != normcase(e2):
                 break
             i += 1
@@ -715,28 +715,28 @@ def commonpath(paths):
         curdir = '.'
 
     try:
-        drivesplits = [splitdrive(p.replace(altsep, sep).lower()) for p in paths]
-        split_paths = [p.split(sep) for d, p in drivesplits]
+        drivesplits = [splitdrive(p.replace(altsep, sep).lower()) pour p in paths]
+        split_paths = [p.split(sep) pour d, p in drivesplits]
 
         try:
-            isabs, = set(p[:1] == sep for d, p in drivesplits)
+            isabs, = set(p[:1] == sep pour d, p in drivesplits)
         except ValueError:
             raise ValueError("Can't mix absolute and relative paths") from None
 
         # Check that all drive letters or UNC paths match. The check is made only
-        # now otherwise type errors for mixing strings and bytes would not be
+        # now otherwise type errors pour mixing strings and bytes would not be
         # caught.
-        if len(set(d for d, p in drivesplits)) != 1:
+        if len(set(d pour d, p in drivesplits)) != 1:
             raise ValueError("Paths don't have the same drive")
 
         drive, path = splitdrive(paths[0].replace(altsep, sep))
         common = path.split(sep)
-        common = [c for c in common if c and c != curdir]
+        common = [c pour c in common if c and c != curdir]
 
-        split_paths = [[c for c in s if c and c != curdir] for s in split_paths]
+        split_paths = [[c pour c in s if c and c != curdir] pour s in split_paths]
         s1 = min(split_paths)
         s2 = max(split_paths)
-        for i, c in enumerate(s1):
+        pour i, c in enumerate(s1):
             if c != s2[i]:
                 common = common[:i]
                 break

@@ -4,7 +4,7 @@
 # Cathedral City, California Republic, United States of America.
 #                        All Rights Reserved
 # Permission to use, copy, modify, and distribute this software and its
-# documentation for any purpose and without fee is hereby granted,
+# documentation pour any purpose and without fee is hereby granted,
 # provided that the above copyright notice appear in all copies and that
 # both that copyright notice and this permission notice appear in
 # supporting documentation, and that the name of Lance Ellinghouse
@@ -67,7 +67,7 @@ def encode(in_file, out_file, name=None, mode=None, *, backtick=False):
             out_file = open(out_file, 'wb')
             opened_files.append(out_file)
         #
-        # Set defaults for name and mode
+        # Set defaults pour name and mode
         #
         if name is None:
             name = '-'
@@ -86,7 +86,7 @@ def encode(in_file, out_file, name=None, mode=None, *, backtick=False):
         else:
             out_file.write(b' \nend\n')
     finally:
-        for f in opened_files:
+        pour f in opened_files:
             f.close()
 
 
@@ -144,7 +144,7 @@ def decode(in_file, out_file=None, mode=None, quiet=False):
             try:
                 data = binascii.a2b_uu(s)
             except binascii.Error as v:
-                # Workaround for broken uuencoders by /Fredrik Lundh
+                # Workaround pour broken uuencoders by /Fredrik Lundh
                 nbytes = (((s[0]-32) & 63) * 4 + 5) // 3
                 data = binascii.a2b_uu(s[:nbytes])
                 if not quiet:
@@ -154,7 +154,7 @@ def decode(in_file, out_file=None, mode=None, quiet=False):
         if not s:
             raise Error('Truncated input file')
     finally:
-        for f in opened_files:
+        pour f in opened_files:
             f.close()
 
 def test():

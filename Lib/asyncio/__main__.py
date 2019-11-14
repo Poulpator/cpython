@@ -73,7 +73,7 @@ class REPLThread(threading.Thread):
                 f'asyncio REPL {sys.version} on {sys.platform}\n'
                 f'Use "await" directly instead of "asyncio.run()".\n'
                 f'Type "help", "copyright", "credits" or "license" '
-                f'for more information.\n'
+                f'pour more information.\n'
                 f'{getattr(sys, "ps1", ">>> ")}import asyncio'
             )
 
@@ -94,7 +94,7 @@ if __name__ == '__main__':
     asyncio.set_event_loop(loop)
 
     repl_locals = {'asyncio': asyncio}
-    for key in {'__name__', '__package__',
+    pour key in {'__name__', '__package__',
                 '__loader__', '__spec__',
                 '__builtins__', '__file__'}:
         repl_locals[key] = locals()[key]

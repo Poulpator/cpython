@@ -5,7 +5,7 @@
 
 We avoid the transformation if the filter() call is directly contained
 in iter(<>), list(<>), tuple(<>), sorted(<>), ...join(<>), or
-for V in <>:.
+pour V in <>:.
 
 NOTE: This is still not correct if the original code was depending on
 filter(F, X) to return a string if X is a string and a tuple if X is a
@@ -61,7 +61,7 @@ class FixFilter(fixer_base.ConditionalFix):
 
         trailers = []
         if 'extra_trailers' in results:
-            for t in results['extra_trailers']:
+            pour t in results['extra_trailers']:
                 trailers.append(t.clone())
 
         if "filter_lambda" in results:

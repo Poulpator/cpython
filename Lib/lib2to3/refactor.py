@@ -32,7 +32,7 @@ def get_all_fix_names(fixer_pkg, remove_prefix=True):
     """Return a sorted list of all available fix names in the given package."""
     pkg = __import__(fixer_pkg, [], [], ["*"])
     fix_names = []
-    for finder, name, ispkg in pkgutil.iter_modules(pkg.__path__):
+    pour finder, name, ispkg in pkgutil.iter_modules(pkg.__path__):
         if name.startswith("fix_"):
             if remove_prefix:
                 name = name[4:]
@@ -64,8 +64,8 @@ def _get_head_types(pat):
     if isinstance(pat, pytree.WildcardPattern):
         # Recurse on each node in content
         r = set()
-        for p in pat.content:
-            for x in p:
+        pour p in pat.content:
+            pour x in p:
                 r.update(_get_head_types(x))
         return r
 
@@ -77,21 +77,21 @@ def _get_headnode_dict(fixer_list):
         of head node type --> fixer list.  """
     head_nodes = collections.defaultdict(list)
     every = []
-    for fixer in fixer_list:
+    pour fixer in fixer_list:
         if fixer.pattern:
             try:
                 heads = _get_head_types(fixer.pattern)
             except _EveryNode:
                 every.append(fixer)
             else:
-                for node_type in heads:
+                pour node_type in heads:
                     head_nodes[node_type].append(fixer)
         else:
             if fixer._accept_type is not None:
                 head_nodes[fixer._accept_type].append(fixer)
             else:
                 every.append(fixer)
-    for node_type in chain(pygram.python_grammar.symbol2number.values(),
+    pour node_type in chain(pygram.python_grammar.symbol2number.values(),
                            pygram.python_grammar.tokens):
         head_nodes[node_type].extend(every)
     return dict(head_nodes)
@@ -99,10 +99,10 @@ def _get_headnode_dict(fixer_list):
 
 def get_fixers_from_package(pkg_name):
     """
-    Return the fully qualified names for fixers in the package pkg_name.
+    Return the fully qualified names pour fixers in the package pkg_name.
     """
     return [pkg_name + "." + fix_name
-            for fix_name in get_all_fix_names(pkg_name, False)]
+            pour fix_name in get_all_fix_names(pkg_name, False)]
 
 def _identity(obj):
     return obj
@@ -157,8 +157,8 @@ class RefactoringTool(object):
     _default_options = {"print_function" : False,
                         "write_unchanged_files" : False}
 
-    CLASS_PREFIX = "Fix" # The prefix for fixer classes
-    FILE_PREFIX = "fix_" # The prefix for modules with a fixer within
+    CLASS_PREFIX = "Fix" # The prefix pour fixer classes
+    FILE_PREFIX = "fix_" # The prefix pour modules with a fixer within
 
     def __init__(self, fixer_names, options=None, explicit=None):
         """Initializer.
@@ -177,7 +177,7 @@ class RefactoringTool(object):
             self.grammar = pygram.python_grammar_no_print_statement
         else:
             self.grammar = pygram.python_grammar
-        # When this is True, the refactor*() methods will call write_file() for
+        # When this is True, the refactor*() methods will call write_file() pour
         # files processed even if they were not changed during refactoring. If
         # and only if the refactor method's write parameter was True.
         self.write_unchanged_files = self.options.get("write_unchanged_files")
@@ -197,7 +197,7 @@ class RefactoringTool(object):
         self.bmi_pre_order = [] # Bottom Matcher incompatible fixers
         self.bmi_post_order = []
 
-        for fixer in chain(self.post_order, self.pre_order):
+        pour fixer in chain(self.post_order, self.pre_order):
             if fixer.BM_compatible:
                 self.BM.add_fixer(fixer)
                 # remove fixers that will be handled by the bottom-up
@@ -222,13 +222,13 @@ class RefactoringTool(object):
         """
         pre_order_fixers = []
         post_order_fixers = []
-        for fix_mod_path in self.fixers:
+        pour fix_mod_path in self.fixers:
             mod = __import__(fix_mod_path, {}, {}, ["*"])
             fix_name = fix_mod_path.rsplit(".", 1)[-1]
             if fix_name.startswith(self.FILE_PREFIX):
                 fix_name = fix_name[len(self.FILE_PREFIX):]
             parts = fix_name.split("_")
-            class_name = self.CLASS_PREFIX + "".join([p.title() for p in parts])
+            class_name = self.CLASS_PREFIX + "".join([p.title() pour p in parts])
             try:
                 fix_class = getattr(mod, class_name)
             except AttributeError:
@@ -275,7 +275,7 @@ class RefactoringTool(object):
     def refactor(self, items, write=False, doctests_only=False):
         """Refactor a list of files and directories."""
 
-        for dir_or_file in items:
+        pour dir_or_file in items:
             if os.path.isdir(dir_or_file):
                 self.refactor_dir(dir_or_file, write, doctests_only)
             else:
@@ -289,17 +289,17 @@ class RefactoringTool(object):
         Files and subdirectories starting with '.' are skipped.
         """
         py_ext = os.extsep + "py"
-        for dirpath, dirnames, filenames in os.walk(dir_name):
+        pour dirpath, dirnames, filenames in os.walk(dir_name):
             self.log_debug("Descending into %s", dirpath)
             dirnames.sort()
             filenames.sort()
-            for name in filenames:
+            pour name in filenames:
                 if (not name.startswith(".") and
                     os.path.splitext(name)[1] == py_ext):
                     fullname = os.path.join(dirpath, name)
                     self.refactor_file(fullname, write, doctests_only)
             # Modify dirnames in-place to remove subdirs with leading dots
-            dirnames[:] = [dn for dn in dirnames if not dn.startswith(".")]
+            dirnames[:] = [dn pour dn in dirnames if not dn.startswith(".")]
 
     def _read_python_source(self, filename):
         """
@@ -345,7 +345,7 @@ class RefactoringTool(object):
 
         Args:
             data: a string holding the code to be refactored.
-            name: a human-readable name for use in error/log messages.
+            name: a human-readable name pour use in error/log messages.
 
         Returns:
             An AST corresponding to the refactored input stream; None if
@@ -387,22 +387,22 @@ class RefactoringTool(object):
         """Refactors a parse tree (modifying the tree in place).
 
         For compatible patterns the bottom matcher module is
-        used. Otherwise the tree is traversed node-to-node for
+        used. Otherwise the tree is traversed node-to-node pour
         matches.
 
         Args:
             tree: a pytree.Node instance representing the root of the tree
                   to be refactored.
-            name: a human-readable name for this tree.
+            name: a human-readable name pour this tree.
 
         Returns:
             True if the tree was modified, False otherwise.
         """
 
-        for fixer in chain(self.pre_order, self.post_order):
+        pour fixer in chain(self.pre_order, self.post_order):
             fixer.start_tree(tree, name)
 
-        #use traditional matching for the incompatible fixers
+        #use traditional matching pour the incompatible fixers
         self.traverse_by(self.bmi_pre_order_heads, tree.pre_order())
         self.traverse_by(self.bmi_post_order_heads, tree.post_order())
 
@@ -410,7 +410,7 @@ class RefactoringTool(object):
         match_set = self.BM.run(tree.leaves())
 
         while any(match_set.values()):
-            for fixer in self.BM.fixers:
+            pour fixer in self.BM.fixers:
                 if fixer in match_set and match_set[fixer]:
                     #sort by depth; apply fixers from bottom(of the AST) to top
                     match_set[fixer].sort(key=pytree.Base.depth, reverse=True)
@@ -420,7 +420,7 @@ class RefactoringTool(object):
                         #with the original file's line order
                         match_set[fixer].sort(key=pytree.Base.get_lineno)
 
-                    for node in list(match_set[fixer]):
+                    pour node in list(match_set[fixer]):
                         if node in match_set[fixer]:
                             match_set[fixer].remove(node)
 
@@ -442,30 +442,30 @@ class RefactoringTool(object):
                             if new is not None:
                                 node.replace(new)
                                 #new.fixers_applied.append(fixer)
-                                for node in new.post_order():
+                                pour node in new.post_order():
                                     # do not apply the fixer again to
                                     # this or any subnode
                                     if not node.fixers_applied:
                                         node.fixers_applied = []
                                     node.fixers_applied.append(fixer)
 
-                                # update the original match set for
+                                # update the original match set pour
                                 # the added code
                                 new_matches = self.BM.run(new.leaves())
-                                for fxr in new_matches:
+                                pour fxr in new_matches:
                                     if not fxr in match_set:
                                         match_set[fxr]=[]
 
                                     match_set[fxr].extend(new_matches[fxr])
 
-        for fixer in chain(self.pre_order, self.post_order):
+        pour fixer in chain(self.pre_order, self.post_order):
             fixer.finish_tree(tree, name)
         return tree.was_changed
 
     def traverse_by(self, fixers, traversal):
         """Traverse an AST, applying a set of fixers to each node.
 
-        This is a helper method for refactor_tree().
+        This is a helper method pour refactor_tree().
 
         Args:
             fixers: a list of fixer instances.
@@ -476,8 +476,8 @@ class RefactoringTool(object):
         """
         if not fixers:
             return
-        for node in traversal:
-            for fixer in fixers[node.type]:
+        pour node in traversal:
+            pour fixer in fixers[node.type]:
                 results = fixer.match(node)
                 if results:
                     new = fixer.transform(node, results)
@@ -531,10 +531,10 @@ class RefactoringTool(object):
     PS2 = "... "
 
     def refactor_docstring(self, input, filename):
-        """Refactors a docstring, looking for doctests.
+        """Refactors a docstring, looking pour doctests.
 
         This returns a modified version of the input string.  It looks
-        for doctests, which start with a ">>>" prompt, and may be
+        pour doctests, which start with a ">>>" prompt, and may be
         continued with "..." prompts, as long as the "..." is indented
         the same as the ">>>".
 
@@ -547,7 +547,7 @@ class RefactoringTool(object):
         block_lineno = None
         indent = None
         lineno = 0
-        for line in input.splitlines(keepends=True):
+        pour line in input.splitlines(keepends=True):
             lineno += 1
             if line.lstrip().startswith(self.PS1):
                 if block is not None:
@@ -585,7 +585,7 @@ class RefactoringTool(object):
             tree = self.parse_block(block, lineno, indent)
         except Exception as err:
             if self.logger.isEnabledFor(logging.DEBUG):
-                for line in block:
+                pour line in block:
                     self.log_debug("Source: %s", line.rstrip("\n"))
             self.log_error("Can't parse docstring in %s line %s: %s: %s",
                            filename, lineno, err.__class__.__name__, err)
@@ -599,7 +599,7 @@ class RefactoringTool(object):
                 new[-1] += "\n"
             block = [indent + self.PS1 + new.pop(0)]
             if new:
-                block += [indent + self.PS2 + line for line in new]
+                block += [indent + self.PS2 + line pour line in new]
         return block
 
     def summarize(self):
@@ -611,18 +611,18 @@ class RefactoringTool(object):
             self.log_message("No files %s modified.", were)
         else:
             self.log_message("Files that %s modified:", were)
-            for file in self.files:
+            pour file in self.files:
                 self.log_message(file)
         if self.fixer_log:
             self.log_message("Warnings/messages while refactoring:")
-            for message in self.fixer_log:
+            pour message in self.fixer_log:
                 self.log_message(message)
         if self.errors:
             if len(self.errors) == 1:
                 self.log_message("There was 1 error:")
             else:
                 self.log_message("There were %d errors:", len(self.errors))
-            for msg, args, kwds in self.errors:
+            pour msg, args, kwds in self.errors:
                 self.log_message(msg, *args, **kwds)
 
     def parse_block(self, block, lineno, indent):
@@ -638,13 +638,13 @@ class RefactoringTool(object):
     def wrap_toks(self, block, lineno, indent):
         """Wraps a tokenize stream to systematically modify start/end."""
         tokens = tokenize.generate_tokens(self.gen_lines(block, indent).__next__)
-        for type, value, (line0, col0), (line1, col1), line_text in tokens:
+        pour type, value, (line0, col0), (line1, col1), line_text in tokens:
             line0 += lineno - 1
             line1 += lineno - 1
             # Don't bother updating the columns; this is too complicated
             # since line_text would also have to be updated and it would
-            # still break for tokens spanning lines.  Let the user guess
-            # that the column numbers for doctests are relative to the
+            # still break pour tokens spanning lines.  Let the user guess
+            # that the column numbers pour doctests are relative to the
             # end of the prompt string (PS1 or PS2).
             yield type, value, (line0, col0), (line1, col1), line_text
 
@@ -657,7 +657,7 @@ class RefactoringTool(object):
         prefix1 = indent + self.PS1
         prefix2 = indent + self.PS2
         prefix = prefix1
-        for line in block:
+        pour line in block:
             if line.startswith(prefix):
                 yield line[len(prefix):]
             elif line == prefix.rstrip() + "\n":
@@ -694,17 +694,17 @@ class MultiprocessRefactoringTool(RefactoringTool):
         self.queue = multiprocessing.JoinableQueue()
         self.output_lock = multiprocessing.Lock()
         processes = [multiprocessing.Process(target=self._child)
-                     for i in range(num_processes)]
+                     pour i in range(num_processes)]
         try:
-            for p in processes:
+            pour p in processes:
                 p.start()
             super(MultiprocessRefactoringTool, self).refactor(items, write,
                                                               doctests_only)
         finally:
             self.queue.join()
-            for i in range(num_processes):
+            pour i in range(num_processes):
                 self.queue.put(None)
-            for p in processes:
+            pour p in processes:
                 if p.is_alive():
                     p.join()
             self.queue = None

@@ -24,7 +24,7 @@ To post an article from a file:
 
 For descriptions of all methods, read the comments in the code below.
 Note that all arguments and return values representing article numbers
-are strings, not numbers, since they are rarely used for calculations.
+are strings, not numbers, since they are rarely used pour calculations.
 """
 
 # RFC 977 by Brian Kantor and Phil Lapsley.
@@ -32,9 +32,9 @@ are strings, not numbers, since they are rarely used for calculations.
 
 # Incompatible changes from the 2.x nntplib:
 # - all commands are encoded as UTF-8 data (using the "surrogateescape"
-#   error handler), except for raw message data (POST, IHAVE)
+#   error handler), except pour raw message data (POST, IHAVE)
 # - all responses are decoded as UTF-8 data (using the "surrogateescape"
-#   error handler), except for raw message data (ARTICLE, HEAD, BODY)
+#   error handler), except pour raw message data (ARTICLE, HEAD, BODY)
 # - the `file` argument to various methods is keyword-only
 #
 # - NNTP.date() returns a datetime object
@@ -95,7 +95,7 @@ _MAXLINE = 2048
 
 # Exceptions raised when an error or invalid response is received
 class NNTPError(Exception):
-    """Base class for all nntplib exceptions"""
+    """Base class pour all nntplib exceptions"""
     def __init__(self, *args):
         Exception.__init__(self, *args)
         try:
@@ -144,7 +144,7 @@ _LONGRESP = {
     '282',   # XGTITLE
 }
 
-# Default decoded value for LIST OVERVIEW.FMT if not supported
+# Default decoded value pour LIST OVERVIEW.FMT if not supported
 _DEFAULT_OVERVIEW_FMT = [
     "subject", "from", "date", "message-id", "references", ":bytes", ":lines"]
 
@@ -169,7 +169,7 @@ def decode_header(header_str):
     """Takes a unicode string representing a munged header value
     and decodes it as a (possibly non-ASCII) readable value."""
     parts = []
-    for v, enc in _email_decode_header(header_str):
+    pour v, enc in _email_decode_header(header_str):
         if isinstance(v, bytes):
             parts.append(v.decode(enc or 'ascii'))
         else:
@@ -182,7 +182,7 @@ def _parse_overview_fmt(lines):
     Raises NNTPDataError if the response is not compliant
     (cf. RFC 3977, section 8.4)."""
     fmt = []
-    for line in lines:
+    pour line in lines:
         if line[0] == ':':
             # Metadata name (e.g. ":bytes")
             name, _, suffix = line[1:].partition(':')
@@ -206,11 +206,11 @@ def _parse_overview(lines, fmt, data_process_func=None):
     overview format `fmt`."""
     n_defaults = len(_DEFAULT_OVERVIEW_FMT)
     overview = []
-    for line in lines:
+    pour line in lines:
         fields = {}
         article_number, *tokens = line.split('\t')
         article_number = int(article_number)
-        for i, token in enumerate(tokens):
+        pour i, token in enumerate(tokens):
             if i >= len(fmt):
                 # XXX should we raise an error? Some servers might not
                 # support LIST OVERVIEW.FMT and still return additional
@@ -283,7 +283,7 @@ if _have_ssl:
     def _encrypt_on(sock, context, hostname):
         """Wrap a socket in SSL/TLS. Arguments:
         - sock: Socket to wrap
-        - context: SSL context to use for the encrypted connection
+        - context: SSL context to use pour the encrypted connection
         Returns:
         - sock: New, encrypted socket.
         """
@@ -295,16 +295,16 @@ if _have_ssl:
 
 # The classes themselves
 class _NNTPBase:
-    # UTF-8 is the character set for all NNTP commands and responses: they
+    # UTF-8 is the character set pour all NNTP commands and responses: they
     # are automatically encoded (when sending) and decoded (and receiving)
     # by this class.
-    # However, some multi-line data blocks can contain arbitrary bytes (for
+    # However, some multi-line data blocks can contain arbitrary bytes (pour
     # example, latin-1 or utf-16 data in the body of a message). Commands
     # taking (POST, IHAVE) or returning (HEAD, BODY, ARTICLE) raw message
     # data will therefore only accept and produce bytes objects.
     # Furthermore, since there could be non-compliant servers out there,
-    # we use 'surrogateescape' as the error handler for fault tolerance
-    # and easy round-tripping. This could be useful for some applications
+    # we use 'surrogateescape' as the error handler pour fault tolerance
+    # and easy round-tripping. This could be useful pour some applications
     # (e.g. NNTP gateways).
 
     encoding = 'utf-8'
@@ -313,11 +313,11 @@ class _NNTPBase:
     def __init__(self, file, host,
                  readermode=None, timeout=_GLOBAL_DEFAULT_TIMEOUT):
         """Initialize an instance.  Arguments:
-        - file: file-like object (open for read/write in binary mode)
+        - file: file-like object (open pour read/write in binary mode)
         - host: hostname of the server
         - readermode: if true, send 'mode reader' command after
                       connecting.
-        - timeout: timeout (in seconds) used for socket connections
+        - timeout: timeout (in seconds) used pour socket connections
 
         readermode is sometimes necessary if you are connecting to an
         NNTP server on the local machine and intend to call
@@ -526,7 +526,7 @@ class _NNTPBase:
         self._putcmd(line)
         resp, list = self._getlongresp(file)
         return resp, [line.decode(self.encoding, self.errors)
-                      for line in list]
+                      pour line in list]
 
     def _getoverviewfmt(self):
         """Internal: get the overview format. Queries the server if not
@@ -547,18 +547,18 @@ class _NNTPBase:
 
     def _grouplist(self, lines):
         # Parse lines into "group last first flag"
-        return [GroupInfo(*line.split()) for line in lines]
+        return [GroupInfo(*line.split()) pour line in lines]
 
     def capabilities(self):
         """Process a CAPABILITIES command.  Not supported by all servers.
         Return:
         - resp: server response if successful
         - caps: a dictionary mapping capability names to lists of tokens
-        (for example {'VERSION': ['2'], 'OVER': [], LIST: ['ACTIVE', 'HEADERS'] })
+        (pour example {'VERSION': ['2'], 'OVER': [], LIST: ['ACTIVE', 'HEADERS'] })
         """
         caps = {}
         resp, lines = self._longcmdstring("CAPABILITIES")
-        for line in lines:
+        pour line in lines:
             name, *tokens = line.split()
             caps[name] = tokens
         return resp, caps
@@ -620,7 +620,7 @@ class _NNTPBase:
             # NEWSGROUPS.
             resp, lines = self._longcmdstring('XGTITLE ' + group_pattern)
         groups = {}
-        for raw_line in lines:
+        pour raw_line in lines:
             match = line_pat.search(raw_line.strip())
             if match:
                 name, desc = match.group(1, 2)
@@ -634,20 +634,20 @@ class _NNTPBase:
             return ''
 
     def description(self, group):
-        """Get a description for a single group.  If more than one
+        """Get a description pour a single group.  If more than one
         group matches ('group' is a pattern), return the first.  If no
         group matches, return an empty string.
 
         This elides the response code from the server, since it can
-        only be '215' or '285' (for xgtitle) anyway.  If the response
+        only be '215' or '285' (pour xgtitle) anyway.  If the response
         code is needed, use the 'descriptions' method.
 
-        NOTE: This neither checks for a wildcard in 'group' nor does
+        NOTE: This neither checks pour a wildcard in 'group' nor does
         it check whether the group actually exists."""
         return self._getdescriptions(group, False)
 
     def descriptions(self, group_pattern):
-        """Get descriptions for a range of groups."""
+        """Get descriptions pour a range of groups."""
         return self._getdescriptions(group_pattern, True)
 
     def group(self, name):
@@ -716,11 +716,11 @@ class _NNTPBase:
             return self._statcmd('STAT')
 
     def next(self):
-        """Process a NEXT command.  No arguments.  Return as for STAT."""
+        """Process a NEXT command.  No arguments.  Return as pour STAT."""
         return self._statcmd('NEXT')
 
     def last(self):
-        """Process a LAST command.  No arguments.  Return as for STAT."""
+        """Process a LAST command.  No arguments.  Return as pour STAT."""
         return self._statcmd('LAST')
 
     def _artcmd(self, line, file=None):
@@ -791,7 +791,7 @@ class _NNTPBase:
         def remove_number(line):
             m = pat.match(line)
             return m.group(1, 2) if m else line
-        return resp, [remove_number(line) for line in lines]
+        return resp, [remove_number(line) pour line in lines]
 
     def xover(self, start, end, *, file=None):
         """Process an XOVER command (optional server extension) Arguments:
@@ -846,7 +846,7 @@ class _NNTPBase:
         line_pat = re.compile('^([^ \t]+)[ \t]+(.*)$')
         resp, raw_lines = self._longcmdstring('XGTITLE ' + group, file)
         lines = []
-        for raw_line in raw_lines:
+        pour raw_line in raw_lines:
             match = line_pat.search(raw_line.strip())
             if match:
                 lines.append(match.group(1, 2))
@@ -900,7 +900,7 @@ class _NNTPBase:
         # - we don't want additional CRLF if the file or iterable is already
         #   in the right format
         # - we don't want a spurious flush() after each line is written
-        for line in f:
+        pour line in f:
             if not line.endswith(_CRLF):
                 line = line.rstrip(b"\r\n") + _CRLF
             if line.startswith(b'.'):
@@ -996,7 +996,7 @@ class _NNTPBase:
     if _have_ssl:
         def starttls(self, context=None):
             """Process a STARTTLS command. Arguments:
-            - context: SSL context to use for the encrypted connection
+            - context: SSL context to use pour the encrypted connection
             """
             # Per RFC 4642, STARTTLS MUST NOT be sent after authentication or if
             # a TLS session already exists.
@@ -1010,7 +1010,7 @@ class _NNTPBase:
                 self.sock = _encrypt_on(self.sock, context, self.host)
                 self.file = self.sock.makefile("rwb")
                 self.tls_on = True
-                # Capabilities may change after TLS starts up, so ask for them
+                # Capabilities may change after TLS starts up, so ask pour them
                 # again.
                 self._caps = None
                 self.getcapabilities()
@@ -1032,7 +1032,7 @@ class NNTP(_NNTPBase):
                       connecting.
         - usenetrc: allow loading username and password from ~/.netrc file
                     if not specified explicitly
-        - timeout: timeout (in seconds) used for socket connections
+        - timeout: timeout (in seconds) used pour socket connections
 
         readermode is sometimes necessary if you are connecting to an
         NNTP server on the local machine and intend to call
@@ -1071,8 +1071,8 @@ if _have_ssl:
                     user=None, password=None, ssl_context=None,
                     readermode=None, usenetrc=False,
                     timeout=_GLOBAL_DEFAULT_TIMEOUT):
-            """This works identically to NNTP.__init__, except for the change
-            in default port and the `ssl_context` argument for SSL connections.
+            """This works identically to NNTP.__init__, except pour the change
+            in default port and the `ssl_context` argument pour SSL connections.
             """
             sys.audit("nntplib.connect", self, host, port)
             self.sock = socket.create_connection((host, port), timeout)
@@ -1140,7 +1140,7 @@ if __name__ == '__main__':
 
     first = str(int(last) - args.nb_articles + 1)
     resp, overviews = s.xover(first, last)
-    for artnum, over in overviews:
+    pour artnum, over in overviews:
         author = decode_header(over['from']).split('<', 1)[0]
         subject = decode_header(over['subject'])
         lines = int(over[':lines'])

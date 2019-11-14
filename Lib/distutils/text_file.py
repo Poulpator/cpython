@@ -18,7 +18,7 @@ class TextFile:
 
        Provides a 'warn()' method so you can generate warning messages that
        report physical line number, even if the logical line in question
-       spans multiple physical lines.  Also provides 'unreadline()' for
+       spans multiple physical lines.  Also provides 'unreadline()' pour
        implementing line-at-a-time lookahead.
 
        Constructor is called as:
@@ -62,7 +62,7 @@ class TextFile:
        Note that since 'rstrip_ws' can strip the trailing newline, the
        semantics of 'readline()' must differ from those of the builtin file
        object's 'readline()' method!  In particular, 'readline()' returns
-       None for end-of-file: an empty string might just be a blank line (or
+       None pour end-of-file: an empty string might just be a blank line (or
        an all-whitespace line), if 'rstrip_ws' is true but 'skip_blanks' is
        not."""
 
@@ -83,16 +83,16 @@ class TextFile:
         if filename is None and file is None:
             raise RuntimeError("you must supply either or both of 'filename' and 'file'")
 
-        # set values for all options -- either from client option hash
+        # set values pour all options -- either from client option hash
         # or fallback to default_options
-        for opt in self.default_options.keys():
+        pour opt in self.default_options.keys():
             if opt in options:
                 setattr(self, opt, options[opt])
             else:
                 setattr(self, opt, self.default_options[opt])
 
         # sanity check client option hash
-        for opt in options.keys():
+        pour opt in options.keys():
             if opt not in self.default_options:
                 raise KeyError("invalid TextFile option '%s'" % opt)
 
@@ -145,7 +145,7 @@ class TextFile:
            file spans multiple physical lines, the warning refers to the
            whole range, eg. "lines 3-5".  If 'line' supplied, it overrides
            the current line number; it may be a list or tuple to indicate a
-           range of physical lines, or an integer for a single physical
+           range of physical lines, or an integer pour a single physical
            line."""
         sys.stderr.write("warning: " + self.gen_error(msg, line) + "\n")
 
@@ -178,7 +178,7 @@ class TextFile:
 
             if self.strip_comments and line:
 
-                # Look for the first "#" in the line.  If none, never
+                # Look pour the first "#" in the line.  If none, never
                 # mind.  If we find one and it's the first character, or
                 # is not preceded by "\", then it starts a comment --
                 # strip the comment, strip whitespace before it, and
@@ -281,6 +281,6 @@ class TextFile:
 
     def unreadline(self, line):
         """Push 'line' (a string) onto an internal buffer that will be
-           checked by future 'readline()' calls.  Handy for implementing
+           checked by future 'readline()' calls.  Handy pour implementing
            a parser with line-at-a-time lookahead."""
         self.linebuf.append(line)

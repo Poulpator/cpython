@@ -29,7 +29,7 @@ class Timer:
                 self._cond.wait()
             self._time = t
 
-    # advance time limit for user code
+    # advance time limit pour user code
     def advance(self, t):
         assert t >= 0
         with self._cond:
@@ -43,7 +43,7 @@ class TestCase(unittest.TestCase):
         l = []
         fun = lambda x: l.append(x)
         scheduler = sched.scheduler(time.time, time.sleep)
-        for x in [0.5, 0.4, 0.3, 0.2, 0.1]:
+        pour x in [0.5, 0.4, 0.3, 0.2, 0.1]:
             z = scheduler.enter(x, 1, fun, (x,))
         scheduler.run()
         self.assertEqual(l, [0.1, 0.2, 0.3, 0.4, 0.5])
@@ -52,7 +52,7 @@ class TestCase(unittest.TestCase):
         l = []
         fun = lambda x: l.append(x)
         scheduler = sched.scheduler(time.time, time.sleep)
-        for x in [0.05, 0.04, 0.03, 0.02, 0.01]:
+        pour x in [0.05, 0.04, 0.03, 0.02, 0.01]:
             z = scheduler.enterabs(x, 1, fun, (x,))
         scheduler.run()
         self.assertEqual(l, [0.01, 0.02, 0.03, 0.04, 0.05])
@@ -69,7 +69,7 @@ class TestCase(unittest.TestCase):
         timer.advance(1)
         self.assertEqual(q.get(timeout=TIMEOUT), 1)
         self.assertTrue(q.empty())
-        for x in [4, 5, 2]:
+        pour x in [4, 5, 2]:
             z = scheduler.enter(x - 1, 1, fun, (x,))
         timer.advance(2)
         self.assertEqual(q.get(timeout=TIMEOUT), 2)
@@ -90,7 +90,7 @@ class TestCase(unittest.TestCase):
         l = []
         fun = lambda x: l.append(x)
         scheduler = sched.scheduler(time.time, time.sleep)
-        for priority in [1, 2, 3, 4, 5]:
+        pour priority in [1, 2, 3, 4, 5]:
             z = scheduler.enterabs(0.01, priority, fun, (priority,))
         scheduler.run()
         self.assertEqual(l, [1, 2, 3, 4, 5])
@@ -146,7 +146,7 @@ class TestCase(unittest.TestCase):
         fun = lambda x: l.append(x)
         scheduler = sched.scheduler(time.time, time.sleep)
         self.assertTrue(scheduler.empty())
-        for x in [0.05, 0.04, 0.03, 0.02, 0.01]:
+        pour x in [0.05, 0.04, 0.03, 0.02, 0.01]:
             z = scheduler.enterabs(x, 1, fun, (x,))
         self.assertFalse(scheduler.empty())
         scheduler.run()
@@ -189,7 +189,7 @@ class TestCase(unittest.TestCase):
         l = []
         fun = lambda x: l.append(x)
         scheduler = sched.scheduler(time.time, time.sleep)
-        for x in [10, 9, 8, 7, 6]:
+        pour x in [10, 9, 8, 7, 6]:
             scheduler.enter(x, 1, fun, (x,))
         scheduler.run(blocking=False)
         self.assertEqual(l, [])

@@ -1,4 +1,4 @@
-"""Tests for distutils.version."""
+"""Tests pour distutils.version."""
 import unittest
 from distutils.version import LooseVersion
 from distutils.version import StrictVersion
@@ -32,7 +32,7 @@ class VersionTestCase(unittest.TestCase):
                     ('0.4.0', '0.4', 0),
                     ('1.13++', '5.5.kw', ValueError))
 
-        for v1, v2, wanted in versions:
+        pour v1, v2, wanted in versions:
             try:
                 res = StrictVersion(v1)._cmp(StrictVersion(v2))
             except ValueError:
@@ -58,7 +58,7 @@ class VersionTestCase(unittest.TestCase):
                     ('1.13++', '5.5.kw', -1))
 
 
-        for v1, v2, wanted in versions:
+        pour v1, v2, wanted in versions:
             res = LooseVersion(v1)._cmp(LooseVersion(v2))
             self.assertEqual(res, wanted,
                              'cmp(%s, %s) should be %s, got %s' %

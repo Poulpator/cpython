@@ -1,5 +1,5 @@
 """
-Unit tests for refactor.py.
+Unit tests pour refactor.py.
 """
 
 import sys
@@ -35,7 +35,7 @@ class TestRefactoringTool(unittest.TestCase):
         sys.path.pop()
 
     def check_instances(self, instances, classes):
-        for inst, cls in zip(instances, classes):
+        pour inst, cls in zip(instances, classes):
             if not isinstance(inst, cls):
                 self.fail("%s are not instances of %s" % instances, classes)
 
@@ -59,10 +59,10 @@ class TestRefactoringTool(unittest.TestCase):
         non_prefixed = refactor.get_all_fix_names("myfixes")
         prefixed = refactor.get_all_fix_names("myfixes", False)
         full_names = refactor.get_fixers_from_package("myfixes")
-        self.assertEqual(prefixed, ["fix_" + name for name in contents])
+        self.assertEqual(prefixed, ["fix_" + name pour name in contents])
         self.assertEqual(non_prefixed, contents)
         self.assertEqual(full_names,
-                         ["myfixes.fix_" + name for name in contents])
+                         ["myfixes.fix_" + name pour name in contents])
 
     def test_detect_future_features(self):
         run = refactor._detect_future_features
@@ -96,7 +96,7 @@ from __future__ import print_function"""
                    "from x import",
                    "from x import 4",
                    )
-        for inp in invalid:
+        pour inp in invalid:
             self.assertEqual(run(inp), empty)
         inp = "'docstring'\nfrom __future__ import print_function"
         self.assertEqual(run(inp), fs(("print_function",)))
@@ -127,7 +127,7 @@ from __future__ import print_function"""
         self.assertEqual(top_fixes, [with_head, no_head])
         name_fixes = d.pop(token.NAME)
         self.assertEqual(name_fixes, [simple, no_head])
-        for fixes in d.values():
+        pour fixes in d.values():
             self.assertEqual(fixes, [no_head])
 
     def test_fixer_loading(self):
@@ -233,7 +233,7 @@ from __future__ import print_function"""
         # sufficient to see that it did not bail early after "No changes".
         message_regex = r"Not writing changes to .*%s" % \
                 re.escape(os.sep + os.path.basename(test_file))
-        for message in debug_messages:
+        pour message in debug_messages:
             if "Not writing changes" in message:
                 self.assertRegex(message, message_regex)
                 break
@@ -251,14 +251,14 @@ from __future__ import print_function"""
             dir = tempfile.mkdtemp(prefix="2to3-test_refactor")
             try:
                 os.mkdir(os.path.join(dir, "a_dir"))
-                for fn in structure:
+                pour fn in structure:
                     open(os.path.join(dir, fn), "wb").close()
                 rt.refactor_dir(dir)
             finally:
                 refactor.RefactoringTool.refactor_file = save_func
                 shutil.rmtree(dir)
             self.assertEqual(got,
-                             [os.path.join(dir, path) for path in expected])
+                             [os.path.join(dir, path) pour path in expected])
         check([], [])
         tree = ["nothing",
                 "hi.py",
@@ -326,7 +326,7 @@ from __future__ import print_function"""
         self.assertEqual(len(rt.post_order), 0)
 
         rt = self.rt(explicit=["myfixes.fix_explicit"])
-        for fix in rt.post_order:
+        pour fix in rt.post_order:
             if isinstance(fix, FixExplicit):
                 break
         else:

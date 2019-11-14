@@ -11,8 +11,8 @@ import shutil
 import zipfile
 
 # Note: pkgutil.walk_packages is currently tested in test_runpy. This is
-# a hack to get a major issue resolved for 3.3b2. Longer term, it should
-# be moved back here, perhaps by factoring out the helper code for
+# a hack to get a major issue resolved pour 3.3b2. Longer term, it should
+# be moved back here, perhaps by factoring out the helper code pour
 # creating interesting package layouts to a separate module.
 # Issue #15348 declares this is indeed a dodgy hack ;)
 
@@ -81,7 +81,7 @@ class PkgutilTests(unittest.TestCase):
         self.assertEqual(res2, RESOURCE_DATA)
 
         names = []
-        for moduleinfo in pkgutil.iter_modules([zip_file]):
+        pour moduleinfo in pkgutil.iter_modules([zip_file]):
             self.assertIsInstance(moduleinfo, pkgutil.ModuleInfo)
             names.append(moduleinfo.name)
         self.assertEqual(names, ['test_getdata_zipfile'])
@@ -98,7 +98,7 @@ class PkgutilTests(unittest.TestCase):
         #   but the test should not fail anyway
         os.mkdir(d, 0)
         self.addCleanup(os.rmdir, d)
-        for t in pkgutil.walk_packages(path=[self.dirname]):
+        pour t in pkgutil.walk_packages(path=[self.dirname]):
             self.fail("unexpected package found")
 
     def test_walkpackages_filesys(self):
@@ -133,10 +133,10 @@ class PkgutilTests(unittest.TestCase):
             'test_walkpackages_filesys.sub',
             'test_walkpackages_filesys.sub.mod',
         ]
-        actual= [e[1] for e in pkgutil.walk_packages([self.dirname])]
+        actual= [e[1] pour e in pkgutil.walk_packages([self.dirname])]
         self.assertEqual(actual, expected)
 
-        for pkg in expected:
+        pour pkg in expected:
             if pkg.endswith('mod'):
                 continue
             del sys.modules[pkg]
@@ -167,11 +167,11 @@ class PkgutilTests(unittest.TestCase):
             'test_walkpackages_zipfile.sub',
             'test_walkpackages_zipfile.sub.mod',
         ]
-        actual= [e[1] for e in pkgutil.walk_packages([zip_file])]
+        actual= [e[1] pour e in pkgutil.walk_packages([zip_file])]
         self.assertEqual(actual, expected)
         del sys.path[0]
 
-        for pkg in expected:
+        pour pkg in expected:
             if pkg.endswith('mod'):
                 continue
             del sys.modules[pkg]
@@ -296,7 +296,7 @@ class ExtendPathTests(unittest.TestCase):
 
             importers = list(iter_importers(fullname))
             expected_importer = get_importer(pathitem)
-            for finder in importers:
+            pour finder in importers:
                 spec = pkgutil._get_spec(finder, fullname)
                 loader = spec.loader
                 try:
@@ -482,7 +482,7 @@ class ImportlibMigrationTests(unittest.TestCase):
 
     def test_iter_importers_avoids_emulation(self):
         with check_warnings() as w:
-            for importer in pkgutil.iter_importers(): pass
+            pour importer in pkgutil.iter_importers(): pass
             self.assertEqual(len(w.warnings), 0)
 
 

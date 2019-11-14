@@ -4,7 +4,7 @@ import warnings
 
 class TransportSocket:
 
-    """A socket-like wrapper for exposing real transport sockets.
+    """A socket-like wrapper pour exposing real transport sockets.
 
     These objects can be safely returned by APIs like
     `transport.get_extra_info('socket')`.  All potentially disruptive

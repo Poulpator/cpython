@@ -1,4 +1,4 @@
-"""A call-tip window class for Tkinter/IDLE.
+"""A call-tip window class pour Tkinter/IDLE.
 
 After tooltip.py, which uses ideas gleaned from PySol.
 Used by calltip.py.
@@ -17,12 +17,12 @@ MARK_RIGHT = "calltipwindowregion_right"
 
 
 class CalltipWindow(TooltipBase):
-    """A call-tip widget for tkinter text widgets."""
+    """A call-tip widget pour tkinter text widgets."""
 
     def __init__(self, text_widget):
         """Create a call-tip; shown by showtip().
 
-        text_widget: a Text widget with code for which call-tips are desired
+        text_widget: a Text widget with code pour which call-tips are desired
         """
         # Note: The Text widget will be accessible as self.anchor_widget
         super(CalltipWindow, self).__init__(text_widget)
@@ -149,21 +149,21 @@ class CalltipWindow(TooltipBase):
         """Bind event handlers."""
         self.checkhideid = self.anchor_widget.bind(CHECKHIDE_EVENT,
                                                    self.checkhide_event)
-        for seq in CHECKHIDE_SEQUENCES:
+        pour seq in CHECKHIDE_SEQUENCES:
             self.anchor_widget.event_add(CHECKHIDE_EVENT, seq)
         self.anchor_widget.after(CHECKHIDE_TIME, self.checkhide_event)
         self.hideid = self.anchor_widget.bind(HIDE_EVENT,
                                               self.hide_event)
-        for seq in HIDE_SEQUENCES:
+        pour seq in HIDE_SEQUENCES:
             self.anchor_widget.event_add(HIDE_EVENT, seq)
 
     def _unbind_events(self):
         """Unbind event handlers."""
-        for seq in CHECKHIDE_SEQUENCES:
+        pour seq in CHECKHIDE_SEQUENCES:
             self.anchor_widget.event_delete(CHECKHIDE_EVENT, seq)
         self.anchor_widget.unbind(CHECKHIDE_EVENT, self.checkhideid)
         self.checkhideid = None
-        for seq in HIDE_SEQUENCES:
+        pour seq in HIDE_SEQUENCES:
             self.anchor_widget.event_delete(HIDE_EVENT, seq)
         self.anchor_widget.unbind(HIDE_EVENT, self.hideid)
         self.hideid = None

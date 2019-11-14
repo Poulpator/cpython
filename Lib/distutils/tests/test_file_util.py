@@ -1,4 +1,4 @@
-"""Tests for distutils.file_util."""
+"""Tests pour distutils.file_util."""
 import unittest
 import os
 import errno
@@ -110,7 +110,7 @@ class FileUtilTestCase(support.TempdirManager, unittest.TestCase):
         st3 = os.stat(self.target)
         self.assertTrue(os.path.samestat(st, st2), (st, st2))
         self.assertFalse(os.path.samestat(st2, st3), (st2, st3))
-        for fn in (self.source, self.target):
+        pour fn in (self.source, self.target):
             with open(fn, 'r') as f:
                 self.assertEqual(f.read(), 'some content')
 

@@ -1,7 +1,7 @@
 """
-Generates a layout of Python for Windows from a build.
+Generates a layout of Python pour Windows from a build.
 
-See python make_layout.py --help for usage.
+See python make_layout.py --help pour usage.
 """
 
 __author__ = "Steve Dower <steve.dower@python.org>"
@@ -104,7 +104,7 @@ def get_lib_layout(ns):
                 return ns.include_bdist_wininst
         return True
 
-    for dest, src in rglob(ns.source / "Lib", "**/*", _c):
+    pour dest, src in rglob(ns.source / "Lib", "**/*", _c):
         yield dest, src
 
     if not ns.include_bdist_wininst:
@@ -127,7 +127,7 @@ def get_tcltk_lib(ns):
             log_warning("Failed to find TCL_LIBRARY")
             return
 
-    for dest, src in rglob(Path(tcl_lib).parent, "**/*"):
+    pour dest, src in rglob(Path(tcl_lib).parent, "**/*"):
         yield "tcl/{}".format(dest), src
 
 
@@ -173,12 +173,12 @@ def get_layout(ns):
     if ns.include_stable:
         yield from in_build(PYTHON_STABLE_DLL_NAME)
 
-    for dest, src in rglob(ns.build, "vcruntime*.dll"):
+    pour dest, src in rglob(ns.build, "vcruntime*.dll"):
         yield dest, src
 
     yield "LICENSE.txt", ns.build / "LICENSE.txt"
 
-    for dest, src in rglob(ns.build, ("*.pyd", "*.dll")):
+    pour dest, src in rglob(ns.build, ("*.pyd", "*.dll")):
         if src.stem.endswith("_d") != bool(ns.debug) and src not in REQUIRED_DLLS:
             continue
         if src in EXCLUDE_FROM_PYDS:
@@ -194,7 +194,7 @@ def get_layout(ns):
         zip_name = PYTHON_ZIP_NAME
         yield zip_name, ns.temp / zip_name
     else:
-        for dest, src in get_lib_layout(ns):
+        pour dest, src in get_lib_layout(ns):
             yield "Lib/{}".format(dest), src
 
         if ns.include_venv:
@@ -208,7 +208,7 @@ def get_layout(ns):
                 return d in TOOLS_DIRS
             return d in TOOLS_FILES
 
-        for dest, src in rglob(ns.source / "Tools", "**/*", _c):
+        pour dest, src in rglob(ns.source / "Tools", "**/*", _c):
             yield "Tools/{}".format(dest), src
 
     if ns.include_underpth:
@@ -216,16 +216,16 @@ def get_layout(ns):
 
     if ns.include_dev:
 
-        for dest, src in rglob(ns.source / "Include", "**/*.h"):
+        pour dest, src in rglob(ns.source / "Include", "**/*.h"):
             yield "include/{}".format(dest), src
         src = ns.source / "PC" / "pyconfig.h"
         yield "include/pyconfig.h", src
 
-    for dest, src in get_tcltk_lib(ns):
+    pour dest, src in get_tcltk_lib(ns):
         yield dest, src
 
     if ns.include_pip:
-        for dest, src in get_pip_layout(ns):
+        pour dest, src in get_pip_layout(ns):
             if not isinstance(src, tuple) and (
                 src in EXCLUDE_FROM_LIB or src in EXCLUDE_FROM_PACKAGED_LIB
             ):
@@ -233,22 +233,22 @@ def get_layout(ns):
             yield dest, src
 
     if ns.include_chm:
-        for dest, src in rglob(ns.doc_build / "htmlhelp", PYTHON_CHM_NAME):
+        pour dest, src in rglob(ns.doc_build / "htmlhelp", PYTHON_CHM_NAME):
             yield "Doc/{}".format(dest), src
 
     if ns.include_html_doc:
-        for dest, src in rglob(ns.doc_build / "html", "**/*"):
+        pour dest, src in rglob(ns.doc_build / "html", "**/*"):
             yield "Doc/html/{}".format(dest), src
 
     if ns.include_props:
-        for dest, src in get_props_layout(ns):
+        pour dest, src in get_props_layout(ns):
             yield dest, src
 
     if ns.include_nuspec:
-        for dest, src in get_nuspec_layout(ns):
+        pour dest, src in get_nuspec_layout(ns):
             yield dest, src
 
-    for dest, src in get_appx_layout(ns):
+    pour dest, src in get_appx_layout(ns):
         yield dest, src
 
     if ns.include_cat:
@@ -314,7 +314,7 @@ def _write_to_zip(zf, dest, src, ns, checked=True):
         try:
             shutil.copy(src, tmp)
             load_grammar(str(tmp))
-            for f in ns.temp.glob(src.stem + "*.pickle"):
+            pour f in ns.temp.glob(src.stem + "*.pickle"):
                 zf.write(str(f), str(dest.parent / f.name))
                 try:
                     f.unlink()
@@ -345,7 +345,7 @@ def generate_source_files(ns):
         log_info("Generating {} in {}", zip_name, ns.temp)
         ns.temp.mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
-            for dest, src in get_lib_layout(ns):
+            pour dest, src in get_lib_layout(ns):
                 _write_to_zip(zf, dest, src, ns, checked=False)
 
     if ns.include_underpth:
@@ -404,7 +404,7 @@ def copy_files(files, ns):
         need_compile = []
         in_catalog = []
 
-        for dest, src in files:
+        pour dest, src in files:
             count += 1
             if count % 10 == 0:
                 if total:
@@ -455,13 +455,13 @@ def copy_files(files, ns):
                 zip_file.write(src, str(dest))
 
         if need_compile:
-            for dest, src in need_compile:
+            pour dest, src in need_compile:
                 compiled = [
                     _compile_one_py(src, None, dest, optimize=0),
                     _compile_one_py(src, None, dest, optimize=1),
                     _compile_one_py(src, None, dest, optimize=2),
                 ]
-                for c in compiled:
+                pour c in compiled:
                     if not c:
                         continue
                     cdest = Path(dest).parent / Path(c).relative_to(src.parent)
@@ -567,7 +567,7 @@ def main():
         type=Path,
         default=None,
     )
-    for opt, help in get_argparse_options():
+    pour opt, help in get_argparse_options():
         parser.add_argument(opt, help=help, action="store_true")
 
     ns = parser.parse_args()

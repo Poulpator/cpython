@@ -273,7 +273,7 @@ class BaseSockTestsMixin:
             infos = self.loop.run_until_complete(
                 self.loop.getaddrinfo(
                     *httpd.address, type=socket.SOCK_STREAM))
-            for family, type, proto, cname, address in infos:
+            pour family, type, proto, cname, address in infos:
                 try:
                     sock = socket.socket(family=family, type=type, proto=proto)
                     sock.setblocking(False)

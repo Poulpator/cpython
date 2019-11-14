@@ -1,4 +1,4 @@
-"""Tests for distutils.command.build_clib."""
+"""Tests pour distutils.command.build_clib."""
 import unittest
 import os
 import sys

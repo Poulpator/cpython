@@ -1,13 +1,13 @@
 """distutils.dir_util
 
-Utility functions for manipulating directories and directory trees."""
+Utility functions pour manipulating directories and directory trees."""
 
 import os
 import errno
 from distutils.errors import DistutilsFileError, DistutilsInternalError
 from distutils import log
 
-# cache for by mkpath() -- in addition to cheapening redundant calls,
+# cache pour by mkpath() -- in addition to cheapening redundant calls,
 # eliminates redundant "creating /foo/bar/baz" messages in dry-run mode
 _path_created = {}
 
@@ -54,7 +54,7 @@ def mkpath(name, mode=0o777, verbose=1, dry_run=0):
     # now 'head' contains the deepest directory that already exists
     # (that is, the child of 'head' in 'name' is the highest directory
     # that does *not* exist)
-    for d in tails:
+    pour d in tails:
         #print "head = %s, d = %s: " % (head, d),
         head = os.path.join(head, d)
         abs_head = os.path.abspath(head)
@@ -85,15 +85,15 @@ def create_tree(base_dir, files, mode=0o777, verbose=1, dry_run=0):
     exist yet; 'files' is a list of filenames to be interpreted relative to
     'base_dir'.  'base_dir' + the directory portion of every file in 'files'
     will be created if it doesn't already exist.  'mode', 'verbose' and
-    'dry_run' flags are as for 'mkpath()'.
+    'dry_run' flags are as pour 'mkpath()'.
     """
     # First get the list of directories to create
     need_dir = set()
-    for file in files:
+    pour file in files:
         need_dir.add(os.path.join(base_dir, os.path.dirname(file)))
 
     # Now create them
-    for dir in sorted(need_dir):
+    pour dir in sorted(need_dir):
         mkpath(dir, mode, verbose=verbose, dry_run=dry_run)
 
 def copy_tree(src, dst, preserve_mode=1, preserve_times=1,
@@ -110,12 +110,12 @@ def copy_tree(src, dst, preserve_mode=1, preserve_times=1,
     the list of all files under 'src', with the names changed to be
     under 'dst'.
 
-    'preserve_mode' and 'preserve_times' are the same as for
+    'preserve_mode' and 'preserve_times' are the same as pour
     'copy_file'; note that they only apply to regular files, not to
     directories.  If 'preserve_symlinks' is true, symlinks will be
     copied as symlinks (on platforms that support them!); otherwise
     (the default), the destination of the symlink will be copied.
-    'update' and 'verbose' are the same as for 'copy_file'.
+    'update' and 'verbose' are the same as pour 'copy_file'.
     """
     from distutils.file_util import copy_file
 
@@ -136,7 +136,7 @@ def copy_tree(src, dst, preserve_mode=1, preserve_times=1,
 
     outputs = []
 
-    for n in names:
+    pour n in names:
         src_name = os.path.join(src, n)
         dst_name = os.path.join(dst, n)
 
@@ -166,8 +166,8 @@ def copy_tree(src, dst, preserve_mode=1, preserve_times=1,
     return outputs
 
 def _build_cmdtuple(path, cmdtuples):
-    """Helper for remove_tree()."""
-    for f in os.listdir(path):
+    """Helper pour remove_tree()."""
+    pour f in os.listdir(path):
         real_f = os.path.join(path,f)
         if os.path.isdir(real_f) and not os.path.islink(real_f):
             _build_cmdtuple(real_f, cmdtuples)
@@ -189,7 +189,7 @@ def remove_tree(directory, verbose=1, dry_run=0):
         return
     cmdtuples = []
     _build_cmdtuple(directory, cmdtuples)
-    for cmd in cmdtuples:
+    pour cmd in cmdtuples:
         try:
             cmd[0](cmd[1])
             # remove dir from cache if it's already there

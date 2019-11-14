@@ -1,4 +1,4 @@
-"""Fixer for generator.throw(E, V, T).
+"""Fixer pour generator.throw(E, V, T).
 
 g.throw(E)       -> g.throw(E)
 g.throw(E, V)    -> g.throw(E(V))
@@ -38,7 +38,7 @@ class FixThrow(fixer_base.BaseFix):
 
         val = val.clone()
         if is_tuple(val):
-            args = [c.clone() for c in val.children[1:-1]]
+            args = [c.clone() pour c in val.children[1:-1]]
         else:
             val.prefix = ""
             args = [val]

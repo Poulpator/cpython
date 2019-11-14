@@ -1,4 +1,4 @@
-# Symbolic constants for Tk
+# Symbolic constants pour Tk
 
 # Booleans
 NO=FALSE=OFF=0
@@ -80,13 +80,13 @@ COMMAND='command'
 RADIOBUTTON='radiobutton'
 SEPARATOR='separator'
 
-# Selection modes for list boxes
+# Selection modes pour list boxes
 SINGLE='single'
 BROWSE='browse'
 MULTIPLE='multiple'
 EXTENDED='extended'
 
-# Activestyle for list boxes
+# Activestyle pour list boxes
 # NONE='none' is also valid
 DOTBOX='dotbox'
 UNDERLINE='underline'

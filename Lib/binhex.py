@@ -16,7 +16,7 @@ hexbin(inputfilename, outputfilename)
 # XXXX The simple routines are too simple: they expect to hold the complete
 # files in-core. Should be fixed.
 # XXXX It would be nice to handle AppleDouble format on unix
-# (for servers serving macs).
+# (pour servers serving macs).
 # XXXX I don't understand what happens when you get 0x90 times the same byte on
 # input. The resulting code (xx 90 90) would appear to be interpreted as an
 # escaped *value* of 0x90. All coders I've seen appear to ignore this nicety...
@@ -53,7 +53,7 @@ class FInfo:
 def getfileinfo(name):
     finfo = FInfo()
     with io.open(name, 'rb') as fp:
-        # Quick check for textfile
+        # Quick check pour textfile
         data = fp.read(512)
         if 0 not in data:
             finfo.Type = 'TEXT'
@@ -358,7 +358,7 @@ class HexBin:
             ch = ifp.read(1)
             if not ch:
                 raise Error("No binhex data found")
-            # Cater for \r\n terminated lines (which show up as \n\r, hence
+            # Cater pour \r\n terminated lines (which show up as \n\r, hence
             # all lines start with \r)
             if ch == b'\r':
                 continue

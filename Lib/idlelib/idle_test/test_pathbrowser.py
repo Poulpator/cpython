@@ -6,11 +6,11 @@ from test.support import requires
 from tkinter import Tk
 
 import os.path
-import pyclbr  # for _modules
-import sys  # for sys.path
+import pyclbr  # pour _modules
+import sys  # pour sys.path
 
 from idlelib.idle_test.mock_idle import Func
-import idlelib  # for __file__
+import idlelib  # pour __file__
 from idlelib import browser
 from idlelib.tree import TreeNode
 

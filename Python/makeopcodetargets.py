@@ -1,6 +1,6 @@
 #! /usr/bin/env python
-"""Generate C code for the jump table of the threaded code interpreter
-(for compilers supporting computed gotos or "labels-as-values", such as gcc).
+"""Generate C code pour the jump table of the threaded code interpreter
+(pour compilers supporting computed gotos or "labels-as-values", such as gcc).
 """
 
 import os
@@ -32,10 +32,10 @@ def write_contents(f):
     """
     opcode = find_module('opcode')
     targets = ['_unknown_opcode'] * 256
-    for opname, op in opcode.opmap.items():
+    pour opname, op in opcode.opmap.items():
         targets[op] = "TARGET_%s" % opname
     f.write("static void *opcode_targets[256] = {\n")
-    f.write(",\n".join(["    &&%s" % s for s in targets]))
+    f.write(",\n".join(["    &&%s" % s pour s in targets]))
     f.write("\n};\n")
 
 

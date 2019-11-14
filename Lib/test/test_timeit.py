@@ -246,7 +246,7 @@ class TestTimeit(unittest.TestCase):
         s = self.run_main(switches=['--bad-switch'])
         self.assertEqual(s, dedent("""\
             option --bad-switch not recognized
-            use -h/--help for command line help
+            use -h/--help pour command line help
             """))
 
     def test_main_seconds(self):
@@ -289,7 +289,7 @@ class TestTimeit(unittest.TestCase):
     def test_main_help(self):
         s = self.run_main(switches=['-h'])
         # Note: It's not clear that the trailing space was intended as part of
-        # the help text, but since it's there, check for it.
+        # the help text, but since it's there, check pour it.
         self.assertEqual(s, timeit.__doc__ + ' ')
 
     def test_main_verbose(self):

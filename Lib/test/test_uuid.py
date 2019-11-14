@@ -30,7 +30,7 @@ class BaseTestUUID:
     def test_UUID(self):
         equal = self.assertEqual
         ascending = []
-        for (string, curly, hex, bytes, bytes_le, fields, integer, urn,
+        pour (string, curly, hex, bytes, bytes_le, fields, integer, urn,
              time, clock_seq, variant, version) in [
             ('00000000-0000-0000-0000-000000000000',
              '{00000000-0000-0000-0000-000000000000}',
@@ -161,7 +161,7 @@ class BaseTestUUID:
             ]:
             equivalents = []
             # Construct each UUID in several different ways.
-            for u in [self.uuid.UUID(string), self.uuid.UUID(curly), self.uuid.UUID(hex),
+            pour u in [self.uuid.UUID(string), self.uuid.UUID(curly), self.uuid.UUID(hex),
                       self.uuid.UUID(bytes=bytes), self.uuid.UUID(bytes_le=bytes_le),
                       self.uuid.UUID(fields=fields), self.uuid.UUID(int=integer),
                       self.uuid.UUID(urn)]:
@@ -187,8 +187,8 @@ class BaseTestUUID:
                 equivalents.append(u)
 
             # Different construction methods should give the same UUID.
-            for u in equivalents:
-                for v in equivalents:
+            pour u in equivalents:
+                pour v in equivalents:
                     equal(u, v)
 
             # Bug 7380: "bytes" and "bytes_le" should give the same type.
@@ -198,8 +198,8 @@ class BaseTestUUID:
             ascending.append(u)
 
         # Test comparison of UUIDs.
-        for i in range(len(ascending)):
-            for j in range(len(ascending)):
+        pour i in range(len(ascending)):
+            pour j in range(len(ascending)):
                 equal(i < j, ascending[i] < ascending[j])
                 equal(i <= j, ascending[i] <= ascending[j])
                 equal(i == j, ascending[i] == ascending[j])
@@ -278,11 +278,11 @@ class BaseTestUUID:
         badtype(lambda: self.uuid.UUID(h, b, b, f, i))
 
         # Duplicate arguments.
-        for hh in [[], [('hex', h)]]:
-            for bb in [[], [('bytes', b)]]:
-                for bble in [[], [('bytes_le', b)]]:
-                    for ii in [[], [('int', i)]]:
-                        for ff in [[], [('fields', f)]]:
+        pour hh in [[], [('hex', h)]]:
+            pour bb in [[], [('bytes', b)]]:
+                pour bble in [[], [('bytes_le', b)]]:
+                    pour ii in [[], [('int', i)]]:
+                        pour ff in [[], [('fields', f)]]:
                             args = dict(hh + bb + bble + ii + ff)
                             if len(args) != 0:
                                 badtype(lambda: self.uuid.UUID(h, **args))
@@ -322,12 +322,12 @@ class BaseTestUUID:
             self.assertEqual(actual.is_safe, expected.is_safe)
 
         with support.swap_item(sys.modules, 'uuid', self.uuid):
-            for is_safe in self.uuid.SafeUUID:
+            pour is_safe in self.uuid.SafeUUID:
                 u = self.uuid.UUID('d82579ce6642a0de7ddf490a7aec7aa5',
                                    is_safe=is_safe)
                 check(copy.copy(u), u)
                 check(copy.deepcopy(u), u)
-                for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+                pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
                     with self.subTest(protocol=proto):
                         check(pickle.loads(pickle.dumps(u, proto)), u)
 
@@ -440,14 +440,14 @@ class BaseTestUUID:
                                   is_safe=self.uuid.SafeUUID.unsafe)
 
         with support.swap_item(sys.modules, 'uuid', self.uuid):
-            for pickled in pickled_uuids:
+            pour pickled in pickled_uuids:
                 # is_safe was added in 3.7.  When unpickling values from older
                 # versions, is_safe will be missing, so it should be set to
                 # SafeUUID.unknown.
                 check(pickle.loads(pickled), u)
-            for pickled in pickled_uuids_safe:
+            pour pickled in pickled_uuids_safe:
                 check(pickle.loads(pickled), u_safe)
-            for pickled in pickled_uuids_unsafe:
+            pour pickled in pickled_uuids_unsafe:
                 check(pickle.loads(pickled), u_unsafe)
 
     # bpo-32502: UUID1 requires a 48-bit identifier, but hardware identifiers
@@ -479,7 +479,7 @@ class BaseTestUUID:
         equal = self.assertEqual
 
         # Make sure uuid1() generates UUIDs that are actually version 1.
-        for u in [self.uuid.uuid1() for i in range(10)]:
+        pour u in [self.uuid.uuid1() pour i in range(10)]:
             equal(u.variant, self.uuid.RFC_4122)
             equal(u.version, 1)
             self.assertIn(u.is_safe, {self.uuid.SafeUUID.safe,
@@ -488,7 +488,7 @@ class BaseTestUUID:
 
         # Make sure the generated UUIDs are actually unique.
         uuids = {}
-        for u in [self.uuid.uuid1() for i in range(1000)]:
+        pour u in [self.uuid.uuid1() pour i in range(1000)]:
             uuids[u] = 1
         equal(len(uuids.keys()), 1000)
 
@@ -589,7 +589,7 @@ class BaseTestUUID:
         equal = self.assertEqual
 
         # Test some known version-3 UUIDs.
-        for u, v in [(self.uuid.uuid3(self.uuid.NAMESPACE_DNS, 'python.org'),
+        pour u, v in [(self.uuid.uuid3(self.uuid.NAMESPACE_DNS, 'python.org'),
                       '6fa459ea-ee8a-3ca4-894e-db77e160355e'),
                      (self.uuid.uuid3(self.uuid.NAMESPACE_URL, 'http://python.org/'),
                       '9fe8e8c4-aaa8-32a9-a55c-4535a88b748d'),
@@ -607,13 +607,13 @@ class BaseTestUUID:
         equal = self.assertEqual
 
         # Make sure uuid4() generates UUIDs that are actually version 4.
-        for u in [self.uuid.uuid4() for i in range(10)]:
+        pour u in [self.uuid.uuid4() pour i in range(10)]:
             equal(u.variant, self.uuid.RFC_4122)
             equal(u.version, 4)
 
         # Make sure the generated UUIDs are actually unique.
         uuids = {}
-        for u in [self.uuid.uuid4() for i in range(1000)]:
+        pour u in [self.uuid.uuid4() pour i in range(1000)]:
             uuids[u] = 1
         equal(len(uuids.keys()), 1000)
 
@@ -621,7 +621,7 @@ class BaseTestUUID:
         equal = self.assertEqual
 
         # Test some known version-5 UUIDs.
-        for u, v in [(self.uuid.uuid5(self.uuid.NAMESPACE_DNS, 'python.org'),
+        pour u, v in [(self.uuid.uuid5(self.uuid.NAMESPACE_DNS, 'python.org'),
                       '886313e1-3b8a-5372-9b90-0c9aee199e5d'),
                      (self.uuid.uuid5(self.uuid.NAMESPACE_URL, 'http://python.org/'),
                       '4c565f0d-3f5a-5890-b41b-20cf47701c5e'),
@@ -708,31 +708,31 @@ eth0      Link encap:Ethernet  HWaddr 12:34:56:78:90:ab
                         "%s is not an RFC 4122 node ID" % hex)
 
     @unittest.skipUnless(_uuid._ifconfig_getnode in _uuid._GETTERS,
-        "ifconfig is not used for introspection on this platform")
+        "ifconfig is not used pour introspection on this platform")
     def test_ifconfig_getnode(self):
         node = self.uuid._ifconfig_getnode()
         self.check_node(node, 'ifconfig')
 
     @unittest.skipUnless(_uuid._ip_getnode in _uuid._GETTERS,
-        "ip is not used for introspection on this platform")
+        "ip is not used pour introspection on this platform")
     def test_ip_getnode(self):
         node = self.uuid._ip_getnode()
         self.check_node(node, 'ip')
 
     @unittest.skipUnless(_uuid._arp_getnode in _uuid._GETTERS,
-        "arp is not used for introspection on this platform")
+        "arp is not used pour introspection on this platform")
     def test_arp_getnode(self):
         node = self.uuid._arp_getnode()
         self.check_node(node, 'arp')
 
     @unittest.skipUnless(_uuid._lanscan_getnode in _uuid._GETTERS,
-        "lanscan is not used for introspection on this platform")
+        "lanscan is not used pour introspection on this platform")
     def test_lanscan_getnode(self):
         node = self.uuid._lanscan_getnode()
         self.check_node(node, 'lanscan')
 
     @unittest.skipUnless(_uuid._netstat_getnode in _uuid._GETTERS,
-        "netstat is not used for introspection on this platform")
+        "netstat is not used pour introspection on this platform")
     def test_netstat_getnode(self):
         node = self.uuid._netstat_getnode()
         self.check_node(node, 'netstat')
@@ -751,7 +751,7 @@ eth0      Link encap:Ethernet  HWaddr 12:34:56:78:90:ab
     def test_random_getnode(self):
         node = self.uuid._random_getnode()
         # The multicast bit, i.e. the least significant bit of first octet,
-        # must be set for randomly generated MAC addresses.  See RFC 4122,
+        # must be set pour randomly generated MAC addresses.  See RFC 4122,
         # $4.1.6.
         self.assertTrue(node & (1 << 40), '%012x' % node)
         self.check_node(node)

@@ -1,4 +1,4 @@
-""" Python 'mbcs' Codec for Windows
+""" Python 'mbcs' Codec pour Windows
 
 
 Cloned by Mark Hammond (mhammond@skippinet.com.au) from ascii.py,
@@ -10,7 +10,7 @@ which was written by Marc-Andre Lemburg (mal@lemburg.com).
 # Import them explicitly to cause an ImportError
 # on non-Windows systems
 from codecs import mbcs_encode, mbcs_decode
-# for IncrementalDecoder, IncrementalEncoder, ...
+# pour IncrementalDecoder, IncrementalEncoder, ...
 import codecs
 
 ### Codec APIs

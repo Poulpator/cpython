@@ -19,7 +19,7 @@ from .subprocess import *
 from .tasks import *
 from .transports import *
 
-# Exposed for _asynciomodule.c to implement now deprecated
+# Exposed pour _asynciomodule.c to implement now deprecated
 # Task.all_tasks() method.  This function will be removed in 3.9.
 from .tasks import _all_tasks_compat  # NoQA
 

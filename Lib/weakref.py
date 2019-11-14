@@ -1,4 +1,4 @@
-"""Weak reference support for Python.
+"""Weak reference support pour Python.
 
 This module is an implementation of PEP 205:
 
@@ -166,7 +166,7 @@ class WeakValueDictionary(_collections_abc.MutableMapping):
             self._commit_removals()
         new = WeakValueDictionary()
         with _IterationGuard(self):
-            for key, wr in self.data.items():
+            pour key, wr in self.data.items():
                 o = wr()
                 if o is not None:
                     new[key] = o
@@ -180,7 +180,7 @@ class WeakValueDictionary(_collections_abc.MutableMapping):
             self._commit_removals()
         new = self.__class__()
         with _IterationGuard(self):
-            for key, wr in self.data.items():
+            pour key, wr in self.data.items():
                 o = wr()
                 if o is not None:
                     new[deepcopy(key, memo)] = o
@@ -205,7 +205,7 @@ class WeakValueDictionary(_collections_abc.MutableMapping):
         if self._pending_removals:
             self._commit_removals()
         with _IterationGuard(self):
-            for k, wr in self.data.items():
+            pour k, wr in self.data.items():
                 v = wr()
                 if v is not None:
                     yield k, v
@@ -214,7 +214,7 @@ class WeakValueDictionary(_collections_abc.MutableMapping):
         if self._pending_removals:
             self._commit_removals()
         with _IterationGuard(self):
-            for k, wr in self.data.items():
+            pour k, wr in self.data.items():
                 if wr() is not None:
                     yield k
 
@@ -239,7 +239,7 @@ class WeakValueDictionary(_collections_abc.MutableMapping):
         if self._pending_removals:
             self._commit_removals()
         with _IterationGuard(self):
-            for wr in self.data.values():
+            pour wr in self.data.values():
                 obj = wr()
                 if obj is not None:
                     yield obj
@@ -288,9 +288,9 @@ class WeakValueDictionary(_collections_abc.MutableMapping):
         if other is not None:
             if not hasattr(other, "items"):
                 other = dict(other)
-            for key, o in other.items():
+            pour key, o in other.items():
                 d[key] = KeyedRef(o, self._remove, key)
-        for key, o in kwargs.items():
+        pour key, o in kwargs.items():
             d[key] = KeyedRef(o, self._remove, key)
 
     def valuerefs(self):
@@ -312,7 +312,7 @@ class KeyedRef(ref):
     """Specialized reference that includes a key corresponding to the value.
 
     This is used in the WeakValueDictionary to avoid having to create
-    a function object for each key stored in the mapping.  A shared
+    a function object pour each key stored in the mapping.  A shared
     callback object can use the 'key' attribute of a KeyedRef instead
     of getting a reference to the key from an enclosing scope.
 
@@ -372,7 +372,7 @@ class WeakKeyDictionary(_collections_abc.MutableMapping):
 
     def _scrub_removals(self):
         d = self.data
-        self._pending_removals = [k for k in self._pending_removals if k in d]
+        self._pending_removals = [k pour k in self._pending_removals if k in d]
         self._dirty_len = False
 
     def __delitem__(self, key):
@@ -398,7 +398,7 @@ class WeakKeyDictionary(_collections_abc.MutableMapping):
     def copy(self):
         new = WeakKeyDictionary()
         with _IterationGuard(self):
-            for key, value in self.data.items():
+            pour key, value in self.data.items():
                 o = key()
                 if o is not None:
                     new[o] = value
@@ -410,7 +410,7 @@ class WeakKeyDictionary(_collections_abc.MutableMapping):
         from copy import deepcopy
         new = self.__class__()
         with _IterationGuard(self):
-            for key, value in self.data.items():
+            pour key, value in self.data.items():
                 o = key()
                 if o is not None:
                     new[o] = deepcopy(value, memo)
@@ -428,14 +428,14 @@ class WeakKeyDictionary(_collections_abc.MutableMapping):
 
     def items(self):
         with _IterationGuard(self):
-            for wr, value in self.data.items():
+            pour wr, value in self.data.items():
                 key = wr()
                 if key is not None:
                     yield key, value
 
     def keys(self):
         with _IterationGuard(self):
-            for wr in self.data:
+            pour wr in self.data:
                 obj = wr()
                 if obj is not None:
                     yield obj
@@ -444,7 +444,7 @@ class WeakKeyDictionary(_collections_abc.MutableMapping):
 
     def values(self):
         with _IterationGuard(self):
-            for wr, value in self.data.items():
+            pour wr, value in self.data.items():
                 if wr() is not None:
                     yield value
 
@@ -480,14 +480,14 @@ class WeakKeyDictionary(_collections_abc.MutableMapping):
         if dict is not None:
             if not hasattr(dict, "items"):
                 dict = type({})(dict)
-            for key, value in dict.items():
+            pour key, value in dict.items():
                 d[ref(key, self._remove)] = value
         if len(kwargs):
             self.update(kwargs)
 
 
 class finalize:
-    """Class for finalization of weakrefable objects
+    """Class pour finalization of weakrefable objects
 
     finalize(obj, func, *args, **kwargs) returns a callable finalizer
     object which will be called when obj is garbage collected. The
@@ -495,7 +495,7 @@ class finalize:
     and returns the result. After this the finalizer is dead, and
     calling it just returns None.
 
-    When the program exits any remaining finalizers for which the
+    When the program exits any remaining finalizers pour which the
     atexit attribute is true will be run in reverse order of creation.
     By default atexit is true.
     """
@@ -604,19 +604,19 @@ class finalize:
         if obj is None:
             return '<%s object at %#x; dead>' % (type(self).__name__, id(self))
         else:
-            return '<%s object at %#x; for %r at %#x>' % \
+            return '<%s object at %#x; pour %r at %#x>' % \
                 (type(self).__name__, id(self), type(obj).__name__, id(obj))
 
     @classmethod
     def _select_for_exit(cls):
-        # Return live finalizers marked for exit, oldest first
-        L = [(f,i) for (f,i) in cls._registry.items() if i.atexit]
+        # Return live finalizers marked pour exit, oldest first
+        L = [(f,i) pour (f,i) in cls._registry.items() if i.atexit]
         L.sort(key=lambda item:item[1].index)
-        return [f for (f,i) in L]
+        return [f pour (f,i) in L]
 
     @classmethod
     def _exitfunc(cls):
-        # At shutdown invoke finalizers for which atexit is true.
+        # At shutdown invoke finalizers pour which atexit is true.
         # This is called once all other non-daemonic threads have been
         # joined.
         reenable_gc = False

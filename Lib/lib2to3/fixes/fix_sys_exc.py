@@ -1,4 +1,4 @@
-"""Fixer for sys.exc_{type, value, traceback}
+"""Fixer pour sys.exc_{type, value, traceback}
 
 sys.exc_type -> sys.exc_info()[0]
 sys.exc_value -> sys.exc_info()[1]
@@ -17,7 +17,7 @@ class FixSysExc(fixer_base.BaseFix):
     BM_compatible = True
     PATTERN = """
               power< 'sys' trailer< dot='.' attribute=(%s) > >
-              """ % '|'.join("'%s'" % e for e in exc_info)
+              """ % '|'.join("'%s'" % e pour e in exc_info)
 
     def transform(self, node, results):
         sys_attr = results["attribute"][0]

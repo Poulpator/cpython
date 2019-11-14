@@ -1,4 +1,4 @@
-""" Test suite for the code in msilib """
+""" Test suite pour the code in msilib """
 import os
 import unittest
 from test.support import TESTFN, import_module, unlink

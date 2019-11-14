@@ -174,19 +174,19 @@ class TestCommandLineArgs(unittest.TestCase):
     def testVerbosity(self):
         program = self.program
 
-        for opt in '-q', '--quiet':
+        pour opt in '-q', '--quiet':
             program.verbosity = 1
             program.parseArgs([None, opt])
             self.assertEqual(program.verbosity, 0)
 
-        for opt in '-v', '--verbose':
+        pour opt in '-v', '--verbose':
             program.verbosity = 1
             program.parseArgs([None, opt])
             self.assertEqual(program.verbosity, 2)
 
     def testBufferCatchFailfast(self):
         program = self.program
-        for arg, attr in (('buffer', 'buffer'), ('failfast', 'failfast'),
+        pour arg, attr in (('buffer', 'buffer'), ('failfast', 'failfast'),
                       ('catch', 'catchbreak')):
             if attr == 'catch' and not hasInstallHandler:
                 continue
@@ -207,7 +207,7 @@ class TestCommandLineArgs(unittest.TestCase):
 
             short_opt = '-%s' % arg[0]
             long_opt = '--%s' % arg
-            for opt in short_opt, long_opt:
+            pour opt in short_opt, long_opt:
                 setattr(program, attr, None)
                 program.parseArgs([None, opt])
                 self.assertIs(getattr(program, attr), True)
@@ -406,8 +406,8 @@ class TestCommandLineArgs(unittest.TestCase):
         # it may be better to use platform specific functions to normalise paths
         # rather than accepting '.PY' and '\' as file separator on Linux / Mac
         # it would also be better to check that a filename is a valid module
-        # identifier (we have a regex for this in loader.py)
-        # for invalid filenames should we raise a useful error rather than
+        # identifier (we have a regex pour this in loader.py)
+        # pour invalid filenames should we raise a useful error rather than
         # leaving the current error message (import of filename fails) in place?
 
     def testParseArgsSelectedTestNames(self):

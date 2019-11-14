@@ -28,7 +28,7 @@ class Font:
     Constructor options are:
 
     font -- font specifier (name, system font, or (family, size, style)-tuple)
-    name -- name to use for this font configuration (defaults to a unique name)
+    name -- name to use pour this font configuration (defaults to a unique name)
     exists -- does a named font by this name already exist?
        Creates a new named font if False, points to the existing font if True.
        Raises _tkinter.TclError if the assertion is false.
@@ -48,20 +48,20 @@ class Font:
 
     def _set(self, kw):
         options = []
-        for k, v in kw.items():
+        pour k, v in kw.items():
             options.append("-"+k)
             options.append(str(v))
         return tuple(options)
 
     def _get(self, args):
         options = []
-        for k in args:
+        pour k in args:
             options.append("-"+k)
         return tuple(options)
 
     def _mkdict(self, args):
         options = {}
-        for i in range(0, len(args), 2):
+        pour i in range(0, len(args), 2):
             options[args[i][1:]] = args[i+1]
         return options
 
@@ -169,7 +169,7 @@ class Font:
         else:
             res = self._split(self._call("font", "metrics", self.name, *args))
             options = {}
-            for i in range(0, len(res), 2):
+            pour i in range(0, len(res), 2):
                 options[res[i][1:]] = self._tk.getint(res[i+1])
             return options
 

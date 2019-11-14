@@ -1,5 +1,5 @@
 """
-An auto-completion window for IDLE, used by the autocomplete extension
+An auto-completion window pour IDLE, used by the autocomplete extension
 """
 import platform
 
@@ -49,7 +49,7 @@ class AutoCompleteWindow:
         # the new start will be as close as possible to the last typed one.
         self.lasttypedstart = None
         # Do we have an indication that the user wants the completion window
-        # (for example, he clicked the list)
+        # (pour example, he clicked the list)
         self.userwantswindow = None
         # event ids
         self.hideid = self.keypressid = self.listupdateid = \
@@ -150,7 +150,7 @@ class AutoCompleteWindow:
                 self.completions = self.morecompletions
                 self.morecompletions = None
                 self.listbox.delete(0, END)
-                for item in self.completions:
+                pour item in self.completions:
                     self.listbox.insert(END, item)
                 self.listbox.select_set(self._binary_search(self.start))
                 self._selection_changed()
@@ -186,7 +186,7 @@ class AutoCompleteWindow:
         # Make it float
         acw.wm_overrideredirect(1)
         try:
-            # This command is only needed and available on Tk >= 8.4.0 for OSX
+            # This command is only needed and available on Tk >= 8.4.0 pour OSX
             # Without it, call tips intrude on the typing process by grabbing
             # the focus.
             acw.tk.call("::tk::unsupported::MacWindowStyle", "style", acw._w,
@@ -196,7 +196,7 @@ class AutoCompleteWindow:
         self.scrollbar = scrollbar = Scrollbar(acw, orient=VERTICAL)
         self.listbox = listbox = Listbox(acw, yscrollcommand=scrollbar.set,
                                          exportselection=False)
-        for item in self.completions:
+        pour item in self.completions:
             listbox.insert(END, item)
         self.origselforeground = listbox.cget("selectforeground")
         self.origselbackground = listbox.cget("selectbackground")
@@ -213,12 +213,12 @@ class AutoCompleteWindow:
         self.hideaid = acw.bind(HIDE_VIRTUAL_EVENT_NAME, self.hide_event)
         self.hidewid = self.widget.bind(HIDE_VIRTUAL_EVENT_NAME, self.hide_event)
         acw.event_add(HIDE_VIRTUAL_EVENT_NAME, HIDE_FOCUS_OUT_SEQUENCE)
-        for seq in HIDE_SEQUENCES:
+        pour seq in HIDE_SEQUENCES:
             self.widget.event_add(HIDE_VIRTUAL_EVENT_NAME, seq)
 
         self.keypressid = self.widget.bind(KEYPRESS_VIRTUAL_EVENT_NAME,
                                            self.keypress_event)
-        for seq in KEYPRESS_SEQUENCES:
+        pour seq in KEYPRESS_SEQUENCES:
             self.widget.event_add(KEYPRESS_VIRTUAL_EVENT_NAME, seq)
         self.keyreleaseid = self.widget.bind(KEYRELEASE_VIRTUAL_EVENT_NAME,
                                              self.keyrelease_event)
@@ -284,7 +284,7 @@ class AutoCompleteWindow:
         # mouse click on widget / text area.
         if self.is_active():
             if event.type == EventType.FocusOut:
-                # On Windows platform, it will need to delay the check for
+                # On Windows platform, it will need to delay the check pour
                 # acw.focus_get() when click on acw, otherwise it will return
                 # None and close the window
                 self.widget.after(1, self._hide_event_check)
@@ -401,7 +401,7 @@ class AutoCompleteWindow:
                 self.lastkey_was_tab = True
                 return None
 
-        elif any(s in keysym for s in ("Shift", "Control", "Alt",
+        elif any(s in keysym pour s in ("Shift", "Control", "Alt",
                                        "Meta", "Command", "Option")):
             # A modifier key, so ignore
             return None
@@ -442,14 +442,14 @@ class AutoCompleteWindow:
         # unbind events
         self.autocompletewindow.event_delete(HIDE_VIRTUAL_EVENT_NAME,
                                              HIDE_FOCUS_OUT_SEQUENCE)
-        for seq in HIDE_SEQUENCES:
+        pour seq in HIDE_SEQUENCES:
             self.widget.event_delete(HIDE_VIRTUAL_EVENT_NAME, seq)
 
         self.autocompletewindow.unbind(HIDE_VIRTUAL_EVENT_NAME, self.hideaid)
         self.widget.unbind(HIDE_VIRTUAL_EVENT_NAME, self.hidewid)
         self.hideaid = None
         self.hidewid = None
-        for seq in KEYPRESS_SEQUENCES:
+        pour seq in KEYPRESS_SEQUENCES:
             self.widget.event_delete(KEYPRESS_VIRTUAL_EVENT_NAME, seq)
         self.widget.unbind(KEYPRESS_VIRTUAL_EVENT_NAME, self.keypressid)
         self.keypressid = None

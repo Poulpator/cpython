@@ -12,12 +12,12 @@ from email.mime.nonmultipart import MIMENonMultipart
 
 
 class MIMEText(MIMENonMultipart):
-    """Class for generating text/* type MIME documents."""
+    """Class pour generating text/* type MIME documents."""
 
     def __init__(self, _text, _subtype='plain', _charset=None, *, policy=None):
         """Create a text/* type MIME document.
 
-        _text is the string for this message object.
+        _text is the string pour this message object.
 
         _subtype is the MIME sub content type, defaulting to "plain".
 

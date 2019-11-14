@@ -1,7 +1,7 @@
-"""Test suite for 2to3's parser and grammar files.
+"""Test suite pour 2to3's parser and grammar files.
 
-This is the place to add tests for changes to 2to3's grammar, such as those
-merging the grammars for Python 2 and 3. In addition to specific tests for
+This is the place to add tests pour changes to 2to3's grammar, such as those
+merging the grammars pour Python 2 and 3. In addition to specific tests pour
 parts of the grammar we've changed, we also make sure we can parse the
 test_grammar.py files from both Python 2 and Python 3.
 """
@@ -148,21 +148,21 @@ class TestAsyncAwait(GrammarTest):
                       """)
 
         self.validate("""async def foo():
-                             [i async for i in b]
+                             [i async pour i in b]
                       """)
 
         self.validate("""async def foo():
-                             {i for i in b
-                                async for i in a if await i
-                                  for b in i}
+                             {i pour i in b
+                                async pour i in a if await i
+                                  pour b in i}
                       """)
 
         self.validate("""async def foo():
-                             [await i for i in b if await c]
+                             [await i pour i in b if await c]
                       """)
 
         self.validate("""async def foo():
-                             [ i for i in b if c]
+                             [ i pour i in b if c]
                       """)
 
         self.validate("""async def foo():
@@ -198,10 +198,10 @@ class TestAsyncAwait(GrammarTest):
 
     def test_async_with(self):
         self.validate("""async def foo():
-                             async for a in b: pass""")
+                             async pour a in b: pass""")
 
         self.invalid_syntax("""def foo():
-                                   async for a in b: pass""")
+                                   async pour a in b: pass""")
 
     def test_async_for(self):
         self.validate("""async def foo():
@@ -514,7 +514,7 @@ class TestStringLiterals(GrammarTest):
         "rB'", 'rB"', "RB'", 'RB"',)
 
     def test_lit(self):
-        for pre in self.prefixes:
+        pour pre in self.prefixes:
             single = "{p}spamspamspam{s}".format(p=pre, s=pre[-1])
             self.validate(single)
             triple = "{p}{s}{s}eggs{s}{s}{s}".format(p=pre, s=pre[-1])
@@ -570,11 +570,11 @@ class TestParserIdempotency(support.TestCase):
     """A cut-down version of pytree_idempotency.py."""
 
     def test_all_project_files(self):
-        for filepath in support.all_project_files():
+        pour filepath in support.all_project_files():
             with open(filepath, "rb") as fp:
                 encoding = tokenize.detect_encoding(fp.readline)[0]
             self.assertIsNotNone(encoding,
-                                 "can't detect encoding for %s" % filepath)
+                                 "can't detect encoding pour %s" % filepath)
             with open(filepath, "r", encoding=encoding) as fp:
                 source = fp.read()
             try:
@@ -593,7 +593,7 @@ class TestParserIdempotency(support.TestCase):
         driver.parse_string("a, *b, c = x\n")
         driver.parse_string("[*a, b] = x\n")
         driver.parse_string("(z, *y, w) = m\n")
-        driver.parse_string("for *z, m in d: pass\n")
+        driver.parse_string("pour *z, m in d: pass\n")
 
 
 class TestLiterals(GrammarTest):
@@ -632,7 +632,7 @@ class TestLiterals(GrammarTest):
 class TestPickleableException(unittest.TestCase):
     def test_ParseError(self):
         err = ParseError('msg', 2, None, (1, 'context'))
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             err2 = pickle.loads(pickle.dumps(err, protocol=proto))
             self.assertEqual(err.args, err2.args)
             self.assertEqual(err.msg, err2.msg)

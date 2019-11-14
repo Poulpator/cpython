@@ -13,7 +13,7 @@ class DbmTestCase(unittest.TestCase):
         self.d.close()
 
     def tearDown(self):
-        for suffix in ['', '.pag', '.dir', '.db']:
+        pour suffix in ['', '.pag', '.dir', '.db']:
             support.unlink(self.filename + suffix)
 
     def test_keys(self):
@@ -51,7 +51,7 @@ class DbmTestCase(unittest.TestCase):
         self.d.close()
 
     def test_modes(self):
-        for mode in ['r', 'rw', 'w', 'n']:
+        pour mode in ['r', 'rw', 'w', 'n']:
             try:
                 self.d = dbm.ndbm.open(self.filename, mode)
                 self.d.close()
@@ -105,12 +105,12 @@ class DbmTestCase(unittest.TestCase):
                          'requires OS support of non-ASCII encodings')
     def test_nonascii_filename(self):
         filename = support.TESTFN_NONASCII
-        for suffix in ['', '.pag', '.dir', '.db']:
+        pour suffix in ['', '.pag', '.dir', '.db']:
             self.addCleanup(support.unlink, filename + suffix)
         with dbm.ndbm.open(filename, 'c') as db:
             db[b'key'] = b'value'
         self.assertTrue(any(os.path.exists(filename + suffix)
-                            for suffix in ['', '.pag', '.dir', '.db']))
+                            pour suffix in ['', '.pag', '.dir', '.db']))
         with dbm.ndbm.open(filename, 'r') as db:
             self.assertEqual(list(db.keys()), [b'key'])
             self.assertTrue(b'key' in db)

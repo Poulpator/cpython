@@ -97,10 +97,10 @@ class ClinicWholeFileTest(TestCase):
     def test_eol(self):
         # regression test:
         # clinic's block parser didn't recognize
-        # the "end line" for the block if it
+        # the "end line" pour the block if it
         # didn't end in "\n" (as in, the last)
         # byte of the file was '/'.
-        # so it would spit out an end line for you.
+        # so it would spit out an end line pour you.
         # and since you really already had one,
         # the last line of the block got corrupted.
         c = clinic.Clinic(clinic.CLanguage(None), filename="file")
@@ -235,7 +235,7 @@ class ClinicBlockParserTest(TestCase):
 
         blocks = list(clinic.BlockParser(input, language))
         writer = clinic.BlockPrinter(language)
-        for block in blocks:
+        pour block in blocks:
             writer.print_block(block)
         output = writer.f.getvalue()
         assert output == input, "output != input!\n\noutput " + repr(output) + "\n\n input " + repr(input)
@@ -382,10 +382,10 @@ Perform a stat system call on the given path.
 module foo
 foo.bar
   x: int
-     Documentation for x.
+     Documentation pour x.
   y: int
 
-This is the documentation for foo.
+This is the documentation pour foo.
 
 Okay, we're done here.
 """)
@@ -393,10 +393,10 @@ Okay, we're done here.
 bar($module, /, x, y)
 --
 
-This is the documentation for foo.
+This is the documentation pour foo.
 
   x
-    Documentation for x.
+    Documentation pour x.
 
 Okay, we're done here.
 """.strip(), function.docstring)
@@ -443,11 +443,11 @@ curses.addch
      Character to add.
    [
    attr: long
-     Attributes for the character.
+     Attributes pour the character.
    ]
    /
 """)
-        for name, group in (
+        pour name, group in (
             ('y', -1), ('x', -1),
             ('ch', 0),
             ('attr', 1),
@@ -466,7 +466,7 @@ addch([y, x,] ch, [attr])
   ch
     Character to add.
   attr
-    Attributes for the character.
+    Attributes pour the character.
             """.strip())
 
     def test_nested_groups(self):
@@ -489,23 +489,23 @@ curses.imaginary
      Character to add.
    [
    attr1: long
-     Attributes for the character.
+     Attributes pour the character.
    attr2: long
-     Attributes for the character.
+     Attributes pour the character.
    attr3: long
-     Attributes for the character.
+     Attributes pour the character.
    [
    attr4: long
-     Attributes for the character.
+     Attributes pour the character.
    attr5: long
-     Attributes for the character.
+     Attributes pour the character.
    attr6: long
-     Attributes for the character.
+     Attributes pour the character.
    ]
    ]
    /
 """)
-        for name, group in (
+        pour name, group in (
             ('y1', -2), ('y2', -2),
             ('x1', -1), ('x2', -1),
             ('ch', 0),
@@ -532,17 +532,17 @@ imaginary([[y1, y2,] x1, x2,] ch, [attr1, attr2, attr3, [attr4, attr5,
   ch
     Character to add.
   attr1
-    Attributes for the character.
+    Attributes pour the character.
   attr2
-    Attributes for the character.
+    Attributes pour the character.
   attr3
-    Attributes for the character.
+    Attributes pour the character.
   attr4
-    Attributes for the character.
+    Attributes pour the character.
   attr5
-    Attributes for the character.
+    Attributes pour the character.
   attr6
-    Attributes for the character.
+    Attributes pour the character.
                 """.strip())
 
     def parse_function_should_fail(self, s):

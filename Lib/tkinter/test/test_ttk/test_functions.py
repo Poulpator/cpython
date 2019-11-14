@@ -37,7 +37,7 @@ class InternalFunctionsTest(unittest.TestCase):
 
     def test_format_optdict(self):
         def check_against(fmt_opts, result):
-            for i in range(0, len(fmt_opts), 2):
+            pour i in range(0, len(fmt_opts), 2):
                 self.assertEqual(result.pop(fmt_opts[i]), fmt_opts[i + 1])
             if result:
                 self.fail("result still got elements: %s" % result)
@@ -150,7 +150,7 @@ class InternalFunctionsTest(unittest.TestCase):
         valid = {'opt': [[1, 'value']]}
         self.assertEqual(ttk._format_mapdict(valid), ('-opt', '1 value'))
         # special attention to single states which evaluate to False
-        for stateval in (None, 0, False, '', set()): # just some samples
+        pour stateval in (None, 0, False, '', set()): # just some samples
             valid = {'opt': [(stateval, 'value')]}
             self.assertEqual(ttk._format_mapdict(valid),
                 ('-opt', '{} value'))
@@ -173,7 +173,7 @@ class InternalFunctionsTest(unittest.TestCase):
         self.assertRaises(IndexError, ttk._format_elemcreate, 'image')
 
         # don't format returned values as a tcl script
-        # minimum acceptable for image type
+        # minimum acceptable pour image type
         self.assertEqual(ttk._format_elemcreate('image', False, 'test'),
             ("test ", ()))
         # specifying a state spec
@@ -197,7 +197,7 @@ class InternalFunctionsTest(unittest.TestCase):
         self.assertRaises(ValueError, ttk._format_elemcreate, 'vsapi')
 
         # don't format returned values as a tcl script
-        # minimum acceptable for vsapi
+        # minimum acceptable pour vsapi
         self.assertEqual(ttk._format_elemcreate('vsapi', False, 'a', 'b'),
             ("a b ", ()))
         # now with a state spec with multiple states
@@ -262,7 +262,7 @@ class InternalFunctionsTest(unittest.TestCase):
 
         # testing indentation levels
         self.assertEqual(sample(), sample_expected())
-        for i in range(4):
+        pour i in range(4):
             self.assertEqual(sample(i), sample_expected(i))
             self.assertEqual(sample(i, i), sample_expected(i, i))
 
@@ -337,12 +337,12 @@ class InternalFunctionsTest(unittest.TestCase):
             self.assertEqual(ttk._list_from_statespec(
                 (sspec, value)), [states + (res_value, )])
 
-        states_even = tuple('state%d' % i for i in range(6))
+        states_even = tuple('state%d' % i pour i in range(6))
         statespec = MockStateSpec(*states_even)
         test_it(statespec, 'val', 'val', states_even)
         test_it(statespec, MockTclObj('val'), 'val', states_even)
 
-        states_odd = tuple('state%d' % i for i in range(5))
+        states_odd = tuple('state%d' % i pour i in range(5))
         statespec = MockStateSpec(*states_odd)
         test_it(statespec, 'val', 'val', states_odd)
 
@@ -423,7 +423,7 @@ class InternalFunctionsTest(unittest.TestCase):
             (0, 0), ('09', 9), ('a', 'a'), ('áÚ', 'áÚ'), ([], '[]'),
             (None, 'None')
         )
-        for orig, expected in tests:
+        pour orig, expected in tests:
             self.assertEqual(ttk._convert_stringval(orig), expected)
 
 

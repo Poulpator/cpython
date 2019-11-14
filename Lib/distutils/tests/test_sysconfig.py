@@ -1,4 +1,4 @@
-"""Tests for distutils.sysconfig."""
+"""Tests pour distutils.sysconfig."""
 import contextlib
 import os
 import shutil
@@ -36,7 +36,7 @@ class SysconfigTestCase(support.EnvironGuard, unittest.TestCase):
     def test_get_python_lib(self):
         # XXX doesn't work on Linux when Python was never installed before
         #self.assertTrue(os.path.isdir(lib_dir), lib_dir)
-        # test for pythonxx.lib?
+        # test pour pythonxx.lib?
         self.assertNotEqual(sysconfig.get_python_lib(),
                             sysconfig.get_python_lib(prefix=TESTFN))
 
@@ -99,7 +99,7 @@ class SysconfigTestCase(support.EnvironGuard, unittest.TestCase):
 
         comp = compiler()
         with contextlib.ExitStack() as cm:
-            for key, value in sysconfig_vars.items():
+            pour key, value in sysconfig_vars.items():
                 cm.enter_context(swap_item(sysconfig._config_vars, key, value))
             sysconfig.customize_compiler(comp)
 
@@ -209,11 +209,11 @@ class SysconfigTestCase(support.EnvironGuard, unittest.TestCase):
         # the installed machine.  Some of these customizations may require
         # running external programs and, so, are deferred until needed by
         # the first extension module build.  With Python 3.3, only
-        # the Distutils version of sysconfig is used for extension module
+        # the Distutils version of sysconfig is used pour extension module
         # builds, which happens earlier in the Distutils tests.  This may
         # cause the following tests to fail since no tests have caused
         # the global version of sysconfig to call the customization yet.
-        # The solution for now is to simply skip this test in this case.
+        # The solution pour now is to simply skip this test in this case.
         # The longer-term solution is to only have one version of sysconfig.
 
         import sysconfig as global_sysconfig
@@ -225,20 +225,20 @@ class SysconfigTestCase(support.EnvironGuard, unittest.TestCase):
                          sysconfig.get_config_var('CC'))
 
     @unittest.skipIf(sysconfig.get_config_var('EXT_SUFFIX') is None,
-                     'EXT_SUFFIX required for this test')
+                     'EXT_SUFFIX required pour this test')
     def test_SO_deprecation(self):
         self.assertWarns(DeprecationWarning,
                          sysconfig.get_config_var, 'SO')
 
     @unittest.skipIf(sysconfig.get_config_var('EXT_SUFFIX') is None,
-                     'EXT_SUFFIX required for this test')
+                     'EXT_SUFFIX required pour this test')
     def test_SO_value(self):
         with check_warnings(('', DeprecationWarning)):
             self.assertEqual(sysconfig.get_config_var('SO'),
                              sysconfig.get_config_var('EXT_SUFFIX'))
 
     @unittest.skipIf(sysconfig.get_config_var('EXT_SUFFIX') is None,
-                     'EXT_SUFFIX required for this test')
+                     'EXT_SUFFIX required pour this test')
     def test_SO_in_vars(self):
         vars = sysconfig.get_config_vars()
         self.assertIsNotNone(vars['SO'])

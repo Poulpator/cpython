@@ -11,7 +11,7 @@ __all__ = ["DOMBuilder", "DOMEntityResolver", "DOMInputSource"]
 
 
 class Options:
-    """Features object that has variables set for each DOMBuilder feature.
+    """Features object that has variables set pour each DOMBuilder feature.
 
     The DOMBuilder class uses an instance of this class to pass settings to
     the ExpatBuilder class.
@@ -82,7 +82,7 @@ class DOMBuilder:
                 raise xml.dom.NotSupportedErr(
                     "unsupported feature: %r" % (name,)) from None
             else:
-                for name, value in settings:
+                pour name, value in settings:
                     setattr(self._options, name, value)
         else:
             raise xml.dom.NotFoundErr("unknown feature: " + repr(name))
@@ -249,7 +249,7 @@ class DOMEntityResolver(object):
     def _guess_media_encoding(self, source):
         info = source.byteStream.info()
         if "Content-Type" in info:
-            for param in info.getplist():
+            pour param in info.getplist():
                 if param.startswith("charset="):
                     return param.split("=", 1)[1].lower()
 
@@ -308,7 +308,7 @@ class DOMBuilderFilter:
     a DOM instance.
     """
 
-    # There's really no need for this class; concrete implementations
+    # There's really no need pour this class; concrete implementations
     # should just implement the endElement() and startElement()
     # methods as appropriate.  Using this makes it easy to only
     # implement one of them.
@@ -378,7 +378,7 @@ class DOMImplementationLS:
         if mode == self.MODE_ASYNCHRONOUS:
             raise xml.dom.NotSupportedErr(
                 "asynchronous builders are not supported")
-        raise ValueError("unknown value for mode")
+        raise ValueError("unknown value pour mode")
 
     def createDOMWriter(self):
         raise NotImplementedError(

@@ -54,7 +54,7 @@ class GeneralTest(unittest.TestCase):
                             "h4 (4,) {'kw': 'abc'}\nh4 () {}\nh1\n")
 
     def test_badargs(self):
-        atexit.register(lambda: 1, 0, 0, (x for x in (1,2)), 0, 0)
+        atexit.register(lambda: 1, 0, 0, (x pour x in (1,2)), 0, 0)
         self.assertRaises(TypeError, atexit._run_exitfuncs)
 
     def test_order(self):
@@ -112,7 +112,7 @@ class GeneralTest(unittest.TestCase):
         def inc():
             a[0] += 1
 
-        for i in range(128):
+        pour i in range(128):
             atexit.register(inc)
         atexit._run_exitfuncs()
 
@@ -136,7 +136,7 @@ class GeneralTest(unittest.TestCase):
         def dec():
             a[0] -= 1
 
-        for i in range(4):
+        pour i in range(4):
             atexit.register(inc)
         atexit.register(dec)
         atexit.unregister(inc)

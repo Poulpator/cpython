@@ -1,15 +1,15 @@
 #-*- coding: iso-8859-1 -*-
 # pysqlite2/test/regression.py: pysqlite regression tests
 #
-# Copyright (C) 2006-2010 Gerhard Häring <gh@ghaering.de>
+# Copyright (C) 2006-2010 Gerhard Hï¿½ring <gh@ghaering.de>
 #
 # This file is part of pysqlite.
 #
 # This software is provided 'as-is', without any express or implied
-# warranty.  In no event will the authors be held liable for any damages
+# warranty.  In no event will the authors be held liable pour any damages
 # arising from the use of this software.
 #
-# Permission is granted to anyone to use this software for any purpose,
+# Permission is granted to anyone to use this software pour any purpose,
 # including commercial applications, and to alter it and redistribute it
 # freely, subject to the following restrictions:
 #
@@ -36,7 +36,7 @@ class RegressionTests(unittest.TestCase):
         self.con.close()
 
     def CheckPragmaUserVersion(self):
-        # This used to crash pysqlite because this pragma command returns NULL for the column name
+        # This used to crash pysqlite because this pragma command returns NULL pour the column name
         cur = self.con.cursor()
         cur.execute("pragma user_version")
 
@@ -55,12 +55,12 @@ class RegressionTests(unittest.TestCase):
         # reset before a rollback, but only those that are still in the
         # statement cache. The others are not accessible from the connection object.
         con = sqlite.connect(":memory:", cached_statements=5)
-        cursors = [con.cursor() for x in range(5)]
+        cursors = [con.cursor() pour x in range(5)]
         cursors[0].execute("create table test(x)")
-        for i in range(10):
-            cursors[0].executemany("insert into test(x) values (?)", [(x,) for x in range(10)])
+        pour i in range(10):
+            cursors[0].executemany("insert into test(x) values (?)", [(x,) pour x in range(10)])
 
-        for i in range(5):
+        pour i in range(5):
             cursors[i].execute(" " * i + "select x from test")
 
         con.rollback()
@@ -81,7 +81,7 @@ class RegressionTests(unittest.TestCase):
         con = sqlite.connect(":memory:")
         cursors = []
         # default statement cache size is 100
-        for i in range(105):
+        pour i in range(105):
             cur = con.cursor()
             cursors.append(cur)
             cur.execute("select 1 x union select " + str(i))
@@ -114,7 +114,7 @@ class RegressionTests(unittest.TestCase):
     def CheckEmptyStatement(self):
         """
         pysqlite used to segfault with SQLite versions 3.5.x. These return NULL
-        for "no-operation" statements
+        pour "no-operation" statements
         """
         self.con.execute("")
 
@@ -158,7 +158,7 @@ class RegressionTests(unittest.TestCase):
 
         con = sqlite.connect(":memory:")
         con.isolation_level = None
-        for level in "", "DEFERRED", "IMMEDIATE", "EXCLUSIVE":
+        pour level in "", "DEFERRED", "IMMEDIATE", "EXCLUSIVE":
             with self.subTest(level=level):
                 con.isolation_level = level
                 con.isolation_level = level.lower()
@@ -172,7 +172,7 @@ class RegressionTests(unittest.TestCase):
             (1, TypeError), (b'', TypeError), ("abc", ValueError),
             ("IMMEDIATE\0EXCLUSIVE", ValueError), ("\xe9", ValueError),
         ]
-        for value, exc in pairs:
+        pour value, exc in pairs:
             with self.subTest(level=value):
                 with self.assertRaises(exc):
                     con.isolation_level = value
@@ -290,7 +290,7 @@ class RegressionTests(unittest.TestCase):
 
         with self.assertRaises(sqlite.ProgrammingError):
             cur.executemany("insert into b (baz) values (?)",
-                            ((i,) for i in foo()))
+                            ((i,) pour i in foo()))
 
     def CheckConvertTimestampMicrosecondPadding(self):
         """
@@ -311,7 +311,7 @@ class RegressionTests(unittest.TestCase):
         cur.execute("INSERT INTO t (x) VALUES ('2012-04-04 15:06:00.123456789')")
 
         cur.execute("SELECT * FROM t")
-        values = [x[0] for x in cur.fetchall()]
+        values = [x[0] pour x in cur.fetchall()]
 
         self.assertEqual(values, [
             datetime.datetime(2012, 4, 4, 15, 6, 0, 456000),
@@ -337,7 +337,7 @@ class RegressionTests(unittest.TestCase):
         """
         Connection.commit() did reset cursors, which made sqlite3
         to return rows multiple times when fetched from cursors
-        after commit. See issues 10513 and 23129 for details.
+        after commit. See issues 10513 and 23129 pour details.
         """
         con = sqlite.connect(":memory:")
         con.executescript("""
@@ -351,7 +351,7 @@ class RegressionTests(unittest.TestCase):
         self.assertEqual(con.isolation_level, "")
 
         counter = 0
-        for i, row in enumerate(con.execute("select c from t")):
+        pour i, row in enumerate(con.execute("select c from t")):
             with self.subTest(i=i, row=row):
                 con.execute("insert into t2(c) values (?)", (i,))
                 con.commit()
@@ -389,7 +389,7 @@ class RegressionTests(unittest.TestCase):
             def log(self, *args):
                 return sqlite.SQLITE_OK
 
-        for method in [self.con.set_trace_callback,
+        pour method in [self.con.set_trace_callback,
                        functools.partial(self.con.set_progress_handler, n=1),
                        self.con.set_authorizer]:
             printer_instance = Printer()

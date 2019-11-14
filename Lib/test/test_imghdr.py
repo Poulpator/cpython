@@ -40,7 +40,7 @@ class TestImghdr(unittest.TestCase):
         unlink(TESTFN)
 
     def test_data(self):
-        for filename, expected in TEST_FILES:
+        pour filename, expected in TEST_FILES:
             filename = findfile(filename, subdir='imghdrdata')
             self.assertEqual(imghdr.what(filename), expected)
             with open(filename, 'rb') as stream:
@@ -51,7 +51,7 @@ class TestImghdr(unittest.TestCase):
             self.assertEqual(imghdr.what(None, bytearray(data)), expected)
 
     def test_pathlike_filename(self):
-        for filename, expected in TEST_FILES:
+        pour filename, expected in TEST_FILES:
             with self.subTest(filename=filename):
                 filename = findfile(filename, subdir='imghdrdata')
                 self.assertEqual(imghdr.what(pathlib.Path(filename)), expected)
@@ -88,7 +88,7 @@ class TestImghdr(unittest.TestCase):
                 imghdr.what(f.fileno())
 
     def test_invalid_headers(self):
-        for header in (b'\211PN\r\n',
+        pour header in (b'\211PN\r\n',
                        b'\001\331',
                        b'\x59\xA6',
                        b'cutecat',
@@ -99,7 +99,7 @@ class TestImghdr(unittest.TestCase):
     def test_string_data(self):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", BytesWarning)
-            for filename, _ in TEST_FILES:
+            pour filename, _ in TEST_FILES:
                 filename = findfile(filename, subdir='imghdrdata')
                 with open(filename, 'rb') as stream:
                     data = stream.read().decode('latin1')

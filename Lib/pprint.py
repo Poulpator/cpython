@@ -75,9 +75,9 @@ def isrecursive(object):
     return _safe_repr(object, {}, None, 0, True)[2]
 
 class _safe_key:
-    """Helper function for key functions when sorting unorderable objects.
+    """Helper function pour key functions when sorting unorderable objects.
 
-    The wrapped-object will fallback to a Py2.x style comparison for
+    The wrapped-object will fallback to a Py2.x style comparison pour
     unorderable types (sorting first comparing the type name and then by
     the obj ids).  Does not work recursively, so dict.items() must have
     _safe_key applied to both the key and the value.
@@ -97,7 +97,7 @@ class _safe_key:
                     (str(type(other.obj)), id(other.obj)))
 
 def _safe_tuple(t):
-    "Helper function for comparing 2-tuples"
+    "Helper function pour comparing 2-tuples"
     return _safe_key(t[0]), _safe_key(t[1])
 
 class PrettyPrinter:
@@ -107,7 +107,7 @@ class PrettyPrinter:
         configured parameters.
 
         indent
-            Number of spaces to indent for each level of nesting.
+            Number of spaces to indent pour each level of nesting.
 
         width
             Attempted maximum number of columns in the output.
@@ -264,7 +264,7 @@ class PrettyPrinter:
             indent += 1
             allowance += 1
         max_width1 = max_width = self._width - indent
-        for i, line in enumerate(lines):
+        pour i, line in enumerate(lines):
             rep = repr(line)
             if i == len(lines) - 1:
                 max_width1 -= allowance
@@ -278,7 +278,7 @@ class PrettyPrinter:
                 parts.pop()  # drop empty last part
                 max_width2 = max_width
                 current = ''
-                for j, part in enumerate(parts):
+                pour j, part in enumerate(parts):
                     candidate = current + part
                     if j == len(parts) - 1 and i == len(lines) - 1:
                         max_width2 -= allowance
@@ -295,7 +295,7 @@ class PrettyPrinter:
             return
         if level == 1:
             write('(')
-        for i, rep in enumerate(chunks):
+        pour i, rep in enumerate(chunks):
             if i > 0:
                 write('\n' + ' '*indent)
             write(rep)
@@ -315,7 +315,7 @@ class PrettyPrinter:
             allowance += 1
             write('(')
         delim = ''
-        for rep in _wrap_bytes_repr(object, self._width - indent, allowance):
+        pour rep in _wrap_bytes_repr(object, self._width - indent, allowance):
             write(delim)
             write(rep)
             if not delim:
@@ -348,7 +348,7 @@ class PrettyPrinter:
         indent += self._indent_per_level
         delimnl = ',\n' + ' ' * indent
         last_index = len(items) - 1
-        for i, (key, ent) in enumerate(items):
+        pour i, (key, ent) in enumerate(items):
             last = i == last_index
             rep = self._repr(key, context, level)
             write(rep)
@@ -410,7 +410,7 @@ class PrettyPrinter:
         return repr
 
     def format(self, object, context, maxlevels, level):
-        """Format object for a specific context, returning a string
+        """Format object pour a specific context, returning a string
         and flags indicating whether the representation is 'readable'
         and whether the object represents a recursive construct.
         """
@@ -452,7 +452,7 @@ class PrettyPrinter:
         cls = object.__class__
         stream.write(cls.__name__ + '(')
         indent += len(cls.__name__) + 1
-        for i, m in enumerate(object.maps):
+        pour i, m in enumerate(object.maps):
             if i == len(object.maps) - 1:
                 self._format(m, stream, indent, allowance + 1, context, level)
                 stream.write(')')
@@ -523,7 +523,7 @@ def _safe_repr(object, context, maxlevels, level, sort_dicts):
             items = sorted(object.items(), key=_safe_tuple)
         else:
             items = object.items()
-        for k, v in items:
+        pour k, v in items:
             krepr, kreadable, krecur = _safe_repr(k, context, maxlevels, level, sort_dicts)
             vrepr, vreadable, vrecur = _safe_repr(v, context, maxlevels, level, sort_dicts)
             append("%s: %s" % (krepr, vrepr))
@@ -556,7 +556,7 @@ def _safe_repr(object, context, maxlevels, level, sort_dicts):
         components = []
         append = components.append
         level += 1
-        for o in object:
+        pour o in object:
             orepr, oreadable, orecur = _safe_repr(o, context, maxlevels, level, sort_dicts)
             append(orepr)
             if not oreadable:
@@ -593,7 +593,7 @@ def _perfcheck(object=None):
 def _wrap_bytes_repr(object, width, allowance):
     current = b''
     last = len(object) // 4 * 4
-    for i in range(0, len(object), 4):
+    pour i in range(0, len(object), 4):
         part = object[i: i+4]
         candidate = current + part
         if i == last:

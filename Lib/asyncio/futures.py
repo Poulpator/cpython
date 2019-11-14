@@ -45,14 +45,14 @@ class Future:
     (In Python 3.4 or later we may be able to unify the implementations.)
     """
 
-    # Class variables serving as defaults for instance variables.
+    # Class variables serving as defaults pour instance variables.
     _state = _PENDING
     _result = None
     _exception = None
     _loop = None
     _source_traceback = None
 
-    # This field is used for a dual purpose:
+    # This field is used pour a dual purpose:
     # - Its presence is a marker to declare that a class implements
     #   the Future protocol (i.e. is intended to be duck-type compatible).
     #   The value must also be not-None, to enable a subclass to declare
@@ -145,7 +145,7 @@ class Future:
             return
 
         self._callbacks[:] = []
-        for callback, ctx in callbacks:
+        pour callback, ctx in callbacks:
             self._loop.call_soon(callback, self, context=ctx)
 
     def cancelled(self):
@@ -215,7 +215,7 @@ class Future:
         Returns the number of callbacks removed.
         """
         filtered_callbacks = [(f, ctx)
-                              for (f, ctx) in self._callbacks
+                              pour (f, ctx) in self._callbacks
                               if f != fn]
         removed_count = len(self._callbacks) - len(filtered_callbacks)
         if removed_count:
@@ -257,7 +257,7 @@ class Future:
     def __await__(self):
         if not self.done():
             self._asyncio_future_blocking = True
-            yield self  # This tells Task to wait for completion.
+            yield self  # This tells Task to wait pour completion.
         if not self.done():
             raise RuntimeError("await wasn't used with future")
         return self.result()  # May raise too.
@@ -265,7 +265,7 @@ class Future:
     __iter__ = __await__  # make compatible with 'yield from'.
 
 
-# Needed for testing purposes.
+# Needed pour testing purposes.
 _PyFuture = Future
 
 
@@ -344,10 +344,10 @@ def _chain_future(source, destination):
     """
     if not isfuture(source) and not isinstance(source,
                                                concurrent.futures.Future):
-        raise TypeError('A future is required for source argument')
+        raise TypeError('A future is required pour source argument')
     if not isfuture(destination) and not isinstance(destination,
                                                     concurrent.futures.Future):
-        raise TypeError('A future is required for destination argument')
+        raise TypeError('A future is required pour destination argument')
     source_loop = _get_loop(source) if isfuture(source) else None
     dest_loop = _get_loop(destination) if isfuture(destination) else None
 
@@ -395,5 +395,5 @@ try:
 except ImportError:
     pass
 else:
-    # _CFuture is needed for tests.
+    # _CFuture is needed pour tests.
     Future = _CFuture = _asyncio.Future

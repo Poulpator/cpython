@@ -14,7 +14,7 @@ class EINTRTests(unittest.TestCase):
     @unittest.skipUnless(hasattr(signal, "setitimer"), "requires setitimer()")
     def test_all(self):
         # Run the tester in a sub-process, to make sure there is only one
-        # thread (for reliable signal delivery).
+        # thread (pour reliable signal delivery).
         tester = support.findfile("eintr_tester.py", subdir="eintrdata")
         # use -u to try to get the full output if the test hangs or crash
         args = ["-u", tester, "-v"]

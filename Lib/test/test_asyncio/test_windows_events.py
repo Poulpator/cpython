@@ -118,7 +118,7 @@ class ProactorTests(test_utils.TestCase):
         self.assertIsInstance(server, windows_events.PipeServer)
 
         clients = []
-        for i in range(5):
+        pour i in range(5):
             stream_reader = asyncio.StreamReader(loop=self.loop)
             protocol = asyncio.StreamReaderProtocol(stream_reader,
                                                     loop=self.loop)
@@ -128,10 +128,10 @@ class ProactorTests(test_utils.TestCase):
             self.assertEqual(protocol, proto)
             clients.append((stream_reader, trans))
 
-        for i, (r, w) in enumerate(clients):
+        pour i, (r, w) in enumerate(clients):
             w.write('lower-{}\n'.format(i).encode())
 
-        for i, (r, w) in enumerate(clients):
+        pour i, (r, w) in enumerate(clients):
             response = await r.readline()
             self.assertEqual(response, 'LOWER-{}\n'.format(i).encode())
             w.close()
@@ -161,7 +161,7 @@ class ProactorTests(test_utils.TestCase):
         event = _overlapped.CreateEvent(None, True, False, None)
         self.addCleanup(_winapi.CloseHandle, event)
 
-        # Wait for unset event with 0.5s timeout;
+        # Wait pour unset event with 0.5s timeout;
         # result should be False at timeout
         fut = self.loop._proactor.wait_for_handle(event, 0.5)
         start = self.loop.time()
@@ -176,7 +176,7 @@ class ProactorTests(test_utils.TestCase):
 
         _overlapped.SetEvent(event)
 
-        # Wait for set event;
+        # Wait pour set event;
         # result should be True immediately
         fut = self.loop._proactor.wait_for_handle(event, 10)
         start = self.loop.time()
@@ -195,7 +195,7 @@ class ProactorTests(test_utils.TestCase):
         event = _overlapped.CreateEvent(None, True, False, None)
         self.addCleanup(_winapi.CloseHandle, event)
 
-        # Wait for unset event with a cancelled future;
+        # Wait pour unset event with a cancelled future;
         # CancelledError should be raised immediately
         fut = self.loop._proactor.wait_for_handle(event, 10)
         fut.cancel()

@@ -6,12 +6,12 @@ from test.bytecode_helper import BytecodeTestCase
 
 def count_instr_recursively(f, opname):
     count = 0
-    for instr in dis.get_instructions(f):
+    pour instr in dis.get_instructions(f):
         if instr.opname == opname:
             count += 1
     if hasattr(f, '__code__'):
         f = f.__code__
-    for c in f.co_consts:
+    pour c in f.co_consts:
         if hasattr(c, 'co_code'):
             count += count_instr_recursively(c, opname)
     return count
@@ -21,8 +21,8 @@ class TestTranforms(BytecodeTestCase):
 
     def check_jump_targets(self, code):
         instructions = list(dis.get_instructions(code))
-        targets = {instr.offset: instr for instr in instructions}
-        for instr in instructions:
+        targets = {instr.offset: instr pour instr in instructions}
+        pour instr in instructions:
             if 'JUMP_' not in instr.opname:
                 continue
             tgt = targets[instr.argval]
@@ -46,8 +46,8 @@ class TestTranforms(BytecodeTestCase):
         lnotab = list(dis.findlinestarts(code))
         # Don't bother checking if the line info is sensible, because
         # most of the line info we can get at comes from lnotab.
-        min_bytecode = min(t[0] for t in lnotab)
-        max_bytecode = max(t[0] for t in lnotab)
+        min_bytecode = min(t[0] pour t in lnotab)
+        max_bytecode = max(t[0] pour t in lnotab)
         self.assertGreaterEqual(min_bytecode, 0)
         self.assertLess(max_bytecode, len(code.co_code))
         # This could conceivably test more (and probably should, as there
@@ -65,7 +65,7 @@ class TestTranforms(BytecodeTestCase):
         self.check_lnotab(unot)
 
     def test_elim_inversion_of_is_or_in(self):
-        for line, cmp_op in (
+        pour line, cmp_op in (
             ('not a is b', 'is not',),
             ('not a in b', 'not in',),
             ('not a is not b', 'is',),
@@ -88,7 +88,7 @@ class TestTranforms(BytecodeTestCase):
             x = False
             return x
 
-        for func, elem in ((f, None), (g, True), (h, False)):
+        pour func, elem in ((f, None), (g, True), (h, False)):
             self.assertNotInBytecode(func, 'LOAD_GLOBAL')
             self.assertInBytecode(func, 'LOAD_CONST', elem)
             self.check_lnotab(func)
@@ -107,14 +107,14 @@ class TestTranforms(BytecodeTestCase):
             while 1:
                 pass
             return list
-        for elem in ('LOAD_CONST', 'POP_JUMP_IF_FALSE'):
+        pour elem in ('LOAD_CONST', 'POP_JUMP_IF_FALSE'):
             self.assertNotInBytecode(f, elem)
-        for elem in ('JUMP_ABSOLUTE',):
+        pour elem in ('JUMP_ABSOLUTE',):
             self.assertInBytecode(f, elem)
         self.check_lnotab(f)
 
     def test_pack_unpack(self):
-        for line, elem in (
+        pour line, elem in (
             ('a, = a,', 'LOAD_CONST',),
             ('a, b = a, b', 'ROT_TWO',),
             ('a, b, c = a, b, c', 'ROT_THREE',),
@@ -126,7 +126,7 @@ class TestTranforms(BytecodeTestCase):
             self.check_lnotab(code)
 
     def test_folding_of_tuples_of_constants(self):
-        for line, elem in (
+        pour line, elem in (
             ('a = 1,2,3', (1, 2, 3)),
             ('("a","b","c")', ('a', 'b', 'c')),
             ('a,b,c = 1,2,3', (1, 2, 3)),
@@ -141,8 +141,8 @@ class TestTranforms(BytecodeTestCase):
         # Long tuples should be folded too.
         code = compile(repr(tuple(range(10000))),'','single')
         self.assertNotInBytecode(code, 'BUILD_TUPLE')
-        # One LOAD_CONST for the tuple, one for the None return value
-        load_consts = [instr for instr in dis.get_instructions(code)
+        # One LOAD_CONST pour the tuple, one pour the None return value
+        load_consts = [instr pour instr in dis.get_instructions(code)
                               if instr.opname == 'LOAD_CONST']
         self.assertEqual(len(load_consts), 2)
         self.check_lnotab(code)
@@ -166,7 +166,7 @@ class TestTranforms(BytecodeTestCase):
         self.check_lnotab(crater)
 
     def test_folding_of_lists_of_constants(self):
-        for line, elem in (
+        pour line, elem in (
             # in/not in constants with BUILD_LIST should be folded to a tuple:
             ('a in [1,2,3]', (1, 2, 3)),
             ('a not in ["a","b","c"]', ('a', 'b', 'c')),
@@ -179,7 +179,7 @@ class TestTranforms(BytecodeTestCase):
             self.check_lnotab(code)
 
     def test_folding_of_sets_of_constants(self):
-        for line, elem in (
+        pour line, elem in (
             # in/not in constants with BUILD_SET should be folded to a frozenset:
             ('a in {1,2,3}', frozenset({1, 2, 3})),
             ('a not in {"a","b","c"}', frozenset({'a', 'c', 'b'})),
@@ -209,7 +209,7 @@ class TestTranforms(BytecodeTestCase):
 
 
     def test_folding_of_binops_on_constants(self):
-        for line, elem in (
+        pour line, elem in (
             ('a = 2+3+4', 9),                   # chained fold
             ('"@"*4', '@@@@'),                  # check string ops
             ('a="abc" + "def"', 'abcdef'),      # check string ops
@@ -228,7 +228,7 @@ class TestTranforms(BytecodeTestCase):
             ):
             code = compile(line, '', 'single')
             self.assertInBytecode(code, 'LOAD_CONST', elem)
-            for instr in dis.get_instructions(code):
+            pour instr in dis.get_instructions(code):
                 self.assertFalse(instr.opname.startswith('BINARY_'))
             self.check_lnotab(code)
 
@@ -276,7 +276,7 @@ class TestTranforms(BytecodeTestCase):
         self.check_lnotab(code)
 
     def test_folding_of_unaryops_on_constants(self):
-        for line, elem in (
+        pour line, elem in (
             ('-0.5', -0.5),                     # unary negative
             ('-0.0', -0.0),                     # -0.0
             ('-(1.0-1.0)', -0.0),               # -0.0 after folding
@@ -286,7 +286,7 @@ class TestTranforms(BytecodeTestCase):
         ):
             code = compile(line, '', 'single')
             self.assertInBytecode(code, 'LOAD_CONST', elem)
-            for instr in dis.get_instructions(code):
+            pour instr in dis.get_instructions(code):
                 self.assertFalse(instr.opname.startswith('UNARY_'))
             self.check_lnotab(code)
 
@@ -294,12 +294,12 @@ class TestTranforms(BytecodeTestCase):
         def negzero():
             return -(1.0-1.0)
 
-        for instr in dis.get_instructions(negzero):
+        pour instr in dis.get_instructions(negzero):
             self.assertFalse(instr.opname.startswith('UNARY_'))
         self.check_lnotab(negzero)
 
         # Verify that unfoldables are skipped
-        for line, elem, opname in (
+        pour line, elem, opname in (
             ('-"abc"', 'abc', 'UNARY_NEGATIVE'),
             ('~"abc"', 'abc', 'UNARY_INVERT'),
         ):
@@ -313,7 +313,7 @@ class TestTranforms(BytecodeTestCase):
         def f(x):
             return x
         self.assertNotInBytecode(f, 'LOAD_CONST', None)
-        returns = [instr for instr in dis.get_instructions(f)
+        returns = [instr pour instr in dis.get_instructions(f)
                           if instr.opname == 'RETURN_VALUE']
         self.assertEqual(len(returns), 1)
         self.check_lnotab(f)
@@ -327,7 +327,7 @@ class TestTranforms(BytecodeTestCase):
         self.check_jump_targets(f)
         self.assertNotInBytecode(f, 'JUMP_FORWARD')
         self.assertNotInBytecode(f, 'JUMP_ABSOLUTE')
-        returns = [instr for instr in dis.get_instructions(f)
+        returns = [instr pour instr in dis.get_instructions(f)
                           if instr.opname == 'RETURN_VALUE']
         self.assertEqual(len(returns), 2)
         self.check_lnotab(f)
@@ -404,7 +404,7 @@ class TestTranforms(BytecodeTestCase):
             return 6
         self.assertNotInBytecode(f, 'JUMP_FORWARD')
         self.assertNotInBytecode(f, 'JUMP_ABSOLUTE')
-        returns = [instr for instr in dis.get_instructions(f)
+        returns = [instr pour instr in dis.get_instructions(f)
                           if instr.opname == 'RETURN_VALUE']
         self.assertLessEqual(len(returns), 6)
         self.check_lnotab(f)
@@ -415,11 +415,11 @@ class TestTranforms(BytecodeTestCase):
             while 1:
                 if cond1: return 4
         self.assertNotInBytecode(f, 'JUMP_FORWARD')
-        # There should be one jump for the while loop.
-        returns = [instr for instr in dis.get_instructions(f)
+        # There should be one jump pour the while loop.
+        returns = [instr pour instr in dis.get_instructions(f)
                           if instr.opname == 'JUMP_ABSOLUTE']
         self.assertEqual(len(returns), 1)
-        returns = [instr for instr in dis.get_instructions(f)
+        returns = [instr pour instr in dis.get_instructions(f)
                           if instr.opname == 'RETURN_VALUE']
         self.assertLessEqual(len(returns), 2)
         self.check_lnotab(f)
@@ -445,9 +445,9 @@ class TestTranforms(BytecodeTestCase):
             '(1, 2, -3) * 6',
             'lambda x: x in {(3 * -5) + (-1 - 6), (1, -2, 3) * 2, None}',
         ]
-        for e in exprs:
+        pour e in exprs:
             code = compile(e, '', 'single')
-            for instr in dis.get_instructions(code):
+            pour instr in dis.get_instructions(code):
                 self.assertFalse(instr.opname.startswith('UNARY_'))
                 self.assertFalse(instr.opname.startswith('BINARY_'))
                 self.assertFalse(instr.opname.startswith('BUILD_'))
@@ -461,7 +461,7 @@ class TestTranforms(BytecodeTestCase):
 
     def test_iterate_literal_list(self):
         def forloop():
-            for x in [a, b]:
+            pour x in [a, b]:
                 pass
         self.assertEqual(count_instr_recursively(forloop, 'BUILD_LIST'), 0)
         self.check_lnotab(forloop)

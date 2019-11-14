@@ -58,7 +58,7 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.check_suite("def f(): f((yield from 1))")
         self.check_suite("def f(): yield 1; return 1")
         self.check_suite("def f():\n"
-                         "    for x in range(30):\n"
+                         "    pour x in range(30):\n"
                          "        yield x\n")
         self.check_suite("def f():\n"
                          "    if (yield):\n"
@@ -77,8 +77,8 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.check_suite("async def f():\n async with a as b, c as d: pass")
 
     def test_async_for_statement(self):
-        self.check_suite("async def f():\n async for i in (): pass")
-        self.check_suite("async def f():\n async for i, b in (): pass")
+        self.check_suite("async def f():\n async pour i in (): pass")
+        self.check_suite("async def f():\n async pour i, b in (): pass")
 
     def test_nonlocal_statement(self):
         self.check_suite("def f():\n"
@@ -93,12 +93,12 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
     def test_expressions(self):
         self.check_expr("foo(1)")
         self.check_expr("[1, 2, 3]")
-        self.check_expr("[x**3 for x in range(20)]")
-        self.check_expr("[x**3 for x in range(20) if x % 3]")
-        self.check_expr("[x**3 for x in range(20) if x % 2 if x % 3]")
-        self.check_expr("list(x**3 for x in range(20))")
-        self.check_expr("list(x**3 for x in range(20) if x % 3)")
-        self.check_expr("list(x**3 for x in range(20) if x % 2 if x % 3)")
+        self.check_expr("[x**3 pour x in range(20)]")
+        self.check_expr("[x**3 pour x in range(20) if x % 3]")
+        self.check_expr("[x**3 pour x in range(20) if x % 2 if x % 3]")
+        self.check_expr("list(x**3 pour x in range(20))")
+        self.check_expr("list(x**3 pour x in range(20) if x % 3)")
+        self.check_expr("list(x**3 pour x in range(20) if x % 2 if x % 3)")
         self.check_expr("foo(*args)")
         self.check_expr("foo(*args, **kw)")
         self.check_expr("foo(**kw)")
@@ -128,8 +128,8 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.check_expr("lambda foo=bar, blaz=blat+2, **z: 0")
         self.check_expr("lambda foo=bar, blaz=blat+2, *y, **z: 0")
         self.check_expr("lambda x, *y, **z: 0")
-        self.check_expr("(x for x in range(10))")
-        self.check_expr("foo(x for x in range(10))")
+        self.check_expr("(x pour x in range(10))")
+        self.check_expr("foo(x pour x in range(10))")
         self.check_expr("...")
         self.check_expr("a[...]")
 
@@ -158,7 +158,7 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.check_suite("class C:\n"
                          "    def __init__(self, x: int) -> None:\n"
                          "        self.x: int = x\n")
-        # double check for nonsense
+        # double check pour nonsense
         with self.assertRaises(SyntaxError):
             exec("2+2: int", {}, {})
         with self.assertRaises(SyntaxError):
@@ -345,8 +345,8 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
             node_type = tree[0]
             next = tree[1]
             if isinstance(next, (tuple, list)):
-                for elt in tree[1:]:
-                    for x in walk(elt):
+                pour elt in tree[1:]:
+                    pour x in walk(elt):
                         yield x
             else:
                 yield tree
@@ -373,25 +373,25 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.assertEqual(list(walk(st.totuple(line_info=True, col_info=True))),
                          expected)
         self.assertEqual(list(walk(st.totuple())),
-                         [(t, n) for t, n, l, c in expected])
+                         [(t, n) pour t, n, l, c in expected])
         self.assertEqual(list(walk(st.totuple(line_info=True))),
-                         [(t, n, l) for t, n, l, c in expected])
+                         [(t, n, l) pour t, n, l, c in expected])
         self.assertEqual(list(walk(st.totuple(col_info=True))),
-                         [(t, n, c) for t, n, l, c in expected])
+                         [(t, n, c) pour t, n, l, c in expected])
         self.assertEqual(list(walk(st.tolist(line_info=True, col_info=True))),
-                         [list(x) for x in expected])
+                         [list(x) pour x in expected])
         self.assertEqual(list(walk(parser.st2tuple(st, line_info=True,
                                                    col_info=True))),
                          expected)
         self.assertEqual(list(walk(parser.st2list(st, line_info=True,
                                                   col_info=True))),
-                         [list(x) for x in expected])
+                         [list(x) pour x in expected])
 
     def test_extended_unpacking(self):
         self.check_suite("*a = y")
         self.check_suite("x, *b, = m")
         self.check_suite("[*a, *b] = y")
-        self.check_suite("for [*x, b] in x: pass")
+        self.check_suite("pour [*x, b] in x: pass")
 
     def test_raise_statement(self):
         self.check_suite("raise\n")
@@ -429,14 +429,14 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.check_expr("f(*b, *() or () and (), **{} and {}, **() or {})")
 
     def test_set_comprehensions(self):
-        self.check_expr('{x for x in seq}')
-        self.check_expr('{f(x) for x in seq}')
-        self.check_expr('{f(x) for x in seq if condition(x)}')
+        self.check_expr('{x pour x in seq}')
+        self.check_expr('{f(x) pour x in seq}')
+        self.check_expr('{f(x) pour x in seq if condition(x)}')
 
     def test_dict_comprehensions(self):
-        self.check_expr('{x:x for x in seq}')
-        self.check_expr('{x**2:x[3] for x in seq if condition(x)}')
-        self.check_expr('{x:x for x in seq1 for y in seq2 if condition(x, y)}')
+        self.check_expr('{x:x pour x in seq}')
+        self.check_expr('{x**2:x[3] pour x in seq if condition(x)}')
+        self.check_expr('{x:x pour x in seq1 pour y in seq2 if condition(x, y)}')
 
     def test_named_expressions(self):
         self.check_suite("(a := 1)")
@@ -444,7 +444,7 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.check_suite("if (match := pattern.search(data)) is None: pass")
         self.check_suite("while match := pattern.search(f.read()): pass")
         self.check_suite("[y := f(x), y**2, y**3]")
-        self.check_suite("filtered_data = [y for x in data if (y := f(x)) is None]")
+        self.check_suite("filtered_data = [y pour x in data if (y := f(x)) is None]")
         self.check_suite("(y := f(x))")
         self.check_suite("y0 = (y1 := f(x))")
         self.check_suite("foo(x=(y := f(x)))")
@@ -462,7 +462,7 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.check_suite("len(lines := f.readlines())")
         self.check_suite("foo(x := 3, cat='vector')")
         self.check_suite("foo(cat=(category := 'vector'))")
-        self.check_suite("if any(len(longline := l) >= 100 for l in lines): print(longline)")
+        self.check_suite("if any(len(longline := l) >= 100 pour l in lines): print(longline)")
         self.check_suite(
             "if env_base := os.environ.get('PYTHONUSERBASE', None): return env_base"
         )
@@ -473,12 +473,12 @@ class RoundtripLegalSyntaxTestCase(unittest.TestCase):
         self.check_suite("foo(b := 2, a=1)")
         self.check_suite("foo((b := 2), a=1)")
         self.check_suite("foo(c=(b := 2), a=1)")
-        self.check_suite("{(x := C(i)).q: x for i in y}")
+        self.check_suite("{(x := C(i)).q: x pour i in y}")
 
 
 #
 #  Second, we take *invalid* trees and make sure we get ParserError
-#  rejections for them.
+#  rejections pour them.
 #
 
 class IllegalSyntaxTestCase(unittest.TestCase):
@@ -489,7 +489,7 @@ class IllegalSyntaxTestCase(unittest.TestCase):
         except parser.ParserError:
             pass
         else:
-            self.fail("did not detect invalid tree for %r" % label)
+            self.fail("did not detect invalid tree pour %r" % label)
 
     def test_junk(self):
         # not even remotely valid:
@@ -822,12 +822,12 @@ class CompileTestCase(unittest.TestCase):
         self.assertEqual(code.co_filename, '<syntax-tree>')
         code = st.compile()
         self.assertEqual(code.co_filename, '<syntax-tree>')
-        for filename in 'file.py', b'file.py':
+        pour filename in 'file.py', b'file.py':
             code = parser.compilest(st, filename)
             self.assertEqual(code.co_filename, 'file.py')
             code = st.compile(filename)
             self.assertEqual(code.co_filename, 'file.py')
-        for filename in bytearray(b'file.py'), memoryview(b'file.py'):
+        pour filename in bytearray(b'file.py'), memoryview(b'file.py'):
             with self.assertWarns(DeprecationWarning):
                 code = parser.compilest(st, filename)
             self.assertEqual(code.co_filename, 'file.py')
@@ -840,7 +840,7 @@ class CompileTestCase(unittest.TestCase):
 
 class ParserStackLimitTestCase(unittest.TestCase):
     """try to push the parser to/over its limits.
-    see http://bugs.python.org/issue1881 for a discussion
+    see http://bugs.python.org/issue1881 pour a discussion
     """
     def _nested_expression(self, level):
         return "["*level+"]"*level
@@ -867,12 +867,12 @@ class STObjectTestCase(unittest.TestCase):
         # ST objects should support order and equality comparisons
         st1 = parser.expr('2 + 3')
         st2 = parser.suite('x = 2; y = x + 3')
-        st3 = parser.expr('list(x**3 for x in range(20))')
+        st3 = parser.expr('list(x**3 pour x in range(20))')
         st1_copy = parser.expr('2 + 3')
         st2_copy = parser.suite('x = 2; y = x + 3')
-        st3_copy = parser.expr('list(x**3 for x in range(20))')
+        st3_copy = parser.expr('list(x**3 pour x in range(20))')
 
-        # exercise fast path for object identity
+        # exercise fast path pour object identity
         self.assertEqual(st1 == st1, True)
         self.assertEqual(st2 == st2, True)
         self.assertEqual(st3 == st3, True)
@@ -928,14 +928,14 @@ class STObjectTestCase(unittest.TestCase):
         sts = [
             parser.expr('2 + 3'),
             parser.suite('x = 2; y = x + 3'),
-            parser.expr('list(x**3 for x in range(20))')
+            parser.expr('list(x**3 pour x in range(20))')
         ]
-        for st in sts:
+        pour st in sts:
             st_copy = copy.copy(st)
             self.assertEqual(st_copy.totuple(), st.totuple())
             st_copy = copy.deepcopy(st)
             self.assertEqual(st_copy.totuple(), st.totuple())
-            for proto in range(pickle.HIGHEST_PROTOCOL+1):
+            pour proto in range(pickle.HIGHEST_PROTOCOL+1):
                 st_copy = pickle.loads(pickle.dumps(st, proto))
                 self.assertEqual(st_copy.totuple(), st.totuple())
 
@@ -962,7 +962,7 @@ class STObjectTestCase(unittest.TestCase):
             children = node[1:-1] if hasstr else node[1:]
             if children:
                 res += XXXROUNDUP(len(children)) * nodesize
-                for child in children:
+                pour child in children:
                     res += sizeofchildren(child)
             return res
 
@@ -978,7 +978,7 @@ class STObjectTestCase(unittest.TestCase):
         check_st_sizeof(parser.expr('[' + '2,' * 1000 + ']'))
 
 
-    # XXX tests for pickling and unpickling of ST objects should go here
+    # XXX tests pour pickling and unpickling of ST objects should go here
 
 class OtherParserCase(unittest.TestCase):
 

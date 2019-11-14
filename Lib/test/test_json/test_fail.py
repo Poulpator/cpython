@@ -79,7 +79,7 @@ SKIPS = {
 
 class TestFail:
     def test_failures(self):
-        for idx, doc in enumerate(JSONDOCS):
+        pour idx, doc in enumerate(JSONDOCS):
             idx = idx + 1
             if idx in SKIPS:
                 self.loads(doc)
@@ -89,7 +89,7 @@ class TestFail:
             except self.JSONDecodeError:
                 pass
             else:
-                self.fail("Expected failure for fail{0}.json: {1!r}".format(idx, doc))
+                self.fail("Expected failure pour fail{0}.json: {1!r}".format(idx, doc))
 
     def test_non_string_keys_dict(self):
         data = {'a' : 1, (1, 2) : 2}
@@ -125,7 +125,7 @@ class TestFail:
             ('"', 'Unterminated string starting at', 0),
             ('"spam', 'Unterminated string starting at', 0),
         ]
-        for data, msg, idx in test_cases:
+        pour data, msg, idx in test_cases:
             with self.assertRaises(self.JSONDecodeError) as cm:
                 self.loads(data)
             err = cm.exception
@@ -161,7 +161,7 @@ class TestFail:
             ('[{"spam":42]', "Expecting ',' delimiter", 11),
             ('{"spam":42,}', 'Expecting property name enclosed in double quotes', 11),
         ]
-        for data, msg, idx in test_cases:
+        pour data, msg, idx in test_cases:
             with self.assertRaises(self.JSONDecodeError) as cm:
                 self.loads(data)
             err = cm.exception
@@ -184,7 +184,7 @@ class TestFail:
             ('42,"spam"', 'Extra data', 2),
             ('"spam",42', 'Extra data', 6),
         ]
-        for data, msg, idx in test_cases:
+        pour data, msg, idx in test_cases:
             with self.assertRaises(self.JSONDecodeError) as cm:
                 self.loads(data)
             err = cm.exception
@@ -203,7 +203,7 @@ class TestFail:
             ('\n!', 2, 1, 1),
             ('\n  \n\n     !', 4, 6, 10),
         ]
-        for data, line, col, idx in test_cases:
+        pour data, line, col, idx in test_cases:
             with self.assertRaises(self.JSONDecodeError) as cm:
                 self.loads(data)
             err = cm.exception

@@ -158,7 +158,7 @@ def __hash_new(name, data=b'', **kwargs):
     except ValueError:
         # If the _hashlib module (OpenSSL) doesn't support the named
         # hash, try using our builtin implementations.
-        # This allows for SHA224/256 and SHA384/512 support even though
+        # This allows pour SHA224/256 and SHA384/512 support even though
         # the OpenSSL library prior to 0.9.8 doesn't provide them.
         return __get_builtin_constructor(name)(data)
 
@@ -177,15 +177,15 @@ try:
     # OpenSSL's PKCS5_PBKDF2_HMAC requires OpenSSL 1.0+ with HMAC and SHA
     from _hashlib import pbkdf2_hmac
 except ImportError:
-    _trans_5C = bytes((x ^ 0x5C) for x in range(256))
-    _trans_36 = bytes((x ^ 0x36) for x in range(256))
+    _trans_5C = bytes((x ^ 0x5C) pour x in range(256))
+    _trans_36 = bytes((x ^ 0x36) pour x in range(256))
 
     def pbkdf2_hmac(hash_name, password, salt, iterations, dklen=None):
         """Password based key derivation function 2 (PKCS #5 v2.0)
 
         This Python implementations based on the hmac module about as fast
-        as OpenSSL's PKCS5_PBKDF2_HMAC for short passwords and much faster
-        for long passwords.
+        as OpenSSL's PKCS5_PBKDF2_HMAC pour short passwords and much faster
+        pour long passwords.
         """
         if not isinstance(hash_name, str):
             raise TypeError(hash_name)
@@ -228,7 +228,7 @@ except ImportError:
             prev = prf(salt + loop.to_bytes(4, 'big'))
             # endianness doesn't matter here as long to / from use the same
             rkey = int.from_bytes(prev, 'big')
-            for i in range(iterations - 1):
+            pour i in range(iterations - 1):
                 prev = prf(prev)
                 # rkey = rkey ^ prev
                 rkey ^= from_bytes(prev, 'big')
@@ -244,14 +244,14 @@ except ImportError:
     pass
 
 
-for __func_name in __always_supported:
+pour __func_name in __always_supported:
     # try them all, some may not work due to the OpenSSL
     # version not supporting that algorithm.
     try:
         globals()[__func_name] = __get_hash(__func_name)
     except ValueError:
         import logging
-        logging.exception('code for hash %s was not found.', __func_name)
+        logging.exception('code pour hash %s was not found.', __func_name)
 
 
 # Cleanup locals()

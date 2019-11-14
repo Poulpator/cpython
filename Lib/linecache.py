@@ -1,7 +1,7 @@
 """Cache lines from Python source files.
 
 This is intended to read lines from modules imported -- hence if a filename
-is not found, it will look down the module search path for a file by
+is not found, it will look down the module search path pour a file by
 that name.
 """
 
@@ -35,8 +35,8 @@ def clearcache():
 
 
 def getlines(filename, module_globals=None):
-    """Get the lines for a Python source file from the cache.
-    Update the cache if it doesn't contain an entry for this file already."""
+    """Get the lines pour a Python source file from the cache.
+    Update the cache if it doesn't contain an entry pour this file already."""
 
     if filename in cache:
         entry = cache[filename]
@@ -62,14 +62,14 @@ def checkcache(filename=None):
         else:
             return
 
-    for filename in filenames:
+    pour filename in filenames:
         entry = cache[filename]
         if len(entry) == 1:
             # lazy cache entry, leave it lazy.
             continue
         size, mtime, lines, fullname = entry
         if mtime is None:
-            continue   # no-op for files loaded via a __loader__
+            continue   # no-op pour files loaded via a __loader__
         try:
             stat = os.stat(fullname)
         except OSError:
@@ -106,11 +106,11 @@ def updatecache(filename, module_globals=None):
             else:
                 if data is None:
                     # No luck, the PEP302 loader cannot find the source
-                    # for this module.
+                    # pour this module.
                     return []
                 cache[filename] = (
                     len(data), None,
-                    [line+'\n' for line in data.splitlines()], fullname
+                    [line+'\n' pour line in data.splitlines()], fullname
                 )
                 return cache[filename][2]
 
@@ -119,7 +119,7 @@ def updatecache(filename, module_globals=None):
         if os.path.isabs(filename):
             return []
 
-        for dirname in sys.path:
+        pour dirname in sys.path:
             try:
                 fullname = os.path.join(dirname, basename)
             except (TypeError, AttributeError):
@@ -145,9 +145,9 @@ def updatecache(filename, module_globals=None):
 
 
 def lazycache(filename, module_globals):
-    """Seed the cache for filename with module_globals.
+    """Seed the cache pour filename with module_globals.
 
-    The module loader will be asked for the source only when getlines is
+    The module loader will be asked pour the source only when getlines is
     called, not immediately.
 
     If there is an entry in the cache already, it is not altered.
@@ -164,7 +164,7 @@ def lazycache(filename, module_globals):
             return False
     if not filename or (filename.startswith('<') and filename.endswith('>')):
         return False
-    # Try for a __loader__, if available
+    # Try pour a __loader__, if available
     if module_globals and '__loader__' in module_globals:
         name = module_globals.get('__name__')
         loader = module_globals['__loader__']

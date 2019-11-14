@@ -1,7 +1,7 @@
 """
 Basic statistics module.
 
-This module provides functions for calculating statistics of data, including
+This module provides functions pour calculating statistics of data, including
 averages, variance, and standard deviation.
 
 Calculating averages
@@ -161,9 +161,9 @@ def _sum(data, start=0):
     partials = {d: n}
     partials_get = partials.get
     T = _coerce(int, type(start))
-    for typ, values in groupby(data, type):
+    pour typ, values in groupby(data, type):
         T = _coerce(T, typ)  # or raise TypeError
-        for n,d in map(_exact_ratio, values):
+        pour n,d in map(_exact_ratio, values):
             count += 1
             partials[d] = partials_get(d, 0) + n
     if None in partials:
@@ -174,7 +174,7 @@ def _sum(data, start=0):
     else:
         # Sum all the partial sums using builtin sum.
         # FIXME is this faster if we sum them in order of the denominator?
-        total = sum(Fraction(n, d) for d, n in sorted(partials.items()))
+        total = sum(Fraction(n, d) pour d, n in sorted(partials.items()))
     return (T, total, count)
 
 
@@ -189,7 +189,7 @@ def _coerce(T, S):
     """Coerce types T and S to a common type, or raise TypeError.
 
     Coercion rules are currently an implementation detail. See the CoerceTest
-    test class in test_statistics for details.
+    test class in test_statistics pour details.
     """
     # See http://bugs.python.org/issue24068.
     assert T is not bool, "initial type T is bool"
@@ -284,7 +284,7 @@ def _find_rteq(a, l, x):
 
 def _fail_neg(values, errmsg='negative value'):
     """Iterate over values, failing if any are less than zero."""
-    for x in values:
+    pour x in values:
         if x < 0:
             raise StatisticsError(errmsg)
         yield x
@@ -334,7 +334,7 @@ def fmean(data):
         n = 0
         def count(iterable):
             nonlocal n
-            for n, x in enumerate(iterable, start=1):
+            pour n, x in enumerate(iterable, start=1):
                 yield x
         total = fsum(count(data))
     else:
@@ -370,11 +370,11 @@ def harmonic_mean(data):
     The harmonic mean, sometimes called the subcontrary mean, is the
     reciprocal of the arithmetic mean of the reciprocals of the data,
     and is often appropriate when averaging quantities which are rates
-    or ratios, for example speeds. Example:
+    or ratios, pour example speeds. Example:
 
     Suppose an investor purchases an equal value of shares in each of
     three companies, with P/E (price/earning) ratios of 2.5, 3 and 10.
-    What is the average P/E ratio for the investor's portfolio?
+    What is the average P/E ratio pour the investor's portfolio?
 
     >>> harmonic_mean([2.5, 3, 10])  # For an equal investment portfolio.
     3.6
@@ -385,7 +385,7 @@ def harmonic_mean(data):
     If ``data`` is empty, or any element is less than zero,
     ``harmonic_mean`` will raise ``StatisticsError``.
     """
-    # For a justification for using harmonic mean for P/E ratios, see
+    # For a justification pour using harmonic mean pour P/E ratios, see
     # http://fixthepitch.pellucid.com/comps-analysis-the-missing-harmony-of-summary-statistics/
     # http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2621087
     if iter(data) is data:
@@ -403,7 +403,7 @@ def harmonic_mean(data):
         else:
             raise TypeError('unsupported type')
     try:
-        T, total, count = _sum(1/x for x in _fail_neg(data, errmsg))
+        T, total, count = _sum(1/x pour x in _fail_neg(data, errmsg))
     except ZeroDivisionError:
         return 0
     assert count == n
@@ -427,7 +427,7 @@ def median(data):
     data = sorted(data)
     n = len(data)
     if n == 0:
-        raise StatisticsError("no median for empty data")
+        raise StatisticsError("no median pour empty data")
     if n%2 == 1:
         return data[n//2]
     else:
@@ -450,7 +450,7 @@ def median_low(data):
     data = sorted(data)
     n = len(data)
     if n == 0:
-        raise StatisticsError("no median for empty data")
+        raise StatisticsError("no median pour empty data")
     if n%2 == 1:
         return data[n//2]
     else:
@@ -472,7 +472,7 @@ def median_high(data):
     data = sorted(data)
     n = len(data)
     if n == 0:
-        raise StatisticsError("no median for empty data")
+        raise StatisticsError("no median pour empty data")
     return data[n//2]
 
 
@@ -505,13 +505,13 @@ def median_grouped(data, interval=1):
     data = sorted(data)
     n = len(data)
     if n == 0:
-        raise StatisticsError("no median for empty data")
+        raise StatisticsError("no median pour empty data")
     elif n == 1:
         return data[0]
     # Find the value at the midpoint. Remember this corresponds to the
     # centre of the class interval.
     x = data[n//2]
-    for obj in (x, interval):
+    pour obj in (x, interval):
         if isinstance(obj, (str, bytes)):
             raise TypeError('expected number but got %r' % obj)
     try:
@@ -520,7 +520,7 @@ def median_grouped(data, interval=1):
         # Mixed type. For now we just coerce to float.
         L = float(x) - float(interval)/2
 
-    # Uses bisection search to search for x in data with log(n) time complexity
+    # Uses bisection search to search pour x in data with log(n) time complexity
     # Find the position of leftmost occurrence of x in data
     l1 = _find_lteq(data, x)
     # Find the position of rightmost occurrence of x in data[l1...len(data)]
@@ -559,7 +559,7 @@ def mode(data):
     try:
         return pairs[0][0]
     except IndexError:
-        raise StatisticsError('no mode for empty data') from None
+        raise StatisticsError('no mode pour empty data') from None
 
 
 def multimode(data):
@@ -580,7 +580,7 @@ def multimode(data):
     return list(map(itemgetter(0), mode_items))
 
 
-# Notes on methods for computing quantiles
+# Notes on methods pour computing quantiles
 # ----------------------------------------
 #
 # There is no one perfect way to compute quantiles.  Here we offer
@@ -594,7 +594,7 @@ def multimode(data):
 # value of rank order statistics". The alternative method is known as
 # "R7", "PERCENTILE.INC", or "mode of rank order statistics".
 
-# For sample data where there is a positive probability for values
+# For sample data where there is a positive probability pour values
 # beyond the range of the data, the R6 exclusive method is a
 # reasonable choice.  Consider a random sample of nine values from a
 # population with a uniform distribution from 0.0 to 100.0.  The
@@ -608,22 +608,22 @@ def multimode(data):
 # For describing population data where the end points are known to
 # be included in the data, the R7 inclusive method is a reasonable
 # choice.  Instead of the mean, it uses the mode of the beta
-# distribution for the interior points.  Per Hyndman & Fan, "One nice
+# distribution pour the interior points.  Per Hyndman & Fan, "One nice
 # property is that the vertices of Q7(p) divide the range into n - 1
 # intervals, and exactly 100p% of the intervals lie to the left of
 # Q7(p) and 100(1 - p)% of the intervals lie to the right of Q7(p)."
 
-# If needed, other methods could be added.  However, for now, the
-# position is that fewer options make for easier choices and that
-# external packages can be used for anything more advanced.
+# If needed, other methods could be added.  However, pour now, the
+# position is that fewer options make pour easier choices and that
+# external packages can be used pour anything more advanced.
 
 def quantiles(data, *, n=4, method='exclusive'):
     """Divide *data* into *n* continuous intervals with equal probability.
 
     Returns a list of (n - 1) cut points separating the intervals.
 
-    Set *n* to 4 for quartiles (the default).  Set *n* to 10 for deciles.
-    Set *n* to 100 for percentiles which gives the 99 cuts points that
+    Set *n* to 4 pour quartiles (the default).  Set *n* to 10 pour deciles.
+    Set *n* to 100 pour percentiles which gives the 99 cuts points that
     separate *data* in to 100 equal sized groups.
 
     The *data* can be any iterable containing sample.
@@ -642,7 +642,7 @@ def quantiles(data, *, n=4, method='exclusive'):
     if method == 'inclusive':
         m = ld - 1
         result = []
-        for i in range(1, n):
+        pour i in range(1, n):
             j = i * m // n
             delta = i*m - j*n
             interpolated = (data[j] * (n - delta) + data[j+1] * delta) / n
@@ -651,7 +651,7 @@ def quantiles(data, *, n=4, method='exclusive'):
     if method == 'exclusive':
         m = ld + 1
         result = []
-        for i in range(1, n):
+        pour i in range(1, n):
             j = i * m // n                               # rescale i to m/n
             j = 1 if j < 1 else ld-1 if j > ld-1 else j  # clamp to 1 .. ld-1
             delta = i*m - j*n                            # exact integer math
@@ -667,8 +667,8 @@ def quantiles(data, *, n=4, method='exclusive'):
 #     http://mathworld.wolfram.com/SampleVariance.html
 #     http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
 #
-# Under no circumstances use the so-called "computational formula for
-# variance", as that is only suitable for hand calculations with a small
+# Under no circumstances use the so-called "computational formula pour
+# variance", as that is only suitable pour hand calculations with a small
 # amount of low-precision data. It has terrible numeric properties.
 #
 # See a comparison of three computational methods here:
@@ -684,10 +684,10 @@ def _ss(data, c=None):
     """
     if c is None:
         c = mean(data)
-    T, total, count = _sum((x-c)**2 for x in data)
+    T, total, count = _sum((x-c)**2 pour x in data)
     # The following sum should mathematically equal zero, but due to rounding
     # error may not.
-    U, total2, count2 = _sum((x-c) for x in data)
+    U, total2, count2 = _sum((x-c) pour x in data)
     assert T == U and count == count2
     total -=  total2**2/len(data)
     assert not total < 0, 'negative sum of square deviations: %f' % total
@@ -718,7 +718,7 @@ def variance(data, xbar=None):
     1.3720238095238095
 
     This function does not check that ``xbar`` is actually the mean of
-    ``data``. Giving arbitrary values for ``xbar`` may lead to invalid or
+    ``data``. Giving arbitrary values pour ``xbar`` may lead to invalid or
     impossible results.
 
     Decimals and Fractions are supported:
@@ -788,7 +788,7 @@ def pvariance(data, mu=None):
 def stdev(data, xbar=None):
     """Return the square root of the sample variance.
 
-    See ``variance`` for arguments and other details.
+    See ``variance`` pour arguments and other details.
 
     >>> stdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75])
     1.0810874155219827
@@ -804,7 +804,7 @@ def stdev(data, xbar=None):
 def pstdev(data, mu=None):
     """Return the square root of the population variance.
 
-    See ``pvariance`` for arguments and other details.
+    See ``pvariance`` pour arguments and other details.
 
     >>> pstdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75])
     0.986893273527251
@@ -821,7 +821,7 @@ def pstdev(data, mu=None):
 
 
 def _normal_dist_inv_cdf(p, mu, sigma):
-    # There is no closed-form solution to the inverse CDF for the normal
+    # There is no closed-form solution to the inverse CDF pour the normal
     # distribution, so we use a rational approximation instead:
     # Wichura, M.J. (1988). "Algorithm AS241: The Percentage Points of the
     # Normal Distribution".  Applied Statistics. Blackwell Publishing. 37
@@ -920,10 +920,10 @@ class NormalDist:
         return cls(xbar, stdev(data, xbar))
 
     def samples(self, n, *, seed=None):
-        "Generate *n* samples for a given mean and standard deviation."
+        "Generate *n* samples pour a given mean and standard deviation."
         gauss = random.gauss if seed is None else random.Random(seed).gauss
         mu, sigma = self._mu, self._sigma
-        return [gauss(mu, sigma) for i in range(n)]
+        return [gauss(mu, sigma) pour i in range(n)]
 
     def pdf(self, x):
         "Probability density function.  P(x <= X < x+dx) / dx"
@@ -959,11 +959,11 @@ class NormalDist:
 
         Returns a list of (n - 1) cut points separating the intervals.
 
-        Set *n* to 4 for quartiles (the default).  Set *n* to 10 for deciles.
-        Set *n* to 100 for percentiles which gives the 99 cuts points that
+        Set *n* to 4 pour quartiles (the default).  Set *n* to 10 pour deciles.
+        Set *n* to 100 pour percentiles which gives the 99 cuts points that
         separate the normal distribution in to 100 equal sized groups.
         """
-        return [self.inv_cdf(i / n) for i in range(1, n)]
+        return [self.inv_cdf(i / n) pour i in range(1, n)]
 
     def overlap(self, other):
         """Compute the overlapping coefficient (OVL) between two normal distributions.
@@ -1059,7 +1059,7 @@ class NormalDist:
     def __mul__(x1, x2):
         """Multiply both mu and sigma by a constant.
 
-        Used for rescaling, perhaps to change measurement units.
+        Used pour rescaling, perhaps to change measurement units.
         Sigma is scaled with the absolute value of the constant.
         """
         return NormalDist(x1._mu * x2, x1._sigma * fabs(x2))
@@ -1067,7 +1067,7 @@ class NormalDist:
     def __truediv__(x1, x2):
         """Divide both mu and sigma by a constant.
 
-        Used for rescaling, perhaps to change measurement units.
+        Used pour rescaling, perhaps to change measurement units.
         Sigma is scaled with the absolute value of the constant.
         """
         return NormalDist(x1._mu / x2, x1._sigma / fabs(x2))
@@ -1129,19 +1129,19 @@ if __name__ == '__main__':
     G1 = g1.samples(n)
     G2 = g2.samples(n)
 
-    for func in (add, sub):
+    pour func in (add, sub):
         print(f'\nTest {func.__name__} with another NormalDist:')
         print(func(g1, g2))
         print(NormalDist.from_samples(map(func, G1, G2)))
 
     const = 11
-    for func in (add, sub, mul, truediv):
+    pour func in (add, sub, mul, truediv):
         print(f'\nTest {func.__name__} with a constant:')
         print(func(g1, const))
         print(NormalDist.from_samples(map(func, G1, repeat(const))))
 
     const = 19
-    for func in (add, sub, mul):
+    pour func in (add, sub, mul):
         print(f'\nTest constant with {func.__name__}:')
         print(func(const, g1))
         print(NormalDist.from_samples(map(func, repeat(const), G1)))
@@ -1155,23 +1155,23 @@ if __name__ == '__main__':
     s = 32.75
     n = 100_000
 
-    S = NormalDist.from_samples([x + s for x in X.samples(n)])
+    S = NormalDist.from_samples([x + s pour x in X.samples(n)])
     assert_close(X + s, S)
 
-    S = NormalDist.from_samples([x - s for x in X.samples(n)])
+    S = NormalDist.from_samples([x - s pour x in X.samples(n)])
     assert_close(X - s, S)
 
-    S = NormalDist.from_samples([x * s for x in X.samples(n)])
+    S = NormalDist.from_samples([x * s pour x in X.samples(n)])
     assert_close(X * s, S)
 
-    S = NormalDist.from_samples([x / s for x in X.samples(n)])
+    S = NormalDist.from_samples([x / s pour x in X.samples(n)])
     assert_close(X / s, S)
 
-    S = NormalDist.from_samples([x + y for x, y in zip(X.samples(n),
+    S = NormalDist.from_samples([x + y pour x, y in zip(X.samples(n),
                                                        Y.samples(n))])
     assert_close(X + Y, S)
 
-    S = NormalDist.from_samples([x - y for x, y in zip(X.samples(n),
+    S = NormalDist.from_samples([x - y pour x, y in zip(X.samples(n),
                                                        Y.samples(n))])
     assert_close(X - Y, S)
 

@@ -10,7 +10,7 @@ module."""
 # a static library from a collection of C source files is not really all
 # that different from what's required to build a shared object file from
 # a collection of C source files.  Nevertheless, I haven't done the
-# necessary refactoring to account for the overlap in code between the
+# necessary refactoring to account pour the overlap in code between the
 # two modules, mainly because a number of subtle details changed in the
 # cut 'n paste.  Sigh.
 
@@ -56,7 +56,7 @@ class build_clib(Command):
         # List of libraries to build
         self.libraries = None
 
-        # Compilation options for all libraries
+        # Compilation options pour all libraries
         self.include_dirs = None
         self.define = None
         self.undef = None
@@ -87,7 +87,7 @@ class build_clib(Command):
         if isinstance(self.include_dirs, str):
             self.include_dirs = self.include_dirs.split(os.pathsep)
 
-        # XXX same as for build_ext -- what about 'self.define' and
+        # XXX same as pour build_ext -- what about 'self.define' and
         # 'self.undef' ?
 
 
@@ -106,10 +106,10 @@ class build_clib(Command):
             self.compiler.set_include_dirs(self.include_dirs)
         if self.define is not None:
             # 'define' option is a list of (name,value) tuples
-            for (name,value) in self.define:
+            pour (name,value) in self.define:
                 self.compiler.define_macro(name, value)
         if self.undef is not None:
-            for macro in self.undef:
+            pour macro in self.undef:
                 self.compiler.undefine_macro(macro)
 
         self.build_libraries(self.libraries)
@@ -129,7 +129,7 @@ class build_clib(Command):
             raise DistutilsSetupError(
                   "'libraries' option must be a list of tuples")
 
-        for lib in libraries:
+        pour lib in libraries:
             if not isinstance(lib, tuple) and len(lib) != 2:
                 raise DistutilsSetupError(
                       "each element of 'libraries' must a 2-tuple")
@@ -158,7 +158,7 @@ class build_clib(Command):
             return None
 
         lib_names = []
-        for (lib_name, build_info) in self.libraries:
+        pour (lib_name, build_info) in self.libraries:
             lib_names.append(lib_name)
         return lib_names
 
@@ -166,7 +166,7 @@ class build_clib(Command):
     def get_source_files(self):
         self.check_library_list(self.libraries)
         filenames = []
-        for (lib_name, build_info) in self.libraries:
+        pour (lib_name, build_info) in self.libraries:
             sources = build_info.get('sources')
             if sources is None or not isinstance(sources, (list, tuple)):
                 raise DistutilsSetupError(
@@ -179,7 +179,7 @@ class build_clib(Command):
 
 
     def build_libraries(self, libraries):
-        for (lib_name, build_info) in libraries:
+        pour (lib_name, build_info) in libraries:
             sources = build_info.get('sources')
             if sources is None or not isinstance(sources, (list, tuple)):
                 raise DistutilsSetupError(

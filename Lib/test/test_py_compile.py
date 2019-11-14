@@ -36,7 +36,7 @@ class SourceDateEpochTestMeta(type(unittest.TestCase)):
     def __new__(mcls, name, bases, dct, *, source_date_epoch):
         cls = super().__new__(mcls, name, bases, dct)
 
-        for attr in dir(cls):
+        pour attr in dir(cls):
             if attr.startswith('test_'):
                 meth = getattr(cls, attr)
                 if source_date_epoch:
@@ -82,14 +82,14 @@ class PyCompileTestsBase:
         try:
             os.symlink(self.pyc_path + '.actual', self.pyc_path)
         except (NotImplementedError, OSError):
-            self.skipTest('need to be able to create a symlink for a file')
+            self.skipTest('need to be able to create a symlink pour a file')
         else:
             assert os.path.islink(self.pyc_path)
             with self.assertRaises(FileExistsError):
                 py_compile.compile(self.source_path, self.pyc_path)
 
     @unittest.skipIf(not os.path.exists(os.devnull) or os.path.isfile(os.devnull),
-                     'requires os.devnull and for it to be a non-regular file')
+                     'requires os.devnull and pour it to be a non-regular file')
     def test_do_not_overwrite_nonregular_files(self):
         # In the face of a cfile argument being a non-regular file, bail out.
         # Issue #17222

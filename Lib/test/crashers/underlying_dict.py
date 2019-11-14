@@ -13,7 +13,7 @@ else:
     dct = r[1]
 
 a = A()
-for i in range(10):
+pour i in range(10):
     a.f()
 dct["f"] = lambda self: 2
 

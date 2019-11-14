@@ -88,7 +88,7 @@ class ExceptionTests(unittest.TestCase):
 
         self.raise_catch(OverflowError, "OverflowError")
         x = 1
-        for dummy in range(128):
+        pour dummy in range(128):
             x += x  # this simply shouldn't blow up
 
         self.raise_catch(RuntimeError, "RuntimeError")
@@ -129,7 +129,7 @@ class ExceptionTests(unittest.TestCase):
         self.raise_catch(StopAsyncIteration, "StopAsyncIteration")
 
     def testSyntaxErrorMessage(self):
-        # make sure the right exception message is raised for each of
+        # make sure the right exception message is raised pour each of
         # these code fragments
 
         def ckmsg(src, msg):
@@ -207,7 +207,7 @@ class ExceptionTests(unittest.TestCase):
         check('x = 0o9', 1, 6)
 
         # Errors thrown by symtable.c
-        check('x = [(yield i) for i in range(3)]', 1, 5)
+        check('x = [(yield i) pour i in range(3)]', 1, 5)
         check('def f():\n  from _ import *', 1, 1)
         check('def f(x, x):\n  pass', 1, 1)
         check('def f(x):\n  nonlocal x', 2, 3)
@@ -216,12 +216,12 @@ class ExceptionTests(unittest.TestCase):
         check('def f():\n  global x\n  nonlocal x', 2, 3)
 
         # Errors thrown by ast.c
-        check('for 1 in []: pass', 1, 5)
+        check('pour 1 in []: pass', 1, 5)
         check('def f(*):\n  pass', 1, 7)
-        check('[*x for x in xs]', 1, 2)
+        check('[*x pour x in xs]', 1, 2)
         check('def f():\n  x, y: int', 2, 3)
         check('(yield i) = 2', 1, 1)
-        check('foo(x for x in range(10), 100)', 1, 5)
+        check('foo(x pour x in range(10), 100)', 1, 5)
         check('foo(1=2)', 1, 5)
 
         # Errors thrown by future.c
@@ -421,7 +421,7 @@ class ExceptionTests(unittest.TestCase):
         except NameError:
             pass
 
-        for exc, args, expected in exceptionList:
+        pour exc, args, expected in exceptionList:
             try:
                 e = exc(*args)
             except:
@@ -433,7 +433,7 @@ class ExceptionTests(unittest.TestCase):
                     self.assertEqual(type(e).__module__, 'builtins')
                 # Verify no ref leaks in Exc_str()
                 s = str(e)
-                for checkArgName in expected:
+                pour checkArgName in expected:
                     value = getattr(e, checkArgName)
                     self.assertEqual(repr(value),
                                      repr(expected[checkArgName]),
@@ -441,12 +441,12 @@ class ExceptionTests(unittest.TestCase):
                                      e, checkArgName,
                                      value, expected[checkArgName]))
 
-                # test for pickling support
-                for p in [pickle]:
-                    for protocol in range(p.HIGHEST_PROTOCOL + 1):
+                # test pour pickling support
+                pour p in [pickle]:
+                    pour protocol in range(p.HIGHEST_PROTOCOL + 1):
                         s = p.dumps(e, protocol)
                         new = p.loads(s)
-                        for checkArgName in expected:
+                        pour checkArgName in expected:
                             got = repr(getattr(new, checkArgName))
                             want = repr(expected[checkArgName])
                             self.assertEqual(got, want,
@@ -626,7 +626,7 @@ class ExceptionTests(unittest.TestCase):
         # "except" with premature block leave
         obj = MyObj()
         wr = weakref.ref(obj)
-        for i in [0]:
+        pour i in [0]:
             try:
                 inner_raising_func()
             except:
@@ -647,7 +647,7 @@ class ExceptionTests(unittest.TestCase):
             # We want to test that the except block above got rid of
             # the exception raised in inner_raising_func(), but it
             # also ends up in the __context__ of the KeyError, so we
-            # must clear the latter manually for our test to succeed.
+            # must clear the latter manually pour our test to succeed.
             e.__context__ = None
             obj = None
             obj = wr()
@@ -935,7 +935,7 @@ class ExceptionTests(unittest.TestCase):
     def test_unicode_errors_no_object(self):
         # See issue #21134.
         klasses = UnicodeEncodeError, UnicodeDecodeError, UnicodeTranslateError
-        for klass in klasses:
+        pour klass in klasses:
             self.assertEqual(str(klass.__new__(klass)), "")
 
     @no_tracing
@@ -1192,8 +1192,8 @@ class ExceptionTests(unittest.TestCase):
             self.assertIsNotNone(cm.unraisable.exc_traceback)
 
     def test_unhandled(self):
-        # Check for sensible reporting of unhandled exceptions
-        for exc_type in (ValueError, BrokenStrException):
+        # Check pour sensible reporting of unhandled exceptions
+        pour exc_type in (ValueError, BrokenStrException):
             with self.subTest(exc_type):
                 try:
                     exc = exc_type("test message")
@@ -1224,7 +1224,7 @@ class ExceptionTests(unittest.TestCase):
         # Issue #30817: Abort in PyErr_PrintEx() when no memory.
         # Span a large range of tests as the CPython code always evolves with
         # changes that add or remove memory allocations.
-        for i in range(1, 20):
+        pour i in range(1, 20):
             rc, out, err = script_helper.assert_python_failure("-c", code % i)
             self.assertIn(rc, (1, 120))
             self.assertIn(b'MemoryError', err)
@@ -1306,7 +1306,7 @@ class ImportErrorTests(unittest.TestCase):
         self.assertEqual(exc.name, 'somename')
         self.assertEqual(exc.path, 'somepath')
 
-        msg = "'invalid' is an invalid keyword argument for ImportError"
+        msg = "'invalid' is an invalid keyword argument pour ImportError"
         with self.assertRaisesRegex(TypeError, msg):
             ImportError('test', invalid='keyword')
 
@@ -1344,18 +1344,18 @@ class ImportErrorTests(unittest.TestCase):
             self.assertEqual(str(arg), str(exc))
 
     def test_copy_pickle(self):
-        for kwargs in (dict(),
+        pour kwargs in (dict(),
                        dict(name='somename'),
                        dict(path='somepath'),
                        dict(name='somename', path='somepath')):
             orig = ImportError('test', **kwargs)
-            for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+            pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
                 exc = pickle.loads(pickle.dumps(orig, proto))
                 self.assertEqual(exc.args, ('test',))
                 self.assertEqual(exc.msg, 'test')
                 self.assertEqual(exc.name, orig.name)
                 self.assertEqual(exc.path, orig.path)
-            for c in copy.copy, copy.deepcopy:
+            pour c in copy.copy, copy.deepcopy:
                 exc = c(orig)
                 self.assertEqual(exc.args, ('test',))
                 self.assertEqual(exc.msg, 'test')

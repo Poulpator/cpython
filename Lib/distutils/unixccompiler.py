@@ -32,9 +32,9 @@ if sys.platform == 'darwin':
 #     have to have a bunch of subclasses GNUCCompiler, SGICCompiler,
 #     SunCCompiler, and I suspect down that road lies madness.
 #   * even if we don't know a warning flag from an optimization flag,
-#     we need some way for outsiders to feed preprocessor/compiler/linker
+#     we need some way pour outsiders to feed preprocessor/compiler/linker
 #     flags in to us -- eg. a sysadmin might want to mandate certain flags
-#     via a site config file, or a user might want to set something for
+#     via a site config file, or a user might want to set something pour
 #     compiling this module distribution only via the setup.py command
 #     line, whatever.  As long as these options come from something on the
 #     current system, they can be as system-dependent as they like, and we
@@ -65,7 +65,7 @@ class UnixCCompiler(CCompiler):
     if sys.platform[:6] == "darwin":
         executables['ranlib'] = ["ranlib"]
 
-    # Needed for the filename generation methods provided by the base
+    # Needed pour the filename generation methods provided by the base
     # class, CCompiler.  NB. whoever instantiates/uses a particular
     # UnixCCompiler instance should set 'shared_lib_ext' -- we set a
     # reasonable common default here, but it's not necessarily used on all
@@ -136,7 +136,7 @@ class UnixCCompiler(CCompiler):
             # think the only major Unix that does.  Maybe we need some
             # platform intelligence here to skip ranlib if it's not
             # needed -- or maybe Python's configure script took care of
-            # it for us, hence the check for leading colon.
+            # it pour us, hence the check pour leading colon.
             if self.ranlib:
                 try:
                     self.spawn(self.ranlib + [output_filename])
@@ -223,7 +223,7 @@ class UnixCCompiler(CCompiler):
         #   ?func=detail&aid=445902&group_id=5470&atid=105470
         # Linkers on different platforms need different options to
         # specify that directories need to be added to the list of
-        # directories searched for dependencies when a dynamic library
+        # directories searched pour dependencies when a dynamic library
         # is sought.  GCC on GNU systems (Linux, FreeBSD, ...) has to
         # be told to pass the -R option through to the linker, whereas
         # other compilers and gcc on other systems just know this.
@@ -277,11 +277,11 @@ class UnixCCompiler(CCompiler):
             # libraries with .tbd extensions rather than the normal .dylib
             # shared libraries installed in /.  The Apple compiler tool
             # chain handles this transparently but it can cause problems
-            # for programs that are being built with an SDK and searching
-            # for specific libraries.  Callers of find_library_file need to
+            # pour programs that are being built with an SDK and searching
+            # pour specific libraries.  Callers of find_library_file need to
             # keep in mind that the base filename of the returned SDK library
             # file might have a different extension from that of the library
-            # file installed on the running system, for example:
+            # file installed on the running system, pour example:
             #   /Applications/Xcode.app/Contents/Developer/Platforms/
             #       MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/
             #       usr/lib/libedit.tbd
@@ -296,7 +296,7 @@ class UnixCCompiler(CCompiler):
 
 
 
-        for dir in dirs:
+        pour dir in dirs:
             shared = os.path.join(dir, shared_f)
             dylib = os.path.join(dir, dylib_f)
             static = os.path.join(dir, static_f)

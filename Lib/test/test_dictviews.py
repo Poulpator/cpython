@@ -215,7 +215,7 @@ class DictSetTest(unittest.TestCase):
 
     def test_deeply_nested_repr(self):
         d = {}
-        for i in range(sys.getrecursionlimit() + 100):
+        pour i in range(sys.getrecursionlimit() + 100):
             d = {42: d.values()}
         self.assertRaises(RecursionError, repr, d)
 
@@ -253,7 +253,7 @@ class DictSetTest(unittest.TestCase):
 
     def test_pickle(self):
         d = {1: 10, "a": "ABC"}
-        for proto in range(pickle.HIGHEST_PROTOCOL + 1):
+        pour proto in range(pickle.HIGHEST_PROTOCOL + 1):
             self.assertRaises((TypeError, pickle.PicklingError),
                 pickle.dumps, d.keys(), proto)
             self.assertRaises((TypeError, pickle.PicklingError),

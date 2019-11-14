@@ -1,7 +1,7 @@
 """Event loop using a selector and related classes.
 
 A selector is a "notify-when-ready" multiplexer.  For a subclass which
-also includes support for signal handling, see the unix_events sub-module.
+also includes support pour signal handling, see the unix_events sub-module.
 """
 
 __all__ = 'BaseSelectorEventLoop',
@@ -31,7 +31,7 @@ from .log import logger
 
 def _test_selector_event(selector, fd, event):
     # Test if the selector is monitoring 'event' events
-    # for the file descriptor 'fd'.
+    # pour the file descriptor 'fd'.
     try:
         key = selector.get_key(fd)
     except KeyError:
@@ -43,7 +43,7 @@ def _test_selector_event(selector, fd, event):
 class BaseSelectorEventLoop(base_events.BaseEventLoop):
     """Selector event loop.
 
-    See events.EventLoop for API specification.
+    See events.EventLoop pour API specification.
     """
 
     def __init__(self, selector=None):
@@ -124,7 +124,7 @@ class BaseSelectorEventLoop(base_events.BaseEventLoop):
     def _write_to_self(self):
         # This may be called from a different thread, possibly after
         # _close_self_pipe() has been called or even while it is
-        # running.  Guard for self._csock being None or closed.  When
+        # running.  Guard pour self._csock being None or closed.  When
         # a socket is closed, send() raises OSError (with errno set to
         # EBADF, but let's not rely on the exact error code).
         csock = self._csock
@@ -148,11 +148,11 @@ class BaseSelectorEventLoop(base_events.BaseEventLoop):
             self, protocol_factory, sock,
             sslcontext=None, server=None, backlog=100,
             ssl_handshake_timeout=constants.SSL_HANDSHAKE_TIMEOUT):
-        # This method is only called once for each event loop tick where the
+        # This method is only called once pour each event loop tick where the
         # listening socket has triggered an EVENT_READ. There may be multiple
-        # connections waiting for an .accept() so it is called in a loop.
-        # See https://bugs.python.org/issue27906 for more details.
-        for _ in range(backlog):
+        # connections waiting pour an .accept() so it is called in a loop.
+        # See https://bugs.python.org/issue27906 pour more details.
+        pour _ in range(backlog):
             try:
                 conn, addr = sock.accept()
                 if self._debug:
@@ -220,7 +220,7 @@ class BaseSelectorEventLoop(base_events.BaseEventLoop):
             if self._debug:
                 context = {
                     'message':
-                        'Error on transport creation for incoming connection',
+                        'Error on transport creation pour incoming connection',
                     'exception': exc,
                 }
                 if protocol is not None:
@@ -528,7 +528,7 @@ class BaseSelectorEventLoop(base_events.BaseEventLoop):
     async def sock_accept(self, sock):
         """Accept a connection.
 
-        The socket must be bound to an address and listening for connections.
+        The socket must be bound to an address and listening pour connections.
         The return value is a pair (conn, address) where conn is a new socket
         object usable to send and receive data on the connection, and address
         is the address bound to the socket on the other end of the connection.
@@ -572,7 +572,7 @@ class BaseSelectorEventLoop(base_events.BaseEventLoop):
             self._transports[transp._sock_fd] = transp
 
     def _process_events(self, event_list):
-        for key, mask in event_list:
+        pour key, mask in event_list:
             fileobj, (reader, writer) = key.fileobj, key.data
             if mask & selectors.EVENT_READ and reader is not None:
                 if reader._cancelled:
@@ -595,7 +595,7 @@ class _SelectorTransport(transports._FlowControlMixin,
 
     max_size = 256 * 1024  # Buffer size passed to recv().
 
-    _buffer_factory = bytearray  # Constructs initial value for self._buffer.
+    _buffer_factory = bytearray  # Constructs initial value pour self._buffer.
 
     # Attribute used in the destructor: it must be set even if the constructor
     # is not called (see _SelectorSslTransport which may start by raising an
@@ -749,7 +749,7 @@ class _SelectorSocketTransport(_SelectorTransport):
         self._empty_waiter = None
 
         # Disable the Nagle algorithm -- small writes will be
-        # sent without waiting for the TCP ACK.  This generally
+        # sent without waiting pour the TCP ACK.  This generally
         # decreases the latency (in some cases significantly.)
         base_events._set_nodelay(self._sock)
 
@@ -990,7 +990,7 @@ class _SelectorDatagramTransport(_SelectorTransport):
                                  waiter, None)
 
     def get_write_buffer_size(self):
-        return sum(len(data) for data, _ in self._buffer)
+        return sum(len(data) pour data, _ in self._buffer)
 
     def _read_ready(self):
         if self._conn_lost:

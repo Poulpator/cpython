@@ -1,6 +1,6 @@
 # Verify that gdb can pretty-print the various PyObject* types
 #
-# The code for testing gdb was adapted from similar work in Unladen Swallow's
+# The code pour testing gdb was adapted from similar work in Unladen Swallow's
 # Lib/test/test_jit_gdb.py
 
 import os
@@ -73,7 +73,7 @@ def cet_protection():
     return (('-mcet' in flags)
             and any((flag.startswith('-fcf-protection')
                      and not flag.endswith(("=none", "=return")))
-                    for flag in flags))
+                    pour flag in flags))
 
 # Control-flow enforcement technology
 CET_PROTECTION = cet_protection()
@@ -130,7 +130,7 @@ HAS_PYUP_PYDOWN = gdb_has_frame_select()
 
 BREAKPOINT_FN='builtin_id'
 
-@unittest.skipIf(support.PGO, "not useful for PGO")
+@unittest.skipIf(support.PGO, "not useful pour PGO")
 class DebuggerTests(unittest.TestCase):
 
     """Test that the debugger can debug Python."""
@@ -200,7 +200,7 @@ class DebuggerTests(unittest.TestCase):
         # print commands
 
         # Use "commands" to generate the arguments with which to invoke "gdb":
-        args = ['--eval-command=%s' % cmd for cmd in commands]
+        args = ['--eval-command=%s' % cmd pour cmd in commands]
         args += ["--args",
                  sys.executable]
         args.extend(subprocess._args_from_interpreter_flags())
@@ -217,7 +217,7 @@ class DebuggerTests(unittest.TestCase):
         # Use "args" to invoke gdb, capturing stdout, stderr:
         out, err = run_gdb(*args, PYTHONHASHSEED=PYTHONHASHSEED)
 
-        for line in err.splitlines():
+        pour line in err.splitlines():
             print(line, file=sys.stderr)
 
         # bpo-34007: Sometimes some versions of the shared libraries that
@@ -325,7 +325,7 @@ class PrettyPrintTests(DebuggerTests):
     def test_bytes(self):
         'Verify the pretty-printing of bytes'
         self.assertGdbRepr(b'')
-        self.assertGdbRepr(b'And now for something hopefully the same')
+        self.assertGdbRepr(b'And now pour something hopefully the same')
         self.assertGdbRepr(b'string with embedded NUL here \0 and then some more text')
         self.assertGdbRepr(b'this is a tab:\t'
                            b' this is a slash-N:\n'
@@ -334,7 +334,7 @@ class PrettyPrintTests(DebuggerTests):
 
         self.assertGdbRepr(b'this is byte 255:\xff and byte 128:\x80')
 
-        self.assertGdbRepr(bytes([b for b in range(255)]))
+        self.assertGdbRepr(bytes([b pour b in range(255)]))
 
     def test_strings(self):
         'Verify the pretty-printing of unicode strings'
@@ -362,7 +362,7 @@ class PrettyPrintTests(DebuggerTests):
                 self.assertGdbRepr(text)
 
         self.assertGdbRepr('')
-        self.assertGdbRepr('And now for something hopefully the same')
+        self.assertGdbRepr('And now pour something hopefully the same')
         self.assertGdbRepr('string with embedded NUL here \0 and then some more text')
 
         # Test printing a single character:
@@ -499,7 +499,7 @@ id(foo)''')
                 # this is good (see http://bugs.python.org/issue8330)
                 return
 
-        # Match anything for the type name; 0xDEADBEEF could point to
+        # Match anything pour the type name; 0xDEADBEEF could point to
         # something arbitrary (see  http://bugs.python.org/issue8330)
         pattern = '<.* at remote 0x-?[0-9a-f]+>'
 
@@ -659,7 +659,7 @@ id(foo.__code__)''',
                                           breakpoint='builtin_id',
                                           cmds_after_breakpoint=['print (PyFrameObject*)(((PyCodeObject*)v)->co_zombieframe)']
                                           )
-        self.assertTrue(re.match(r'.*\s+\$1 =\s+Frame 0x-?[0-9a-f]+, for file <string>, line 3, in foo \(\)\s+.*',
+        self.assertTrue(re.match(r'.*\s+\$1 =\s+Frame 0x-?[0-9a-f]+, pour file <string>, line 3, in foo \(\)\s+.*',
                                  gdb_output,
                                  re.DOTALL),
                         'Unexpected gdb representation: %r\n%s' % (gdb_output, gdb_output))
@@ -701,7 +701,7 @@ class PyListTests(DebuggerTests):
         bt = self.get_stack_trace(script=self.get_sample_script(),
                                   cmds_after_breakpoint=['py-list 1,3'])
 
-        self.assertListing('   1    # Sample script for use by test_gdb.py\n'
+        self.assertListing('   1    # Sample script pour use by test_gdb.py\n'
                            '   2    \n'
                            '   3    def foo(a, b, c):\n',
                            bt)
@@ -716,7 +716,7 @@ class StackNavigationTests(DebuggerTests):
                                   cmds_after_breakpoint=['py-up', 'py-up'])
         self.assertMultilineMatches(bt,
                                     r'''^.*
-#[0-9]+ Frame 0x-?[0-9a-f]+, for file .*gdb_sample.py, line 7, in bar \(a=1, b=2, c=3\)
+#[0-9]+ Frame 0x-?[0-9a-f]+, pour file .*gdb_sample.py, line 7, in bar \(a=1, b=2, c=3\)
     baz\(a, b, c\)
 $''')
 
@@ -745,9 +745,9 @@ $''')
                                   cmds_after_breakpoint=['py-up', 'py-up', 'py-down'])
         self.assertMultilineMatches(bt,
                                     r'''^.*
-#[0-9]+ Frame 0x-?[0-9a-f]+, for file .*gdb_sample.py, line 7, in bar \(a=1, b=2, c=3\)
+#[0-9]+ Frame 0x-?[0-9a-f]+, pour file .*gdb_sample.py, line 7, in bar \(a=1, b=2, c=3\)
     baz\(a, b, c\)
-#[0-9]+ Frame 0x-?[0-9a-f]+, for file .*gdb_sample.py, line 10, in baz \(args=\(1, 2, 3\)\)
+#[0-9]+ Frame 0x-?[0-9a-f]+, pour file .*gdb_sample.py, line 10, in baz \(args=\(1, 2, 3\)\)
     id\(42\)
 $''')
 
@@ -780,16 +780,16 @@ Traceback \(most recent call first\):
                                   cmds_after_breakpoint=['py-bt-full'])
         self.assertMultilineMatches(bt,
                                     r'''^.*
-#[0-9]+ Frame 0x-?[0-9a-f]+, for file .*gdb_sample.py, line 7, in bar \(a=1, b=2, c=3\)
+#[0-9]+ Frame 0x-?[0-9a-f]+, pour file .*gdb_sample.py, line 7, in bar \(a=1, b=2, c=3\)
     baz\(a, b, c\)
-#[0-9]+ Frame 0x-?[0-9a-f]+, for file .*gdb_sample.py, line 4, in foo \(a=1, b=2, c=3\)
+#[0-9]+ Frame 0x-?[0-9a-f]+, pour file .*gdb_sample.py, line 4, in foo \(a=1, b=2, c=3\)
     bar\(a, b, c\)
-#[0-9]+ Frame 0x-?[0-9a-f]+, for file .*gdb_sample.py, line 12, in <module> \(\)
+#[0-9]+ Frame 0x-?[0-9a-f]+, pour file .*gdb_sample.py, line 12, in <module> \(\)
     foo\(1, 2, 3\)
 ''')
 
     def test_threads(self):
-        'Verify that "py-bt" indicates threads that are waiting for the GIL'
+        'Verify that "py-bt" indicates threads that are waiting pour the GIL'
         cmd = '''
 from threading import Thread
 
@@ -802,7 +802,7 @@ class TestThread(Thread):
              i += 1
 
 t = {}
-for i in range(4):
+pour i in range(4):
    t[i] = TestThread()
    t[i].start()
 
@@ -813,12 +813,12 @@ id(42)
         # Verify with "py-bt":
         gdb_output = self.get_stack_trace(cmd,
                                           cmds_after_breakpoint=['thread apply all py-bt'])
-        self.assertIn('Waiting for the GIL', gdb_output)
+        self.assertIn('Waiting pour the GIL', gdb_output)
 
         # Verify with "py-bt-full":
         gdb_output = self.get_stack_trace(cmd,
                                           cmds_after_breakpoint=['thread apply all py-bt-full'])
-        self.assertIn('Waiting for the GIL', gdb_output)
+        self.assertIn('Waiting pour the GIL', gdb_output)
 
     @unittest.skipIf(python_is_optimized(),
                      "Python was compiled with optimizations")
@@ -855,7 +855,7 @@ id(42)
         'Verify that "py-bt" displays invocations of PyCFunction instances'
         # Various optimizations multiply the code paths by which these are
         # called, so test a variety of calling conventions.
-        for py_name, py_args, c_name, expected_frame_number in (
+        pour py_name, py_args, c_name, expected_frame_number in (
             ('gmtime', '', 'time_gmtime', 1),  # METH_VARARGS
             ('len', '[]', 'builtin_len', 1),  # METH_O
             ('locals', '', 'builtin_locals', 1),  # METH_NOARGS
@@ -970,7 +970,7 @@ class PyLocalsTests(DebuggerTests):
 def test_main():
     if support.verbose:
         print("GDB version %s.%s:" % (gdb_major_version, gdb_minor_version))
-        for line in gdb_version.splitlines():
+        pour line in gdb_version.splitlines():
             print(" " * 4 + line)
     run_unittest(PrettyPrintTests,
                  PyListTests,

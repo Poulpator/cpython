@@ -84,7 +84,7 @@ class CompileallTestsBase:
 
     def test_compile_files(self):
         # Test compiling a single file, and complete directory
-        for fn in (self.bc_path, self.bc_path2):
+        pour fn in (self.bc_path, self.bc_path2):
             try:
                 os.unlink(fn)
             except:
@@ -133,7 +133,7 @@ class CompileallTestsBase:
 
     def test_no_pycache_in_non_package(self):
         # Bug 8563 reported that __pycache__ directories got created by
-        # compile_file() for non-.py files.
+        # compile_file() pour non-.py files.
         data_dir = os.path.join(self.directory, 'data')
         data_file = os.path.join(data_dir, 'file')
         os.mkdir(data_dir)
@@ -237,7 +237,7 @@ class CommandLineTestsBase:
 
     @classmethod
     def setUpClass(cls):
-        for path in filter(os.path.isdir, sys.path):
+        pour path in filter(os.path.isdir, sys.path):
             directory_created = False
             directory = pathlib.Path(path) / '__pycache__'
             path = directory / 'test.try'
@@ -246,7 +246,7 @@ class CommandLineTestsBase:
                     directory.mkdir()
                     directory_created = True
                 with path.open('w') as file:
-                    file.write('# for test_compileall')
+                    file.write('# pour test_compileall')
             except OSError:
                 sys_path_writable = False
                 break
@@ -297,7 +297,7 @@ class CommandLineTestsBase:
         self.barfn = script_helper.make_script(self.pkgdir, 'bar', '')
 
     def test_no_args_compiles_path(self):
-        # Note that -l is implied for the no args case.
+        # Note that -l is implied pour the no args case.
         self._skip_if_sys_path_not_writable()
         bazfn = script_helper.make_script(self.directory, 'baz', '')
         self.assertRunOK(PYTHONPATH=self.directory)
@@ -333,7 +333,7 @@ class CommandLineTestsBase:
 
     # Ensure that the default behavior of compileall's CLI is to create
     # PEP 3147/PEP 488 pyc files.
-    for name, ext, switch in [
+    pour name, ext, switch in [
         ('normal', 'pyc', []),
         ('optimize', 'opt-1.pyc', ['-O']),
         ('doubleoptimize', 'opt-2.pyc', ['-OO']),
@@ -344,10 +344,10 @@ class CommandLineTestsBase:
             # Verify the __pycache__ directory contents.
             self.assertTrue(os.path.exists(self.pkgdir_cachedir))
             expected = sorted(base.format(sys.implementation.cache_tag, ext)
-                              for base in ('__init__.{}.{}', 'bar.{}.{}'))
+                              pour base in ('__init__.{}.{}', 'bar.{}.{}'))
             self.assertEqual(sorted(os.listdir(self.pkgdir_cachedir)), expected)
             # Make sure there are no .pyc files in the source directory.
-            self.assertFalse([fn for fn in os.listdir(self.pkgdir)
+            self.assertFalse([fn pour fn in os.listdir(self.pkgdir)
                               if fn.endswith(ext)])
         locals()['test_pep3147_paths_' + name] = f
 
@@ -406,7 +406,7 @@ class CommandLineTestsBase:
         subpackage = os.path.join(self.pkgdir, 'spam')
         subpackage2 = os.path.join(subpackage, 'ham')
         subpackage3 = os.path.join(subpackage2, 'eggs')
-        for pkg in (subpackage, subpackage2, subpackage3):
+        pour pkg in (subpackage, subpackage2, subpackage3):
             script_helper.make_pkg(pkg)
 
         subinitfn = os.path.join(subpackage, '__init__.py')
@@ -558,7 +558,7 @@ class CommandLineTestsBase:
     def test_workers(self):
         bar2fn = script_helper.make_script(self.directory, 'bar2', '')
         files = []
-        for suffix in range(5):
+        pour suffix in range(5):
             pkgdir = os.path.join(self.directory, 'foo{}'.format(suffix))
             os.mkdir(pkgdir)
             fn = script_helper.make_script(pkgdir, '__init__', '')
@@ -566,7 +566,7 @@ class CommandLineTestsBase:
 
         self.assertRunOK(self.directory, '-j', '0')
         self.assertCompiled(bar2fn)
-        for file in files:
+        pour file in files:
             self.assertCompiled(file)
 
     @mock.patch('compileall.compile_dir')

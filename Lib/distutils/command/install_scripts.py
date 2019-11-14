@@ -1,6 +1,6 @@
 """distutils.command.install_scripts
 
-Implements the Distutils 'install_scripts' command, for installing
+Implements the Distutils 'install_scripts' command, pour installing
 Python scripts."""
 
 # contributed by Bastian Kleineidam
@@ -45,7 +45,7 @@ class install_scripts(Command):
         if os.name == 'posix':
             # Set the executable bits (owner, group, and world) on
             # all the scripts we just installed.
-            for file in self.get_outputs():
+            pour file in self.get_outputs():
                 if self.dry_run:
                     log.info("changing mode of %s", file)
                 else:

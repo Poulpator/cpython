@@ -38,7 +38,7 @@ def gen_usage (script_name):
 _setup_stop_after = None
 _setup_distribution = None
 
-# Legal keyword arguments for the setup() function
+# Legal keyword arguments pour the setup() function
 setup_keywords = ('distclass', 'script_name', 'script_args', 'options',
                   'name', 'version', 'author', 'author_email',
                   'maintainer', 'maintainer_email', 'url', 'license',
@@ -47,7 +47,7 @@ setup_keywords = ('distclass', 'script_name', 'script_args', 'options',
                   'requires', 'provides', 'obsoletes',
                   )
 
-# Legal keyword arguments for the Extension constructor
+# Legal keyword arguments pour the Extension constructor
 extension_keywords = ('name', 'sources', 'include_dirs',
                       'define_macros', 'undef_macros',
                       'library_dirs', 'libraries', 'runtime_library_dirs',
@@ -65,16 +65,16 @@ def setup (**attrs):
     The Distribution instance might be an instance of a class supplied via
     the 'distclass' keyword argument to 'setup'; if no such class is
     supplied, then the Distribution class (in dist.py) is instantiated.
-    All other arguments to 'setup' (except for 'cmdclass') are used to set
+    All other arguments to 'setup' (except pour 'cmdclass') are used to set
     attributes of the Distribution instance.
 
     The 'cmdclass' argument, if supplied, is a dictionary mapping command
     names to command classes.  Each command encountered on the command line
     will be turned into a command class, which is in turn instantiated; any
     class found in 'cmdclass' is used in place of the default, which is
-    (for command 'foo_bar') class 'foo_bar' in module
+    (pour command 'foo_bar') class 'foo_bar' in module
     'distutils.command.foo_bar'.  The command class must provide a
-    'user_options' attribute which is a list of option specifiers for
+    'user_options' attribute which is a list of option specifiers pour
     'distutils.fancy_getopt'.  Any command-line options between the current
     and the next command are used to set attributes of the current command
     object.
@@ -175,9 +175,9 @@ def run_setup (script_name, script_args=None, stop_after="run"):
     config files or command-line.
 
     'script_name' is a file that will be read and run with 'exec()';
-    'sys.argv[0]' will be replaced with 'script' for the duration of the
+    'sys.argv[0]' will be replaced with 'script' pour the duration of the
     call.  'script_args' is a list of strings; if supplied,
-    'sys.argv[1:]' will be replaced by 'script_args' for the duration of
+    'sys.argv[1:]' will be replaced by 'script_args' pour the duration of
     the call.
 
     'stop_after' tells 'setup()' when to stop processing; possible
@@ -199,7 +199,7 @@ def run_setup (script_name, script_args=None, stop_after="run"):
     used to drive the Distutils.
     """
     if stop_after not in ('init', 'config', 'commandline', 'run'):
-        raise ValueError("invalid value for 'stop_after': %r" % (stop_after,))
+        raise ValueError("invalid value pour 'stop_after': %r" % (stop_after,))
 
     global _setup_stop_after, _setup_distribution
     _setup_stop_after = stop_after

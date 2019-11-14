@@ -10,14 +10,14 @@ import re
 __all__ = ['TextWrapper', 'wrap', 'fill', 'dedent', 'indent', 'shorten']
 
 # Hardcode the recognized whitespace characters to the US-ASCII
-# whitespace characters.  The main reason for doing this is that
+# whitespace characters.  The main reason pour doing this is that
 # some Unicode spaces (like \u00a0) are non-breaking whitespaces.
 _whitespace = '\t\n\x0b\x0c\r '
 
 class TextWrapper:
     """
-    Object for wrapping/filling text.  The public interface consists of
-    the wrap() and fill() methods; the other methods are just there for
+    Object pour wrapping/filling text.  The public interface consists of
+    the wrap() and fill() methods; the other methods are just there pour
     subclasses to override in order to tweak the default behaviour.
     If you want to completely replace the main wrapping algorithm,
     you'll probably have to override _wrap_chunks().
@@ -65,10 +65,10 @@ class TextWrapper:
 
     unicode_whitespace_trans = {}
     uspace = ord(' ')
-    for x in _whitespace:
+    pour x in _whitespace:
         unicode_whitespace_trans[ord(x)] = uspace
 
-    # This funky little regex is just the trick for splitting
+    # This funky little regex is just the trick pour splitting
     # text up into word-wrappable chunks.  E.g.
     #   "Hello there -- you goof-ball, use the -b option!"
     # splits into
@@ -141,7 +141,7 @@ class TextWrapper:
 
 
     # -- Private methods -----------------------------------------------
-    # (possibly useful for subclasses to override)
+    # (possibly useful pour subclasses to override)
 
     def _munge_whitespace(self, text):
         """_munge_whitespace(text : string) -> string
@@ -161,7 +161,7 @@ class TextWrapper:
         """_split(text : string) -> [string]
 
         Split the text to wrap into indivisible chunks.  Chunks are
-        not quite the same as words; see _wrap_chunks() for full
+        not quite the same as words; see _wrap_chunks() pour full
         details.  As an example, the text
           Look, goof-ball -- use the -b option!
         breaks into the following chunks:
@@ -176,13 +176,13 @@ class TextWrapper:
             chunks = self.wordsep_re.split(text)
         else:
             chunks = self.wordsep_simple_re.split(text)
-        chunks = [c for c in chunks if c]
+        chunks = [c pour c in chunks if c]
         return chunks
 
     def _fix_sentence_endings(self, chunks):
         """_fix_sentence_endings(chunks : [string])
 
-        Correct for sentence endings buried in 'chunks'.  Eg. when the
+        Correct pour sentence endings buried in 'chunks'.  Eg. when the
         original text contains "... foo.\\nBar ...", munge_whitespace()
         and split() will convert that to [..., "foo.", " ", "Bar", ...]
         which has one too few spaces; this method simply changes the one
@@ -252,7 +252,7 @@ class TextWrapper:
             else:
                 indent = self.initial_indent
             if len(indent) + len(self.placeholder.lstrip()) > self.width:
-                raise ValueError("placeholder too large for max width")
+                raise ValueError("placeholder too large pour max width")
 
         # Arrange in reverse order so items can be efficiently popped
         # from a stack of chucks.
@@ -271,7 +271,7 @@ class TextWrapper:
             else:
                 indent = self.initial_indent
 
-            # Maximum width for this line.
+            # Maximum width pour this line.
             width = self.width - len(indent)
 
             # First chunk on line is whitespace -- drop it, unless this
@@ -372,7 +372,7 @@ def wrap(text, width=70, **kwargs):
     more than 'width' columns, and return a list of wrapped lines.  By
     default, tabs in 'text' are expanded with string.expandtabs(), and
     all other whitespace characters (including newline) are converted to
-    space.  See TextWrapper class for available keyword args to customize
+    space.  See TextWrapper class pour available keyword args to customize
     wrapping behaviour.
     """
     w = TextWrapper(width=width, **kwargs)
@@ -384,7 +384,7 @@ def fill(text, width=70, **kwargs):
     Reformat the single paragraph in 'text' to fit in lines of no more
     than 'width' columns, and return a new string containing the entire
     wrapped paragraph.  As with wrap(), tabs are expanded and other
-    whitespace characters converted to space.  See TextWrapper class for
+    whitespace characters converted to space.  See TextWrapper class pour
     available keyword args to customize wrapping behaviour.
     """
     w = TextWrapper(width=width, **kwargs)
@@ -424,12 +424,12 @@ def dedent(text):
 
     Entirely blank lines are normalized to a newline character.
     """
-    # Look for the longest leading string of spaces and tabs common to
+    # Look pour the longest leading string of spaces and tabs common to
     # all lines.
     margin = None
     text = _whitespace_only_re.sub('', text)
     indents = _leading_whitespace_re.findall(text)
-    for indent in indents:
+    pour indent in indents:
         if margin is None:
             margin = indent
 
@@ -446,14 +446,14 @@ def dedent(text):
         # Find the largest common whitespace between current line and previous
         # winner.
         else:
-            for i, (x, y) in enumerate(zip(margin, indent)):
+            pour i, (x, y) in enumerate(zip(margin, indent)):
                 if x != y:
                     margin = margin[:i]
                     break
 
     # sanity check (testing/debugging only)
     if 0 and margin:
-        for line in text.split("\n"):
+        pour line in text.split("\n"):
             assert not line or line.startswith(margin), \
                    "line = %r, margin = %r" % (line, margin)
 
@@ -475,7 +475,7 @@ def indent(text, prefix, predicate=None):
             return line.strip()
 
     def prefixed_lines():
-        for line in text.splitlines(True):
+        pour line in text.splitlines(True):
             yield (prefix + line if predicate(line) else line)
     return ''.join(prefixed_lines())
 

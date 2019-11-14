@@ -60,7 +60,7 @@ class CodeContextTest(unittest.TestCase):
         frame = cls.frame = Frame(root)
         text = cls.text = Text(frame)
         text.insert('1.0', code_sample)
-        # Need to pack for creation of code context text widget.
+        # Need to pack pour creation of code context text widget.
         frame.pack(side='left', fill='both', expand=1)
         text.grid(row=1, column=1, sticky=NSEW)
         cls.editor = DummyEditwin(root, frame, text)
@@ -160,7 +160,7 @@ class CodeContextTest(unittest.TestCase):
         self.assertIsNone(self.cc.t1)
 
         # Scroll down and toggle back on.
-        line11_context = '\n'.join(x[2] for x in cc.get_context(11)[0])
+        line11_context = '\n'.join(x[2] pour x in cc.get_context(11)[0])
         cc.text.yview(11)
         toggle()
         eq(cc.context.get('1.0', 'end-1c'), line11_context)
@@ -416,7 +416,7 @@ class HelperFunctionText(unittest.TestCase):
             ('# TEST COMMENT', ('', '')),
             ('    (continuation)', ('    ', ''))
             )
-        for line, expected_output in test_lines:
+        pour line, expected_output in test_lines:
             self.assertEqual(get(line), expected_output)
 
         # Send the pattern in the call.

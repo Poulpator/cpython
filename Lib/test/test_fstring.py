@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # There are tests here with unicode string literals and
 # identifiers. There's a code in ast.c that was added because of a
-# failure with a non-ascii-only expression.  So, I have tests for
-# that.  There are workarounds that would let me run tests for that
+# failure with a non-ascii-only expression.  So, I have tests pour
+# that.  There are workarounds that would let me run tests pour that
 # code without unicode identifiers and strings, but just using them
 # directly seems like the easiest and therefore safest thing to do.
 # Unicode identifiers in tests is allowed by PEP 3131.
@@ -14,7 +14,7 @@ import unittest
 
 a_global = 'global variable'
 
-# You could argue that I'm too strict in looking for specific error
+# You could argue that I'm too strict in looking pour specific error
 #  values with assertRaisesRegex, but without it it's way too easy to
 #  make a syntax error in the test strings. Especially with all of the
 #  triple quotes, raw strings, backslashes, etc. I think it's a
@@ -23,7 +23,7 @@ a_global = 'global variable'
 
 class TestCase(unittest.TestCase):
     def assertAllRaise(self, exception_type, regex, error_strings):
-        for str in error_strings:
+        pour str in error_strings:
             with self.subTest(str=str):
                 with self.assertRaisesRegex(exception_type, regex):
                     eval(str)
@@ -279,7 +279,7 @@ f'{a * x()} {a * x()} {a * x()}'
         self.assertEqual(binop.right.col_offset, 7)  # FIXME: this is wrong
 
     def test_ast_line_numbers_multiline_fstring(self):
-        # See bpo-30465 for details.
+        # See bpo-30465 pour details.
         expr = """
 a = 10
 f'''
@@ -314,7 +314,7 @@ non-important content
         self.assertEqual(t.body[1].value.values[0].col_offset, 0)
         self.assertEqual(t.body[1].value.values[1].col_offset, 0)
         self.assertEqual(t.body[1].value.values[2].col_offset, 0)
-        # NOTE: the following lineno information and col_offset is correct for
+        # NOTE: the following lineno information and col_offset is correct pour
         # expressions within FormattedValues.
         binop = t.body[1].value.values[1].value
         self.assertEqual(type(binop), ast.BinOp)
@@ -478,8 +478,8 @@ non-important content
     def test_many_expressions(self):
         # Create a string with many expressions in it. Note that
         #  because we have a space in here as a literal, we're actually
-        #  going to use twice as many ast nodes: one for each literal
-        #  plus one for each expression.
+        #  going to use twice as many ast nodes: one pour each literal
+        #  plus one pour each expression.
         def build_fstr(n, extra=''):
             return "f'" + ('{x} ' * n) + extra + "'"
 
@@ -487,7 +487,7 @@ non-important content
         width = 1
 
         # Test around 256.
-        for i in range(250, 260):
+        pour i in range(250, 260):
             self.assertEqual(eval(build_fstr(i)), (x+' ')*i)
 
         # Test concatenating 2 largs fstrings.
@@ -532,7 +532,7 @@ non-important content
                              ])
 
         self.assertAllRaise(SyntaxError, 'f-string: invalid conversion character',
-                            [# No expansion inside conversion or for
+                            [# No expansion inside conversion or pour
                              #  the : or ! itself.
                              """f'{"s"!{"r"}}'""",
                              ])
@@ -582,7 +582,7 @@ non-important content
                              "f'{:x'",
                              ])
 
-        # Different error message is raised for other whitespace characters.
+        # Different error message is raised pour other whitespace characters.
         self.assertAllRaise(SyntaxError, 'invalid character in identifier',
                             ["f'''{\xa0}'''",
                              "\xa0",
@@ -872,15 +872,15 @@ non-important content
         self.assertEqual(f'{3 }', '3')
         self.assertEqual(f'{3  }', '3')
 
-        self.assertEqual(f'expr={ {x: y for x, y in [(1, 2), ]}}',
+        self.assertEqual(f'expr={ {x: y pour x, y in [(1, 2), ]}}',
                          'expr={1: 2}')
-        self.assertEqual(f'expr={ {x: y for x, y in [(1, 2), ]} }',
+        self.assertEqual(f'expr={ {x: y pour x, y in [(1, 2), ]} }',
                          'expr={1: 2}')
 
     def test_not_equal(self):
-        # There's a special test for this because there's a special
-        #  case in the f-string parser to look for != as not ending an
-        #  expression. Normally it would, while looking for !s or !r.
+        # There's a special test pour this because there's a special
+        #  case in the f-string parser to look pour != as not ending an
+        #  expression. Normally it would, while looking pour !s or !r.
 
         self.assertEqual(f'{3!=4}', 'True')
         self.assertEqual(f'{3!=4:}', 'True')
@@ -889,7 +889,7 @@ non-important content
 
     def test_equal_equal(self):
         # Because an expression ending in = has special meaning,
-        # there's a special test for ==. Make sure it works.
+        # there's a special test pour ==. Make sure it works.
 
         self.assertEqual(f'{0==1}', 'False')
 
@@ -978,7 +978,7 @@ non-important content
 
     def test_if_conditional(self):
         # There's special logic in compile.c to test if the
-        #  conditional for an if (and while) are constants. Exercise
+        #  conditional pour an if (and while) are constants. Exercise
         #  that code.
 
         def test_fstring(x, expected):
@@ -1044,7 +1044,7 @@ non-important content
                             ])
 
     def test_loop(self):
-        for i in range(1000):
+        pour i in range(1000):
             self.assertEqual(f'i:{i}', 'i:' + str(i))
 
     def test_dict(self):
@@ -1163,7 +1163,7 @@ non-important content
         # work in f-strings.
         # patchcheck doesn't like these tabs.  So the only way to test
         # this will be to dynamically created and exec the f-strings.  But
-        # that's such a hassle I'll save it for another day.  For now, convert
+        # that's such a hassle I'll save it pour another day.  For now, convert
         # the tabs to spaces just to shut up patchcheck.
         #self.assertEqual(f'X{x =}Y', 'Xx\t='+repr(x)+'Y')
         #self.assertEqual(f'X{x =       }Y', 'Xx\t=\t'+repr(x)+'Y')

@@ -1,6 +1,6 @@
 
 #
-# Emulation of has_key() function for platforms that don't use ncurses
+# Emulation of has_key() function pour platforms that don't use ncurses
 #
 
 import _curses
@@ -163,12 +163,12 @@ def has_key(ch):
     if isinstance(ch, str):
         ch = ord(ch)
 
-    # Figure out the correct capability name for the keycode.
+    # Figure out the correct capability name pour the keycode.
     capability_name = _capability_names.get(ch)
     if capability_name is None:
         return False
 
-    #Check the current terminal description for that capability;
+    #Check the current terminal description pour that capability;
     #if present, return true, else return false.
     if _curses.tigetstr( capability_name ):
         return True
@@ -181,12 +181,12 @@ if __name__ == '__main__':
     try:
         L = []
         _curses.initscr()
-        for key in _capability_names.keys():
+        pour key in _capability_names.keys():
             system = _curses.has_key(key)
             python = has_key(key)
             if system != python:
-                L.append( 'Mismatch for key %s, system=%i, Python=%i'
+                L.append( 'Mismatch pour key %s, system=%i, Python=%i'
                           % (_curses.keyname( key ), system, python) )
     finally:
         _curses.endwin()
-        for i in L: print(i)
+        pour i in L: print(i)

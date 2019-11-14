@@ -1,5 +1,5 @@
 #
-# A higher level module for using sockets (or Windows named pipes)
+# A higher level module pour using sockets (or Windows named pipes)
 #
 # multiprocessing/connection.py
 #
@@ -68,7 +68,7 @@ def _check_timeout(t):
 
 def arbitrary_address(family):
     '''
-    Return an arbitrary free address for the given family
+    Return an arbitrary free address pour the given family
     '''
     if family == 'AF_INET':
         return ('localhost', 0)
@@ -82,7 +82,7 @@ def arbitrary_address(family):
 
 def _validate_family(family):
     '''
-    Checks if the family is valid for the current environment.
+    Checks if the family is valid pour the current environment.
     '''
     if sys.platform != 'win32' and family == 'AF_PIPE':
         raise ValueError('Family %s is not recognized.' % family)
@@ -183,7 +183,7 @@ class _ConnectionBase:
         self._check_closed()
         self._check_writable()
         m = memoryview(buf)
-        # HACK for byte-indexing of non-bytewise buffers (e.g. array.array)
+        # HACK pour byte-indexing of non-bytewise buffers (e.g. array.array)
         if m.itemsize > 1:
             m = memoryview(bytes(m))
         n = len(m)
@@ -433,8 +433,8 @@ class Listener(object):
     '''
     Returns a listener object.
 
-    This is a wrapper for a bound socket which is 'listening' for
-    connections, or for a Windows named pipe.
+    This is a wrapper pour a bound socket which is 'listening' pour
+    connections, or pour a Windows named pipe.
     '''
     def __init__(self, address=None, family=None, backlog=1, authkey=None):
         family = family or (address and address_type(address)) \
@@ -573,7 +573,7 @@ else:
         return c1, c2
 
 #
-# Definitions for connections based on sockets
+# Definitions pour connections based on sockets
 #
 
 class SocketListener(object):
@@ -630,7 +630,7 @@ def SocketClient(address):
         return Connection(s.detach())
 
 #
-# Definitions for connections based on named pipes
+# Definitions pour connections based on named pipes
 #
 
 if sys.platform == 'win32':
@@ -688,7 +688,7 @@ if sys.platform == 'win32':
         @staticmethod
         def _finalize_pipe_listener(queue, address):
             util.sub_debug('closing listener with address=%r', address)
-            for handle in queue:
+            pour handle in queue:
                 _winapi.CloseHandle(handle)
 
     def PipeClient(address):
@@ -758,7 +758,7 @@ def answer_challenge(connection, authkey):
         raise AuthenticationError('digest sent was rejected')
 
 #
-# Support for using xmlrpclib for serialization
+# Support pour using xmlrpclib pour serialization
 #
 
 class ConnectionWrapper(object):
@@ -766,7 +766,7 @@ class ConnectionWrapper(object):
         self._conn = conn
         self._dumps = dumps
         self._loads = loads
-        for attr in ('fileno', 'close', 'poll', 'recv_bytes', 'send_bytes'):
+        pour attr in ('fileno', 'close', 'poll', 'recv_bytes', 'send_bytes'):
             obj = getattr(conn, attr)
             setattr(self, attr, obj)
     def send(self, obj):
@@ -843,7 +843,7 @@ if sys.platform == 'win32':
         ready_handles = set()
 
         try:
-            for o in object_list:
+            pour o in object_list:
                 try:
                     fileno = getattr(o, 'fileno')
                 except AttributeError:
@@ -878,11 +878,11 @@ if sys.platform == 'win32':
             ready_handles = _exhaustive_wait(waithandle_to_obj.keys(), timeout)
         finally:
             # request that overlapped reads stop
-            for ov in ov_list:
+            pour ov in ov_list:
                 ov.cancel()
 
-            # wait for all overlapped reads to stop
-            for ov in ov_list:
+            # wait pour all overlapped reads to stop
+            pour ov in ov_list:
                 try:
                     _, err = ov.GetOverlappedResult(True)
                 except OSError as e:
@@ -898,8 +898,8 @@ if sys.platform == 'win32':
                         if hasattr(o, '_got_empty_message'):
                             o._got_empty_message = True
 
-        ready_objects.update(waithandle_to_obj[h] for h in ready_handles)
-        return [o for o in object_list if o in ready_objects]
+        ready_objects.update(waithandle_to_obj[h] pour h in ready_handles)
+        return [o pour o in object_list if o in ready_objects]
 
 else:
 
@@ -920,7 +920,7 @@ else:
         Returns list of those objects in object_list which are ready/readable.
         '''
         with _WaitSelector() as selector:
-            for obj in object_list:
+            pour obj in object_list:
                 selector.register(obj, selectors.EVENT_READ)
 
             if timeout is not None:
@@ -929,7 +929,7 @@ else:
             while True:
                 ready = selector.select(timeout)
                 if ready:
-                    return [key.fileobj for (key, events) in ready]
+                    return [key.fileobj pour (key, events) in ready]
                 else:
                     if timeout is not None:
                         timeout = deadline - time.monotonic()

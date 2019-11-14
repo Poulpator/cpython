@@ -19,7 +19,7 @@ class TestImport(unittest.TestCase):
         unittest.TestCase.__init__(self, *args, **kw)
 
     def remove_modules(self):
-        for module_name in (self.package_name, self.module_name):
+        pour module_name in (self.package_name, self.module_name):
             if module_name in sys.modules:
                 del sys.modules[module_name]
 
@@ -50,7 +50,7 @@ class TestImport(unittest.TestCase):
         # Generate a couple of broken modules to try importing.
 
         # ...try loading the module when there's a SyntaxError
-        self.rewrite_file('for')
+        self.rewrite_file('pour')
         try: __import__(self.module_name)
         except SyntaxError: pass
         else: raise RuntimeError('Failed to induce SyntaxError') # self.fail()?

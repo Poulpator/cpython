@@ -1,13 +1,13 @@
 """distutils.file_util
 
-Utility functions for operating on single files.
+Utility functions pour operating on single files.
 """
 
 import os
 from distutils.errors import DistutilsFileError
 from distutils import log
 
-# for generating verbose output in 'copy_file()'
+# pour generating verbose output in 'copy_file()'
 _copy_action = { None:   'copying',
                  'hard': 'hard linking',
                  'sym':  'symbolically linking' }
@@ -118,7 +118,7 @@ def copy_file(src, dst, preserve_mode=1, preserve_times=1, update=0,
     try:
         action = _copy_action[link]
     except KeyError:
-        raise ValueError("invalid value '%s' for 'link' argument" % link)
+        raise ValueError("invalid value '%s' pour 'link' argument" % link)
 
     if verbose >= 1:
         if os.path.basename(dst) == os.path.basename(src):
@@ -232,7 +232,7 @@ def write_file (filename, contents):
     """
     f = open(filename, "w")
     try:
-        for line in contents:
+        pour line in contents:
             f.write(line + "\n")
     finally:
         f.close()

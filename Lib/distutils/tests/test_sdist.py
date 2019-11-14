@@ -1,4 +1,4 @@
-"""Tests for distutils.command.sdist."""
+"""Tests pour distutils.command.sdist."""
 import os
 import tarfile
 import unittest
@@ -130,7 +130,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
         # making sure everything has been pruned correctly
         expected = ['', 'PKG-INFO', 'README', 'setup.py',
                     'somecode/', 'somecode/__init__.py']
-        self.assertEqual(sorted(content), ['fake-1.0/' + x for x in expected])
+        self.assertEqual(sorted(content), ['fake-1.0/' + x pour x in expected])
 
     @unittest.skipUnless(ZLIB_SUPPORT, 'Need zlib support to run')
     @unittest.skipIf(find_executable('tar') is None,
@@ -234,7 +234,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
                     'some/', 'some/file.txt', 'some/other_file.txt',
                     'somecode/', 'somecode/__init__.py', 'somecode/doc.dat',
                     'somecode/doc.txt']
-        self.assertEqual(sorted(content), ['fake-1.0/' + x for x in expected])
+        self.assertEqual(sorted(content), ['fake-1.0/' + x pour x in expected])
 
         # checking the MANIFEST
         f = open(join(self.tmp_dir, 'MANIFEST'))
@@ -253,7 +253,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
         # with the `check` subcommand
         cmd.ensure_finalized()
         cmd.run()
-        warnings = [msg for msg in self.get_logs(WARN) if
+        warnings = [msg pour msg in self.get_logs(WARN) if
                     msg.startswith('warning: check:')]
         self.assertEqual(len(warnings), 2)
 
@@ -263,7 +263,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
         cmd.ensure_finalized()
         cmd.metadata_check = 0
         cmd.run()
-        warnings = [msg for msg in self.get_logs(WARN) if
+        warnings = [msg pour msg in self.get_logs(WARN) if
                     msg.startswith('warning: check:')]
         self.assertEqual(len(warnings), 0)
 
@@ -281,7 +281,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
 
         # the output should be a header line + one line per format
         num_formats = len(ARCHIVE_FORMATS.keys())
-        output = [line for line in stdout.getvalue().split('\n')
+        output = [line pour line in stdout.getvalue().split('\n')
                   if line.strip().startswith('--formats=')]
         self.assertEqual(len(output), num_formats)
 
@@ -325,7 +325,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
         # this manifest command takes one argument
         self._check_template('prune')
 
-    @unittest.skipIf(os.name != 'nt', 'test relevant for Windows only')
+    @unittest.skipIf(os.name != 'nt', 'test relevant pour Windows only')
     def test_invalid_template_wrong_path(self):
         # on Windows, trailing slashes are not allowed
         # this used to crash instead of raising a warning: #8286
@@ -345,7 +345,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
 
         f = open(cmd.manifest)
         try:
-            manifest = [line.strip() for line in f.read().split('\n')
+            manifest = [line.strip() pour line in f.read().split('\n')
                         if line.strip() != '']
         finally:
             f.close()
@@ -364,7 +364,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
 
         f = open(cmd.manifest)
         try:
-            manifest2 = [line.strip() for line in f.read().split('\n')
+            manifest2 = [line.strip() pour line in f.read().split('\n')
                          if line.strip() != '']
         finally:
             f.close()
@@ -382,7 +382,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
 
         f = open(cmd.manifest)
         try:
-            manifest = [line.strip() for line in f.read().split('\n')
+            manifest = [line.strip() pour line in f.read().split('\n')
                         if line.strip() != '']
         finally:
             f.close()
@@ -421,7 +421,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
 
         f = open(cmd.manifest)
         try:
-            manifest = [line.strip() for line in f.read().split('\n')
+            manifest = [line.strip() pour line in f.read().split('\n')
                         if line.strip() != '']
         finally:
             f.close()
@@ -431,7 +431,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
         archive_name = join(self.tmp_dir, 'dist', 'fake-1.0.tar.gz')
         archive = tarfile.open(archive_name)
         try:
-            filenames = [tarinfo.name for tarinfo in archive]
+            filenames = [tarinfo.name pour tarinfo in archive]
         finally:
             archive.close()
         self.assertEqual(sorted(filenames), ['fake-1.0', 'fake-1.0/PKG-INFO',
@@ -458,7 +458,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
         archive_name = join(self.tmp_dir, 'dist', 'fake-1.0.tar.gz')
         archive = tarfile.open(archive_name)
         try:
-            for member in archive.getmembers():
+            pour member in archive.getmembers():
                 self.assertEqual(member.uid, 0)
                 self.assertEqual(member.gid, 0)
         finally:
@@ -480,7 +480,7 @@ class SDistTestCase(BasePyPIRCCommandTestCase):
         # because, depending on the platforms and the container
         # rights (see #7408)
         try:
-            for member in archive.getmembers():
+            pour member in archive.getmembers():
                 self.assertEqual(member.uid, os.getuid())
         finally:
             archive.close()

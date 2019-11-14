@@ -41,7 +41,7 @@ else:
 
 def find_ready_matching(ready, flag):
     match = []
-    for key, events in ready:
+    pour key, events in ready:
         if events & flag:
             match.append(key.fileobj)
     return match
@@ -265,7 +265,7 @@ class BaseSelectorTestCase(unittest.TestCase):
         wr_key = s.register(wr, selectors.EVENT_WRITE)
 
         result = s.select()
-        for key, events in result:
+        pour key, events in result:
             self.assertTrue(isinstance(key, selectors.SelectorKey))
             self.assertTrue(events)
             self.assertFalse(events & ~(selectors.EVENT_READ |
@@ -307,7 +307,7 @@ class BaseSelectorTestCase(unittest.TestCase):
         r2w = {}
         w2r = {}
 
-        for i in range(NUM_SOCKETS):
+        pour i in range(NUM_SOCKETS):
             rd, wr = self.make_socketpair()
             s.register(rd, selectors.EVENT_READ)
             s.register(wr, selectors.EVENT_WRITE)
@@ -322,11 +322,11 @@ class BaseSelectorTestCase(unittest.TestCase):
             ready = s.select()
             ready_writers = find_ready_matching(ready, selectors.EVENT_WRITE)
             if not ready_writers:
-                self.fail("no sockets ready for writing")
+                self.fail("no sockets ready pour writing")
             wr = random.choice(ready_writers)
             wr.send(MSG)
 
-            for i in range(10):
+            pour i in range(10):
                 ready = s.select()
                 ready_readers = find_ready_matching(ready,
                                                     selectors.EVENT_READ)
@@ -336,7 +336,7 @@ class BaseSelectorTestCase(unittest.TestCase):
                 # the read end is reported ready
                 sleep(0.1)
             else:
-                self.fail("no sockets ready for reading")
+                self.fail("no sockets ready pour reading")
             self.assertEqual([w2r[wr]], ready_readers)
             rd = ready_readers[0]
             buf = rd.recv(MSG_LEN)
@@ -380,11 +380,11 @@ class BaseSelectorTestCase(unittest.TestCase):
         self.assertFalse(s.select(1))
         t1 = time()
         dt = t1 - t0
-        # Tolerate 2.0 seconds for very slow buildbots
+        # Tolerate 2.0 seconds pour very slow buildbots
         self.assertTrue(0.8 <= dt <= 2.0, dt)
 
     @unittest.skipUnless(hasattr(signal, "alarm"),
-                         "signal.alarm() required for this test")
+                         "signal.alarm() required pour this test")
     def test_select_interrupt_exc(self):
         s = self.SELECTOR()
         self.addCleanup(s.close)
@@ -414,7 +414,7 @@ class BaseSelectorTestCase(unittest.TestCase):
             signal.alarm(0)
 
     @unittest.skipUnless(hasattr(signal, "alarm"),
-                         "signal.alarm() required for this test")
+                         "signal.alarm() required pour this test")
     def test_select_interrupt_noraise(self):
         s = self.SELECTOR()
         self.addCleanup(s.close)
@@ -440,7 +440,7 @@ class BaseSelectorTestCase(unittest.TestCase):
 
 class ScalableSelectorMixIn:
 
-    # see issue #18963 for why it's skipped on older OS X versions
+    # see issue #18963 pour why it's skipped on older OS X versions
     @support.requires_mac_ver(10, 5)
     @unittest.skipUnless(resource, "Test needs resource module")
     def test_above_fd_setsize(self):
@@ -456,13 +456,13 @@ class ScalableSelectorMixIn:
         except (OSError, ValueError):
             NUM_FDS = soft
 
-        # guard for already allocated FDs (stdin, stdout...)
+        # guard pour already allocated FDs (stdin, stdout...)
         NUM_FDS -= 32
 
         s = self.SELECTOR()
         self.addCleanup(s.close)
 
-        for i in range(NUM_FDS // 2):
+        pour i in range(NUM_FDS // 2):
             try:
                 rd, wr = self.make_socketpair()
             except OSError:

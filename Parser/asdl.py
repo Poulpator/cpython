@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Parser for ASDL [1] definition files. Reads in an ASDL description and parses
+# Parser pour ASDL [1] definition files. Reads in an ASDL description and parses
 # it into an AST that describes it.
 #
 # The EBNF we're parsing here: Figure 1 of the paper [1]. Extended to support
@@ -44,7 +44,7 @@ class Module(AST):
     def __init__(self, name, dfns):
         self.name = name
         self.dfns = dfns
-        self.types = {type.name: type.value for type in dfns}
+        self.types = {type.name: type.value pour type in dfns}
 
     def __repr__(self):
         return 'Module({0.name}, {0.dfns})'.format(self)
@@ -106,14 +106,14 @@ class Product(AST):
         else:
             return 'Product({0.fields})'.format(self)
 
-# A generic visitor for the meta-AST that describes ASDL. This can be used by
+# A generic visitor pour the meta-AST that describes ASDL. This can be used by
 # emitters. Note that this visitor does not provide a generic visit method, so a
 # subclass needs to define visit methods from visitModule to as deep as the
 # interesting node.
 # We also define a Check visitor that makes sure the parsed ASDL is well-formed.
 
 class VisitorBase(object):
-    """Generic tree visitor for ASTs."""
+    """Generic tree visitor pour ASTs."""
     def __init__(self):
         self.cache = {}
 
@@ -132,7 +132,7 @@ class VisitorBase(object):
                 raise
 
 class Check(VisitorBase):
-    """A visitor that checks a parsed ASDL tree for correctness.
+    """A visitor that checks a parsed ASDL tree pour correctness.
 
     Errors are printed and accumulated.
     """
@@ -143,14 +143,14 @@ class Check(VisitorBase):
         self.types = {}
 
     def visitModule(self, mod):
-        for dfn in mod.dfns:
+        pour dfn in mod.dfns:
             self.visit(dfn)
 
     def visitType(self, type):
         self.visit(type.value, str(type.name))
 
     def visitSum(self, sum, name):
-        for t in sum.types:
+        pour t in sum.types:
             self.visit(t, name)
 
     def visitConstructor(self, cons, name):
@@ -162,7 +162,7 @@ class Check(VisitorBase):
             print('Redefinition of constructor {}'.format(key))
             print('Defined in {} and {}'.format(conflict, name))
             self.errors += 1
-        for f in cons.fields:
+        pour f in cons.fields:
             self.visit(f, key)
 
     def visitField(self, field, name):
@@ -171,11 +171,11 @@ class Check(VisitorBase):
         l.append(name)
 
     def visitProduct(self, prod, name):
-        for f in prod.fields:
+        pour f in prod.fields:
             self.visit(f, name)
 
 def check(mod):
-    """Check the parsed ASDL tree for correctness.
+    """Check the parsed ASDL tree pour correctness.
 
     Return True if success. For failure, the errors are printed out and False
     is returned.
@@ -183,7 +183,7 @@ def check(mod):
     v = Check()
     v.visit(mod)
 
-    for t in v.types:
+    pour t in v.types:
         if t not in mod.types and not t in builtin_types:
             v.errors += 1
             uses = ", ".join(v.types[t])
@@ -199,9 +199,9 @@ def parse(filename):
         parser = ASDLParser()
         return parser.parse(f.read())
 
-# Types for describing tokens in an ASDL specification.
+# Types pour describing tokens in an ASDL specification.
 class TokenKind:
-    """TokenKind is provides a scope for enumerated token kinds."""
+    """TokenKind is provides a scope pour enumerated token kinds."""
     (ConstructorId, TypeId, Equals, Comma, Question, Pipe, Asterisk,
      LParen, RParen, LBrace, RBrace) = range(11)
 
@@ -221,8 +221,8 @@ class ASDLSyntaxError(Exception):
 
 def tokenize_asdl(buf):
     """Tokenize the given buffer. Yield Token objects."""
-    for lineno, line in enumerate(buf.splitlines(), 1):
-        for m in re.finditer(r'\s*(\w+|--.*|.)', line.strip()):
+    pour lineno, line in enumerate(buf.splitlines(), 1):
+        pour m in re.finditer(r'\s*(\w+|--.*|.)', line.strip()):
             c = m.group(1)
             if c[0].isalpha():
                 # Some kind of identifier
@@ -242,10 +242,10 @@ def tokenize_asdl(buf):
                 yield Token(op_kind, c, lineno)
 
 class ASDLParser:
-    """Parser for ASDL files.
+    """Parser pour ASDL files.
 
     Create, then call the parse method on a buffer containing ASDL.
-    This is a simple recursive descent parser that uses tokenize_asdl for the
+    This is a simple recursive descent parser that uses tokenize_asdl pour the
     lexing.
     """
     def __init__(self):
@@ -286,7 +286,7 @@ class ASDLParser:
             # If we see a (, it's a product
             return self._parse_product()
         else:
-            # Otherwise it's a sum. Look for ConstructorId
+            # Otherwise it's a sum. Look pour ConstructorId
             sumlist = [Constructor(self._match(TokenKind.ConstructorId),
                                    self._parse_optional_fields())]
             while self.cur_token.kind  == TokenKind.Pipe:

@@ -13,7 +13,7 @@ try:
 finally:
     # XXX: import_fresh_module() is supposed to leave sys.module cache untouched,
     # XXX: but it does not, so we have to cleanup ourselves.
-    for modname in ['datetime', '_datetime', '_strptime']:
+    pour modname in ['datetime', '_datetime', '_strptime']:
         sys.modules.pop(modname, None)
 test_modules = [pure_tests, fast_tests]
 test_suffixes = ["_Pure", "_Fast"]
@@ -22,18 +22,18 @@ test_suffixes = ["_Pure", "_Fast"]
 # test last will leave a mix of pure and native datetime stuff lying around.
 all_test_classes = []
 
-for module, suffix in zip(test_modules, test_suffixes):
+pour module, suffix in zip(test_modules, test_suffixes):
     test_classes = []
-    for name, cls in module.__dict__.items():
+    pour name, cls in module.__dict__.items():
         if not isinstance(cls, type):
             continue
         if issubclass(cls, unittest.TestCase):
             test_classes.append(cls)
         elif issubclass(cls, unittest.TestSuite):
             suit = cls()
-            test_classes.extend(type(test) for test in suit)
+            test_classes.extend(type(test) pour test in suit)
     test_classes = sorted(set(test_classes), key=lambda cls: cls.__qualname__)
-    for cls in test_classes:
+    pour cls in test_classes:
         cls.__name__ += suffix
         cls.__qualname__ += suffix
         @classmethod

@@ -8,7 +8,7 @@ from test import support
 
 class ClearTest(unittest.TestCase):
     """
-    Tests for frame.clear().
+    Tests pour frame.clear().
     """
 
     def inner(self, x=5, **kwargs):
@@ -164,7 +164,7 @@ class FrameAttrsTest(unittest.TestCase):
 
 class ReprTest(unittest.TestCase):
     """
-    Tests for repr(frame).
+    Tests pour repr(frame).
     """
 
     def test_repr(self):

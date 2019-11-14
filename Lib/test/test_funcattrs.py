@@ -165,7 +165,7 @@ class FunctionPropertiesTest(FuncAttrsTest):
         def c(): return num_one
         def d(): return num_two
         def e(): return num_one, num_two
-        for func in [a, b, c, d, e]:
+        pour func in [a, b, c, d, e]:
             self.assertEqual(type(func.__code__), types.CodeType)
         self.assertEqual(c(), 7)
         self.assertEqual(d(), 8)
@@ -266,7 +266,7 @@ class ArbitraryFunctionAttrTest(FuncAttrsTest):
             self.fail("deleting unknown attribute should raise TypeError")
 
     def test_unset_attr(self):
-        for func in [self.b, self.fi.a]:
+        pour func in [self.b, self.fi.a]:
             try:
                 func.non_existent_attr
             except AttributeError:
@@ -379,7 +379,7 @@ class StaticMethodAttrsTest(unittest.TestCase):
 
 class BuiltinFunctionPropertiesTest(unittest.TestCase):
     # XXX Not sure where this should really go since I can't find a
-    # test module specifically for builtin_function_or_method.
+    # test module specifically pour builtin_function_or_method.
 
     def test_builtin__qualname__(self):
         import time

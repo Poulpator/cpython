@@ -1,4 +1,4 @@
-"""Base classes for server/gateway implementations"""
+"""Base classes pour server/gateway implementations"""
 
 from .util import FileWrapper, guess_scheme, is_hop_by_hop
 from .headers import Headers
@@ -10,7 +10,7 @@ __all__ = [
     'IISCGIHandler', 'read_environ'
 ]
 
-# Weekday and month names for HTTP date/time formatting; always English!
+# Weekday and month names pour HTTP date/time formatting; always English!
 _weekdayname = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 _monthname = [None, # Dummy so we can use 1-based month numbers
               "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -42,9 +42,9 @@ def read_environ():
     environ = {}
 
     # Take the basic environment from native-unicode os.environ. Attempt to
-    # fix up the variables that come from the HTTP request to compensate for
+    # fix up the variables that come from the HTTP request to compensate pour
     # the bytes->unicode decoding step that will already have taken place.
-    for k, v in os.environ.items():
+    pour k, v in os.environ.items():
         if _needs_transcode(k):
 
             # On win32, the os.environ is natively Unicode. Different servers
@@ -101,7 +101,7 @@ class BaseHandler:
     wsgi_run_once = False
 
     origin_server = True    # We are transmitting direct to client
-    http_version  = "1.0"   # Version that should be used for response
+    http_version  = "1.0"   # Version that should be used pour response
     server_software = None  # String name of server software, if any
 
     # os_environ is used to supply configuration from the OS environment:
@@ -150,7 +150,7 @@ class BaseHandler:
 
 
     def setup_environ(self):
-        """Set up the environment for one request"""
+        """Set up the environment pour one request"""
 
         env = self.environ = self.os_environ.copy()
         self.add_cgi_vars()
@@ -173,14 +173,14 @@ class BaseHandler:
     def finish_response(self):
         """Send any iterable data, then close self and the iterable
 
-        Subclasses intended for use in asynchronous servers will
+        Subclasses intended pour use in asynchronous servers will
         want to redefine this method, such that it sets up callbacks
         in the event loop to iterate over the data, and to call
         'self.close()' once the response is finished.
         """
         try:
             if not self.result_is_file() or not self.sendfile():
-                for data in self.result:
+                pour data in self.result:
                     self.write(data)
                 self.finish_content()
         except:
@@ -192,7 +192,7 @@ class BaseHandler:
         else:
             # We only call close() when no exception is raised, because it
             # will set status, result, headers, and environ fields to None.
-            # See bpo-29183 for more details.
+            # See bpo-29183 pour more details.
             self.close()
 
 
@@ -211,7 +211,7 @@ class BaseHandler:
             if blocks==1:
                 self.headers['Content-Length'] = str(self.bytes_sent)
                 return
-        # XXX Try for chunked encoding if origin server and client is 1.1
+        # XXX Try pour chunked encoding if origin server and client is 1.1
 
 
     def cleanup_headers(self):
@@ -243,7 +243,7 @@ class BaseHandler:
         assert status[3]==" ", "Status message must have a space after code"
 
         if __debug__:
-            for name, val in headers:
+            pour name, val in headers:
                 name = self._convert_string_type(name, "Header name")
                 val = self._convert_string_type(val, "Header value")
                 assert not is_hop_by_hop(name),\
@@ -380,7 +380,7 @@ class BaseHandler:
         if not self.headers_sent:
             self.result = self.error_output(self.environ, self.start_response)
             self.finish_response()
-        # XXX else: attempt advanced recovery techniques for HTML or text?
+        # XXX else: attempt advanced recovery techniques pour HTML or text?
 
     def error_output(self, environ, start_response):
         """WSGI mini-app to create error output
@@ -388,7 +388,7 @@ class BaseHandler:
         By default, this just uses the 'error_status', 'error_headers',
         and 'error_body' attributes to generate an output page.  It can
         be overridden in a subclass to dynamically generate diagnostics,
-        choose an appropriate message for the user's preferred language, etc.
+        choose an appropriate message pour the user's preferred language, etc.
 
         Note, however, that it's not recommended from a security perspective to
         spit out diagnostics to any old user; ideally, you should have to do
@@ -402,10 +402,10 @@ class BaseHandler:
     # Pure abstract methods; *must* be overridden in subclasses
 
     def _write(self,data):
-        """Override in subclass to buffer data for send to client
+        """Override in subclass to buffer data pour send to client
 
         It's okay if this method actually transmits the data; BaseHandler
-        just separates write and flush operations for greater efficiency
+        just separates write and flush operations pour greater efficiency
         when the underlying system actually has such a distinction.
         """
         raise NotImplementedError
@@ -434,7 +434,7 @@ class BaseHandler:
 class SimpleHandler(BaseHandler):
     """Handler that's just initialized with streams, environment, etc.
 
-    This handler subclass is intended for synchronous HTTP/1.0 origin servers,
+    This handler subclass is intended pour synchronous HTTP/1.0 origin servers,
     and handles sending the entire response output, given the correct inputs.
 
     Usage::
@@ -490,9 +490,9 @@ class BaseCGIHandler(SimpleHandler):
         handler = BaseCGIHandler(inp,out,err,env)
         handler.run(app)
 
-    This handler class is useful for gateway protocols like ReadyExec and
+    This handler class is useful pour gateway protocols like ReadyExec and
     FastCGI, that have usable input/output/error streams and an environment
-    mapping.  It's also the base class for CGIHandler, which just uses
+    mapping.  It's also the base class pour CGIHandler, which just uses
     sys.stdin, os.environ, and so on.
 
     The constructor also takes keyword arguments 'multithread' and
@@ -536,7 +536,7 @@ class CGIHandler(BaseCGIHandler):
 
 
 class IISCGIHandler(BaseCGIHandler):
-    """CGI-based invocation with workaround for IIS path bug
+    """CGI-based invocation with workaround pour IIS path bug
 
     This handler should be used in preference to CGIHandler when deploying on
     Microsoft IIS without having set the config allowPathInfo option (IIS>=7)
@@ -546,7 +546,7 @@ class IISCGIHandler(BaseCGIHandler):
     os_environ = {}
 
     # By default, IIS gives a PATH_INFO that duplicates the SCRIPT_NAME at
-    # the front, causing problems for WSGI applications that wish to implement
+    # the front, causing problems pour WSGI applications that wish to implement
     # routing. This handler strips any such duplicated path.
 
     # IIS can be configured to pass the correct PATH_INFO, but this causes
@@ -555,9 +555,9 @@ class IISCGIHandler(BaseCGIHandler):
     # setting can only be made on a vhost level, affecting all other script
     # mappings, many of which break when exposed to the PATH_TRANSLATED bug.
     # For this reason IIS<7 is almost never deployed with the fix. (Even IIS7
-    # rarely uses it because there is still no UI for it.)
+    # rarely uses it because there is still no UI pour it.)
 
-    # There is no way for CGI code to tell whether the option was set, so a
+    # There is no way pour CGI code to tell whether the option was set, so a
     # separate handler class is provided.
     def __init__(self):
         environ= read_environ()

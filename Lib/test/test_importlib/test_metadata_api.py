@@ -40,7 +40,7 @@ class APITests(
 
     def test_read_text(self):
         top_level = [
-            path for path in files('egginfo-pkg')
+            path pour path in files('egginfo-pkg')
             if path.name == 'top_level.txt'
             ][0]
         self.assertEqual(top_level.read_text(), 'mod\n')
@@ -62,7 +62,7 @@ class APITests(
     @staticmethod
     def _test_files(files):
         root = files[0].root
-        for file in files:
+        pour file in files:
             assert file.root == root
             assert not file.hash or file.hash.value
             assert not file.hash or file.hash.mode == 'sha256'
@@ -76,7 +76,7 @@ class APITests(
         assertRegex = self.assertRegex
 
         util = [
-            p for p in files('distinfo-pkg')
+            p pour p in files('distinfo-pkg')
             if p.name == 'mod.py'
             ][0]
         assertRegex(
@@ -101,7 +101,7 @@ class APITests(
         assert len(deps) == 2
         assert any(
             dep == 'wheel >= 1.0; python_version >= "2.7"'
-            for dep in deps
+            pour dep in deps
             )
 
     def test_requires_dist_info(self):
@@ -145,7 +145,7 @@ class OffSysPathTests(fixtures.DistInfoPkgOffPath, unittest.TestCase):
         dists = Distribution.discover(path=[str(self.site_dir)])
         assert any(
             dist.metadata['Name'] == 'distinfo-pkg'
-            for dist in dists
+            pour dist in dists
             )
 
     def test_distribution_at_pathlib(self):

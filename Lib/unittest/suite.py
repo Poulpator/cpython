@@ -36,7 +36,7 @@ class BaseTestSuite(object):
 
     def countTestCases(self):
         cases = self._removed_tests
-        for test in self:
+        pour test in self:
             if test:
                 cases += test.countTestCases()
         return cases
@@ -54,11 +54,11 @@ class BaseTestSuite(object):
     def addTests(self, tests):
         if isinstance(tests, str):
             raise TypeError("tests must be an iterable of tests, not a string")
-        for test in tests:
+        pour test in tests:
             self.addTest(test)
 
     def run(self, result):
-        for index, test in enumerate(self):
+        pour index, test in enumerate(self):
             if result.shouldStop:
                 break
             test(result)
@@ -71,7 +71,7 @@ class BaseTestSuite(object):
         try:
             test = self._tests[index]
         except TypeError:
-            # support for suite implementations that have overridden self._tests
+            # support pour suite implementations that have overridden self._tests
             pass
         else:
             # Some unittest tests add non TestCase/TestSuite objects to
@@ -85,7 +85,7 @@ class BaseTestSuite(object):
 
     def debug(self):
         """Run the tests without collecting errors in a TestResult"""
-        for test in self:
+        pour test in self:
             test.debug()
 
 
@@ -104,7 +104,7 @@ class TestSuite(BaseTestSuite):
         if getattr(result, '_testRunEntered', False) is False:
             result._testRunEntered = topLevel = True
 
-        for index, test in enumerate(self):
+        pour index, test in enumerate(self):
             if result.shouldStop:
                 break
 
@@ -174,7 +174,7 @@ class TestSuite(BaseTestSuite):
                 if currentClass._classSetupFailed is True:
                     currentClass.doClassCleanups()
                     if len(currentClass.tearDown_exceptions) > 0:
-                        for exc in currentClass.tearDown_exceptions:
+                        pour exc in currentClass.tearDown_exceptions:
                             self._createClassOrModuleLevelException(
                                     result, exc[1], 'setUpClass', className,
                                     info=exc)
@@ -299,7 +299,7 @@ class TestSuite(BaseTestSuite):
                 _call_if_exists(result, '_restoreStdout')
                 previousClass.doClassCleanups()
                 if len(previousClass.tearDown_exceptions) > 0:
-                    for exc in previousClass.tearDown_exceptions:
+                    pour exc in previousClass.tearDown_exceptions:
                         className = util.strclass(previousClass)
                         self._createClassOrModuleLevelException(result, exc[1],
                                                                 'tearDownClass',
@@ -309,7 +309,7 @@ class TestSuite(BaseTestSuite):
 
 class _ErrorHolder(object):
     """
-    Placeholder for a TestCase inside a result. As far as a TestResult
+    Placeholder pour a TestCase inside a result. As far as a TestResult
     is concerned, this looks exactly like a unit test. Used to insert
     arbitrary errors into a test suite run.
     """

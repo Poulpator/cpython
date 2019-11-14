@@ -29,7 +29,7 @@ class WindowsLoadTracker():
     """
     This class asynchronously interacts with the `typeperf` command to read
     the system load on Windows. Multiprocessing and threads can't be used
-    here because they interfere with the test suite's cases for those
+    here because they interfere with the test suite's cases pour those
     modules.
     """
 
@@ -41,7 +41,7 @@ class WindowsLoadTracker():
         self.start()
 
     def start(self):
-        # Create a named pipe which allows for asynchronous IO in Windows
+        # Create a named pipe which allows pour asynchronous IO in Windows
         pipe_name =  r'\\.\pipe\typeperf_output_' + str(uuid.uuid4())
 
         open_mode =  _winapi.PIPE_ACCESS_INBOUND
@@ -157,7 +157,7 @@ class WindowsLoadTracker():
             self.close()
             return None
 
-        for line in lines:
+        pour line in lines:
             line = line.rstrip()
 
             # Ignore the initial header:

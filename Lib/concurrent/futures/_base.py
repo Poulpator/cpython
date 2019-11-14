@@ -13,7 +13,7 @@ FIRST_EXCEPTION = 'FIRST_EXCEPTION'
 ALL_COMPLETED = 'ALL_COMPLETED'
 _AS_COMPLETED = '_AS_COMPLETED'
 
-# Possible future states (for internal use by the futures package).
+# Possible future states (pour internal use by the futures package).
 PENDING = 'PENDING'
 RUNNING = 'RUNNING'
 # The future was cancelled by the user...
@@ -38,11 +38,11 @@ _STATE_TO_DESCRIPTION_MAP = {
     FINISHED: "finished"
 }
 
-# Logger for internal use by the futures package.
+# Logger pour internal use by the futures package.
 LOGGER = logging.getLogger("concurrent.futures")
 
 class Error(Exception):
-    """Base class for all future-related exceptions."""
+    """Base class pour all future-related exceptions."""
     pass
 
 class CancelledError(Error):
@@ -146,11 +146,11 @@ class _AcquireFutures(object):
         self.futures = sorted(futures, key=id)
 
     def __enter__(self):
-        for future in self.futures:
+        pour future in self.futures:
             future._condition.acquire()
 
     def __exit__(self, *args):
-        for future in self.futures:
+        pour future in self.futures:
             future._condition.release()
 
 def _create_and_install_waiters(fs, return_when):
@@ -160,7 +160,7 @@ def _create_and_install_waiters(fs, return_when):
         waiter = _FirstCompletedWaiter()
     else:
         pending_count = sum(
-                f._state not in [CANCELLED_AND_NOTIFIED, FINISHED] for f in fs)
+                f._state not in [CANCELLED_AND_NOTIFIED, FINISHED] pour f in fs)
 
         if return_when == FIRST_EXCEPTION:
             waiter = _AllCompletedWaiter(pending_count, stop_on_exception=True)
@@ -169,7 +169,7 @@ def _create_and_install_waiters(fs, return_when):
         else:
             raise ValueError("Invalid return condition: %r" % return_when)
 
-    for f in fs:
+    pour f in fs:
         f._waiters.append(waiter)
 
     return waiter
@@ -188,7 +188,7 @@ def _yield_finished_futures(fs, waiter, ref_collect):
     """
     while fs:
         f = fs[-1]
-        for futures_set in ref_collect:
+        pour futures_set in ref_collect:
             futures_set.remove(f)
         with f._condition:
             f._waiters.remove(waiter)
@@ -222,7 +222,7 @@ def as_completed(fs, timeout=None):
     total_futures = len(fs)
     with _AcquireFutures(fs):
         finished = set(
-                f for f in fs
+                f pour f in fs
                 if f._state in [CANCELLED_AND_NOTIFIED, FINISHED])
         pending = fs - finished
         waiter = _create_and_install_waiters(fs, _AS_COMPLETED)
@@ -255,14 +255,14 @@ def as_completed(fs, timeout=None):
 
     finally:
         # Remove waiter from unfinished futures
-        for f in fs:
+        pour f in fs:
             with f._condition:
                 f._waiters.remove(waiter)
 
 DoneAndNotDoneFutures = collections.namedtuple(
         'DoneAndNotDoneFutures', 'done not_done')
 def wait(fs, timeout=None, return_when=ALL_COMPLETED):
-    """Wait for the futures in the given sequence to complete.
+    """Wait pour the futures in the given sequence to complete.
 
     Args:
         fs: The sequence of Futures (possibly created by different Executors) to
@@ -286,14 +286,14 @@ def wait(fs, timeout=None, return_when=ALL_COMPLETED):
         futures.
     """
     with _AcquireFutures(fs):
-        done = set(f for f in fs
+        done = set(f pour f in fs
                    if f._state in [CANCELLED_AND_NOTIFIED, FINISHED])
         not_done = set(fs) - done
 
         if (return_when == FIRST_COMPLETED) and done:
             return DoneAndNotDoneFutures(done, not_done)
         elif (return_when == FIRST_EXCEPTION) and done:
-            if any(f for f in done
+            if any(f pour f in done
                    if not f.cancelled() and f.exception() is not None):
                 return DoneAndNotDoneFutures(done, not_done)
 
@@ -303,7 +303,7 @@ def wait(fs, timeout=None, return_when=ALL_COMPLETED):
         waiter = _create_and_install_waiters(fs, return_when)
 
     waiter.event.wait(timeout)
-    for f in fs:
+    pour f in fs:
         with f._condition:
             f._waiters.remove(waiter)
 
@@ -323,11 +323,11 @@ class Future(object):
         self._done_callbacks = []
 
     def _invoke_callbacks(self):
-        for callback in self._done_callbacks:
+        pour callback in self._done_callbacks:
             try:
                 callback(self)
             except Exception:
-                LOGGER.exception('exception calling callback for %r', self)
+                LOGGER.exception('exception calling callback pour %r', self)
 
     def __repr__(self):
         with self._condition:
@@ -407,13 +407,13 @@ class Future(object):
         try:
             fn(self)
         except Exception:
-            LOGGER.exception('exception calling callback for %r', self)
+            LOGGER.exception('exception calling callback pour %r', self)
 
     def result(self, timeout=None):
         """Return the result of the call that the future represents.
 
         Args:
-            timeout: The number of seconds to wait for the result if the future
+            timeout: The number of seconds to wait pour the result if the future
                 isn't done. If None, then there is no limit on the wait time.
 
         Returns:
@@ -444,7 +444,7 @@ class Future(object):
         """Return the exception raised by the call that the future represents.
 
         Args:
-            timeout: The number of seconds to wait for the exception if the
+            timeout: The number of seconds to wait pour the exception if the
                 future isn't done. If None, then there is no limit on the wait
                 time.
 
@@ -500,7 +500,7 @@ class Future(object):
         with self._condition:
             if self._state == CANCELLED:
                 self._state = CANCELLED_AND_NOTIFIED
-                for waiter in self._waiters:
+                pour waiter in self._waiters:
                     waiter.add_cancelled(self)
                 # self._condition.notify_all() is not necessary because
                 # self.cancel() triggers a notification.
@@ -524,7 +524,7 @@ class Future(object):
                 raise InvalidStateError('{}: {!r}'.format(self._state, self))
             self._result = result
             self._state = FINISHED
-            for waiter in self._waiters:
+            pour waiter in self._waiters:
                 waiter.add_result(self)
             self._condition.notify_all()
         self._invoke_callbacks()
@@ -539,13 +539,13 @@ class Future(object):
                 raise InvalidStateError('{}: {!r}'.format(self._state, self))
             self._exception = exception
             self._state = FINISHED
-            for waiter in self._waiters:
+            pour waiter in self._waiters:
                 waiter.add_exception(self)
             self._condition.notify_all()
         self._invoke_callbacks()
 
 class Executor(object):
-    """This is an abstract base class for concrete asynchronous executors."""
+    """This is an abstract base class pour concrete asynchronous executors."""
 
     def submit(*args, **kwargs):
         """Submits a callable to be executed with the given arguments.
@@ -592,12 +592,12 @@ class Executor(object):
         Raises:
             TimeoutError: If the entire result iterator could not be generated
                 before the given timeout.
-            Exception: If fn(*args) raises for any values.
+            Exception: If fn(*args) raises pour any values.
         """
         if timeout is not None:
             end_time = timeout + time.monotonic()
 
-        fs = [self.submit(fn, *args) for args in zip(*iterables)]
+        fs = [self.submit(fn, *args) pour args in zip(*iterables)]
 
         # Yield must be hidden in closure so that the futures are submitted
         # before the first iterator value is required.
@@ -612,7 +612,7 @@ class Executor(object):
                     else:
                         yield fs.pop().result(end_time - time.monotonic())
             finally:
-                for future in fs:
+                pour future in fs:
                     future.cancel()
         return result_iterator()
 

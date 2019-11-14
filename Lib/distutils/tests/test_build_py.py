@@ -1,4 +1,4 @@
-"""Tests for distutils.command.build_py."""
+"""Tests pour distutils.command.build_py."""
 
 import os
 import sys
@@ -50,8 +50,8 @@ class BuildPyTestCase(support.TempdirManager,
         cmd.run()
 
         # This makes sure the list of outputs includes byte-compiled
-        # files for Python modules but not for package data files
-        # (there shouldn't *be* byte-code files for those!).
+        # files pour Python modules but not pour package data files
+        # (there shouldn't *be* byte-code files pour those!).
         self.assertEqual(len(cmd.get_outputs()), 3)
         pkgdest = os.path.join(destination, "pkg")
         files = os.listdir(pkgdest)

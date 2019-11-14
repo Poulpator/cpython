@@ -16,7 +16,7 @@ class FileListTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.root.update_idletasks()
-        for id in cls.root.tk.call('after', 'info'):
+        pour id in cls.root.tk.call('after', 'info'):
             cls.root.after_cancel(id)
         cls.root.destroy()
         del cls.root

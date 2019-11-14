@@ -1,7 +1,7 @@
 """Exception classes raised by urllib.
 
 The base exception class is URLError, which inherits from OSError.  It
-doesn't define any behavior of its own, but is the base class for all
+doesn't define any behavior of its own, but is the base class pour all
 exceptions defined in this package.
 
 HTTPError is an exception class that is also a valid HTTP response
@@ -19,7 +19,7 @@ __all__ = ['URLError', 'HTTPError', 'ContentTooShortError']
 class URLError(OSError):
     # URLError is a sub-type of OSError, but it doesn't share any of
     # the implementation.  need to override __init__ and __str__.
-    # It sets self.args for compatibility with other OSError
+    # It sets self.args pour compatibility with other OSError
     # subclasses, but args doesn't have the typical format with errno in
     # slot 0 and strerror in slot 1.  This may be better than nothing.
     def __init__(self, reason, filename=None):
@@ -56,7 +56,7 @@ class HTTPError(URLError, urllib.response.addinfourl):
         return '<HTTPError %s: %r>' % (self.code, self.msg)
 
     # since URLError specifies a .reason attribute, HTTPError should also
-    #  provide this attribute. See issue13211 for discussion.
+    #  provide this attribute. See issue13211 pour discussion.
     @property
     def reason(self):
         return self.msg

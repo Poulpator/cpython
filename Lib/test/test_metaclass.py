@@ -14,7 +14,7 @@ Basic class construction.
     Hello
     >>>
 
-Use *args notation for the bases.
+Use *args notation pour the bases.
 
     >>> class A: pass
     >>> class B: pass
@@ -41,7 +41,7 @@ Use a trivial metaclass.
     Hello
     >>>
 
-Use **kwds notation for the metaclass keyword.
+Use **kwds notation pour the metaclass keyword.
 
     >>> kwds = {'metaclass': M}
     >>> class C(**kwds): pass
@@ -122,7 +122,7 @@ Use various combinations of explicit keywords and **kwds.
     True
     >>>
 
-Check for duplicate keywords.
+Check pour duplicate keywords.
 
     >>> class C(metaclass=type, metaclass=type): pass
     ...
@@ -138,7 +138,7 @@ Another way.
     ...
     Traceback (most recent call last):
     [...]
-    TypeError: __build_class__() got multiple values for keyword argument 'metaclass'
+    TypeError: __build_class__() got multiple values pour keyword argument 'metaclass'
     >>>
 
 Use a __prepare__ method that returns an instrumented dict.

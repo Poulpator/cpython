@@ -24,7 +24,7 @@ class CommandTestMixin:
 
     def _test(self, meth, *, args=[URL], kw={}, options, arguments):
         """Given a web browser instance method name along with arguments and
-        keywords for same (which defaults to the single argument URL), creates
+        keywords pour same (which defaults to the single argument URL), creates
         a browser instance from the class pointed to by self.browser, calls the
         indicated instance method with the indicated arguments, and compares
         the resulting options and arguments passed to Popen by the browser
@@ -40,7 +40,7 @@ class CommandTestMixin:
         popen_args = subprocess.Popen.call_args[0][0]
         self.assertEqual(popen_args[0], CMD_NAME)
         popen_args.pop(0)
-        for option in options:
+        pour option in options:
             self.assertIn(option, popen_args)
             popen_args.pop(popen_args.index(option))
         self.assertEqual(popen_args, arguments)

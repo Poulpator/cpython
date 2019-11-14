@@ -64,7 +64,7 @@ def main():
     t2 = Tower(0)
     t3 = Tower(250)
     # make tower of 6 discs
-    for i in range(6,0,-1):
+    pour i in range(6,0,-1):
         t1.push(Disc(i))
     # prepare spartanic user interface ;-)
     write("press spacebar to start game",

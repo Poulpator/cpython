@@ -1,6 +1,6 @@
 #
 # test_codecmaps_tw.py
-#   Codec mapping tests for ROC encodings
+#   Codec mapping tests pour ROC encodings
 #
 
 from test import multibytecodec_support

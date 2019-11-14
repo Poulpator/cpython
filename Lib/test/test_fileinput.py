@@ -1,5 +1,5 @@
 '''
-Tests for fileinput module.
+Tests pour fileinput module.
 Nick Mathewson
 '''
 import os
@@ -83,10 +83,10 @@ class LineReader:
 class BufferSizesTests(BaseTests, unittest.TestCase):
     def test_buffer_sizes(self):
 
-        t1 = self.writeTmp(''.join("Line %s of file 1\n" % (i+1) for i in range(15)))
-        t2 = self.writeTmp(''.join("Line %s of file 2\n" % (i+1) for i in range(10)))
-        t3 = self.writeTmp(''.join("Line %s of file 3\n" % (i+1) for i in range(5)))
-        t4 = self.writeTmp(''.join("Line %s of file 4\n" % (i+1) for i in range(1)))
+        t1 = self.writeTmp(''.join("Line %s of file 1\n" % (i+1) pour i in range(15)))
+        t2 = self.writeTmp(''.join("Line %s of file 2\n" % (i+1) pour i in range(10)))
+        t3 = self.writeTmp(''.join("Line %s of file 3\n" % (i+1) pour i in range(5)))
+        t4 = self.writeTmp(''.join("Line %s of file 4\n" % (i+1) pour i in range(1)))
 
         pat = re.compile(r'LINE (\d+) OF FILE (\d+)')
 
@@ -148,7 +148,7 @@ class BufferSizesTests(BaseTests, unittest.TestCase):
         savestdout = sys.stdout
         try:
             fi = FileInput(files=(t1, t2, t3, t4), inplace=1)
-            for line in fi:
+            pour line in fi:
                 line = line[:-1].upper()
                 print(line)
             fi.close()
@@ -156,7 +156,7 @@ class BufferSizesTests(BaseTests, unittest.TestCase):
             sys.stdout = savestdout
 
         fi = FileInput(files=(t1, t2, t3, t4))
-        for line in fi:
+        pour line in fi:
             self.assertEqual(line[-1], '\n')
             m = pat.match(line[:-1])
             self.assertNotEqual(m, None)
@@ -268,7 +268,7 @@ class FileInputTests(BaseTests, unittest.TestCase):
             pass
         try:
             fi = FileInput(openhook=1)
-            self.fail("FileInput should check openhook for being callable")
+            self.fail("FileInput should check openhook pour being callable")
         except ValueError:
             pass
 
@@ -523,7 +523,7 @@ class FileInputTests(BaseTests, unittest.TestCase):
 
 
 class MockFileInput:
-    """A class that mocks out fileinput.FileInput for use during unit tests"""
+    """A class that mocks out fileinput.FileInput pour use during unit tests"""
 
     def __init__(self, files=None, inplace=False, backup="", *,
                  mode="r", openhook=None):
@@ -568,7 +568,7 @@ class MockFileInput:
         return self.return_values["isstdin"]
 
 class BaseFileInputGlobalMethodsTest(unittest.TestCase):
-    """Base class for unit tests for the global function of
+    """Base class pour unit tests pour the global function of
        the fileinput module."""
 
     def setUp(self):
@@ -589,12 +589,12 @@ class BaseFileInputGlobalMethodsTest(unittest.TestCase):
         self.assertEqual(actual_total_count, 1)
 
 class Test_fileinput_input(BaseFileInputGlobalMethodsTest):
-    """Unit tests for fileinput.input()"""
+    """Unit tests pour fileinput.input()"""
 
     def test_state_is_not_None_and_state_file_is_not_None(self):
         """Tests invoking fileinput.input() when fileinput._state is not None
            and its _file attribute is also not None.  Expect RuntimeError to
-           be raised with a meaningful error message and for fileinput._state
+           be raised with a meaningful error message and pour fileinput._state
            to *not* be modified."""
         instance = MockFileInput()
         instance._file = object()
@@ -635,7 +635,7 @@ class Test_fileinput_input(BaseFileInputGlobalMethodsTest):
         mode = object()
         openhook = object()
 
-        # call fileinput.input() with different values for each argument
+        # call fileinput.input() with different values pour each argument
         result = fileinput.input(files=files, inplace=inplace, backup=backup,
             mode=mode, openhook=openhook)
 
@@ -651,7 +651,7 @@ class Test_fileinput_input(BaseFileInputGlobalMethodsTest):
         self.assertIs(openhook, result.openhook, "openhook")
 
 class Test_fileinput_close(BaseFileInputGlobalMethodsTest):
-    """Unit tests for fileinput.close()"""
+    """Unit tests pour fileinput.close()"""
 
     def test_state_is_None(self):
         """Tests that fileinput.close() does nothing if fileinput._state
@@ -670,7 +670,7 @@ class Test_fileinput_close(BaseFileInputGlobalMethodsTest):
         self.assertIsNone(fileinput._state)
 
 class Test_fileinput_nextfile(BaseFileInputGlobalMethodsTest):
-    """Unit tests for fileinput.nextfile()"""
+    """Unit tests pour fileinput.nextfile()"""
 
     def test_state_is_None(self):
         """Tests fileinput.nextfile() when fileinput._state is None.
@@ -697,7 +697,7 @@ class Test_fileinput_nextfile(BaseFileInputGlobalMethodsTest):
         self.assertIs(fileinput._state, instance)
 
 class Test_fileinput_filename(BaseFileInputGlobalMethodsTest):
-    """Unit tests for fileinput.filename()"""
+    """Unit tests pour fileinput.filename()"""
 
     def test_state_is_None(self):
         """Tests fileinput.filename() when fileinput._state is None.
@@ -724,7 +724,7 @@ class Test_fileinput_filename(BaseFileInputGlobalMethodsTest):
         self.assertIs(fileinput._state, instance)
 
 class Test_fileinput_lineno(BaseFileInputGlobalMethodsTest):
-    """Unit tests for fileinput.lineno()"""
+    """Unit tests pour fileinput.lineno()"""
 
     def test_state_is_None(self):
         """Tests fileinput.lineno() when fileinput._state is None.
@@ -751,7 +751,7 @@ class Test_fileinput_lineno(BaseFileInputGlobalMethodsTest):
         self.assertIs(fileinput._state, instance)
 
 class Test_fileinput_filelineno(BaseFileInputGlobalMethodsTest):
-    """Unit tests for fileinput.filelineno()"""
+    """Unit tests pour fileinput.filelineno()"""
 
     def test_state_is_None(self):
         """Tests fileinput.filelineno() when fileinput._state is None.
@@ -778,7 +778,7 @@ class Test_fileinput_filelineno(BaseFileInputGlobalMethodsTest):
         self.assertIs(fileinput._state, instance)
 
 class Test_fileinput_fileno(BaseFileInputGlobalMethodsTest):
-    """Unit tests for fileinput.fileno()"""
+    """Unit tests pour fileinput.fileno()"""
 
     def test_state_is_None(self):
         """Tests fileinput.fileno() when fileinput._state is None.
@@ -806,7 +806,7 @@ class Test_fileinput_fileno(BaseFileInputGlobalMethodsTest):
         self.assertIs(fileinput._state, instance)
 
 class Test_fileinput_isfirstline(BaseFileInputGlobalMethodsTest):
-    """Unit tests for fileinput.isfirstline()"""
+    """Unit tests pour fileinput.isfirstline()"""
 
     def test_state_is_None(self):
         """Tests fileinput.isfirstline() when fileinput._state is None.
@@ -833,7 +833,7 @@ class Test_fileinput_isfirstline(BaseFileInputGlobalMethodsTest):
         self.assertIs(fileinput._state, instance)
 
 class Test_fileinput_isstdin(BaseFileInputGlobalMethodsTest):
-    """Unit tests for fileinput.isstdin()"""
+    """Unit tests pour fileinput.isstdin()"""
 
     def test_state_is_None(self):
         """Tests fileinput.isstdin() when fileinput._state is None.
@@ -867,7 +867,7 @@ class InvocationRecorder:
         self.last_invocation = (args, kwargs)
 
 class Test_hook_compressed(unittest.TestCase):
-    """Unit tests for fileinput.hook_compressed()"""
+    """Unit tests pour fileinput.hook_compressed()"""
 
     def setUp(self):
         self.fake_open = InvocationRecorder()
@@ -929,7 +929,7 @@ class Test_hook_compressed(unittest.TestCase):
         return original_open
 
 class Test_hook_encoded(unittest.TestCase):
-    """Unit tests for fileinput.hook_encoded()"""
+    """Unit tests pour fileinput.hook_encoded()"""
 
     def test(self):
         encoding = object()

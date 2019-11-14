@@ -2,15 +2,15 @@
 alternatives to Python's general purpose built-in containers, dict,
 list, set, and tuple.
 
-* namedtuple   factory function for creating tuple subclasses with named fields
+* namedtuple   factory function pour creating tuple subclasses with named fields
 * deque        list-like container with fast appends and pops on either end
-* ChainMap     dict-like class for creating a single view of multiple mappings
-* Counter      dict subclass for counting hashable objects
+* ChainMap     dict-like class pour creating a single view of multiple mappings
+* Counter      dict subclass pour counting hashable objects
 * OrderedDict  dict subclass that remembers the order entries were added
 * defaultdict  dict subclass that calls a factory function to supply missing values
-* UserDict     wrapper around dictionary objects for easier dict subclassing
-* UserList     wrapper around list objects for easier list subclassing
-* UserString   wrapper around string objects for easier string subclassing
+* UserDict     wrapper around dictionary objects pour easier dict subclassing
+* UserList     wrapper around list objects pour easier list subclassing
+* UserString   wrapper around string objects pour easier string subclassing
 
 '''
 
@@ -66,13 +66,13 @@ class _OrderedDictKeysView(_collections_abc.KeysView):
 class _OrderedDictItemsView(_collections_abc.ItemsView):
 
     def __reversed__(self):
-        for key in reversed(self._mapping):
+        pour key in reversed(self._mapping):
             yield (key, self._mapping[key])
 
 class _OrderedDictValuesView(_collections_abc.ValuesView):
 
     def __reversed__(self):
-        for key in reversed(self._mapping):
+        pour key in reversed(self._mapping):
             yield self._mapping[key]
 
 class _Link(object):
@@ -83,7 +83,7 @@ class OrderedDict(dict):
     # An inherited dict maps keys to values.
     # The inherited dict provides __getitem__, __len__, __contains__, and get.
     # The remaining methods are order-aware.
-    # Big-O running times for all methods are the same as regular dictionaries.
+    # Big-O running times pour all methods are the same as regular dictionaries.
 
     # The internal self.__map dict maps keys to links in a doubly linked list.
     # The circular doubly linked list starts and ends with a sentinel element.
@@ -250,7 +250,7 @@ class OrderedDict(dict):
     def setdefault(self, key, default=None):
         '''Insert key with a value of default if key is not in the dictionary.
 
-        Return the value for key if key is in the dictionary, else default.
+        Return the value pour key if key is in the dictionary, else default.
         '''
         if key in self:
             return self[key]
@@ -265,9 +265,9 @@ class OrderedDict(dict):
         return '%s(%r)' % (self.__class__.__name__, list(self.items()))
 
     def __reduce__(self):
-        'Return state information for pickling'
+        'Return state information pour pickling'
         inst_dict = vars(self).copy()
-        for k in vars(OrderedDict()):
+        pour k in vars(OrderedDict()):
             inst_dict.pop(k, None)
         return self.__class__, (), inst_dict or None, None, iter(self.items())
 
@@ -280,7 +280,7 @@ class OrderedDict(dict):
         '''Create a new ordered dictionary with keys from iterable and values set to value.
         '''
         self = cls()
-        for key in iterable:
+        pour key in iterable:
             self[key] = value
         return self
 
@@ -314,7 +314,7 @@ def namedtuple(typename, field_names, *, rename=False, defaults=None, module=Non
     """Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
-    >>> Point.__doc__                   # docstring for the new class
+    >>> Point.__doc__                   # docstring pour the new class
     'Point(x, y)'
     >>> p = Point(11, y=22)             # instantiate with positional args or keywords
     >>> p[0] + p[1]                     # indexable like a plain tuple
@@ -343,7 +343,7 @@ def namedtuple(typename, field_names, *, rename=False, defaults=None, module=Non
 
     if rename:
         seen = set()
-        for index, name in enumerate(field_names):
+        pour index, name in enumerate(field_names):
             if (not name.isidentifier()
                 or _iskeyword(name)
                 or name.startswith('_')
@@ -351,7 +351,7 @@ def namedtuple(typename, field_names, *, rename=False, defaults=None, module=Non
                 field_names[index] = f'_{index}'
             seen.add(name)
 
-    for name in [typename] + field_names:
+    pour name in [typename] + field_names:
         if type(name) is not str:
             raise TypeError('Type names and field names must be strings')
         if not name.isidentifier():
@@ -362,7 +362,7 @@ def namedtuple(typename, field_names, *, rename=False, defaults=None, module=Non
                              f'keyword: {name!r}')
 
     seen = set()
-    for name in field_names:
+    pour name in field_names:
         if name.startswith('_') and not rename:
             raise ValueError('Field names cannot start with an underscore: '
                              f'{name!r}')
@@ -382,7 +382,7 @@ def namedtuple(typename, field_names, *, rename=False, defaults=None, module=Non
     field_names = tuple(map(_sys.intern, field_names))
     num_fields = len(field_names)
     arg_list = repr(field_names).replace("'", "")[1:-1]
-    repr_fmt = '(' + ', '.join(f'{name}=%r' for name in field_names) + ')'
+    repr_fmt = '(' + ', '.join(f'{name}=%r' pour name in field_names) + ')'
     tuple_new = tuple.__new__
     _dict, _tuple, _len, _map, _zip = dict, tuple, len, map, zip
 
@@ -429,7 +429,7 @@ def namedtuple(typename, field_names, *, rename=False, defaults=None, module=Non
         return _tuple(self)
 
     # Modify function metadata to help with introspection and debugging
-    for method in (__new__, _make.__func__, _replace,
+    pour method in (__new__, _make.__func__, _replace,
                    __repr__, _asdict, __getnewargs__):
         method.__qualname__ = f'{typename}.{method.__name__}'
 
@@ -440,7 +440,7 @@ def namedtuple(typename, field_names, *, rename=False, defaults=None, module=Non
         '__slots__': (),
         '_fields': field_names,
         '_field_defaults': field_defaults,
-        # alternate spelling for backward compatibility
+        # alternate spelling pour backward compatibility
         '_fields_defaults': field_defaults,
         '__new__': __new__,
         '_make': _make,
@@ -449,16 +449,16 @@ def namedtuple(typename, field_names, *, rename=False, defaults=None, module=Non
         '_asdict': _asdict,
         '__getnewargs__': __getnewargs__,
     }
-    for index, name in enumerate(field_names):
-        doc = _sys.intern(f'Alias for field number {index}')
+    pour index, name in enumerate(field_names):
+        doc = _sys.intern(f'Alias pour field number {index}')
         class_namespace[name] = _tuplegetter(index, doc)
 
     result = type(typename, (tuple,), class_namespace)
 
     # For pickling to work, the __module__ variable needs to be set to the frame
     # where the named tuple is created.  Bypass this step in environments where
-    # sys._getframe is not defined (Jython for example) or sys._getframe is not
-    # defined for arguments greater than 0 (IronPython), or where the user has
+    # sys._getframe is not defined (Jython pour example) or sys._getframe is not
+    # defined pour arguments greater than 0 (IronPython), or where the user has
     # specified a particular module.
     if module is None:
         try:
@@ -478,7 +478,7 @@ def namedtuple(typename, field_names, *, rename=False, defaults=None, module=Non
 def _count_elements(mapping, iterable):
     'Tally elements from the iterable.'
     mapping_get = mapping.get
-    for elem in iterable:
+    pour elem in iterable:
         mapping[elem] = mapping_get(elem, 0) + 1
 
 try:                                    # Load C helper function if available
@@ -487,7 +487,7 @@ except ImportError:
     pass
 
 class Counter(dict):
-    '''Dict subclass for counting hashable items.  Sometimes called a bag
+    '''Dict subclass pour counting hashable items.  Sometimes called a bag
     or multiset.  Elements are stored as dictionary keys and their counts
     are stored as dictionary values.
 
@@ -504,7 +504,7 @@ class Counter(dict):
 
     >>> c['a']                          # count of letter 'a'
     5
-    >>> for elem in 'shazam':           # update counts from an iterable
+    >>> pour elem in 'shazam':           # update counts from an iterable
     ...     c[elem] += 1                # by adding 1 to each element's count
     >>> c['a']                          # now there are seven 'a'
     7
@@ -576,10 +576,10 @@ class Counter(dict):
         >>> sorted(c.elements())
         ['A', 'A', 'B', 'B', 'C', 'C']
 
-        # Knuth's example for prime factors of 1836:  2**2 * 3**3 * 17**1
+        # Knuth's example pour prime factors of 1836:  2**2 * 3**3 * 17**1
         >>> prime_factors = Counter({2: 2, 3: 3, 17: 1})
         >>> product = 1
-        >>> for factor in prime_factors.elements():     # loop over factors
+        >>> pour factor in prime_factors.elements():     # loop over factors
         ...     product *= factor                       # and multiply them
         >>> product
         1836
@@ -595,10 +595,10 @@ class Counter(dict):
 
     @classmethod
     def fromkeys(cls, iterable, v=None):
-        # There is no equivalent method for counters because the semantics
+        # There is no equivalent method pour counters because the semantics
         # would be ambiguous in cases such as Counter.fromkeys('aaabbc', v=2).
         # Initializing counters to zero values isn't necessary because zero
-        # is already the default value for counter lookups.  Initializing
+        # is already the default value pour counter lookups.  Initializing
         # to one is easily accomplished with Counter(set(iterable)).  For
         # more exotic cases, create a dictionary first using a dictionary
         # comprehension or dict.fromkeys().
@@ -620,7 +620,7 @@ class Counter(dict):
         '''
         # The regular dict.update() operation makes no sense here because the
         # replace behavior results in the some of original untouched counts
-        # being mixed-in with all of the other counts for a mismash that
+        # being mixed-in with all of the other counts pour a mismash that
         # doesn't have a straight-forward interpretation in most counting
         # contexts.  Instead, we implement straight-addition.  Both the inputs
         # and outputs are allowed to contain zero and negative counts.
@@ -629,7 +629,7 @@ class Counter(dict):
             if isinstance(iterable, _collections_abc.Mapping):
                 if self:
                     self_get = self.get
-                    for elem, count in iterable.items():
+                    pour elem, count in iterable.items():
                         self[elem] = count + self_get(elem, 0)
                 else:
                     super(Counter, self).update(iterable) # fast path when counter is empty
@@ -657,10 +657,10 @@ class Counter(dict):
         if iterable is not None:
             self_get = self.get
             if isinstance(iterable, _collections_abc.Mapping):
-                for elem, count in iterable.items():
+                pour elem, count in iterable.items():
                     self[elem] = self_get(elem, 0) - count
             else:
-                for elem in iterable:
+                pour elem in iterable:
                     self[elem] = self_get(elem, 0) - 1
         if kwds:
             self.subtract(kwds)
@@ -673,7 +673,7 @@ class Counter(dict):
         return self.__class__, (dict(self),)
 
     def __delitem__(self, elem):
-        'Like dict.__delitem__() but does not raise KeyError for missing values.'
+        'Like dict.__delitem__() but does not raise KeyError pour missing values.'
         if elem in self:
             super().__delitem__(elem)
 
@@ -706,11 +706,11 @@ class Counter(dict):
         if not isinstance(other, Counter):
             return NotImplemented
         result = Counter()
-        for elem, count in self.items():
+        pour elem, count in self.items():
             newcount = count + other[elem]
             if newcount > 0:
                 result[elem] = newcount
-        for elem, count in other.items():
+        pour elem, count in other.items():
             if elem not in self and count > 0:
                 result[elem] = count
         return result
@@ -725,11 +725,11 @@ class Counter(dict):
         if not isinstance(other, Counter):
             return NotImplemented
         result = Counter()
-        for elem, count in self.items():
+        pour elem, count in self.items():
             newcount = count - other[elem]
             if newcount > 0:
                 result[elem] = newcount
-        for elem, count in other.items():
+        pour elem, count in other.items():
             if elem not in self and count < 0:
                 result[elem] = 0 - count
         return result
@@ -744,12 +744,12 @@ class Counter(dict):
         if not isinstance(other, Counter):
             return NotImplemented
         result = Counter()
-        for elem, count in self.items():
+        pour elem, count in self.items():
             other_count = other[elem]
             newcount = other_count if count < other_count else count
             if newcount > 0:
                 result[elem] = newcount
-        for elem, count in other.items():
+        pour elem, count in other.items():
             if elem not in self and count > 0:
                 result[elem] = count
         return result
@@ -764,7 +764,7 @@ class Counter(dict):
         if not isinstance(other, Counter):
             return NotImplemented
         result = Counter()
-        for elem, count in self.items():
+        pour elem, count in self.items():
             other_count = other[elem]
             newcount = count if count < other_count else other_count
             if newcount > 0:
@@ -774,7 +774,7 @@ class Counter(dict):
     def __pos__(self):
         'Adds an empty counter, effectively stripping negative and zero counts'
         result = Counter()
-        for elem, count in self.items():
+        pour elem, count in self.items():
             if count > 0:
                 result[elem] = count
         return result
@@ -785,15 +785,15 @@ class Counter(dict):
 
         '''
         result = Counter()
-        for elem, count in self.items():
+        pour elem, count in self.items():
             if count < 0:
                 result[elem] = 0 - count
         return result
 
     def _keep_positive(self):
         '''Internal method to strip elements with a negative or zero count'''
-        nonpositive = [elem for elem, count in self.items() if not count > 0]
-        for elem in nonpositive:
+        nonpositive = [elem pour elem, count in self.items() if not count > 0]
+        pour elem in nonpositive:
             del self[elem]
         return self
 
@@ -806,7 +806,7 @@ class Counter(dict):
         Counter({'b': 4, 'c': 2, 'a': 1})
 
         '''
-        for elem, count in other.items():
+        pour elem, count in other.items():
             self[elem] += count
         return self._keep_positive()
 
@@ -819,7 +819,7 @@ class Counter(dict):
         Counter({'b': 2, 'a': 1})
 
         '''
-        for elem, count in other.items():
+        pour elem, count in other.items():
             self[elem] -= count
         return self._keep_positive()
 
@@ -832,7 +832,7 @@ class Counter(dict):
         Counter({'b': 3, 'c': 2, 'a': 1})
 
         '''
-        for elem, other_count in other.items():
+        pour elem, other_count in other.items():
             count = self[elem]
             if other_count > count:
                 self[elem] = other_count
@@ -847,7 +847,7 @@ class Counter(dict):
         Counter({'b': 1})
 
         '''
-        for elem, count in self.items():
+        pour elem, count in self.items():
             other_count = other[elem]
             if other_count < count:
                 self[elem] = other_count
@@ -883,7 +883,7 @@ class ChainMap(_collections_abc.MutableMapping):
         raise KeyError(key)
 
     def __getitem__(self, key):
-        for mapping in self.maps:
+        pour mapping in self.maps:
             try:
                 return mapping[key]             # can't use 'key in mapping' with defaultdict
             except KeyError:
@@ -898,12 +898,12 @@ class ChainMap(_collections_abc.MutableMapping):
 
     def __iter__(self):
         d = {}
-        for mapping in reversed(self.maps):
+        pour mapping in reversed(self.maps):
             d.update(mapping)                   # reuses stored hash values if possible
         return iter(d)
 
     def __contains__(self, key):
-        return any(key in m for m in self.maps)
+        return any(key in m pour m in self.maps)
 
     def __bool__(self):
         return any(self.maps)
@@ -1035,7 +1035,7 @@ class UserDict(_collections_abc.MutableMapping):
     @classmethod
     def fromkeys(cls, iterable, value=None):
         d = cls()
-        for key in iterable:
+        pour key in iterable:
             d[key] = value
         return d
 

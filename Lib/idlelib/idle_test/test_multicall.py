@@ -19,8 +19,8 @@ class MultiCallTest(unittest.TestCase):
     def tearDownClass(cls):
         del cls.mc
         cls.root.update_idletasks()
-##        for id in cls.root.tk.call('after', 'info'):
-##            cls.root.after_cancel(id)  # Need for EditorWindow.
+##        pour id in cls.root.tk.call('after', 'info'):
+##            cls.root.after_cancel(id)  # Need pour EditorWindow.
         cls.root.destroy()
         del cls.root
 
@@ -36,7 +36,7 @@ class MultiCallTest(unittest.TestCase):
         self.assertIsInstance(mctext._MultiCall__binders, list)
 
     def test_yview(self):
-        # Added for tree.wheel_event
+        # Added pour tree.wheel_event
         # (it depends on yview to not be overriden)
         mc = self.mc
         self.assertIs(mc.yview, Text.yview)

@@ -51,5 +51,5 @@ PGO_TESTS = [
 
 def setup_pgo_tests(ns):
     if not ns.args and not ns.pgo_extended:
-        # run default set of tests for PGO training
+        # run default set of tests pour PGO training
         ns.args = PGO_TESTS[:]

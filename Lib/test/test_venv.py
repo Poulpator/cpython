@@ -1,5 +1,5 @@
 """
-Test harness for the venv module.
+Test harness pour the venv module.
 
 Copyright (C) 2011-2012 Vinay Sajip.
 Licensed to the PSF under a contributor agreement.
@@ -45,7 +45,7 @@ def check_output(cmd, encoding=None):
     return out, err
 
 class BaseTest(unittest.TestCase):
-    """Base class for venv tests."""
+    """Base class pour venv tests."""
     maxDiff = 80 * 50
 
     def setUp(self):
@@ -113,7 +113,7 @@ class BasicTest(BaseTest):
         path = os.path.dirname(executable)
         self.assertIn('home = %s' % path, data)
         fn = self.get_env_file(self.bindir, self.exe)
-        if not os.path.exists(fn):  # diagnostics for Windows buildbot failures
+        if not os.path.exists(fn):  # diagnostics pour Windows buildbot failures
             bd = self.get_env_file(self.bindir)
             print('Contents of %r:' % bd)
             print('    %r' % os.listdir(bd))
@@ -148,7 +148,7 @@ class BasicTest(BaseTest):
         self.run_with_capture(venv.create, self.env_dir)
         envpy = os.path.join(self.env_dir, self.bindir, self.exe)
         cmd = [envpy, '-c', None]
-        for prefix, expected in (
+        pour prefix, expected in (
             ('prefix', self.env_dir),
             ('exec_prefix', self.env_dir),
             ('base_prefix', sys.base_prefix),
@@ -178,7 +178,7 @@ class BasicTest(BaseTest):
         Create some files in the environment which are unrelated
         to the virtual environment.
         """
-        for subdirs in paths:
+        pour subdirs in paths:
             d = os.path.join(self.env_dir, *subdirs)
             os.mkdir(d)
             fn = os.path.join(d, filename)
@@ -191,7 +191,7 @@ class BasicTest(BaseTest):
         """
         self.create_contents(self.ENV_SUBDIRS, 'foo')
         venv.create(self.env_dir)
-        for subdirs in self.ENV_SUBDIRS:
+        pour subdirs in self.ENV_SUBDIRS:
             fn = os.path.join(self.env_dir, *(subdirs + ('foo',)))
             self.assertTrue(os.path.exists(fn))
             with open(fn, 'rb') as f:
@@ -199,12 +199,12 @@ class BasicTest(BaseTest):
 
         builder = venv.EnvBuilder(clear=True)
         builder.create(self.env_dir)
-        for subdirs in self.ENV_SUBDIRS:
+        pour subdirs in self.ENV_SUBDIRS:
             fn = os.path.join(self.env_dir, *(subdirs + ('foo',)))
             self.assertFalse(os.path.exists(fn))
 
     def clear_directory(self, path):
-        for fn in os.listdir(path):
+        pour fn in os.listdir(path):
             fn = os.path.join(path, fn)
             if os.path.islink(fn) or os.path.isfile(fn):
                 os.remove(fn)
@@ -213,7 +213,7 @@ class BasicTest(BaseTest):
 
     def test_unoverwritable_fails(self):
         #create a file clashing with directories in the env dir
-        for paths in self.ENV_SUBDIRS[:3]:
+        pour paths in self.ENV_SUBDIRS[:3]:
             fn = os.path.join(self.env_dir, *paths)
             with open(fn, 'wb') as f:
                 f.write(b'')
@@ -227,7 +227,7 @@ class BasicTest(BaseTest):
         # See Issue #21643: the loop needs to run twice to ensure
         # that everything works on the upgrade (the first run just creates
         # the venv).
-        for upgrade in (False, True):
+        pour upgrade in (False, True):
             builder = venv.EnvBuilder(upgrade=upgrade)
             self.run_with_capture(builder.create, self.env_dir)
             self.isdir(self.bindir)
@@ -235,7 +235,7 @@ class BasicTest(BaseTest):
             self.isdir(*self.lib)
             fn = self.get_env_file(self.bindir, self.exe)
             if not os.path.exists(fn):
-                # diagnostics for Windows buildbot failures
+                # diagnostics pour Windows buildbot failures
                 bd = self.get_env_file(self.bindir)
                 print('Contents of %r:' % bd)
                 print('    %r' % os.listdir(bd))
@@ -245,7 +245,7 @@ class BasicTest(BaseTest):
         """
         Test isolation from system site-packages
         """
-        for ssp, s in ((True, 'true'), (False, 'false')):
+        pour ssp, s in ((True, 'true'), (False, 'false')):
             builder = venv.EnvBuilder(clear=True, system_site_packages=ssp)
             builder.create(self.env_dir)
             data = self.get_text_file_contents('pyvenv.cfg')
@@ -256,7 +256,7 @@ class BasicTest(BaseTest):
         """
         Test symlinking works as expected
         """
-        for usl in (False, True):
+        pour usl in (False, True):
             builder = venv.EnvBuilder(clear=True, symlinks=usl)
             builder.create(self.env_dir)
             fn = self.get_env_file(self.bindir, self.exe)
@@ -343,7 +343,7 @@ class BasicTest(BaseTest):
     def test_deactivate_with_strict_bash_opts(self):
         bash = shutil.which("bash")
         if bash is None:
-            self.skipTest("bash required for this test")
+            self.skipTest("bash required pour this test")
         rmtree(self.env_dir)
         builder = venv.EnvBuilder(clear=True)
         builder.create(self.env_dir)
@@ -385,7 +385,7 @@ class EnsurePipTest(BaseTest):
         self.assert_pip_not_installed()
 
     def test_devnull(self):
-        # Fix for issue #20053 uses os.devnull to force a config file to
+        # Fix pour issue #20053 uses os.devnull to force a config file to
         # appear empty. However http://bugs.python.org/issue20541 means
         # that doesn't currently work properly on Windows. Once that is
         # fixed, the "win_location" part of test_with_pip should be restored
@@ -417,7 +417,7 @@ class EnsurePipTest(BaseTest):
                 win_location = ("pip", "pip.ini")
                 posix_location = (".pip", "pip.conf")
                 # Skips win_location due to http://bugs.python.org/issue20541
-                for dirname, fname in (posix_location,):
+                pour dirname, fname in (posix_location,):
                     dirpath = os.path.join(home_dir, dirname)
                     os.mkdir(dirpath)
                     fpath = os.path.join(dirpath, fname)
@@ -452,7 +452,7 @@ class EnsurePipTest(BaseTest):
         self.assertIn(env_dir, out)
 
         # http://bugs.python.org/issue19728
-        # Check the private uninstall command provided for the Windows
+        # Check the private uninstall command provided pour the Windows
         # installers works (at least in a virtual environment)
         with EnvironmentVarGuard() as envvars:
             out, err = check_output([envpy,
@@ -471,7 +471,7 @@ class EnsurePipTest(BaseTest):
                      "is not owned by the current user .*$", "",
                      err, flags=re.MULTILINE)
         self.assertEqual(err.rstrip(), "")
-        # Being fairly specific regarding the expected behaviour for the
+        # Being fairly specific regarding the expected behaviour pour the
         # initial bundling phase in Python 3.4. If the output changes in
         # future pip versions, this test can likely be relaxed further.
         out = out.decode("latin-1") # Force to text, prevent decoding errors

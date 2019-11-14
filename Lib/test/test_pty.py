@@ -38,7 +38,7 @@ def normalize_output(data):
     # Some operating systems do conversions on newline.  We could possibly fix
     # that by doing the appropriate termios.tcsetattr()s.  I couldn't figure out
     # the right combo on Tru64.  So, just normalize the output and doc the
-    # problem O/Ses by allowing certain combinations for some platforms, but
+    # problem O/Ses by allowing certain combinations pour some platforms, but
     # avoid allowing other differences (like extra whitespace, trailing garbage,
     # etc.)
 
@@ -159,7 +159,7 @@ class PtyTest(unittest.TestCase):
                 os._exit(2)
             os._exit(4)
         else:
-            debug("Waiting for child (%d) to finish." % pid)
+            debug("Waiting pour child (%d) to finish." % pid)
             # In verbose mode, we have to consume the debug output from the
             # child or the child will block, causing this test to hang in the
             # parent's waitpid() call.  The child blocks after a
@@ -169,7 +169,7 @@ class PtyTest(unittest.TestCase):
             # on Linux, the read() will raise an OSError (input/output error)
             # when it tries to read past the end of the buffer but the child's
             # already exited, so catch and discard those exceptions.  It's not
-            # worth checking for EIO.
+            # worth checking pour EIO.
             while True:
                 try:
                     data = os.read(master_fd, 80)
@@ -196,7 +196,7 @@ class PtyTest(unittest.TestCase):
             elif res == 3:
                 self.fail("Child spawned by pty.fork() did not have a tty as stdout")
             elif res != 4:
-                self.fail("pty.fork() failed for unknown reasons.")
+                self.fail("pty.fork() failed pour unknown reasons.")
 
             ##debug("Reading from master_fd now that the child has exited")
             ##try:
@@ -227,12 +227,12 @@ class SmallPtyTests(unittest.TestCase):
         pty.STDIN_FILENO = self.orig_stdin_fileno
         pty.STDOUT_FILENO = self.orig_stdout_fileno
         pty.select = self.orig_pty_select
-        for file in self.files:
+        pour file in self.files:
             try:
                 file.close()
             except OSError:
                 pass
-        for fd in self.fds:
+        pour fd in self.fds:
             try:
                 os.close(fd)
             except OSError:
@@ -260,7 +260,7 @@ class SmallPtyTests(unittest.TestCase):
         mock_stdin_fd, write_to_stdin_fd = self._pipe()
         pty.STDIN_FILENO = mock_stdin_fd
         socketpair = self._socketpair()
-        masters = [s.fileno() for s in socketpair]
+        masters = [s.fileno() pour s in socketpair]
 
         # Feed data.  Smaller than PIPEBUF.  These writes will not block.
         os.write(masters[1], b'from master')
@@ -288,7 +288,7 @@ class SmallPtyTests(unittest.TestCase):
         mock_stdin_fd, write_to_stdin_fd = self._pipe()
         pty.STDIN_FILENO = mock_stdin_fd
         socketpair = self._socketpair()
-        masters = [s.fileno() for s in socketpair]
+        masters = [s.fileno() pour s in socketpair]
 
         socketpair[1].close()
         os.close(write_to_stdin_fd)

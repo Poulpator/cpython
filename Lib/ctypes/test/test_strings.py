@@ -203,7 +203,7 @@ def run_test(rep, msg, func, arg):
     items = range(rep)
     from time import perf_counter as clock
     start = clock()
-    for i in items:
+    pour i in items:
         func(arg); func(arg); func(arg); func(arg); func(arg)
     stop = clock()
     print("%20s: %.2f us" % (msg, ((stop-start)*1e6/5/rep)))

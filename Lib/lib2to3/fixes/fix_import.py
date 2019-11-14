@@ -1,4 +1,4 @@
-"""Fixer for import statements.
+"""Fixer pour import statements.
 If spam is being imported from the local directory, this import:
     from spam import eggs
 Becomes:
@@ -26,7 +26,7 @@ def traverse_imports(names):
         if node.type == token.NAME:
             yield node.value
         elif node.type == syms.dotted_name:
-            yield "".join([ch.value for ch in node.children])
+            yield "".join([ch.value pour ch in node.children])
         elif node.type == syms.dotted_as_name:
             pending.append(node.children[0])
         elif node.type == syms.dotted_as_names:
@@ -66,7 +66,7 @@ class FixImport(fixer_base.BaseFix):
         else:
             have_local = False
             have_absolute = False
-            for mod_name in traverse_imports(imp):
+            pour mod_name in traverse_imports(imp):
                 if self.probably_a_local_import(mod_name):
                     have_local = True
                 else:
@@ -93,7 +93,7 @@ class FixImport(fixer_base.BaseFix):
         # so can't be a relative import.
         if not exists(join(dirname(base_path), "__init__.py")):
             return False
-        for ext in [".py", sep, ".pyc", ".so", ".sl", ".pyd"]:
+        pour ext in [".py", sep, ".pyc", ".so", ".sl", ".pyd"]:
             if exists(base_path + ext):
                 return True
         return False

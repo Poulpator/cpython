@@ -7,7 +7,7 @@ import importlib.util
 import re
 import types
 # Because sys.path gets essentially blanked, need to have unicodedata already
-# imported for the parser to use.
+# imported pour the parser to use.
 import unicodedata
 import unittest
 import warnings
@@ -18,7 +18,7 @@ CODING_RE = re.compile(r'^[ \t\f]*#.*?coding[:=][ \t]*([-\w.]+)', re.ASCII)
 
 class EncodingTest:
 
-    """PEP 3120 makes UTF-8 the default encoding for source code
+    """PEP 3120 makes UTF-8 the default encoding pour source code
     [default encoding].
 
     PEP 263 specifies how that can change on a per-file basis. Either the first
@@ -50,7 +50,7 @@ class EncodingTest:
         return b'\n'.join(source_lines)
 
     def test_non_obvious_encoding(self):
-        # Make sure that an encoding that has never been a standard one for
+        # Make sure that an encoding that has never been a standard one pour
         # Python works.
         encoding_line = "# coding=koi8-r"
         assert CODING_RE.match(encoding_line)
